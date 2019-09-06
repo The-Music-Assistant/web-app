@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="49px" viewBox="0 0 34 49" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="-14.8374582%" id="linearGradient-1">
+            <stop stop-color="#4DE264" offset="0%"></stop>
+            <stop stop-color="#81CEE2" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-40.000000, -23.000000)">
+            <g id="Logo" transform="translate(40.000000, 25.000000)">
+                <rect id="Rectangle" fill="url(#linearGradient-1)" x="10" y="7" width="14" height="21"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" x="7" y="43" width="20" height="4" rx="1"></rect>
+                <path d="M2,20 C2,28.4856731 8.70620454,36 16.9800635,36 C25.2539224,36 31.9989166,28.4856731 31.9989166,20" id="Path-Copy" stroke="#FFFFFF" stroke-width="4"></path>
+                <path d="M8,0 C8,5.30354568 12.023868,10 16.9883627,10 C21.9528573,10 26,5.30354568 26,0" id="Path-Copy-2" stroke="#FFFFFF" stroke-width="4" transform="translate(17.000000, 5.000000) rotate(180.000000) translate(-17.000000, -5.000000) "></path>
+                <path d="M8,20 C8,25.3035457 12.023868,30 16.9883627,30 C21.9528573,30 26,25.3035457 26,20" id="Path-Copy" stroke="#FFFFFF" stroke-width="4"></path>
+                <path d="M30.9989166,16 L32.9989166,16 C33.5512014,16 33.9989166,16.4477153 33.9989166,17 L33.9989166,20 L33.9989166,20 L29.9989166,20 L29.9989166,17 C29.9989166,16.4477153 30.4466319,16 30.9989166,16 Z" id="Rectangle" fill="#FFFFFF"></path>
+                <path d="M1,16 L3,16 C3.55228475,16 4,16.4477153 4,17 L4,20 L4,20 L0,20 L0,17 C-6.76353751e-17,16.4477153 0.44771525,16 1,16 Z" id="Rectangle-Copy" fill="#FFFFFF"></path>
+                <polygon id="Rectangle-Copy-2" fill="#FFFFFF" points="6 10 10 10 10 20 6 20"></polygon>
+                <polygon id="Rectangle-Copy-3" fill="#FFFFFF" points="24 10 28 10 28 20 24 20"></polygon>
+                <rect id="Rectangle" fill="#FFFFFF" x="15" y="36" width="4" height="7"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -6,3 +6,36 @@
 // Created Date: 9/4/2019
 // =============================
 
+#page-heading {
+    width: 400px;
+    height: 200px;
+    background-color: $green;
+    margin: auto;
+    margin-top: 60px;
+    border-radius: 100px 8px;
+    @include flex($justify-content: center, $align-items: center);
+    flex-direction: column;
+    box-shadow: 8px 8px 15px rgba($color: $green, $alpha: 0.4);
+
+    &-title {
+        padding-bottom: 20px;
+        @include text(
+            $font-size: 2.2rem,
+            $font-weight: 400,
+            $color: $white,
+            $line-height: null
+        );
+    }
+
+    &-description {
+        width: 50%;
+        @include text(
+            $font-size: 1.3rem,
+            $font-weight: 300,
+            $color: $white,
+            $line-height: 1.5rem
+        );
+        font-style: oblique;
+        text-align: center;
+    }
+}

@@ -6,3 +6,19 @@
 // Created Date: 9/4/2019
 // =============================
 
+body {
+    font-family: $primary-font-stack;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    /* Used for sticky footer */
+    flex: 1;
+}
+
+header,
+main,
+footer {
+    padding: 0 20px;
+}

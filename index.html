@@ -13,6 +13,124 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>The Music Assistant</title>
+        <link rel="stylesheet" href="css/styles.css" />
     </head>
-    <body></body>
+    <body>
+        <!-- ========== HEADER: Logo, Main Navigation, and GitHub Project Button ========== -->
+        <header>
+            <!-- Logo -->
+            <a id="main-nav-logo-link" href="index.html">
+                <img id="main-nav-logo" src="icons/logo.svg" alt="Logo" />
+            </a>
+
+            <!-- ---------- MAIN NAVIGATION ---------- -->
+            <nav id="main-nav">
+                <!-- ---------- Main Nav Links ---------- -->
+                <ul id="main-nav-links">
+                    <!-- ---------- Home Link ---------- -->
+                    <li class="main-nav-list-item">
+                        <a id="main-nav-current" class="main-nav-link" href="index.html">
+                            Home
+                        </a>
+                    </li>
+
+                    <!-- ---------- Project Proposal Link ---------- -->
+                    <li class="main-nav-list-item">
+                        <a class="main-nav-link" href="index.html">Project Proposal</a>
+                    </li>
+
+                    <!-- ---------- Milestones Link ---------- -->
+                    <li class="main-nav-list-item">
+                        <a class="main-nav-link" href="index.html">Milestones</a>
+                    </li>
+
+                    <!-- ---------- Contact Us Link ---------- -->
+                    <li class="main-nav-list-item">
+                        <a class="main-nav-link" href="index.html">Contact Us</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- GitHub Project Button -->
+            <button
+                id="github-button"
+                type="button"
+                onclick=" window.open('https://github.com/dgriessler/The-Music-Assistant','_blank')"
+                target="_blank"
+            >
+                <img
+                    id="github-button-img"
+                    src="icons/github-logo.png"
+                    alt="GitHub Project"
+                />
+                <h6 id="github-button-text">GitHub Project</h6>
+            </button>
+        </header>
+
+        <!-- ========== MAIN: Main content ========== -->
+        <main>
+            <!-- ---------- Page Heading ---------- -->
+            <section id="page-heading">
+                <h1 id="page-heading-title">The Music Assistant</h1>
+                <h3 id="page-heading-description">A real-time, interactive choir tool</h3>
+            </section>
+
+            <!-- ---------- The Team Section ---------- -->
+            <section>
+                <h2 class="section-heading">The Team</h2>
+                <table class="no-border-table">
+                    <tr>
+                        <td class="large-text">Team Lead & Choral Expert</td>
+                        <td class="large-text">Daniel Griessler</td>
+                    </tr>
+                    <tr>
+                        <td class="large-text">Web & Mobile Developer</td>
+                        <td class="large-text">Dan Levy</td>
+                    </tr>
+                    <tr>
+                        <td class="large-text">Machine Learning Engineer</td>
+                        <td class="large-text">Javier Muñoz</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- ---------- Faculty Sponsor Section ---------- -->
+            <section>
+                <h2 class="section-heading">Faculty Sponsor</h2>
+                <table class="no-border-table">
+                    <tr>
+                        <td class="large-text">Dr. Thomas Eskridge</td>
+                        <td class="large-text">
+                            Associate Professor, Florida Institute of Technology
+                        </td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- ---------- Client Section ---------- -->
+            <section>
+                <h2 class="section-heading">Client</h2>
+                <table class="no-border-table">
+                    <tr>
+                        <td class="large-text">Professor Elizabeth Dopira</td>
+                        <td class="large-text">
+                            Instructor of Music, Florida Institute of Technology
+                        </td>
+                    </tr>
+                </table>
+            </section>
+        </main>
+
+        <!-- ========== FOOTER: Florida Tech logo and copyright ========== -->
+        <footer>
+            <img
+                id="florida-tech-logo"
+                src="icons/florida-tech-logo.png"
+                alt="Florida Tech Logo"
+            />
+            <h5 id="footer-copyright-text">© 2019 The Music Assistant</h5>
+        </footer>
+
+        <script src="js/index.js"></script>
+    </body>
 </html>
