@@ -1,0 +1,28 @@
+// =============================
+// File Path: components/_no-border-table.scss
+// Description: Table with no border styles
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 9/7/2019
+// =============================
+
+.no-border-table {
+    td {
+        padding-left: 40px;
+        padding-bottom: 20px;
+        @include text(
+            $font-size: 1rem,
+            $font-weight: 300,
+            $color: $black,
+            $line-height: 1.2rem
+        );
+    }
+
+    tr td:first-child {
+        padding-left: 20px;
+    }
+
+    tr:last-child td {
+        padding-bottom: 0;
+    }
+}

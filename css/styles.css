@@ -62,9 +62,20 @@ a {
 }
 
 body {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+body {
   font-family: "Roboto", sans-serif;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 main {
@@ -78,13 +89,43 @@ footer {
   padding: 0 20px;
 }
 
+h1 {
+  font-size: 2.19rem;
+  font-weight: 400;
+  color: #F9FEFF;
+  line-height: 2.4rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #F9FEFF;
+  line-height: 1.5rem;
+  font-style: oblique;
+  text-align: center;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #CA6061;
+  line-height: 1.5rem;
+}
+
+h4 {
+  font-size: 1.13rem;
+  font-weight: 400;
+  color: #5E5E5E;
+  line-height: 1.3rem;
+}
+
 header {
   /*  Creates flexbox for logo (left), links (center), and GitHub link (right) */
   display: flex;
   align-items: center;
   padding: 0 40px;
   height: 75px;
-  background-color: #81CEE2;
+  background-color: #75A0DC;
 }
 
 #main-nav {
@@ -98,14 +139,52 @@ header {
   height: 21px;
   padding-left: 100px;
 }
-#main-nav-logo {
+#main-nav-logo-link {
+  display: flex;
+  align-items: center;
+}
+#main-nav-logo-link-img {
   height: 30px;
+  padding-right: 20px;
 }
-#main-nav-github-link {
-  height: 25px;
+#main-nav-logo-link-name {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #F9FEFF;
+  line-height: 1.2rem;
+  font-style: oblique;
 }
-#main-nav-github-link-logo {
-  height: 25px;
+#main-nav-github-button {
+  /* Creates flexbox for GitHub logo and text */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: #F9FEFF;
+  line-height: 0.95rem;
+  width: 112px;
+  height: 45px;
+  border: none;
+  background-color: #CA6061;
+  border-radius: 8px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+  cursor: pointer;
+  /* Button moves up 6px and shadow color changes */
+}
+#main-nav-github-button:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 8px 15px rgba(234, 165, 166, 0.5);
+}
+#main-nav-github-button-img {
+  padding-left: 10px;
+  width: 25px;
+}
+#main-nav-github-button-text {
+  width: 45px;
+  padding: 0 10px;
 }
 
 .main-nav-link {
@@ -141,41 +220,10 @@ header {
   width: 100%;
 }
 
-#github-button {
-  /* Creates flexbox for GitHub logo and text */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  font-size: 0.7rem;
-  font-weight: 100;
-  color: #F9FEFF;
-  line-height: 0.9rem;
-  height: 40px;
-  border: none;
-  background-color: #FF5C5E;
-  border-radius: 8px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s;
-  cursor: pointer;
-  /* Button moves up 6px and shadow color changes */
-}
-#github-button:hover {
-  transform: translateY(-6px);
-  box-shadow: 0px 8px 15px rgba(234, 165, 166, 0.5);
-}
-#github-button-img {
-  padding-left: 10px;
-}
-#github-button-text {
-  width: 45px;
-  padding: 0 10px;
-}
-
 #page-heading {
   width: 400px;
   height: 200px;
-  background-color: #86CE92;
+  background-color: #81CF8E;
   margin: auto;
   margin-top: 60px;
   border-radius: 100px 8px;
@@ -183,70 +231,63 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  box-shadow: 8px 8px 15px rgba(134, 206, 146, 0.4);
+  box-shadow: 8px 8px 15px rgba(129, 207, 142, 0.4);
 }
 #page-heading-title {
   padding-bottom: 20px;
-  font-size: 2.2rem;
-  font-weight: 400;
-  color: #F9FEFF;
 }
 #page-heading-description {
   width: 50%;
-  font-size: 1.3rem;
-  font-weight: 300;
-  color: #F9FEFF;
-  line-height: 1.5rem;
-  font-style: oblique;
-  text-align: center;
 }
 
 .section-heading {
-  font-size: 1.8rem;
-  font-weight: 300;
-  color: #FF5C5E;
   position: relative;
   display: inline-block;
-  margin: 60px 0 20px;
+  margin: 80px 0 20px;
 }
 .section-heading::after {
   content: "";
   position: absolute;
   display: block;
   width: 100%;
-  height: 1px;
+  height: 2px;
   margin-top: 3px;
-  background: linear-gradient(to right, #FF5C5E, rgba(249, 254, 255, 0));
-}
-
-.large-text {
-  font-size: 1.3rem;
-  font-weight: 300;
-  color: #5E5E5E;
-}
-
-.no-border-table td {
-  padding: 20px 40px;
+  background: linear-gradient(to right, #CA6061, rgba(249, 254, 255, 0));
 }
 
 footer {
-  width: 100%;
   height: 100px;
   background-color: #7E9FA6;
-  margin-top: 60px;
+  margin-top: 80px;
   display: flex;
   align-items: center;
 }
 
 #footer-copyright-text {
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 300;
   color: #F9FEFF;
+  line-height: 0.95rem;
   margin: auto;
 }
 
 #florida-tech-logo {
   width: 150px;
+}
+
+.no-border-table td {
+  padding-left: 40px;
+  padding-bottom: 20px;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #5E5E5E;
+  line-height: 1.2rem;
+}
+.no-border-table tr td:first-child {
+  padding-left: 20px;
+}
+.no-border-table tr:last-child td {
+  padding-bottom: 0;
 }
 
 /*# sourceMappingURL=styles.css.map */

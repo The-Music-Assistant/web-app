@@ -7,19 +7,18 @@
 // =============================
 
 footer {
-    width: 100%;
     height: 100px;
     background-color: $dark-blue;
-    margin-top: 60px;
+    margin-top: 80px;
     @include flex($justify-content: null, $align-items: center);
 }
 
 #footer-copyright-text {
     @include text(
-        $font-size: 1rem,
+        $font-size: .75rem,
         $font-weight: 300,
         $color: $white,
-        $line-height: null
+        $line-height: .95rem
     );
     margin: auto;
 }

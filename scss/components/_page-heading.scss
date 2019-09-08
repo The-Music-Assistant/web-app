@@ -19,23 +19,9 @@
 
     &-title {
         padding-bottom: 20px;
-        @include text(
-            $font-size: 2.2rem,
-            $font-weight: 400,
-            $color: $white,
-            $line-height: null
-        );
     }
 
     &-description {
         width: 50%;
-        @include text(
-            $font-size: 1.3rem,
-            $font-weight: 300,
-            $color: $white,
-            $line-height: 1.5rem
-        );
-        font-style: oblique;
-        text-align: center;
     }
 }

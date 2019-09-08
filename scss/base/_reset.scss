@@ -55,3 +55,13 @@ table {
 a {
 	text-decoration: none;
 }
+
+body {
+	box-sizing: border-box;
+}
+
+button {
+	font-family: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+}

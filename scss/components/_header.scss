@@ -27,15 +27,59 @@ header {
         padding-left: 100px;
     }
 
-    &-logo {
-        height: 30px;
+    &-logo-link {
+        @include flex($justify-content: null, $align-items: center);
+
+        &-img {
+            height: 30px;
+            padding-right: 20px;
+        }
+
+        &-name {
+            @include text(
+                $font-size: 1rem,
+                $font-weight: 400,
+                $color: $white,
+                $line-height: 1.2rem
+            );
+            font-style: oblique;
+        }
     }
 
-    &-github-link {
-        height: 25px;
+    &-github-button {
+        /* Creates flexbox for GitHub logo and text */
+        @include flex($justify-content: center, $align-items: center);
 
-        &-logo {
-            height: 25px;
+        padding: 0;
+        @include text(
+            $font-size: 0.75rem,
+            $font-weight: 300,
+            $color: $white,
+            $line-height: .95rem
+        );
+        width: 112px;
+        height: 45px;
+        border: none;
+        background-color: $red;
+        border-radius: 8px;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s;
+        cursor: pointer;
+
+        /* Button moves up 6px and shadow color changes */
+        &:hover {
+            transform: translateY(-6px);
+            box-shadow: 0px 8px 15px rgba(234, 165, 166, 0.5);
+        }
+
+        &-img {
+            padding-left: 10px;
+            width: 25px;
+        }
+
+        &-text {
+            width: 45px;
+            padding: 0 10px;
         }
     }
 
@@ -88,40 +132,5 @@ header {
     &::after {
         /* Current page link underline full-width */
         width: 100%;
-    }
-}
-
-#github-button {
-    /* Creates flexbox for GitHub logo and text */
-    @include flex($justify-content: center, $align-items: center);
-
-    padding: 0;
-    @include text(
-        $font-size: .7rem,
-        $font-weight: 100,
-        $color: $white,
-        $line-height: 0.9rem
-    );
-    height: 40px;
-    border: none;
-    background-color: $red;
-    border-radius: 8px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s;
-    cursor: pointer;
-
-    /* Button moves up 6px and shadow color changes */
-    &:hover {
-        transform: translateY(-6px);
-        box-shadow: 0px 8px 15px rgba(234, 165, 166, 0.5);
-    }
-
-    &-img {
-        padding-left: 10px;
-    }
-
-    &-text {
-        width: 45px;
-        padding: 0 10px;
     }
 }
