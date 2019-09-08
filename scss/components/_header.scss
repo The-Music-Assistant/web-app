@@ -8,7 +8,9 @@
 
 header {
     /*  Creates flexbox for logo (left), links (center), and GitHub link (right) */
-    @include flex($justify-content: null, $align-items: center);
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    align-items: center;
 
     padding: 0 40px;
     height: 75px;
@@ -16,18 +18,17 @@ header {
 }
 
 #main-nav {
-    /* Centers links in the middle of the viewport */
-    flex: 1;
+    justify-self: center;
 
     &-links {
         /* Creates flexbox for main nav links */
         @include flex($justify-content: center, $align-items: null);
 
         height: 21px;
-        padding-left: 100px;
     }
 
     &-logo-link {
+        justify-self: left;
         @include flex($justify-content: null, $align-items: center);
 
         &-img {
@@ -49,6 +50,8 @@ header {
     &-github-button {
         /* Creates flexbox for GitHub logo and text */
         @include flex($justify-content: center, $align-items: center);
+
+        justify-self: right;
 
         padding: 0;
         @include text(

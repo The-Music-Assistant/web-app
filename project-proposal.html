@@ -1,5 +1,5 @@
 <!-- =============================
- * File Path: base/_base.scss
+ * File Path: project-proposal.html
  * Description: Project proposal page
  * Author: Dan Levy
  * Email: danlevy124@gmail.com
@@ -13,6 +13,58 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Project Proposal</title>
+        <link rel="stylesheet" href="css/styles.css" />
     </head>
-    <body></body>
+    <body>
+        <!-- ========== HEADER: Logo, Main Navigation, and GitHub Project Button ========== -->
+        <header>
+            <!-- Logo -->
+            <a id="main-nav-logo-link" href="index.html">
+                <img id="main-nav-logo-link-img" src="icons/logo.png" alt="Logo" />
+                <p id="main-nav-logo-link-name">The Music Assistant</p>
+            </a>
+
+            <!-- ---------- MAIN NAVIGATION ---------- -->
+            <nav id="main-nav">
+                <!-- ---------- Main Nav Links ---------- -->
+                <ul id="main-nav-links">
+                    <!-- ---------- Home Link ---------- -->
+                    <li class="main-nav-list-item">
+                        <a class="main-nav-link" href="index.html">
+                            Home
+                        </a>
+                    </li>
+
+                    <!-- ---------- Project Proposal Link ---------- -->
+                    <li class="main-nav-list-item">
+                        <a
+                            id="main-nav-current"
+                            class="main-nav-link"
+                            href="project-proposal.html"
+                            >Project Proposal</a
+                        >
+                    </li>
+
+                    <!-- ---------- Milestones Link ---------- -->
+                    <li class="main-nav-list-item">
+                        <a class="main-nav-link" href="milestones.html">Milestones</a>
+                    </li>
+
+                    <!-- ---------- Contact Us Link ---------- -->
+                    <li class="main-nav-list-item">
+                        <a class="main-nav-link" href="contact-us.html">Contact Us</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- ========== MAIN: Main content ========== -->
+        <main>
+            <!-- ---------- Page Heading ---------- -->
+            <section id="page-heading">
+                <h1 id="page-heading-title">Project Proposal</h1>
+                <h2 id="page-heading-description">The goal, planned features & our approach</h2>
+            </section>
+        </main>
+    </body>
 </html>

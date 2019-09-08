@@ -121,7 +121,8 @@ h4 {
 
 header {
   /*  Creates flexbox for logo (left), links (center), and GitHub link (right) */
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
   align-items: center;
   padding: 0 40px;
   height: 75px;
@@ -129,17 +130,16 @@ header {
 }
 
 #main-nav {
-  /* Centers links in the middle of the viewport */
-  flex: 1;
+  justify-self: center;
 }
 #main-nav-links {
   /* Creates flexbox for main nav links */
   display: flex;
   justify-content: center;
   height: 21px;
-  padding-left: 100px;
 }
 #main-nav-logo-link {
+  justify-self: left;
   display: flex;
   align-items: center;
 }
@@ -159,6 +159,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  justify-self: right;
   padding: 0;
   font-size: 0.75rem;
   font-weight: 300;
@@ -237,7 +238,7 @@ header {
   padding-bottom: 20px;
 }
 #page-heading-description {
-  width: 50%;
+  width: 55%;
 }
 
 .section-heading {
