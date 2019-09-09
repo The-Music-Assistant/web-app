@@ -21,13 +21,13 @@
             <!-- Logo -->
             <a id="main-nav-logo-link" href="index.html">
                 <img id="main-nav-logo-link-img" src="icons/logo.png" alt="Logo" />
-                <p id="main-nav-logo-link-name">The Music Assistant</p>
+                <span id="main-nav-logo-link-name">The Music Assistant</span>
             </a>
 
             <!-- ---------- MAIN NAVIGATION ---------- -->
             <nav id="main-nav">
                 <!-- ---------- Main Nav Links ---------- -->
-                <ul id="main-nav-links">
+                <ul id="main-nav-links" class="no-style">
                     <!-- ---------- Home Link ---------- -->
                     <li class="main-nav-list-item">
                         <a id="main-nav-current" class="main-nav-link" href="index.html">
@@ -37,7 +37,7 @@
 
                     <!-- ---------- Project Proposal Link ---------- -->
                     <li class="main-nav-list-item">
-                        <a class="main-nav-link" href="project-proposal.html">Project Proposal</a>
+                        <a class="main-nav-link" href="project-plan.html">Project Plan</a>
                     </li>
 
                     <!-- ---------- Milestones Link ---------- -->
@@ -64,7 +64,7 @@
                     src="icons/github-logo.png"
                     alt="GitHub Project"
                 />
-                <h6 id="main-navgithub-button-text">GitHub Project</h6>
+                <h6 id="main-nav-github-button-text">GitHub Project</h6>
             </button>
         </header>
 
@@ -80,18 +80,20 @@
             <section>
                 <h3 class="section-heading">The Team</h3>
                 <table class="no-border-table">
-                    <tr>
-                        <td>Team Lead & Choral Expert</td>
-                        <td>Daniel Griessler</td>
-                    </tr>
-                    <tr>
-                        <td>Web & Mobile Developer</td>
-                        <td>Dan Levy</td>
-                    </tr>
-                    <tr>
-                        <td>Machine Learning Engineer</td>
-                        <td>Javier Muñoz</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Team Lead & Choral Expert</td>
+                            <td>Daniel Griessler</td>
+                        </tr>
+                        <tr>
+                            <td>Web & Mobile Developer</td>
+                            <td>Dan Levy</td>
+                        </tr>
+                        <tr>
+                            <td>Machine Learning Engineer</td>
+                            <td>Javier Muñoz</td>
+                        </tr>
+                    </tbody>
                 </table>
             </section>
 
@@ -99,12 +101,14 @@
             <section>
                 <h3 class="section-heading">Faculty Sponsor</h3>
                 <table class="no-border-table">
-                    <tr>
-                        <td>Dr. Thomas Eskridge</td>
-                        <td>
-                            Associate Professor, Florida Institute of Technology
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Dr. Thomas Eskridge</td>
+                            <td>
+                                Associate Professor, Florida Institute of Technology
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </section>
 
@@ -112,12 +116,14 @@
             <section>
                 <h3 class="section-heading">Client</h3>
                 <table class="no-border-table">
-                    <tr>
-                        <td>Professor Elizabeth Dopira</td>
-                        <td>
-                            Instructor of Music, Florida Institute of Technology
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Professor Elizabeth Dopira</td>
+                            <td>
+                                Instructor of Music, Florida Institute of Technology
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </section>
         </main>
@@ -130,6 +136,8 @@
                 alt="Florida Tech Logo"
             />
             <h5 id="footer-copyright-text">© 2019 The Music Assistant</h5>
+            <div></div>
+            <!-- Eppty div to center footer copyright text -->
         </footer>
 
         <script src="js/index.js"></script>

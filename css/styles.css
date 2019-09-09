@@ -23,10 +23,6 @@ body {
   line-height: 1;
 }
 
-ol, ul {
-  list-style: none;
-}
-
 blockquote, q {
   quotes: none;
 }
@@ -86,14 +82,14 @@ main {
 header,
 main,
 footer {
-  padding: 0 20px;
+  padding: 0 40px;
 }
 
 h1 {
   font-size: 2.19rem;
   font-weight: 400;
   color: #F9FEFF;
-  line-height: 2.4rem;
+  line-height: 2.39rem;
 }
 
 h2 {
@@ -107,16 +103,39 @@ h2 {
 
 h3 {
   font-size: 1.25rem;
-  font-weight: 300;
+  font-weight: 400;
   color: #CA6061;
-  line-height: 1.5rem;
+  line-height: 1.45rem;
 }
 
 h4 {
   font-size: 1.13rem;
   font-weight: 400;
   color: #5E5E5E;
-  line-height: 1.3rem;
+  line-height: 1.33rem;
+  padding-left: 40px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+section h4:first-of-type {
+  margin-top: 0;
+}
+
+p,
+td,
+li {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #5E5E5E;
+  line-height: 1.4rem;
+}
+
+th {
+  font-size: 1.13rem;
+  font-weight: 400;
+  color: #75A0DC;
+  line-height: 1.33rem;
 }
 
 header {
@@ -186,6 +205,7 @@ header {
 #main-nav-github-button-text {
   width: 45px;
   padding: 0 10px;
+  text-align: center;
 }
 
 .main-nav-link {
@@ -246,25 +266,18 @@ header {
   display: inline-block;
   margin: 80px 0 20px;
 }
-.section-heading::after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 2px;
-  margin-top: 3px;
-  background: linear-gradient(to right, #CA6061, rgba(249, 254, 255, 0));
-}
 
 footer {
   height: 100px;
   background-color: #7E9FA6;
   margin-top: 80px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
 }
 
 #footer-copyright-text {
+  margin: 0 auto;
   font-size: 0.75rem;
   font-weight: 300;
   color: #F9FEFF;
@@ -279,16 +292,62 @@ footer {
 .no-border-table td {
   padding-left: 40px;
   padding-bottom: 20px;
-  font-size: 1rem;
-  font-weight: 300;
-  color: #5E5E5E;
-  line-height: 1.2rem;
 }
 .no-border-table tr td:first-child {
   padding-left: 20px;
+  width: 200px;
 }
 .no-border-table tr:last-child td {
   padding-bottom: 0;
+}
+
+.primary-table {
+  margin-left: 40px;
+}
+.primary-table th {
+  padding-bottom: 20px;
+  text-align: center;
+}
+.primary-table td {
+  padding: 20px;
+  border: 2px solid #75A0DC;
+  text-align: center;
+}
+.primary-table th,
+.primary-table td {
+  width: 200px;
+  vertical-align: middle;
+}
+
+p {
+  padding-left: 40px;
+  padding-top: 20px;
+}
+
+section p:first-of-type {
+  padding-top: 0;
+}
+
+.indent-zero-list {
+  padding-left: 100px;
+}
+
+.indent-one-list {
+  list-style-type: lower-alpha;
+  padding-left: 60px;
+}
+
+ul,
+ol {
+  margin-top: -10px;
+}
+ul li,
+ol li {
+  padding-top: 10px;
+}
+
+.no-style {
+  list-style: none;
 }
 
 /*# sourceMappingURL=styles.css.map */

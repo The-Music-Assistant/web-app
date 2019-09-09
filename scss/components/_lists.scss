@@ -1,0 +1,29 @@
+// =============================
+// File Path: components/_lists.scss
+// Description: List styles
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 9/8/2019
+// =============================
+
+.indent-zero-list {
+    padding-left: 100px;
+}
+
+.indent-one-list {
+    list-style-type: lower-alpha;
+    padding-left: 60px;
+}
+
+ul,
+ol {
+    margin-top: -10px;
+
+    li {
+        padding-top: 10px;
+    }
+}
+
+.no-style {
+    list-style: none;
+}

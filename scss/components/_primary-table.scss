@@ -1,0 +1,28 @@
+// =============================
+// File Path: components/_primary-table.scss
+// Description: Styles for tables
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 9/4/2019
+// =============================
+
+.primary-table {
+    margin-left: 40px;
+
+    th {
+        padding-bottom: 20px;
+        text-align: center;
+    }
+
+    td {
+        padding: 20px;
+        border: 2px solid $blue;
+        text-align: center;
+    }
+
+    th,
+    td {
+        width: 200px;
+        vertical-align: middle;
+    }
+}

@@ -10,16 +10,11 @@
     td {
         padding-left: 40px;
         padding-bottom: 20px;
-        @include text(
-            $font-size: 1rem,
-            $font-weight: 300,
-            $color: $black,
-            $line-height: 1.2rem
-        );
     }
 
     tr td:first-child {
         padding-left: 20px;
+        width: 200px;
     }
 
     tr:last-child td {

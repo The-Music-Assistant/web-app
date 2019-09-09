@@ -10,10 +10,13 @@ footer {
     height: 100px;
     background-color: $dark-blue;
     margin-top: 80px;
-    @include flex($justify-content: null, $align-items: center);
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
 }
 
 #footer-copyright-text {
+    margin: 0 auto;
     @include text(
         $font-size: .75rem,
         $font-weight: 300,

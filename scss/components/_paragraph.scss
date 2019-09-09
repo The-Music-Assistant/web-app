@@ -1,0 +1,16 @@
+// =============================
+// File Path: components/_paragraph.scss
+// Description: Imported component styles
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 9/8/2019
+// =============================
+
+p {
+    padding-left: 40px;
+    padding-top: 20px;
+}
+
+section p:first-of-type {
+    padding-top: 0;
+}
