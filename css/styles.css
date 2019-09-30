@@ -340,6 +340,7 @@ section p:first-of-type {
 ul,
 ol {
   margin-top: -10px;
+  list-style-position: inside;
 }
 ul li,
 ol li {
@@ -348,6 +349,16 @@ ol li {
 
 .no-style {
   list-style: none;
+}
+
+.hover-underline {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #75A0DC;
+  line-height: 1.2rem;
+}
+.hover-underline:hover, .hover-underline:active {
+  text-decoration: underline;
 }
 
 /*# sourceMappingURL=styles.css.map */
