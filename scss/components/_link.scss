@@ -1,0 +1,21 @@
+// =============================
+// File Path: components/_link.scss
+// Description: Link styles
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 9/29/2019
+// =============================
+
+.hover-underline {
+    @include text(
+        $font-size: 1rem,
+        $font-weight: 400,
+        $color: $blue,
+        $line-height: 1.2rem
+    );
+
+    &:hover,
+    &:active {
+        text-decoration: underline;
+    }
+}
