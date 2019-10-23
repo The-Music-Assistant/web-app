@@ -4,10 +4,10 @@ import './HamburgerMenu.scss';
 const HamburgerMenu = props => {
 
     return (
-        <div id='hamburger-menu'>
-            <div class='hamburger-menu-bar'></div>
-            <div class='hamburger-menu-bar'></div>
-            <div class='hamburger-menu-bar'></div>
+        <div id='hamburger-menu' onClick={props.handleClick}>
+            <div className='hamburger-menu-bar'></div>
+            <div className='hamburger-menu-bar'></div>
+            <div className='hamburger-menu-bar'></div>
         </div>
     );
 }

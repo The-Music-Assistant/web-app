@@ -1,7 +1,31 @@
+// ----------------------------------------------------------------------------
+// File Path: src/HamburgerMenu/HamburgerMenu.scss
+// Description: SCSS styles for the Header component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
+@import "../root-styles/utilities.scss";
+
 header {
     height: 60px;
-    width: 100%;
-    background-color: #5F9CD1;
-    display: flex;
-    align-items: center;
+    // width: 100%;
+    padding: 0 10px;
+    background-color: $primary-color;
+    @include grid-container(
+        $grid-template-rows: null,
+        $grid-template-columns: 1fr 3fr 1fr,
+        $align-items: center
+    );
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 20px;
+    }
+
+    @include media-query($breakpoint: $desktop-breakpoint) {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 40px;
+    }
 }

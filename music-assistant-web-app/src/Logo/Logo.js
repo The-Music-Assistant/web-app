@@ -1,6 +1,6 @@
 import React from "react";
 import "./Logo.scss";
-import logo from "../img/logo.png";
+import logo from "../assets/icons/logo.png";
 
 const Logo = props => {
     let name = null;

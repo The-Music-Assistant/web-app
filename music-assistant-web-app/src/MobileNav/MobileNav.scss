@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/App/App.scss
-// Description: SCSS styles for the App component
+// File Path: src/HamburgerMenu/HamburgerMenu.scss
+// Description: SCSS styles for the MobileNav component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -8,20 +8,15 @@
 
 @import '../root-styles/utilities.scss';
 
-body {
-    font-family: 'Roboto', sans-serif;
+.mobile-nav {
+    padding: 20px 0;
+    background-color: rgba($color: $primary-color, $alpha: .13);
 }
 
-* {
-    box-sizing: border-box;
+#mobile-nav-show {
+    display: block;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0;
-    padding: 0;
+#mobile-nav-hide {
+    display: none;
 }
