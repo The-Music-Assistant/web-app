@@ -1,0 +1,9 @@
+#user-widget {
+    display: flex;
+    height: 100%;
+
+    &-img {
+        width: 20px;
+        max-width: 100%;
+    }
+}

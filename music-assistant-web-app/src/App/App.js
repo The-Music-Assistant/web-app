@@ -1,4 +1,6 @@
 import React from "react";
+import Header from '../Header/Header';
+import 'normalize.css';
 import "./App.scss";
 
 /**
@@ -7,7 +9,7 @@ import "./App.scss";
 function App() {
     return (
         <div className='App'>
-            <p>This is a test</p>
+            <Header />
         </div>
     );
 }
