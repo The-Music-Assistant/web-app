@@ -9,6 +9,10 @@
 @import '../root-styles/utilities.scss';
 
 .mobile-nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
     padding: 20px 0;
     background-color: rgba($color: $primary-color, $alpha: .13);
 }

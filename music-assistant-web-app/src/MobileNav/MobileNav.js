@@ -3,17 +3,17 @@ import "./MobileNav.scss";
 import MobileNavLink from '../MobileNavLink/MobileNavLink';
 
 const MobileNav = props => {
-    let mobileNavId = "mobile-nav-"
+    let showHideId = "mobile-nav-"
     if (props.show) {
-        mobileNavId += "show";
+        showHideId += "show";
     } else {
-        mobileNavId += "hide";
+        showHideId += "hide";
     }
 
     return (
-        <div id={mobileNavId} className='mobile-nav'>
+        <div id={showHideId} className='mobile-nav'>
             {props.tabs.map(tab => {
-                return <MobileNavLink key={tab.key} name={tab.name} icon={tab.icon} isCurrentTab={tab.isCurrent} />
+                return <MobileNavLink key={tab.key} name={tab.name} icon={tab.mobileIcon} isCurrentTab={tab.isCurrent} />
             })}
         </div>
     );

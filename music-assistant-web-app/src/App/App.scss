@@ -6,10 +6,10 @@
 // Created Date: 10/23/2019
 // ----------------------------------------------------------------------------
 
-@import '../root-styles/utilities.scss';
+@import "../root-styles/utilities.scss";
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 * {
@@ -24,4 +24,25 @@ h5,
 h6 {
     margin: 0;
     padding: 0;
+}
+
+.App {
+    @include grid-container(
+        $grid-template-rows: auto 1fr auto,
+        $grid-template-columns: 100%,
+        $align-items: null
+    );
+
+    grid-template-areas:
+        "head"
+        "PracticeMain"
+        "foot";
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        grid-template-areas:
+            "head head"
+            "sidenav PracticeMain"
+            "foot foot";
+    }
+    min-height: 100vh;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import "./Logo.scss";
-import logo from "../assets/icons/logo.png";
+import musicAssistantLogo from "../assets/logos/music-assistant-logo.png";
 
 const Logo = props => {
     let name = null;
@@ -10,7 +10,7 @@ const Logo = props => {
 
     return (
         <div id='logo'>
-            <img id='logo-img' src={logo} alt='Logo' />
+            <img id='logo-img' src={musicAssistantLogo} alt='Logo' />
             {name}
         </div>
     );

@@ -30,7 +30,7 @@
         margin-top: 5px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
-            @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
+            font-size: 1rem;
             margin: 0 0 0 10px;
             padding: 0;
         }

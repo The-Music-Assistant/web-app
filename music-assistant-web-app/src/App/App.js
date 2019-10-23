@@ -4,11 +4,19 @@ import "normalize.css";
 import "./App.scss";
 import Header from "../Header/Header";
 import MobileNav from "../MobileNav/MobileNav";
-import homeIcon from "../assets/icons/home-icon-blue-fa.svg";
-import practiceIcon from "../assets/icons/practice-icon-blue-fa.svg";
-import progressIcon from "../assets/icons/progress-icon-blue-fa.svg";
-import choirIcon from "../assets/icons/choir-icon-blue-fa.svg";
-import messagesIcon from "../assets/icons/messages-icon-blue-fa.svg";
+import SideNav from "../SideNav/SideNav";
+import Footer from "../Footer/Footer";
+import homeIconBlue from "../assets/icons/home-icon-blue-fa.svg";
+import practiceIconBlue from "../assets/icons/practice-icon-blue-fa.svg";
+import progressIconBlue from "../assets/icons/progress-icon-blue-fa.svg";
+import choirIconBlue from "../assets/icons/choir-icon-blue-fa.svg";
+import messagesIconBlue from "../assets/icons/messages-icon-blue-fa.svg";
+import homeIconWhite from "../assets/icons/home-icon-white-fa.svg";
+import practiceIconWhite from "../assets/icons/practice-icon-white-fa.svg";
+import progressIconWhite from "../assets/icons/progress-icon-white-fa.svg";
+import choirIconWhite from "../assets/icons/choir-icon-white-fa.svg";
+import messagesIconWhite from "../assets/icons/messages-icon-white-fa.svg";
+import PracticeMain from "../PracticeMain/PracticeMain";
 
 class App extends Component {
     state = {
@@ -21,31 +29,36 @@ class App extends Component {
         {
             key: shortid.generate(),
             name: "Home",
-            icon: homeIcon,
-            isCurrent: true
-        },
-        {
-            key: shortid.generate(),
-            name: "Practice",
-            icon: practiceIcon,
+            mobileIcon: homeIconBlue,
+            desktopIcon: homeIconWhite,
             isCurrent: false
         },
         {
             key: shortid.generate(),
+            name: "Practice",
+            mobileIcon: practiceIconBlue,
+            desktopIcon: practiceIconWhite,
+            isCurrent: true
+        },
+        {
+            key: shortid.generate(),
             name: "Progress",
-            icon: progressIcon,
+            mobileIcon: progressIconBlue,
+            desktopIcon: progressIconWhite,
             isCurrent: false
         },
         {
             key: shortid.generate(),
             name: "Choir",
-            icon: choirIcon,
+            mobileIcon: choirIconBlue,
+            desktopIcon: choirIconWhite,
             isCurrent: false
         },
         {
             key: shortid.generate(),
             name: "Messages",
-            icon: messagesIcon,
+            mobileIcon: messagesIconBlue,
+            desktopIcon: messagesIconWhite,
             isCurrent: false
         }
     ];
@@ -69,16 +82,17 @@ class App extends Component {
     };
 
     render() {
-        let mobileNav = null;
+        let mainNav = null;
         if (this.state.isMobile) {
-            mobileNav = (
+            mainNav = (
                 <MobileNav
-                    isMobile={this.state.isMobile}
                     currentTab={this.state.currentTab}
                     tabs={this.mainNavTabs}
                     show={this.state.showMobileNav}
                 />
             );
+        } else {
+            mainNav = <SideNav currentTab={this.state.currentTab} tabs={this.mainNavTabs} />;
         }
 
         return (
@@ -87,7 +101,9 @@ class App extends Component {
                     hamburgerMenuClicked={this.handleShowHamburgerMenu}
                     isMobile={this.state.isMobile}
                 />
-                {mobileNav}
+                {mainNav}
+                <PracticeMain />
+                <Footer />
             </div>
         );
     }
