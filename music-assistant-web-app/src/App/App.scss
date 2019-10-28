@@ -21,7 +21,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+button {
     margin: 0;
     padding: 0;
 }
@@ -29,19 +30,20 @@ h6 {
 .App {
     @include grid-container(
         $grid-template-rows: auto 1fr auto,
-        $grid-template-columns: 100%,
+        $grid-template-columns: null,
         $align-items: null
     );
 
     grid-template-areas:
         "head"
-        "PracticeMain"
+        "practice-main"
         "foot";
 
     @include media-query($breakpoint: $tablet-breakpoint) {
+        grid-template-columns: auto 1fr;
         grid-template-areas:
             "head head"
-            "sidenav PracticeMain"
+            "side-nav practice-main"
             "foot foot";
     }
     min-height: 100vh;

@@ -10,7 +10,6 @@
 
 header {
     height: 60px;
-    // width: 100%;
     padding: 0 10px;
     background-color: $primary-color;
     grid-area: head;
@@ -23,11 +22,10 @@ header {
     @include media-query($breakpoint: $tablet-breakpoint) {
         height: 70px;
         grid-template-columns: 1fr 1fr;
-        padding: 0 20px;
+        padding: 0 30px;
     }
 
     @include media-query($breakpoint: $desktop-breakpoint) {
         grid-template-columns: 1fr 1fr;
-        padding: 0 30px;
     }
 }

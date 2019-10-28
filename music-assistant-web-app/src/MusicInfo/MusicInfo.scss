@@ -1,0 +1,33 @@
+// ----------------------------------------------------------------------------
+// File Path: src/MusicInfo/MusicInfo.scss
+// Description: SCSS styles for the MusicInfo component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
+@import "../root-styles/utilities.scss";
+
+#music-info {
+    width: calc(100% - 20px);
+    background-color: $green-color;
+    margin: 20px auto 0;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px rgba($color: #898989, $alpha: 0.7);
+    @include flex-container($direction: row, $justify-content: space-between, $align-items: center, $wrap: wrap);
+
+    &-title {
+        @include text($size: 1rem, $weight: 500, $color: $white-color, $line-height: null);
+        padding: 5px 0 0 10px;
+    }
+
+    &-composers {
+        @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
+        padding: 5px 0 5px 10px;
+    }
+
+    &-time {
+        @include text($size: 0.875rem, $weight: 300, $color: $white-color, $line-height: null);
+        padding-right: 10px;
+    }
+}
