@@ -1,6 +1,6 @@
 import React from "react";
 import "./Footer.scss";
-import floridaTechLogo from "../assets/logos/florida-tech-logo.png"
+import floridaTechLogo from "../assets/logos/florida-tech-logo.png";
 
 const Footer = () => {
     return (

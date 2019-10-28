@@ -64,6 +64,7 @@ class App extends Component {
     ];
 
     componentDidMount() {
+        alert("The website is for authorized use only.");
         window.addEventListener("resize", this.handleWindowResize);
     }
 
