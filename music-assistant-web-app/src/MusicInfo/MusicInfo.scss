@@ -10,11 +10,16 @@
 
 #music-info {
     width: calc(100% - 20px);
+    margin: auto;
     background-color: $green-color;
-    margin: 20px auto 0;
     border-radius: 10px;
     box-shadow: 10px 10px 20px rgba($color: #898989, $alpha: 0.7);
     @include flex-container($direction: row, $justify-content: space-between, $align-items: center, $wrap: wrap);
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        margin: 0 0 0 20px;
+        width: calc(50% - 30px);
+    }
 
     &-title {
         @include text($size: 1rem, $weight: 500, $color: $white-color, $line-height: null);

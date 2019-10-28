@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import MusicInfo from '../MusicInfo/MusicInfo';
-import MusicControls from "../MusicControls/MusicControls";
+import PracticeHeader from "../PracticeHeader/PracticeHeader";
 import "./PracticeMain.scss";
+import sheetMusicPlaceholder from '../assets/images/sheet-music-placeholder.png';
 
 class PracticeMain extends Component {
     state = {
@@ -17,9 +17,9 @@ class PracticeMain extends Component {
 
     render() {
         return (
-            <main>
-                <MusicInfo music={this.state.music} />
-                <MusicControls isPaused={this.isPaused} />
+            <main id="practice-main">
+                <PracticeHeader music={this.state.music} isPaused={this.isPaused} />
+                <img id="sheet-music-placeholder-img" src={sheetMusicPlaceholder} alt="Placeholder" />
             </main>
         );
     }

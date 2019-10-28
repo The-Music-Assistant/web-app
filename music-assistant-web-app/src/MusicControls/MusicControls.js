@@ -14,11 +14,11 @@ const MusicControls = props => {
 
     return (
         <section id="music-controls">
-            <button id="music-controls-play-pause-button" className="music-controls-button">
+            <button id="music-controls-play-pause-button" className="music-controls-button" type="button">
                 <img src={playPauseButton} alt={playPauseButtonAltText}/>
             </button>
 
-            <button id="music-controls-stop-button" className="music-controls-button">
+            <button id="music-controls-stop-button" className="music-controls-button" type="button">
                 <img src={stopButton} alt="Stop Button" />
             </button>
         </section>

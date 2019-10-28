@@ -8,7 +8,18 @@
 
 @import "../root-styles/utilities.scss";
 
-main {
+#practice-main {
     grid-area: practice-main;
     background-color: $background-color;
+}
+
+#sheet-music-placeholder-img {
+    width: calc(100% - 20px);
+    display: block;
+    margin: auto;
+    margin-top: 30px;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        width: calc(100% - 40px);
+    }
 }

@@ -10,15 +10,31 @@
 
 #music-controls {
     width: calc(100% - 20px);
-    margin: 20px auto 0;
+    margin: 10px auto 0;
     background-color: $primary-color;
     box-shadow: 10px 10px 20px rgba($color: #898989, $alpha: 0.7);
     border-radius: 10px;
-    @include flex-container($direction: row, $justify-content: space-between, $align-items: center, $wrap: wrap);
+    @include flex-container($direction: row, $justify-content: center, $align-items: center, $wrap: wrap);
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        margin: 0 20px 0 0;
+        width: calc(50% - 30px);
+    }
 }
 
-.music-controls-button,
-.music-controls-button img {
+.music-controls-button {
     width: 40px;
     height: 40px;
+    background: none;
+    border: none;
+    margin: 5px 0;
+    outline: none;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:first-child {
+        margin-right: 30px;
+    }
 }
