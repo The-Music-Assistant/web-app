@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import shortid from "shortid";
 import "normalize.css";
+import "./base.scss";
 import "./App.scss";
-import Header from "../Header/Header";
-import MobileNav from "../MobileNav/MobileNav";
-import SideNav from "../SideNav/SideNav";
-import Footer from "../Footer/Footer";
+import Header from "./Header/Header";
+import MobileNav from "./MobileNav/MobileNav";
+import SideNav from "./SideNav/SideNav";
+import PracticeMain from "./PracticeMain/PracticeMain";
+import Footer from "./Footer/Footer";
 import homeIconBlue from "../assets/icons/home-icon-blue-fa.svg";
 import practiceIconBlue from "../assets/icons/practice-icon-blue-fa.svg";
 import progressIconBlue from "../assets/icons/progress-icon-blue-fa.svg";
@@ -16,7 +18,6 @@ import practiceIconWhite from "../assets/icons/practice-icon-white-fa.svg";
 import progressIconWhite from "../assets/icons/progress-icon-white-fa.svg";
 import choirIconWhite from "../assets/icons/choir-icon-white-fa.svg";
 import messagesIconWhite from "../assets/icons/messages-icon-white-fa.svg";
-import PracticeMain from "../PracticeMain/PracticeMain";
 
 class App extends Component {
     state = {
@@ -64,7 +65,9 @@ class App extends Component {
     ];
 
     componentDidMount() {
-        alert("The website is for authorized use only.");
+        // TODO: Uncomment for production
+        // alert("The website is for authorized use only.");
+        
         window.addEventListener("resize", this.handleWindowResize);
     }
 
