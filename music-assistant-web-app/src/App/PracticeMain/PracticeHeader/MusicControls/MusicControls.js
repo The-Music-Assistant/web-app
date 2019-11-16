@@ -17,6 +17,7 @@ class MusicControls extends Component {
      * If the menu is not showing, show it; otherwise, hide it
      */
     trackSelectionButtonHandler = () => {
+        console.log("CALL");
         this.setState(prevState => ({
             trackSelectionIsActive: !prevState.trackSelectionIsActive
         }));

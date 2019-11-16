@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PracticeHeader from "./PracticeHeader/PracticeHeader";
+import PracticeSheetMusic from './PracticeSheetMusic/PracticeSheetMusic';
 import "./PracticeMain.scss";
-import sheetMusicPlaceholder from "../../assets/images/sheet-music-placeholder.png";
 
 class PracticeMain extends Component {
     state = {
@@ -45,11 +45,8 @@ class PracticeMain extends Component {
                     trackList={this.state.trackList}
                     trackListSelectionChanged={this.trackListSelectionChangedHandler}
                 />
-                <img
-                    id='sheet-music-placeholder-img'
-                    src={sheetMusicPlaceholder}
-                    alt='Placeholder'
-                />
+
+                <PracticeSheetMusic />
             </main>
         );
     }

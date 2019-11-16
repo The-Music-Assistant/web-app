@@ -18,6 +18,10 @@
     width: calc(100vw - 20px);
     margin: 20px auto 0;
 
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        width: calc(100% - 40px);
+    }
+
     &-back-button {
         @include flex-container(
             $direction: row,
