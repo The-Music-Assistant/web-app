@@ -15,9 +15,7 @@ const PracticeHeader = props => {
                 <span id='practice-header-back-button-text'>Latest Pieces</span>
             </button>
 
-            <MusicControls
-                playPauseButtonClicked={props.playPauseButtonClicked}
-            />
+            <MusicControls />
             <div></div>
         </div>
     );

@@ -69,7 +69,7 @@ const p5Sketch = p => {
             p.fill("#F8F8F8");
 
             // draws clearing rectangle with total height of alpha tab from previous X position to the end 
-            p.rect(previousPos[0], 0, alphaTabSurface.clientWidth-previousPos[0], alphaTabSurface.clientHeight);
+            p.rect(previousPos[0], 30, alphaTabSurface.clientWidth-previousPos[0], alphaTabSurface.clientHeight-30);
             
             // don't draw silence which has special value -1 or if we don't have a previous point
             if (drawer && drawer.note.midiVal >= 0 && previousPos[2] !== -1 && previousPos[3] !== -1) {

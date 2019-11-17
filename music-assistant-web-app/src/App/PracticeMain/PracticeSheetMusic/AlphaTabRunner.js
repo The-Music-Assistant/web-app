@@ -29,8 +29,7 @@ class AlphaTabRunner {
             player: player,
             cursor: true,
             layout: "horizontal",
-            scrollElement: "#wrapper",
-            tracks: [0,1,2,3,4]
+            scrollElement: "#wrapper"
         };
 
         // Creates the AlphaTab API
@@ -47,8 +46,8 @@ class AlphaTabRunner {
         });
 
         // Listener is executed when the player state changes (e.g. play, pause, and stop)
-        AlphaTabRunner.api.addPlayerStateChanged(() => {
-            this.alphaTabPlayerStateChanged(AlphaTabRunner.api.playerState);
+        this.api.addPlayerStateChanged(() => {
+            this.alphaTabPlayerStateChanged();
         });
     }
 
@@ -97,7 +96,7 @@ class AlphaTabRunner {
         }, 3);
     }
 
-    static alphaTabPlayerStateChanged(playerState) {
+    static alphaTabPlayerStateChanged() {
         if (AlphaTabRunner.api.playerState !== 1) {
             PitchDetection.stopPitchDetection(this.intervalID);
 
@@ -219,10 +218,8 @@ class AlphaTabRunner {
         \\ts 12 8 :1 g2{d} |', [0,1,2,3,4]);
 
         let updatedTrackIndexes = [];
-        let trackArray = [];
         for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
             updatedTrackIndexes.push(i);
-            trackArray.push(AlphaTabRunner.api.score.tracks[i]);
         }
 
         AlphaTabRunner.currentTrackIndexes = updatedTrackIndexes;

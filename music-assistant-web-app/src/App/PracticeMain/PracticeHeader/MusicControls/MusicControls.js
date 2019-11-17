@@ -51,11 +51,29 @@ class MusicControls extends Component {
      */
     stopButtonHandler = () => {
         // Updates state
+        this.donePlaying();
+
+        AlphaTabRunner.api.stop();
+    }
+
+    componentDidMount() {
+        const id = window.setInterval(() => {
+            if (AlphaTabRunner.api != null) {
+                clearInterval(id);
+                AlphaTabRunner.api.addPlayerFinished(() => {
+                    this.donePlaying();
+                });
+            }
+        }, 2000)
+    }
+
+    /**
+     * Sets isPlaying to false in state
+     */
+    donePlaying = () => {
         this.setState({
             isPlaying: false
         });
-
-        AlphaTabRunner.api.stop();
     }
 
     render() {
