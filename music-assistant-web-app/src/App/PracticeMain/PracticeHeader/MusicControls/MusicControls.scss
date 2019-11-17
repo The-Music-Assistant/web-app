@@ -10,6 +10,7 @@
 
 #music-controls {
     width: 100%;
+    max-width: 320px;
     margin: 20px auto 0;
     background-color: $tertiary-color;
     box-shadow: $primary-box-shadow;
@@ -21,37 +22,32 @@
         $wrap: wrap
     );
 
-    @include media-query($breakpoint: $tablet-breakpoint) {
-        margin: 0 20px 0 0;
-        width: calc(50% - 30px);
-    }
+    // &-divider {
+    //     width: 2px;
+    //     height: 46px;
+    //     background-color: $white-color;
+    //     margin-right: 20px;
+    // }
 
-    &-divider {
-        width: 2px;
-        height: 46px;
-        background-color: $white-color;
-        margin-right: 20px;
-    }
+    // &-track-selector {
+    //     &-container {
+    //         @include flex-container(
+    //             $direction: row,
+    //             $justify-content: space-around,
+    //             $align-items: center,
+    //             $wrap: nowrap
+    //         );
+    //     }
 
-    &-track-selector {
-        &-container {
-            @include flex-container(
-                $direction: row,
-                $justify-content: space-around,
-                $align-items: center,
-                $wrap: nowrap
-            );
-        }
+    //     &-title {
+    //         @include text($size: 1rem, $weight: 500, $color: $white-color, $line-height: null);
+    //     }
 
-        &-title {
-            @include text($size: 1rem, $weight: 500, $color: $white-color, $line-height: null);
-        }
-
-        &-arrow {
-            margin-left: 8px;
-            height: 18px;
-        }
-    }
+    //     &-arrow {
+    //         margin-left: 8px;
+    //         height: 18px;
+    //     }
+    // }
 }
 
 .music-controls-button {

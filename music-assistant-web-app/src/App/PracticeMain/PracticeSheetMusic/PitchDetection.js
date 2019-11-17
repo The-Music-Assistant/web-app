@@ -91,13 +91,9 @@ class PitchDetection {
             // Converts frequency to midi value
             let midiNum = (Math.log(frequency / 440) / Math.log(2)) * 12 + 69;
             
-            this.label.textContent = midiNum;
-            
             AlphaTabRunner.noteList.addNote(midiNum);
             AlphaTabRunner.drawer.updateNote(AlphaTabRunner.noteList.average);
         } else {
-            this.label.textContent = "No Pitch Detected";
-
             // Sentinel value of 0 used for silence
             AlphaTabRunner.noteList.addNote(0);
             AlphaTabRunner.drawer.updateNote(AlphaTabRunner.noteList.average);

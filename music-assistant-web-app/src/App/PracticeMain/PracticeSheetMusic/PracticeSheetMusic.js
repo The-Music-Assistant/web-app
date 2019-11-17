@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import AlphaTabAPIUtility from "./AlphaTabAPIUtility";
 import AlphaTabRunner from "./AlphaTabRunner";
-import PitchDetection from "./PitchDetection";
 import "./PracticeSheetMusic.scss";
 
 class PracticeSheetMusic extends Component {
@@ -130,27 +129,6 @@ class PracticeSheetMusic extends Component {
         });
     }
 
-    /**
-     * Plays or pauses the music
-     */
-    playPauseHandler = () => {
-        AlphaTabRunner.api.playPause();
-    };
-
-    /**
-     * Resumes the AudioContext so that microphone input can be streamed in
-     */
-    resumeAudioContextHandler = () => {
-        PitchDetection.audioContext
-            .resume()
-            .then(() => {
-                console.log(PitchDetection.audioContext.state)
-            })
-            .catch(err => {
-                console.log(`[error][MusicContainer] ${err}`);
-            });
-    };
-
     render() {
         return (
             <section>
@@ -158,9 +136,6 @@ class PracticeSheetMusic extends Component {
                 <div id='alpha-tab-container' data-tex='true'>
                     {this.state.tex}
                 </div>
-                <button onClick={this.playPauseHandler}>PLAY / PAUSE</button>
-                <button onClick={this.resumeAudioContextHandler}>RESUME</button>
-                <h2 id='frequency'>TEST</h2>
             </section>
         );
     }

@@ -63,13 +63,9 @@ class AlphaTabRunner {
         // We were getting an error where rect_0 or rect_1 were null even though AlphaTab said they were rendered
         // This sets up an interval to keep waiting for them to not be null before moving on with the render process
         const lineReadyID = setInterval(() => {
-            // logs are for debugging purposes if this fix doesn't work as described above
-            console.log("running",topLine);
-
             if (topLine !== null && nextLine !== null) {
                 // stop interval from running
                 clearInterval(lineReadyID);
-                console.log("Done",topLine);
 
                 // retrieves the height of the staff lines based on a relative offset to their wrapping contanier
                 // used to setup the canvas so the canvas needs to be directly on top of the alphaTab container where these are stored
@@ -111,7 +107,6 @@ class AlphaTabRunner {
             // Runs the pitch detection model on microphone input and displays it on the screen
             // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
             this.intervalID = PitchDetection.startPitchDetection();
-            console.log(this.intervalID);
         }
     }
 }

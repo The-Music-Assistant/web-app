@@ -1220,7 +1220,7 @@
     alphaTab._DisplayMode.DisplayMode_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab._DisplayMode.DisplayMode_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab._DisplayMode.DisplayMode_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab._DisplayMode.DisplayMode_Impl_.toString = function(this1) {
@@ -2219,7 +2219,7 @@
     alphaTab.platform.Platform.arrayBufferToByteArray = function(data) {
         return new Uint8Array(data);
     };
-    alphaTab.platform.Platform.TODO:uble = function(bytes) {
+    alphaTab.platform.Platform.toDouble = function(bytes) {
         var array = new Float64Array(bytes.buffer);
         return array[0];
     };
@@ -6645,7 +6645,7 @@
     alphaTab._FingeringMode.FingeringMode_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab._FingeringMode.FingeringMode_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab._FingeringMode.FingeringMode_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab._FingeringMode.FingeringMode_Impl_.toString = function(this1) {
@@ -6733,7 +6733,7 @@
     alphaTab._ScrollMode.ScrollMode_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab._ScrollMode.ScrollMode_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab._ScrollMode.ScrollMode_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab._ScrollMode.ScrollMode_Impl_.toString = function(this1) {
@@ -9041,7 +9041,7 @@
     alphaTab.audio.synth._PlayerState.PlayerState_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth._PlayerState.PlayerState_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth._PlayerState.PlayerState_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth._PlayerState.PlayerState_Impl_.toString = function(this1) {
@@ -9378,7 +9378,7 @@
     alphaTab.audio.synth.midi.event._ControllerType.ControllerType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth.midi.event._ControllerType.ControllerType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth.midi.event._ControllerType.ControllerType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth.midi.event._ControllerType.ControllerType_Impl_.toString = function(this1) {
@@ -9530,7 +9530,7 @@
     alphaTab.audio.synth.midi.event._MetaEventTypeEnum.MetaEventTypeEnum_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth.midi.event._MetaEventTypeEnum.MetaEventTypeEnum_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth.midi.event._MetaEventTypeEnum.MetaEventTypeEnum_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth.midi.event._MetaEventTypeEnum.MetaEventTypeEnum_Impl_.toString = function(this1) {
@@ -9627,7 +9627,7 @@
     alphaTab.audio.synth.midi.event._MidiEventType.MidiEventType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth.midi.event._MidiEventType.MidiEventType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth.midi.event._MidiEventType.MidiEventType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth.midi.event._MidiEventType.MidiEventType_Impl_.toString = function(this1) {
@@ -9701,7 +9701,7 @@
     alphaTab.audio.synth.midi.event._SystemCommonTypeEnum.SystemCommonTypeEnum_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth.midi.event._SystemCommonTypeEnum.SystemCommonTypeEnum_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth.midi.event._SystemCommonTypeEnum.SystemCommonTypeEnum_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth.midi.event._SystemCommonTypeEnum.SystemCommonTypeEnum_Impl_.toString = function(this1) {
@@ -10330,7 +10330,7 @@
     alphaTab.audio.synth.synthesis._LoopMode.LoopMode_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth.synthesis._LoopMode.LoopMode_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth.synthesis._LoopMode.LoopMode_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth.synthesis._LoopMode.LoopMode_Impl_.toString = function(this1) {
@@ -10380,7 +10380,7 @@
     alphaTab.audio.synth.synthesis._OutputMode.OutputMode_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth.synthesis._OutputMode.OutputMode_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth.synthesis._OutputMode.OutputMode_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth.synthesis._OutputMode.OutputMode_Impl_.toString = function(this1) {
@@ -10789,7 +10789,7 @@
     alphaTab.audio.synth.synthesis._Region_GenOperators.Region_GenOperators_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth.synthesis._Region_GenOperators.Region_GenOperators_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth.synthesis._Region_GenOperators.Region_GenOperators_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth.synthesis._Region_GenOperators.Region_GenOperators_Impl_.toString = function(this1) {
@@ -11336,7 +11336,7 @@
     alphaTab.audio.synth.synthesis._VoiceEnvelopeSegment.VoiceEnvelopeSegment_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.audio.synth.synthesis._VoiceEnvelopeSegment.VoiceEnvelopeSegment_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.audio.synth.synthesis._VoiceEnvelopeSegment.VoiceEnvelopeSegment_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.audio.synth.synthesis._VoiceEnvelopeSegment.VoiceEnvelopeSegment_Impl_.toString = function(this1) {
@@ -13698,7 +13698,7 @@
     alphaTab.importer._AlphaTexSymbols.AlphaTexSymbols_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.importer._AlphaTexSymbols.AlphaTexSymbols_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.importer._AlphaTexSymbols.AlphaTexSymbols_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.importer._AlphaTexSymbols.AlphaTexSymbols_Impl_.toString = function(this1) {
@@ -13864,7 +13864,7 @@
     alphaTab.importer._BinaryStylesheetParser_DataType.BinaryStylesheetParser_DataType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.importer._BinaryStylesheetParser_DataType.BinaryStylesheetParser_DataType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.importer._BinaryStylesheetParser_DataType.BinaryStylesheetParser_DataType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.importer._BinaryStylesheetParser_DataType.BinaryStylesheetParser_DataType_Impl_.toString = function(this1) {
@@ -14996,7 +14996,7 @@
         var this1 = new Uint8Array(8);
         var bytes = this1;
         data.read(bytes,0,bytes.length);
-        return alphaTab.platform.Platform.TODO:uble(bytes);
+        return alphaTab.platform.Platform.toDouble(bytes);
     };
     alphaTab.importer.GpBinaryHelpers.gpReadFloat = function(data) {
         var this1 = new Uint8Array(4);
@@ -19354,7 +19354,7 @@
     alphaTab.model._AccentuationType.AccentuationType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._AccentuationType.AccentuationType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._AccentuationType.AccentuationType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._AccentuationType.AccentuationType_Impl_.toString = function(this1) {
@@ -19404,7 +19404,7 @@
     alphaTab.model._AccidentalType.AccidentalType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._AccidentalType.AccidentalType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._AccidentalType.AccidentalType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._AccidentalType.AccidentalType_Impl_.toString = function(this1) {
@@ -19497,7 +19497,7 @@
     alphaTab.model._AutomationType.AutomationType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._AutomationType.AutomationType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._AutomationType.AutomationType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._AutomationType.AutomationType_Impl_.toString = function(this1) {
@@ -20197,7 +20197,7 @@
     alphaTab.model._BendStyle.BendStyle_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._BendStyle.BendStyle_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._BendStyle.BendStyle_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._BendStyle.BendStyle_Impl_.toString = function(this1) {
@@ -20247,7 +20247,7 @@
     alphaTab.model._BendType.BendType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._BendType.BendType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._BendType.BendType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._BendType.BendType_Impl_.toString = function(this1) {
@@ -20309,7 +20309,7 @@
     alphaTab.model._BrushType.BrushType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._BrushType.BrushType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._BrushType.BrushType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._BrushType.BrushType_Impl_.toString = function(this1) {
@@ -20394,7 +20394,7 @@
     alphaTab.model._Clef.Clef_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._Clef.Clef_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._Clef.Clef_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._Clef.Clef_Impl_.toString = function(this1) {
@@ -20448,7 +20448,7 @@
     alphaTab.model._CrescendoType.CrescendoType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._CrescendoType.CrescendoType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._CrescendoType.CrescendoType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._CrescendoType.CrescendoType_Impl_.toString = function(this1) {
@@ -20498,7 +20498,7 @@
     alphaTab.model._Duration.Duration_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._Duration.Duration_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._Duration.Duration_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._Duration.Duration_Impl_.toString = function(this1) {
@@ -20564,7 +20564,7 @@
     alphaTab.model._DynamicValue.DynamicValue_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._DynamicValue.DynamicValue_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._DynamicValue.DynamicValue_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._DynamicValue.DynamicValue_Impl_.toString = function(this1) {
@@ -20636,7 +20636,7 @@
     alphaTab.model._FermataType.FermataType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._FermataType.FermataType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._FermataType.FermataType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._FermataType.FermataType_Impl_.toString = function(this1) {
@@ -20686,7 +20686,7 @@
     alphaTab.model._Fingers.Fingers_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._Fingers.Fingers_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._Fingers.Fingers_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._Fingers.Fingers_Impl_.toString = function(this1) {
@@ -20744,7 +20744,7 @@
     alphaTab.model._GraceType.GraceType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._GraceType.GraceType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._GraceType.GraceType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._GraceType.GraceType_Impl_.toString = function(this1) {
@@ -20796,7 +20796,7 @@
     alphaTab.model._HarmonicType.HarmonicType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._HarmonicType.HarmonicType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._HarmonicType.HarmonicType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._HarmonicType.HarmonicType_Impl_.toString = function(this1) {
@@ -21260,7 +21260,7 @@
     alphaTab.model._KeySignature.KeySignature_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._KeySignature.KeySignature_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._KeySignature.KeySignature_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._KeySignature.KeySignature_Impl_.toString = function(this1) {
@@ -21334,7 +21334,7 @@
     alphaTab.model._KeySignatureType.KeySignatureType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._KeySignatureType.KeySignatureType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._KeySignatureType.KeySignatureType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._KeySignatureType.KeySignatureType_Impl_.toString = function(this1) {
@@ -21477,7 +21477,7 @@
     alphaTab.model._Lyrics_LyricsState.Lyrics_LyricsState_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._Lyrics_LyricsState.Lyrics_LyricsState_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._Lyrics_LyricsState.Lyrics_LyricsState_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._Lyrics_LyricsState.Lyrics_LyricsState_Impl_.toString = function(this1) {
@@ -22258,7 +22258,7 @@
     alphaTab.model._NoteAccidentalMode.NoteAccidentalMode_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._NoteAccidentalMode.NoteAccidentalMode_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._NoteAccidentalMode.NoteAccidentalMode_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._NoteAccidentalMode.NoteAccidentalMode_Impl_.toString = function(this1) {
@@ -22312,7 +22312,7 @@
     alphaTab.model._Ottavia.Ottavia_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._Ottavia.Ottavia_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._Ottavia.Ottavia_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._Ottavia.Ottavia_Impl_.toString = function(this1) {
@@ -22366,7 +22366,7 @@
     alphaTab.model._PickStroke.PickStroke_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._PickStroke.PickStroke_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._PickStroke.PickStroke_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._PickStroke.PickStroke_Impl_.toString = function(this1) {
@@ -22585,7 +22585,7 @@
     alphaTab.model._SimileMark.SimileMark_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._SimileMark.SimileMark_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._SimileMark.SimileMark_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._SimileMark.SimileMark_Impl_.toString = function(this1) {
@@ -22637,7 +22637,7 @@
     alphaTab.model._SlideType.SlideType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._SlideType.SlideType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._SlideType.SlideType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._SlideType.SlideType_Impl_.toString = function(this1) {
@@ -22841,7 +22841,7 @@
     alphaTab.model._TripletFeel.TripletFeel_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._TripletFeel.TripletFeel_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._TripletFeel.TripletFeel_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._TripletFeel.TripletFeel_Impl_.toString = function(this1) {
@@ -23201,7 +23201,7 @@
     alphaTab.model._VibratoType.VibratoType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._VibratoType.VibratoType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._VibratoType.VibratoType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._VibratoType.VibratoType_Impl_.toString = function(this1) {
@@ -23402,7 +23402,7 @@
     alphaTab.model._WhammyType.WhammyType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.model._WhammyType.WhammyType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.model._WhammyType.WhammyType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.model._WhammyType.WhammyType_Impl_.toString = function(this1) {
@@ -24483,7 +24483,7 @@
     alphaTab.platform.model._FontStyle.FontStyle_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.platform.model._FontStyle.FontStyle_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.platform.model._FontStyle.FontStyle_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.platform.model._FontStyle.FontStyle_Impl_.toString = function(this1) {
@@ -24533,7 +24533,7 @@
     alphaTab.platform.model._TextAlign.TextAlign_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.platform.model._TextAlign.TextAlign_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.platform.model._TextAlign.TextAlign_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.platform.model._TextAlign.TextAlign_Impl_.toString = function(this1) {
@@ -24583,7 +24583,7 @@
     alphaTab.platform.model._TextBaseline.TextBaseline_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.platform.model._TextBaseline.TextBaseline_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.platform.model._TextBaseline.TextBaseline_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.platform.model._TextBaseline.TextBaseline_Impl_.toString = function(this1) {
@@ -25050,7 +25050,7 @@
     alphaTab.rendering._BeatXPosition.BeatXPosition_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.rendering._BeatXPosition.BeatXPosition_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.rendering._BeatXPosition.BeatXPosition_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.rendering._BeatXPosition.BeatXPosition_Impl_.toString = function(this1) {
@@ -25386,7 +25386,7 @@
     alphaTab.rendering._EffectBarGlyphSizing.EffectBarGlyphSizing_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.rendering._EffectBarGlyphSizing.EffectBarGlyphSizing_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.rendering._EffectBarGlyphSizing.EffectBarGlyphSizing_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.rendering._EffectBarGlyphSizing.EffectBarGlyphSizing_Impl_.toString = function(this1) {
@@ -28858,7 +28858,7 @@
     alphaTab.rendering.glyphs._MusicFontSymbol.MusicFontSymbol_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.rendering.glyphs._MusicFontSymbol.MusicFontSymbol_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.rendering.glyphs._MusicFontSymbol.MusicFontSymbol_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.rendering.glyphs._MusicFontSymbol.MusicFontSymbol_Impl_.toString = function(this1) {
@@ -32677,7 +32677,7 @@
     alphaTab.rendering.glyphs._TripletFeelGlyph_BarType.TripletFeelGlyph_BarType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.rendering.glyphs._TripletFeelGlyph_BarType.TripletFeelGlyph_BarType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.rendering.glyphs._TripletFeelGlyph_BarType.TripletFeelGlyph_BarType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.rendering.glyphs._TripletFeelGlyph_BarType.TripletFeelGlyph_BarType_Impl_.toString = function(this1) {
@@ -32847,7 +32847,7 @@
     alphaTab.rendering.layout._HeaderFooterElements.HeaderFooterElements_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.rendering.layout._HeaderFooterElements.HeaderFooterElements_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.rendering.layout._HeaderFooterElements.HeaderFooterElements_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.rendering.layout._HeaderFooterElements.HeaderFooterElements_Impl_.toString = function(this1) {
@@ -33941,7 +33941,7 @@
     alphaTab.rendering.utils._BeamDirection.BeamDirection_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.rendering.utils._BeamDirection.BeamDirection_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.rendering.utils._BeamDirection.BeamDirection_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.rendering.utils._BeamDirection.BeamDirection_Impl_.toString = function(this1) {
@@ -35495,7 +35495,7 @@
     alphaTab.util._LogLevel.LogLevel_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.util._LogLevel.LogLevel_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.util._LogLevel.LogLevel_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.util._LogLevel.LogLevel_Impl_.toString = function(this1) {
@@ -35665,7 +35665,7 @@
     alphaTab.xml._XmlNodeType.XmlNodeType_Impl_.toSingle_IFormatProvider = function(this1,provider) {
         return this1;
     };
-    alphaTab.xml._XmlNodeType.XmlNodeType_Impl_.TODO:uble_IFormatProvider = function(this1,provider) {
+    alphaTab.xml._XmlNodeType.XmlNodeType_Impl_.toDouble_IFormatProvider = function(this1,provider) {
         return this1;
     };
     alphaTab.xml._XmlNodeType.XmlNodeType_Impl_.toString = function(this1) {
@@ -36264,7 +36264,7 @@
         }
         return (f < 0 ? -2147483648 : 0) | exp + 127 << 23 | sig;
     };
-    haxe.io.FPHelper.i64TODO:uble = function(low,high) {
+    haxe.io.FPHelper.i64ToDouble = function(low,high) {
         var sign = 1 - (high >>> 31 << 1);
         var exp = (high >> 20 & 2047) - 1023;
         var sig = (high & 1048575) * 4294967296. + (low >>> 31) * 2147483648. + (low & 2147483647);
@@ -37062,7 +37062,7 @@
             arr.byteOffset = 0;
             arr.buffer = new js.html.compat.ArrayBuffer(buffer1);
         } else {
-            throw new js._Boot.HaxeError("TODO: " + Std.string(arg1));
+            throw new js._Boot.HaxeError("TODO " + Std.string(arg1));
         }
         arr.subarray = js.html.compat.Float32Array._subarray;
         arr.set = js.html.compat.Float32Array._set;
@@ -37092,7 +37092,7 @@
                 this[i1 + offset] = a1[i1];
             }
         } else {
-            throw new js._Boot.HaxeError("TODO:");
+            throw new js._Boot.HaxeError("TODO");
         }
     };
     js.html.compat.Float32Array._subarray = function(start,end) {
@@ -37137,7 +37137,7 @@
                 var i2 = _g12++;
                 var val1 = buffer.a[offset++] | buffer.a[offset++] << 8 | buffer.a[offset++] << 16 | buffer.a[offset++] << 24;
                 var val2 = buffer.a[offset++] | buffer.a[offset++] << 8 | buffer.a[offset++] << 16 | buffer.a[offset++] << 24;
-                arr.push(haxe.io.FPHelper.i64TODO:uble(val1,val2));
+                arr.push(haxe.io.FPHelper.i64ToDouble(val1,val2));
             }
             arr.byteLength = arr.length << 3;
             arr.byteOffset = offset;
@@ -37165,7 +37165,7 @@
             arr.byteOffset = 0;
             arr.buffer = new js.html.compat.ArrayBuffer(buffer1);
         } else {
-            throw new js._Boot.HaxeError("TODO: " + Std.string(arg1));
+            throw new js._Boot.HaxeError("TODO " + Std.string(arg1));
         }
         arr.subarray = js.html.compat.Float64Array._subarray;
         arr.set = js.html.compat.Float64Array._set;
@@ -37195,7 +37195,7 @@
                 this[i1 + offset] = a1[i1];
             }
         } else {
-            throw new js._Boot.HaxeError("TODO:");
+            throw new js._Boot.HaxeError("TODO");
         }
     };
     js.html.compat.Float64Array._subarray = function(start,end) {
@@ -37240,7 +37240,7 @@
             arr.byteOffset = 0;
             arr.buffer = new js.html.compat.ArrayBuffer(arr);
         } else {
-            throw new js._Boot.HaxeError("TODO: " + Std.string(arg1));
+            throw new js._Boot.HaxeError("TODO " + Std.string(arg1));
         }
         arr.subarray = js.html.compat.Uint8Array._subarray;
         arr.set = js.html.compat.Uint8Array._set;
@@ -37270,7 +37270,7 @@
                 this[i1 + offset] = a1[i1];
             }
         } else {
-            throw new js._Boot.HaxeError("TODO:");
+            throw new js._Boot.HaxeError("TODO");
         }
     };
     js.html.compat.Uint8Array._subarray = function(start,end) {

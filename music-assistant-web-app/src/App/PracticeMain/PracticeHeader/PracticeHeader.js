@@ -14,9 +14,9 @@ const PracticeHeader = props => {
                 <img id='practice-header-back-button-arrow' src={leftArrowBlue} alt='Back Button' />
                 <span id='practice-header-back-button-text'>Latest Pieces</span>
             </button>
+
             <MusicControls
-                trackList={props.trackList}
-                trackListSelectionChanged={props.trackListSelectionChanged}
+                playPauseButtonClicked={props.playPauseButtonClicked}
             />
             <div></div>
         </div>
