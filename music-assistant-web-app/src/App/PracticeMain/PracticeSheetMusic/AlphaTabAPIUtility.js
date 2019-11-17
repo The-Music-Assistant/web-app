@@ -1,9 +1,9 @@
 // TODO: fix labelling of topLine when tracks are reloaded
 
 class AlphaTabAPIUtility {
-    constructor(api, currentTracks, totalTracks) {
+    constructor(api, currentTrackIndexes, totalTracks) {
         this.api = api;
-        this.currentTracks = currentTracks;
+        this.currentTrackIndexes = currentTrackIndexes;
         this.totalTracks = totalTracks;
     }
 
@@ -30,12 +30,12 @@ class AlphaTabAPIUtility {
         // if we have at least one Track to render, then render them and update the currentTracks variable
         if (newTrackList.length !== 0) {
             this.api.renderTracks(newTrackList);
-            this.currentTracks = newTrackIndexes;
+            this.currentTrackIndexes = newTrackIndexes;
         } else {
             // Otherwise, they have unchecked all of the checkboxes and AlphaTab won't render 0 tracks
             // Therefore, we go through and recheck the Track checkboxes that were previously checked and ignore the input
-            for (let i = 0; i < this.currentTracks.length; i++) {
-                let trackIndex = this.currentTracks[i] + 1;
+            for (let i = 0; i < this.currentTrackIndexes.length; i++) {
+                let trackIndex = this.currentTrackIndexes[i] + 1;
                 document.getElementById("t" + trackIndex).checked = true;
             }
         }

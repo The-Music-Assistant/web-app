@@ -77,8 +77,6 @@ class PitchDetection {
      * @param {number} setIntervalID The id of the setInterval process to stop
      */
     static stopPitchDetection(setIntervalID) {
-        //console.log("NO LOOP");
-        //p5.noLoop();
         clearInterval(setIntervalID);
     }
 
