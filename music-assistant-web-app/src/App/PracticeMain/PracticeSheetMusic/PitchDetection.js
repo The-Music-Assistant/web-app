@@ -15,7 +15,6 @@ class PitchDetection {
     static setupPitchDetection() {
         return new Promise((resolve, reject) => {
             // Create AudioContext instance
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
             this.audioContext = new AudioContext();
 
             // Starts microphone stream if available
