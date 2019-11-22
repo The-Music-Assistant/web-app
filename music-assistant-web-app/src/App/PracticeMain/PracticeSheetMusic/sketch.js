@@ -83,9 +83,9 @@ const p5Sketch = p => {
                 let diff = Math.abs(lastPitchAndTime[0]-noteStream[noteStreamIndex])
 
                 // fill with green if really close
-                if (diff < 2) {
+                if (diff < 1) {
                     p.stroke(0, 255, 0);
-                } else if (diff < 4) {
+                } else if (diff < 2) {
                     // yellow if farther away
                     p.stroke("#FFFF00");
                 } else {
