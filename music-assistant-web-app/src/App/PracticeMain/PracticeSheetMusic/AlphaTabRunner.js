@@ -184,7 +184,8 @@ class AlphaTabRunner {
         g5.4 :16 ab4 bb4 c5 eb5 :8{tu 3} f5 g5 ab5 :8{tu 3} bb5 c6 eb6 |
         \\tempo 88
         \\ts 12 8 (a5{d} b5{d} d6{d}).2 a4{d}.2 |
-        
+
+        \\track "Piano Upper 2"        
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
         r.8 :16 g5 a5 :8 f#5 d5 d5{-}.2 |
         r.8 :16 g5 a5 :8 f#5 d5 d5{-}.2 |
@@ -200,7 +201,7 @@ class AlphaTabRunner {
         \\tempo 88
         \\ts 12 8 :8 g2 d3 g3 a3 b3 d4 a4 d4 b3 a3 g3 d3 |
         
-        
+        \\track "Piano Lower"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
         :1 (d4 g4) |
         :1 (d4 g4) |
@@ -215,7 +216,7 @@ class AlphaTabRunner {
         :16 ab3 c4 eb4 g4 (ab3{- d} c4{- d} eb4{- d} g4{- d}).2 |
         \\tempo 88
         \\clef F4
-        \\ts 12 8 :1 g2{d} |`, [0,1,2,3,4]);
+        \\ts 12 8 :1 g2{d} |`, [0,1,2,3,4,5,6]);
 
         let updatedTrackIndexes = [];
         for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
