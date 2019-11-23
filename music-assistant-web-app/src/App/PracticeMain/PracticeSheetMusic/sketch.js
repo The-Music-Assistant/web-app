@@ -83,7 +83,7 @@ const p5Sketch = p => {
                     p.stroke(0, 255, 0);
                 } else if (diff < 2) {
                     // yellow if farther away
-                    p.stroke("#FFFF00");
+                    p.stroke("#CCCC00");
                 } else {
                     // and red if too far or singing when should be silent
                     p.stroke(255, 0, 0);

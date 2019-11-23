@@ -106,6 +106,7 @@ class AlphaTabRunner {
     }
 
     static alphaTabPlayerStateChanged() {
+        console.log(AlphaTabRunner.noteStreamIndex, AlphaTabRunner.cumulativeTime = 0);
         if (AlphaTabRunner.api.playerState !== 1) {
             PitchDetection.stopPitchDetection(this.intervalID);
         } else {
