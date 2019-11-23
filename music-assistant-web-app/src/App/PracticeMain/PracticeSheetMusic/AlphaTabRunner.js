@@ -24,6 +24,10 @@ class AlphaTabRunner {
         // Specifies what tracks to render on load
         this.currentTrackIndexes = [];
 
+        this.noteStream = [-1, 4*(60/84), -1, 2*(60/84), 62, (60/84)*1, 64, (60/84)*1, 67, (60/84)*3.5, 69, (60/84)*(0.5), 71, (60/84)*3.5, -1, (60/84)*(0.5), 71, (60/84)*1, 69, (60/84)*1, 67, (60/84)*4, 64, (60/84)*(0.5), 62, (60/84)*4, -1, (60/84)*(0.5), 62, (60/84)*1, 64, (60/84)*1, 67, (60/84)*3, 67, (60/84)*(0.5), 69, (60/84)*(0.5), 71, (60/84)*2, 69, (60/84)*2, 68, ((60/84)*4 + (60/88)*2), -1, (60/88)*2];
+        this.noteStreamIndex = 0;
+        this.cumulativeTime = 0;
+
         // AlphaTab API settings
         let settings = {
             player: player,
@@ -48,6 +52,11 @@ class AlphaTabRunner {
         // Listener is executed when the player state changes (e.g. play, pause, and stop)
         this.api.addPlayerStateChanged(() => {
             this.alphaTabPlayerStateChanged();
+        });
+
+        // Listener is executed when the player finishes playing the song
+        this.api.addPlayerFinished(() => {
+            this.alphaTabPlayerFinished();
         });
     }
 
@@ -99,13 +108,18 @@ class AlphaTabRunner {
     static alphaTabPlayerStateChanged() {
         if (AlphaTabRunner.api.playerState !== 1) {
             PitchDetection.stopPitchDetection(this.intervalID);
-
-            // TODO: Set MusicControls state to isPlaying: false so that it changes the button
         } else {
             // Runs the pitch detection model on microphone input and displays it on the screen
             // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
             this.intervalID = PitchDetection.startPitchDetection();
         }
+    }
+
+    static alphaTabPlayerFinished() {
+        // resets the time back to the beginning of the song and our tracker points at the beginning of the piece again
+        // TODO: Fix confusion when playing/pausing quickly
+        AlphaTabRunner.noteStreamIndex = 0;
+        AlphaTabRunner.cumulativeTime = 0;
     }
 
     static loadTex() {
@@ -184,8 +198,8 @@ class AlphaTabRunner {
         g5.4 :16 ab4 bb4 c5 eb5 :8{tu 3} f5 g5 ab5 :8{tu 3} bb5 c6 eb6 |
         \\tempo 88
         \\ts 12 8 (a5{d} b5{d} d6{d}).2 a4{d}.2 |
-
-        \\track "Piano Upper 2"        
+        
+        \\track "Piano Upper 2"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
         r.8 :16 g5 a5 :8 f#5 d5 d5{-}.2 |
         r.8 :16 g5 a5 :8 f#5 d5 d5{-}.2 |

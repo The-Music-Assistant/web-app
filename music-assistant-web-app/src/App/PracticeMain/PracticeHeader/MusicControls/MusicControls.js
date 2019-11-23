@@ -54,6 +54,8 @@ class MusicControls extends Component {
         this.donePlaying();
 
         AlphaTabRunner.api.stop();
+        AlphaTabRunner.noteStreamIndex = 0;
+        AlphaTabRunner.cumulativeTime = 0;
     }
 
     componentDidMount() {

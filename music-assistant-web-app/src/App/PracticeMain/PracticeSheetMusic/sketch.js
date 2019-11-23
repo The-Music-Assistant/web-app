@@ -33,10 +33,6 @@ const p5Sketch = p => {
     // stores the last recorded midi value and its time
     let lastPitchAndTime = [-1, -1];
 
-    let noteStream = [-1, 4*(60/84), -1, 2*(60/84), 62, (60/84)*1, 64, (60/84)*1, 67, (60/84)*3.5, 69, (60/84)*(0.5), 71, (60/84)*3.5, -1, (60/84)*(0.5), 71, (60/84)*1, 69, (60/84)*1, 67, (60/84)*4, 64, (60/84)*(0.5), 62, (60/84)*4, -1, (60/84)*(0.5), 62, (60/84)*1, 64, (60/84)*1, 67, (60/84)*3, 67, (60/84)*(0.5), 69, (60/84)*(0.5), 71, (60/84)*2, 69, (60/84)*2, 68, ((60/84)*4 + (60/88)*2), -1, (60/88)*2];
-    let noteStreamIndex = 0;
-    let cumulativeTime = 0;
-
     /**
      * This function is called twice. Once, upon initialization p5 calls it which we use to tell p5 to stop looping
      * Then, AlphaTab will call setup when its done being rendered. Then, the canvas can be setup for drawing since
@@ -80,7 +76,7 @@ const p5Sketch = p => {
             
             // don't draw silence which has special value -1 or if we don't have a previous point
             if (drawer && drawer.note.midiVal >= 0 && previousPos[2] !== -1 && previousPos[3] !== -1) {
-                let diff = Math.abs(lastPitchAndTime[0]-noteStream[noteStreamIndex])
+                let diff = Math.abs(lastPitchAndTime[0]-AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex])
 
                 // fill with green if really close
                 if (diff < 1) {
@@ -107,9 +103,9 @@ const p5Sketch = p => {
         if (drawer) {
             lastPitchAndTime[0] = drawer.note.midiVal;
             lastPitchAndTime[1] = AlphaTabRunner.api.timePosition / 1000;
-            while(lastPitchAndTime[1] > cumulativeTime + noteStream[noteStreamIndex + 1]) {
-                cumulativeTime += noteStream[noteStreamIndex + 1];
-                noteStreamIndex += 2;
+            while(lastPitchAndTime[1] > AlphaTabRunner.cumulativeTime + AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex + 1]) {
+                AlphaTabRunner.cumulativeTime += AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex + 1];
+                AlphaTabRunner.noteStreamIndex += 2;
             }
 
             let currentHeight = drawer.noteHeight;
