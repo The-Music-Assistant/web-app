@@ -1,0 +1,44 @@
+// ----------------------------------------------------------------------------
+// File Path: src/PracticeHeader/PracticeHeader.scss
+// Description: SCSS styles for the PracticeHeader component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/28/2019
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+#practice-header {
+    position: relative;
+    @include grid-container(
+        $grid-template-rows: auto,
+        $grid-template-columns: 1fr,
+        $align-items: center
+    );
+    width: calc(100vw - 20px);
+    margin: 20px auto 0;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        width: calc(100% - 40px);
+    }
+
+    &-back-button {
+        @include flex-container(
+            $direction: row,
+            $justify-content: space-between,
+            $align-items: center,
+            $wrap: nowrap
+        );
+        justify-self: left;
+
+        &-arrow {
+            height: 16px;
+            padding-right: 10px;
+            margin-bottom: 2px;
+        }
+
+        &-text {
+            @include text($size: 1rem, $weight: 500, $color: $primary-color, $line-height: null);
+        }
+    }
+}
