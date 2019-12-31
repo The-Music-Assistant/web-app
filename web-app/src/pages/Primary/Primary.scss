@@ -1,0 +1,31 @@
+// ----------------------------------------------------------------------------
+// File Path: src/PracticeMain/PracticeMain.scss
+// Description: SCSS styles for the PracticeMain component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 12/30/2019
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+#Primary {
+    @include grid-container(
+        $grid-template-rows: auto 1fr auto,
+        $grid-template-columns: null,
+        $align-items: null
+    );
+
+    grid-template-areas:
+        "head"
+        "practice-main"
+        "foot";
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+            "head head"
+            "side-nav practice-main"
+            "foot foot";
+    }
+    min-height: 100vh;
+}

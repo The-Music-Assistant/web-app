@@ -1,0 +1,35 @@
+// ----------------------------------------------------------------------------
+// File Path: src/App/App.scss
+// Description: SCSS styles for the App component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
+@import "../root-styles/utilities.scss";
+
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}

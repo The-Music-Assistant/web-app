@@ -7,12 +7,6 @@
 // ----------------------------------------------------------------------------
 
 @import "../../root-styles/utilities.scss";
-
-#practice-main {
-    grid-area: practice-main;
-    background-color: $background-color;
-}
-
 #sheet-music-placeholder-img {
     width: calc(100% - 20px);
     display: block;
