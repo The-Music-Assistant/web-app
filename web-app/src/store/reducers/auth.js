@@ -10,18 +10,30 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
-const initialState = {};
-
-const authSuccess = (state, action) => {
-    return updateObject(state, {});
+const initialState = {
+    authenticated: false,
+    error: null,
+    loading: false
 };
 
-const reducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        // case: actionTypes.
+        case actionTypes.AUTH_LOADING:
+            return updateObject(state, { authenticated: false, error: null, loading: true });
+        case actionTypes.AUTH_SUCCESS:
+            return updateObject(state, { authenticated: true, error: null, loading: false });
+        case actionTypes.AUTH_ERROR:
+            return updateObject(state, {
+                authenticated: false,
+                error: action.error.message,
+                loading: false
+            });
+        case actionTypes.SIGN_OUT_SUCCESS:
+        case actionTypes.PASSWORD_RESET_SENT:
+            return updateObject(state, { authenticated: false, error: null, loading: false });
         default:
             return state;
     }
 };
 
-export default reducer;
+export default authReducer;

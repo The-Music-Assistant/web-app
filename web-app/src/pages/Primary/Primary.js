@@ -1,9 +1,18 @@
+/* ----------------------------------------------------------------------------
+// File Path: src/pages/Primary/Primary.js
+// Description:
+    * Renders the primary page (the main dashboard)
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 12/31/2019
+---------------------------------------------------------------------------- */
+
 import React, { Component } from "react";
 import shortid from "shortid";
 import Header from "../../components/Header/Header";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import SideNav from "../../components/SideNav/SideNav";
-import PracticeMain from "../../pages/PracticeMain/PracticeMain";
+import PracticeMain from "../../components/PracticeMain/PracticeMain";
 import Footer from "../../components/Footer/Footer";
 import homeIconBlue from "../../assets/icons/home-icon-blue-fa.svg";
 import practiceIconBlue from "../../assets/icons/practice-icon-blue-fa.svg";
@@ -18,12 +27,14 @@ import messagesIconWhite from "../../assets/icons/messages-icon-white-fa.svg";
 import "./Primary.scss";
 
 class Primary extends Component {
+    // Component state
     state = {
         isMobile: window.innerWidth < 768,
         currentTab: "home",
         showMobileNav: false
     };
 
+    // Sidebar tabs
     mainNavTabs = [
         {
             key: shortid.generate(),
@@ -62,9 +73,27 @@ class Primary extends Component {
         }
     ];
 
+    /**
+     * Returns an object containing data for the tab
+     * @param {string} name - The tab name
+     * @param {} mobileIcon - Icon to display on mobile devices
+     * @param {} desktopIcon - Icon to display on desktop devices
+     * @param {boolean} isCurrent - Whether or not the tab is the current tab
+     * @returns The object for the tab
+     */
+    generateTab = (name, mobileIcon, desktopIcon, isCurrent) => {
+        return {
+            key: shortid.generate(),
+            name,
+            mobileIcon,
+            desktopIcon,
+            isCurrent
+        }
+    }
+
     componentDidMount() {
         // TODO: Uncomment for production
-        alert("The website is for authorized use only.");
+        // alert("The website is for authorized use only.");
 
         window.addEventListener("resize", this.handleWindowResize);
     }
