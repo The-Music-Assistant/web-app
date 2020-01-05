@@ -1,12 +1,21 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/Header/HamburgerMenu/HamburgerMenu.js
+// Description: Renders the hamburger menu component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
+
 import React from "react";
-import "./HamburgerMenu.scss";
+import styles from "./HamburgerMenu.module.scss";
 
 const HamburgerMenu = props => {
     return (
-        <button id='hamburger-menu' onClick={props.handleClick}>
-            <div className='hamburger-menu-bar'></div>
-            <div className='hamburger-menu-bar'></div>
-            <div className='hamburger-menu-bar'></div>
+        <button className={styles.hamburgerMenu} onClick={props.handleClick}>
+            <div className={styles.hamburgerMenuBar}></div>
+            <div className={styles.hamburgerMenuBar}></div>
+            <div className={styles.hamburgerMenuBar}></div>
         </button>
     );
 };

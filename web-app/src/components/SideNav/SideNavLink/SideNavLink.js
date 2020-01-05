@@ -1,19 +1,27 @@
-import React from 'react';
-import './SideNavLink.scss';
+// ----------------------------------------------------------------------------
+// File Path: src/components/SideNav/SideNavLink/SideNavLink.module.scss
+// Description: Renders the side navigation link component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
+import React from "react";
+import styles from "./SideNavLink.module.scss";
 
 const SideNavLink = props => {
     let currentTabLine = null;
     if (props.isCurrentTab) {
-        currentTabLine = <div id='side-nav-link-current-tab-line'></div>;
+        currentTabLine = <div className={styles.sideNavLinkCurrentTabLine}></div>;
     }
 
     return (
-        <div className="side-nav-link">
+        <div className={styles.sideNavLink}>
             {currentTabLine}
-            <img className="side-nav-link-icon" src={props.icon} alt={props.name + " Icon"} />
-            <h3 className="side-nav-link-name">{props.name}</h3>
+            <img className={styles.sideNavLinkIcon} src={props.icon} alt={props.name + " Icon"} />
+            <h3 className={styles.sideNavLinkName}>{props.name}</h3>
         </div>
     );
-}
+};
 
 export default SideNavLink;

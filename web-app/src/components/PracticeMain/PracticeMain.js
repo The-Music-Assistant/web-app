@@ -1,7 +1,15 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeMain.js
+// Description: Renders the practice main component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
 import React, { Component } from "react";
 import PracticeHeader from "./PracticeHeader/PracticeHeader";
 import PracticeSheetMusic from "./PracticeSheetMusic/PracticeSheetMusic";
-import "./PracticeMain.scss";
+import styles from "./PracticeMain.module.scss";
 
 class PracticeMain extends Component {
     state = {
@@ -43,7 +51,7 @@ class PracticeMain extends Component {
 
     render() {
         return (
-            <main id='practice-main'>
+            <main className={styles.practiceMain}>
                 <PracticeHeader/>
                 <PracticeSheetMusic />
             </main>

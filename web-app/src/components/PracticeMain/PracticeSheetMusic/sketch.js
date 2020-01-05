@@ -42,6 +42,10 @@ const p5Sketch = p => {
      */
     p.setup = function(drawerGiven) {
         if (drawerGiven === undefined) {
+            canvas = p.createCanvas(0, 0);
+            const x = 0;
+            const y = 0;
+            canvas.position(x, y);
             p.noLoop();
             return;
         }
@@ -65,18 +69,30 @@ const p5Sketch = p => {
      * Draws the canvas on the screen. Requires that the canvas is not undefined ie setup has run
      * TODO: Handle sheet music scale
      */
-    p.draw = function() {       
+    p.draw = function() {
         // handles clearing ahead and drawing line behind the note head
         if (previousPos[0] !== -1 && previousPos[1] !== -1) {
             // fills with white
             p.fill("#F8F8F8");
 
-            // draws clearing rectangle with total height of alpha tab from previous X position to the end 
-            p.rect(previousPos[0], 30, alphaTabSurface.clientWidth-previousPos[0], alphaTabSurface.clientHeight-30);
-            
+            // draws clearing rectangle with total height of alpha tab from previous X position to the end
+            p.rect(
+                previousPos[0],
+                30,
+                alphaTabSurface.clientWidth - previousPos[0],
+                alphaTabSurface.clientHeight - 30
+            );
+
             // don't draw silence which has special value -1 or if we don't have a previous point
-            if (drawer && drawer.note.midiVal >= 0 && previousPos[2] !== -1 && previousPos[3] !== -1) {
-                let diff = Math.abs(lastPitchAndTime[0]-AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex])
+            if (
+                drawer &&
+                drawer.note.midiVal >= 0 &&
+                previousPos[2] !== -1 &&
+                previousPos[3] !== -1
+            ) {
+                let diff = Math.abs(
+                    lastPitchAndTime[0] - AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex]
+                );
 
                 // fill with green if really close
                 if (diff < 1) {
@@ -88,7 +104,7 @@ const p5Sketch = p => {
                     // and red if too far or singing when should be silent
                     p.stroke(255, 0, 0);
                 }
-                
+
                 p.strokeWeight(3);
                 p.line(previousPos[0], previousPos[1], previousPos[2], previousPos[3]);
                 p.noStroke();
@@ -103,8 +119,13 @@ const p5Sketch = p => {
         if (drawer) {
             lastPitchAndTime[0] = drawer.note.midiVal;
             lastPitchAndTime[1] = AlphaTabRunner.api.timePosition / 1000;
-            while(lastPitchAndTime[1] > AlphaTabRunner.cumulativeTime + AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex + 1]) {
-                AlphaTabRunner.cumulativeTime += AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex + 1];
+            while (
+                lastPitchAndTime[1] >
+                AlphaTabRunner.cumulativeTime +
+                    AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex + 1]
+            ) {
+                AlphaTabRunner.cumulativeTime +=
+                    AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex + 1];
                 AlphaTabRunner.noteStreamIndex += 2;
             }
 
@@ -115,7 +136,10 @@ const p5Sketch = p => {
             p.fill(255, 0, 255);
 
             // Binds x position to the bar cursor
-            let posX = barCursor.getClientRects()[0].left.valueOf() - sideNavElementWidth + wrapper.scrollLeft;
+            let posX =
+                barCursor.getClientRects()[0].left.valueOf() -
+                sideNavElementWidth +
+                wrapper.scrollLeft;
 
             // TODO: Handle resizing scale
             // places sharp if present beside the note. These magic values were calculated via trial and error
@@ -148,7 +172,12 @@ const p5Sketch = p => {
                         } else {
                             height += drawer.distanceBetweenLines;
                         }
-                        p.line(posX - EXTRA_BAR_VARIANCE, height, posX + EXTRA_BAR_VARIANCE, height);
+                        p.line(
+                            posX - EXTRA_BAR_VARIANCE,
+                            height,
+                            posX + EXTRA_BAR_VARIANCE,
+                            height
+                        );
                     }
                     p.noStroke();
                 }

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/PracticeMain/PracticeMain.scss
-// Description: SCSS styles for the PracticeMain component
+// File Path: src/components/PracticeMain/PracticeMain.module.scss
+// Description: SCSS styles for the practice main component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -8,6 +8,6 @@
 
 @import "../../root-styles/utilities.scss";
 
-#practice-main {
+.practiceMain {
     background-color: $background-color;
 }

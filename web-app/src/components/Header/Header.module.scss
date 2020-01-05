@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/HamburgerMenu/HamburgerMenu.scss
-// Description: SCSS styles for the Header component
+// File Path: src/components/Header/Header.module.scss
+// Description: SCSS styles for the header component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -8,7 +8,7 @@
 
 @import "../../root-styles/utilities.scss";
 
-header {
+.header {
     height: 60px;
     padding: 0 10px;
     background-color: $primary-color;

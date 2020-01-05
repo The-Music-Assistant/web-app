@@ -8,7 +8,7 @@
 
 @import "../../root-styles/utilities.scss";
 
-footer {
+.footer {
     grid-area: foot;
     height: 60px;
     background-color: $tertiary-color;
@@ -21,24 +21,24 @@ footer {
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         height: 70px;
-        grid-template-columns: 1fr 1fr 1fr,
+        grid-template-columns: 1fr 1fr 1fr;
     }
-}
 
-#footer-logo {
-    height: 30px;
-    margin-bottom: 9px;
+    &Logo {
+        height: 30px;
+        margin-bottom: 9px;
 
-    @include media-query($breakpoint: $tablet-breakpoint) {
-        height: 40px;
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            height: 40px;
+        }
     }
-}
 
-#footer-copyright {
-    @include text($size: 0.75rem, $weight: 300, $color: $white-color, $line-height: null);
-    text-align: right;
+    &Copyright {
+        @include text($size: 0.75rem, $weight: 300, $color: $white-color, $line-height: null);
+        text-align: right;
 
-    @include media-query($breakpoint: $tablet-breakpoint) {
-        text-align: center;
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            text-align: center;
+        }
     }
 }

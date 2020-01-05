@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeSheetMusic/PracticeSheetMusic.module.scss
+// Description: Renders the practice sheet music component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
 import React, { Component } from "react";
 import AlphaTabAPIUtility from "./AlphaTabAPIUtility";
 import AlphaTabRunner from "./AlphaTabRunner";
@@ -28,7 +36,7 @@ class PracticeSheetMusic extends Component {
 
     render() {
         return (
-            <section id="wrapper">
+            <section id='wrapper'>
                 <div id='sketch-holder'></div>
                 <div id='alpha-tab-container'></div>
             </section>

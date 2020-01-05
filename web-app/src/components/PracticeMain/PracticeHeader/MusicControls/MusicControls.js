@@ -1,5 +1,13 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeHeader/MusicControls/MusicControls.js
+// Description: Renders the music controls component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/24/2019
+// ----------------------------------------------------------------------------
+
 import React, { Component } from "react";
-import "./MusicControls.scss";
+import styles from "./MusicControls.module.scss";
 import playButton from "../../../../assets/icons/play-icon-fa.svg";
 import pauseButton from "../../../../assets/icons/pause-icon-fa.svg";
 import stopButton from "../../../../assets/icons/stop-icon-fa.svg";
@@ -96,32 +104,30 @@ class MusicControls extends Component {
         // }
 
         return (
-            <section id='music-controls'>
+            <section className={styles.musicControls}>
                 <button
-                    id='music-controls-play-pause-button'
-                    className='music-controls-button'
+                    className={[styles.musicControlsButton, styles.musicControlsPlayPauseButton].join(" ")}
                     type='button'
                     onClick={this.playPauseButtonHandler}>
                     <img src={playPauseButton} alt={playPauseButtonAltText} />
                 </button>
 
                 <button
-                    id='music-controls-stop-button'
-                    className='music-controls-button'
+                    className={[styles.musicControlsButton, styles.musicControlsStopButton].join(" ")}
                     type='button'
                     onClick={this.stopButtonHandler}>
                     <img src={stopButton} alt='Stop Button' />
                 </button>
 
-                {/* <span id='music-controls-divider'></span>
+                {/* <span className={styles.musicControlsDivider}></span>
 
                 <button
-                    id='music-controls-track-selector'
+                    className={styles.musicControlsTrackSelector}
                     onClick={this.trackSelectionButtonHandler}>
-                    <div id='music-controls-track-selector-container'>
-                        <h3 id='music-controls-track-selector-title'>Select Tracks</h3>
+                    <div className={styles.musicControlsTrackSelectorContainer}>
+                        <h3 className={styles.musicControlsTrackSelectorTitle}>Select Tracks</h3>
                         <img
-                            id='music-controls-track-selector-arrow'
+                            className={styles.musicControlsTrackSelectorArrow}
                             src={downArrow}
                             alt='Down Arrow'
                         />

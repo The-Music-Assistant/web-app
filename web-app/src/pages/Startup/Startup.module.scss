@@ -1,0 +1,14 @@
+// ----------------------------------------------------------------------------
+// File Path: src/pages/Startup/Startup.module.scss
+// Description: SCSS styles for the auth page
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 1/4/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.startupContainer {
+    min-height: 100vh;
+    background-color: $primary-color;
+}

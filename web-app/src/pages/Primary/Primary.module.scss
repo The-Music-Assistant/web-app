@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/PracticeMain/PracticeMain.scss
-// Description: SCSS styles for the PracticeMain component
+// Description: SCSS styles for the primary page
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 12/30/2019
@@ -8,7 +8,7 @@
 
 @import "../../root-styles/utilities.scss";
 
-#Primary {
+.primary {
     @include grid-container(
         $grid-template-rows: auto 1fr auto,
         $grid-template-columns: null,

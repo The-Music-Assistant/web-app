@@ -7,4 +7,10 @@
 // Created Date: 12/31/2019
 ---------------------------------------------------------------------------- */
 
-export {handleAuthStateChanges} from "./auth";
+export {
+    handleAuthStateChanges,
+    signUpWithEmailPassword,
+    signInWithEmailPassword,
+    signOut,
+    sendPasswordResetEmail
+} from "./auth";

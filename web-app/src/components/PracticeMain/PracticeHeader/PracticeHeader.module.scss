@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/PracticeHeader/PracticeHeader.scss
-// Description: SCSS styles for the PracticeHeader component
+// File Path: src/components/PracticeMain/PracticeHeader/PracticeHeader.module.scss
+// Description: SCSS styles for the practice header component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/28/2019
@@ -8,7 +8,7 @@
 
 @import "../../../root-styles/utilities.scss";
 
-#practice-header {
+.practiceHeader {
     position: relative;
     @include grid-container(
         $grid-template-rows: auto,
@@ -22,7 +22,7 @@
         width: calc(100% - 40px);
     }
 
-    &-back-button {
+    &BackButton {
         @include flex-container(
             $direction: row,
             $justify-content: space-between,
@@ -31,13 +31,13 @@
         );
         justify-self: left;
 
-        &-arrow {
+        &Arrow {
             height: 16px;
             padding-right: 10px;
             margin-bottom: 2px;
         }
 
-        &-text {
+        &Text {
             @include text($size: 1rem, $weight: 500, $color: $primary-color, $line-height: null);
         }
     }

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/HamburgerMenu/HamburgerMenu.scss
-// Description: SCSS styles for the MobileNavLink component
+// File Path: src/components/MobileNav/MobileNavLink/MobileNavLink.module.scss
+// Description: SCSS styles for the mobile navigation link component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -8,7 +8,7 @@
 
 @import "../../../root-styles/utilities.scss";
 
-.mobile-nav-link {
+.mobileNavLink {
     width: 100vw;
     position: relative;
     margin-top: 20px;
@@ -19,7 +19,7 @@
     }
 
     // Chrome and Safari currently don't allow for buttons to be grid containers
-    &-container {
+    &Container {
         @include grid-container(
             $grid-template-rows: null,
             $grid-template-columns: 1fr 3fr 1fr,
@@ -27,23 +27,23 @@
         );
     }
 
-    &-icon {
+    &Icon {
         height: 25px;
     }
 
-    &-name {
+    &Name {
         text-align: center;
         font-size: 16px;
         font-weight: 400;
         color: $primary-color;
     }
-}
 
-#mobile-nav-link-current-tab-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 3px;
-    background-color: $primary-color;
+    &CurrentTabLine {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 3px;
+        background-color: $primary-color;
+    }
 }

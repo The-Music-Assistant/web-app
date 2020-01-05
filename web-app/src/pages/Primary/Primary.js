@@ -1,10 +1,9 @@
 /* ----------------------------------------------------------------------------
 // File Path: src/pages/Primary/Primary.js
-// Description:
-    * Renders the primary page (the main dashboard)
+// Description: Renders the primary page (the main dashboard)
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
-// Created Date: 12/31/2019
+// Created Date: 12/30/2019
 ---------------------------------------------------------------------------- */
 
 import React, { Component } from "react";
@@ -24,54 +23,26 @@ import practiceIconWhite from "../../assets/icons/practice-icon-white-fa.svg";
 import progressIconWhite from "../../assets/icons/progress-icon-white-fa.svg";
 import choirIconWhite from "../../assets/icons/choir-icon-white-fa.svg";
 import messagesIconWhite from "../../assets/icons/messages-icon-white-fa.svg";
-import "./Primary.scss";
+import styles from "./Primary.module.scss";
 
 class Primary extends Component {
+    constructor(props) {
+        super(props);
+        this.generateTab("Home", homeIconBlue, homeIconWhite, false);
+        this.generateTab("Practice", practiceIconBlue, practiceIconWhite, true);
+        this.generateTab("Progress", progressIconBlue, progressIconWhite, false);
+        this.generateTab("Choir", choirIconBlue, choirIconWhite, false);
+        this.generateTab("Messages", messagesIconBlue, messagesIconWhite, false);
+    }
+
     // Component state
     state = {
         isMobile: window.innerWidth < 768,
-        currentTab: "home",
         showMobileNav: false
     };
 
     // Sidebar tabs
-    mainNavTabs = [
-        {
-            key: shortid.generate(),
-            name: "Home",
-            mobileIcon: homeIconBlue,
-            desktopIcon: homeIconWhite,
-            isCurrent: false
-        },
-        {
-            key: shortid.generate(),
-            name: "Practice",
-            mobileIcon: practiceIconBlue,
-            desktopIcon: practiceIconWhite,
-            isCurrent: true
-        },
-        {
-            key: shortid.generate(),
-            name: "Progress",
-            mobileIcon: progressIconBlue,
-            desktopIcon: progressIconWhite,
-            isCurrent: false
-        },
-        {
-            key: shortid.generate(),
-            name: "Choir",
-            mobileIcon: choirIconBlue,
-            desktopIcon: choirIconWhite,
-            isCurrent: false
-        },
-        {
-            key: shortid.generate(),
-            name: "Messages",
-            mobileIcon: messagesIconBlue,
-            desktopIcon: messagesIconWhite,
-            isCurrent: false
-        }
-    ];
+    mainNavTabs = [];
 
     /**
      * Returns an object containing data for the tab
@@ -82,18 +53,20 @@ class Primary extends Component {
      * @returns The object for the tab
      */
     generateTab = (name, mobileIcon, desktopIcon, isCurrent) => {
-        return {
+        const tab = {
             key: shortid.generate(),
             name,
             mobileIcon,
             desktopIcon,
             isCurrent
-        }
-    }
+        };
+        this.mainNavTabs.push(tab);
+    };
 
     componentDidMount() {
         // TODO: Uncomment for production
         // alert("The website is for authorized use only.");
+        console.log(styles);
 
         window.addEventListener("resize", this.handleWindowResize);
     }
@@ -115,19 +88,13 @@ class Primary extends Component {
     render() {
         let mainNav = null;
         if (this.state.isMobile) {
-            mainNav = (
-                <MobileNav
-                    currentTab={this.state.currentTab}
-                    tabs={this.mainNavTabs}
-                    show={this.state.showMobileNav}
-                />
-            );
+            mainNav = <MobileNav tabs={this.mainNavTabs} show={this.state.showMobileNav} />;
         } else {
-            mainNav = <SideNav currentTab={this.state.currentTab} tabs={this.mainNavTabs} />;
+            mainNav = <SideNav tabs={this.mainNavTabs} />;
         }
 
         return (
-            <div id="Primary">
+            <div className={styles.primary}>
                 <Header
                     hamburgerMenuClicked={this.handleShowHamburgerMenu}
                     isMobile={this.state.isMobile}

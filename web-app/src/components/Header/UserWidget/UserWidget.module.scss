@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/HamburgerMenu/HamburgerMenu.scss
-// Description: SCSS styles for the UserWidget component
+// File Path: src/components/Header/UserWidget/UserWidget.module.scss
+// Description: SCSS styles for the user widget component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -8,13 +8,17 @@
 
 @import "../../../root-styles/utilities.scss";
 
-#user-widget {
+.userWidget {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-left: auto;
 
-    &-img {
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        flex-direction: row;
+    }
+
+    &Img {
         width: 25px;
         height: 25px;
         border-radius: 50%;
@@ -25,7 +29,7 @@
         }
     }
 
-    &-name {
+    &Name {
         @include text($size: 0.75rem, $weight: 400, $color: $white-color, $line-height: null);
         margin-top: 5px;
 
@@ -34,9 +38,5 @@
             margin: 0 0 0 10px;
             padding: 0;
         }
-    }
-
-    @include media-query($breakpoint: $tablet-breakpoint) {
-        flex-direction: row;
     }
 }

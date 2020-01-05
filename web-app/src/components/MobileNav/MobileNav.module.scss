@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/HamburgerMenu/HamburgerMenu.scss
+// File Path: src/components/MobileNav/MobileNav.module.scss
 // Description: SCSS styles for the MobileNav component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
@@ -8,7 +8,7 @@
 
 @import '../../root-styles/utilities.scss';
 
-.mobile-nav {
+.mobileNav {
     position: fixed;
     top: 60px;
     left: 0;
@@ -16,12 +16,12 @@
     padding: 20px 0;
     background-color: #e9f3fa;
     z-index: 10000;
-}
 
-#mobile-nav-show {
-    display: block;
-}
+    &Show {
+        display: block;
+    }
 
-#mobile-nav-hide {
-    display: none;
+    &Hide {
+        display: none;
+    }
 }

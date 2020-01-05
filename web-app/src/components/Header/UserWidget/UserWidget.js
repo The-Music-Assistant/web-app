@@ -1,11 +1,19 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/Header/UserWidget/UserWidget.js
+// Description: Renders the widget component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
 import React from 'react';
-import './UserWidget.scss'
+import styles from './UserWidget.module.scss'
 
 const UserWidget = props => {
     return (
-        <div id='user-widget'>
-            <img id='user-widget-img' src={props.profilePic} alt='Profile Pic' />
-            <h2 id='user-widget-name'>{props.name}</h2>
+        <div className={styles.userWidget}>
+            <img className={styles.userWidgetImg} src={props.profilePic} alt='Profile Pic' />
+            <h2 className={styles.userWidgetName}>{props.name}</h2>
         </div>
     );
 }

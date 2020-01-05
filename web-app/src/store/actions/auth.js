@@ -129,16 +129,18 @@ export const sendPasswordResetEmail = email => {
  */
 export const handleAuthStateChanges = () => {
     return dispatch => {
+        dispatch(authLoading())
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 // Checks if user's email is verified
-                if (user.emailVerified) {
-                    // Dispatches success if email is verified
-                    dispatch(authSuccess());
-                } else {
-                    // Dispatches an error if email is not verified
-                    dispatch(authError("User's email is not verified"));
-                }
+                dispatch(authSuccess());
+                // if (user.emailVerified) {
+                //     // Dispatches success if email is verified
+                //     dispatch(authSuccess());
+                // } else {
+                //     // Dispatches an error if email is not verified
+                //     dispatch(authError("User's email is not verified"));
+                // }
             } else {
                 // If no user exists, signs the user out
                 dispatch(signOut());
@@ -190,6 +192,13 @@ export const passwordResetSent = () => {
 export const authError = error => {
     return {
         type: actionTypes.AUTH_ERROR,
-        error: error
+        error
     };
 };
+
+export const authFlowPageChange = pageName => {
+    return {
+        type: actionTypes.AUTH_FLOW_PAGE_CHANGED,
+        pageName
+    }
+}

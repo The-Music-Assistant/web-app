@@ -1,19 +1,34 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/MobileNav/MobileNav.module.scss
+// Description: Renders the mobile navigation component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
 import React from "react";
-import "./MobileNav.scss";
-import MobileNavLink from './MobileNavLink/MobileNavLink';
+import styles from "./MobileNav.module.scss";
+import MobileNavLink from "./MobileNavLink/MobileNavLink";
 
 const MobileNav = props => {
-    let showHideId = "mobile-nav-"
+    let showHideId = "mobileNav";
     if (props.show) {
-        showHideId += "show";
+        showHideId += "Show";
     } else {
-        showHideId += "hide";
+        showHideId += "Hide";
     }
 
     return (
-        <div id={showHideId} className='mobile-nav'>
+        <div className={[styles.mobileNav, styles[showHideId]].join(" ")}>
             {props.tabs.map(tab => {
-                return <MobileNavLink key={tab.key} name={tab.name} icon={tab.mobileIcon} isCurrentTab={tab.isCurrent} />
+                return (
+                    <MobileNavLink
+                        key={tab.key}
+                        name={tab.name}
+                        icon={tab.mobileIcon}
+                        isCurrentTab={tab.isCurrent}
+                    />
+                );
             })}
         </div>
     );

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/SideNavLink/SideNavLink.scss
-// Description: SCSS styles for the SideNavLink component
+// File Path: src/components/SideNav/SideNavLink/SideNavLink.module.scss
+// Description: SCSS styles for the side navigation link component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -8,7 +8,7 @@
 
 @import "../../../root-styles/utilities.scss";
 
-.side-nav-link {
+.sideNavLink {
     position: relative;
     @include flex-container(
         $direction: column,
@@ -26,7 +26,7 @@
         cursor: pointer;
     }
 
-    &-icon {
+    &Icon {
         width: 25px;
 
         @include media-query($breakpoint: $desktop-breakpoint) {
@@ -34,17 +34,17 @@
         }
     }
 
-    &-name {
+    &Name {
         @include text($size: 0.875rem, $weight: 300, $color: $white-color, $line-height: null);
         margin-top: 5px;
     }
-}
 
-#side-nav-link-current-tab-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 3px;
-    background-color: $white-color;
+    &CurrentTabLine {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 3px;
+        background-color: $white-color;
+    }
 }
