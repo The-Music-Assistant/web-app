@@ -42,10 +42,7 @@ const p5Sketch = p => {
      */
     p.setup = function(drawerGiven) {
         if (drawerGiven === undefined) {
-            canvas = p.createCanvas(0, 0);
-            const x = 0;
-            const y = 0;
-            canvas.position(x, y);
+            p.noCanvas();
             p.noLoop();
             return;
         }
