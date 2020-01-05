@@ -29,6 +29,11 @@ class App extends Component {
 
     render() {
         let page;
+        // page = (
+        //     <div className='App'>
+        //         <Route path='/' component={Startup} />
+        //     </div>
+        // );
 
         if (this.state.minTimeElapsed) {
             if (this.props.isAuthenticated) {
