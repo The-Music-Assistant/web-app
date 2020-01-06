@@ -10,10 +10,15 @@ $primary-color: #5f9cd1;
 $secondary-color: #507CA1;
 $tertiary-color: #7E9FA6;
 $white-color: #fff;
-$green-color: #28A544;
+$dark-gray-color: #212121;
+$green-color: #47A65C;
+$red-color: #DF5656;
 $background-color: #F8F8F8;
 
 $tablet-breakpoint: 768px;
 $desktop-breakpoint: 1024px;
+$large-desktop-breakpoint: 1400px;
 
 $primary-box-shadow: 10px 10px 20px rgba($color: #898989, $alpha: 0.7);
+$green-box-shadow: 10px 10px 20px rgba($color: $green-color, $alpha: 1);
+$red-box-shadow: 10px 10px 20px rgba($color: $red-color, $alpha: 1);

@@ -42,11 +42,11 @@
     &Subheading {
         @include text($size: 1rem, $weight: 500, $color: $white-color, $line-height: null);
         text-align: center;
-        padding-bottom: 30px;
+        margin-bottom: 30px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             font-size: 1.56rem;
-            padding-bottom: 50px;
+            margin-bottom: 50px;
         }
     }
 
