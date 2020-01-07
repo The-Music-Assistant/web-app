@@ -9,7 +9,6 @@
 @import "../../root-styles/utilities.scss";
 
 .startup {
-    min-height: 100vh;
     background-color: $primary-color;
     @include flex-container(
         $direction: row,

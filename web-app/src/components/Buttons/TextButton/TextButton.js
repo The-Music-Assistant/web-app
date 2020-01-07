@@ -1,19 +1,19 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/RectangularButton/RectangularButton.js
-// Description: Renders the rectangular button component
+// File Path: src/components/Buttons/TextButton/TextButton.js
+// Description: Renders the text button component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/5/2020
 // ----------------------------------------------------------------------------
 
 import React from "react";
-import styles from "./RectangularButton.module.scss";
+import styles from "./TextButton.module.scss";
 
-const Button = props => {
-    const classNames = [styles.rectButton];
-    classNames.push(styles[`${props.backgroundColor}RectButton`]);
-    if (props.center === "true") {
-        classNames.push(styles.centerRectButton);
+const TextButton = props => {
+    const classNames = [styles.textButton];
+    classNames.push(styles[`${props.textColor}TextButton`]);
+    if (classNames.center === "true") {
+        classNames.push(styles.centerTextButton);
     }
     return (
         <button className={classNames.join(" ")} type={props.type} value={props.value}>
@@ -22,4 +22,4 @@ const Button = props => {
     );
 };
 
-export default Button;
+export default TextButton;

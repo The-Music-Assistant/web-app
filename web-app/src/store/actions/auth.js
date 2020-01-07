@@ -23,13 +23,9 @@ export const signUpWithEmailPassword = (email, password) => {
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
+            .then(() => firebase.auth().currentUser.sendEmailVerification())
             .then(() => {
-                const error = sendVerificationEmail();
-                if (error) {
-                    dispatch(authError());
-                } else {
-                    dispatch(authSuccess());
-                }
+                dispatch(authSuccess(true));
             })
             .catch(error => {
                 dispatch(authError(error));
@@ -86,23 +82,10 @@ export const signOut = () => {
             .then(() => {
                 dispatch(signOutSuccess());
             })
-            .catch(() => {
-                dispatch(authError());
+            .catch(error => {
+                dispatch(authError(error));
             });
     };
-};
-
-/**
- * Sends a verification email
- * @returns An error if one exists; otherwise returns null
- */
-export const sendVerificationEmail = async () => {
-    try {
-        await firebase.auth().currentUser.sendEmailVerification();
-        return null;
-    } catch (error) {
-        return error;
-    }
 };
 
 /**
@@ -129,11 +112,11 @@ export const sendPasswordResetEmail = email => {
  */
 export const handleAuthStateChanges = () => {
     return dispatch => {
-        dispatch(authLoading())
+        dispatch(authLoading());
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 // Checks if user's email is verified
-                dispatch(authSuccess());
+                dispatch(authSuccess(true));
                 // if (user.emailVerified) {
                 //     // Dispatches success if email is verified
                 //     dispatch(authSuccess());
@@ -143,7 +126,7 @@ export const handleAuthStateChanges = () => {
                 // }
             } else {
                 // If no user exists, signs the user out
-                dispatch(signOut());
+                dispatch(authSuccess(false));
             }
         });
     };
@@ -159,11 +142,15 @@ export const authLoading = () => {
 };
 
 /**
- * Returns AUTH_SUCCESS action type
+ * Returns USER_EXISTS action type
  */
-export const authSuccess = () => {
+export const authSuccess = userExists => {
+    let type = actionTypes.USER_EXISTS;
+    if (!userExists) {
+        type = actionTypes.NO_USER_EXISTS;
+    }
     return {
-        type: actionTypes.AUTH_SUCCESS
+        type
     };
 };
 
@@ -190,6 +177,7 @@ export const passwordResetSent = () => {
  * @param {string} error
  */
 export const authError = error => {
+    console.log("ERROR", error);
     return {
         type: actionTypes.AUTH_ERROR,
         error
@@ -200,5 +188,5 @@ export const authFlowPageChange = pageName => {
     return {
         type: actionTypes.AUTH_FLOW_PAGE_CHANGED,
         pageName
-    }
-}
+    };
+};

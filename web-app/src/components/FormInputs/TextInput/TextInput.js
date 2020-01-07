@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/TextInput/TextInput.js
+// File Path: src/components/FormInputs/TextInput/TextInput.js
 // Description: Renders the text input component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com

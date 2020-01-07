@@ -20,10 +20,13 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_LOADING:
-            return updateObject(state, { isAuthenticated: false, error: null, loading: true });
-        case actionTypes.AUTH_SUCCESS:
-            return updateObject(state, { isAuthenticated: true, error: null, loading: false });
+            return updateObject(state, { isAuthenticated: false, loading: true });
+        case actionTypes.USER_EXISTS:
+            return updateObject(state, { isAuthenticated: true, loading: false });
+        case actionTypes.NO_USER_EXISTS:
+            return updateObject(state, { isAuthenticated: false, loading: false });
         case actionTypes.AUTH_ERROR:
+            console.log("CALL");
             return updateObject(state, {
                 isAuthenticated: false,
                 error: action.error,
@@ -31,7 +34,7 @@ const authReducer = (state = initialState, action) => {
             });
         case actionTypes.SIGN_OUT_SUCCESS:
         case actionTypes.PASSWORD_RESET_SENT:
-            return updateObject(state, { isAuthenticated: false, error: null, loading: false });
+            return updateObject(state, { isAuthenticated: false, loading: false });
         case actionTypes.AUTH_FLOW_PAGE_CHANGED:
             return updateObject(state, { pageName: action.pageName });
         default:

@@ -66,8 +66,7 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.isAuthenticated,
-        // isAuthenticated: false,
-        isLoadingAuth: state.auth.loading
+        // isAuthenticated: false
     };
 };
 

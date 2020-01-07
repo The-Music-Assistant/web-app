@@ -7,73 +7,86 @@
 // ----------------------------------------------------------------------------
 
 import React, { Component } from "react";
-import * as actions from "../../store/actions";
-import TextInput from "../../components/TextInput/TextInput";
-import RectangularButton from "../../components/RectangularButton/RectangularButton";
-import TextButton from "../../components/TextButton/TextButton";
 import styles from "./Auth.module.scss";
 import logo from "../../assets/logos/music-assistant-logo.png";
+import SignUpCard from "../../components/AuthCards/SignUpCard/SignUpCard";
+import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
+import ChoirQuestionCard from "../../components/AuthCards/ChoirQuestionCard/ChoirQuestionCard";
+import EnterCodeCard from "../../components/AuthCards/EnterCodeCard/EnterCodeCard";
+import WaitForCodeCard from "../../components/AuthCards/WaitForCodeCard/WaitForCodeCard";
+import ChoirSetupCard from "../../components/AuthCards/ChoirSetupCard/ChoirSetupCard";
+import SignInCard from "../../components/AuthCards/SignInCard/SignInCard";
+import * as authTypes from "./authTypes";
 
 class Auth extends Component {
     state = {
-        formElements: [
-            {
-                inputType: "email",
-                inputName: "email",
-                labelText: "Email",
-                value: "",
-                isRequired: true,
-                addBottomMargin: true
-            },
-            {
-                inputType: "password",
-                inputName: "password",
-                labelText: "Password",
-                value: "",
-                isRequired: true,
-                classNames: [],
-                addBottomMargin: true
-            }
-        ]
+        authType: authTypes.SIGN_UP,
+        innerHeight: window.innerHeight
     };
 
-    inputValueChangedHandler = (event, index) => {
-        const value = event.target.value;
-        this.setState(prevState => {
-            const updatedFormElements = [...prevState.formElements];
-            const updatedInput = { ...prevState.formElements[index] };
-            updatedInput.value = value;
-            updatedFormElements[index] = updatedInput;
-            return {
-                formElements: updatedFormElements
-            };
+    componentDidMount() {
+        window.addEventListener("resize", () => {
+            this.setState({ innerHeight: window.innerHeight });
         });
+    }
+
+    signInInfo = {
+        heading: <h1 className={styles.authInfoHeading}>Welcome Back!</h1>,
+        subheading: (
+            <h2 className={styles.authInfoSubheading}>
+                The Music Assistant
+                <br />A smarter way to sing
+            </h2>
+        )
     };
 
-    submitHandler = event => {
-        event.preventDefault();
-        console.log(this.state.formElements);
+    signUpInfo = {
+        heading: (
+            <h1 className={styles.authInfoHeading}>
+                Welcome to
+                <br />
+                The Music Assistant
+            </h1>
+        ),
+        subheading: <h2 className={styles.authInfoSubheading}>Your gateway to better singing</h2>
     };
 
     render() {
-        const formElements = this.state.formElements.map((formElement, index) => {
-            return (
-                <TextInput
-                    key={index}
-                    inputType={formElement.inputType}
-                    inputName={formElement.inputName}
-                    labelText={formElement.labelText}
-                    value={formElement.value}
-                    isRequired={formElement.isRequired}
-                    classNames={formElement.classNames}
-                    addBottomMargin={formElement.addBottomMargin}
-                    onChange={event => this.inputValueChangedHandler(event, index)}
-                />
-            );
-        });
+        let authCard;
+        let authInfo;
+
+        switch (this.state.authType) {
+            case authTypes.SIGN_UP:
+                authCard = <SignUpCard />;
+                authInfo = this.signUpInfo;
+                break;
+            case authTypes.PROFILE:
+                authCard = <ProfileCard />;
+                authInfo = this.signUpInfo;
+                break;
+            case authTypes.CHOIR_QUESTION:
+                authCard = <ChoirQuestionCard />;
+                authInfo = this.signUpInfo;
+                break;
+            case authTypes.ENTER_CODE:
+                authCard = <EnterCodeCard />;
+                authInfo = this.signUpInfo;
+                break;
+            case authTypes.WAIT_FOR_CODE:
+                authCard = <WaitForCodeCard />;
+                authInfo = this.signUpInfo;
+                break;
+            case authTypes.CHOIR_SET_UP:
+                authCard = <ChoirSetupCard />;
+                authInfo = this.signUpInfo;
+                break;
+            default:
+                authCard = <SignInCard />;
+                authInfo = this.signInInfo;
+        }
 
         return (
-            <div className={styles.auth}>
+            <div className={styles.auth} style={{ minHeight: `${this.state.innerHeight}px` }}>
                 <div className={styles.authContainer}>
                     <div className={styles.authInfo}>
                         <img
@@ -81,37 +94,10 @@ class Auth extends Component {
                             src={logo}
                             alt='Music Assistant Logo'
                         />
-                        <h1 className={styles.authInfoHeading}>
-                            Welcome to
-                            <br />
-                            The Music Assistant
-                        </h1>
-                        <h2 className={styles.authInfoSubheading}>
-                            Your gateway to better singing
-                        </h2>
+                        {authInfo.heading}
+                        {authInfo.subheading}
                     </div>
-                    <div className={styles.authCard}>
-                        <h3 className={styles.authCardHeading}>Sign Up</h3>
-                        <form className={styles.authCardForm} onSubmit={this.submitHandler}>
-                            {formElements}
-                            <RectangularButton
-                                type='submit'
-                                value='submit'
-                                text='Sign Up'
-                                backgroundColor='green'
-                                center='true'
-                            />
-                        </form>
-                        <div className={styles.authCardChangeAuth}>
-                            <TextButton
-                                type='button'
-                                value='change-auth'
-                                text='Already have an account?'
-                                textColor='blue'
-                                center='false'
-                            />
-                        </div>
-                    </div>
+                    {authCard}
                 </div>
             </div>
         );

@@ -1,19 +1,24 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/RectangularButton/RectangularButton.module.scss
+// File Path: src/components/Buttons/RectangularButton/RectangularButton.module.scss
 // Description: SCSS styles for the rectangular button component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/5/2020
 // ----------------------------------------------------------------------------
 
-@import "../../root-styles/utilities.scss";
+@import "../../../root-styles/utilities.scss";
 
 .rectButton {
-    @include text($size: 1.2rem, $weight: 300, $color: null, $line-height: null);
+    @include text($size: 1rem, $weight: 300, $color: null, $line-height: null);
     padding: 10px 30px;
     border-radius: 10px;
     box-shadow: $primary-box-shadow;
     display: block;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
 }
 
 .greenRectButton {
