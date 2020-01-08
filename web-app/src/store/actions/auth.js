@@ -8,6 +8,7 @@
 ---------------------------------------------------------------------------- */
 
 import * as actionTypes from "./actionTypes";
+import { store } from "../reduxSetup";
 import firebase from "../../vendors/Firebase/firebase";
 
 /**
@@ -23,10 +24,7 @@ export const signUpWithEmailPassword = (email, password) => {
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(() => firebase.auth().currentUser.sendEmailVerification())
-            .then(() => {
-                dispatch(authSuccess(true));
-            })
+            .then(() => dispatch(shouldSendEmailVerification()))
             .catch(error => {
                 dispatch(authError(error));
             });
@@ -56,9 +54,6 @@ export const signInWithEmailPassword = (email, password, stayAuthenticated) => {
                 firebase
                     .auth()
                     .signInWithEmailAndPassword(email, password)
-                    .then(() => {
-                        dispatch(authSuccess());
-                    })
                     .catch(error => {
                         dispatch(authError(error));
                     });
@@ -92,7 +87,7 @@ export const signOut = () => {
  * Sends a password reset email
  * @returns An error if one exists; otherwise returns null
  */
-export const sendPasswordResetEmail = email => {
+const sendPasswordResetEmail = email => {
     return dispatch => {
         firebase
             .auth()
@@ -108,7 +103,7 @@ export const sendPasswordResetEmail = email => {
 
 /**
  * Updates redux state whenever Firebase Auth state changes
- * TODO: Check to make sure this works (it might not update Redux properly)
+ * Sends an email verification if the user just signed up
  */
 export const handleAuthStateChanges = () => {
     return dispatch => {
@@ -117,6 +112,12 @@ export const handleAuthStateChanges = () => {
             if (user) {
                 // Checks if user's email is verified
                 dispatch(authSuccess(true));
+
+                // Sends an email verification if needed
+                if (store.getState().auth.sendEmailVerification) {
+                    dispatch(sendEmailVerification());
+                }
+
                 // if (user.emailVerified) {
                 //     // Dispatches success if email is verified
                 //     dispatch(authSuccess());
@@ -133,9 +134,27 @@ export const handleAuthStateChanges = () => {
 };
 
 /**
+ * Sends an email verification to the current user
+ */
+const sendEmailVerification = user => {
+    return dispatch => {
+        dispatch(authLoading());
+        firebase
+            .auth()
+            .currentUser.sendEmailVerification()
+            .then(() => {
+                dispatch(emailVerificationSent());
+            })
+            .catch(error => {
+                dispatch(emailVerificationError(error));
+            });
+    };
+};
+
+/**
  * Returns AUTH_LOADING action type
  */
-export const authLoading = () => {
+const authLoading = () => {
     return {
         type: actionTypes.AUTH_LOADING
     };
@@ -144,7 +163,7 @@ export const authLoading = () => {
 /**
  * Returns USER_EXISTS action type
  */
-export const authSuccess = userExists => {
+const authSuccess = userExists => {
     let type = actionTypes.USER_EXISTS;
     if (!userExists) {
         type = actionTypes.NO_USER_EXISTS;
@@ -155,9 +174,37 @@ export const authSuccess = userExists => {
 };
 
 /**
+ * Returns SEND_EMAIL_VERIFICATION action type
+ */
+const shouldSendEmailVerification = () => {
+    return {
+        type: actionTypes.SEND_EMAIL_VERIFICATION
+    };
+};
+
+/**
+ * Returns EMAIL_VERIFICATION_SENT action type
+ */
+const emailVerificationSent = () => {
+    return {
+        type: actionTypes.EMAIL_VERIFICATION_SENT
+    }
+}
+
+/**
+ * Returns EMAIL_VERIFICATION_ERROR action type
+ */
+const emailVerificationError = error => {
+    return {
+        type: actionTypes.EMAIL_VERIFICATION_ERROR,
+        error
+    }
+}
+
+/**
  * Returns SIGN_OUT_SUCCESS action type
  */
-export const signOutSuccess = () => {
+const signOutSuccess = () => {
     return {
         type: actionTypes.SIGN_OUT_SUCCESS
     };
@@ -166,7 +213,7 @@ export const signOutSuccess = () => {
 /**
  * Returns PASSWORD_RESET_SENT action type
  */
-export const passwordResetSent = () => {
+const passwordResetSent = () => {
     return {
         type: actionTypes.PASSWORD_RESET_SENT
     };
@@ -176,7 +223,7 @@ export const passwordResetSent = () => {
  * Returns AUTH_ERROR action type and the error
  * @param {string} error
  */
-export const authError = error => {
+const authError = error => {
     console.log("ERROR", error);
     return {
         type: actionTypes.AUTH_ERROR,
@@ -184,7 +231,7 @@ export const authError = error => {
     };
 };
 
-export const authFlowPageChange = pageName => {
+const authFlowPageChange = pageName => {
     return {
         type: actionTypes.AUTH_FLOW_PAGE_CHANGED,
         pageName

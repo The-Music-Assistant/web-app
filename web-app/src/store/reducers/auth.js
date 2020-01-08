@@ -12,6 +12,7 @@ import { updateObject } from "../utility";
 
 const initialState = {
     isAuthenticated: false,
+    sendEmailVerification: false,
     error: null,
     loading: true,
     pageName: null
@@ -20,13 +21,26 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_LOADING:
-            return updateObject(state, { isAuthenticated: false, loading: true });
+            return updateObject(state, { loading: true });
         case actionTypes.USER_EXISTS:
-            return updateObject(state, { isAuthenticated: true, loading: false });
+            return updateObject(state, { isAuthenticated: true, error: null, loading: false });
         case actionTypes.NO_USER_EXISTS:
-            return updateObject(state, { isAuthenticated: false, loading: false });
+            return updateObject(state, { isAuthenticated: false, error: null, loading: false });
+        case actionTypes.SEND_EMAIL_VERIFICATION:
+            return updateObject(state, { sendEmailVerification: true });
+        case actionTypes.EMAIL_VERIFICATION_SENT:
+            return updateObject(state, {
+                sendEmailVerification: false,
+                error: null,
+                loading: false
+            });
+        case actionTypes.EMAIL_VERIFICATION_ERROR:
+            return updateObject(state, {
+                sendEmailVerification: false,
+                error: action.error,
+                loading: false
+            });
         case actionTypes.AUTH_ERROR:
-            console.log("CALL");
             return updateObject(state, {
                 isAuthenticated: false,
                 error: action.error,
