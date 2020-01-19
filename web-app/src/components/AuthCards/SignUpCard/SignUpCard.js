@@ -7,8 +7,10 @@
 // ----------------------------------------------------------------------------
 
 import React, { Component } from "react";
-import {connect} from 'react-redux';
-import * as actions from "../../../store/actions";
+import { connect } from "react-redux";
+import firebase from "../../../vendors/Firebase/firebase";
+// import * as actions from "../../../store/actions";
+import {beginSignUp, endSignUp} from "../../../store/actions";
 import TextInput from "../../FormInputs/TextInput/TextInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 import TextButton from "../../Buttons/TextButton/TextButton";
@@ -31,8 +33,21 @@ class SignUpCard extends Component {
                 value: "",
                 isRequired: true
             }
-        ]
+        ],
+        isLoading: false,
+        error: null,
+        emailVerificationSent: false
     };
+
+    componentDidMount() {
+        this.props.beginSignUp();
+    }
+
+    componentDidUpdate() {
+        if (this.props.isUserSignedUp && !this.state.emailVerificationSent) {
+            this.sendEmailVerification();
+        }
+    }
 
     removeWhitespace = string => string.replace(/\s+/g, "");
 
@@ -54,7 +69,7 @@ class SignUpCard extends Component {
         const email = this.state.formElements[0].value;
         const password = this.state.formElements[1].value;
         if (this.isEmailValid(email) && this.isPasswordValid(password)) {
-            this.props.signUp(email, password);
+            this.signUpWithEmailPassword(email, password);
         }
     };
 
@@ -89,6 +104,38 @@ class SignUpCard extends Component {
         }
 
         return true;
+    };
+
+    /**
+     * Signs the user up with an email and password
+     * Sends an email verification
+     * @param {string} email - User's email
+     * @param {string} password - User's password
+     */
+    signUpWithEmailPassword = (email, password) => {
+        this.setState({ isLoading: true });
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .catch(error => {
+                console.log(error);
+                this.setState({ isLoading: false, error });
+            });
+    };
+
+    /**
+     * Sends an email verification to the current user
+     */
+    sendEmailVerification = () => {
+        firebase
+            .auth()
+            .currentUser.sendEmailVerification()
+            .then(() => {
+                this.setState({ isLoading: false, emailVerificationSent: true });
+            })
+            .catch(error => {
+                this.setState({ isLoading: false, error });
+            });
     };
 
     render() {
@@ -137,14 +184,16 @@ class SignUpCard extends Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.auth.loading,
-        error: state.auth.error
-    }
-}
+        isLoadingNewUser: state.auth.isLoading,
+        isUserSignedUp: state.auth.isAuthenticated,
+        newUserError: state.auth.error
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
-        signUp: (email, password) => dispatch(actions.signUpWithEmailPassword(email, password))
+        beginSignUp: () => dispatch(beginSignUp()),
+        endSignUp: () => dispatch(endSignUp())
     }
 }
 

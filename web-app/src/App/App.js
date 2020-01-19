@@ -10,6 +10,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+// import startupAuthFinished from "../store/actions";
 import Startup from "../pages/Startup/Startup";
 import Primary from "../pages/Primary/Primary";
 import Auth from "../pages/Auth/Auth";
@@ -29,23 +30,23 @@ class App extends Component {
 
     render() {
         let page;
-        // page = (
-        //     <div className='App'>
-        //         <Route path='/' component={Startup} />
-        //     </div>
-        // );
 
-        if (this.state.minTimeElapsed) {
-            if (this.props.isAuthenticated) {
+        if (this.props.isFinishedLoading && this.state.minTimeElapsed) {
+            if (!this.props.isSigningUp && this.props.isAuthenticated) {
                 page = (
                     <div className='App'>
-                        <Route path='/' component={Primary} />
+                        <Route path='/'>
+                            <Primary />
+                        </Route>
+                        <Redirect to='/' />
                     </div>
                 );
             } else {
                 page = (
                     <div className='App'>
-                        <Route path='/sign-up' component={Auth} />
+                        <Route path='/sign-up'>
+                            <Auth />
+                        </Route>
                         <Redirect to='/sign-up' />
                     </div>
                 );
@@ -53,7 +54,9 @@ class App extends Component {
         } else {
             page = (
                 <div className='App'>
-                    <Route path='/startup' component={Startup} />
+                    <Route path='/startup'>
+                        <Startup />
+                    </Route>
                     <Redirect to='/startup' />
                 </div>
             );
@@ -66,8 +69,15 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.isAuthenticated,
-        // isAuthenticated: false
-    };
-};
+        isFinishedLoading: !state.startup.isStartingUp,
+        isSigningUp: state.auth.isSigningUp
+    }
+}
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         startupAuthFinished: () => dispatch(startupAuthFinished())
+//     };
+// };
 
 export default connect(mapStateToProps)(App);

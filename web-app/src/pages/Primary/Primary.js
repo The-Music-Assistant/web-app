@@ -66,8 +66,7 @@ class Primary extends Component {
     componentDidMount() {
         // TODO: Uncomment for production
         // alert("The website is for authorized use only.");
-        console.log(styles);
-
+        
         window.addEventListener("resize", this.handleWindowResize);
     }
 

@@ -1,7 +1,6 @@
 /* ----------------------------------------------------------------------------
 // File Path: src/store/actions/auth.js
-// Description:
-    * Authentication Redux actions
+// Description: Authentication Redux actions
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 12/31/2019
@@ -10,26 +9,6 @@
 import * as actionTypes from "./actionTypes";
 import { store } from "../reduxSetup";
 import firebase from "../../vendors/Firebase/firebase";
-
-/**
- * Signs the user up with an email and password
- * Sends an email verification
- * @param {string} email - User's email
- * @param {string} password - User's password
- */
-export const signUpWithEmailPassword = (email, password) => {
-    return dispatch => {
-        dispatch(authLoading());
-
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => dispatch(shouldSendEmailVerification()))
-            .catch(error => {
-                dispatch(authError(error));
-            });
-    };
-};
 
 /**
  * Signs the user in with an email and password
@@ -68,38 +47,38 @@ export const signInWithEmailPassword = (email, password, stayAuthenticated) => {
 /**
  * Signs the current user out
  */
-export const signOut = () => {
-    return dispatch => {
-        dispatch(authLoading());
-        firebase
-            .auth()
-            .signOut()
-            .then(() => {
-                dispatch(signOutSuccess());
-            })
-            .catch(error => {
-                dispatch(authError(error));
-            });
-    };
-};
+// export const signOut = () => {
+//     return dispatch => {
+//         dispatch(authLoading());
+//         firebase
+//             .auth()
+//             .signOut()
+//             .then(() => {
+//                 dispatch(signOutSuccess());
+//             })
+//             .catch(error => {
+//                 dispatch(authError(error));
+//             });
+//     };
+// };
 
 /**
  * Sends a password reset email
  * @returns An error if one exists; otherwise returns null
  */
-const sendPasswordResetEmail = email => {
-    return dispatch => {
-        firebase
-            .auth()
-            .sendPasswordResetEmail(email)
-            .then(() => {
-                dispatch(passwordResetSent());
-            })
-            .catch(error => {
-                dispatch(authError(error));
-            });
-    };
-};
+// const sendPasswordResetEmail = email => {
+//     return dispatch => {
+//         firebase
+//             .auth()
+//             .sendPasswordResetEmail(email)
+//             .then(() => {
+//                 dispatch(passwordResetSent());
+//             })
+//             .catch(error => {
+//                 dispatch(authError(error));
+//             });
+//     };
+// };
 
 /**
  * Updates redux state whenever Firebase Auth state changes
@@ -108,46 +87,17 @@ const sendPasswordResetEmail = email => {
 export const handleAuthStateChanges = () => {
     return dispatch => {
         dispatch(authLoading());
+        // firebase.auth().signOut();
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                // Checks if user's email is verified
                 dispatch(authSuccess(true));
-
-                // Sends an email verification if needed
-                if (store.getState().auth.sendEmailVerification) {
-                    dispatch(sendEmailVerification());
-                }
-
-                // if (user.emailVerified) {
-                //     // Dispatches success if email is verified
-                //     dispatch(authSuccess());
-                // } else {
-                //     // Dispatches an error if email is not verified
-                //     dispatch(authError("User's email is not verified"));
-                // }
             } else {
-                // If no user exists, signs the user out
                 dispatch(authSuccess(false));
             }
+            if (store.getState().startup.isStartingUp) {
+                dispatch(startupAuthFinished());
+            }
         });
-    };
-};
-
-/**
- * Sends an email verification to the current user
- */
-const sendEmailVerification = user => {
-    return dispatch => {
-        dispatch(authLoading());
-        firebase
-            .auth()
-            .currentUser.sendEmailVerification()
-            .then(() => {
-                dispatch(emailVerificationSent());
-            })
-            .catch(error => {
-                dispatch(emailVerificationError(error));
-            });
     };
 };
 
@@ -174,52 +124,6 @@ const authSuccess = userExists => {
 };
 
 /**
- * Returns SEND_EMAIL_VERIFICATION action type
- */
-const shouldSendEmailVerification = () => {
-    return {
-        type: actionTypes.SEND_EMAIL_VERIFICATION
-    };
-};
-
-/**
- * Returns EMAIL_VERIFICATION_SENT action type
- */
-const emailVerificationSent = () => {
-    return {
-        type: actionTypes.EMAIL_VERIFICATION_SENT
-    }
-}
-
-/**
- * Returns EMAIL_VERIFICATION_ERROR action type
- */
-const emailVerificationError = error => {
-    return {
-        type: actionTypes.EMAIL_VERIFICATION_ERROR,
-        error
-    }
-}
-
-/**
- * Returns SIGN_OUT_SUCCESS action type
- */
-const signOutSuccess = () => {
-    return {
-        type: actionTypes.SIGN_OUT_SUCCESS
-    };
-};
-
-/**
- * Returns PASSWORD_RESET_SENT action type
- */
-const passwordResetSent = () => {
-    return {
-        type: actionTypes.PASSWORD_RESET_SENT
-    };
-};
-
-/**
  * Returns AUTH_ERROR action type and the error
  * @param {string} error
  */
@@ -231,9 +135,29 @@ const authError = error => {
     };
 };
 
-const authFlowPageChange = pageName => {
+/**
+ * Returns STARTUP_AUTH_DONE action type
+ */
+const startupAuthFinished = () => {
     return {
-        type: actionTypes.AUTH_FLOW_PAGE_CHANGED,
-        pageName
+        type: actionTypes.STARTUP_AUTH_DONE
+    };
+};
+
+/**
+ * Returns BEGIN_SIGN_UP action type
+ */
+export const beginSignUp = () => {
+    return {
+        type: actionTypes.BEGIN_SIGN_UP
+    };
+};
+
+/**
+ * Returns END_SIGN_UP action type
+ */
+export const endSignUp = () => {
+    return {
+        type: actionTypes.END_SIGN_UP
     };
 };

@@ -9,7 +9,6 @@
 
 export {
     handleAuthStateChanges,
-    signUpWithEmailPassword,
-    signInWithEmailPassword,
-    signOut
+    beginSignUp,
+    endSignUp
 } from "./auth";

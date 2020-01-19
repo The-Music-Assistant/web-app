@@ -24,11 +24,16 @@ class Auth extends Component {
         innerHeight: window.innerHeight
     };
 
-    componentDidMount() {
-        window.addEventListener("resize", () => {
-            this.setState({ innerHeight: window.innerHeight });
-        });
-    }
+    signUpInfo = {
+        heading: (
+            <h1 className={styles.authInfoHeading}>
+                Welcome to
+                <br />
+                The Music Assistant
+            </h1>
+        ),
+        subheading: <h2 className={styles.authInfoSubheading}>Your gateway to better singing</h2>
+    };
 
     signInInfo = {
         heading: <h1 className={styles.authInfoHeading}>Welcome Back!</h1>,
@@ -40,16 +45,17 @@ class Auth extends Component {
         )
     };
 
-    signUpInfo = {
-        heading: (
-            <h1 className={styles.authInfoHeading}>
-                Welcome to
-                <br />
-                The Music Assistant
-            </h1>
-        ),
-        subheading: <h2 className={styles.authInfoSubheading}>Your gateway to better singing</h2>
-    };
+    componentDidMount() {
+        window.addEventListener("resize", this.resizeWindow)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resizeWindow);
+    }
+
+    resizeWindow = () => {
+        this.setState({ innerHeight: window.innerHeight });
+    }
 
     render() {
         let authCard;

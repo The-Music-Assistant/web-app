@@ -1,7 +1,6 @@
 /* ----------------------------------------------------------------------------
 // File Path: src/store/reducers/auth.js
-// Description:
-    * Authentication Redux reducer
+// Description: Authentication Redux reducer
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 12/31/2019
@@ -12,45 +11,29 @@ import { updateObject } from "../utility";
 
 const initialState = {
     isAuthenticated: false,
-    sendEmailVerification: false,
     error: null,
-    loading: true,
-    pageName: null
+    isLoading: true,
+    isSigningUp: false
 };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_LOADING:
-            return updateObject(state, { loading: true });
+            return updateObject(state, { isLoading: true });
         case actionTypes.USER_EXISTS:
-            return updateObject(state, { isAuthenticated: true, error: null, loading: false });
+            return updateObject(state, { isAuthenticated: true, error: null, isLoading: false });
         case actionTypes.NO_USER_EXISTS:
-            return updateObject(state, { isAuthenticated: false, error: null, loading: false });
-        case actionTypes.SEND_EMAIL_VERIFICATION:
-            return updateObject(state, { sendEmailVerification: true });
-        case actionTypes.EMAIL_VERIFICATION_SENT:
-            return updateObject(state, {
-                sendEmailVerification: false,
-                error: null,
-                loading: false
-            });
-        case actionTypes.EMAIL_VERIFICATION_ERROR:
-            return updateObject(state, {
-                sendEmailVerification: false,
-                error: action.error,
-                loading: false
-            });
+            return updateObject(state, { isAuthenticated: false, error: null, isLoading: false });
         case actionTypes.AUTH_ERROR:
             return updateObject(state, {
                 isAuthenticated: false,
                 error: action.error,
-                loading: false
+                isLoading: false
             });
-        case actionTypes.SIGN_OUT_SUCCESS:
-        case actionTypes.PASSWORD_RESET_SENT:
-            return updateObject(state, { isAuthenticated: false, loading: false });
-        case actionTypes.AUTH_FLOW_PAGE_CHANGED:
-            return updateObject(state, { pageName: action.pageName });
+        case actionTypes.BEGIN_SIGN_UP:
+            return updateObject(state, { isSigningUp: true });
+        case actionTypes.END_SIGN_UP:
+            return updateObject(state, { isSigningUp: false });
         default:
             return state;
     }

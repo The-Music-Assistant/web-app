@@ -17,10 +17,16 @@ class Startup extends Component {
     };
 
     componentDidMount() {
-        window.addEventListener("resize", () => {
-            this.setState({ innerHeight: window.innerHeight });
-        });
+        window.addEventListener("resize", this.handleWindowResize);
     }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.handleWindowResize);
+    }
+
+    handleWindowResize = () => {
+        this.setState({ isMobile: window.innerWidth < 768 });
+    };
 
     render() {
         return (

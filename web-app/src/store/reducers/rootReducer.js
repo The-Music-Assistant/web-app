@@ -8,10 +8,12 @@
 ---------------------------------------------------------------------------- */
 
 import authReducer from "./auth";
+import startupReducer from "./startup";
 import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    startup: startupReducer
 });
 
 export default rootReducer;
