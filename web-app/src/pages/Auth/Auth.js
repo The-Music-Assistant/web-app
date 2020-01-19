@@ -16,12 +16,14 @@ import EnterCodeCard from "../../components/AuthCards/EnterCodeCard/EnterCodeCar
 import WaitForCodeCard from "../../components/AuthCards/WaitForCodeCard/WaitForCodeCard";
 import ChoirSetupCard from "../../components/AuthCards/ChoirSetupCard/ChoirSetupCard";
 import SignInCard from "../../components/AuthCards/SignInCard/SignInCard";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import * as authTypes from "./authTypes";
 
 class Auth extends Component {
     state = {
         authType: authTypes.SIGN_UP,
-        innerHeight: window.innerHeight
+        innerHeight: window.innerHeight,
+        isLoading: false
     };
 
     signUpInfo = {
@@ -46,7 +48,7 @@ class Auth extends Component {
     };
 
     componentDidMount() {
-        window.addEventListener("resize", this.resizeWindow)
+        window.addEventListener("resize", this.resizeWindow);
     }
 
     componentWillUnmount() {
@@ -55,7 +57,11 @@ class Auth extends Component {
 
     resizeWindow = () => {
         this.setState({ innerHeight: window.innerHeight });
-    }
+    };
+
+    loadingHandler = isLoading => {
+        this.setState({ isLoading });
+    };
 
     render() {
         let authCard;
@@ -63,36 +69,37 @@ class Auth extends Component {
 
         switch (this.state.authType) {
             case authTypes.SIGN_UP:
-                authCard = <SignUpCard />;
+                authCard = <SignUpCard loading={this.loadingHandler} />;
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.PROFILE:
-                authCard = <ProfileCard />;
+                authCard = <ProfileCard loading={this.loadingHandler} />;
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.CHOIR_QUESTION:
-                authCard = <ChoirQuestionCard />;
+                authCard = <ChoirQuestionCard loading={this.loadingHandler} />;
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.ENTER_CODE:
-                authCard = <EnterCodeCard />;
+                authCard = <EnterCodeCard loading={this.loadingHandler} />;
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.WAIT_FOR_CODE:
-                authCard = <WaitForCodeCard />;
+                authCard = <WaitForCodeCard loading={this.loadingHandler} />;
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.CHOIR_SET_UP:
-                authCard = <ChoirSetupCard />;
+                authCard = <ChoirSetupCard loading={this.loadingHandler} />;
                 authInfo = this.signUpInfo;
                 break;
             default:
-                authCard = <SignInCard />;
+                authCard = <SignInCard loading={this.loadingHandler} />;
                 authInfo = this.signInInfo;
         }
 
         return (
             <div className={styles.auth} style={{ minHeight: `${this.state.innerHeight}px` }}>
+                {this.state.isLoading ? <LoadingModal text='Loading...' /> : null}
                 <div className={styles.authContainer}>
                     <div className={styles.authInfo}>
                         <img

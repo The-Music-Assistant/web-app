@@ -1,0 +1,43 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/LoadingModal/LoadingModal.module.scss
+// Description: SCSS styles for the loading modal component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 1/18/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    @include flex-container(
+        $direction: row,
+        $justify-content: center,
+        $align-items: center,
+        $wrap: nowrap
+    );
+    width: 100%;
+    height: 100%;
+    background-color: $modal-background-color;
+    z-index: 1000;
+}
+
+.modal {
+    @include flex-container(
+        $direction: column,
+        $justify-content: space-around,
+        $align-items: center,
+        $wrap: nowrap
+    );
+    width: 150px;
+    height: 150px;
+    background-color: $white-color;
+    box-shadow: $primary-box-shadow;
+    border-radius: 20px;
+
+    &Text {
+        @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
+    }
+}

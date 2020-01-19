@@ -34,7 +34,6 @@ class SignUpCard extends Component {
                 isRequired: true
             }
         ],
-        isLoading: false,
         error: null,
         emailVerificationSent: false
     };
@@ -113,13 +112,13 @@ class SignUpCard extends Component {
      * @param {string} password - User's password
      */
     signUpWithEmailPassword = (email, password) => {
-        this.setState({ isLoading: true });
+        this.props.loading(true);
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .catch(error => {
                 console.log(error);
-                this.setState({ isLoading: false, error });
+                this.props.loading(false);
             });
     };
 
@@ -131,11 +130,14 @@ class SignUpCard extends Component {
             .auth()
             .currentUser.sendEmailVerification()
             .then(() => {
-                this.setState({ isLoading: false, emailVerificationSent: true });
+                this.setState({ emailVerificationSent: true });
             })
             .catch(error => {
-                this.setState({ isLoading: false, error });
-            });
+                console.log(error);
+            })
+            .finally(() => {
+                this.props.loading(false);
+            })
     };
 
     render() {
@@ -184,9 +186,7 @@ class SignUpCard extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoadingNewUser: state.auth.isLoading,
-        isUserSignedUp: state.auth.isAuthenticated,
-        newUserError: state.auth.error
+        isUserSignedUp: state.auth.isAuthenticated
     };
 };
 
