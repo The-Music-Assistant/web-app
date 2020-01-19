@@ -59,6 +59,7 @@ class PitchDetection {
      * @returns The id of the current setInterval process (this can be used to stop the current setInterval process)
      */
     static startPitchDetection() {
+        AlphaTabRunner.noteList.clear();
         // Run nested anonymous function every 1 ms
         return setInterval(() => {
             p5.redraw();
@@ -78,6 +79,11 @@ class PitchDetection {
      */
     static stopPitchDetection(setIntervalID) {
         clearInterval(setIntervalID);
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://3.18.108.127:2765', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(AlphaTabRunner.noteList.performanceData));
+        console.log(xhr);
     }
 
     /**
@@ -89,11 +95,11 @@ class PitchDetection {
             // Converts frequency to midi value
             let midiNum = (Math.log(frequency / 440) / Math.log(2)) * 12 + 69;
             
-            AlphaTabRunner.noteList.addNote(midiNum);
+            AlphaTabRunner.noteList.addNote(midiNum, AlphaTabRunner.api.timePosition / 1000);
             AlphaTabRunner.drawer.updateNote(AlphaTabRunner.noteList.average);
         } else {
             // Sentinel value of 0 used for silence
-            AlphaTabRunner.noteList.addNote(0);
+            AlphaTabRunner.noteList.addNote(0, AlphaTabRunner.api.timePosition / 1000);
             AlphaTabRunner.drawer.updateNote(AlphaTabRunner.noteList.average);
         }
     }

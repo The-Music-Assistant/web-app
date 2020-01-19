@@ -1,3 +1,4 @@
+import PerformanceData from "./PerformanceData.js";
 const MAX_SIZE = 5;
 
 /**
@@ -10,6 +11,7 @@ class NoteList {
      * @param {Number} element Initial midi value to be stored in the list of values
      */
     constructor(element) {
+        this.performanceData = new PerformanceData();
         this.elements = [element];
         this.pointer = 0;
         this.total = element;
@@ -19,10 +21,22 @@ class NoteList {
     }
 
     /**
+     * Start new performance so clear performance data
+     */
+    clear() {
+        this.performanceData.clear();
+        this.elements = [0];
+        this.pointer = 0;
+        this.total = 0;
+        this.average = 0;
+    }
+
+    /**
      * Adds a midi value to the list of values overwriting the oldest value if full
      * @param {Number} element Midi value to be stored in the list of values
+     * @param {Number} time Time when the note was started
      */
-    addNote(element) {
+    addNote(element, time) {
         // Adds element to the list overwriting the oldest value if full
         if (this.elements.length < MAX_SIZE) {
             this.elements.push(element);
@@ -44,6 +58,8 @@ class NoteList {
             // -1 is the sential value for silence to be diplayed
             this.average = -1;
         }
+
+        this.performanceData.addPitch(this.average, time);
     }
 
     /**
