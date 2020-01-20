@@ -16,7 +16,7 @@ import EnterCodeCard from "../../components/AuthCards/EnterCodeCard/EnterCodeCar
 import WaitForCodeCard from "../../components/AuthCards/WaitForCodeCard/WaitForCodeCard";
 import ChoirSetupCard from "../../components/AuthCards/ChoirSetupCard/ChoirSetupCard";
 import SignInCard from "../../components/AuthCards/SignInCard/SignInCard";
-import LoadingModal from "../../components/LoadingModal/LoadingModal";
+import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
 import * as authTypes from "./authTypes";
 
 class Auth extends Component {
@@ -99,7 +99,7 @@ class Auth extends Component {
 
         return (
             <div className={styles.auth} style={{ minHeight: `${this.state.innerHeight}px` }}>
-                {this.state.isLoading ? <LoadingModal text='Loading...' /> : null}
+                {this.state.isLoading ? <LoadingHUD text='Loading...' /> : null}
                 <div className={styles.authContainer}>
                     <div className={styles.authInfo}>
                         <img
