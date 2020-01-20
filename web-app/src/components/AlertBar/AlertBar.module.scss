@@ -1,0 +1,66 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/AuthCards/AuthBar/AuthBar.module.scss
+// Description: SCSS styles for the auth bar component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 1/20/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.alertBar {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, -140%);
+    width: calc(100vw - 20px);
+    max-width: 400px;
+    padding: 10px 20px;
+    box-shadow: $primary-box-shadow;
+    z-index: 10000;
+    border-radius: 20px;
+    transition: transform 1s ease-out;
+
+    &TransitionIn {
+        transform: translate(-50%, 0);
+    }
+
+    &TransitionOut {
+        transform: translate(-50%, -140%);
+    }
+
+    &TopGrid {
+        @include grid-container($grid-template-rows: 1fr, $grid-template-columns: 15px 1fr 15px, $align-items: center);
+    }
+
+    &Heading {
+        @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: null);
+        text-align: center;
+    }
+
+    &Message {
+        @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
+        text-align: center;
+        margin-top: 5px;
+    }
+
+    &CloseButtonImg {
+        width: 15px;
+    }
+
+    &Success {
+        background-color: $green-color;
+    }
+
+    &Warning {
+        background-color: $yellow-color;
+    }
+
+    &Error {
+        background-color: $red-color;
+    }
+
+    &Info {
+        background-color: $secondary-color;
+    }
+}

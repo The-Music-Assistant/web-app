@@ -23,6 +23,7 @@ import practiceIconWhite from "../../assets/icons/practice-icon-white-fa.svg";
 import progressIconWhite from "../../assets/icons/progress-icon-white-fa.svg";
 import choirIconWhite from "../../assets/icons/choir-icon-white-fa.svg";
 import messagesIconWhite from "../../assets/icons/messages-icon-white-fa.svg";
+import AlertBar from "../../components/AlertBar/AlertBar";
 import styles from "./Primary.module.scss";
 
 class Primary extends Component {
