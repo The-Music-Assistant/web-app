@@ -58,7 +58,12 @@ class PitchDetection {
      * Continuously detects pitch and displays it on the screen
      * @returns The id of the current setInterval process (this can be used to stop the current setInterval process)
      */
-    static startPitchDetection() {
+    static startPitchDetection(fileName) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://localhost:1234', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({"fileName":fileName}));
+
         AlphaTabRunner.noteList.clear();
         // Run nested anonymous function every 1 ms
         return setInterval(() => {
@@ -83,7 +88,6 @@ class PitchDetection {
         xhr.open("POST", 'http://3.18.108.127:2765', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(AlphaTabRunner.noteList.performanceData));
-        console.log(xhr);
     }
 
     /**

@@ -14,6 +14,8 @@ class AlphaTabRunner {
     intervalID;
     drawer;
     noteList;
+    currentTestIndex;
+    tests;
 
     /**
      * Initializes the AlphaTab API
@@ -58,6 +60,9 @@ class AlphaTabRunner {
         this.api.addPlayerFinished(() => {
             this.alphaTabPlayerFinished();
         });
+
+        this.currentTestIndex = 0;
+        this.tests = ["C:\\Users\\fiddl\\OneDrive\\Documents\\testPerformance.wav"];
     }
 
     /**
@@ -105,6 +110,15 @@ class AlphaTabRunner {
         }, 3);
     }
 
+    static retrieveTestAndIncrement() {
+        let nextTest = AlphaTabRunner.tests[AlphaTabRunner.currentTestIndex];
+        AlphaTabRunner.currentTestIndex = AlphaTabRunner.currentTestIndex + 1;
+        if (AlphaTabRunner.currentTestIndex > AlphaTabRunner.tests.length) {
+            AlphaTabRunner.currentTestIndex = 0;
+        }
+        return nextTest
+    }
+
     static alphaTabPlayerStateChanged() {
         console.log(AlphaTabRunner.noteStreamIndex, AlphaTabRunner.cumulativeTime = 0);
         if (AlphaTabRunner.api.playerState !== 1) {
@@ -112,7 +126,7 @@ class AlphaTabRunner {
         } else {
             // Runs the pitch detection model on microphone input and displays it on the screen
             // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
-            this.intervalID = PitchDetection.startPitchDetection();
+            this.intervalID = PitchDetection.startPitchDetection(this.retrieveTestAndIncrement());
         }
     }
 
