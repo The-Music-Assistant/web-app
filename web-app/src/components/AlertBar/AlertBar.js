@@ -11,40 +11,40 @@ import styles from "./AlertBar.module.scss";
 import closeIconWhite from "../../assets/icons/close-icon-white-fa.svg";
 
 class AlertBar extends Component {
-    
     DISPLAY_TIME_MS = 5000;
     TRANSITION_TIME_MS = 1000;
 
     state = {
-        timeElapsed: false,
         transition: null,
-        transitionOutTimerId: null
+        slideUpTimerId: null,
+        isDoneTimerId: null
     };
 
     componentDidMount() {
-        // Timeout with 0ms puts transition into event loop and delays slide down until component is ready
+        // Fixes React bug where transition down is instant rather than animated
         setTimeout(() => {
-            this.setState({ transition: "in" });
-        }, 0);
+            this.setState({ transition: "down" });
+        }, 5);
 
-        const transitionOutTimerId = setTimeout(() => {
-            this.setState({ transition: "out" });
-        }, this.DISPLAY_TIME_MS);
+        const slideUpTimerId = setTimeout(() => {
+            this.setState({ transition: "up" });
+        }, this.TRANSITION_TIME_MS + this.DISPLAY_TIME_MS);
 
-        setTimeout(() => {
+        const isDoneTimerId = setTimeout(() => {
             this.props.isDone();
-        }, this.DISPLAY_TIME_MS + this.TRANSITION_TIME_MS);
+        }, this.TRANSITION_TIME_MS * 2 + this.DISPLAY_TIME_MS);
 
-        this.setState({transitionOutTimerId});
+        this.setState({ slideUpTimerId, isDoneTimerId });
     }
 
     closeButttonClickedHandler = () => {
         clearTimeout(this.state.transitionOutTimerId);
-        this.setState({ transition: "out" });
+        clearTimeout(this.state.isDoneTimerId);
+        this.setState({ transition: "up" });
         setTimeout(() => {
             this.props.isDone();
         }, this.TRANSITION_TIME_MS);
-    }
+    };
 
     render() {
         let backgroundColorStyle;
@@ -64,11 +64,11 @@ class AlertBar extends Component {
 
         let transitionStyle;
         switch (this.state.transition) {
-            case "in":
-                transitionStyle = styles.alertBarTransitionIn;
+            case "down":
+                transitionStyle = styles.alertBarSlideDown;
                 break;
-            case "out":
-                transitionStyle = styles.alertBarTransitionOut;
+            case "up":
+                transitionStyle = styles.alertBarSlideUp;
                 break;
             default:
                 transitionStyle = null;
@@ -79,7 +79,10 @@ class AlertBar extends Component {
                 <div className={styles.alertBarTopGrid}>
                     <div></div>
                     <h1 className={styles.alertBarHeading}>{this.props.heading}</h1>
-                    <button className={styles.alertBarCloseButton} onClick={this.closeButttonClickedHandler} type='button'>
+                    <button
+                        className={styles.alertBarCloseButton}
+                        onClick={this.closeButttonClickedHandler}
+                        type='button'>
                         <img
                             className={styles.alertBarCloseButtonImg}
                             src={closeIconWhite}

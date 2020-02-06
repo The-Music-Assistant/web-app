@@ -21,11 +21,11 @@
     border-radius: 20px;
     transition: transform 1s ease-out;
 
-    &TransitionIn {
+    &SlideDown {
         transform: translate(-50%, 0);
     }
 
-    &TransitionOut {
+    &SlideUp {
         transform: translate(-50%, -140%);
     }
 
