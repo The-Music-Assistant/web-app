@@ -14,10 +14,15 @@
     border-radius: 10px;
     box-shadow: $primary-box-shadow;
     display: block;
+    transition: transform .2s ease-in-out;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         font-size: 1.2rem;
         padding: 10px 20px;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
     }
 }
 

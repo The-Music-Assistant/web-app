@@ -11,6 +11,10 @@ import styles from "./AlertBar.module.scss";
 import closeIconWhite from "../../assets/icons/close-icon-white-fa.svg";
 
 class AlertBar extends Component {
+    
+    DISPLAY_TIME_MS = 5000;
+    TRANSITION_TIME_MS = 1000;
+
     state = {
         timeElapsed: false,
         transition: null,
@@ -18,11 +22,18 @@ class AlertBar extends Component {
     };
 
     componentDidMount() {
-        this.setState({ transition: "in" });
+        // Timeout with 0ms puts transition into event loop and delays slide down until component is ready
+        setTimeout(() => {
+            this.setState({ transition: "in" });
+        }, 0);
 
         const transitionOutTimerId = setTimeout(() => {
             this.setState({ transition: "out" });
-        }, 5000);
+        }, this.DISPLAY_TIME_MS);
+
+        setTimeout(() => {
+            this.props.isDone();
+        }, this.DISPLAY_TIME_MS + this.TRANSITION_TIME_MS);
 
         this.setState({transitionOutTimerId});
     }
@@ -30,6 +41,9 @@ class AlertBar extends Component {
     closeButttonClickedHandler = () => {
         clearTimeout(this.state.transitionOutTimerId);
         this.setState({ transition: "out" });
+        setTimeout(() => {
+            this.props.isDone();
+        }, this.TRANSITION_TIME_MS);
     }
 
     render() {

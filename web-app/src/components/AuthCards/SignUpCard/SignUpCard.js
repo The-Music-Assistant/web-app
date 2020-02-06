@@ -10,7 +10,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import firebase from "../../../vendors/Firebase/firebase";
 // import * as actions from "../../../store/actions";
-import {beginSignUp, endSignUp} from "../../../store/actions";
+import { beginSignUp, endSignUp } from "../../../store/actions";
 import TextInput from "../../FormInputs/TextInput/TextInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 import TextButton from "../../Buttons/TextButton/TextButton";
@@ -43,8 +43,16 @@ class SignUpCard extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.isUserSignedUp && !this.state.emailVerificationSent) {
-            this.sendEmailVerification();
+        if (this.props.isUserSignedUp) {
+            if (this.state.emailVerificationSent) {
+                this.props.showAlert(
+                    "success",
+                    "Success!",
+                    "You have successfully been signed up"
+                );
+            } else {
+                this.sendEmailVerification();
+            }
         }
     }
 
@@ -76,7 +84,11 @@ class SignUpCard extends Component {
         const trimmedEmail = this.removeWhitespace(email);
 
         if (trimmedEmail !== email) {
-            alert("Please remove whitespace from email (e.g. spaces, tabs, etc.)");
+            this.props.showAlert(
+                "error",
+                "Email Error",
+                "Please remove whitespace from email (e.g. spaces, tabs, etc.)"
+            );
             return false;
         }
 
@@ -87,17 +99,19 @@ class SignUpCard extends Component {
         const trimmedPassword = this.removeWhitespace(password);
 
         if (trimmedPassword !== password) {
-            alert("Please remove whitespace from password (e.g. spaces, tabs, etc.)");
+            this.props.showAlert(
+                "error",
+                "Password Error",
+                "Please remove whitespace from password (e.g. spaces, tabs, etc.)"
+            );
             return false;
         }
 
         if (!trimmedPassword.match(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)) {
-            console.log(
-                trimmedPassword.match(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
-            );
-            alert(
-                `Invalid password. Your password must be at least 8 characters and contain at least one of each: uppercase` +
-                    `letter [A-Z], lowercase letter [a-z], number [1-9], and special character [@, $, !, %, *, ?, or &]`
+            this.props.showAlert(
+                "error",
+                "Password Error",
+                "Invalid password. Your password must be at least 8 characters and contain at least one of each: uppercase letter [A-Z], lowercase letter [a-z], number [1-9], and special character [@, $, !, %, *, ?, or &]"
             );
             return false;
         }
@@ -112,13 +126,13 @@ class SignUpCard extends Component {
      * @param {string} password - User's password
      */
     signUpWithEmailPassword = (email, password) => {
-        this.props.loading(true);
+        this.props.setLoading(true);
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .catch(error => {
-                console.log(error);
-                this.props.loading(false);
+                this.props.setLoading(false);
+                this.props.showAlert("error", "Sign Up Error", error.message);
             });
     };
 
@@ -133,11 +147,11 @@ class SignUpCard extends Component {
                 this.setState({ emailVerificationSent: true });
             })
             .catch(error => {
-                console.log(error);
+                this.props.showAlert("error", "Sign Up Error", error.message);
             })
             .finally(() => {
-                this.props.loading(false);
-            })
+                this.props.setLoading(false);
+            });
     };
 
     render() {
@@ -194,7 +208,7 @@ const mapDispatchToProps = dispatch => {
     return {
         beginSignUp: () => dispatch(beginSignUp()),
         endSignUp: () => dispatch(endSignUp())
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpCard);

@@ -16,19 +16,17 @@
     height: 300px;
     max-width: 400px;
     position: relative;
-    overflow: scroll;
     margin-top: 40px;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         width: 85vw;
-        height: 75vh;
+        height: 500px;
         max-width: 500px;
-        max-height: 500px;
+        margin-top: 0;
     }
 
     @include media-query($breakpoint: $desktop-breakpoint) {
         width: calc(50vw - 120px);
-        margin-top: 0;
     }
 
     &Heading {

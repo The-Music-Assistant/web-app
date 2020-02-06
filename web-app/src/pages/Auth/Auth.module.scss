@@ -20,16 +20,11 @@
         );
         min-height: inherit;
         max-width: 1320px;
-        padding: 20px;
-
-        @include media-query($breakpoint: $tablet-breakpoint) {
-            padding: 20px 0;
-        }
+        padding: 40px 20px;
 
         @include media-query($breakpoint: $desktop-breakpoint) {
             flex-direction: row;
             justify-content: space-between;
-            padding: 0 40px;
         }
 
         @include media-query($breakpoint: $large-desktop-breakpoint) {

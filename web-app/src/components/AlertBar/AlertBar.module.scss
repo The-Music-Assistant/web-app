@@ -49,18 +49,18 @@
     }
 
     &Success {
-        background-color: $green-color;
+        background-color: rgba($green-color, 0.95);
     }
 
     &Warning {
-        background-color: $yellow-color;
+        background-color: rgba($yellow-color, 0.95);
     }
 
     &Error {
-        background-color: $red-color;
+        background-color: rgba($red-color, 0.95);
     }
 
     &Info {
-        background-color: $secondary-color;
+        background-color: rgba($secondary-color, 0.95);
     }
 }

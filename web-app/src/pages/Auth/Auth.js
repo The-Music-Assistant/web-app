@@ -18,12 +18,14 @@ import ChoirSetupCard from "../../components/AuthCards/ChoirSetupCard/ChoirSetup
 import SignInCard from "../../components/AuthCards/SignInCard/SignInCard";
 import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
 import * as authTypes from "./authTypes";
+import AlertBar from "../../components/AlertBar/AlertBar";
 
 class Auth extends Component {
     state = {
         authType: authTypes.SIGN_UP,
         innerHeight: window.innerHeight,
-        isLoading: false
+        isLoading: false,
+        alert: null
     };
 
     signUpInfo = {
@@ -59,8 +61,18 @@ class Auth extends Component {
         this.setState({ innerHeight: window.innerHeight });
     };
 
-    loadingHandler = isLoading => {
+    setLoadingHandler = isLoading => {
         this.setState({ isLoading });
+    };
+
+    alertIsDoneHandler = () => {
+        this.setState({ alert: null });
+    };
+
+    showAlertHandler = (type, heading, message) => {
+        this.setState({
+            alert: { type, heading, message }
+        });
     };
 
     render() {
@@ -69,37 +81,80 @@ class Auth extends Component {
 
         switch (this.state.authType) {
             case authTypes.SIGN_UP:
-                authCard = <SignUpCard loading={this.loadingHandler} />;
+                authCard = (
+                    <SignUpCard
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                    />
+                );
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.PROFILE:
-                authCard = <ProfileCard loading={this.loadingHandler} />;
+                authCard = (
+                    <ProfileCard
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                    />
+                );
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.CHOIR_QUESTION:
-                authCard = <ChoirQuestionCard loading={this.loadingHandler} />;
+                authCard = (
+                    <ChoirQuestionCard
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                    />
+                );
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.ENTER_CODE:
-                authCard = <EnterCodeCard loading={this.loadingHandler} />;
+                authCard = (
+                    <EnterCodeCard
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                    />
+                );
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.WAIT_FOR_CODE:
-                authCard = <WaitForCodeCard loading={this.loadingHandler} />;
+                authCard = (
+                    <WaitForCodeCard
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                    />
+                );
                 authInfo = this.signUpInfo;
                 break;
             case authTypes.CHOIR_SET_UP:
-                authCard = <ChoirSetupCard loading={this.loadingHandler} />;
+                authCard = (
+                    <ChoirSetupCard
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                    />
+                );
                 authInfo = this.signUpInfo;
                 break;
             default:
-                authCard = <SignInCard loading={this.loadingHandler} />;
+                authCard = (
+                    <SignInCard
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                    />
+                );
                 authInfo = this.signInInfo;
         }
 
         return (
             <div className={styles.auth} style={{ minHeight: `${this.state.innerHeight}px` }}>
                 {this.state.isLoading ? <LoadingHUD text='Loading...' /> : null}
+                {this.state.alert ? (
+                    <AlertBar
+                        type={this.state.alert.type}
+                        heading={this.state.alert.heading}
+                        message={this.state.alert.message}
+                        isDone={this.alertIsDoneHandler}
+                    />
+                ) : null}
                 <div className={styles.authContainer}>
                     <div className={styles.authInfo}>
                         <img
