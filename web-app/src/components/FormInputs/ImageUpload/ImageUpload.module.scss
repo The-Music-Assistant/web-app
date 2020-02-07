@@ -1,0 +1,16 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/FormInputs/ImageUpload/ImageUpload.module.scss
+// Description: SCSS styles for the image upload component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 2/6/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.imageUpload {
+    &Label {
+        @include text($size: 1rem, $weight: 400, $color: $primary-color, $line-height: null);
+        cursor: pointer;
+    }
+}

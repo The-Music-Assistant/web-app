@@ -22,7 +22,7 @@ import AlertBar from "../../components/AlertBar/AlertBar";
 
 class Auth extends Component {
     state = {
-        authType: authTypes.SIGN_UP,
+        authType: authTypes.PROFILE,
         innerHeight: window.innerHeight,
         isLoading: false,
         alert: null
