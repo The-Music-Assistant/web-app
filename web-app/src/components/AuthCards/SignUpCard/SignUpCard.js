@@ -14,7 +14,8 @@ import { beginSignUp, endSignUp } from "../../../store/actions";
 import TextInput from "../../FormInputs/TextInput/TextInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 import TextButton from "../../Buttons/TextButton/TextButton";
-import styles from "./SignUpCard.module.scss";
+import signUpCardStyles from "./SignUpCard.module.scss";
+import authStyles from "../AuthCard.module.scss";
 
 class SignUpCard extends Component {
     state = {
@@ -170,11 +171,11 @@ class SignUpCard extends Component {
         });
 
         return (
-            <div className={styles.authCard}>
-                <h3 className={styles.authCardHeading}>Sign Up</h3>
-                <form className={styles.authCardForm} onSubmit={this.submitHandler}>
+            <div className={authStyles.authCard}>
+                <h3 className={authStyles.authCardHeading}>Sign Up</h3>
+                <form className={authStyles.authCardForm} onSubmit={this.submitHandler}>
                     {formElements}
-                    <div className={styles.authCardButtonContainer}>
+                    <div className={authStyles.authCardSubmitButtonContainer}>
                         <RectangularButton
                             type='submit'
                             value='submit'
@@ -184,7 +185,7 @@ class SignUpCard extends Component {
                         />
                     </div>
                 </form>
-                <div className={styles.authCardChangeAuth}>
+                <div className={signUpCardStyles.signUpCardChangeAuth}>
                     <TextButton
                         type='button'
                         value='change-auth'

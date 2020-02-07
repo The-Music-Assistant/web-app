@@ -6,50 +6,10 @@
 // Created Date: 1/6/2020
 // ----------------------------------------------------------------------------
 
-@import "../../../root-styles/utilities.scss";
+// @import "../../../root-styles/utilities.scss";
 
-.authCard {
-    background-color: $white-color;
-    box-shadow: $green-box-shadow;
-    border-radius: 10px;
-    width: 100%;
-    height: 300px;
-    max-width: 400px;
-    position: relative;
-    margin-top: 40px;
-
-    @include media-query($breakpoint: $tablet-breakpoint) {
-        width: 85vw;
-        height: 500px;
-        max-width: 500px;
-        margin-top: 0;
-    }
-
-    @include media-query($breakpoint: $desktop-breakpoint) {
-        width: calc(50vw - 120px);
-    }
-
-    &Heading {
-        @include text($size: 1.56rem, $weight: 400, $color: $green-color, $line-height: null);
-        text-align: center;
-        margin: 20px 0 10px;
-
-        @include media-query($breakpoint: $tablet-breakpoint) {
-            font-size: 2.2rem;
-        }
-    }
-
-    &Form {
-        margin: 0 20px;
-    }
-
-    &ButtonContainer {
-        margin-top: 40px;
-    }
-
-    &ChangeAuth {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-    }
+.signUpCardChangeAuth {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
 }
