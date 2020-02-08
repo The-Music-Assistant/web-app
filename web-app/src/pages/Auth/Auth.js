@@ -7,7 +7,7 @@
 // ----------------------------------------------------------------------------
 
 import React, { Component } from "react";
-import styles from "./Auth.module.scss";
+import { connect } from "react-redux";
 import logo from "../../assets/logos/music-assistant-logo.png";
 import SignUpCard from "../../components/AuthCards/SignUpCard/SignUpCard";
 import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
@@ -19,10 +19,11 @@ import SignInCard from "../../components/AuthCards/SignInCard/SignInCard";
 import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
 import * as authTypes from "./authTypes";
 import AlertBar from "../../components/AlertBar/AlertBar";
+import styles from "./Auth.module.scss";
 
 class Auth extends Component {
     state = {
-        authType: authTypes.PROFILE,
+        authType: authTypes.SIGN_UP,
         innerHeight: window.innerHeight,
         isLoading: false,
         alert: null
@@ -57,6 +58,12 @@ class Auth extends Component {
         window.removeEventListener("resize", this.resizeWindow);
     }
 
+    componentDidUpdate() {
+        if (this.props.isAuthenticated && this.state.authType !== authTypes.PROFILE) {
+            this.setState({ authType: authTypes.PROFILE });
+        }
+    }
+
     resizeWindow = () => {
         this.setState({ innerHeight: window.innerHeight });
     };
@@ -85,6 +92,7 @@ class Auth extends Component {
                     <SignUpCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 );
                 authInfo = this.signUpInfo;
@@ -94,6 +102,7 @@ class Auth extends Component {
                     <ProfileCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 );
                 authInfo = this.signUpInfo;
@@ -103,6 +112,7 @@ class Auth extends Component {
                     <ChoirQuestionCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 );
                 authInfo = this.signUpInfo;
@@ -112,6 +122,7 @@ class Auth extends Component {
                     <EnterCodeCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 );
                 authInfo = this.signUpInfo;
@@ -121,6 +132,7 @@ class Auth extends Component {
                     <WaitForCodeCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 );
                 authInfo = this.signUpInfo;
@@ -130,6 +142,7 @@ class Auth extends Component {
                     <ChoirSetupCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 );
                 authInfo = this.signUpInfo;
@@ -139,6 +152,7 @@ class Auth extends Component {
                     <SignInCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 );
                 authInfo = this.signInInfo;
@@ -172,4 +186,10 @@ class Auth extends Component {
     }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    };
+};
+
+export default connect(mapStateToProps)(Auth);

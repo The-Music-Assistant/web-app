@@ -44,7 +44,7 @@ class SignUpCard extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.isUserSignedUp) {
+        if (this.props.isAuthenticated) {
             if (this.state.emailVerificationSent) {
                 this.props.showAlert(
                     "success",
@@ -199,12 +199,6 @@ class SignUpCard extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        isUserSignedUp: state.auth.isAuthenticated
-    };
-};
-
 const mapDispatchToProps = dispatch => {
     return {
         beginSignUp: () => dispatch(beginSignUp()),
@@ -212,4 +206,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpCard);
+export default connect(null, mapDispatchToProps)(SignUpCard);

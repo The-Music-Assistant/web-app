@@ -118,6 +118,7 @@ const authSuccess = userExists => {
     if (!userExists) {
         type = actionTypes.NO_USER_EXISTS;
     }
+    
     return {
         type
     };

@@ -33,12 +33,21 @@ class App extends Component {
 
         if (this.props.isFinishedLoading && this.state.minTimeElapsed) {
             if (!this.props.isSigningUp && this.props.isAuthenticated) {
+                // page = (
+                //     <div className='App'>
+                //         <Route path='/'>
+                //             <Primary />
+                //         </Route>
+                //         <Redirect to='/' />
+                //     </div>
+                // );
+
                 page = (
                     <div className='App'>
-                        <Route path='/'>
-                            <Primary />
+                        <Route path='/sign-up'>
+                            <Auth />
                         </Route>
-                        <Redirect to='/' />
+                        <Redirect to='/sign-up' />
                     </div>
                 );
             } else {
