@@ -87,6 +87,7 @@ class PitchDetection {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", 'http://3.18.108.127:2765', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
+        console.log(JSON.stringify(AlphaTabRunner.noteList.performanceData));
         xhr.send(JSON.stringify(AlphaTabRunner.noteList.performanceData));
     }
 

@@ -1,5 +1,5 @@
 import PerformanceData from "./PerformanceData.js";
-const MAX_SIZE = 5;
+const MAX_SIZE = 1;
 
 /**
  * Keeps a list of midi values to serve as a sample of the MAX_SIZE last midi values heard.

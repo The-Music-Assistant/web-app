@@ -62,7 +62,7 @@ class AlphaTabRunner {
         });
 
         this.currentTestIndex = 0;
-        this.tests = ["C:\\Users\\fiddl\\OneDrive\\Documents\\testPerformance.wav"];
+        this.tests = ["D:\\Senior Project\\WAV\\Testing.wav"];
     }
 
     /**
@@ -93,7 +93,7 @@ class AlphaTabRunner {
                 AlphaTabRunner.noteList = new NoteList(0);
 
                 // TODO: Pull this from database
-                AlphaTabRunner.noteList.updateBounds(55, 82);
+                AlphaTabRunner.noteList.updateBounds(35, 90);
                 
                 p5.setup(AlphaTabRunner.drawer);
 
