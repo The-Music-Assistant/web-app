@@ -12,9 +12,6 @@ import styles from "./RectangularButton.module.scss";
 const Button = props => {
     const classNames = [styles.rectButton];
     classNames.push(styles[`${props.backgroundColor}RectButton`]);
-    if (props.center === "true") {
-        classNames.push(styles.centerRectButton);
-    }
     return (
         <button className={classNames.join(" ")} type={props.type} value={props.value}>
             {props.text}

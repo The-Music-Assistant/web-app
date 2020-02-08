@@ -46,11 +46,7 @@ class SignUpCard extends Component {
     componentDidUpdate() {
         if (this.props.isAuthenticated) {
             if (this.state.emailVerificationSent) {
-                this.props.showAlert(
-                    "success",
-                    "Success!",
-                    "You have successfully been signed up"
-                );
+                this.props.showAlert("success", "Success!", "You have successfully been signed up");
             } else {
                 this.sendEmailVerification();
             }
@@ -60,11 +56,11 @@ class SignUpCard extends Component {
     removeWhitespace = string => string.replace(/\s+/g, "");
 
     inputValueChangedHandler = (event, index) => {
-        const value = event.target.value;
+        const text = event.target.value;
         this.setState(prevState => {
             const updatedFormElements = [...prevState.formElements];
             const updatedInput = { ...prevState.formElements[index] };
-            updatedInput.value = value;
+            updatedInput.value = text;
             updatedFormElements[index] = updatedInput;
             return {
                 formElements: updatedFormElements
@@ -158,15 +154,16 @@ class SignUpCard extends Component {
     render() {
         const formElements = this.state.formElements.map((formElement, index) => {
             return (
-                <TextInput
-                    key={index}
-                    inputType={formElement.inputType}
-                    inputName={formElement.inputName}
-                    labelText={formElement.labelText}
-                    value={formElement.value}
-                    isRequired={formElement.isRequired}
-                    onChange={event => this.inputValueChangedHandler(event, index)}
-                />
+                <div key={index} className={signUpCardStyles.signUpCardTextInput}>
+                    <TextInput
+                        inputType={formElement.inputType}
+                        inputName={formElement.inputName}
+                        labelText={formElement.labelText}
+                        value={formElement.value}
+                        isRequired={formElement.isRequired}
+                        onChange={event => this.inputValueChangedHandler(event, index)}
+                    />
+                </div>
             );
         });
 
@@ -181,7 +178,6 @@ class SignUpCard extends Component {
                             value='submit'
                             text='Sign Up'
                             backgroundColor='green'
-                            center='true'
                         />
                     </div>
                 </form>

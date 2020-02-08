@@ -12,18 +12,26 @@
     &ImageInput {
         @include flex-container($direction: column, $justify-content: null, $align-items: center, $wrap: nowrap);
 
-        &Img {
-            object-fit: cover;
+        &Img,
+        &ImgPlaceholder {
             width: 90px;
             height: 90px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            background-color: $orange-color;
             border: 2px solid $primary-color;
+            border-radius: 50%;
+        }
+
+        &Img {
+            object-fit: cover;
+            margin-bottom: 6px;
 
             &Container {
                 position: relative;
             }
+        }
+
+        &ImgPlaceholder {
+            margin-bottom: 10px;
+            background-color: $orange-color;
         }
 
         &RemoveButton {
@@ -32,5 +40,11 @@
             right: -20px;
             width: 15px;
         }
+    }
+
+    &TextInputs {
+        margin-top: 20px;
+        @include grid-container($grid-template-rows: 1fr, $grid-template-columns: 1fr 1fr, $align-items: space-between);
+        gap: 40px;
     }
 }

@@ -23,7 +23,7 @@ import styles from "./Auth.module.scss";
 
 class Auth extends Component {
     state = {
-        authType: authTypes.SIGN_UP,
+        authType: authTypes.PROFILE,
         innerHeight: window.innerHeight,
         isLoading: false,
         alert: null
@@ -56,12 +56,6 @@ class Auth extends Component {
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.resizeWindow);
-    }
-
-    componentDidUpdate() {
-        if (this.props.isAuthenticated && this.state.authType !== authTypes.PROFILE) {
-            this.setState({ authType: authTypes.PROFILE });
-        }
     }
 
     resizeWindow = () => {

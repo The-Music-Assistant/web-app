@@ -12,7 +12,7 @@ import styles from "./ImageInput.module.scss";
 const ImageInput = props => {
     return (
         <div>
-            <input id={props.inputName} className={styles.imageInput} type='file' name={props.inputName} accept='image/*' hidden onChange={props.onChange} />
+            <input id={props.inputName} className={styles.imageInput} type='file' name={props.inputName} accept='image/*' hidden onChange={props.onChange} files={props.file} />
             <label className={styles.imageInputLabel} htmlFor={props.inputName}>{props.buttonName}</label>
         </div>
     );

@@ -8,8 +8,14 @@
 
 // @import "../../../root-styles/utilities.scss";
 
-.signUpCardChangeAuth {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
+.signUpCard {
+    &TextInput {
+        margin-bottom: 20px;
+    }
+
+    &ChangeAuth {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+    }
 }

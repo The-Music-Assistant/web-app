@@ -32,7 +32,7 @@
     &Heading {
         @include text($size: 1.56rem, $weight: 400, $color: $green-color, $line-height: null);
         text-align: center;
-        margin: 20px 0 10px;
+        margin: 20px 0 30px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             font-size: 2.2rem;
@@ -44,6 +44,7 @@
     }
 
     &SubmitButtonContainer {
-        margin-top: 40px;
+        @include flex-container($direction: row, $justify-content: center, $align-items: center, $wrap: nowrap);
+        margin-top: 30px;
     }
 }
