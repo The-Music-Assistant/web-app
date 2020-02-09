@@ -15,6 +15,7 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
 import profileCardStyles from "./ProfileCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
+import { addPerson } from "../../../App/musicAssistantApi";
 
 class ProfileCard extends Component {
     state = {
@@ -79,16 +80,27 @@ class ProfileCard extends Component {
                     this.props.setLoading(false);
                     this.props.showAlert("error", "Error", error.message);
                 });
+        } else {
+            console.log("Not authenticated");
         }
     };
 
     uploadData = async () => {
         this.props.setLoading(true);
         try {
-            await this.uploadProfilePicture();
-            await this.uploadName();
+            let profilePictureURL = await this.uploadProfilePicture();
+            profilePictureURL = profilePictureURL.replace("profile_picture", "profile_picture_200x200");
+            await addPerson(
+                this.state.formData.firstName,
+                this.state.formData.lastName,
+                profilePictureURL
+            );
         } catch (error) {
-            throw new Error(error);
+            console.log(error);
+            const newError = new Error();
+            newError.message = error.response.data;
+            newError.status = error.response.status;
+            throw newError;
         }
         this.props.setLoading(false);
     };
@@ -98,18 +110,24 @@ class ProfileCard extends Component {
         if (profilePicture) {
             const userUid = firebase.auth().currentUser.uid;
             const profilePictureFileExtension = profilePicture.type.substring(6);
+            const path = `users/${userUid}/profile_picture.${profilePictureFileExtension}`;
             return firebase
                 .storage()
                 .ref()
-                .child(`users/${userUid}/profile_picture.${profilePictureFileExtension}`)
-                .put(profilePicture);
+                .child(path)
+                .put(profilePicture)
+                .then(this.getProfilePictureURL);
         } else {
             return Promise.resolve();
         }
     };
 
-    uploadName = async () => {
-        return Promise.resolve();
+    getProfilePictureURL = async snapshot => {
+        try {
+            return await snapshot.ref.getDownloadURL();
+        } catch (_) {
+            return null;
+        }
     };
 
     render() {
