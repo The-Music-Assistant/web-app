@@ -4,7 +4,7 @@ lines = pitchFile.readlines()
 print("Time, Measured, Expected, Difference, Octave Difference")
 for line in lines:
     temp = line.split()
-    times = (float(temp[1])
+    time = (float(temp[1]))
     midi = (float(temp[0]))
     midiExpected = 40 + time // 1
     difference = midiExpected - midi
