@@ -16,7 +16,7 @@ const TextButton = props => {
         classNames.push(styles.centerTextButton);
     }
     return (
-        <button className={classNames.join(" ")} type={props.type} value={props.value}>
+        <button className={classNames.join(" ")} type={props.type} value={props.value} onClick={props.onClick}>
             {props.text}
         </button>
     );

@@ -18,7 +18,7 @@ import profileCardStyles from "./ProfileCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
 import { addUser } from "../../../App/musicAssistantApi";
 import { firstNameEntered } from "../../../store/actions";
-import { PROFILE } from "../../../pages/Auth/authTypes";
+import { PROFILE } from "../../../pages/Auth/authCards";
 
 class ProfileCard extends Component {
     state = {
@@ -104,7 +104,7 @@ class ProfileCard extends Component {
             }
             const userData = { ...this.state.formData };
             userData.profilePicture = null;
-            await addUser(userData);
+            // await addUser(userData);
         } catch (error) {
             console.log(error);
             const newError = new Error();

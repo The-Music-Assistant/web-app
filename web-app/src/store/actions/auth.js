@@ -12,40 +12,6 @@ import firebase from "../../vendors/Firebase/firebase";
 import { setAxiosAuthToken } from "../../App/musicAssistantApi";
 
 /**
- * Signs the user in with an email and password
- * @param {string} email - User's email
- * @param {string} password - User's password
- * @param {boolean} stayAuthenticated - Whether or not to hold auth state when the session ends
- */
-export const signInWithEmailPassword = (email, password, stayAuthenticated) => {
-    return dispatch => {
-        dispatch(authLoading());
-
-        const persistenceType = stayAuthenticated
-            ? firebase.auth.Auth.Persistence.LOCAL
-            : firebase.auth.Auth.Persistence.SESSION;
-
-        // Sets the persistence for Firebase Auth
-        firebase
-            .auth()
-            .setPersistence(persistenceType)
-            .then(() => {
-                // Once persistence is set, signs the user in
-                firebase
-                    .auth()
-                    .signInWithEmailAndPassword(email, password)
-                    .catch(error => {
-                        dispatch(authError(error));
-                    });
-            })
-            .catch(error => {
-                // If setting the persistence failed, retrieve the error
-                dispatch({ type: actionTypes.AUTH_ERROR, error });
-            });
-    };
-};
-
-/**
  * Signs the current user out
  */
 // export const signOut = () => {
@@ -152,18 +118,24 @@ const startupAuthFinished = () => {
     };
 };
 
-/**
- * Returns BEGIN_SIGN_UP action type
- */
-export const beginSignUp = () => {
+export const startSignIn = () => {
     return {
-        type: actionTypes.BEGIN_SIGN_UP
+        type: actionTypes.START_SIGN_IN
     };
 };
 
-/**
- * Returns END_SIGN_UP action type
- */
+export const startSignUp = () => {
+    return {
+        type: actionTypes.START_SIGN_UP
+    };
+};
+
+export const endSignIn = () => {
+    return {
+        type: actionTypes.END_SIGN_IN
+    };
+};
+
 export const endSignUp = () => {
     return {
         type: actionTypes.END_SIGN_UP
@@ -177,14 +149,14 @@ export const firstNameEntered = firstName => {
     return {
         type: actionTypes.FIRST_NAME_ENTERED,
         firstName
-    }
-}
+    };
+};
 
 /**
- * Returns WELCOME_PAGE_DONE action type
+ * Returns END_WELCOME_PAGE action type
  */
-export const welcomePageDone = () => {
+export const endWelcomePage = () => {
     return {
-        type: actionTypes.WELCOME_PAGE_DONE
-    }
-}
+        type: actionTypes.END_WELCOME_PAGE
+    };
+};

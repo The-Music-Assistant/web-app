@@ -9,18 +9,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import logo from "../../assets/logos/music-assistant-logo.png";
-import SignInCard from "../../components/AuthCards/SignInCard/SignInCard";
-import SignUpCard from "../../components/AuthCards/SignUpCard/SignUpCard";
+import AuthCard from "../../components/AuthCards/AuthCard/AuthCard";
 import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
 import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
-import * as authTypes from "./authTypes";
+import * as authCards from "./authCards";
 import AlertBar from "../../components/AlertBar/AlertBar";
 import styles from "./Auth.module.scss";
-import { endSignUp } from "../../store/actions";
+import { endSignIn, endSignUp } from "../../store/actions";
+import * as authFlows from "./authFlows";
 
 class Auth extends Component {
     state = {
-        authType: authTypes.SIGN_UP,
+        authCardToShow: authCards.SIGN_UP,
         innerHeight: window.innerHeight,
         isLoading: false,
         alert: null
@@ -73,55 +73,62 @@ class Auth extends Component {
         });
     };
 
-    flowStageDoneHandler = stage => {
+    authFlowStageDoneHandler = stage => {
         switch (stage) {
-            case authTypes.SIGN_UP:
-                this.setState({authType: authTypes.PROFILE});
+            case authCards.SIGN_IN:
+                this.props.endSignIn();
                 break;
-            case authTypes.PROFILE:
-                this.props.signUpDone();
+            case authCards.SIGN_UP:
+                this.setState({ authCardToShow: authCards.PROFILE });
+                break;
+            case authCards.PROFILE:
+                this.props.endSignUp();
                 break;
             default:
         }
-    }
+    };
 
     render() {
         let authCard;
         let authInfo;
 
-        switch (this.state.authType) {
-            case authTypes.SIGN_UP:
+        switch (this.state.authCardToShow) {
+            case authCards.SIGN_IN:
                 authCard = (
-                    <SignUpCard
+                    <AuthCard
+                        authFlow={authFlows.SIGN_IN}
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
                         isAuthenticated={this.props.isAuthenticated}
-                        done={this.flowStageDoneHandler}
+                        done={this.authFlowStageDoneHandler}
                     />
                 );
                 authInfo = this.signUpInfo;
                 break;
-            case authTypes.PROFILE:
+            case authCards.SIGN_UP:
+                authCard = (
+                    <AuthCard
+                        authFlow={authFlows.SIGN_UP}
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
+                        done={this.authFlowStageDoneHandler}
+                    />
+                );
+                authInfo = this.signUpInfo;
+                break;
+            case authCards.PROFILE:
                 authCard = (
                     <ProfileCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
                         isAuthenticated={this.props.isAuthenticated}
-                        done={this.flowStageDoneHandler}
+                        done={this.authFlowStageDoneHandler}
                     />
                 );
                 authInfo = this.signUpInfo;
                 break;
             default:
-                authCard = (
-                    <SignInCard
-                        setLoading={this.setLoadingHandler}
-                        showAlert={this.showAlertHandler}
-                        isAuthenticated={this.props.isAuthenticated}
-                        done={this.flowStageDoneHandler}
-                    />
-                );
-                authInfo = this.signInInfo;
         }
 
         return (
@@ -160,7 +167,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        signUpDone: () => dispatch(endSignUp())
+        endSignIn: () => dispatch(endSignIn()),
+        endSignUp: () => dispatch(endSignUp())
     };
 };
 

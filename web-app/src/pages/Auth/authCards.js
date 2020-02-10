@@ -1,9 +1,11 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/AuthCards/SignIn/SignIn.module.scss
-// Description: SCSS styles for the sign in card component
+// File Path: src/pages/Auth/authTypes.js
+// Description: Auth card types
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/6/2020
 // ----------------------------------------------------------------------------
 
-@import "../../../root-styles/utilities.scss";
+export const SIGN_IN = "SIGN_IN";
+export const SIGN_UP = "SIGN_UP";
+export const PROFILE = "PROFILE";

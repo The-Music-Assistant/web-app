@@ -11,10 +11,12 @@ export const STARTUP_AUTH_DONE = "STARTUP_AUTH_DONE";
 
 // Auth action types
 export const AUTH_LOADING = "AUTH_LOADING";
+export const START_SIGN_IN = "START_SIGN_IN";
+export const START_SIGN_UP = "START_SIGN_UP";
+export const END_SIGN_IN = "END_SIGN_IN";
+export const END_SIGN_UP = "END_SIGN_UP";
 export const USER_EXISTS = "USER_EXISTS";
 export const NO_USER_EXISTS = "NO_USER_EXISTS";
 export const AUTH_ERROR = "AUTH_ERROR";
-export const BEGIN_SIGN_UP = "BEGIN_SIGN_UP";
-export const END_SIGN_UP = "END_SIGN_UP";
 export const FIRST_NAME_ENTERED = "FIRST_NAME_ENTERED";
-export const WELCOME_PAGE_DONE = "WELCOME_PAGE_DONE";
+export const END_WELCOME_PAGE = "END_WELCOME_PAGE";

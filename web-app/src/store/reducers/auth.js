@@ -7,14 +7,15 @@
 ---------------------------------------------------------------------------- */
 
 import * as actionTypes from "../actions/actionTypes";
+import * as authFlows from "../../pages/Auth/authFlows";
 import { updateObject } from "../utility";
 
 const initialState = {
+    authFlow: null,
     isAuthenticated: false,
     error: null,
     isLoading: true,
-    isSigningUp: false,
-    firstName: "",
+    firstName: null,
     showWelcomePage: false
 };
 
@@ -32,14 +33,18 @@ const authReducer = (state = initialState, action) => {
                 error: action.error,
                 isLoading: false
             });
-        case actionTypes.BEGIN_SIGN_UP:
-            return updateObject(state, { isSigningUp: true });
-        case actionTypes.END_SIGN_UP:
-            return updateObject(state, { isSigningUp: false, showWelcomePage: true });
         case actionTypes.FIRST_NAME_ENTERED:
             return updateObject(state, { firstName: action.firstName });
-        case actionTypes.WELCOME_PAGE_DONE:
+        case actionTypes.END_WELCOME_PAGE:
             return updateObject(state, { showWelcomePage: false });
+        case actionTypes.START_SIGN_IN:
+            return updateObject(state, { authFlow: authFlows.SIGN_IN });
+        case actionTypes.START_SIGN_UP:
+            return updateObject(state, { authFlow: authFlows.SIGN_UP });
+        case actionTypes.END_SIGN_IN:
+            return updateObject(state, { authFlow: null });
+        case actionTypes.END_SIGN_UP:
+            return updateObject(state, { authFlow: null, showWelcomePage: true });
         default:
             return state;
     }

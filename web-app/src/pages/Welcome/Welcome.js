@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 import logo from "../../assets/logos/music-assistant-logo.png";
 import downArrow from "../../assets/icons/down-arrow-white-fa.svg";
 import RectangularButton from "../../components/Buttons/RectangularButton/RectangularButton";
-import {welcomePageDone} from "../../store/actions";
+import {endWelcomePage} from "../../store/actions";
 import styles from "./Welcome.module.scss";
 
 const Welcome = props => {
@@ -49,7 +49,7 @@ const Welcome = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        done: () => dispatch(welcomePageDone())
+        done: () => dispatch(endWelcomePage())
     }
 }
 

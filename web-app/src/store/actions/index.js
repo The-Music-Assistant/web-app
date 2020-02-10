@@ -9,8 +9,10 @@
 
 export {
     handleAuthStateChanges,
-    beginSignUp,
+    startSignUp,
+    startSignIn,
     endSignUp,
+    endSignIn,
     firstNameEntered,
-    welcomePageDone
+    endWelcomePage
 } from "./auth";
