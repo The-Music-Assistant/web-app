@@ -7,6 +7,7 @@
 // ----------------------------------------------------------------------------
 
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import firebase from "../../../vendors/Firebase/firebase";
 import "firebase/storage";
 import TextInput from "../../FormInputs/TextInput/TextInput";
@@ -15,7 +16,9 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
 import profileCardStyles from "./ProfileCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
-import { addPerson } from "../../../App/musicAssistantApi";
+import { addUser } from "../../../App/musicAssistantApi";
+import { firstNameEntered } from "../../../store/actions";
+import { PROFILE } from "../../../pages/Auth/authTypes";
 
 class ProfileCard extends Component {
     state = {
@@ -58,7 +61,7 @@ class ProfileCard extends Component {
         this.removeImageHandler();
     };
 
-    removeImageHandler = event => {
+    removeImageHandler = () => {
         this.setState(prevState => {
             const updatedFormData = { ...prevState.formData };
             updatedFormData.profilePicture = null;
@@ -70,11 +73,12 @@ class ProfileCard extends Component {
 
     submitHandler = event => {
         event.preventDefault();
+        this.props.firstNameEntered(this.state.formData.firstName);
         if (this.props.isAuthenticated) {
             this.uploadData()
                 .then(() => {
                     this.props.setLoading(false);
-                    this.props.showAlert("success", "Success!", "Your account has been created");
+                    this.props.done(PROFILE);
                 })
                 .catch(error => {
                     this.props.setLoading(false);
@@ -88,13 +92,19 @@ class ProfileCard extends Component {
     uploadData = async () => {
         this.props.setLoading(true);
         try {
-            let profilePictureURL = await this.uploadProfilePicture();
-            profilePictureURL = profilePictureURL.replace("profile_picture", "profile_picture_200x200");
-            await addPerson(
-                this.state.formData.firstName,
-                this.state.formData.lastName,
-                profilePictureURL
-            );
+            const profilePicture = this.state.formData.profilePicture;
+            if (profilePicture) {
+                const profilePictureFileExtension = profilePicture.type.substring(6);
+                const userUid = firebase.auth().currentUser.uid;
+                await this.uploadProfilePicture(
+                    userUid,
+                    profilePicture,
+                    profilePictureFileExtension
+                );
+            }
+            const userData = { ...this.state.formData };
+            userData.profilePicture = null;
+            await addUser(userData);
         } catch (error) {
             console.log(error);
             const newError = new Error();
@@ -105,29 +115,21 @@ class ProfileCard extends Component {
         this.props.setLoading(false);
     };
 
-    uploadProfilePicture = () => {
-        const profilePicture = this.state.formData.profilePicture;
-        if (profilePicture) {
-            const userUid = firebase.auth().currentUser.uid;
-            const profilePictureFileExtension = profilePicture.type.substring(6);
-            const path = `users/${userUid}/profile_picture.${profilePictureFileExtension}`;
-            return firebase
-                .storage()
-                .ref()
-                .child(path)
-                .put(profilePicture)
-                .then(this.getProfilePictureURL);
-        } else {
-            return Promise.resolve();
-        }
+    uploadProfilePicture = (userUid, picture, extension) => {
+        const path = `users/${userUid}/profile_picture.${extension}`;
+        return firebase
+            .storage()
+            .ref()
+            .child(path)
+            .put(picture);
     };
 
-    getProfilePictureURL = async snapshot => {
-        try {
-            return await snapshot.ref.getDownloadURL();
-        } catch (_) {
-            return null;
-        }
+    getX = async path => {
+        return firebase
+            .storage()
+            .ref()
+            .child(path)
+            .getDownloadURL();
     };
 
     render() {
@@ -202,4 +204,10 @@ class ProfileCard extends Component {
     }
 }
 
-export default ProfileCard;
+const mapDispatchToProps = dispatch => {
+    return {
+        firstNameEntered: firstName => dispatch(firstNameEntered(firstName))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(ProfileCard);

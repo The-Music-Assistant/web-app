@@ -13,7 +13,7 @@ const Button = props => {
     const classNames = [styles.rectButton];
     classNames.push(styles[`${props.backgroundColor}RectButton`]);
     return (
-        <button className={classNames.join(" ")} type={props.type} value={props.value}>
+        <button className={classNames.join(" ")} type={props.type} value={props.value} onClick={props.onClick}>
             {props.text}
         </button>
     );

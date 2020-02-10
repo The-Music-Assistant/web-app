@@ -16,3 +16,5 @@ export const NO_USER_EXISTS = "NO_USER_EXISTS";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const BEGIN_SIGN_UP = "BEGIN_SIGN_UP";
 export const END_SIGN_UP = "END_SIGN_UP";
+export const FIRST_NAME_ENTERED = "FIRST_NAME_ENTERED";
+export const WELCOME_PAGE_DONE = "WELCOME_PAGE_DONE";

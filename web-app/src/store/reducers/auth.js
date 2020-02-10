@@ -13,7 +13,9 @@ const initialState = {
     isAuthenticated: false,
     error: null,
     isLoading: true,
-    isSigningUp: false
+    isSigningUp: false,
+    firstName: "",
+    showWelcomePage: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -33,7 +35,11 @@ const authReducer = (state = initialState, action) => {
         case actionTypes.BEGIN_SIGN_UP:
             return updateObject(state, { isSigningUp: true });
         case actionTypes.END_SIGN_UP:
-            return updateObject(state, { isSigningUp: false });
+            return updateObject(state, { isSigningUp: false, showWelcomePage: true });
+        case actionTypes.FIRST_NAME_ENTERED:
+            return updateObject(state, { firstName: action.firstName });
+        case actionTypes.WELCOME_PAGE_DONE:
+            return updateObject(state, { showWelcomePage: false });
         default:
             return state;
     }

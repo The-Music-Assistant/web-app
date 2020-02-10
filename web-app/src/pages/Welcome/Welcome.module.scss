@@ -1,0 +1,53 @@
+// ----------------------------------------------------------------------------
+// File Path: src/pages/Welcome/Welcome.module.scss
+// Description: SCSS styles for the welcome page
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 2/9/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.welcome {
+    width: 100vw;
+    height: 100vh;
+    background-color: $green-color;
+
+    &Header {
+        padding-top: 75px;
+
+        &Logo {
+            display: block;
+            width: 50px;
+            margin: auto;
+        }
+
+        &Message {
+            @include text($size: 2rem, $weight: 300, $color: $white-color, $line-height: 2.5rem);
+            text-align: center;
+            margin-top: 30px;
+        }
+    }
+
+    &Main {
+        width: 400px;
+        margin: auto;
+
+        &Message {
+            @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: 1.6);
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        &DownArrow {
+            display: block;
+            width: 40px;
+            margin: 30px auto 0;
+        }
+
+        &Button {
+            @include flex-container($direction: row, $justify-content: center, $align-items: center, $wrap: nowrap);
+            margin-top: 30px;
+        }
+    }
+}

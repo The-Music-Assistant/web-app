@@ -9,21 +9,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import logo from "../../assets/logos/music-assistant-logo.png";
+import SignInCard from "../../components/AuthCards/SignInCard/SignInCard";
 import SignUpCard from "../../components/AuthCards/SignUpCard/SignUpCard";
 import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
-import ChoirQuestionCard from "../../components/AuthCards/ChoirQuestionCard/ChoirQuestionCard";
-import EnterCodeCard from "../../components/AuthCards/EnterCodeCard/EnterCodeCard";
-import WaitForCodeCard from "../../components/AuthCards/WaitForCodeCard/WaitForCodeCard";
-import ChoirSetupCard from "../../components/AuthCards/ChoirSetupCard/ChoirSetupCard";
-import SignInCard from "../../components/AuthCards/SignInCard/SignInCard";
 import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
 import * as authTypes from "./authTypes";
 import AlertBar from "../../components/AlertBar/AlertBar";
 import styles from "./Auth.module.scss";
+import { endSignUp } from "../../store/actions";
 
 class Auth extends Component {
     state = {
-        authType: authTypes.PROFILE,
+        authType: authTypes.SIGN_UP,
         innerHeight: window.innerHeight,
         isLoading: false,
         alert: null
@@ -76,6 +73,18 @@ class Auth extends Component {
         });
     };
 
+    flowStageDoneHandler = stage => {
+        switch (stage) {
+            case authTypes.SIGN_UP:
+                this.setState({authType: authTypes.PROFILE});
+                break;
+            case authTypes.PROFILE:
+                this.props.signUpDone();
+                break;
+            default:
+        }
+    }
+
     render() {
         let authCard;
         let authInfo;
@@ -87,6 +96,7 @@ class Auth extends Component {
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
                         isAuthenticated={this.props.isAuthenticated}
+                        done={this.flowStageDoneHandler}
                     />
                 );
                 authInfo = this.signUpInfo;
@@ -97,46 +107,7 @@ class Auth extends Component {
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
                         isAuthenticated={this.props.isAuthenticated}
-                    />
-                );
-                authInfo = this.signUpInfo;
-                break;
-            case authTypes.CHOIR_QUESTION:
-                authCard = (
-                    <ChoirQuestionCard
-                        setLoading={this.setLoadingHandler}
-                        showAlert={this.showAlertHandler}
-                        isAuthenticated={this.props.isAuthenticated}
-                    />
-                );
-                authInfo = this.signUpInfo;
-                break;
-            case authTypes.ENTER_CODE:
-                authCard = (
-                    <EnterCodeCard
-                        setLoading={this.setLoadingHandler}
-                        showAlert={this.showAlertHandler}
-                        isAuthenticated={this.props.isAuthenticated}
-                    />
-                );
-                authInfo = this.signUpInfo;
-                break;
-            case authTypes.WAIT_FOR_CODE:
-                authCard = (
-                    <WaitForCodeCard
-                        setLoading={this.setLoadingHandler}
-                        showAlert={this.showAlertHandler}
-                        isAuthenticated={this.props.isAuthenticated}
-                    />
-                );
-                authInfo = this.signUpInfo;
-                break;
-            case authTypes.CHOIR_SET_UP:
-                authCard = (
-                    <ChoirSetupCard
-                        setLoading={this.setLoadingHandler}
-                        showAlert={this.showAlertHandler}
-                        isAuthenticated={this.props.isAuthenticated}
+                        done={this.flowStageDoneHandler}
                     />
                 );
                 authInfo = this.signUpInfo;
@@ -147,6 +118,7 @@ class Auth extends Component {
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
                         isAuthenticated={this.props.isAuthenticated}
+                        done={this.flowStageDoneHandler}
                     />
                 );
                 authInfo = this.signInInfo;
@@ -186,4 +158,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(Auth);
+const mapDispatchToProps = dispatch => {
+    return {
+        signUpDone: () => dispatch(endSignUp())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

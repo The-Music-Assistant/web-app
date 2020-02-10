@@ -12,8 +12,9 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 // import startupAuthFinished from "../store/actions";
 import Startup from "../pages/Startup/Startup";
-import Primary from "../pages/Primary/Primary";
 import Auth from "../pages/Auth/Auth";
+import Welcome from "../pages/Welcome/Welcome";
+import Primary from "../pages/Primary/Primary";
 import "normalize.css";
 import "./App.scss";
 
@@ -32,16 +33,7 @@ class App extends Component {
         let page;
 
         if (this.props.isFinishedLoading && this.state.minTimeElapsed) {
-            if (!this.props.isSigningUp && this.props.isAuthenticated) {
-                // page = (
-                //     <div className='App'>
-                //         <Route path='/'>
-                //             <Primary />
-                //         </Route>
-                //         <Redirect to='/' />
-                //     </div>
-                // );
-
+            if (!this.props.isAuthenticated || this.props.isSigningUp) {
                 page = (
                     <div className='App'>
                         <Route path='/sign-up'>
@@ -50,13 +42,22 @@ class App extends Component {
                         <Redirect to='/sign-up' />
                     </div>
                 );
-            } else {
+            } else if (this.props.showWelcomePage) {
                 page = (
                     <div className='App'>
                         <Route path='/sign-up'>
-                            <Auth />
+                            <Welcome firstName={this.props.firstName} />
                         </Route>
                         <Redirect to='/sign-up' />
+                    </div>
+                );
+            } else {
+                page = (
+                    <div className='App'>
+                        <Route path='/'>
+                            <Primary />
+                        </Route>
+                        <Redirect to='/' />
                     </div>
                 );
             }
@@ -79,9 +80,11 @@ const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.isAuthenticated,
         isFinishedLoading: !state.startup.isStartingUp,
-        isSigningUp: state.auth.isSigningUp
-    }
-}
+        isSigningUp: state.auth.isSigningUp,
+        showWelcomePage: state.auth.showWelcomePage,
+        firstName: state.auth.firstName
+    };
+};
 
 // const mapDispatchToProps = dispatch => {
 //     return {

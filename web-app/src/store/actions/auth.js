@@ -9,6 +9,7 @@
 import * as actionTypes from "./actionTypes";
 import { store } from "../reduxSetup";
 import firebase from "../../vendors/Firebase/firebase";
+import { setAxiosAuthToken } from "../../App/musicAssistantApi";
 
 /**
  * Signs the user in with an email and password
@@ -90,7 +91,13 @@ export const handleAuthStateChanges = () => {
         // firebase.auth().signOut();
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                dispatch(authSuccess(true));
+                firebase
+                    .auth()
+                    .currentUser.getIdToken()
+                    .then(setAxiosAuthToken)
+                    .finally(() => {
+                        dispatch(authSuccess(true));
+                    });
             } else {
                 dispatch(authSuccess(false));
             }
@@ -118,7 +125,7 @@ const authSuccess = userExists => {
     if (!userExists) {
         type = actionTypes.NO_USER_EXISTS;
     }
-    
+
     return {
         type
     };
@@ -162,3 +169,22 @@ export const endSignUp = () => {
         type: actionTypes.END_SIGN_UP
     };
 };
+
+/**
+ * Returns FIRST_NAME_ENTERED action type
+ */
+export const firstNameEntered = firstName => {
+    return {
+        type: actionTypes.FIRST_NAME_ENTERED,
+        firstName
+    }
+}
+
+/**
+ * Returns WELCOME_PAGE_DONE action type
+ */
+export const welcomePageDone = () => {
+    return {
+        type: actionTypes.WELCOME_PAGE_DONE
+    }
+}

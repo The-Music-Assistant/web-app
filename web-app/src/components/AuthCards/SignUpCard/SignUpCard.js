@@ -16,6 +16,7 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import TextButton from "../../Buttons/TextButton/TextButton";
 import signUpCardStyles from "./SignUpCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
+import {SIGN_UP} from "../../../pages/Auth/authTypes";
 
 class SignUpCard extends Component {
     state = {
@@ -35,8 +36,7 @@ class SignUpCard extends Component {
                 isRequired: true
             }
         ],
-        error: null,
-        emailVerificationSent: false
+        error: null
     };
 
     componentDidMount() {
@@ -45,11 +45,7 @@ class SignUpCard extends Component {
 
     componentDidUpdate() {
         if (this.props.isAuthenticated) {
-            if (this.state.emailVerificationSent) {
-                this.props.showAlert("success", "Success!", "You have successfully been signed up");
-            } else {
-                this.sendEmailVerification();
-            }
+            this.sendEmailVerification();
         }
     }
 
@@ -141,13 +137,12 @@ class SignUpCard extends Component {
             .auth()
             .currentUser.sendEmailVerification()
             .then(() => {
-                this.setState({ emailVerificationSent: true });
+                this.props.setLoading(false);
+                this.props.done(SIGN_UP);
             })
             .catch(error => {
-                this.props.showAlert("error", "Sign Up Error", error.message);
-            })
-            .finally(() => {
                 this.props.setLoading(false);
+                this.props.showAlert("error", "Sign Up Error", error.message);
             });
     };
 
