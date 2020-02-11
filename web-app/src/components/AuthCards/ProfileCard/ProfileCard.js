@@ -103,8 +103,9 @@ class ProfileCard extends Component {
                 );
             }
             const userData = { ...this.state.formData };
-            userData.profilePicture = null;
-            // await addUser(userData);
+            delete userData.profilePicture;
+            userData.profilePictureUrl = null;
+            await addUser(userData);
         } catch (error) {
             console.log(error);
             const newError = new Error();

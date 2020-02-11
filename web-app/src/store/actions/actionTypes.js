@@ -6,11 +6,9 @@
 // Created Date: 12/31/2019
 ---------------------------------------------------------------------------- */
 
-// Startup action types
-export const STARTUP_AUTH_DONE = "STARTUP_AUTH_DONE";
-
 // Auth action types
-export const AUTH_LOADING = "AUTH_LOADING";
+export const START_AUTH_LOADING = "START_AUTH_LOADING";
+export const END_AUTH_LOADING = "END_AUTH_LOADING";
 export const START_SIGN_IN = "START_SIGN_IN";
 export const START_SIGN_UP = "START_SIGN_UP";
 export const END_SIGN_IN = "END_SIGN_IN";

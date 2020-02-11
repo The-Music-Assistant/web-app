@@ -22,27 +22,25 @@ import "./App.scss";
 
 class App extends Component {
     state = {
-        minTimeElapsed: false
+        startupMinTimeElapsed: false
     };
 
     componentDidMount() {
         setTimeout(() => {
-            this.setState({ minTimeElapsed: true });
+            this.setState({ startupMinTimeElapsed: true });
         }, 2000);
     }
 
     componentDidUpdate() {
-        if (this.props.startupLoadingDone && this.state.minTimeElapsed && !this.props.authFlow) {
-            if (!this.props.isAuthenticated) {
-                this.props.startSignIn();
-            }
+        if (!this.props.isAuthLoading && !this.props.isAuthenticated && !this.props.authFlow) {
+            this.props.startSignIn();
         }
     }
 
     render() {
         let page;
 
-        if (!this.props.startupLoadingDone || !this.state.minTimeElapsed) {
+        if (this.props.isAuthenticated === null || !this.state.startupMinTimeElapsed) {
             page = (
                 <div className='App'>
                     <Route path='/startup'>
@@ -96,10 +94,10 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.isAuthenticated,
-        startupLoadingDone: !state.startup.isStartingUp,
         showWelcomePage: state.auth.showWelcomePage,
         firstName: state.auth.firstName,
-        authFlow: state.auth.authFlow
+        authFlow: state.auth.authFlow,
+        isAuthLoading: state.auth.isLoading
     };
 };
 

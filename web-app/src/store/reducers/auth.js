@@ -21,12 +21,14 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.AUTH_LOADING:
+        case actionTypes.START_AUTH_LOADING:
             return updateObject(state, { isLoading: true });
+        case actionTypes.END_AUTH_LOADING:
+            return updateObject(state, { isLoading: false });
         case actionTypes.USER_EXISTS:
-            return updateObject(state, { isAuthenticated: true, error: null, isLoading: false });
+            return updateObject(state, { isAuthenticated: true, error: null });
         case actionTypes.NO_USER_EXISTS:
-            return updateObject(state, { isAuthenticated: false, error: null, isLoading: false });
+            return updateObject(state, { isAuthenticated: false, error: null });
         case actionTypes.AUTH_ERROR:
             return updateObject(state, {
                 isAuthenticated: false,

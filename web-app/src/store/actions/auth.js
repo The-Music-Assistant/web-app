@@ -7,7 +7,6 @@
 ---------------------------------------------------------------------------- */
 
 import * as actionTypes from "./actionTypes";
-import { store } from "../reduxSetup";
 import firebase from "../../vendors/Firebase/firebase";
 import { setAxiosAuthToken } from "../../App/musicAssistantApi";
 
@@ -53,48 +52,61 @@ import { setAxiosAuthToken } from "../../App/musicAssistantApi";
  */
 export const handleAuthStateChanges = () => {
     return dispatch => {
-        dispatch(authLoading());
-        // firebase.auth().signOut();
+        firebase.auth().signOut();
         firebase.auth().onAuthStateChanged(user => {
+            dispatch(startAuthLoading());
             if (user) {
                 firebase
                     .auth()
                     .currentUser.getIdToken()
                     .then(setAxiosAuthToken)
+                    .catch(error => console.log(error))
                     .finally(() => {
-                        dispatch(authSuccess(true));
+                        dispatch(userExists());
+                        dispatch(endAuthLoading());
                     });
             } else {
-                dispatch(authSuccess(false));
-            }
-            if (store.getState().startup.isStartingUp) {
-                dispatch(startupAuthFinished());
+                dispatch(noUserExists());
+                dispatch(endAuthLoading());
             }
         });
     };
 };
 
 /**
- * Returns AUTH_LOADING action type
+ * Returns START_AUTH_LOADING action type
  */
-const authLoading = () => {
+const startAuthLoading = () => {
     return {
-        type: actionTypes.AUTH_LOADING
+        type: actionTypes.START_AUTH_LOADING
+    };
+};
+
+/**
+ * Returns END_AUTH_LOADING action type
+ */
+const endAuthLoading = () => {
+    return {
+        type: actionTypes.END_AUTH_LOADING
     };
 };
 
 /**
  * Returns USER_EXISTS action type
  */
-const authSuccess = userExists => {
-    let type = actionTypes.USER_EXISTS;
-    if (!userExists) {
-        type = actionTypes.NO_USER_EXISTS;
-    }
-
+const userExists = () => {
     return {
-        type
-    };
+        type: actionTypes.USER_EXISTS
+    }
+};
+
+/**
+ * Returns NO_USER_EXISTS action type
+ */
+const noUserExists = () => {
+    return {
+        type: actionTypes.NO_USER_EXISTS
+    }
 };
 
 /**
@@ -106,15 +118,6 @@ const authError = error => {
     return {
         type: actionTypes.AUTH_ERROR,
         error
-    };
-};
-
-/**
- * Returns STARTUP_AUTH_DONE action type
- */
-const startupAuthFinished = () => {
-    return {
-        type: actionTypes.STARTUP_AUTH_DONE
     };
 };
 
