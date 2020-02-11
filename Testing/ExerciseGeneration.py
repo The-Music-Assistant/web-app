@@ -85,15 +85,15 @@ def getExpectedNotes(track):
     notes = []
     measureNum = 0
     for measure in staff:
-        chord = measure[0] #Assumption 2
-        for note in chord:
-            note = [int(note[0]), float(note[1])]
-            if len(notes) > 0 and notes[len(notes) - 1][0][0] == note[0]:
-                notes[len(notes) - 1][0][1] = notes[len(notes) - 1][0][1] + note[1]
-                if measureNum not in notes[len(notes) - 1][1]:
-                    notes[len(notes) - 1][1].append(measureNum) #Keeping track of measures the note is in
-            else:
-                notes.append([note, [measureNum]])
+        for chord in measure: #Chords are sequential
+            for note in chord:
+                note = [int(note[0]), float(note[1])]
+                if len(notes) > 0 and notes[len(notes) - 1][0][0] == note[0]:
+                    notes[len(notes) - 1][0][1] = notes[len(notes) - 1][0][1] + note[1]
+                    if measureNum not in notes[len(notes) - 1][1]:
+                        notes[len(notes) - 1][1].append(measureNum) #Keeping track of measures the note is in
+                else:
+                    notes.append([note, [measureNum]])
         measureNum = measureNum + 1
     return notes, measureNum + 1
 
