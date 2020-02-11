@@ -2,7 +2,7 @@
 
 const fs = require('fs')
 
-const naudiodon = require('naudiodon')
+const portAudio = require('naudiodon')
 // if (process.argv.length < 3) {
 //   console.log("Usage: AUDIO_FILE");
 //   process.exit()
@@ -15,13 +15,12 @@ class AnalysisComparer {
       console.log("Error: Can't find", filePath, "")
       return;
     }
-
     // Create an instance of AudioIO with outOptions (defaults are as below), which will return a WritableStream
-    let ao = new naudiodon.AudioIO({
+    let ao = new portAudio.AudioIO({
       outOptions: {
         channelCount: 2,
-        sampleFormat: naudiodon.SampleFormat16Bit,
-        sampleRate: 44100,
+        sampleFormat: portAudio.SampleFormat16Bit,
+        sampleRate: 48000,
         deviceId: -1, // Use -1 or omit the deviceId to select the default device
         closeOnError: true // Close the stream if an audio error is detected, if set false then just log the error
       }
