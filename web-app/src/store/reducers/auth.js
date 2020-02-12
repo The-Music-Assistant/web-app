@@ -47,6 +47,8 @@ const authReducer = (state = initialState, action) => {
             return updateObject(state, { authFlow: null });
         case actionTypes.END_SIGN_UP:
             return updateObject(state, { authFlow: null, showWelcomePage: true });
+        case actionTypes.SIGN_OUT:
+            return state;
         default:
             return state;
     }

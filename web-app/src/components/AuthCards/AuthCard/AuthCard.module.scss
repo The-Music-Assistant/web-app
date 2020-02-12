@@ -8,9 +8,13 @@
 
 // @import "../../../root-styles/utilities.scss";
 
-.signUpCard {
+.authCard {
     &TextInput {
-        margin-bottom: 20px;
+        margin-top: 20px;
+
+        &:first-child {
+            margin-top: 0;
+        }
     }
 
     &ChangeAuth {

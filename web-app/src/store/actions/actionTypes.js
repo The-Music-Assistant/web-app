@@ -14,6 +14,7 @@ export const START_SIGN_UP = "START_SIGN_UP";
 export const END_SIGN_IN = "END_SIGN_IN";
 export const END_SIGN_UP = "END_SIGN_UP";
 export const USER_EXISTS = "USER_EXISTS";
+export const SIGN_OUT = "SIGN_OUT";
 export const NO_USER_EXISTS = "NO_USER_EXISTS";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const FIRST_NAME_ENTERED = "FIRST_NAME_ENTERED";

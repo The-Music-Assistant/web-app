@@ -17,8 +17,8 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import TextButton from "../../Buttons/TextButton/TextButton";
 import authCardStyles from "./AuthCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
-import { SIGN_IN, SIGN_UP } from "../../../pages/Auth/authCards";
 import * as authFlows from "../../../pages/Auth/authFlows";
+import * as authStages from "../../../pages/Auth/authStages";
 
 class AuthCard extends Component {
     state = {
@@ -29,9 +29,13 @@ class AuthCard extends Component {
     };
 
     componentDidUpdate() {
-        if (!this.props.isAuthLoading && this.props.isAuthenticated && this.props.authFlow === authFlows.SIGN_IN) {
+        if (
+            !this.props.isAuthLoading &&
+            this.props.isAuthenticated &&
+            this.props.authFlow === authFlows.SIGN_IN
+        ) {
             this.props.setLoading(false);
-            this.props.done(SIGN_IN);
+            this.props.done(authStages.SIGN_IN);
         } else if (this.props.isAuthenticated && this.props.authFlow === authFlows.SIGN_UP) {
             this.sendEmailVerification();
         }
@@ -155,7 +159,7 @@ class AuthCard extends Component {
             .currentUser.sendEmailVerification()
             .then(() => {
                 this.props.setLoading(false);
-                this.props.done(SIGN_UP);
+                this.props.done(authStages.SIGN_UP);
             })
             .catch(error => {
                 this.props.setLoading(false);
@@ -190,22 +194,26 @@ class AuthCard extends Component {
             <div className={authStyles.authCard}>
                 <h3 className={authStyles.authCardHeading}>{heading}</h3>
                 <form className={authStyles.authCardForm} onSubmit={this.submitHandler}>
-                    <TextInput
-                        inputType='email'
-                        inputName='email'
-                        labelText='Email'
-                        value={this.state.formData.email}
-                        isRequired={true}
-                        onChange={this.textInputValueChangedHandler}
-                    />
-                    <TextInput
-                        inputType='password'
-                        inputName='password'
-                        labelText='Password'
-                        value={this.state.formData.password}
-                        isRequired={true}
-                        onChange={this.textInputValueChangedHandler}
-                    />
+                    <div className={authCardStyles.authCardTextInput}>
+                        <TextInput
+                            inputType='email'
+                            inputName='email'
+                            labelText='Email'
+                            value={this.state.formData.email}
+                            isRequired={true}
+                            onChange={this.textInputValueChangedHandler}
+                        />
+                    </div>
+                    <div className={authCardStyles.authCardTextInput}>
+                        <TextInput
+                            inputType='password'
+                            inputName='password'
+                            labelText='Password'
+                            value={this.state.formData.password}
+                            isRequired={true}
+                            onChange={this.textInputValueChangedHandler}
+                        />
+                    </div>
 
                     <div className={authStyles.authCardSubmitButtonContainer}>
                         <RectangularButton
@@ -216,7 +224,7 @@ class AuthCard extends Component {
                         />
                     </div>
                 </form>
-                <div className={authCardStyles.signUpCardChangeAuth}>
+                <div className={authCardStyles.authCardChangeAuth}>
                     <TextButton
                         type='button'
                         value='change-auth'

@@ -14,5 +14,6 @@ export {
     endSignUp,
     endSignIn,
     firstNameEntered,
-    endWelcomePage
+    endWelcomePage,
+    signOut
 } from "./auth";

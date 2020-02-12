@@ -13,20 +13,19 @@ import { setAxiosAuthToken } from "../../App/musicAssistantApi";
 /**
  * Signs the current user out
  */
-// export const signOut = () => {
-//     return dispatch => {
-//         dispatch(authLoading());
-//         firebase
-//             .auth()
-//             .signOut()
-//             .then(() => {
-//                 dispatch(signOutSuccess());
-//             })
-//             .catch(error => {
-//                 dispatch(authError(error));
-//             });
-//     };
-// };
+export const signOut = () => {
+    return dispatch => {
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                dispatch(signOutSuccess());
+            })
+            .catch(error => {
+                dispatch(authError(error));
+            });
+    };
+};
 
 /**
  * Sends a password reset email
@@ -52,7 +51,7 @@ import { setAxiosAuthToken } from "../../App/musicAssistantApi";
  */
 export const handleAuthStateChanges = () => {
     return dispatch => {
-        firebase.auth().signOut();
+        // firebase.auth().signOut();
         firebase.auth().onAuthStateChanged(user => {
             dispatch(startAuthLoading());
             if (user) {
@@ -121,27 +120,48 @@ const authError = error => {
     };
 };
 
+/**
+ * Returns START_SIGN_IN action type
+ */
 export const startSignIn = () => {
     return {
         type: actionTypes.START_SIGN_IN
     };
 };
 
+/**
+ * Returns START_SIGN_UP action type
+ */
 export const startSignUp = () => {
     return {
         type: actionTypes.START_SIGN_UP
     };
 };
 
+/**
+ * Returns END_SIGN_IN action type
+ */
 export const endSignIn = () => {
     return {
         type: actionTypes.END_SIGN_IN
     };
 };
 
+/**
+ * Returns END_SIGN_UP action type
+ */
 export const endSignUp = () => {
     return {
         type: actionTypes.END_SIGN_UP
+    };
+};
+
+/**
+ * Returns SIGN_OUT action type
+ */
+const signOutSuccess = () => {
+    return {
+        type: actionTypes.SIGN_OUT
     };
 };
 

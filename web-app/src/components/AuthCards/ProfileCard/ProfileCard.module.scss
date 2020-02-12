@@ -14,10 +14,15 @@
 
         &Img,
         &ImgPlaceholder {
-            width: 90px;
-            height: 90px;
+            width: 70px;
+            height: 70px;
             border: 2px solid $primary-color;
             border-radius: 50%;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                width: 90px;
+                height: 90px;
+            }
         }
 
         &Img {
@@ -42,9 +47,15 @@
         }
     }
 
-    &TextInputs {
+    &TextInput {
         margin-top: 20px;
-        @include grid-container($grid-template-rows: 1fr, $grid-template-columns: 1fr 1fr, $align-items: space-between);
+    }
+
+    &TextInputs {
         gap: 40px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            @include grid-container($grid-template-rows: 1fr, $grid-template-columns: 1fr 1fr, $align-items: space-between);
+        }
     }
 }

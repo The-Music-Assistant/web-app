@@ -12,15 +12,15 @@ import logo from "../../assets/logos/music-assistant-logo.png";
 import AuthCard from "../../components/AuthCards/AuthCard/AuthCard";
 import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
 import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
-import * as authCards from "./authCards";
 import AlertBar from "../../components/AlertBar/AlertBar";
 import styles from "./Auth.module.scss";
 import { endSignIn, endSignUp } from "../../store/actions";
 import * as authFlows from "./authFlows";
+import * as authStages from "./authStages";
 
 class Auth extends Component {
     state = {
-        authCardToShow: authCards.SIGN_UP,
+        authStage: this.props.authFlow === authFlows.SIGN_IN ? authStages.SIGN_IN : authStages.SIGN_UP,
         innerHeight: window.innerHeight,
         isLoading: false,
         alert: null
@@ -38,11 +38,10 @@ class Auth extends Component {
     };
 
     signInInfo = {
-        heading: <h1 className={styles.authInfoHeading}>Welcome Back!</h1>,
+        heading: <h1 className={styles.authInfoHeading}>The Music Assistant</h1>,
         subheading: (
             <h2 className={styles.authInfoSubheading}>
-                The Music Assistant
-                <br />A smarter way to sing
+                A smarter way to sing
             </h2>
         )
     };
@@ -75,13 +74,13 @@ class Auth extends Component {
 
     authFlowStageDoneHandler = stage => {
         switch (stage) {
-            case authCards.SIGN_IN:
+            case authStages.SIGN_IN:
                 this.props.endSignIn();
                 break;
-            case authCards.SIGN_UP:
-                this.setState({ authCardToShow: authCards.PROFILE });
+            case authStages.SIGN_UP:
+                this.setState({ authStage: authStages.PROFILE });
                 break;
-            case authCards.PROFILE:
+            case authStages.PROFILE:
                 this.props.endSignUp();
                 break;
             default:
@@ -92,11 +91,21 @@ class Auth extends Component {
         let authCard;
         let authInfo;
 
-        switch (this.state.authCardToShow) {
-            case authCards.SIGN_IN:
+        switch (this.state.authStage) {
+            case authStages.SIGN_IN:
                 authCard = (
                     <AuthCard
-                        authFlow={authFlows.SIGN_IN}
+                        setLoading={this.setLoadingHandler}
+                        showAlert={this.showAlertHandler}
+                        isAuthenticated={this.props.isAuthenticated}
+                        done={this.authFlowStageDoneHandler}
+                    />
+                );
+                authInfo = this.signInInfo;
+                break;
+            case authStages.SIGN_UP:
+                authCard = (
+                    <AuthCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
                         isAuthenticated={this.props.isAuthenticated}
@@ -105,19 +114,7 @@ class Auth extends Component {
                 );
                 authInfo = this.signUpInfo;
                 break;
-            case authCards.SIGN_UP:
-                authCard = (
-                    <AuthCard
-                        authFlow={authFlows.SIGN_UP}
-                        setLoading={this.setLoadingHandler}
-                        showAlert={this.showAlertHandler}
-                        isAuthenticated={this.props.isAuthenticated}
-                        done={this.authFlowStageDoneHandler}
-                    />
-                );
-                authInfo = this.signUpInfo;
-                break;
-            case authCards.PROFILE:
+            case authStages.PROFILE:
                 authCard = (
                     <ProfileCard
                         setLoading={this.setLoadingHandler}
@@ -161,7 +158,8 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        authFlow: state.auth.authFlow
     };
 };
 

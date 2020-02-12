@@ -18,7 +18,7 @@ import profileCardStyles from "./ProfileCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
 import { addUser } from "../../../App/musicAssistantApi";
 import { firstNameEntered } from "../../../store/actions";
-import { PROFILE } from "../../../pages/Auth/authCards";
+import * as authStages from "../../../pages/Auth/authStages";
 
 class ProfileCard extends Component {
     state = {
@@ -78,7 +78,7 @@ class ProfileCard extends Component {
             this.uploadData()
                 .then(() => {
                     this.props.setLoading(false);
-                    this.props.done(PROFILE);
+                    this.props.done(authStages.PROFILE);
                 })
                 .catch(error => {
                     this.props.setLoading(false);
@@ -174,22 +174,26 @@ class ProfileCard extends Component {
                 <form className={authStyles.authCardForm} onSubmit={this.submitHandler}>
                     {imageInput}
                     <div className={profileCardStyles.profileCardTextInputs}>
-                        <TextInput
-                            inputType={"text"}
-                            inputName={"firstName"}
-                            labelText={"First Name"}
-                            value={this.state.formData.firstName}
-                            isRequired={true}
-                            onChange={this.textInputValueChangedHandler}
-                        />
-                        <TextInput
-                            inputType={"text"}
-                            inputName={"lastName"}
-                            labelText={"Last Name"}
-                            value={this.state.formData.lastName}
-                            isRequired={true}
-                            onChange={this.textInputValueChangedHandler}
-                        />
+                        <div className={profileCardStyles.profileCardTextInput}>
+                            <TextInput
+                                inputType={"text"}
+                                inputName={"firstName"}
+                                labelText={"First Name"}
+                                value={this.state.formData.firstName}
+                                isRequired={true}
+                                onChange={this.textInputValueChangedHandler}
+                            />
+                        </div>
+                        <div className={profileCardStyles.profileCardTextInput}>
+                            <TextInput
+                                inputType={"text"}
+                                inputName={"lastName"}
+                                labelText={"Last Name"}
+                                value={this.state.formData.lastName}
+                                isRequired={true}
+                                onChange={this.textInputValueChangedHandler}
+                            />
+                        </div>
                     </div>
                     <div className={authStyles.authCardSubmitButtonContainer}>
                         <RectangularButton
