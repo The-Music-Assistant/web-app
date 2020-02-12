@@ -35,7 +35,7 @@ class Startup extends Component {
                     <img className={styles.startupLogo} src={logo} alt='The Music Assistant Logo' />
                     <h1 className={styles.startupHeading}>The Music Assistant</h1>
                     <h2 className={styles.startupSubheading}>Just a moment...</h2>
-                    <div className={styles.startupSpinnerContainer}>
+                    <div className={styles.startupSpinner}>
                         <MetroSpinner size={75} color='#FFFFFF' loading={true} />
                     </div>
                 </div>

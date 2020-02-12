@@ -10,44 +10,92 @@
 
 .welcome {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: $green-color;
+    padding: 40px 20px 20px;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        padding: 50px 20px 30px;
+    } 
 
     &Header {
-        padding-top: 75px;
-
         &Logo {
             display: block;
-            width: 50px;
+            width: 30px;
             margin: auto;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                width: 50px;
+            } 
         }
 
         &Message {
-            @include text($size: 2rem, $weight: 300, $color: $white-color, $line-height: 2.5rem);
+            @include text($size: 1.5rem, $weight: 300, $color: $white-color, $line-height: 2.5rem);
             text-align: center;
-            margin-top: 30px;
+            margin-top: 20px;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                font-size: 2rem;
+                margin-top: 30px;
+            } 
         }
     }
 
     &Main {
-        width: 400px;
-        margin: auto;
+        margin-top: 30px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 2rem;
+            margin-top: 60px;
+        } 
 
         &Message {
-            @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: 1.6);
-            margin-top: 60px;
+            @include text($size: 1rem, $weight: 400, $color: $white-color, $line-height: 1.6);
             text-align: center;
+            max-width: 400px;
+            margin: auto;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                font-size: 1.25rem;
+            } 
         }
 
         &DownArrow {
             display: block;
-            width: 40px;
-            margin: 30px auto 0;
+            width: 30px;
+            margin: 20px auto 0;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                margin-top: 30px;
+                width: 40px;
+            } 
+        }
+
+        &Buttons {
+            margin-top: 20px;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                margin-top: 30px;
+            } 
         }
 
         &Button {
-            @include flex-container($direction: row, $justify-content: center, $align-items: center, $wrap: nowrap);
             margin-top: 30px;
+            @include flex-container(
+                $direction: row,
+                $justify-content: center,
+                $align-items: center,
+                $wrap: nowrap
+            );
+        }
+
+        &Spinner {
+            @include flex-container(
+                $direction: row,
+                $justify-content: center,
+                $align-items: center,
+                $wrap: nowrap
+            );
         }
     }
 }

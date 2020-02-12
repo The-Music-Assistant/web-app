@@ -77,6 +77,7 @@ class ProfileCard extends Component {
         if (this.props.isAuthenticated) {
             this.uploadData()
                 .then(() => {
+                    this.props.showAlert("success", "test", "test");
                     this.props.setLoading(false);
                     this.props.done(authStages.PROFILE);
                 })
@@ -123,14 +124,6 @@ class ProfileCard extends Component {
             .ref()
             .child(path)
             .put(picture);
-    };
-
-    getX = async path => {
-        return firebase
-            .storage()
-            .ref()
-            .child(path)
-            .getDownloadURL();
     };
 
     render() {

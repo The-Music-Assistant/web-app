@@ -36,7 +36,7 @@ class AuthCard extends Component {
         ) {
             this.props.setLoading(false);
             this.props.done(authStages.SIGN_IN);
-        } else if (this.props.isAuthenticated && this.props.authFlow === authFlows.SIGN_UP) {
+        } else if (!this.props.isAuthLoading && this.props.isAuthenticated && this.props.authFlow === authFlows.SIGN_UP) {
             this.sendEmailVerification();
         }
     }
@@ -119,6 +119,7 @@ class AuthCard extends Component {
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .catch(error => {
+                console.log(error);
                 this.props.setLoading(false);
                 this.props.showAlert("error", "Sign Up Error", error.message);
             });
@@ -162,6 +163,7 @@ class AuthCard extends Component {
                 this.props.done(authStages.SIGN_UP);
             })
             .catch(error => {
+                console.log(error);
                 this.props.setLoading(false);
                 this.props.showAlert("error", "Authentication Error", error.message);
             });

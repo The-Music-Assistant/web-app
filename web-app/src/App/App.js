@@ -10,7 +10,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-// import startupAuthFinished from "../store/actions";
+import firebase from "../vendors/Firebase/firebase";
 import Startup from "../pages/Startup/Startup";
 import Auth from "../pages/Auth/Auth";
 import Welcome from "../pages/Welcome/Welcome";
@@ -49,31 +49,31 @@ class App extends Component {
                     <Redirect to='/startup' />
                 </div>
             );
-        } else if (this.props.authFlow === authFlows.SIGN_IN) {
+        } else if (!this.props.isAuthenticated || this.props.authFlow === authFlows.SIGN_IN) {
             page = (
                 <div className='App'>
-                    <Route path='/sign-in'>
+                    <Route path='/auth/sign-in'>
                         <Auth />
                     </Route>
-                    <Redirect to='/sign-in' />
+                    <Redirect to='/auth/sign-in' />
                 </div>
             );
         } else if (this.props.authFlow === authFlows.SIGN_UP) {
             page = (
                 <div className='App'>
-                    <Route path='/sign-up'>
+                    <Route path='/auth/sign-up'>
                         <Auth />
                     </Route>
-                    <Redirect to='/sign-up' />
+                    <Redirect to='/auth/sign-up' />
                 </div>
             );
-        } else if (this.props.showWelcomePage) {
+        } else if (!firebase.auth().currentUser.emailVerified || this.props.showWelcomePage) {
             page = (
                 <div className='App'>
-                    <Route path='/sign-up'>
+                    <Route path='/welcome'>
                         <Welcome firstName={this.props.firstName} />
                     </Route>
-                    <Redirect to='/sign-up' />
+                    <Redirect to='/welcome' />
                 </div>
             );
         } else {
@@ -86,6 +86,15 @@ class App extends Component {
                 </div>
             );
         }
+        
+        // page = (
+        //     <div className='App'>
+        //         <Route path='/sign-up'>
+        //             <Welcome firstName="Test User" />
+        //         </Route>
+        //         <Redirect to='/sign-up' />
+        //     </div>
+        // );
 
         return page;
     }

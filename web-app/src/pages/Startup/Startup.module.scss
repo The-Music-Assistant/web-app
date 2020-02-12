@@ -49,7 +49,7 @@
         }
     }
 
-    &SpinnerContainer {
+    &Spinner {
         @include flex-container(
             $direction: row,
             $justify-content: center,

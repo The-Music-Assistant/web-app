@@ -54,14 +54,15 @@ export const handleAuthStateChanges = () => {
         // firebase.auth().signOut();
         firebase.auth().onAuthStateChanged(user => {
             dispatch(startAuthLoading());
+
             if (user) {
+                dispatch(userExists());
                 firebase
                     .auth()
                     .currentUser.getIdToken()
                     .then(setAxiosAuthToken)
                     .catch(error => console.log(error))
                     .finally(() => {
-                        dispatch(userExists());
                         dispatch(endAuthLoading());
                     });
             } else {

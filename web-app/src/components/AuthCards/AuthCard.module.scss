@@ -26,7 +26,6 @@
 
     @include media-query($breakpoint: $desktop-breakpoint) {
         width: calc(50vw - 120px);
-        margin-top: 0;
     }
 
     &Heading {

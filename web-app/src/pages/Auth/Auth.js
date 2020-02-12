@@ -20,7 +20,8 @@ import * as authStages from "./authStages";
 
 class Auth extends Component {
     state = {
-        authStage: this.props.authFlow === authFlows.SIGN_IN ? authStages.SIGN_IN : authStages.SIGN_UP,
+        authStage:
+            this.props.authFlow === authFlows.SIGN_IN ? authStages.SIGN_IN : authStages.SIGN_UP,
         innerHeight: window.innerHeight,
         isLoading: false,
         alert: null
@@ -39,11 +40,7 @@ class Auth extends Component {
 
     signInInfo = {
         heading: <h1 className={styles.authInfoHeading}>The Music Assistant</h1>,
-        subheading: (
-            <h2 className={styles.authInfoSubheading}>
-                A smarter way to sing
-            </h2>
-        )
+        subheading: <h2 className={styles.authInfoSubheading}>A smarter way to sing</h2>
     };
 
     componentDidMount() {

@@ -16,15 +16,18 @@ class AlertBar extends Component {
 
     state = {
         transition: null,
-        slideUpTimerId: null,
-        isDoneTimerId: null
+        timerIds: {
+            slideDownTimerId: null,
+            slideUpTimerId: null,
+            isDoneTimerId: null
+        }
     };
 
     componentDidMount() {
-        // Fixes React bug where transition down is instant rather than animated
-        setTimeout(() => {
+        // Fixes bug (assuming React bug) where transition down is instant rather than animated
+        const slideDownTimerId = setTimeout(() => {
             this.setState({ transition: "down" });
-        }, 5);
+        }, 10);
 
         const slideUpTimerId = setTimeout(() => {
             this.setState({ transition: "up" });
@@ -34,7 +37,13 @@ class AlertBar extends Component {
             this.props.isDone();
         }, this.TRANSITION_TIME_MS * 2 + this.DISPLAY_TIME_MS);
 
-        this.setState({ slideUpTimerId, isDoneTimerId });
+        this.setState({ timerIds: { slideDownTimerId, slideUpTimerId, isDoneTimerId } });
+    }
+
+    componentWillUnmount() {
+        for (const timerId in this.state.timerIds) {
+            clearTimeout(this.state.timerIds[timerId]);
+        }
     }
 
     closeButttonClickedHandler = () => {
