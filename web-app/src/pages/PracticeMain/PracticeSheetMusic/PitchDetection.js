@@ -1,6 +1,8 @@
 import ml5 from "ml5";
 import p5 from "./sketch";
 import AlphaTabRunner from "./AlphaTabRunner";
+import WebWorker from "./WebWorker";
+import Worker from 'worker-loader!./worker.js';
 
 class PitchDetection {
     audioContext;
@@ -59,23 +61,51 @@ class PitchDetection {
      * @returns The id of the current setInterval process (this can be used to stop the current setInterval process)
      */
     static startPitchDetection(fileName) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://localhost:1234', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({"fileName":fileName}));
+        // let xhr = new XMLHttpRequest();
+        // xhr.open("POST", 'http://localhost:1234', true);
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.send(JSON.stringify({"fileName":fileName}));
 
         AlphaTabRunner.noteList.clear();
         // Run nested anonymous function every 1 ms
-        return setInterval(() => {
-            p5.redraw();
-            // Gets the current pitch and sends it to displayMidi
-            this.pitchDetectionModel.getPitch().then(frequency => {
-                this.displayMidi(frequency);
-            }).catch(err => {
-                console.log(`[error][PitchDetection] ${err}`);
-                this.displayMidi(0);
+        // return setInterval(() => {
+        //     p5.redraw();
+        //     // Gets the current pitch and sends it to displayMidi
+        //     this.pitchDetectionModel.getPitch().then(frequency => {
+        //         this.displayMidi(frequency);
+        //     }).catch(err => {
+        //         console.log(`[error][PitchDetection] ${err}`);
+        //         this.displayMidi(0);
+        //     });
+        // }, 1);
+    
+        let myWorker = new WebWorker(`() => { 
+            const fib = i => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
+
+            self.addEventListener('message', e => {
+                self.importScripts("PitchDetection.js");
+                const count = e.data;
+                postMessage(fib(7));
             });
-        }, 1);
+        }`);
+        myWorker.addEventListener('message', event => {
+            console.log(event.data);
+        });
+        myWorker.postMessage("hello");
+
+        
+
+    }
+
+    static animateDrawing() {
+        p5.redraw();
+        // Gets the current pitch and sends it to displayMidi
+        this.pitchDetectionModel.getPitch().then(frequency => {
+            this.displayMidi(frequency);
+        }).catch(err => {
+            console.log(`[error][PitchDetection] ${err}`);
+            this.displayMidi(0);
+        });
     }
 
     /**
@@ -84,11 +114,11 @@ class PitchDetection {
      */
     static stopPitchDetection(setIntervalID) {
         clearInterval(setIntervalID);
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://3.18.108.127:2765', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        console.log(JSON.stringify(AlphaTabRunner.noteList.performanceData));
-        xhr.send(JSON.stringify(AlphaTabRunner.noteList.performanceData));
+        // let xhr = new XMLHttpRequest();
+        // xhr.open("POST", 'http://3.18.108.127:2765', true);
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+        // console.log(JSON.stringify(AlphaTabRunner.noteList.performanceData));
+        // xhr.send(JSON.stringify(AlphaTabRunner.noteList.performanceData));
     }
 
     /**
