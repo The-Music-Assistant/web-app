@@ -113,7 +113,7 @@ class AlphaTabRunner {
     static retrieveTestAndIncrement() {
         let nextTest = AlphaTabRunner.tests[AlphaTabRunner.currentTestIndex];
         AlphaTabRunner.currentTestIndex = AlphaTabRunner.currentTestIndex + 1;
-        if (AlphaTabRunner.currentTestIndex > AlphaTabRunner.tests.length) {
+        if (AlphaTabRunner.currentTestIndex > AlphaTabRunner.tests.length - 1) {
             AlphaTabRunner.currentTestIndex = 0;
         }
         return nextTest

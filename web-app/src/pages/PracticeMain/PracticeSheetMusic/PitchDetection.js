@@ -60,9 +60,9 @@ class PitchDetection {
      */
     static startPitchDetection(fileName) {
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://localhost:1234', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({"fileName":fileName}));
+        xhr.open("POST", 'http://127.0.0.1:5000/', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send("play " + fileName);
 
         AlphaTabRunner.noteList.clear();
         // Run nested anonymous function every 1 ms
@@ -83,12 +83,12 @@ class PitchDetection {
      * @param {number} setIntervalID The id of the setInterval process to stop
      */
     static stopPitchDetection(setIntervalID) {
-        clearInterval(setIntervalID);
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://3.18.108.127:2765', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.open("POST", 'http://127.0.0.1:5000/', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send("stop");
+        clearInterval(setIntervalID);
         console.log(JSON.stringify(AlphaTabRunner.noteList.performanceData));
-        xhr.send(JSON.stringify(AlphaTabRunner.noteList.performanceData));
     }
 
     /**
