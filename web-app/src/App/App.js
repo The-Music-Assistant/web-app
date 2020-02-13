@@ -15,8 +15,7 @@ import Startup from "../pages/Startup/Startup";
 import Auth from "../pages/Auth/Auth";
 import Welcome from "../pages/Welcome/Welcome";
 import Primary from "../pages/Primary/Primary";
-import * as authFlows from "../pages/Auth/authFlows";
-import { startSignIn } from "../store/actions";
+import * as authStages from "../pages/Auth/authStages";
 import "normalize.css";
 import "./App.scss";
 
@@ -32,10 +31,14 @@ class App extends Component {
     }
 
     componentDidUpdate() {
-        if (!this.props.isAuthLoading && !this.props.isAuthenticated && !this.props.authFlow) {
-            this.props.startSignIn();
+        if (this.props.isAuthenticated && !this.state.authStage) {
+            this.setState({ authStage: authStages.SIGN_IN });
         }
     }
+
+    welcomePageDoneHandler = () => {
+        this.render();
+    };
 
     render() {
         let page;
@@ -49,29 +52,25 @@ class App extends Component {
                     <Redirect to='/startup' />
                 </div>
             );
-        } else if (!this.props.isAuthenticated || this.props.authFlow === authFlows.SIGN_IN) {
+
+        // TODO: isAuthenticated gets changed in Redux and Auth is no longer shown. I need to keep Auth shown until sign up flow is complete
+        } else if (!this.props.isAuthenticated) {
             page = (
                 <div className='App'>
-                    <Route path='/auth/sign-in'>
+                    <Route path="/auth">
                         <Auth />
                     </Route>
-                    <Redirect to='/auth/sign-in' />
+                    <Redirect to="/auth" />
                 </div>
             );
-        } else if (this.props.authFlow === authFlows.SIGN_UP) {
-            page = (
-                <div className='App'>
-                    <Route path='/auth/sign-up'>
-                        <Auth />
-                    </Route>
-                    <Redirect to='/auth/sign-up' />
-                </div>
-            );
-        } else if (!firebase.auth().currentUser.emailVerified || this.props.showWelcomePage) {
+        } else if (!firebase.auth().currentUser.emailVerified) {
             page = (
                 <div className='App'>
                     <Route path='/welcome'>
-                        <Welcome firstName={this.props.firstName} />
+                        <Welcome
+                            // firstName={this.props.firstName}
+                            done={this.welcomePageDoneHandler}
+                        />
                     </Route>
                     <Redirect to='/welcome' />
                 </div>
@@ -86,15 +85,6 @@ class App extends Component {
                 </div>
             );
         }
-        
-        // page = (
-        //     <div className='App'>
-        //         <Route path='/sign-up'>
-        //             <Welcome firstName="Test User" />
-        //         </Route>
-        //         <Redirect to='/sign-up' />
-        //     </div>
-        // );
 
         return page;
     }
@@ -102,18 +92,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.isAuthenticated,
-        showWelcomePage: state.auth.showWelcomePage,
-        firstName: state.auth.firstName,
-        authFlow: state.auth.authFlow,
-        isAuthLoading: state.auth.isLoading
+        isAuthenticated: state.auth.isAuthenticated
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        startSignIn: () => dispatch(startSignIn())
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

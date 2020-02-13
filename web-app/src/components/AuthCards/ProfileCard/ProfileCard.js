@@ -7,7 +7,6 @@
 // ----------------------------------------------------------------------------
 
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import firebase from "../../../vendors/Firebase/firebase";
 import "firebase/storage";
 import TextInput from "../../FormInputs/TextInput/TextInput";
@@ -17,10 +16,12 @@ import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
 import profileCardStyles from "./ProfileCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
 import { addUser } from "../../../App/musicAssistantApi";
-import { firstNameEntered } from "../../../store/actions";
+// import { firstNameEntered } from "../../../store/actions";
 import * as authStages from "../../../pages/Auth/authStages";
 
 class ProfileCard extends Component {
+    // Component state
+    // formData holds form input values
     state = {
         formData: {
             profilePicture: null,
@@ -29,8 +30,15 @@ class ProfileCard extends Component {
         }
     };
 
+    /**
+     * Updates form data state with new file input image
+     * @param {object} event - The event (file input) that triggered this method
+     */
     imageInputValueChangedHandler = event => {
+        // Gets the profile picture if it exists
         const profilePicture = event.target.files.length === 1 ? event.target.files[0] : null;
+
+        // Sets state with new input value
         this.setState(prevState => {
             const updatedFormData = { ...prevState.formData };
             updatedFormData.profilePicture = profilePicture;
@@ -40,18 +48,9 @@ class ProfileCard extends Component {
         });
     };
 
-    textInputValueChangedHandler = event => {
-        const inputName = event.target.name;
-        const text = event.target.value;
-        this.setState(prevState => {
-            const updatedFormData = { ...prevState.formData };
-            updatedFormData[inputName] = text;
-            return {
-                formData: updatedFormData
-            };
-        });
-    };
-
+    /**
+     * Shows an alert with the error details and removes the image from state
+     */
     imageInputErrorHandler = () => {
         this.props.showAlert(
             "error",
@@ -61,6 +60,9 @@ class ProfileCard extends Component {
         this.removeImageHandler();
     };
 
+    /**
+     * Removes the current image from state
+     */
     removeImageHandler = () => {
         this.setState(prevState => {
             const updatedFormData = { ...prevState.formData };
@@ -71,28 +73,62 @@ class ProfileCard extends Component {
         });
     };
 
+    /**
+     * Updates form data state with new text input value
+     * @param {object} event - The event (text input) that triggered this method
+     */
+    textInputValueChangedHandler = event => {
+        const inputName = event.target.name;
+        const text = event.target.value;
+
+        // Sets state with new input value
+        this.setState(prevState => {
+            const updatedFormData = { ...prevState.formData };
+            updatedFormData[inputName] = text;
+            return {
+                formData: updatedFormData
+            };
+        });
+    };
+
+    /**
+     * Submits the profile form data
+     * @param {object} - The event (button) that triggered this method
+     */
     submitHandler = event => {
+        // Prevents page reload
         event.preventDefault();
-        this.props.firstNameEntered(this.state.formData.firstName);
+
+        // Gives redux the first name that was entered in the form
+        // This first name is displayed on the welcome screen when sign up is done
+        // this.props.firstNameEntered(this.state.formData.firstName);
+
         if (this.props.isAuthenticated) {
+            // If the user is authenticated, upload the form data
             this.uploadData()
                 .then(() => {
-                    this.props.showAlert("success", "test", "test");
+                    // Profile stage is done
                     this.props.setLoading(false);
                     this.props.done(authStages.PROFILE);
                 })
                 .catch(error => {
+                    console.log("[ProfileCard/submitHandler]", error);
                     this.props.setLoading(false);
                     this.props.showAlert("error", "Error", error.message);
                 });
         } else {
-            console.log("Not authenticated");
+            console.log("[ProfileCard/submitHandler]", "Not authenticated. Can't submit form");
         }
     };
 
+    /**
+     * Uploads the profile picture to Firebase storage
+     * Sends the user's first name and last name to AWS server
+     */
     uploadData = async () => {
         this.props.setLoading(true);
         try {
+            // Uploads the profile picture if it exists (profile picture is not required)
             const profilePicture = this.state.formData.profilePicture;
             if (profilePicture) {
                 const profilePictureFileExtension = profilePicture.type.substring(6);
@@ -103,12 +139,17 @@ class ProfileCard extends Component {
                     profilePictureFileExtension
                 );
             }
+
+            // Modifies user data object to hold first name and last name
             const userData = { ...this.state.formData };
             delete userData.profilePicture;
-            userData.profilePictureUrl = null;
+
+            // Sends the user data to the AWS server
             await addUser(userData);
         } catch (error) {
-            console.log(error);
+            console.log("[ProfileCard/uploadData]", error);
+
+            // Throws a new error if the picture upload fails or the AWS upload fails
             const newError = new Error();
             newError.message = error.response.data;
             newError.status = error.response.status;
@@ -117,6 +158,12 @@ class ProfileCard extends Component {
         this.props.setLoading(false);
     };
 
+    /**
+     * Uploads the profile picture in the form to Firebase storage
+     * @param {string} userUid - The Firebase uid of the current user
+     * @param {object} picture - The picture file to upload
+     * @param {string} extension - The file extension to use (e.g. jpeg or png)
+     */
     uploadProfilePicture = (userUid, picture, extension) => {
         const path = `users/${userUid}/profile_picture.${extension}`;
         return firebase
@@ -126,7 +173,16 @@ class ProfileCard extends Component {
             .put(picture);
     };
 
+    /**
+     * Renders the Profile Card component
+     * The component consists of
+        * A heading
+        * A form consisting of an image upload, first name field, last name field, and submit button
+            * The image upload includes a preview
+     */
     render() {
+        // If there is an image to show, display it in an image tag, along with a remove button
+        // Otherwise, show a placeholder div
         const imageInput = this.state.formData.profilePicture ? (
             <div className={profileCardStyles.profileCardImageInput}>
                 <div className={profileCardStyles.profileCardImageInputImgContainer}>
@@ -161,6 +217,7 @@ class ProfileCard extends Component {
             </div>
         );
 
+        // Returns the JSX to display
         return (
             <div className={authStyles.authCard}>
                 <h3 className={authStyles.authCardHeading}>Your Profile</h3>
@@ -202,10 +259,14 @@ class ProfileCard extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        firstNameEntered: firstName => dispatch(firstNameEntered(firstName))
-    };
-};
+/**
+ * Gets the current state from Redux and passes it to AuthCard as props
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         firstNameEntered: firstName => dispatch(firstNameEntered(firstName))
+//     };
+// };
 
-export default connect(null, mapDispatchToProps)(ProfileCard);
+export default ProfileCard;

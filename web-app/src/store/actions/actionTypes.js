@@ -7,15 +7,9 @@
 ---------------------------------------------------------------------------- */
 
 // Auth action types
-export const START_AUTH_LOADING = "START_AUTH_LOADING";
-export const END_AUTH_LOADING = "END_AUTH_LOADING";
-export const START_SIGN_IN = "START_SIGN_IN";
-export const START_SIGN_UP = "START_SIGN_UP";
-export const END_SIGN_IN = "END_SIGN_IN";
-export const END_SIGN_UP = "END_SIGN_UP";
-export const USER_EXISTS = "USER_EXISTS";
+export const USER_AUTHENTICATED = "USER_AUTHENTICATED";
+export const USER_NOT_AUTHENTICATED = "USER_NOT_AUTHENTICATED";
+
 export const SIGN_OUT = "SIGN_OUT";
-export const NO_USER_EXISTS = "NO_USER_EXISTS";
+
 export const AUTH_ERROR = "AUTH_ERROR";
-export const FIRST_NAME_ENTERED = "FIRST_NAME_ENTERED";
-export const END_WELCOME_PAGE = "END_WELCOME_PAGE";

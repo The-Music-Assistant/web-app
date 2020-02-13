@@ -7,27 +7,20 @@
 ---------------------------------------------------------------------------- */
 
 import * as actionTypes from "../actions/actionTypes";
-import * as authFlows from "../../pages/Auth/authFlows";
 import { updateObject } from "../utility";
 
 const initialState = {
-    authFlow: null,
-    isAuthenticated: false,
+    isAuthenticated: null,
     error: null,
-    isLoading: true,
     firstName: null,
-    showWelcomePage: false
+    showWelcomePage: null
 };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.START_AUTH_LOADING:
-            return updateObject(state, { isLoading: true });
-        case actionTypes.END_AUTH_LOADING:
-            return updateObject(state, { isLoading: false });
-        case actionTypes.USER_EXISTS:
+        case actionTypes.USER_AUTHENTICATED:
             return updateObject(state, { isAuthenticated: true, error: null });
-        case actionTypes.NO_USER_EXISTS:
+        case actionTypes.USER_NOT_AUTHENTICATED:
             return updateObject(state, { isAuthenticated: false, error: null });
         case actionTypes.AUTH_ERROR:
             return updateObject(state, {
@@ -35,20 +28,8 @@ const authReducer = (state = initialState, action) => {
                 error: action.error,
                 isLoading: false
             });
-        case actionTypes.FIRST_NAME_ENTERED:
-            return updateObject(state, { firstName: action.firstName });
-        case actionTypes.END_WELCOME_PAGE:
-            return updateObject(state, { showWelcomePage: false });
-        case actionTypes.START_SIGN_IN:
-            return updateObject(state, { authFlow: authFlows.SIGN_IN });
-        case actionTypes.START_SIGN_UP:
-            return updateObject(state, { authFlow: authFlows.SIGN_UP });
-        case actionTypes.END_SIGN_IN:
-            return updateObject(state, { authFlow: null });
-        case actionTypes.END_SIGN_UP:
-            return updateObject(state, { authFlow: null, showWelcomePage: true });
         case actionTypes.SIGN_OUT:
-            return updateObject(state, {isAuthenticated: false});
+            return updateObject(state, { isAuthenticated: false });
         default:
             return state;
     }
