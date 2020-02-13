@@ -7,6 +7,7 @@
 // ----------------------------------------------------------------------------
 
 import React, { Component } from "react";
+import {connect} from "react-redux";
 import firebase from "../../../vendors/Firebase/firebase";
 import "firebase/storage";
 import TextInput from "../../FormInputs/TextInput/TextInput";
@@ -16,7 +17,6 @@ import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
 import profileCardStyles from "./ProfileCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
 import { addUser } from "../../../App/musicAssistantApi";
-// import { firstNameEntered } from "../../../store/actions";
 import * as authStages from "../../../pages/Auth/authStages";
 
 class ProfileCard extends Component {
@@ -130,8 +130,9 @@ class ProfileCard extends Component {
         try {
             // Uploads the profile picture if it exists (profile picture is not required)
             const profilePicture = this.state.formData.profilePicture;
+            let profilePictureFileExtension = null;
             if (profilePicture) {
-                const profilePictureFileExtension = profilePicture.type.substring(6);
+                profilePictureFileExtension = profilePicture.type.substring(6);
                 const userUid = firebase.auth().currentUser.uid;
                 await this.uploadProfilePicture(
                     userUid,
@@ -143,6 +144,7 @@ class ProfileCard extends Component {
             // Modifies user data object to hold first name and last name
             const userData = { ...this.state.formData };
             delete userData.profilePicture;
+            userData.profilePictureUrl = profilePictureFileExtension;
 
             // Sends the user data to the AWS server
             await addUser(userData);
@@ -260,13 +262,13 @@ class ProfileCard extends Component {
 }
 
 /**
- * Gets the current state from Redux and passes it to AuthCard as props
- * @param {function} dispatch - The react-redux dispatch function
+ * Gets the current state from Redux and passes it to ProfileCard as props
+ * @param {object} state - The Redux state
  */
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         firstNameEntered: firstName => dispatch(firstNameEntered(firstName))
-//     };
-// };
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    };
+};
 
-export default ProfileCard;
+export default connect(mapStateToProps)(ProfileCard);

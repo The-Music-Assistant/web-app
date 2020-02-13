@@ -40,10 +40,15 @@ export const handleAuthStateChanges = () => {
                     .auth()
                     .currentUser.getIdToken()
                     .then(setAxiosAuthToken)
+                    .then(() => {
+                        if (!user.emailVerified) {
+                            dispatch(showWelcomePage());
+                        }
+                    })
                     .catch(error => {
                         dispatch(authError(error));
                         console.log("[actions/auth/handleAuthStateChanges]", error);
-                    })
+                    });
             } else {
                 dispatch(userNotAuthenticated());
             }
@@ -52,11 +57,49 @@ export const handleAuthStateChanges = () => {
 };
 
 /**
- * Returns USER_AUTHENTICATED action type
+ * Returns START_AUTH_FLOW action type
  */
-const userAuthenticated = () => {
+export const startAuthFlow = () => {
     return {
-        type: actionTypes.USER_AUTHENTICATED
+        type: actionTypes.START_AUTH_FLOW
+    }
+}
+
+/**
+ * Returns AUTH_FLOW_COMPLETE action type and a boolean indicating whether or not to show the welcome page
+ */
+export const authFlowComplete = showWelcomePage => {
+    return {
+        type: actionTypes.AUTH_FLOW_COMPLETE,
+        showWelcomePage
+    };
+};
+
+/**
+ * Returns WELCOME_PAGE_START action type
+ */
+export const showWelcomePage = () => {
+    return {
+        type: actionTypes.SHOW_WELCOME_PAGE
+    }
+}
+
+/**
+ * Returns WELCOME_PAGE_COMPLETE action type
+ */
+export const welcomePageComplete = () => {
+    return {
+        type: actionTypes.WELCOME_PAGE_COMPLETE
+    }
+}
+
+/**
+ * Returns USER_AUTHENTICATED action type and a boolean indicating whether or not the auth flow is complete
+ */
+const userAuthenticated = authFlowComplete => {
+    return {
+        type: actionTypes.USER_AUTHENTICATED,
+        authFlowComplete
     };
 };
 

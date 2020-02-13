@@ -7,6 +7,8 @@
 // ----------------------------------------------------------------------------
 
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { authFlowComplete, startAuthFlow } from "../../store/actions";
 import logo from "../../assets/logos/music-assistant-logo.png";
 import AuthCard from "../../components/AuthCards/AuthCard/AuthCard";
 import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
@@ -46,6 +48,7 @@ class Auth extends Component {
      * Sets authStage based on passed prop
      */
     componentDidMount() {
+        this.props.startAuthFlow();
         window.addEventListener("resize", this.resizeWindow);
     }
 
@@ -93,12 +96,14 @@ class Auth extends Component {
     authFlowStageDoneHandler = stage => {
         switch (stage) {
             case authStages.SIGN_IN:
-            case authStages.PROFILE:
-                this.setState({ authStage: null });
+                this.props.authFlowComplete(false);
                 break;
             case authStages.SIGN_UP:
                 // When the sign up stage is complete, move to the profile stage
                 this.setState({ authStage: authStages.PROFILE });
+                break;
+            case authStages.PROFILE:
+                this.props.authFlowComplete(true);
                 break;
             default:
         }
@@ -134,6 +139,7 @@ class Auth extends Component {
                         done={this.authFlowStageDoneHandler}
                         authStage={this.state.authStage}
                         switchAuthFlow={this.switchAuthFlowHandler}
+                        authStageDone={this.authFlowStageDoneHandler}
                     />
                 );
 
@@ -185,4 +191,15 @@ class Auth extends Component {
     }
 }
 
-export default Auth;
+/**
+ * Gets the current state from Redux and passes it to Auth as props
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        authFlowComplete: showWelcomePage => dispatch(authFlowComplete(showWelcomePage)),
+        startAuthFlow: () => dispatch(startAuthFlow())
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Auth);

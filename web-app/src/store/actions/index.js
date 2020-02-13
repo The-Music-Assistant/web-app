@@ -9,5 +9,8 @@
 
 export {
     handleAuthStateChanges,
+    authFlowComplete,
+    welcomePageComplete,
+    startAuthFlow,
     signOut
 } from "./auth";

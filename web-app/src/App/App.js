@@ -10,7 +10,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import firebase from "../vendors/Firebase/firebase";
+import {startAuthFlow} from "../store/actions";
 import Startup from "../pages/Startup/Startup";
 import Auth from "../pages/Auth/Auth";
 import Welcome from "../pages/Welcome/Welcome";
@@ -30,16 +30,6 @@ class App extends Component {
         }, 2000);
     }
 
-    componentDidUpdate() {
-        if (this.props.isAuthenticated && !this.state.authStage) {
-            this.setState({ authStage: authStages.SIGN_IN });
-        }
-    }
-
-    welcomePageDoneHandler = () => {
-        this.render();
-    };
-
     render() {
         let page;
 
@@ -52,25 +42,20 @@ class App extends Component {
                     <Redirect to='/startup' />
                 </div>
             );
-
-        // TODO: isAuthenticated gets changed in Redux and Auth is no longer shown. I need to keep Auth shown until sign up flow is complete
-        } else if (!this.props.isAuthenticated) {
+        } else if (!this.props.isAuthenticated || !this.props.authFlowComplete) {
             page = (
                 <div className='App'>
-                    <Route path="/auth">
+                    <Route path='/auth'>
                         <Auth />
                     </Route>
-                    <Redirect to="/auth" />
+                    <Redirect to='/auth' />
                 </div>
             );
-        } else if (!firebase.auth().currentUser.emailVerified) {
+        } else if (this.props.showWelcomePage) {
             page = (
                 <div className='App'>
                     <Route path='/welcome'>
-                        <Welcome
-                            // firstName={this.props.firstName}
-                            done={this.welcomePageDoneHandler}
-                        />
+                        <Welcome />
                     </Route>
                     <Redirect to='/welcome' />
                 </div>
@@ -92,8 +77,16 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        authFlowComplete: state.auth.authFlowComplete,
+        showWelcomePage: state.auth.showWelcomePage
     };
 };
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         startAuthFlow: () => dispatch(startAuthFlow())
+//     };
+// };
 
 export default connect(mapStateToProps)(App);

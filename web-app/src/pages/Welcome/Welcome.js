@@ -13,7 +13,7 @@ import downArrow from "../../assets/icons/down-arrow-white-fa.svg";
 import RectangularButton from "../../components/Buttons/RectangularButton/RectangularButton";
 import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
 import AlertBar from "../../components/AlertBar/AlertBar";
-import { signOut } from "../../store/actions";
+import { signOut, welcomePageComplete } from "../../store/actions";
 import firebase from "../../vendors/Firebase/firebase";
 import { MetroSpinner } from "react-spinners-kit";
 import styles from "./Welcome.module.scss";
@@ -223,7 +223,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        signOut: () => dispatch(signOut())
+        signOut: () => dispatch(signOut()),
+        done: () => dispatch(welcomePageComplete())
     };
 };
 

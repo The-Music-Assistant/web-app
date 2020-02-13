@@ -75,7 +75,6 @@ class AuthCard extends Component {
      * @param {object} event - The event (button) that triggered this method
      */
     submitHandler = event => {
-        console.log(this.props.authStage);
         // Prevents page reload
         event.preventDefault();
 
