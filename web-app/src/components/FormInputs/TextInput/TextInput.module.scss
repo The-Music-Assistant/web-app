@@ -19,7 +19,7 @@
     &:focus + .label .content,
     &Valid + .label .content {
         transform: translateY(-150%);
-        @include text($size: .8rem, $weight: 400, $color: $primary-color, $line-height: null);
+        @include text($size: 0.8rem, $weight: 400, $color: $primary-color, $line-height: null);
     }
 
     &:focus + .label::after,

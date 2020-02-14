@@ -11,6 +11,10 @@ import axios from "axios";
 axios.defaults.baseURL = "https://danielgriessler.com";
 // axios.defaults.timeout = 3000;
 
+/**
+ * Sets the Axios auth token
+ * @param {string} authToken - The auth token to use for API requests
+ */
 export const setAxiosAuthToken = authToken => {
     axios.defaults.headers.common["Authorization"] = authToken;
 };
@@ -20,7 +24,7 @@ export const setAxiosAuthToken = authToken => {
  * @param {Object} data
  * @param {string} data.firstName - The user's first name
  * @param {string} data.lastName - The user's last name
- * @param {string} data.profilePictureUrl - The person's profile picture url 
+ * @param {string} data.profilePictureUrl - The person's profile picture url
  */
 export const addUser = data => {
     return axios.post("/person", data);
@@ -31,11 +35,11 @@ export const addUser = data => {
  * @param {Object} data
  * @param {string} data.firstName - The user's first name
  * @param {string} data.lastName - The user's last name
- * @param {string} data.profilePictureUrl - The user's profile picture url 
+ * @param {string} data.profilePictureUrl - The user's profile picture url
  */
 export const updateUser = data => {
     return axios.put("/person", data);
-}
+};
 
 /**
  * Adds a choir to the database
@@ -48,14 +52,14 @@ export const updateUser = data => {
  */
 export const addChoir = data => {
     return axios.post("/choir", data);
-}
+};
 
 /**
  * Gets the choirs that this user is a part of
  */
 export const getUsersChoirs = () => {
     return axios.get("/chor");
-}
+};
 
 /**
  * Gets the given choir
@@ -64,7 +68,7 @@ export const getUsersChoirs = () => {
  */
 export const getChoir = data => {
     return axios.get("/choir/specific", data);
-}
+};
 
 /**
  * Accepts a given choir member into the given choir
@@ -74,7 +78,7 @@ export const getChoir = data => {
  */
 export const acceptChoirMember = data => {
     return axios.put("/member/accept", data);
-}
+};
 
 /**
  * Rejects a given choir member from entering the given choir
@@ -84,7 +88,7 @@ export const acceptChoirMember = data => {
  */
 export const rejectChoirMember = data => {
     return axios.put("/member/reject", data);
-}
+};
 
 /**
  * Gets pending users of the given choir
@@ -93,7 +97,7 @@ export const rejectChoirMember = data => {
  */
 export const getPendingUsers = data => {
     return axios.get("/member/pending", data);
-}
+};
 
 /**
  * Adds the user as a pending member of the given choir
@@ -104,4 +108,4 @@ export const getPendingUsers = data => {
  */
 export const joinChoir = data => {
     return axios.get("/member", data);
-}
+};

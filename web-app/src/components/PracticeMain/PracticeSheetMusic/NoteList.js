@@ -1,10 +1,15 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeSheetMusic/NoteList.js
+// Description: Keeps a list of midi values to serve as a sample of the MAX_SIZE
+//                    last midi values heard
+// Author: Daniel Griessler
+// Email: dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
 const MAX_SIZE = 5;
 
-/**
- * Keeps a list of midi values to serve as a sample of the MAX_SIZE last midi values heard.
- */
 class NoteList {
-
     /**
      * Creates a NoteList defaulting the lower pitch bound to 21 = A0 and the upper pitch bound to 127 = G9
      * @param {Number} element Initial midi value to be stored in the list of values

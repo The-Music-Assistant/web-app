@@ -6,15 +6,23 @@
 // Created Date: 10/24/2019
 // ----------------------------------------------------------------------------
 
+// NPM module imports
 import React, { Component } from "react";
-import styles from "./MusicControls.module.scss";
-import playButton from "../../../../assets/icons/play-icon-fa.svg";
-import pauseButton from "../../../../assets/icons/pause-icon-fa.svg";
-import stopButton from "../../../../assets/icons/stop-icon-fa.svg";
+
+// File imports
 import AlphaTabRunner from "../../PracticeSheetMusic/AlphaTabRunner";
 import PitchDetection from "../../PracticeSheetMusic/PitchDetection";
 
+// Image imports
+import playButtonImg from "../../../../assets/icons/play-icon-fa.svg";
+import pauseButtonImg from "../../../../assets/icons/pause-icon-fa.svg";
+import stopButtonImg from "../../../../assets/icons/stop-icon-fa.svg";
+
+// Style imports
+import styles from "./MusicControls.module.scss";
+
 class MusicControls extends Component {
+    // Component state
     state = {
         // trackSelectionIsActive: false
         isPlaying: false
@@ -58,14 +66,16 @@ class MusicControls extends Component {
      * Stops the music
      */
     stopButtonHandler = () => {
-        // Updates state
         this.donePlaying();
 
         AlphaTabRunner.api.stop();
         AlphaTabRunner.noteStreamIndex = 0;
         AlphaTabRunner.cumulativeTime = 0;
-    }
+    };
 
+    /**
+     * TODO: Figure out what this does
+     */
     componentDidMount() {
         const id = window.setInterval(() => {
             if (AlphaTabRunner.api != null) {
@@ -74,7 +84,7 @@ class MusicControls extends Component {
                     this.donePlaying();
                 });
             }
-        }, 2000)
+        }, 2000);
     }
 
     /**
@@ -84,39 +94,50 @@ class MusicControls extends Component {
         this.setState({
             isPlaying: false
         });
-    }
+    };
 
+    /**
+     * Renders the MusicControls component
+     */
     render() {
         // Update play/pause button based on state
-        let playPauseButton = playButton;
+        let playPauseButton = playButtonImg;
         let playPauseButtonAltText = "Play Button";
-
         if (this.state.isPlaying) {
-            playPauseButton = pauseButton;
+            playPauseButton = pauseButtonImg;
             playPauseButtonAltText = "Pause Button";
         }
 
         // let trackSelectionDropdownMenu = null;
         // if (this.state.trackSelectionIsActive) {
         //     trackSelectionDropdownMenu = (
-        //         <TrackSelectionDropdownMenu trackList={this.props.trackList} trackListSelectionChanged={this.props.trackListSelectionChanged} />
+        //         <TrackSelectionDropdownMenu
+        //             trackList={this.props.trackList}
+        //             trackListSelectionChanged={this.props.trackListSelectionChanged}
+        //         />
         //     );
         // }
 
+        // Returns the JSX to display
         return (
             <section className={styles.musicControls}>
                 <button
-                    className={[styles.musicControlsButton, styles.musicControlsPlayPauseButton].join(" ")}
+                    className={[
+                        styles.musicControlsButton,
+                        styles.musicControlsPlayPauseButton
+                    ].join(" ")}
                     type='button'
                     onClick={this.playPauseButtonHandler}>
                     <img src={playPauseButton} alt={playPauseButtonAltText} />
                 </button>
 
                 <button
-                    className={[styles.musicControlsButton, styles.musicControlsStopButton].join(" ")}
+                    className={[styles.musicControlsButton, styles.musicControlsStopButton].join(
+                        " "
+                    )}
                     type='button'
                     onClick={this.stopButtonHandler}>
-                    <img src={stopButton} alt='Stop Button' />
+                    <img src={stopButtonImg} alt='Stop Button' />
                 </button>
 
                 {/* <span className={styles.musicControlsDivider}></span>

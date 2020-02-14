@@ -10,7 +10,12 @@
 
 .profileCard {
     &ImageInput {
-        @include flex-container($direction: column, $justify-content: null, $align-items: center, $wrap: nowrap);
+        @include flex-container(
+            $direction: column,
+            $justify-content: null,
+            $align-items: center,
+            $wrap: nowrap
+        );
 
         &Img,
         &ImgPlaceholder {
@@ -55,7 +60,11 @@
         gap: 40px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
-            @include grid-container($grid-template-rows: 1fr, $grid-template-columns: 1fr 1fr, $align-items: space-between);
+            @include grid-container(
+                $grid-template-rows: 1fr,
+                $grid-template-columns: 1fr 1fr,
+                $align-items: space-between
+            );
         }
     }
 }

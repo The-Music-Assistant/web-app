@@ -11,7 +11,7 @@ import { updateObject } from "../utility";
 
 const initialState = {
     isAuthenticated: null,
-    authFlowComplete: null,
+    isAuthFlowComplete: null,
     error: null,
     firstName: null,
     showWelcomePage: false
@@ -21,20 +21,20 @@ const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_FLOW_COMPLETE:
             if (action.showWelcomePage) {
-                return updateObject(state, { authFlowComplete: true, showWelcomePage: true });
+                return updateObject(state, { isAuthFlowComplete: true, showWelcomePage: true });
             } else {
                 // Doesn't set showWelcomePage to false in case the user has not verified their email (in that case we still want to show the welcome page)
-                return updateObject(state, { authFlowComplete: true });
+                return updateObject(state, { isAuthFlowComplete: true });
             }
         case actionTypes.START_AUTH_FLOW:
-            return updateObject(state, { authFlowComplete: false });
+            return updateObject(state, { isAuthFlowComplete: false });
         case actionTypes.SHOW_WELCOME_PAGE:
             return updateObject(state, { showWelcomePage: true });
         case actionTypes.WELCOME_PAGE_COMPLETE:
             return updateObject(state, { showWelcomePage: false });
         case actionTypes.USER_AUTHENTICATED:
-            if (state.authFlowComplete === null) {
-                return updateObject(state, { isAuthenticated: true, error: null, authFlowComplete: true });
+            if (state.isAuthFlowComplete === null) {
+                return updateObject(state, { isAuthenticated: true, error: null, isAuthFlowComplete: true });
             } else {
                 return updateObject(state, { isAuthenticated: true, error: null });
             }

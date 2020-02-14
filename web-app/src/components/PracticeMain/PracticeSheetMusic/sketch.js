@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeSheetMusic/sketch.js
+// Description: P5 sketch wrapper
+// Author: Daniel Griessler
+// Email: dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
 import p5 from "p5";
 import AlphaTabRunner from "./AlphaTabRunner";
 

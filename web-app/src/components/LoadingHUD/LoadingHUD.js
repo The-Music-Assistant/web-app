@@ -1,16 +1,21 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/LoadingModal/LoadingHUD.js
+// File Path: src/components/LoadingHUD/LoadingHUD.js
 // Description: Renders the loading HUD component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/18/2020
 // ----------------------------------------------------------------------------
 
+// NPM module imports
 import React from "react";
+import PropTypes from "prop-types";
 import { MetroSpinner } from "react-spinners-kit";
+
+// Style imports
 import styles from "./LoadingHUD.module.scss";
 
 const LoadingHUD = props => {
+    // Returns JSX to display
     return (
         <div className={styles.background}>
             <div className={styles.modal}>
@@ -19,6 +24,11 @@ const LoadingHUD = props => {
             </div>
         </div>
     );
+};
+
+// Loading HUD prop types
+LoadingHUD.propTypes = {
+    text: PropTypes.string
 };
 
 export default LoadingHUD;

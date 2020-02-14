@@ -8,13 +8,23 @@
 // Created Date: 1/6/2020
 // ----------------------------------------------------------------------------
 
+// NPM module imports
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as authStages from "../../../pages/Auth/authStages";
-import firebase from "../../../vendors/Firebase/firebase";
+
+// Component imports
 import TextInput from "../../FormInputs/TextInput/TextInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 import TextButton from "../../Buttons/TextButton/TextButton";
+
+// File imports
+import firebase from "../../../vendors/Firebase/firebase";
+import * as authStages from "../../../pages/Auth/authStages";
+import * as alertBarTypes from "../../AlertBar/alertBarTypes";
+import * as textInputTypes from "../../FormInputs/TextInput/textInputTypes";
+
+// Style imports
 import authCardStyles from "./AuthCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
 
@@ -104,7 +114,7 @@ class AuthCard extends Component {
         if (trimmedEmail !== email) {
             // If email has whitespace, show an alert and return false (not valid)
             this.props.showAlert(
-                "error",
+                alertBarTypes.ERROR,
                 "Email Error",
                 "Please remove whitespace from email (e.g. spaces, tabs, etc.)"
             );
@@ -127,7 +137,7 @@ class AuthCard extends Component {
         if (trimmedPassword !== password) {
             // If password has whitespace, show an alert and return false (not valid)
             this.props.showAlert(
-                "error",
+                alertBarTypes.ERROR,
                 "Password Error",
                 "Please remove whitespace from password (e.g. spaces, tabs, etc.)"
             );
@@ -143,7 +153,7 @@ class AuthCard extends Component {
         if (!trimmedPassword.match(/^(?=.*\d)(?=.*[!@#$%^&*-])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)) {
             // If the password doesn't meet security requirements, show and alert and return false (not valid)
             this.props.showAlert(
-                "error",
+                alertBarTypes.ERROR,
                 "Password Error",
                 `Invalid password. Your password must be at least 8 characters and contain at least one of each: 
                 uppercase letter [A-Z], lowercase letter [a-z], number [1-9], and special character [@, $, !, %, *, ?, or &]`
@@ -167,7 +177,7 @@ class AuthCard extends Component {
             .catch(error => {
                 console.log("[AuthCard/signInWithEmailPassword]", error);
                 this.props.setLoading(false);
-                this.props.showAlert("error", "Authentication Error", error.message);
+                this.props.showAlert(alertBarTypes.ERROR, "Authentication Error", error.message);
             });
     };
 
@@ -185,7 +195,7 @@ class AuthCard extends Component {
             .catch(error => {
                 console.log("[AuthCard/signUpWithEmailPassword]", error);
                 this.props.setLoading(false);
-                this.props.showAlert("error", "Sign Up Error", error.message);
+                this.props.showAlert(alertBarTypes.ERROR, "Sign Up Error", error.message);
             });
     };
 
@@ -204,16 +214,16 @@ class AuthCard extends Component {
             .catch(error => {
                 console.log("[AuthCard/sendEmailVerification]", error);
                 this.props.setLoading(false);
-                this.props.showAlert("error", "Authentication Error", error.message);
+                this.props.showAlert(alertBarTypes.ERROR, "Authentication Error", error.message);
             });
     };
 
     /**
      * Renders the auth card component
      * The component consists of
-        * A heading
-        * A form containing an email field, password field, and submit button
-        * A text button for switching between auth flows (sign in and sign up)
+     * A heading
+     * A form containing an email field, password field, and submit button
+     * A text button for switching between auth flows (sign in and sign up)
      */
     render() {
         let heading;
@@ -238,7 +248,7 @@ class AuthCard extends Component {
                 <form className={authStyles.authCardForm} onSubmit={this.submitHandler}>
                     <div className={authCardStyles.authCardTextInput}>
                         <TextInput
-                            inputType='email'
+                            inputType={textInputTypes.EMAIL}
                             inputName='email'
                             labelText='Email'
                             value={this.state.formData.email}
@@ -248,7 +258,7 @@ class AuthCard extends Component {
                     </div>
                     <div className={authCardStyles.authCardTextInput}>
                         <TextInput
-                            inputType='password'
+                            inputType={textInputTypes.PASSWORD}
                             inputName='password'
                             labelText='Password'
                             value={this.state.formData.password}
@@ -289,6 +299,16 @@ const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.isAuthenticated
     };
+};
+
+// Prop types for the AuthCard component
+AuthCard.propTypes = {
+    isAuthenticated: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+    authStage: PropTypes.oneOf([authStages.SIGN_IN, authStages.SIGN_UP, authStages.PROFILE])
+        .isRequired,
+    setLoading: PropTypes.func.isRequired,
+    showAlert: PropTypes.func.isRequired,
+    done: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps)(AuthCard);

@@ -1,6 +1,12 @@
-/**
- * Keeps track of current note and where to draw it on the screen along with special information such as number of extra ledger lines
- */
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeSheetMusic/Drawer.js
+// Description: Keeps track of current note and where to draw it on the screen
+//                  along with special information such as number of extra ledger lines
+// Author: Daniel Griessler
+// Email: dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
 class Drawer {
     /**
      * Creates a new Drawer setting up storage of the most recent midi note and information about how to draw it on the screen
@@ -25,7 +31,7 @@ class Drawer {
 
     /**
      * Updates the Drawer to the new provided note
-     * @param {Number} note New midi value to store. Provide a -1 as a sentinel value for silence 
+     * @param {Number} note New midi value to store. Provide a -1 as a sentinel value for silence
      */
     updateNote(note) {
         this.note.updateNote(note);
@@ -53,8 +59,8 @@ class Drawer {
         // Includes bump to jump between octaves
         let totalMod = value + octaveMod * 7;
 
-        // final height includes division by 2 because each value in the totalMod is distanceBetweenLines/2 
-        this.noteHeight = this.firstLine - (totalMod * this.distanceBetweenLines) / 2;      
+        // final height includes division by 2 because each value in the totalMod is distanceBetweenLines/2
+        this.noteHeight = this.firstLine - (totalMod * this.distanceBetweenLines) / 2;
     }
 
     /**

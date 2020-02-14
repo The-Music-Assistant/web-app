@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/AuthCards/AuthBar/AuthBar.module.scss
+// File Path: src/components/AuthBar/AuthBar.module.scss
 // Description: SCSS styles for the auth bar component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
@@ -30,7 +30,11 @@
     }
 
     &TopGrid {
-        @include grid-container($grid-template-rows: 1fr, $grid-template-columns: 15px 1fr 15px, $align-items: center);
+        @include grid-container(
+            $grid-template-rows: 1fr,
+            $grid-template-columns: 15px 1fr 15px,
+            $align-items: center
+        );
     }
 
     &Heading {

@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeSheetMusic/AlphaTabRunner.js
+// Description: TODO: Write a description
+// Author: Daniel Griessler
+// Email: dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
 // https://docs.alphatab.net/develop/  for development Documentation
 
 import player from "./default.sf2";

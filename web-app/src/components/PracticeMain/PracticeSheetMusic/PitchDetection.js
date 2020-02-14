@@ -1,4 +1,15 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeSheetMusic/PitchDetection.js
+// Description: Pitch detection API
+// Author: Dan Levy & Daniel Griessler
+// Email: danlevy124@gmail.com & dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
+// NPM module imports
 import ml5 from "ml5";
+
+// File imports
 import p5 from "./sketch";
 import AlphaTabRunner from "./AlphaTabRunner";
 
@@ -6,7 +17,7 @@ class PitchDetection {
     audioContext;
     micStream;
     pitchDetectionModel;
-    label;
+    label; // HTML element to display the frequency
     noteList;
 
     /**
@@ -34,11 +45,11 @@ class PitchDetection {
                                 reject(`[error][PitchDetection] ${err}`);
                             });
                     })
-                    .catch(err => {
-                        reject();
+                    .catch(error => {
+                        reject(error);
                     });
             } else {
-                reject("[warning][PitchDetection] Cannot access microphone");
+                reject("[error][PitchDetection/setupPitchDetection] Cannot access microphone");
             }
         });
     }
@@ -51,7 +62,8 @@ class PitchDetection {
         this.label = document.querySelector("#frequency");
 
         // Creates pitch detection model
-        return ml5.pitchDetection("./Pitch-Detection-Model/", this.audioContext, this.micStream).ready;
+        return ml5.pitchDetection("./Pitch-Detection-Model/", this.audioContext, this.micStream)
+            .ready;
     }
 
     /**
@@ -63,12 +75,15 @@ class PitchDetection {
         return setInterval(() => {
             p5.redraw();
             // Gets the current pitch and sends it to displayMidi
-            this.pitchDetectionModel.getPitch().then(frequency => {
-                this.displayMidi(frequency);
-            }).catch(err => {
-                console.log(`[error][PitchDetection] ${err}`);
-                this.displayMidi(0);
-            });
+            this.pitchDetectionModel
+                .getPitch()
+                .then(frequency => {
+                    this.displayMidi(frequency);
+                })
+                .catch(err => {
+                    console.log(`[error][PitchDetection] ${err}`);
+                    this.displayMidi(0);
+                });
         }, 100);
     }
 
@@ -88,7 +103,7 @@ class PitchDetection {
         if (frequency) {
             // Converts frequency to midi value
             let midiNum = (Math.log(frequency / 440) / Math.log(2)) * 12 + 69;
-            
+
             AlphaTabRunner.noteList.addNote(midiNum);
             AlphaTabRunner.drawer.updateNote(AlphaTabRunner.noteList.average);
         } else {

@@ -119,9 +119,6 @@ class Auth extends Component {
 
     /**
      * Renders the Auth page
-     * The page consists of
-     * Auth info
-     * An auth card (based on the auth stage)
      */
     render() {
         let authCard;
@@ -171,7 +168,7 @@ class Auth extends Component {
                         type={this.state.alertData.type}
                         heading={this.state.alertData.heading}
                         message={this.state.alertData.message}
-                        isDone={this.alertIsDoneHandler}
+                        done={this.alertIsDoneHandler}
                     />
                 ) : null}
                 <div className={styles.authContainer}>
@@ -192,7 +189,7 @@ class Auth extends Component {
 }
 
 /**
- * Gets the current state from Redux and passes it to Auth as props
+ * Passes certain redux actions to Auth
  * @param {function} dispatch - The react-redux dispatch function
  */
 const mapDispatchToProps = dispatch => {

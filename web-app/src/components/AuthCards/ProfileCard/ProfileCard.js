@@ -6,18 +6,28 @@
 // Created Date: 1/6/2020
 // ----------------------------------------------------------------------------
 
+// NPM module imports
 import React, { Component } from "react";
-import {connect} from "react-redux";
-import firebase from "../../../vendors/Firebase/firebase";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import "firebase/storage";
+
+// Component imports
 import TextInput from "../../FormInputs/TextInput/TextInput";
 import ImageInput from "../../FormInputs/ImageInput/ImageInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
+
+// File imports
+import { addUser } from "../../../App/musicAssistantApi";
+import firebase from "../../../vendors/Firebase/firebase";
 import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
+import * as alertBarTypes from "../../AlertBar/alertBarTypes";
+import * as authStages from "../../../pages/Auth/authStages";
+import * as textInputTypes from "../../FormInputs/TextInput/textInputTypes";
+
+// Style imports
 import profileCardStyles from "./ProfileCard.module.scss";
 import authStyles from "../AuthCard.module.scss";
-import { addUser } from "../../../App/musicAssistantApi";
-import * as authStages from "../../../pages/Auth/authStages";
 
 class ProfileCard extends Component {
     // Component state
@@ -53,7 +63,7 @@ class ProfileCard extends Component {
      */
     imageInputErrorHandler = () => {
         this.props.showAlert(
-            "error",
+            alertBarTypes.ERROR,
             "Image Upload Error",
             "We couldn't load your profile picture. Please select a new one."
         );
@@ -114,7 +124,7 @@ class ProfileCard extends Component {
                 .catch(error => {
                     console.log("[ProfileCard/submitHandler]", error);
                     this.props.setLoading(false);
-                    this.props.showAlert("error", "Error", error.message);
+                    this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
                 });
         } else {
             console.log("[ProfileCard/submitHandler]", "Not authenticated. Can't submit form");
@@ -178,9 +188,9 @@ class ProfileCard extends Component {
     /**
      * Renders the Profile Card component
      * The component consists of
-        * A heading
-        * A form consisting of an image upload, first name field, last name field, and submit button
-            * The image upload includes a preview
+     * A heading
+     * A form consisting of an image upload, first name field, last name field, and submit button
+     * The image upload includes a preview
      */
     render() {
         // If there is an image to show, display it in an image tag, along with a remove button
@@ -206,6 +216,7 @@ class ProfileCard extends Component {
                     buttonName={"Select a profile picture"}
                     onChange={this.imageInputValueChangedHandler}
                     file={this.state.formData.profilePicture}
+                    isRequired={false}
                 />
             </div>
         ) : (
@@ -215,6 +226,7 @@ class ProfileCard extends Component {
                     inputName='profilePictureInput'
                     buttonName={"Select a profile picture"}
                     onChange={this.imageInputValueChangedHandler}
+                    isRequired={false}
                 />
             </div>
         );
@@ -228,9 +240,9 @@ class ProfileCard extends Component {
                     <div className={profileCardStyles.profileCardTextInputs}>
                         <div className={profileCardStyles.profileCardTextInput}>
                             <TextInput
-                                inputType={"text"}
-                                inputName={"firstName"}
-                                labelText={"First Name"}
+                                inputType={textInputTypes.TEXT}
+                                inputName='firstName'
+                                labelText='First Name'
                                 value={this.state.formData.firstName}
                                 isRequired={true}
                                 onChange={this.textInputValueChangedHandler}
@@ -238,9 +250,9 @@ class ProfileCard extends Component {
                         </div>
                         <div className={profileCardStyles.profileCardTextInput}>
                             <TextInput
-                                inputType={"text"}
-                                inputName={"lastName"}
-                                labelText={"Last Name"}
+                                inputType={textInputTypes.TEXT}
+                                inputName='lastName'
+                                labelText='Last Name'
                                 value={this.state.formData.lastName}
                                 isRequired={true}
                                 onChange={this.textInputValueChangedHandler}
@@ -269,6 +281,14 @@ const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.isAuthenticated
     };
+};
+
+// Profile card prop types
+ProfileCard.propTypes = {
+    isAuthenticated: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+    setLoading: PropTypes.func.isRequired,
+    showAlert: PropTypes.func.isRequired,
+    done: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps)(ProfileCard);

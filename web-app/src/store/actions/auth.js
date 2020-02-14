@@ -96,10 +96,10 @@ export const welcomePageComplete = () => {
 /**
  * Returns USER_AUTHENTICATED action type and a boolean indicating whether or not the auth flow is complete
  */
-const userAuthenticated = authFlowComplete => {
+const userAuthenticated = isAuthFlowComplete => {
     return {
         type: actionTypes.USER_AUTHENTICATED,
-        authFlowComplete
+        isAuthFlowComplete
     };
 };
 

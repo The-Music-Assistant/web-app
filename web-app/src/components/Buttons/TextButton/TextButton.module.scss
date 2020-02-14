@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/Buttons/RectangularButton/TextButton.module.scss
+// File Path: src/components/Buttons/TextButton/TextButton.module.scss
 // Description: SCSS styles for the text button component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
@@ -19,8 +19,4 @@
 
 .redTextButton {
     color: $red-color;
-}
-
-.centerTextButton {
-    margin: auto;
 }

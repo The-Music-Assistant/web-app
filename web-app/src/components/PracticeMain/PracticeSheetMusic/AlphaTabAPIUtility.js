@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeSheetMusic/AlphaTabUtility.js
+// Description: TODO: Write a description
+// Author: Daniel Griessler
+// Email: dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
 // TODO: fix labelling of topLine when tracks are reloaded
 
 class AlphaTabAPIUtility {

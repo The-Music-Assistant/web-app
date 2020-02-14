@@ -1,19 +1,31 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/AuthCards/AuthBar/AuthBar.module.scss
+// File Path: src/components/AlertBar/AlertBar.js
 // Description: Renders the alert bar component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/20/2020
 // ----------------------------------------------------------------------------
 
+// NPM module imports
 import React, { Component } from "react";
-import styles from "./AlertBar.module.scss";
+import PropTypes from "prop-types";
+
+// File imports
+import * as alertBarTypes from "./alertBarTypes";
+
+// Image imports
 import closeIconWhite from "../../assets/icons/close-icon-white-fa.svg";
+
+// Style imports
+import styles from "./AlertBar.module.scss";
 
 class AlertBar extends Component {
     DISPLAY_TIME_MS = 5000;
     TRANSITION_TIME_MS = 1000;
 
+    // Component state
+    // transition indicates the current transition direction (up or down)
+    // timerIds holds the ids for all of alert bar animations
     state = {
         transition: null,
         timerIds: {
@@ -23,54 +35,75 @@ class AlertBar extends Component {
         }
     };
 
+    /**
+     * Creates timers for alert bar animations
+     */
     componentDidMount() {
+        // Timer for sliding down
         // Fixes bug (assuming React bug) where transition down is instant rather than animated
         const slideDownTimerId = setTimeout(() => {
             this.setState({ transition: "down" });
         }, 10);
 
+        // Timer for holding in the down position
         const slideUpTimerId = setTimeout(() => {
             this.setState({ transition: "up" });
         }, this.TRANSITION_TIME_MS + this.DISPLAY_TIME_MS);
 
+        // Timer for sliding back up
         const isDoneTimerId = setTimeout(() => {
-            this.props.isDone();
+            this.props.done();
         }, this.TRANSITION_TIME_MS * 2 + this.DISPLAY_TIME_MS);
 
+        // Holds timer ids in state
         this.setState({ timerIds: { slideDownTimerId, slideUpTimerId, isDoneTimerId } });
     }
 
+    /**
+     * Clears all timers
+     */
     componentWillUnmount() {
         for (const timerId in this.state.timerIds) {
             clearTimeout(this.state.timerIds[timerId]);
         }
     }
 
+    /**
+     * Closes the alert bar early
+     */
     closeButttonClickedHandler = () => {
-        clearTimeout(this.state.transitionOutTimerId);
-        clearTimeout(this.state.isDoneTimerId);
+        // Clears the necessary timer ids in order to override the slide up
+        clearTimeout(this.state.timerIds.slideUpTimerId);
+        clearTimeout(this.state.timerIds.isDoneTimerId);
+
+        // Alert bar slides up
         this.setState({ transition: "up" });
         setTimeout(() => {
-            this.props.isDone();
+            this.props.done();
         }, this.TRANSITION_TIME_MS);
     };
 
+    /**
+     * Renders the AlertBar component
+     */
     render() {
+        // Sets the background color of the alert bar
         let backgroundColorStyle;
         switch (this.props.type) {
-            case "success":
+            case alertBarTypes.SUCCESS:
                 backgroundColorStyle = styles.alertBarSuccess;
                 break;
-            case "warning":
+            case alertBarTypes.WARNING:
                 backgroundColorStyle = styles.alertBarWarning;
                 break;
-            case "error":
+            case alertBarTypes.ERROR:
                 backgroundColorStyle = styles.alertBarError;
                 break;
             default:
                 backgroundColorStyle = styles.alertBarInfo;
         }
 
+        // Sets the CSS transition class
         let transitionStyle;
         switch (this.state.transition) {
             case "down":
@@ -83,6 +116,7 @@ class AlertBar extends Component {
                 transitionStyle = null;
         }
 
+        // Returns the JSX to display
         return (
             <div className={[styles.alertBar, backgroundColorStyle, transitionStyle].join(" ")}>
                 <div className={styles.alertBarTopGrid}>
@@ -104,5 +138,18 @@ class AlertBar extends Component {
         );
     }
 }
+
+// Prop types for the AlertBar component
+AlertBar.propTypes = {
+    type: PropTypes.oneOf([
+        alertBarTypes.SUCCESS,
+        alertBarTypes.WARNING,
+        alertBarTypes.ERROR,
+        alertBarTypes.INFO
+    ]).isRequired,
+    heading: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    done: PropTypes.func.isRequired
+};
 
 export default AlertBar;

@@ -6,19 +6,29 @@
 // Created Date: 10/23/2019
 ---------------------------------------------------------------------------- */
 
-import React, {Component} from 'react';
-import HamburgerMenu from './HamburgerMenu/HamburgerMenu';
-import UserWidget from './UserWidget/UserWidget';
-import Logo from './Logo/Logo';
-import profilePic from '../../assets/images/profile-pic.jpeg';
-import styles from './Header.module.scss';
+// NPM module imports
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+
+// File imports
+import profilePic from "../../assets/images/profile-pic.jpeg";
+
+// Component imports
+import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
+import UserWidget from "./UserWidget/UserWidget";
+import Logo from "./Logo/Logo";
+
+// Style imports
+import styles from "./Header.module.scss";
 
 class Header extends Component {
+    // Component state
     state = {
         profilePic: profilePic,
-        name: 'Dan Levy',
+        name: "Dan Levy"
     };
 
+    // Returns JSX to render
     render() {
         let hamburgerMenu = null;
         if (this.props.isMobile) {
@@ -34,5 +44,11 @@ class Header extends Component {
         );
     }
 }
+
+// Header prop types
+Header.propTypes = {
+    isMobile: PropTypes.bool.isRequired,
+    hamburgerMenuClicked: PropTypes.func
+};
 
 export default Header;

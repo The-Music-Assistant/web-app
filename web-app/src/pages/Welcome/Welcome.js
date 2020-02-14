@@ -14,6 +14,7 @@ import RectangularButton from "../../components/Buttons/RectangularButton/Rectan
 import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
 import AlertBar from "../../components/AlertBar/AlertBar";
 import { signOut, welcomePageComplete } from "../../store/actions";
+import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
 import firebase from "../../vendors/Firebase/firebase";
 import { MetroSpinner } from "react-spinners-kit";
 import styles from "./Welcome.module.scss";
@@ -42,7 +43,7 @@ class Welcome extends Component {
                 this.setState({
                     isLoading: false,
                     alert: {
-                        type: "info",
+                        type: alertBarTypes.INFO,
                         heading: "Email Sent",
                         message: "We have sent a new verification email"
                     }
@@ -53,7 +54,7 @@ class Welcome extends Component {
                 this.setState({
                     isLoading: false,
                     alert: {
-                        type: "error",
+                        type: alertBarTypes.ERROR,
                         heading: "Authentication Error",
                         message: error.message
                     }
@@ -62,7 +63,6 @@ class Welcome extends Component {
     };
 
     isUserEmailVerified = isCallerInitialLoad => {
-        console.log(isCallerInitialLoad)
         let loadingPropertyName = isCallerInitialLoad ? "isDoingInitialLoad" : "isLoading";
         this.setState({ [loadingPropertyName]: true });
         const currentUser = firebase.auth().currentUser;
@@ -80,7 +80,7 @@ class Welcome extends Component {
                     if (!isCallerInitialLoad) {
                         this.setState({
                             alert: {
-                                type: "warning",
+                                type: alertBarTypes.WARNING,
                                 heading: "Not Verified",
                                 message: `Your email is not verified. If you can't find the verification email, please click "Resend Email."`
                             }
@@ -97,7 +97,7 @@ class Welcome extends Component {
                 if (!isCallerInitialLoad) {
                     this.setState({
                         alert: {
-                            type: "error",
+                            type: alertBarTypes.ERROR,
                             heading: "Error",
                             message: error.message
                         }
@@ -192,7 +192,7 @@ class Welcome extends Component {
                 type={this.state.alert.type}
                 heading={this.state.alert.heading}
                 message={this.state.alert.message}
-                isDone={() => this.setState({ alert: null })}
+                done={() => this.setState({ alert: null })}
             />
         ) : null;
         const loadingHUD = this.state.isLoading ? <LoadingHUD text='Loading...' /> : null;

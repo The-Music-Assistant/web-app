@@ -14,7 +14,7 @@
     border-radius: 10px;
     box-shadow: $primary-box-shadow;
     display: block;
-    transition: transform .2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         font-size: 1.2rem;
@@ -26,13 +26,13 @@
     }
 }
 
-.greenRectButton {
-    background-color: $green-color;
+.blueRectButton {
+    background-color: $primary-color;
     color: $white-color;
 }
 
-.blueRectButton {
-    background-color: $primary-color;
+.greenRectButton {
+    background-color: $green-color;
     color: $white-color;
 }
 
