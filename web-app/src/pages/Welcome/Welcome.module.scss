@@ -16,7 +16,7 @@
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         padding: 50px 20px 30px;
-    } 
+    }
 
     &Header {
         &Logo {
@@ -26,7 +26,7 @@
 
             @include media-query($breakpoint: $tablet-breakpoint) {
                 width: 50px;
-            } 
+            }
         }
 
         &Message {
@@ -37,7 +37,7 @@
             @include media-query($breakpoint: $tablet-breakpoint) {
                 font-size: 2rem;
                 margin-top: 30px;
-            } 
+            }
         }
     }
 
@@ -47,7 +47,7 @@
         @include media-query($breakpoint: $tablet-breakpoint) {
             font-size: 2rem;
             margin-top: 60px;
-        } 
+        }
 
         &Message {
             @include text($size: 1rem, $weight: 400, $color: $white-color, $line-height: 1.6);
@@ -57,7 +57,7 @@
 
             @include media-query($breakpoint: $tablet-breakpoint) {
                 font-size: 1.25rem;
-            } 
+            }
         }
 
         &DownArrow {
@@ -68,7 +68,7 @@
             @include media-query($breakpoint: $tablet-breakpoint) {
                 margin-top: 30px;
                 width: 40px;
-            } 
+            }
         }
 
         &Buttons {
@@ -76,7 +76,7 @@
 
             @include media-query($breakpoint: $tablet-breakpoint) {
                 margin-top: 30px;
-            } 
+            }
         }
 
         &Button {

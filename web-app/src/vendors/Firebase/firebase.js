@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
 // File Path: src/vendors/Firebase/firebase.js
-// Description:
-    * Initializes Firebase
+// Description: Initializes Firebase
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/1/2020
 ---------------------------------------------------------------------------- */
 
+// NPM module imports
 import firebase from "firebase/app";
 import "firebase/auth";
 

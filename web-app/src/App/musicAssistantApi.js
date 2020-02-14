@@ -27,6 +27,7 @@ export const setAxiosAuthToken = authToken => {
  * @param {string} data.profilePictureUrl - The person's profile picture url
  */
 export const addUser = data => {
+    console.log(data);
     return axios.post("/person", data);
 };
 

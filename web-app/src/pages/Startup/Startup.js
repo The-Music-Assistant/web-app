@@ -6,31 +6,52 @@
 // Created Date: 1/4/2020
 // ----------------------------------------------------------------------------
 
+// NPM module imports
 import React, { Component } from "react";
 import { MetroSpinner } from "react-spinners-kit";
-import styles from "./Startup.module.scss";
+
+// Image imports
 import logo from "../../assets/logos/music-assistant-logo.png";
 
+// Style imports
+import styles from "./Startup.module.scss";
+
 class Startup extends Component {
+    // Component state
     state = {
-        innerHeight: window.innerHeight
+        windowInnerHeight: window.innerHeight
     };
 
+    /**
+     * Starts a window resize event listener
+     */
     componentDidMount() {
         window.addEventListener("resize", this.handleWindowResize);
     }
 
+    /**
+     * Removes the window resize event listener
+     */
     componentWillUnmount() {
         window.removeEventListener("resize", this.handleWindowResize);
     }
 
+    /**
+     * Updates state based on the window's innerwidth
+     */
     handleWindowResize = () => {
         this.setState({ isMobile: window.innerWidth < 768 });
     };
 
+    /**
+     * Renders the Startup component
+     */
     render() {
+        // Returns the JSX to display
         return (
-            <div className={styles.startup} style={{ minHeight: `${this.state.innerHeight}px` }}>
+            <div
+                className={styles.startup}
+                style={{ minHeight: `${this.state.windowInnerHeight}px` }}>
                 <div>
                     <img className={styles.startupLogo} src={logo} alt='The Music Assistant Logo' />
                     <h1 className={styles.startupHeading}>The Music Assistant</h1>

@@ -6,20 +6,31 @@
 // Created Date: 2/9/2020
 // ----------------------------------------------------------------------------
 
+// NPM module imports
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import logo from "../../assets/logos/music-assistant-logo.png";
-import downArrow from "../../assets/icons/down-arrow-white-fa.svg";
-import RectangularButton from "../../components/Buttons/RectangularButton/RectangularButton";
-import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
-import AlertBar from "../../components/AlertBar/AlertBar";
+import { MetroSpinner } from "react-spinners-kit";
+
+// File imports
 import { signOut, welcomePageComplete } from "../../store/actions";
 import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
 import firebase from "../../vendors/Firebase/firebase";
-import { MetroSpinner } from "react-spinners-kit";
+
+// Image imports
+import logo from "../../assets/logos/music-assistant-logo.png";
+import downArrow from "../../assets/icons/down-arrow-white-fa.svg";
+
+// Component  imports
+import RectangularButton from "../../components/Buttons/RectangularButton/RectangularButton";
+import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
+import AlertBar from "../../components/AlertBar/AlertBar";
+
+// Style imports
 import styles from "./Welcome.module.scss";
 
 class Welcome extends Component {
+    // Component state
     state = {
         isDoingInitialLoad: true,
         isUserEmailVerified: false,
@@ -27,7 +38,7 @@ class Welcome extends Component {
     };
 
     componentDidMount() {
-        this.isUserEmailVerified(true);
+        this.checkIfUserEmailIsVerified(true);
     }
 
     doneButtonClickedHandler = () => {
@@ -62,53 +73,98 @@ class Welcome extends Component {
             });
     };
 
-    isUserEmailVerified = isCallerInitialLoad => {
-        let loadingPropertyName = isCallerInitialLoad ? "isDoingInitialLoad" : "isLoading";
-        this.setState({ [loadingPropertyName]: true });
+    /**
+     * Checks if the user's email is verified
+     * Updates UI depending on result
+     * @param {bool} isCallerInitialLoad - Is the caller of this function calling during the initial load of the page
+     */
+    checkIfUserEmailIsVerified = isCallerInitialLoad => {
+        // Flips boolean flag for correct state loading key
+        let stateLoadingKey = isCallerInitialLoad ? "isDoingInitialLoad" : "isLoading";
+        this.setState({ [stateLoadingKey]: true });
+
+        // Reloads the user and checks if the user's email is verified
         const currentUser = firebase.auth().currentUser;
         currentUser
             .reload()
             .then(() => {
                 if (currentUser.emailVerified) {
-                    this.setState({ [loadingPropertyName]: false, isUserEmailVerified: true });
+                    this.userEmailIsVerified(stateLoadingKey);
                 } else {
-                    this.setState({
-                        [loadingPropertyName]: false,
-                        isUserEmailVerified: false
-                    });
-
-                    if (!isCallerInitialLoad) {
-                        this.setState({
-                            alert: {
-                                type: alertBarTypes.WARNING,
-                                heading: "Not Verified",
-                                message: `Your email is not verified. If you can't find the verification email, please click "Resend Email."`
-                            }
-                        });
-                    }
+                    this.userEmailNotVerified(isCallerInitialLoad, stateLoadingKey);
                 }
             })
             .catch(error => {
-                this.setState({
-                    [loadingPropertyName]: false,
-                    isUserEmailVerified: false
-                });
-
-                if (!isCallerInitialLoad) {
-                    this.setState({
-                        alert: {
-                            type: alertBarTypes.ERROR,
-                            heading: "Error",
-                            message: error.message
-                        }
-                    });
-                }
+                this.userEmailFetchError(isCallerInitialLoad, stateLoadingKey, error);
             });
     };
 
+    /**
+     * Updates state to indicate that the email is verified
+     * @param {string} stateLoadingKey - The state loading key to use
+     */
+    userEmailIsVerified = stateLoadingKey => {
+        this.setState({ [stateLoadingKey]: false, isUserEmailVerified: true });
+    };
+
+    /**
+     * Updates the state to indicate that the email is not verified
+     * Alerts the user that the email is not verified
+     * @param {bool} isCallerInitialLoad - Is the caller of this function calling during the initial load of the page
+     * @param {string} stateLoadingKey - The state loading key to use
+     */
+    userEmailNotVerified = (isCallerInitialLoad, stateLoadingKey) => {
+        // Updates state
+        this.setState({
+            [stateLoadingKey]: false,
+            isUserEmailVerified: false
+        });
+
+        // Alerts the user only if this is not the first email check
+        if (!isCallerInitialLoad) {
+            this.setState({
+                alert: {
+                    type: alertBarTypes.WARNING,
+                    heading: "Not Verified",
+                    message: `Your email is not verified. If you can't find the verification email, please click "Resend Email."`
+                }
+            });
+        }
+    };
+
+    /**
+     * Updates the state to indicate that the email is not verified
+     * Alerts the user that there was an error reloading the user
+     * @param {bool} isCallerInitialLoad - Is the caller of this function calling during the initial load of the page
+     * @param {string} stateLoadingKey - The state loading key to use
+     * @param {object} error - The error received
+     */
+    userEmailFetchError = (isCallerInitialLoad, stateLoadingKey, error) => {
+        // Updates state
+        this.setState({
+            [stateLoadingKey]: false,
+            isUserEmailVerified: false
+        });
+
+        // Alerts the user only if this is not the first email check
+        if (!isCallerInitialLoad) {
+            this.setState({
+                alert: {
+                    type: alertBarTypes.ERROR,
+                    heading: "Error",
+                    message: error.message
+                }
+            });
+        }
+    };
+
+    /**
+     * Renders the Welcome component
+     */
     render() {
+        // Determines what to display as the main content (loading spinner, email verified info, or email not verified info)
         let mainContent;
-        if (this.props.isAuthLoading || this.state.isDoingInitialLoad) {
+        if (this.state.isDoingInitialLoad) {
             mainContent = (
                 <div className={styles.welcomeMain}>
                     <div className={styles.welcomeMainSpinner}>
@@ -151,7 +207,7 @@ class Welcome extends Component {
                                 type='button'
                                 value=''
                                 text='I Verified My Email'
-                                onClick={() => this.isUserEmailVerified(false)}
+                                onClick={() => this.checkIfUserEmailIsVerified(false)}
                             />
                         </div>
                         <div className={styles.welcomeMainButton}>
@@ -177,16 +233,7 @@ class Welcome extends Component {
             );
         }
 
-        const welcomeHeaderMessage = this.props.firstName ? (
-            <h1 className={styles.welcomeHeaderMessage}>
-                {this.props.firstName}, Welcome to <br /> The Music Assistant
-            </h1>
-        ) : (
-            <h1 className={styles.welcomeHeaderMessage}>
-                Welcome to <br /> The Music Assistant
-            </h1>
-        );
-
+        // Adds an alert bar is one is requested
         const alertBar = this.state.alert ? (
             <AlertBar
                 type={this.state.alert.type}
@@ -195,8 +242,11 @@ class Welcome extends Component {
                 done={() => this.setState({ alert: null })}
             />
         ) : null;
+
+        // Adds the loading HUD if one is requested
         const loadingHUD = this.state.isLoading ? <LoadingHUD text='Loading...' /> : null;
 
+        // Returns the JSX to render
         return (
             <div className={styles.welcome}>
                 {alertBar}
@@ -207,7 +257,9 @@ class Welcome extends Component {
                         src={logo}
                         alt='Music Assistant Logo'
                     />
-                    {welcomeHeaderMessage}
+                    <h1 className={styles.welcomeHeaderMessage}>
+                        Welcome to <br /> The Music Assistant
+                    </h1>
                 </div>
                 {mainContent}
             </div>
@@ -215,17 +267,21 @@ class Welcome extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        isAuthLoading: state.auth.isLoading
-    };
-};
-
+/**
+ * Passes certain redux actions to Welcome
+ * @param {function} dispatch - The react-redux dispatch function
+ */
 const mapDispatchToProps = dispatch => {
     return {
-        signOut: () => dispatch(signOut()),
-        done: () => dispatch(welcomePageComplete())
+        done: () => dispatch(welcomePageComplete()),
+        signOut: () => dispatch(signOut())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
+// Prop types for the Welcome component
+Welcome.propTypes = {
+    done: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired
+};
+
+export default connect(null, mapDispatchToProps)(Welcome);

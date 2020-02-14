@@ -6,16 +6,26 @@
 // Created Date: 1/3/2020
 // ----------------------------------------------------------------------------
 
+// NPM module imports
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
+// File imports
 import { authFlowComplete, startAuthFlow } from "../../store/actions";
+import * as authStages from "./authStages";
+
+// Image imports
 import logo from "../../assets/logos/music-assistant-logo.png";
+
+// Component imports
 import AuthCard from "../../components/AuthCards/AuthCard/AuthCard";
 import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
 import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
 import AlertBar from "../../components/AlertBar/AlertBar";
+
+// Style imports
 import styles from "./Auth.module.scss";
-import * as authStages from "./authStages";
 
 class Auth extends Component {
     // Component state
@@ -194,9 +204,15 @@ class Auth extends Component {
  */
 const mapDispatchToProps = dispatch => {
     return {
-        authFlowComplete: showWelcomePage => dispatch(authFlowComplete(showWelcomePage)),
-        startAuthFlow: () => dispatch(startAuthFlow())
+        startAuthFlow: () => dispatch(startAuthFlow()),
+        authFlowComplete: showWelcomePage => dispatch(authFlowComplete(showWelcomePage))
     };
+};
+
+// Prop types for the Auth component
+Auth.propTypes = {
+    startAuthFlow: PropTypes.func.isRequired,
+    authFlowComplete: PropTypes.func.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(Auth);

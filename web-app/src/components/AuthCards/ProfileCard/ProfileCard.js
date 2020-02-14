@@ -198,17 +198,12 @@ class ProfileCard extends Component {
         const imageInput = this.state.formData.profilePicture ? (
             <div className={profileCardStyles.profileCardImageInput}>
                 <div className={profileCardStyles.profileCardImageInputImgContainer}>
-                    <img
-                        src={URL.createObjectURL(this.state.formData.profilePicture)}
-                        className={profileCardStyles.profileCardImageInputImg}
-                        alt='Profile Picture'
-                        onError={this.imageInputErrorHandler}
-                    />
+                    <img src={URL.createObjectURL(this.state.formData.profilePicture)} className={profileCardStyles.profileCardImageInputImg} alt='Profile Picture' onError={this.imageInputErrorHandler} /> {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
                     <button
                         className={profileCardStyles.profileCardImageInputRemoveButton}
                         type='button'
                         onClick={this.removeImageHandler}>
-                        <img src={closeIconRed} alt={"Remove Profile Picture"} />
+                        <img src={closeIconRed} alt={"Remove Profile Picture"} />{" "} {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
                     </button>
                 </div>
                 <ImageInput

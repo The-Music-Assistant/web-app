@@ -6,6 +6,7 @@
 // Created Date: 12/31/2019
 ---------------------------------------------------------------------------- */
 
+// File imports
 import * as actionTypes from "./actionTypes";
 import firebase from "../../vendors/Firebase/firebase";
 import { setAxiosAuthToken } from "../../App/musicAssistantApi";
@@ -32,20 +33,25 @@ export const signOut = () => {
  */
 export const handleAuthStateChanges = () => {
     return dispatch => {
-        // firebase.auth().signOut();
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 dispatch(userAuthenticated());
+
+                // Sets the Axios auth header with the user's id token
                 firebase
                     .auth()
                     .currentUser.getIdToken()
                     .then(setAxiosAuthToken)
                     .then(() => {
+                        // A user must have a verified email before they can use the app
+                        // The welcome page blocks the user until they verify their email
                         if (!user.emailVerified) {
                             dispatch(showWelcomePage());
                         }
                     })
                     .catch(error => {
+                        // Clears the old Axios auth header token if there is one
+                        setAxiosAuthToken("");
                         dispatch(authError(error));
                         console.log("[actions/auth/handleAuthStateChanges]", error);
                     });
@@ -62,8 +68,8 @@ export const handleAuthStateChanges = () => {
 export const startAuthFlow = () => {
     return {
         type: actionTypes.START_AUTH_FLOW
-    }
-}
+    };
+};
 
 /**
  * Returns AUTH_FLOW_COMPLETE action type and a boolean indicating whether or not to show the welcome page
@@ -81,8 +87,8 @@ export const authFlowComplete = showWelcomePage => {
 export const showWelcomePage = () => {
     return {
         type: actionTypes.SHOW_WELCOME_PAGE
-    }
-}
+    };
+};
 
 /**
  * Returns WELCOME_PAGE_COMPLETE action type
@@ -90,8 +96,8 @@ export const showWelcomePage = () => {
 export const welcomePageComplete = () => {
     return {
         type: actionTypes.WELCOME_PAGE_COMPLETE
-    }
-}
+    };
+};
 
 /**
  * Returns USER_AUTHENTICATED action type and a boolean indicating whether or not the auth flow is complete

@@ -10,13 +10,18 @@
 // Created Date: 12/31/2019
 ---------------------------------------------------------------------------- */
 
+// NPM module imports
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import {store} from "./store/reduxSetup";
-import App from "./App/App";
+
+// File imports
 import * as serviceWorker from "./serviceWorker";
+import {store} from "./store/reduxSetup";
+
+// Component imports
+import App from "./App/App";
 
 // App container with React Router and Redux
 const app = (
@@ -27,7 +32,7 @@ const app = (
     </Provider>
 );
 
-// Renders App
+// Renders the App component
 ReactDOM.render(app, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change

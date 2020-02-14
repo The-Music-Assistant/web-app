@@ -47,7 +47,7 @@ MobileNav.propTypes = {
     show: PropTypes.bool.isRequired,
     tabs: PropTypes.arrayOf(
         PropTypes.exact({
-            key: PropTypes.number.isRequired,
+            key: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
             mobileIcon: PropTypes.string.isRequired,
             desktopIcon: PropTypes.string.isRequired,
