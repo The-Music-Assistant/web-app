@@ -1,0 +1,60 @@
+// ----------------------------------------------------------------------------
+// File Path: src/pages/Startup/Startup.module.scss
+// Description: SCSS styles for the startup page
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 1/4/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.startup {
+    background-color: $primary-color;
+    @include flex-container(
+        $direction: row,
+        $justify-content: center,
+        $align-items: center,
+        $wrap: nowrap
+    );
+
+    &Logo {
+        display: block;
+        width: 40px;
+        margin: auto;
+        margin-bottom: 20px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            width: 60px;
+        }
+    }
+
+    &Heading {
+        @include text($size: 1.56rem, $weight: 400, $color: $white-color, $line-height: null);
+        text-align: center;
+        margin-bottom: 20px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 2.2rem;
+        }
+    }
+
+    &Subheading {
+        @include text($size: 1rem, $weight: 500, $color: $white-color, $line-height: null);
+        text-align: center;
+        margin-bottom: 30px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 1.56rem;
+            margin-bottom: 50px;
+        }
+    }
+
+    &Spinner {
+        @include flex-container(
+            $direction: row,
+            $justify-content: center,
+            $align-items: center,
+            $wrap: nowrap
+        );
+    }
+}

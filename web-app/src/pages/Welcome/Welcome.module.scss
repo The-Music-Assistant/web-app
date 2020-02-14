@@ -1,0 +1,101 @@
+// ----------------------------------------------------------------------------
+// File Path: src/pages/Welcome/Welcome.module.scss
+// Description: SCSS styles for the welcome page
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 2/9/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.welcome {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: $green-color;
+    padding: 40px 20px 20px;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        padding: 50px 20px 30px;
+    }
+
+    &Header {
+        &Logo {
+            display: block;
+            width: 30px;
+            margin: auto;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                width: 50px;
+            }
+        }
+
+        &Message {
+            @include text($size: 1.5rem, $weight: 300, $color: $white-color, $line-height: 2.5rem);
+            text-align: center;
+            margin-top: 20px;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                font-size: 2rem;
+                margin-top: 30px;
+            }
+        }
+    }
+
+    &Main {
+        margin-top: 30px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 2rem;
+            margin-top: 60px;
+        }
+
+        &Message {
+            @include text($size: 1rem, $weight: 400, $color: $white-color, $line-height: 1.6);
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                font-size: 1.25rem;
+            }
+        }
+
+        &DownArrow {
+            display: block;
+            width: 30px;
+            margin: 20px auto 0;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                margin-top: 30px;
+                width: 40px;
+            }
+        }
+
+        &Buttons {
+            margin-top: 20px;
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                margin-top: 30px;
+            }
+        }
+
+        &Button {
+            margin-top: 30px;
+            @include flex-container(
+                $direction: row,
+                $justify-content: center,
+                $align-items: center,
+                $wrap: nowrap
+            );
+        }
+
+        &Spinner {
+            @include flex-container(
+                $direction: row,
+                $justify-content: center,
+                $align-items: center,
+                $wrap: nowrap
+            );
+        }
+    }
+}

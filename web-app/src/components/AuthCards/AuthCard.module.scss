@@ -1,0 +1,54 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/AuthCards/AuthCard.module.scss
+// Description: SCSS styles for auth cards
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 2/6/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.authCard {
+    background-color: $white-color;
+    box-shadow: $green-box-shadow;
+    border-radius: 10px;
+    width: 100%;
+    height: 400px;
+    max-width: 400px;
+    position: relative;
+    margin-top: 40px;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        width: 85vw;
+        height: 500px;
+        max-width: 500px;
+    }
+
+    @include media-query($breakpoint: $desktop-breakpoint) {
+        width: calc(50vw - 120px);
+    }
+
+    &Heading {
+        @include text($size: 1.56rem, $weight: 400, $color: $green-color, $line-height: null);
+        text-align: center;
+        margin: 20px 0 30px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 2.2rem;
+        }
+    }
+
+    &Form {
+        margin: 0 20px;
+    }
+
+    &SubmitButtonContainer {
+        @include flex-container(
+            $direction: row,
+            $justify-content: center,
+            $align-items: center,
+            $wrap: nowrap
+        );
+        margin-top: 30px;
+    }
+}

@@ -1,0 +1,22 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/Buttons/TextButton/TextButton.module.scss
+// Description: SCSS styles for the text button component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 1/5/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.textButton {
+    @include text($size: 1rem, $weight: 300, $color: null, $line-height: null);
+    display: block;
+}
+
+.blueTextButton {
+    color: $primary-color;
+}
+
+.redTextButton {
+    color: $red-color;
+}

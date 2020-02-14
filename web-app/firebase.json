@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "music-assistant-fit",
     "public": "build",
     "ignore": [
       "firebase.json",

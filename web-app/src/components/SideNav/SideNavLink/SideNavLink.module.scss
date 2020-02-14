@@ -1,0 +1,50 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/SideNav/SideNavLink/SideNavLink.module.scss
+// Description: SCSS styles for the side navigation link component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.sideNavLink {
+    position: relative;
+    @include flex-container(
+        $direction: column,
+        $justify-content: null,
+        $align-items: center,
+        $wrap: null
+    );
+    margin-top: 40px;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &Icon {
+        width: 25px;
+
+        @include media-query($breakpoint: $desktop-breakpoint) {
+            width: 35px;
+        }
+    }
+
+    &Name {
+        @include text($size: 0.875rem, $weight: 300, $color: $white-color, $line-height: null);
+        margin-top: 5px;
+    }
+
+    &CurrentTabLine {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 3px;
+        background-color: $white-color;
+    }
+}
