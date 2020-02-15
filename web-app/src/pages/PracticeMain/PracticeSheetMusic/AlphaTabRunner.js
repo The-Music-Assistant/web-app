@@ -5,7 +5,6 @@ import PitchDetection from "./PitchDetection";
 import p5 from "./sketch";
 import Drawer from "./Drawer";
 import NoteList from "./NoteList";
-import Worker from 'worker-loader!./Worker.js';
 
 /**
  * Runs AlphaTab including initialization and keeping a Drawer and NoteList instance
