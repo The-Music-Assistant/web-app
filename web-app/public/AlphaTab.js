@@ -1,5 +1,5 @@
 /*
- * alphaTab v0.9.6.280 (develop)
+ * alphaTab v0.9.6.289 (develop)
  *
  * Copyright © 2020, Daniel Kuschny and Contributors, All rights reserved.
  * 
@@ -789,13 +789,13 @@
                         var beat = cache.findBeat(tracks, tick);
                         if (beat != null) {
                             var this1 = beat.duration;
-                            _gthis.cursorUpdateBeat(beat.currentBeat, beat.nextBeat, this1, stop);
+                            _gthis.cursorUpdateBeat(beat.currentBeat, beat.nextBeat, this1, stop, beat.beatsToHighlight);
                         }
                     }
                 }
             });
         }
-        , cursorUpdateBeat: function (beat, nextBeat, duration, stop) {
+        , cursorUpdateBeat: function (beat, nextBeat, duration, stop, beatsToHighlight) {
             if (beat == null) {
                 return;
             }
@@ -833,8 +833,14 @@
                 var duration1 = this.player.get_playbackSpeed();
                 duration = duration / duration1;
                 if (!stop) {
-                    var className = alphaTab.rendering.glyphs.BeatContainerGlyph.getGroupId(beat);
-                    this.uiFacade.highlightElements(className);
+                    if (beatsToHighlight != null) {
+                        var highlight = $iterator(beatsToHighlight)();
+                        while (highlight.hasNext()) {
+                            var highlight1 = highlight.next();
+                            var className = alphaTab.rendering.glyphs.BeatContainerGlyph.getGroupId(highlight1);
+                            this.uiFacade.highlightElements(className);
+                        }
+                    }
                     var nextBeatX = barBoundings.visualBounds.x + barBoundings.visualBounds.w;
                     if (nextBeat != null) {
                         if (nextBeat.voice.bar.index == beat.voice.bar.index || nextBeat.voice.bar.index == beat.voice.bar.index + 1) {
@@ -958,7 +964,7 @@
                 if (_gthis._selectionStart != null) {
                     var tickCache = _gthis._tickCache;
                     var realMasterBarStart = tickCache.getMasterBarStart(_gthis._selectionStart.beat.voice.bar.get_masterBar());
-                    _gthis.cursorUpdateBeat(_gthis._selectionStart.beat, null, 0, false);
+                    _gthis.cursorUpdateBeat(_gthis._selectionStart.beat, null, 0, false, null);
                     _gthis.player.set_tickPosition(realMasterBarStart + _gthis._selectionStart.beat.playbackStart);
                     if (_gthis._selectionEnd != null && _gthis._selectionStart.beat != _gthis._selectionEnd.beat) {
                         var realMasterBarEnd = tickCache.getMasterBarStart(_gthis._selectionEnd.beat.voice.bar.get_masterBar());
@@ -8297,14 +8303,26 @@
         , __class__: alphaTab.VibratoPlaybackSettings
     };
     alphaTab.audio.BeatTickLookup = $hx_exports["alphaTab"]["audio"]["BeatTickLookup"] = function () {
+        this._highlightedBeats = null;
         this.start = 0;
         this.end = 0;
         this.beat = null;
         this.isEmptyBar = false;
+        this.beatsToHighlight = null;
+        var this1 = {}
+        this._highlightedBeats = this1;
+        var this2 = [];
+        this.beatsToHighlight = this2;
     };
     alphaTab.audio.BeatTickLookup.__name__ = ["alphaTab", "audio", "BeatTickLookup"];
     alphaTab.audio.BeatTickLookup.prototype = {
-        __class__: alphaTab.audio.BeatTickLookup
+        highlightBeat: function (beat) {
+            if (!this._highlightedBeats.hasOwnProperty(beat.id)) {
+                this._highlightedBeats[beat.id] = true;
+                this.beatsToHighlight.push(beat);
+            }
+        }
+        , __class__: alphaTab.audio.BeatTickLookup
     };
     alphaTab.audio.GeneralMidi = function () {
     };
@@ -8508,12 +8526,33 @@
     alphaTab.audio.MidiTickLookup.prototype = {
         finish: function () {
             var previous = null;
+            var this1 = [];
+            var activeBeats = this1;
             var bar = $iterator(this.masterBars)();
             while (bar.hasNext()) {
                 var bar1 = bar.next();
                 bar1.finish();
                 if (previous != null) {
                     previous.nextMasterBar = bar1;
+                }
+                var beat = $iterator(bar1.beats)();
+                while (beat.hasNext()) {
+                    var beat1 = beat.next();
+                    var this2 = [];
+                    var newActiveBeats = this2;
+                    var activeBeat = $iterator(activeBeats)();
+                    while (activeBeat.hasNext()) {
+                        var activeBeat1 = activeBeat.next();
+                        if (activeBeat1.end > beat1.start) {
+                            newActiveBeats.push(activeBeat1);
+                            beat1.highlightBeat(activeBeat1.beat);
+                            if (beat1.start <= activeBeat1.start) {
+                                activeBeat1.highlightBeat(beat1.beat);
+                            }
+                        }
+                    }
+                    newActiveBeats.push(beat1);
+                    activeBeats = newActiveBeats;
                 }
                 previous = bar1;
             }
@@ -8557,7 +8596,7 @@
             var b1 = index + 1;
             while (b1 < beats.length) {
                 var currentBeat1 = beats[b1];
-                if (currentBeat1.start > beat.start && trackLookup.hasOwnProperty(currentBeat1.beat.voice.bar.staff.track.index)) {
+                if (currentBeat1.beat.graceType == 0 && currentBeat1.start > beat.start && trackLookup.hasOwnProperty(currentBeat1.beat.voice.bar.staff.track.index)) {
                     nextBeat = currentBeat1;
                     break;
                 }
@@ -8569,7 +8608,7 @@
                 var b2 = 0;
                 while (b2 < beats.length) {
                     var currentBeat2 = beats[b2];
-                    if (trackLookup.hasOwnProperty(currentBeat2.beat.voice.bar.staff.track.index)) {
+                    if (currentBeat2.beat.graceType == 0 && trackLookup.hasOwnProperty(currentBeat2.beat.voice.bar.staff.track.index)) {
                         nextBeat = currentBeat2;
                         break;
                     }
@@ -8580,6 +8619,7 @@
             result.currentBeat = beat.beat;
             result.nextBeat = nextBeat == null ? null : nextBeat.beat;
             result.duration = nextBeat == null ? alphaTab.audio.MidiUtils.ticksToMillis(beat.end - beat.start, masterBar.tempo) : alphaTab.audio.MidiUtils.ticksToMillis(nextBeat.start - beat.start, masterBar.tempo);
+            result.beatsToHighlight = beat.beatsToHighlight;
             return result;
         }
         , findMasterBar: function (tick) {
@@ -8634,6 +8674,7 @@
         this.currentBeat = null;
         this.nextBeat = null;
         this.duration = 0;
+        this.beatsToHighlight = null;
     };
     alphaTab.audio.MidiTickLookupFindBeatResult.__name__ = ["alphaTab", "audio", "MidiTickLookupFindBeatResult"];
     alphaTab.audio.MidiTickLookupFindBeatResult.prototype = {
@@ -8926,6 +8967,7 @@
             beatLookup.start = barStartTick + beatStart;
             var realTickOffset = beat.nextBeat == null ? audioDuration : beat.nextBeat.get_absolutePlaybackStart() - beat.get_absolutePlaybackStart();
             beatLookup.end = barStartTick + beatStart;
+            beatLookup.highlightBeat(beat);
             beatLookup.end = beatLookup.end + (realTickOffset > audioDuration ? realTickOffset : audioDuration);
             if (realBar == beat.voice.bar) {
                 beatLookup.beat = beat;
@@ -13183,6 +13225,7 @@
         this._allowNegatives = false;
         this._allowTuning = false;
         this._currentDuration = -4;
+        this._currentDynamics = 0;
         this._currentTuplet = 0;
         this._lyrics = null;
         this._trackChannel = 0;
@@ -13219,6 +13262,7 @@
                 this.createDefaultScore();
                 this._curChPos = 0;
                 this._currentDuration = 4;
+                this._currentDynamics = 5;
                 this._currentTuplet = 1;
                 this.nextChar();
                 this.newSy();
@@ -13998,6 +14042,7 @@
                 this.newSy();
             }
             beat.duration = this._currentDuration;
+            beat.dynamics = this._currentDynamics;
             if (this._currentTuplet != 1 && !beat.get_hasTuplet()) {
                 this.applyTuplet(beat, this._currentTuplet);
             }
@@ -14243,6 +14288,17 @@
                         break;
                     default:
                 }
+                this._currentDynamics = beat.dynamics;
+                this.newSy();
+                return true;
+            }
+            if (syData == "cre") {
+                beat.crescendo = 1;
+                this.newSy();
+                return true;
+            }
+            if (syData == "dec") {
+                beat.crescendo = 2;
                 this.newSy();
                 return true;
             }
@@ -24946,14 +25002,14 @@
                         if (nonGrace != null) {
                             nonGrace.updateDurations();
                         }
-                        var perGraceDuration = nonGrace == null ? alphaTab.audio.MidiUtils.toTicks(32) : (nonGrace.displayDuration / 4 | 0) / numberOfGraceBeats | 0;
+                        var perGraceDisplayDuration = beat1.previousBeat == null ? alphaTab.audio.MidiUtils.toTicks(32) : (beat1.previousBeat.displayDuration / 4 | 0) / numberOfGraceBeats | 0;
                         var graceBeat = this.beats[i];
                         var j = 0;
                         while (j < numberOfGraceBeats && graceBeat != null) {
                             graceBeat.duration = graceDuration;
                             graceBeat.updateDurations();
-                            graceBeat.displayStart = currentDisplayTick - (numberOfGraceBeats - j + 1) * perGraceDuration;
-                            graceBeat.displayDuration = perGraceDuration;
+                            graceBeat.displayStart = currentDisplayTick - (numberOfGraceBeats - j + 1) * perGraceDisplayDuration;
+                            graceBeat.displayDuration = perGraceDisplayDuration;
                             stolenDuration = stolenDuration + graceBeat.playbackDuration;
                             graceBeat = graceBeat.nextBeat;
                             ++j;
@@ -32097,8 +32153,8 @@
             var startY = 0;
             var endY = 0;
             var shouldDraw = false;
-            var direction = this.getBeamDirection(this.StartBeat, startNoteRenderer);
-            if (!this.ForEnd) {
+            var direction = startNoteRenderer == null ? this.getBeamDirection(this.EndBeat, endNoteRenderer) : this.getBeamDirection(this.StartBeat, startNoteRenderer);
+            if (!this.ForEnd && startNoteRenderer != null) {
                 if (startNoteRenderer != endNoteRenderer) {
                     startX = cx + startNoteRenderer.x + this.getStartX(startNoteRenderer);
                     startY = cy + startNoteRenderer.y + this.getStartY(startNoteRenderer, direction) + this.YOffset;
@@ -32116,7 +32172,7 @@
                     endY = cy + endNoteRenderer.y + this.getEndY(endNoteRenderer, direction) + this.YOffset;
                 }
                 shouldDraw = true;
-            } else if (startNoteRenderer.staff != endNoteRenderer.staff) {
+            } else if (startNoteRenderer == null || startNoteRenderer.staff != endNoteRenderer.staff) {
                 startX = cx + endNoteRenderer.x;
                 endX = cx + endNoteRenderer.x + this.getEndX(endNoteRenderer);
                 startY = cy + endNoteRenderer.y + this.getEndY(endNoteRenderer, direction) + this.YOffset;
@@ -37038,7 +37094,7 @@
                 _gthis._api.renderer.updateSettings(_gthis._api.settings);
                 var s = _gthis._contents;
                 if (!(s == null || s.length == 0)) {
-                    _gthis._api.tex(_gthis._contents, null); // may need to be _gthis._initialTrackIndexes instead of null
+                    _gthis._api.tex(_gthis._contents, null);
                 } else {
                     var s1 = _gthis._file;
                     if (!(s1 == null || s1.length == 0)) {

@@ -65,8 +65,18 @@ class PitchDetection {
         xhr.send("play " + fileName);
 
         AlphaTabRunner.noteList.clear();
+        let count = 0;
+        let increment = 3 * (60/56)*29
         // Run nested anonymous function every 1 ms
         return setInterval(() => {
+            // console.log("time", AlphaTabRunner.api.timePosition, "tick", AlphaTabRunner.api.tickPosition);
+            if (AlphaTabRunner.api.timePosition / 1000 > count + increment) {
+                console.log("time", AlphaTabRunner.api.timePosition, "tick", AlphaTabRunner.api.tickPosition);
+                AlphaTabRunner.api.settings.display.startBar = AlphaTabRunner.api.settings.display.startBar + 28;
+                AlphaTabRunner.api.updateSettings();
+                AlphaTabRunner.api.render();
+                count += increment;
+            }
             p5.redraw();
             // Gets the current pitch and sends it to displayMidi
             this.pitchDetectionModel.getPitch().then(frequency => {

@@ -40,6 +40,8 @@ class AlphaTabRunner {
             },
             "display": {
                 "layoutMode": "horizontal",
+                "barCount":30,
+                "startBar":1
             }
         };
 
@@ -260,6 +262,7 @@ class AlphaTabRunner {
 
         \\track "Soprano 1"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, And songs in the shad- ows Comes a- gain to me, Comes a- gain to me _ The gift of the tongues of the lea _ Comes a- gain to me, Comes a- gain to me. Straight way my old - en heart re- turns And danc- es with the danc- ing burns; It sings _ _ with the spar- rows; Sings my heart a- loud, Sings my heart a- loud- To the sil- ver rain - y ar- rows. _ Sings my heart a- loud, Sings my heart a- loud.- It bears the song of the sky- lark down, And youth on the high- ways Fol- lows and sees; Fol- lows and sees: _ And heark- ens the song of the leas _ Fol- lows and sees, Fol - - lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod And the grass sings _ in the mead- ows, Sits my heart at ease _ Sits _ my heart at ease, _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
         \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
         f4.4 f4.8 g4{d}.8 a4{-}.16 b4b.8 |
@@ -268,17 +271,17 @@ class AlphaTabRunner {
         f4.4 g4.8 g4.4 r.8 |
         r.4{d} r.4 f4.8 |
         d5{d}.8 c5.16 b4b.8 b4b.8 c5.4 |
-        f4.4 f4.8 g4.4 c5.8 |
-        a4{d}.2 |
-        f4.4 f4.8 f4.4 e4.8 |
+        f4.4{cre} f4.8{cre} g4.4{cre} c5.8{cre} |
+        a4{d}.2{cre} |
+        f4.4{dec} f4.8{dec} f4.4{dec} e4.8{dec} |
         f4{d}.4 f4{-}.8 r.8 f4.8 |
         d5{d}.8 e5.16 :8 f5 f5 e5 d5 |
         :4 c5{d} c5{-} r.8 |
         r.2{d} |
         r.2{d} |
-        f4.4 f4.8 g4.4 c5.8 |
-        a4{d}.2 |
-        f4.4 f4.8 f4.4 e4.8 |
+        f4.4{cre} f4.8{cre} g4.4{cre} c5.8{cre} |
+        a4{d}.2{cre} |
+        f4.4{dec} f4.8{dec} f4.4{dec} e4.8{dec} |
         f4{d}.4 r.4{d} |
         r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
@@ -308,16 +311,16 @@ class AlphaTabRunner {
         r.4{d} r.4 f4.8 |
         d4.8 e4.16 :8 f4 f4 g4 r |
         r.2{d} |
-        :4 f4{d} g4 g4.8 |
-        a4{d}.2 |
-        :4 f4{d} e4 e4.8 |
+        :4 f4{d cre} g4{cre} g4.8{cre} |
+        a4{d}.2{cre} |
+        :4 f4{d dec} e4{dec} e4.8{dec} |
         d4{d}.4 :8 d4{-} r f4 |
         d5{d}.8 c5.16 :8 b4b b4b a4 b4b |
         c5{d}.4 c5{-}.8 r.4 |
         r.2{d} | r.2{d} |
-        f4{d}.4 g4.4 g4.8 |
-        a4{d}.2 |
-        f4.4 :16 g4 f4 e4.4 c4.8 |
+        f4{d}.4{cre} g4.4{cre} g4.8{cre} |
+        a4{d}.2{cre} |
+        f4.4 :16 g4{dec} f4{dec} e4.4{dec} c4.8{dec} |
         d4{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
         f4.4 f4.8 g4{d}.8 a4.16 b4b.8 |
@@ -325,26 +328,27 @@ class AlphaTabRunner {
         d5{d}.8 c5.16 :8 b4b c5 a4.4 |
         g4.4 :8 a4 g4 f4 f4 |
         d5.4 :8 d5 d5{-} e5 f5 |
-        c5.8 a4.4 r.4{d} | r.2{d} | r.2{d} |
+        c5.8{dec} a4.4 r.4{d} | r.2{d} | r.2{d} |
         f4.4 f4.8 g4.4 g4.8 |
         :4 a4{d} a4{-} r.8 |
         b4b{d}.8 c5.16 d5.8 c5.4 g4.8 |
         :4 a4{d} a4{-} r.8 |
         :8 d5 e5 f5 f5 e5 d5 |
         :4 c5{d} c5{-} r.8 |
-        b4b{d}.8 c5.16 :8 d5 d5 c5 b4b |
-        b4b.8 :4 a4 a4{-} r.8 |
+        b4b{d}.8{dec} c5.16{dec} :8 d5{dec} d5{dec} c5{dec} b4b{dec} |
+        b4b.8{dec} :4 a4{dec} a4{-} r.8 |
         f4.4 f4.8 g4.4 g4.8 |
         :4 a4{d} a4{-} r.8 |
         :4 f4{d} b4b a4.8 |
         :4 g4{d} r f4.8 |
-        f4{d}.2 |
-        f4{d -}.2 |
-        f4{d -}.2 |
+        \\tempo 40 f4{d}.2{dec} |
+        f4{d -}.2{dec} |
+        f4{d -}.2{dec} |
         r.2{d} |
         
         \\track "Soprano 2"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, And songs in the shad- ows Comes a- gain to me, Comes a- gain to me _ The gift of the tongues of the lea _ Comes a- gain to me, Comes a- gain to me. Straight way my old - en heart re- turns And danc- es with the danc- ing burns; It sings _ _ with the spar- rows; Sings my heart a- loud, Sings my heart a- loud- To the sil- ver rain - y ar- rows. _ Sings my heart a- loud, Sings my heart a- loud.- It bears the song of the sky- lark down, And youth on the high- ways Fol- lows and sees; Fol- lows and sees: _ And heark- ens the song of the leas _ Fol- lows and sees, Fol - - lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod And the grass sings _ in the mead- ows, Sits my heart at ease _ Sits _ my heart at ease, _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
         \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
         f4.4 f4.8 g4{d}.8 a4{-}.16 b4b.8 |
@@ -353,17 +357,17 @@ class AlphaTabRunner {
         f4.4 g4.8 g4.4 r.8 |
         r.4{d} r.4 f4.8 |
         d5{d}.8 c5.16 b4b.8 b4b.8 c5.4 |
-        f4.4 f4.8 g4.4 c5.8 |
-        a4{d}.2 |
-        f4.4 f4.8 f4.4 e4.8 |
+        f4.4{cre} f4.8{cre} g4.4{cre} c5.8{cre} |
+        a4{d}.2{cre} |
+        f4.4{dec} f4.8{dec} f4.4{dec} e4.8{dec} |
         f4{d}.4 f4{-}.8 r.8 f4.8 |
         d5{d}.8 e5.16 :8 f5 f5 e5 d5 |
         :4 c5{d} c5{-} r.8 |
         r.2{d} |
         r.2{d} |
-        f4.4 f4.8 g4.4 c5.8 |
-        a4{d}.2 |
-        f4.4 f4.8 f4.4 e4.8 |
+        f4.4{cre} f4.8{cre} g4.4{cre} c5.8{cre} |
+        a4{d}.2{cre} |
+        f4.4{dec} f4.8{dec} f4.4{dec} e4.8{dec} |
         f4{d}.4 r.4{d} |
         r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
@@ -393,16 +397,16 @@ class AlphaTabRunner {
         r.4{d} r.4 f4.8 |
         d4.8 e4.16 :8 f4 f4 g4 r |
         r.2{d} |
-        :4 f4{d} g4 g4.8 |
-        a4{d}.2 |
-        :4 f4{d} e4 e4.8 |
+        :4 f4{d cre} g4{cre} g4.8{cre} |
+        a4{d}.2{cre} |
+        :4 f4{d dec} e4{dec} e4.8{dec} |
         d4{d}.4 :8 d4{-} r f4 |
         d5{d}.8 c5.16 :8 b4b b4b a4 b4b |
         c5{d}.4 c5{-}.8 r.4 |
         r.2{d} | r.2{d} |
-        f4{d}.4 g4.4 g4.8 |
-        a4{d}.2 |
-        f4.4 :16 g4 f4 e4.4 c4.8 |
+        f4{d}.4{cre} g4.4{cre} g4.8{cre} |
+        a4{d}.2{cre} |
+        f4.4 :16 g4{dec} f4{dec} e4.4{dec} c4.8{dec} |
         d4{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
         f4.4 f4.8 g4{d}.8 a4.16 b4b.8 |
@@ -410,26 +414,27 @@ class AlphaTabRunner {
         d5{d}.8 c5.16 :8 b4b c5 a4.4 |
         g4.4 :8 a4 g4 f4 f4 |
         b4b.4 :8 b4b b4b{-} c5 d5 |
-        a4.8 f4.4 r.4{d} | r.2{d} | r.2{d} |
+        a4.8{dec} f4.4 r.4{d} | r.2{d} | r.2{d} |
         f4.4 f4.8 g4.4 g4.8 |
         :4 a4{d} a4{-} r.8 |
         b4b{d}.8 c5.16 d5.8 c5.4 g4.8 |
         :4 a4{d} a4{-} r.8 |
         :8 d5 e5 f5 f5 e5 d5 |
         :4 c5{d} c5{-} r.8 |
-        b4b{d}.8 c5.16 :8 d5 d5 c5 b4b |
-        b4b.8 :4 a4 a4{-} r.8 |
+        b4b{d}.8{dec} c5.16{dec} :8 d5{dec} d5{dec} c5{dec} b4b{dec} |
+        b4b.8{dec} :4 a4{dec} a4{-} r.8 |
         f4.4 f4.8 g4.4 g4.8 |
         :4 a4{d} a4{-} r.8 |
         :4 f4{d} b4b a4.8 |
         :4 g4{d} r f4.8 |
-        f4{d}.2 |
-        f4{d -}.2 |
-        f4{d -}.2 |
+        \\tempo 40 f4{d}.2{dec} |
+        f4{d -}.2{dec} |
+        f4{d -}.2{dec} |
         r.2{d} |
         
         \\track "Alto 1"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, And songs in the shad- ows Comes a- gain to me, _ Comes a- gain to me _ The gift of the tongues of the lea, _ Comes a- gain to me, _ Comes a- gain to me. Straight way my old - en heart re- turns And dance- es with the danc- ing burns; It sings _ _ with the spar- rows; Sings my heart a- loud, _ Sings my heart a- loud- To the sil- lver rain - y ar- rows. _ Sings my heart a loud, _ Sings my heart a- loud. It bears the song of the sky- lark down, And youth on the high- ways Fol- lows and sees: Fol- lows and sees: _ And heark- ens the song of the leas. _ Fol- lows and sees, Fol- lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod, And the grass sings _ in the mead- ows, Sits my heart at ease, _ Sits _ my heart at ease, _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
         \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
         f4.4 f4.8 g4{d}.8 a4{-}.16 b4b.8 |
@@ -438,16 +443,16 @@ class AlphaTabRunner {
         c4.4 d4.8 d4.4 r.8 |
         r.4{d} r.4 f4.8 |
         b4b{d}.8 a4.16 g4.8 g4.8 a4.4 |
-        f4.4 f4.8 g4.4 c5.8 |
-        :4 g4{d} f4{d} |
-        c4.4 c4.8 e4.4 c4.8 |
+        f4.4{cre} f4.8{cre} g4.4{cre} c5.8{cre} |
+        :4 g4{d cre} f4{d cre} |
+        c4.4{dec} c4.8{dec} e4.4{dec} c4.8{dec} |
         f4{d}.4 f4{-}.8 r.8 f4.8 |
         b4b{d}.8 c5.16 :8 d5 d5 c5 b4b |
         :4 a4{d} a4{-} r.8 | r.2{d} |
         r.2{d} |
-        c4.4 c4.8 d4.4 e4.8 |
-        :4 g4{d} f4{d} |
-        c4.4 c4.8 e4.4 c4.8 |
+        c4.4{cre} c4.8{cre} d4.4{cre} e4.8{cre} |
+        :4 g4{d cre} f4{d cre} |
+        c4.4{dec} c4.8{dec} e4.4{dec} c4.8{dec} |
         f4{d}.4 r.4{d} |
         r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
@@ -477,16 +482,16 @@ class AlphaTabRunner {
         r.4{d} r.4 f4.8 |
         b3b.8 c4.16 :8 d4 d4 e4 r |
         r.2{d} |
-        :4 d4{d} d4 d4.8 |
-        f4{d}.2 |
-        :4 d4{d} c4 c4.8 |
+        :4 d4{d cre} d4{cre} d4.8{cre} |
+        f4{d}.2{cre} |
+        :4 d4{d dec} c4{dec} c4.8{dec} |
         d4{d}.4 :8 d4{-} r f4 |
         b4b{d}.8 a4.16 :8 g4 g4 f4 g4 |
         a4{d}.4 a4{-}.8 r.4 |
         r.2{d} | r.2{d} |
-        d4{d}.4 d4.4 d4.8 |
-        f4{d}.2 |
-        :4 d4{d} c4 c4.8 |
+        d4{d}.4{cre} d4.4{cre} d4.8{cre} |
+        f4{d}.2{cre} |
+        :4 d4{d dec} c4{dec} c4.8{dec} |
         d4{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
         f4.4 f4.8 c4{d}.8 f4.16 g4.8 |
@@ -494,26 +499,27 @@ class AlphaTabRunner {
         b4b{d}.8 a4.16 :8 g4 a4 f4.4 |
         c4.4 :8 f4 c4 f4 f4 |
         f4.4 :8 f4 f4{-} g4 a4 |
-        f4.8 e4.4 r.4{d} | r.2{d} | r.2{d} |
+        f4.8{dec} e4.4 r.4{d} | r.2{d} | r.2{d} |
         c4.4 c4.8 d4.4 d4.8 |
         :4 g4{d} g4{-} r.8 |
         g4{d}.8 a4.16 b4b.8 g4.4 d4.8 |
         :4 g4{d} g4{-} r.8 |
         :8 b4b c5 d5 d5 c5 b4b |
         :4 f4{d} f4{-} r.8 |
-        g4{d}.8 a4.16 :8 b4b b4b a4 g4 |
-        g4.8 :4 f4 f4{-} r.8 |
+        g4{d}.8{dec} a4.16{dec} :8 b4b{dec} b4b{dec} a4{dec} g4{dec} |
+        g4.8{dec} :4 f4{dec} f4{-} r.8 |
         c4.4 c4.8 d4.4 d4.8 |
         :4 g4{d} g4{-} r.8 |
         :4 c4{d} f4 f4.8 |
         :4 f4{d} r f4.8 |
-        f4{d}.2 |
-        f4{d -}.2 |
-        f4{d -}.2 |
+        \\tempo 40 f4{d}.2{dec} |
+        f4{d -}.2{dec} |
+        f4{d -}.2{dec} |
         r.2{d} |
         
         \\track "Alto 2"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, And songs in the shad- ows Comes a- gain to me, _ Comes a- gain to me _ The gift of the tongues of the lea, _ Comes a- gain to me, _ Comes a- gain to me. Straight way my old - en heart re- turns And dance- es with the danc- ing burns; It sings _ _ with the spar- rows; Sings my heart a- loud, _ Sings my heart a- loud- To the sil- lver rain - y ar- rows. _ Sings my heart a loud, _ Sings my heart a- loud. It bears the song of the sky- lark down, And youth on the high- ways Fol- lows and sees: Fol- lows and sees: _ And heark- ens the song of the leas. _ Fol- lows and sees, Fol- lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod, And the grass sings _ in the mead- ows, Sits my heart at ease, _ Sits _ my heart at ease, _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
         \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
         f4.4 f4.8 g4{d}.8 a4{-}.16 b4b.8 |
@@ -522,16 +528,16 @@ class AlphaTabRunner {
         c4.4 d4.8 d4.4 r.8 |
         r.4{d} r.4 f4.8 |
         b4b{d}.8 a4.16 g4.8 g4.8 a4.4 |
-        f4.4 f4.8 g4.4 c5.8 |
-        :4 g4{d} f4{d} |
-        c4.4 c4.8 c4.4 c4.8 |
+        f4.4{cre} f4.8{cre} g4.4{cre} c5.8{cre} |
+        :4 g4{d cre} f4{d cre} |
+        c4.4{dec} c4.8{dec} c4.4{dec} c4.8{dec} |
         f4{d}.4 f4{-}.8 r.8 f4.8 |
         b4b{d}.8 c5.16 :8 d5 d5 c5 b4b |
         :4 a4{d} a4{-} r.8 | r.2{d} |
         r.2{d} |
-        c4.4 c4.8 d4.4 e4.8 |
-        :4 g4{d} f4{d} |
-        c4.4 c4.8 c4.4 c4.8 |
+        c4.4{cre} c4.8{cre} d4.4{cre} e4.8{cre} |
+        :4 g4{d cre} f4{d cre} |
+        c4.4{dec} c4.8{dec} c4.4{dec} c4.8{dec} |
         f4{d}.4 r.4{d} |
         r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
@@ -561,16 +567,16 @@ class AlphaTabRunner {
         r.4{d} r.4 f4.8 |
         b3b.8 c4.16 :8 d4 d4 e4 r |
         r.2{d} |
-        :4 d4{d} d4 d4.8 |
-        f4{d}.2 |
-        :4 d4{d} c4 c4.8 |
+        :4 d4{d cre} d4{cre} d4.8{cre} |
+        f4{d}.2{cre} |
+        :4 d4{d dec} c4{dec} c4.8{dec} |
         d4{d}.4 :8 d4{-} r f4 |
         b4b{d}.8 a4.16 :8 g4 g4 f4 g4 |
         a4{d}.4 a4{-}.8 r.4 |
         r.2{d} | r.2{d} |
-        d4{d}.4 d4.4 d4.8 |
-        f4{d}.2 |
-        :4 d4{d} c4 c4.8 |
+        d4{d}.4{cre} d4.4{cre} d4.8{cre} |
+        f4{d}.2{cre} |
+        :4 d4{d dec} c4{dec} c4.8{dec} |
         d4{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c4.8 |
         f4.4 f4.8 c4{d}.8 f4.16 g4.8 |
@@ -578,26 +584,27 @@ class AlphaTabRunner {
         b4b{d}.8 a4.16 :8 g4 a4 f4.4 |
         c4.4 :8 f4 c4 f4 f4 |
         f4.4 :8 f4 f4{-} g4 a4 |
-        f4.8 e4.4 r.4{d} | r.2{d} | r.2{d} |
+        f4.8{dec} e4.4 r.4{d} | r.2{d} | r.2{d} |
         c4.4 c4.8 d4.4 d4.8 |
         :4 g4{d} g4{-} r.8 |
         g4{d}.8 a4.16 b4b.8 g4.4 d4.8 |
         :4 g4{d} g4{-} r.8 |
         :8 b4b c5 d5 d5 c5 b4b |
         :4 f4{d} f4{-} r.8 |
-        g4{d}.8 a4.16 :8 b4b b4b a4 g4 |
-        g4.8 :4 f4 f4{-} r.8 |
+        g4{d}.8{dec} a4.16{dec} :8 b4b{dec} b4b{dec} a4{dec} g4{dec} |
+        g4.8{dec} :4 f4{dec} f4{-} r.8 |
         c4.4 c4.8 d4.4 d4.8 |
         :4 g4{d} g4{-} r.8 |
         :4 c4{d} f4 f4.8 |
         :4 f4{d} r f4.8 |
-        f4{d}.2 |
-        f4{d -}.2 |
-        f4{d -}.2 |
+        \\tempo 40 f4{d}.2{dec} |
+        f4{d -}.2{dec} |
+        f4{d -}.2{dec} |
         r.2{d} |
         
         \\track "Tenor 1"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef F4
+        \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, With sun on the mea- dows Comes a- gain to me, Comes a- gain to me _ The gift of the tongues _ of mea- dows. _ Comes a- gain to me, Comes a- gain to me. Straight way my old - en heart re- turns And danc- es with the danc- ing burns; To the rain and the (gri - my) bar- rows _ Sings my heart a- loud, Sings my heart a- loud- To the sil- ver bel- lied cloud, Sings my heart a- loud, _ Sings my heart _ a- loud. And it hears the sing- ing of the town; And lov- vers in by- ways Fol- lows and sees: Fol- lows and sees: _ And sings the songs of the high- ways. _ Fol- lows and sees, Fol- lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod, And the flow'rs smile _ in the shad- ows, _ Sits the heart at ease, _ Sits _ my heart at ease _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
         \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 :8 f3 g3{d} a3.16 b3b.8 |
@@ -606,17 +613,17 @@ class AlphaTabRunner {
         b3b.4 b3b.8 c4.4 f3.8 |
         d4{d}.8 e4.16 :8 f4 c4 f3 r |
         r.2{d} |
-        b3b.4 b3b.8 c4.4 c4.8 |
-        d4{d}.2 |
-        b3b.4 b3b.8 g3.4 g3.8 |
+        b3b.4{cre} b3b.8{cre} c4.4{cre} c4.8{cre} |
+        d4{d}.2{cre} |
+        b3b.4{dec} b3b.8{dec} g3.4{dec} g3.8{dec} |
         f3{d}.4 f3{-}.8 r.4 |
         r.2{d} |
         r.4{d} r.4 f3.8 |
         b3b{d}.8 c4.16 :8 d4 d4 c4 b3b |
         c4.8 :4 f3 f3{-} r.8 |
-        b3b.4 b3b.8 c4.4 c4.8 |
-        d4{d}.2 |
-        b3b.4 b3b.8 g3.4 g3.8 |
+        b3b.4{cre} b3b.8{cre} c4.4{cre} c4.8{cre} |
+        d4{d}.2{cre} |
+        b3b.4{dec} b3b.8{dec} g3.4{dec} g3.8{dec} |
         f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 f3.8 b3b{d}.8 c4.16 d4.8 |
@@ -641,16 +648,16 @@ class AlphaTabRunner {
         a3.4 b3b.8 a3.4 r.8 |
         r.4{d} r.4 c3.8 |
         c4{d}.8 b3b.16 :8 a3 g3 a3.4 |
-        :4 a3{d} c4 c4.8 |
-        c4{d}.2 |
-        :4 g3{d} g3 g3.8 |
+        :4 a3{d cre} c4{cre} c4.8{cre} |
+        c4{d}.2{cre} |
+        :4 g3{d dec} g3{dec} g3.8{dec} |
         d3{d}.4 d3{-}.8 r.4 | r.2{d} |
         r.4{d} r.4 f3.8 |
         b3b.4 :8 a3 g3 f3 g3 |
         g3.8 :4 a3 a3{-} r.8 |
-        :4 a3{d} c4 c4.8 |
-        c4{d}.2 |
-        :4 g3{d} g3 e3.8 |
+        :4 a3{d cre} c4{cre} c4.8{cre} |
+        c4{d}.2{cre} |
+        :4 g3{d dec} g3{dec} e3.8{dec} |
         d3{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 f3.8 g3{d}.8 a3.16 b3b.8 |
@@ -659,23 +666,24 @@ class AlphaTabRunner {
         g3.4 :8 a3 g3 r.4 | r.2{d} |
         r.4{d} :8 r f3 f3 |
         d4.4 :8 d4 d4{-} e4 f4 |
-        c4.8 :4 a3 a3{-} r.8 |
+        c4.8{dec} :4 a3{dec} a3{- dec} r.8 |
         b3b.4 b3b.8 c4.4 c4.8 |
         :4 c4{d} c4{-} r.8 |
         d4{d}.8 c4.16 b3b.8 c4.4 c4.8 |
         :4 c4{d} c4{-} r.8 |
         :8 d4 e4 f4 f4 e4 d4 |
         :4 c4{d} c4{-} r.8 |
-        d4{d}.4 c4.16 :8 b3b b3b c4 d4 |
-        a3.8 :4 a3 a3{-} r.8 |
+        d4{d}.4{dec} c4.16{dec} :8 b3b{dec} b3b{dec} c4{dec} d4{dec} |
+        a3.8{dec} :4 a3{dec} a3{-} r.8 |
         b3b.4 b3b.8 c4.4 c4.8 |
         :4 c4{d} c4{-} r.8 |
         :4 b3b{d} d4 d4.8 |
         :4 c4{d} r f3.8 |
-        f3{d}.2 | f3{d -}.2 | f3{d -}.2 | r.2{d} |
+        \\tempo 40 f3{d}.2{dec} | f3{d -}.2{dec} | f3{d -}.2{dec} | r.2{d} |
 
         \\track "Tenor 2"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef F4
+        \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, With sun on the mea- dows Comes a- gain to me, Comes a- gain to me _ The gift of the tongues _ of mea- dows. _ Comes a- gain to me, Comes a- gain to me. Straight way my old - en heart re- turns And danc- es with the danc- ing burns; To the rain and the (gri - my) bar- rows _ Sings my heart a- loud, Sings my heart a- loud- To the sil- ver bel- lied cloud, Sings my heart a- loud, _ Sings my heart _ a- loud. And it hears the sing- ing of the town; And lov- vers in by- ways Fol- lows and sees: Fol- lows and sees: _ And sings the songs of the high- ways. _ Fol- lows and sees, Fol- lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod, And the flow'rs smile _ in the shad- ows, _ Sits the heart at ease, _ Sits _ my heart at ease _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
         \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 :8 f3 g3{d} a3.16 b3b.8 |
@@ -684,17 +692,17 @@ class AlphaTabRunner {
         b3b.4 b3b.8 c4.4 f3.8 |
         d4{d}.8 e4.16 :8 f4 c4 f3 r |
         r.2{d} |
-        b3b.4 b3b.8 c4.4 c4.8 |
-        d4{d}.2 |
-        b3b.4 b3b.8 g3.4 g3.8 |
+        b3b.4{cre} b3b.8{cre} c4.4{cre} c4.8{cre} |
+        d4{d}.2{cre} |
+        b3b.4{dec} b3b.8{dec} g3.4{dec} g3.8{dec} |
         f3{d}.4 f3{-}.8 r.4 |
         r.2{d} |
         r.4{d} r.4 f3.8 |
         b3b{d}.8 c4.16 :8 d4 d4 c4 b3b |
         c4.8 :4 f3 f3{-} r.8 |
-        b3b.4 b3b.8 c4.4 c4.8 |
-        d4{d}.2 |
-        b3b.4 b3b.8 g3.4 g3.8 |
+        b3b.4{cre} b3b.8{cre} c4.4{cre} c4.8{cre} |
+        d4{d}.2{cre} |
+        b3b.4{dec} b3b.8{dec} g3.4{dec} g3.8{dec} |
         f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 f3.8 b3b{d}.8 c4.16 d4.8 |
@@ -719,16 +727,16 @@ class AlphaTabRunner {
         f3.4 g3.8 f3.4 r.8 |
         r.4{d} r.4 c3.8 |
         c4{d}.8 b3b.16 :8 a3 g3 a3.4 |
-        :4 a3{d} c4 c4.8 |
-        c4{d}.2 |
-        :4 g3{d} g3 g3.8 |
+        :4 a3{d cre} c4{cre} c4.8{cre} |
+        c4{d}.2{cre} |
+        :4 g3{d dec} g3{dec} g3.8{dec} |
         d3{d}.4 d3{-}.8 r.4 | r.2{d} |
         r.4{d} r.4 f3.8 |
         b3b.4 :8 a3 g3 f3 g3 |
         g3.8 :4 a3 a3{-} r.8 |
-        :4 a3{d} c4 c4.8 |
-        c4{d}.2 |
-        :4 g3{d} g3 e3.8 |
+        :4 a3{d cre} c4{cre} c4.8{cre} |
+        c4{d}.2{cre} |
+        :4 g3{d dec} g3{dec} e3.8{dec} |
         d3{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 f3.8 g3{d}.8 a3.16 b3b.8 |
@@ -737,23 +745,24 @@ class AlphaTabRunner {
         g3.4 :8 a3 g3 r.4 | r.2{d} |
         r.4{d} :8 r f3 f3 |
         d4.4 :8 d4 d4{-} e4 f4 |
-        c4.8 :4 a3 a3{-} r.8 |
+        c4.8{dec} :4 a3{dec} a3{- dec} r.8 |
         b3b.4 b3b.8 c4.4 c4.8 |
         :4 c4{d} c4{-} r.8 |
         d4{d}.8 c4.16 b3b.8 c4.4 c4.8 |
         :4 c4{d} c4{-} r.8 |
         :8 d4 e4 f4 f4 e4 d4 |
         :4 c4{d} c4{-} r.8 |
-        d4{d}.4 c4.16 :8 b3b b3b c4 d4 |
-        a3.8 :4 a3 a3{-} r.8 |
+        d4{d}.4{dec} c4.16{dec} :8 b3b{dec} b3b{dec} c4{dec} d4{dec} |
+        a3.8{dec} :4 a3{dec} a3{-} r.8 |
         b3b.4 b3b.8 c4.4 c4.8 |
         :4 c4{d} c4{-} r.8 |
         :4 b3b{d} d4 d4.8 |
         :4 c4{d} r f3.8 |
-        f3{d}.2 | f3{d -}.2 | f3{d -}.2 | r.2{d} |
+        \\tempo 40 f3{d}.2{dec} | f3{d -}.2{dec} | f3{d -}.2{dec} | r.2{d} |
 
         \\track "Bass 1"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef bass
+        \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, With sun on the mea- dows Comes a- gain to me, Comes a- gain to me _ The gift of the tongues _ of mea- dows. _ Comes a- gain to me, Comes a- gain to me. Straight way my old- en heart re- turns And danc- es with the danc- ing burns; To the rain and the (gri- my) bar- rows _ Sings my heart a- loud Sings my heart a- loud- To the sil- ver bel- lied cloud, Sings my heart a loud,- _ sings my heart _ a- loud.- And it hears the sing- ing of the town; And lov- ers in by- ways Fol- lows and sees: Fol- lows and sees: _ And sings the songs of the high- ways. _ Fol- lows and sees, Fol- lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod, And the flow'rs smile _ in the shad- ows, _ Sits my heart at ease, _ Sits _ my heart at ease _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
         \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 :8 f3 g3{d} a3.16 b3b.8 |
@@ -762,17 +771,17 @@ class AlphaTabRunner {
         d3.4 d3.8 e3.4 f3.8 |
         b3b{d}.8 c4.16 :8 d4 a3 f3 r |
         r.2{d} |
-        d3.4 d3.8 e3.4 e3.8 |
-        a3{d}.2 |
-        d3.4 d3.8 c3.4 c3.8 |
+        d3.4{cre} d3.8{cre} e3.4{cre} e3.8{cre} |
+        a3{d}.2{cre} |
+        d3.4{dec} d3.8{dec} c3.4{dec} c3.8{dec} |
         f3{d}.4 f3{-}.8 r.4 |
         r.2{d} |
         r.4{d} r.4 f3.8 |
         d3{d}.8 f3.16 :8 b3b b3b f3 d3 |
         f3.8 :4 f3 f3{-} r.8 |
-        d3.4 d3.8 e3.4 e3.8 |
-        a3{d}.2 |
-        d3.4 d3.8 c3.4 c3.8 |
+        d3.4{cre} d3.8{cre} e3.4{cre} e3.8{cre} |
+        a3{d}.2{cre} |
+        d3.4{dec} d3.8{dec} c3.4{dec} c3.8{dec} |
         f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 f3.8 f3.4 f3.8 |
@@ -797,16 +806,16 @@ class AlphaTabRunner {
         c3.4 d3.8 c3.4 r.8 |
         r.4{d} r.4 c3.8 |
         a3{d}.8 g3.16 :8 f3 c3 f3.4 |
-        :4 d3{d} e3 e3.8 |
-        f3{d}.2 |
-        :4 b2b{d} c3 c3.8 |
+        :4 d3{d cre} e3{cre} e3.8{cre} |
+        f3{d}.2{cre} |
+        :4 b2b{d dec} c3{dec} c3.8{dec} |
         d3{d}.4 d3{-}.8 r.4 | r.2{d} |
         r.4{d} r.4 f3.8 |
         d3.4 :8 f3 e3 d3 e3 |
         e3.8 :4 f3 f3{-} r.8 |
-        :4 d3{d} e3 e3.8 |
-        f3{d}.2 |
-        :4 b2b{d} c3 c3.8 |
+        :4 d3{d cre} e3{cre} e3.8{cre} |
+        f3{d}.2{cre} |
+        :4 b2b{d dec} c3{dec} c3.8{dec} |
         d3{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 f3.8 c3{d}.8 f3.16 g3.8 |
@@ -815,23 +824,24 @@ class AlphaTabRunner {
         c3.4 :8 f3 c3 r.4 | r.2{d} |
         r.4{d} :8 r f3 f3 |
         b3b.4 :8 b3b b3b{-} c4 d4 |
-        a3.8 :4 f3 f3{-} r.8 |
+        a3.8{dec} :4 f3{dec} f3{- dec} r.8 |
         d3.4 d3.8 e3.4 e3.8 |
         :4 f3{d} f3{-} r.8 |
         b3b{d}.8 a3.16 g3.8 e3.4 e3.8 |
         :4 f3{d} f3{-} r.8 |
         :8 b3b c4 d4 d4 c4 b3b |
         :4 a3{d} a3{-} r.8 |
-        b3b{d}.4 a3.16 :8 g3 g3 a3 b3b |
-        d3.8 :4 d3 d3{-} r.8 |
+        b3b{d}.4{dec} a3.16{dec} :8 g3{dec} g3{dec} a3{dec} b3b{dec} |
+        d3.8{dec} :4 d3{dec} d3{-} r.8 |
         d3.4 d3.8 e3.4 e3.8 |
         :4 f3{d} f3{-} r.8 |
         :4 d3{d} g3 b3b.8 |
         :4 e3{d} r f3.8 |
-        f3{d}.2 | f3{d -}.2 | f3{d -}.2 | r.2{d} |
+        \\tempo 40 f3{d}.2{dec} | f3{d -}.2{dec} | f3{d -}.2{dec} | r.2{d} |
 
         \\track "Bass 2"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef bass
+        \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, With sun on the mea- dows Comes a- gain to me, Comes a- gain to me _ The gift of the tongues _ of mea- dows. _ Comes a- gain to me, Comes a- gain to me. Straight way my old- en heart re- turns And danc- es with the danc- ing burns; To the rain and the (gri- my) bar- rows _ Sings my heart a- loud Sings my heart a- loud- To the sil- ver bel- lied cloud, Sings my heart a loud,- _ sings my heart _ a- loud.- And it hears the sing- ing of the town; And lov- ers in by- ways Fol- lows and sees: Fol- lows and sees: _ And sings the songs of the high- ways. _ Fol- lows and sees, Fol- lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod, And the flow'rs smile _ in the shad- ows, _ Sits my heart at ease, _ Sits _ my heart at ease _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
         \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 :8 f3 g3{d} a3.16 b3b.8 |
@@ -840,17 +850,17 @@ class AlphaTabRunner {
         d3.4 d3.8 e3.4 f3.8 |
         b3b{d}.8 c4.16 :8 d4 a3 f3 r |
         r.2{d} |
-        d3.4 d3.8 e3.4 e3.8 |
-        d3{d}.2 |
-        d3.4 d3.8 c3.4 c3.8 |
+        d3.4{cre} d3.8{cre} e3.4{cre} e3.8{cre} |
+        d3{d}.2{cre} |
+        d3.4{dec} d3.8{dec} c3.4{dec} c3.8{dec} |
         f3{d}.4 f3{-}.8 r.4 |
         r.2{d} |
         r.4{d} r.4 f3.8 |
         d3{d}.8 f3.16 :8 b3b b3b f3 d3 |
         f3.8 :4 f3 f3{-} r.8 |
-        d3.4 d3.8 e3.4 e3.8 |
-        d3{d}.2 |
-        d3.4 d3.8 c3.4 c3.8 |
+        d3.4{cre} d3.8{cre} e3.4{cre} e3.8{cre} |
+        d3{d}.2{cre} |
+        d3.4{dec} d3.8{dec} c3.4{dec} c3.8{dec} |
         f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 f3.8 f3.4 f3.8 |
@@ -875,16 +885,16 @@ class AlphaTabRunner {
         f2.4 f2.8 f2.4 r.8 |
         r.4{d} r.4 c3.8 |
         a3{d}.8 g3.16 :8 f3 c3 f3.4 |
-        :4 d3{d} e3 e3.8 |
-        f3{d}.2 |
-        :4 b2b{d} c3 c3.8 |
+        :4 d3{d cre} e3{cre} e3.8{cre} |
+        f3{d}.2{cre} |
+        :4 b2b{d dec} c3{dec} c3.8{dec} |
         d3{d}.4 d3{-}.8 r.4 | r.2{d} |
         r.4{d} r.4 f3.8 |
         d3.4 :8 f3 e3 d3 e3 |
         e3.8 :4 f3 f3{-} r.8 |
-        :4 d3{d} e3 e3.8 |
-        f3{d}.2 |
-        :4 b2b{d} c3 c3.8 |
+        :4 d3{d cre} e3{cre} e3.8{cre} |
+        f3{d}.2{cre} |
+        :4 b2b{d dec} c3{dec} c3.8{dec} |
         d3{d}.4 r.4{d} | r.2{d} | r.2{d} |
         r.4{d} r.4 c3.8 |
         f3.4 f3.8 c3{d}.8 f3.16 g3.8 |
@@ -893,20 +903,20 @@ class AlphaTabRunner {
         c3.4 :8 f3 c3 r.4 | r.2{d} |
         r.4{d} :8 r f3 f3 |
         f3.4 :8 f3 f3{-} g3 a3 |
-        f3.8 :4 e3 e3{-} r.8 |
+        f3.8{dec} :4 e3{dec} e3{- dec} r.8 |
         d3.4 d3.8 e3.4 e3.8 |
         :4 f3{d} f3{-} r.8 |
         b3b{d}.8 a3.16 g3.8 e3.4 e3.8 |
         :4 f3{d} f3{-} r.8 |
         :8 b3b c4 d4 d4 c4 b3b |
         :4 a3{d} a3{-} r.8 |
-        b3b{d}.4 a3.16 :8 g3 g3 a3 b3b |
-        d3.8 :4 d3 d3{-} r.8 |
+        b3b{d}.4{dec} a3.16{dec} :8 g3{dec} g3{dec} a3{dec} b3b{dec} |
+        d3.8{dec} :4 d3{dec} d3{-} r.8 |
         d3.4 d3.8 e3.4 e3.8 |
         :4 f3{d} f3{-} r.8 |
         :4 d3{d} g3 b3b.8 |
         :4 e3{d} r f3.8 |
-        f3{d}.2 | f3{d -}.2 | f3{d -}.2 | r.2{d} |
+        \\tempo 40 f3{d}.2{dec} | f3{d -}.2{dec} | f3{d -}.2{dec} | r.2{d} |
 
         \\track "Piano Upper 1"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
@@ -924,17 +934,17 @@ class AlphaTabRunner {
         :8 b4b a4 f4 g4.4 r.8 |
         (d5{d} b4b{d}).8 (c5 a4).16 (b4b g4).8 (c5{d} f4{d}).4 |
         (b4b{d} d4{d}).8 (a4 c4).16 :8 (g4 b3b) (g4 b3b) (a4 c4).4 |
-        r.8 :16 d6 c6 b5b a5 g5{d}.8 f5.16 g5.8 |
-        a5.8 :16 g5 f5 e5 d5{d}.4 |
-        :4 (b5b{d} f5{d} c5{d}) (f5{d} e5{d} c5{d}) |
+        r.8{cre} :16 d6{cre} c6{cre} b5b{cre} a5{cre} g5{d}.8{cre} f5.16{cre} g5.8{cre} |
+        a5.8{cre} :16 g5{cre} f5{cre} e5{cre} d5{d}.4{cre} |
+        :4 (b5b{d} f5{d} c5{d}){dec} (f5{d} e5{d} c5{d}){dec} |
         r.8 :16 c5 b4b a4 g4 f4{d}.4 |
         :8 (d6 f5) (b5b d5) (d6 f5) (f6{d} b5b{d}).4 |
         :8 (c6 f5) (a5 c5) (c6 f5) (f6{d} f5{d}).4 |
         :8 (f5 b4b) (d5 f4) (f5 b4b) (b5b d5) (f5 b4b) (d5 f4) |
         :8 (c5 f4) (a4 c4) (c5 f4) (f5{d} g4{d}).4 |
-        d6{d}.8 :16 c6 b5b a5 g5{d}.8 f5.16 g5.8 |
-        a5{d}.8 :16 g5 f5 e5 d5{d}.4 |
-        :4 (f4{d} c4{d}) (f4 e4) c5.8 |
+        d6{d}.8{cre} :16 c6{cre} b5b{cre} a5{cre} g5{d}.8{cre} f5.16{cre} g5.8{cre} |
+        a5{d}.8{cre} :16 g5{cre} f5{cre} e5{cre} d5{d}.4{cre} |
+        :4 (f4{d} c4{d}){dec} (f4 e4){dec} c5.8 |
         f5{d}.8 g5.16 a5.8 :16 b5b a5 :8 a5{-} g5 |
         c6{d}.8 b5b.16 a5.8 g5.4 (c6 c5).8 |
         (f6 f5).8 :16 c6 b5b :8 c6{-} (d6 d5) :16 b5b a5 b5b{-}.8 |
@@ -946,6 +956,67 @@ class AlphaTabRunner {
         (d6 f5).4 (c6 e5).8 (b5b d5).4 (f5 e5).8 |
         (c6 f5).4 (b5b d5).8 (a5{d} c5{d}).4 |
         :4 (f4{d} e4{d}) (e4{d} d4{d}) |
+        (f4 a3).4 (g4 c4).8 (a4{d} c4{d}).4 |
+        d5.8 :16 b5b a5 g5 f5 e5.8 :16 c6 b5b a5 g5 |
+        f5{d}.8 :16 e5 f5 g5 a5{d}.4 |
+        :8 r (d6 f5) (b5b d5) r (g5 b4b) (e5 g4) |
+        (f5{d} f4{d}).2 |
+        :4 (f6{d} b5b{d} f5{d}) (c6{d} f5{d} c5{d}) |
+        :4 (c6{d} f5{d} c5{d}) (f5{d} c5{d} f4{d}) |
+        :4 (f5{d} b4b{d} f4{d}) (c5{d} f4{d} c4{d}) |
+        :4 (g4{d} c4{d} g3{d}) (a4{d} c4{d} a3{d}) |
+        d5.8 :16 b5b a5 g5 f5 e5.8 :16 c6 b5b a5 g5 |
+        f5{d}.8 :16 e5 f5 g5 a5{d}.4 |
+        :8 r (d6 f5) (b5b d5) r (g5 b4b) (e5 g4) |
+        :16 c6 f6 c7.8 :16 b5b f6 b6b.8 |
+        :16 g5 c6 g6.8 :16 a5 c6 a6.8 |
+        :16 f5 a5 f6.8 :16 e5 a5 e6.8 |
+        :16 d5 g5 d6.8 :16 e5 a5 e6.8 |
+        (a5{d} f5{d}).8 (b5b g5).16 :8 (g5 e5) (a5{d} f5{d}) (b5b g5).16 (g5 e5).8 |
+        (a5{d} f5{d}).8 (b5b g5).16 (c6 a5).8 (a5{d} f5{d}).4 |
+        (d5{d} b4b{d}).8 :16 (c5 a4) (b4b g4) (a4 f4) (g4{d} e4{d}).8 (f4 d4).16 (g4 e4).8 |
+        (a4{d} f4{d}).8 (b4b g4).16 (g4 e4).8 (a4{d} f4{d}).4 |
+        :4 (f6{d} b5b{d} f5{d}) (e6{d} b5b{d} e5{d}) |
+        :4 (e6{d} a5{d} e5{d}) (d6{d} a5{d} d5{d}) |
+        d5{d}.8{cre} :16 c5{cre} b4b{cre} a4{cre} g4{d}.8{cre} f4.16{cre} g4.8{cre} |
+        a4{d}.8{cre} b4b.16{cre} g4.8{cre} a4{d}.4{cre} |
+        :4 (f4{d} d4{d}) (f4{d} e4{d} c4{d}){dec} |
+        (f4 d4).4{dec} (e4 c4).8{dec} d4{d}.4{dec} |
+        (d6 f5).4 (c6 e5).8 (b5b d5).4 (g5 d5 g4).8 |
+        (a5 f5 a4).4 (g5 c5 g4).8 (f5{d} c5{d} f4{d}).4 |
+        :4 (b4b{d} f4{d} c4{d}) (c5{d} g4{d} d4{d}) |
+        (g4 e4).8 :4 (a4 f4) (a4{- d} f4{- d}) |
+        d4{d}.8{cre} e4.16{cre} :8 f4{cre} e4{d cre} f4.16{cre} g4.8{cre} |
+        a4{d}.8{cre} b4b.16{cre} g4.8{cre} a4{d}.4 |
+        :4 (f5{d} c5{d}){dec} (f5{d} e5{d} c5{d}){dec} |
+        f6.8 :16 d6 e6 :8 f6 e6 c6 f5 |
+        d6.8 :16 b5b c6 :8 d6 c6 f5 e5 |
+        d5{d}.8{cre} e5.16{cre} :8 f5{cre} (c5 f4 e4){cre} (f5 f4){cre} (g5 g4){cre} |
+        :16 (b5b f5 b4b){cre} (a5 a4){cre} :8 (a5{-} a4{-}){cre} (f5 f4) (g5{d} c5{d} g4{d}).4 |
+        :8 r (c6 f5) (a5 c5) r (g5 c5) (c5 e4) |
+        :8 r (c5 g4) (a4 f4) (g4{d} c4{d}).4 |
+        \\clef bass :4 (d4{d} c4{d} a3{d} d3{d}) (c4{d} g3{d} f3{d}) |
+        \\clef treble (g5 c5).4 (f5 a4).8 (g5{d} c5{d}).4 |
+        d6{d}.8 :16 c6 b5b a5 g5{d}.8 f5.16 g5.8 |
+        a5{d}.8 b5b.16 g5.8 a5{d}.4 |
+        :4 (d5{d} b4b{d} f4{d}) (b4b{d} g4{d} d4{d}) |
+        (a4 f4).4 (g4 c4).8 (a4{d} f4{d}).4 |
+        f5.4 :16 b5b a5 g5.4 :16 c6 b5b |
+        a5{d}.8 :16 g5 a5 b5b a5{d}.4 |
+        :8 r (d6 f5) (b5b d5) r (c6 e5) (g5 c5) |
+        :8 r (a5 f5) (g5 c5) (f5{d} a4{d}).4 |
+        :4 (f6{d} b5b{d} f5{d}) (c6{d} b5b{d} f5{d} c5{d}) |
+        (a5 c5 a4).4 (g5 c5 g4).8 (a5{-} c5{d} a4{d}).4 |
+        :4 (b4b{d} f4{d} c4{d}){dec} (g4{d} f4{d} c4{d}){dec} |
+        (a4 f4).4{dec} (g4 e4).8{dec} (f4{d} d4{d}).4 |
+        f5.4 :16 b5b a5 g5.4 :16 c6 b5b |
+        a5{d}.8 :16 g5 a5 b5b a5{d}.4 |
+        :4 (f6{d} b5b{d} f5{d}) (d6{d} f5{d} c5{d}) |
+        :4 (c6{d} e5{d} c5{d}) (c6{-} e5{-} c5{-}) c5.8 |
+        \\tempo 40 f5{d}.8 g5.16 a5.8 :16 b5b a5 :8 a5{-} g5 |
+        :16 c6 a5 :8 a5{-} f5 :16 g5 f5 :8 f5{-} c5 |
+        (c5{d} f4{d}).2 |
+        (c5{d -} f4{d -}).2 |
 
         \\track "Piano Upper 2"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
@@ -959,13 +1030,29 @@ class AlphaTabRunner {
         :4 c4{d} d4{d} |
         r.2{d} | r.2{d} | r.2{d} |
         :4 c4{d} f4 r.8 |
+        r.2{d} | r.2{d} | r.2{d cre} |
+        r.2{d cre} | r.2{d dec} | r.2{d} |
         r.2{d} | r.2{d} | r.2{d} |
-        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d cre} | r.2{d cre} | r.2{d dec} |
+        r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.2{d} | r.2{d} | r.2{d} |
         r.2{d} | r.2{d} | r.2{d} | r.2{d} |
         r.2{d} | r.2{d} | r.2{d} | r.2{d} |
-        r.2{d} | r.2{d} | r.2{d} |
         r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d cre} | r.2{d cre} |
+        r.2{d} | r.2{d dec} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d cre} | r.2{d cre} |
+        r.2{d dec} | r.2{d} | r.2{d} | (c5{d} f4{d}).4{cre} r.4{d cre} |
+        r.2{d cre} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d dec} | r.2{d dec} | :4 b4b{d} c5{d} | c5{d}.2 |
+        r.2{d} | r.2{d} | \\tempo 40 r.2{d} | r.2{d} | r.2{d} | r.2{d} |
 
         \\track "Piano Lower"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef bass
@@ -981,17 +1068,17 @@ class AlphaTabRunner {
         \\clef bass :4 (b3b{d} d3{d}) (c4 e3) r.8 |
         :8 b1b f2 d3 f2 c3 a3 |
         :8 g2 d3 g3 a2 f3 a3 |
-        :8 d3 b3b d4 c3 c4 e4 |
-        :8 d3 a3 e4 f4{d}.4 |
-        \\clef treble :4 (b4b{d} d4{d}) (g4 c4) |
+        :8 d3{cre} b3b{cre} d4{cre} c3{cre} c4{cre} e4{cre} |
+        :8 d3{cre} a3{cre} e4{cre} f4{d}.4{cre} |
+        \\clef treble :4 (b4b{d} d4{d}){dec} (g4 c4){dec} |
         \\clef bass :8 f2 c3 g3 a3{d}.4 |
         \\clef treble :8 b3b f4 c5 d5{d}.4 |
         :8 a3 f4 g4 a4{d}.4 |
         \\clef bass :8 d3 b3b d4 f4 d4 b3b |
         :8 f2 c3 g3 a3{d}.4 |
-        :8 b2b f3 d4 c3 g3 e4 |
-        :8 d3 a3 e4 f4{d}.4 |
-        :4 (b3b{d} d3{d}) (g3 c3) r.8 |
+        :8 b2b{cre} f3{cre} d4{cre} c3{cre} g3{cre} e4{cre} |
+        :8 d3{cre} a3{cre} e4{cre} f4{d}.4{cre} |
+        :4 (b3b{d} d3{d}){dec} (g3 c3){dec} r.8 |
         :8 f3 c4 f4 f3 d4 f4 |
         :8 f3 e4 f4 f3 d4 f4 |
         \\clef treble :4 (d5{d} c5{d} f4{d}) (b4b{d} g4{d} d4{d}) |
@@ -1003,8 +1090,69 @@ class AlphaTabRunner {
         \\clef bass :8 b1b f2 d3 f3 d3 b2b |
         :8 f2 c3 g3 a3{d}.4 |
         :4 (b3b{d} d3{d}) (g3{d} c3{d}) |
+        :8 f2 c3 e3 f3{d}.4 |
+        :8 b1b f2 d3 c2 g2 e3 |
+        :8 d2 a2 e3 f3{d}.4 |
+        \\clef treble :4 b4b{d} c4{d} |
+        \\clef bass :8 f2 c3 g3 a3{d}.4 |
+        \\clef treble :4 (d5{d} c5{d} f4{d}) (b4b{d} f4{d} e4{d}) |
+        \\clef bass :4 (a4{d} f4{d} e4{d}) (e4{d} a3{d} d3{d}) |
+        :4 (b3b{d} d3{d} g2{d}) (b3b{d} f3{d} c3{d}) |
+        (a3{d} c3{d} f2{d}).2 |
+        :8 b1b f2 d3 c2 g2 e3 |
+        :8 d2 a2 e3 f3{d}.4 |
+        \\clef treble :4 b4b{d} c4{d} |
+        :8 f4 c5 f5 f4 d5 f5 |
+        :8 f4 c5 e5 f4 c5 f5 |
+        :8 d4 a4 d5 d4 a4 c5 |
+        :8 d4 a4 b4b d4 a4 c#5 |
+        :8 d4 a4 b4b d4 a4 b4b |
+        :8 d4 a4 b4b d4 a4 d5 |
+        \\clef bass :8 b2b f3 b3b b2b g3 c4 |
+        :8 f2 c3 g3 a3{d}.4 |
+        \\clef treble :4 (d5{d} c5{d} g4{d}) (c5{d} b4b{d} g4{d}) |
+        :4 (c5{d} a4{d} f4{d}) (a4{d} f4{d} d4{d}) |
+        \\clef bass :8 b2b{cre} f3{cre} d4{cre} c3{cre} g3{cre} e4{cre} |
+        :8 f3{cre} c4{cre} e4{cre} f4{d}.4{cre} |
+        :4 (g3{d} b2b{d}) (g3{d} c3{d}){dec} |
+        :8 d3{dec} a3{dec} g3{dec} a3{d}.4{dec} |
+        :8 b2b f3 c4 d4 c4 b3b |
+        :8 f2 c3 f3 a3{d}.4 |
+        :4 (b3b{d} d3{d}) (c4{d} e3{d}) |
+        :8 f2 c3 e3 f3{d}.4 |
+        :4 (a3{d} d3{d}){cre} (g3{d} c3{d}){cre} |
+        (c4{d} f3{d}).2{cre} |
+        \\clef treble :4 (b4b{d} d4{d}){dec} (g4{d} c4{d}){dec} |
+        :8 d4 a4 d5 c4 a4 c5 |
+        :8 b3b f4 b4b a3 f4 a4 |
+        \\clef bass :4 (d4{d} b3b{d} f3{d}){cre} (a3{d} f3{d} c3{d}){cre} |
+        :4 (b3b{d} d3{d} g2{d}){cre} (e3{d} g2{d} c2{d}) |
+        :4 (c4{d} f3{d}) (g3{d} c3{d}) |
+        :4 (c4{d} f3{d}) (g3{d} c3{d}) |
+        :4 (f2{d} b1b{d}) (c3{d} f2{d}) |
+        :8 c3 g3 d4 e4{d}.4 |
+        :8 b2b f3 d4 b2b g3 e4 |
+        :8 f3 c4 e4 f4{d}.4 |
+        :4 (d4{d} b3b{d} f3{d}) (b3b{d} f3{d} c3{d}) |
+        :8 f2 c3 e3 f3{d}.4 |
+        :8 d3 b3b d4 e3 c4 e4 |
+        :8 f3 c4 e4 f4{d}.4 |
+        \\clef treble :4 (b4b{d} d4{d}) (g4{d} c4{d}) |
+        \\clef bass :4 (c4{d} f3{d}) r{d} |
+        \\clef treble :4 (d5{d} c5{d} f4{d}) (b4b{d} f4{d} d4{d}) |
+        \\clef bass :8 f2 c3 e3 f3{d}.4 |
+        :4 (b3b{d} f3{d} d3{d}){dec} (g3{d} f3{d} c3{d}){dec} |
+        :8 d2{dec} a2{dec} e3{dec} d3{d}.4 |
+        :8 d3 b3b d4 e3 c4 e4 |
+        :8 f3 c4 e4 f4{d}.4 |
+        \\clef treble :4 (c5{d} b4b{d} f4{d}) (b4b{d} f4{d} d4{d}) |
+        \\clef bass :4 (g4{d} f4{d} c4{d}) (c3{d} c2{d}) |
+        \\tempo 40 :8 f3 c4 f4 f3 d4 f4 |
+        :8 f3 e4 f4 f3 b3b f4 |
+        (c4{d} a3{d} f3{d}).2 |
+        (a3{d} f3{d} c3{d} f2{d} c2{d} f1{d}).2 |
         
-        `, [8,9,10]);
+        `, [4]);
 
         let updatedTrackIndexes = [];
         for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
