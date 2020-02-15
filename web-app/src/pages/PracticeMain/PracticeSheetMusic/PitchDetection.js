@@ -2,7 +2,8 @@ import ml5 from "ml5";
 import p5 from "./sketch";
 import AlphaTabRunner from "./AlphaTabRunner";
 import WebWorker from "./WebWorker";
-import Worker from 'worker-loader!./worker.js';
+// import Worker from 'worker-loader!./worker.js';
+import worker from "./worker";
 
 class PitchDetection {
     audioContext;
@@ -79,19 +80,20 @@ class PitchDetection {
         //     });
         // }, 1);
     
-        let myWorker = new WebWorker(`() => { 
-            const fib = i => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
+        // let myWorker = new WebWorker(`() => { 
+        //     const fib = i => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
 
-            self.addEventListener('message', e => {
-                self.importScripts("PitchDetection.js");
-                const count = e.data;
-                postMessage(fib(7));
-            });
-        }`);
+        //     self.addEventListener('message', e => {
+        //         self.importScripts("PitchDetection.js");
+        //         const count = e.data;
+        //         postMessage(fib(7));
+        //     });
+        // }`);
+        let myWorker = new WebWorker(worker);
         myWorker.addEventListener('message', event => {
             console.log(event.data);
         });
-        myWorker.postMessage("hello");
+        myWorker.postMessage(7);
 
         
 

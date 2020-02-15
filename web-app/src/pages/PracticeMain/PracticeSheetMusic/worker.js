@@ -23,15 +23,16 @@
 //         })
 //     }
 // }
+import ml5 from "ml5";
+export default () => {
+  const fib = i => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
 
-const fib = i => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
-
-self.addEventListener('message', e => {
-  const count = e.data;
-  postMessage(fib(count));
-});
-
-export default fib;
+  self.addEventListener('message', e => { // eslint-disable-line no-restricted-globals
+    const count = e.data;
+    ml5.pitchDetection("./Pitch-Detection-Model/", this.audioContext, this.micStream);
+    postMessage(fib(count));
+  });
+}
 
 // export const calculatePrimes = (iterations, multiplier) => {
 //   while(true)  {
