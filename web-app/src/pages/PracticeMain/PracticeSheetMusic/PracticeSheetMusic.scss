@@ -18,7 +18,7 @@
     }
 }
 
-.barCursor {
+.at-cursor-bar {
     /* Defines the color of the bar background when a bar is played */
     background: rgba(255, 242, 0, 0.25);
 }
@@ -28,12 +28,17 @@
     background: rgba(64, 64, 255, 0.1);
 }
 
-.beatCursor {
+.at-cursor-beat {
     /* Defines the beat cursor */
-    background: rgba(64, 64, 255, 0.75);
+    background: rgba(59, 59, 255, 0.75);
+    width: 3px;
 }
 
-.atHighlight * {
+.at-selection div {
+    background: rgba(64, 64, 255, 0.1);
+}
+
+.at-highlight * {
     /* Defines the color of the music symbols when they are being played (svg) */
     fill: #0078ff;
     stroke: #0078ff;

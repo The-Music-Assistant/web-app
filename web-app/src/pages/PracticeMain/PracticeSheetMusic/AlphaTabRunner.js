@@ -5,6 +5,7 @@ import PitchDetection from "./PitchDetection";
 import p5 from "./sketch";
 import Drawer from "./Drawer";
 import NoteList from "./NoteList";
+import Worker from 'worker-loader!./Worker.js';
 
 /**
  * Runs AlphaTab including initialization and keeping a Drawer and NoteList instance
@@ -32,10 +33,15 @@ class AlphaTabRunner {
 
         // AlphaTab API settings
         let settings = {
-            player: player,
-            cursor: true,
-            layout: "horizontal",
-            scrollElement: "#wrapper"
+            "player":{
+                "enablePlayer":true,
+                enableCursor: true,
+                soundFont: player,
+                scrollElement: "#wrapper"
+            },
+            "display": {
+                "layoutMode": "horizontal",
+            }
         };
 
         // Creates the AlphaTab API
@@ -138,7 +144,7 @@ class AlphaTabRunner {
     }
 
     static loadTex() {
-        AlphaTabRunner.api.tex(`\\title "Down by the Riverside"
+        /*AlphaTabRunner.api.tex(`\\title "Down by the Riverside"
         \\subtitle "Arranged by: Brant Adams. B.M.I."
         \\tempo 84
         .
@@ -147,18 +153,18 @@ class AlphaTabRunner {
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
         \\lyrics "Oo _ _ _ _ _ _ Oo _ _ _ _ _ _ Oo _ _ _ _ _ _ _ _"
         r.1 |
-        r.2 :4 d3 e3 |
-        g3{d}.2 :8 g3{-} a3 |
-        b3{d}.2 :8 b3{-} r |
-        \\ts 2 4 :4 b3 a3 |
-        \\ts 4 4 g3.1 |
-        :8 e3 d3 d3{- d}.2 :8 d3{-} r |
-        \\ts 2 4 :4 d3 e3 |
-        \\ts 4 4 g3{d}.2 :8 g3 a3 |
-        :2 b3 a3 |
-        g3.1 |
+        r.2 :4 d4 e4 |
+        g4{d}.2 :8 g4{-} a4 |
+        b4{d}.2 :8 b4{-} r |
+        \\ts 2 4 :4 b4 a4 |
+        \\ts 4 4 g4.1 |
+        :8 e4 d4 d4{- d}.2 :8 d4{-} r |
+        \\ts 2 4 :4 d4 e4 |
+        \\ts 4 4 g4{d}.2 :8 g4 a4 |
+        :2 b4 a4 |
+        g4.1 |
         \\tempo 88
-        \\ts 4 4 :2 g3{-} r |
+        \\ts 4 4 :2 g4{-} r |
         
         \\track "Alto"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
@@ -245,7 +251,761 @@ class AlphaTabRunner {
         :16 ab3 c4 eb4 g4 (ab3{- d} c4{- d} eb4{- d} g4{- d}).2 |
         \\tempo 88
         \\clef F4
-        \\ts 12 8 :1 g2{d} |`, [0,1,2,3,4,5,6]);
+        \\ts 12 8 :1 g2{d} |`, [0]);*/
+        AlphaTabRunner.api.tex(`\\title "Spring Carol"
+        \\subtitle "(S.A.T.B., accompanied)"
+        \\words "Robert Louis Stevenson"
+        \\music "David C. Dickau"
+        \\tempo 56
+        .
+
+        \\track "Soprano 1"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 g4{d}.8 a4{-}.16 b4b.8 |
+        c5.8 :4 a4 g4 f4.8 |
+        :8 d5 c5 b4b c5 f4.4 |
+        f4.4 g4.8 g4.4 r.8 |
+        r.4{d} r.4 f4.8 |
+        d5{d}.8 c5.16 b4b.8 b4b.8 c5.4 |
+        f4.4 f4.8 g4.4 c5.8 |
+        a4{d}.2 |
+        f4.4 f4.8 f4.4 e4.8 |
+        f4{d}.4 f4{-}.8 r.8 f4.8 |
+        d5{d}.8 e5.16 :8 f5 f5 e5 d5 |
+        :4 c5{d} c5{-} r.8 |
+        r.2{d} |
+        r.2{d} |
+        f4.4 f4.8 g4.4 c5.8 |
+        a4{d}.2 |
+        f4.4 f4.8 f4.4 e4.8 |
+        f4{d}.4 r.4{d} |
+        r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 g4{d}.4 a4.16 b4b.8 |
+        c5.4 a4.8 g4.4 f4.8 |
+        d5.4 d5.8 c5.4 f4.8 |
+        b4b.8 a4.4 g4.4 f4.8 |
+        d5.4 e5.8 :8 f5 e5 d5 |
+        c5.8 a4.4 r.4{d} | r.2{d} |
+        r.2{d} |
+        f4.4 f4.8 g4.4 g4.8 |
+        a4{d}.2 |
+        f4.4 b4b.8 g4.4 f4.8 |
+        f4{d}.4 r.4{d} |
+        r.2{d} |
+        r.4{d} :8 r f4 f4 |
+        b4b.4 a4.8 g4{d}.8 f4.16 g4.8 |
+        g4.8 :4 a4 a4{-} r.8 |
+        f4.4 f4.8 g4.4 g4.8 |
+        a4{d}.2 |
+        f4.4 b4b.8 g4.4 f4.8 |
+        f4{d}.2 | r.2{d} | r.2{d} |
+        r.4{d} r.4 g4.8 |
+        a4.4 a4.8 g4{d}.8 a4.16 b4b.8 |
+        c5.8 g4.4 a4.4 r.8 |
+        r.2{d} |
+        r.4{d} r.4 f4.8 |
+        d4.8 e4.16 :8 f4 f4 g4 r |
+        r.2{d} |
+        :4 f4{d} g4 g4.8 |
+        a4{d}.2 |
+        :4 f4{d} e4 e4.8 |
+        d4{d}.4 :8 d4{-} r f4 |
+        d5{d}.8 c5.16 :8 b4b b4b a4 b4b |
+        c5{d}.4 c5{-}.8 r.4 |
+        r.2{d} | r.2{d} |
+        f4{d}.4 g4.4 g4.8 |
+        a4{d}.2 |
+        f4.4 :16 g4 f4 e4.4 c4.8 |
+        d4{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 g4{d}.8 a4.16 b4b.8 |
+        c5.4 a4.8 g4.4 :16 f4 f4 |
+        d5{d}.8 c5.16 :8 b4b c5 a4.4 |
+        g4.4 :8 a4 g4 f4 f4 |
+        d5.4 :8 d5 d5{-} e5 f5 |
+        c5.8 a4.4 r.4{d} | r.2{d} | r.2{d} |
+        f4.4 f4.8 g4.4 g4.8 |
+        :4 a4{d} a4{-} r.8 |
+        b4b{d}.8 c5.16 d5.8 c5.4 g4.8 |
+        :4 a4{d} a4{-} r.8 |
+        :8 d5 e5 f5 f5 e5 d5 |
+        :4 c5{d} c5{-} r.8 |
+        b4b{d}.8 c5.16 :8 d5 d5 c5 b4b |
+        b4b.8 :4 a4 a4{-} r.8 |
+        f4.4 f4.8 g4.4 g4.8 |
+        :4 a4{d} a4{-} r.8 |
+        :4 f4{d} b4b a4.8 |
+        :4 g4{d} r f4.8 |
+        f4{d}.2 |
+        f4{d -}.2 |
+        f4{d -}.2 |
+        r.2{d} |
+        
+        \\track "Soprano 2"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 g4{d}.8 a4{-}.16 b4b.8 |
+        c5.8 :4 a4 g4 f4.8 |
+        :8 d5 c5 b4b c5 f4.4 |
+        f4.4 g4.8 g4.4 r.8 |
+        r.4{d} r.4 f4.8 |
+        d5{d}.8 c5.16 b4b.8 b4b.8 c5.4 |
+        f4.4 f4.8 g4.4 c5.8 |
+        a4{d}.2 |
+        f4.4 f4.8 f4.4 e4.8 |
+        f4{d}.4 f4{-}.8 r.8 f4.8 |
+        d5{d}.8 e5.16 :8 f5 f5 e5 d5 |
+        :4 c5{d} c5{-} r.8 |
+        r.2{d} |
+        r.2{d} |
+        f4.4 f4.8 g4.4 c5.8 |
+        a4{d}.2 |
+        f4.4 f4.8 f4.4 e4.8 |
+        f4{d}.4 r.4{d} |
+        r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 g4{d}.4 a4.16 b4b.8 |
+        c5.4 a4.8 g4.4 f4.8 |
+        d5.4 d5.8 c5.4 f4.8 |
+        b4b.8 a4.4 g4.4 f4.8 |
+        d5.4 e5.8 :8 f5 e5 d5 |
+        c5.8 a4.4 r.4{d} | r.2{d} |
+        r.2{d} |
+        f4.4 f4.8 g4.4 g4.8 |
+        a4{d}.2 |
+        f4.4 b4b.8 g4.4 f4.8 |
+        f4{d}.4 r.4{d} |
+        r.2{d} |
+        r.4{d} :8 r f4 f4 |
+        b4b.4 a4.8 g4{d}.8 f4.16 g4.8 |
+        g4.8 :4 a4 a4{-} r.8 |
+        f4.4 f4.8 g4.4 g4.8 |
+        a4{d}.2 |
+        f4.4 b4b.8 g4.4 f4.8 |
+        f4{d}.2 | r.2{d} | r.2{d} |
+        r.4{d} r.4 g4.8 |
+        a4.4 a4.8 g4{d}.8 a4.16 b4b.8 |
+        c5.8 g4.4 a4.4 r.8 |
+        r.2{d} |
+        r.4{d} r.4 f4.8 |
+        d4.8 e4.16 :8 f4 f4 g4 r |
+        r.2{d} |
+        :4 f4{d} g4 g4.8 |
+        a4{d}.2 |
+        :4 f4{d} e4 e4.8 |
+        d4{d}.4 :8 d4{-} r f4 |
+        d5{d}.8 c5.16 :8 b4b b4b a4 b4b |
+        c5{d}.4 c5{-}.8 r.4 |
+        r.2{d} | r.2{d} |
+        f4{d}.4 g4.4 g4.8 |
+        a4{d}.2 |
+        f4.4 :16 g4 f4 e4.4 c4.8 |
+        d4{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 g4{d}.8 a4.16 b4b.8 |
+        c5.4 a4.8 g4.4 :16 f4 f4 |
+        d5{d}.8 c5.16 :8 b4b c5 a4.4 |
+        g4.4 :8 a4 g4 f4 f4 |
+        b4b.4 :8 b4b b4b{-} c5 d5 |
+        a4.8 f4.4 r.4{d} | r.2{d} | r.2{d} |
+        f4.4 f4.8 g4.4 g4.8 |
+        :4 a4{d} a4{-} r.8 |
+        b4b{d}.8 c5.16 d5.8 c5.4 g4.8 |
+        :4 a4{d} a4{-} r.8 |
+        :8 d5 e5 f5 f5 e5 d5 |
+        :4 c5{d} c5{-} r.8 |
+        b4b{d}.8 c5.16 :8 d5 d5 c5 b4b |
+        b4b.8 :4 a4 a4{-} r.8 |
+        f4.4 f4.8 g4.4 g4.8 |
+        :4 a4{d} a4{-} r.8 |
+        :4 f4{d} b4b a4.8 |
+        :4 g4{d} r f4.8 |
+        f4{d}.2 |
+        f4{d -}.2 |
+        f4{d -}.2 |
+        r.2{d} |
+        
+        \\track "Alto 1"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 g4{d}.8 a4{-}.16 b4b.8 |
+        c5.8 :4 a4 g4 f4.8 |
+        :8 b4b a4 g4 f4 e4.4 |
+        c4.4 d4.8 d4.4 r.8 |
+        r.4{d} r.4 f4.8 |
+        b4b{d}.8 a4.16 g4.8 g4.8 a4.4 |
+        f4.4 f4.8 g4.4 c5.8 |
+        :4 g4{d} f4{d} |
+        c4.4 c4.8 e4.4 c4.8 |
+        f4{d}.4 f4{-}.8 r.8 f4.8 |
+        b4b{d}.8 c5.16 :8 d5 d5 c5 b4b |
+        :4 a4{d} a4{-} r.8 | r.2{d} |
+        r.2{d} |
+        c4.4 c4.8 d4.4 e4.8 |
+        :4 g4{d} f4{d} |
+        c4.4 c4.8 e4.4 c4.8 |
+        f4{d}.4 r.4{d} |
+        r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 d4{d}.4 e4.16 f4.8 |
+        g4.4 e4.8 d4.4 f4.8 |
+        f4.4 f4.8 f4.4 e4.8 |
+        f4.8 f4.4 f4.4 f4.8 |
+        b4b.4 c5.8 :8 d5 c5 b4b |
+        a4.8 f4.4 r.4{d} | r.2{d} |
+        r.2{d} |
+        c4.4 c4.8 d4.4 e4.8 |
+        :4 g4{d} f4{d} |
+        c4.4 d4.8 e4.4 e4.8 |
+        f4{d}.4 r.4{d} |
+        r.2{d} |
+        r.4{d} :8 r f4 e4 |
+        d4.4 f4.8 e4{d}.8 d4.16 e4.8 |
+        e4.8 :4 f4 f4{-} r.8 |
+        c4.4 c4.8 d4.4 e4.8 |
+        :4 g4{d} f4{d} |
+        c4.4 f4.8 e4.4 e4.8 |
+        f4{d}.2 | r.2{d} | r.2{d} |
+        r.4{d} r.4 e4.8 |
+        f4.4 f4.8 e4{d}.8 f4.16 g4.8 |
+        e4.8 e4.4 f4.4 r.8 |
+        r.2{d} |
+        r.4{d} r.4 f4.8 |
+        b3b.8 c4.16 :8 d4 d4 e4 r |
+        r.2{d} |
+        :4 d4{d} d4 d4.8 |
+        f4{d}.2 |
+        :4 d4{d} c4 c4.8 |
+        d4{d}.4 :8 d4{-} r f4 |
+        b4b{d}.8 a4.16 :8 g4 g4 f4 g4 |
+        a4{d}.4 a4{-}.8 r.4 |
+        r.2{d} | r.2{d} |
+        d4{d}.4 d4.4 d4.8 |
+        f4{d}.2 |
+        :4 d4{d} c4 c4.8 |
+        d4{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 c4{d}.8 f4.16 g4.8 |
+        a4.4 f4.8 c4.4 :16 f4 f4 |
+        b4b{d}.8 a4.16 :8 g4 a4 f4.4 |
+        c4.4 :8 f4 c4 f4 f4 |
+        f4.4 :8 f4 f4{-} g4 a4 |
+        f4.8 e4.4 r.4{d} | r.2{d} | r.2{d} |
+        c4.4 c4.8 d4.4 d4.8 |
+        :4 g4{d} g4{-} r.8 |
+        g4{d}.8 a4.16 b4b.8 g4.4 d4.8 |
+        :4 g4{d} g4{-} r.8 |
+        :8 b4b c5 d5 d5 c5 b4b |
+        :4 f4{d} f4{-} r.8 |
+        g4{d}.8 a4.16 :8 b4b b4b a4 g4 |
+        g4.8 :4 f4 f4{-} r.8 |
+        c4.4 c4.8 d4.4 d4.8 |
+        :4 g4{d} g4{-} r.8 |
+        :4 c4{d} f4 f4.8 |
+        :4 f4{d} r f4.8 |
+        f4{d}.2 |
+        f4{d -}.2 |
+        f4{d -}.2 |
+        r.2{d} |
+        
+        \\track "Alto 2"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 g4{d}.8 a4{-}.16 b4b.8 |
+        c5.8 :4 a4 g4 f4.8 |
+        :8 b4b a4 g4 f4 e4.4 |
+        c4.4 d4.8 d4.4 r.8 |
+        r.4{d} r.4 f4.8 |
+        b4b{d}.8 a4.16 g4.8 g4.8 a4.4 |
+        f4.4 f4.8 g4.4 c5.8 |
+        :4 g4{d} f4{d} |
+        c4.4 c4.8 c4.4 c4.8 |
+        f4{d}.4 f4{-}.8 r.8 f4.8 |
+        b4b{d}.8 c5.16 :8 d5 d5 c5 b4b |
+        :4 a4{d} a4{-} r.8 | r.2{d} |
+        r.2{d} |
+        c4.4 c4.8 d4.4 e4.8 |
+        :4 g4{d} f4{d} |
+        c4.4 c4.8 c4.4 c4.8 |
+        f4{d}.4 r.4{d} |
+        r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 d4{d}.4 e4.16 f4.8 |
+        g4.4 e4.8 d4.4 f4.8 |
+        f4.4 f4.8 f4.4 e4.8 |
+        f4.8 f4.4 f4.4 f4.8 |
+        b4b.4 c5.8 :8 d5 c5 b4b |
+        a4.8 f4.4 r.4{d} | r.2{d} |
+        r.2{d} |
+        c4.4 c4.8 d4.4 e4.8 |
+        :4 g4{d} f4{d} |
+        c4.4 d4.8 e4.4 c4.8 |
+        f4{d}.4 r.4{d} |
+        r.2{d} |
+        r.4{d} :8 r f4 e4 |
+        d4.4 f4.8 e4{d}.8 d4.16 e4.8 |
+        e4.8 :4 f4 f4{-} r.8 |
+        c4.4 c4.8 d4.4 e4.8 |
+        :4 g4{d} f4{d} |
+        c4.4 f4.8 e4.4 c4.8 |
+        f4{d}.2 | r.2{d} | r.2{d} |
+        r.4{d} r.4 e4.8 |
+        f4.4 f4.8 e4{d}.8 f4.16 g4.8 |
+        e4.8 e4.4 f4.4 r.8 |
+        r.2{d} |
+        r.4{d} r.4 f4.8 |
+        b3b.8 c4.16 :8 d4 d4 e4 r |
+        r.2{d} |
+        :4 d4{d} d4 d4.8 |
+        f4{d}.2 |
+        :4 d4{d} c4 c4.8 |
+        d4{d}.4 :8 d4{-} r f4 |
+        b4b{d}.8 a4.16 :8 g4 g4 f4 g4 |
+        a4{d}.4 a4{-}.8 r.4 |
+        r.2{d} | r.2{d} |
+        d4{d}.4 d4.4 d4.8 |
+        f4{d}.2 |
+        :4 d4{d} c4 c4.8 |
+        d4{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c4.8 |
+        f4.4 f4.8 c4{d}.8 f4.16 g4.8 |
+        a4.4 f4.8 c4.4 :16 f4 f4 |
+        b4b{d}.8 a4.16 :8 g4 a4 f4.4 |
+        c4.4 :8 f4 c4 f4 f4 |
+        f4.4 :8 f4 f4{-} g4 a4 |
+        f4.8 e4.4 r.4{d} | r.2{d} | r.2{d} |
+        c4.4 c4.8 d4.4 d4.8 |
+        :4 g4{d} g4{-} r.8 |
+        g4{d}.8 a4.16 b4b.8 g4.4 d4.8 |
+        :4 g4{d} g4{-} r.8 |
+        :8 b4b c5 d5 d5 c5 b4b |
+        :4 f4{d} f4{-} r.8 |
+        g4{d}.8 a4.16 :8 b4b b4b a4 g4 |
+        g4.8 :4 f4 f4{-} r.8 |
+        c4.4 c4.8 d4.4 d4.8 |
+        :4 g4{d} g4{-} r.8 |
+        :4 c4{d} f4 f4.8 |
+        :4 f4{d} r f4.8 |
+        f4{d}.2 |
+        f4{d -}.2 |
+        f4{d -}.2 |
+        r.2{d} |
+        
+        \\track "Tenor 1"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef F4
+        \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 :8 f3 g3{d} a3.16 b3b.8 |
+        c4.8 :4 a3 g3 f3.8 |
+        :8 d4 c4 b3b c4 c4.4 |
+        b3b.4 b3b.8 c4.4 f3.8 |
+        d4{d}.8 e4.16 :8 f4 c4 f3 r |
+        r.2{d} |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        d4{d}.2 |
+        b3b.4 b3b.8 g3.4 g3.8 |
+        f3{d}.4 f3{-}.8 r.4 |
+        r.2{d} |
+        r.4{d} r.4 f3.8 |
+        b3b{d}.8 c4.16 :8 d4 d4 c4 b3b |
+        c4.8 :4 f3 f3{-} r.8 |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        d4{d}.2 |
+        b3b.4 b3b.8 g3.4 g3.8 |
+        f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 f3.8 b3b{d}.8 c4.16 d4.8 |
+        e4.4 c4.8 b3b.4 f3.8 |
+        d4.4 d4.8 e4.4 c4.8 |
+        d4.8 d4.4 c4.4 r.8 | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        :8 b3b b3b b3b b3b{d} a3.16 g3.8 |
+        g3.8 :4 a3 a3{-} r.8 |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        d4{d}.2 |
+        b3b.4 b3b.8 g3.4 g3.8 |
+        f3{d}.4 :8 r f3 f3 |
+        d4.4 d4.8 c4.4 g3.8 |
+        a3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        d4{d}.4 :8 d4{-} d4 c4 |
+        :4 b3b{d} g3 g3.8 |
+        f3{d}.2 | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        d4.4 d4.8 c4.4 g3.8 |
+        a3.4 b3b.8 a3.4 r.8 |
+        r.4{d} r.4 c3.8 |
+        c4{d}.8 b3b.16 :8 a3 g3 a3.4 |
+        :4 a3{d} c4 c4.8 |
+        c4{d}.2 |
+        :4 g3{d} g3 g3.8 |
+        d3{d}.4 d3{-}.8 r.4 | r.2{d} |
+        r.4{d} r.4 f3.8 |
+        b3b.4 :8 a3 g3 f3 g3 |
+        g3.8 :4 a3 a3{-} r.8 |
+        :4 a3{d} c4 c4.8 |
+        c4{d}.2 |
+        :4 g3{d} g3 e3.8 |
+        d3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 f3.8 g3{d}.8 a3.16 b3b.8 |
+        c4.4 a3.8 g3.4 :16 f3 f3 |
+        d4{d}.8 c4.16 :8 b3b c4 a3.4 |
+        g3.4 :8 a3 g3 r.4 | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        d4.4 :8 d4 d4{-} e4 f4 |
+        c4.8 :4 a3 a3{-} r.8 |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        :4 c4{d} c4{-} r.8 |
+        d4{d}.8 c4.16 b3b.8 c4.4 c4.8 |
+        :4 c4{d} c4{-} r.8 |
+        :8 d4 e4 f4 f4 e4 d4 |
+        :4 c4{d} c4{-} r.8 |
+        d4{d}.4 c4.16 :8 b3b b3b c4 d4 |
+        a3.8 :4 a3 a3{-} r.8 |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        :4 c4{d} c4{-} r.8 |
+        :4 b3b{d} d4 d4.8 |
+        :4 c4{d} r f3.8 |
+        f3{d}.2 | f3{d -}.2 | f3{d -}.2 | r.2{d} |
+
+        \\track "Tenor 2"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef F4
+        \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 :8 f3 g3{d} a3.16 b3b.8 |
+        c4.8 :4 a3 g3 f3.8 |
+        :8 d4 c4 b3b c4 c4.4 |
+        b3b.4 b3b.8 c4.4 f3.8 |
+        d4{d}.8 e4.16 :8 f4 c4 f3 r |
+        r.2{d} |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        d4{d}.2 |
+        b3b.4 b3b.8 g3.4 g3.8 |
+        f3{d}.4 f3{-}.8 r.4 |
+        r.2{d} |
+        r.4{d} r.4 f3.8 |
+        b3b{d}.8 c4.16 :8 d4 d4 c4 b3b |
+        c4.8 :4 f3 f3{-} r.8 |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        d4{d}.2 |
+        b3b.4 b3b.8 g3.4 g3.8 |
+        f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 f3.8 b3b{d}.8 c4.16 d4.8 |
+        e4.4 c4.8 b3b.4 f3.8 |
+        d4.4 d4.8 e4.4 c4.8 |
+        d4.8 d4.4 c4.4 r.8 | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        :8 b3b b3b b3b b3b{d} a3.16 g3.8 |
+        g3.8 :4 a3 a3{-} r.8 |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        d4{d}.2 |
+        b3b.4 b3b.8 g3.4 g3.8 |
+        f3{d}.4 :8 r f3 f3 |
+        d4.4 d4.8 c4.4 g3.8 |
+        a3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        d4{d}.4 :8 d4{-} d4 c4 |
+        :4 b3b{d} g3 g3.8 |
+        f3{d}.2 | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        b3b.4 b3b.8 g3.4 e3.8 |
+        f3.4 g3.8 f3.4 r.8 |
+        r.4{d} r.4 c3.8 |
+        c4{d}.8 b3b.16 :8 a3 g3 a3.4 |
+        :4 a3{d} c4 c4.8 |
+        c4{d}.2 |
+        :4 g3{d} g3 g3.8 |
+        d3{d}.4 d3{-}.8 r.4 | r.2{d} |
+        r.4{d} r.4 f3.8 |
+        b3b.4 :8 a3 g3 f3 g3 |
+        g3.8 :4 a3 a3{-} r.8 |
+        :4 a3{d} c4 c4.8 |
+        c4{d}.2 |
+        :4 g3{d} g3 e3.8 |
+        d3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 f3.8 g3{d}.8 a3.16 b3b.8 |
+        c4.4 a3.8 g3.4 :16 f3 f3 |
+        d4{d}.8 c4.16 :8 b3b c4 a3.4 |
+        g3.4 :8 a3 g3 r.4 | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        d4.4 :8 d4 d4{-} e4 f4 |
+        c4.8 :4 a3 a3{-} r.8 |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        :4 c4{d} c4{-} r.8 |
+        d4{d}.8 c4.16 b3b.8 c4.4 c4.8 |
+        :4 c4{d} c4{-} r.8 |
+        :8 d4 e4 f4 f4 e4 d4 |
+        :4 c4{d} c4{-} r.8 |
+        d4{d}.4 c4.16 :8 b3b b3b c4 d4 |
+        a3.8 :4 a3 a3{-} r.8 |
+        b3b.4 b3b.8 c4.4 c4.8 |
+        :4 c4{d} c4{-} r.8 |
+        :4 b3b{d} d4 d4.8 |
+        :4 c4{d} r f3.8 |
+        f3{d}.2 | f3{d -}.2 | f3{d -}.2 | r.2{d} |
+
+        \\track "Bass 1"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef bass
+        \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 :8 f3 g3{d} a3.16 b3b.8 |
+        c4.8 :4 a3 g3 f3.8 |
+        :8 b3b a3 g3 a3 g3.4 |
+        d3.4 d3.8 e3.4 f3.8 |
+        b3b{d}.8 c4.16 :8 d4 a3 f3 r |
+        r.2{d} |
+        d3.4 d3.8 e3.4 e3.8 |
+        a3{d}.2 |
+        d3.4 d3.8 c3.4 c3.8 |
+        f3{d}.4 f3{-}.8 r.4 |
+        r.2{d} |
+        r.4{d} r.4 f3.8 |
+        d3{d}.8 f3.16 :8 b3b b3b f3 d3 |
+        f3.8 :4 f3 f3{-} r.8 |
+        d3.4 d3.8 e3.4 e3.8 |
+        a3{d}.2 |
+        d3.4 d3.8 c3.4 c3.8 |
+        f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 f3.8 f3.4 f3.8 |
+        f3.4 f3.8 f3.4 f3.8 |
+        b3b.4 b3b.8 a3.4 a3.8 |
+        g3.8 b3b.4 c4.4 r.8 | r.2{d} |
+        r.4{d} :8 r f3 e3 |
+        :8 d3 d3 f3 c3.4 c3.8 |
+        c3.8 :4 f3 f3{-} r.8 |
+        d3.4 d3.8 e3.4 e3.8 |
+        a3{d}.2 |
+        d3.4 d3.8 c3.4 c3.8 |
+        f3{d}.4 :8 r f3 f3 |
+        f3.4 f3.8 e3.4 e3.8 |
+        f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        d3.4 d3.8 e3.4 e3.8 |
+        a3{d}.4 :8 a3{-} f3 e3 |
+        :4 d3{d} c3 c3.8 |
+        f3{d}.2 | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        f3.4 f3.8 e3.4 c3.8 |
+        c3.4 d3.8 c3.4 r.8 |
+        r.4{d} r.4 c3.8 |
+        a3{d}.8 g3.16 :8 f3 c3 f3.4 |
+        :4 d3{d} e3 e3.8 |
+        f3{d}.2 |
+        :4 b2b{d} c3 c3.8 |
+        d3{d}.4 d3{-}.8 r.4 | r.2{d} |
+        r.4{d} r.4 f3.8 |
+        d3.4 :8 f3 e3 d3 e3 |
+        e3.8 :4 f3 f3{-} r.8 |
+        :4 d3{d} e3 e3.8 |
+        f3{d}.2 |
+        :4 b2b{d} c3 c3.8 |
+        d3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 f3.8 c3{d}.8 f3.16 g3.8 |
+        a3.4 f3.8 c3.4 :16 f3 f3 |
+        b3b{d}.8 a3.16 :8 g3 a3 f3.4 |
+        c3.4 :8 f3 c3 r.4 | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        b3b.4 :8 b3b b3b{-} c4 d4 |
+        a3.8 :4 f3 f3{-} r.8 |
+        d3.4 d3.8 e3.4 e3.8 |
+        :4 f3{d} f3{-} r.8 |
+        b3b{d}.8 a3.16 g3.8 e3.4 e3.8 |
+        :4 f3{d} f3{-} r.8 |
+        :8 b3b c4 d4 d4 c4 b3b |
+        :4 a3{d} a3{-} r.8 |
+        b3b{d}.4 a3.16 :8 g3 g3 a3 b3b |
+        d3.8 :4 d3 d3{-} r.8 |
+        d3.4 d3.8 e3.4 e3.8 |
+        :4 f3{d} f3{-} r.8 |
+        :4 d3{d} g3 b3b.8 |
+        :4 e3{d} r f3.8 |
+        f3{d}.2 | f3{d -}.2 | f3{d -}.2 | r.2{d} |
+
+        \\track "Bass 2"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef bass
+        \\ts 6 8 r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 :8 f3 g3{d} a3.16 b3b.8 |
+        c4.8 :4 a3 g3 f3.8 |
+        :8 b3b a3 g3 a3 g3.4 |
+        d3.4 d3.8 e3.4 f3.8 |
+        b3b{d}.8 c4.16 :8 d4 a3 f3 r |
+        r.2{d} |
+        d3.4 d3.8 e3.4 e3.8 |
+        d3{d}.2 |
+        d3.4 d3.8 c3.4 c3.8 |
+        f3{d}.4 f3{-}.8 r.4 |
+        r.2{d} |
+        r.4{d} r.4 f3.8 |
+        d3{d}.8 f3.16 :8 b3b b3b f3 d3 |
+        f3.8 :4 f3 f3{-} r.8 |
+        d3.4 d3.8 e3.4 e3.8 |
+        d3{d}.2 |
+        d3.4 d3.8 c3.4 c3.8 |
+        f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 f3.8 f3.4 f3.8 |
+        f3.4 f3.8 f3.4 f3.8 |
+        b3b.4 b3b.8 a3.4 a3.8 |
+        g3.8 b3b.4 c4.4 r.8 | r.2{d} |
+        r.4{d} :8 r f3 e3 |
+        :8 d3 d3 f3 c3.4 c3.8 |
+        c3.8 :4 f3 f3{-} r.8 |
+        d3.4 d3.8 e3.4 e3.8 |
+        d3{d}.2 |
+        d3.4 d3.8 c3.4 c3.8 |
+        f3{d}.4 :8 r f3 f3 |
+        f3.4 f3.8 e3.4 e3.8 |
+        f3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        d3.4 d3.8 e3.4 e3.8 |
+        d3{d}.4 :8 d3{-} f3 e3 |
+        :4 d3{d} c3 c3.8 |
+        f3{d}.2 | r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        b2b.4 b2b.8 b2b.4 b2b.8 |
+        f2.4 f2.8 f2.4 r.8 |
+        r.4{d} r.4 c3.8 |
+        a3{d}.8 g3.16 :8 f3 c3 f3.4 |
+        :4 d3{d} e3 e3.8 |
+        f3{d}.2 |
+        :4 b2b{d} c3 c3.8 |
+        d3{d}.4 d3{-}.8 r.4 | r.2{d} |
+        r.4{d} r.4 f3.8 |
+        d3.4 :8 f3 e3 d3 e3 |
+        e3.8 :4 f3 f3{-} r.8 |
+        :4 d3{d} e3 e3.8 |
+        f3{d}.2 |
+        :4 b2b{d} c3 c3.8 |
+        d3{d}.4 r.4{d} | r.2{d} | r.2{d} |
+        r.4{d} r.4 c3.8 |
+        f3.4 f3.8 c3{d}.8 f3.16 g3.8 |
+        a3.4 f3.8 c3.4 :16 f3 f3 |
+        b3b{d}.8 a3.16 :8 g3 a3 f3.4 |
+        c3.4 :8 f3 c3 r.4 | r.2{d} |
+        r.4{d} :8 r f3 f3 |
+        f3.4 :8 f3 f3{-} g3 a3 |
+        f3.8 :4 e3 e3{-} r.8 |
+        d3.4 d3.8 e3.4 e3.8 |
+        :4 f3{d} f3{-} r.8 |
+        b3b{d}.8 a3.16 g3.8 e3.4 e3.8 |
+        :4 f3{d} f3{-} r.8 |
+        :8 b3b c4 d4 d4 c4 b3b |
+        :4 a3{d} a3{-} r.8 |
+        b3b{d}.4 a3.16 :8 g3 g3 a3 b3b |
+        d3.8 :4 d3 d3{-} r.8 |
+        d3.4 d3.8 e3.4 e3.8 |
+        :4 f3{d} f3{-} r.8 |
+        :4 d3{d} g3 b3b.8 |
+        :4 e3{d} r f3.8 |
+        f3{d}.2 | f3{d -}.2 | f3{d -}.2 | r.2{d} |
+
+        \\track "Piano Upper 1"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\ts 6 8 e5{d}.8 f5.16 c6.8 (f5{d} a5{d}).4 |
+        \\clef bass c3{d}.8 f3.16 g3.8 d3{d}.4 |
+        \\clef treble e5{d}.8 f5.16 g5.8 :16 (c6 f5) (a5 d5) :8 (a5{-} d5{-}) (f5 b4b) |
+        :16 (c6 f5) (a5 d5) :8 (a5{-} d5{-}) (f5 b4b) (g5{d} c5{d} g4{d}).4 |
+        a4{d}.8 g4.16 f4.8 :16 e4 f4 :8 f4{-} c4 |
+        d4.8 e4.16 f4.8 (c4 f3).4 :16 f4 g4 |
+        :16 a4 f4 :8 f4{-} f5 :16 a5 f5 :8 f5{-} f4 |
+        b4b{d}.8 c5.16 d5.8 g4.4 r.8 |
+        r.8 :16 (a4 f4) (b4b g4) :8 (c5 a4) (b4b{d} g4{d}) (c5 a4).16 (d5 b4b).8 |
+        (e5 g4).4 (c5 e4).8 (b4b{d} d4{d}).4 |
+        r.8 :16 (f6 a5) (b5b d6) :8 (f6 a5) (e6 g5) (c6 f5) (f5 e5) |
+        :8 b4b a4 f4 g4.4 r.8 |
+        (d5{d} b4b{d}).8 (c5 a4).16 (b4b g4).8 (c5{d} f4{d}).4 |
+        (b4b{d} d4{d}).8 (a4 c4).16 :8 (g4 b3b) (g4 b3b) (a4 c4).4 |
+        r.8 :16 d6 c6 b5b a5 g5{d}.8 f5.16 g5.8 |
+        a5.8 :16 g5 f5 e5 d5{d}.4 |
+        :4 (b5b{d} f5{d} c5{d}) (f5{d} e5{d} c5{d}) |
+        r.8 :16 c5 b4b a4 g4 f4{d}.4 |
+        :8 (d6 f5) (b5b d5) (d6 f5) (f6{d} b5b{d}).4 |
+        :8 (c6 f5) (a5 c5) (c6 f5) (f6{d} f5{d}).4 |
+        :8 (f5 b4b) (d5 f4) (f5 b4b) (b5b d5) (f5 b4b) (d5 f4) |
+        :8 (c5 f4) (a4 c4) (c5 f4) (f5{d} g4{d}).4 |
+        d6{d}.8 :16 c6 b5b a5 g5{d}.8 f5.16 g5.8 |
+        a5{d}.8 :16 g5 f5 e5 d5{d}.4 |
+        :4 (f4{d} c4{d}) (f4 e4) c5.8 |
+        f5{d}.8 g5.16 a5.8 :16 b5b a5 :8 a5{-} g5 |
+        c6{d}.8 b5b.16 a5.8 g5.4 (c6 c5).8 |
+        (f6 f5).8 :16 c6 b5b :8 c6{-} (d6 d5) :16 b5b a5 b5b{-}.8 |
+        :8 (c6 c5) (a5 a4) (f5 f4) (g5 c5 g4).4 r.8 |
+        :8 r (c6 f5) (a5 c5) (g5{d} b4b{d}).4 |
+        :8 r (g5 c5) (e5 g4) (c5{d} b4b{d} f4{d}).4 |
+        :4 (f6{d} b5b{d} f5{d}) (e6{d} a5{d} e5{d}) |
+        :4 (d6{d} f5{d} d5{d}) (c6{d} f5{d} c5{d}) |
+        (d6 f5).4 (c6 e5).8 (b5b d5).4 (f5 e5).8 |
+        (c6 f5).4 (b5b d5).8 (a5{d} c5{d}).4 |
+        :4 (f4{d} e4{d}) (e4{d} d4{d}) |
+
+        \\track "Piano Upper 2"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
+        \\ts 6 8 d5{d}.8 c5.16 a4.8 b4b{d}.4 |
+        \\clef bass :4 d3{d} c3{d} |
+        \\clef treble d5{d}.8 c5.16 a4.8 :16 g4 b4b :8 b4b{-} d4 |
+        :16 g4 b4b :8 b4b{-} d4 (d4{d} e4{d}).4 |
+        :4 (f4{d} c4{d}) (c4{d} g3{d}) |
+        :4 (c4{d} f3{d}) r.4{d} |
+        :4 c4{d} c5{d} |
+        :4 c4{d} d4{d} |
+        r.2{d} | r.2{d} | r.2{d} |
+        :4 c4{d} f4 r.8 |
+        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} |
+        r.2{d} | r.2{d} | r.2{d} | r.2{d} |
+
+        \\track "Piano Lower"
+        \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef bass
+        \\ts 6 8 r.2{d} |
+        :4 (f2{d} b1b{d}) (f2{d} b1b{d}) | r.2{d} | r.2{d} |
+        :4 (f3{d} b2b{d}) (a2{d} d2{d}) |
+        :4 (f2{d} b1b{d}) (a2{d} d2{d}) |
+        :4 (b3b{d} d3{d}) :4 (a4{d} e4{d}) |
+        \\clef treble :4 (b3b{d} d3{d}) (c4{d} e3{d}) |
+        \\clef bass :8 f2 c3 a3 f2 d3 b3b |
+        :8 f2 e3 f3 f2 d3 b3b |
+        \\clef treble :4 b4b{d} a4{d} |
+        \\clef bass :4 (b3b{d} d3{d}) (c4 e3) r.8 |
+        :8 b1b f2 d3 f2 c3 a3 |
+        :8 g2 d3 g3 a2 f3 a3 |
+        :8 d3 b3b d4 c3 c4 e4 |
+        :8 d3 a3 e4 f4{d}.4 |
+        \\clef treble :4 (b4b{d} d4{d}) (g4 c4) |
+        \\clef bass :8 f2 c3 g3 a3{d}.4 |
+        \\clef treble :8 b3b f4 c5 d5{d}.4 |
+        :8 a3 f4 g4 a4{d}.4 |
+        \\clef bass :8 d3 b3b d4 f4 d4 b3b |
+        :8 f2 c3 g3 a3{d}.4 |
+        :8 b2b f3 d4 c3 g3 e4 |
+        :8 d3 a3 e4 f4{d}.4 |
+        :4 (b3b{d} d3{d}) (g3 c3) r.8 |
+        :8 f3 c4 f4 f3 d4 f4 |
+        :8 f3 e4 f4 f3 d4 f4 |
+        \\clef treble :4 (d5{d} c5{d} f4{d}) (b4b{d} g4{d} d4{d}) |
+        \\clef bass :4 (d4{d} b3b{d} f3{d}) (b3b f3 c3) r.8 |
+        :8 f2 c3 a3 f2 d3 b3b |
+        :8 f2 e3 c4 f2 d3 b3b |
+        \\clef treble :4 (d5{d} c5{d} f4{d}) (c5{d} a4{d} e4{d}) |
+        :4 (b4b{d} g4{d} d4) (b4b{d} f4{d} d4{d} c4{d}) |
+        \\clef bass :8 b1b f2 d3 f3 d3 b2b |
+        :8 f2 c3 g3 a3{d}.4 |
+        :4 (b3b{d} d3{d}) (g3{d} c3{d}) |
+        
+        `, [8,9,10]);
 
         let updatedTrackIndexes = [];
         for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
