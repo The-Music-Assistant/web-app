@@ -38,10 +38,15 @@ class AlphaTabRunner {
 
         // AlphaTab API settings
         let settings = {
-            player: player,
-            cursor: true,
-            layout: "horizontal",
-            scrollElement: "#wrapper"
+            "player":{
+                "enablePlayer":true,
+                enableCursor: true,
+                soundFont: player,
+                scrollElement: "#wrapper"
+            },
+            "display": {
+                "layoutMode": "horizontal"
+            }
         };
 
         // Creates the AlphaTab API
@@ -141,18 +146,18 @@ class AlphaTabRunner {
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
         \\lyrics "Oo _ _ _ _ _ _ Oo _ _ _ _ _ _ Oo _ _ _ _ _ _ _ _"
         r.1 |
-        r.2 :4 d3 e3 |
-        g3{d}.2 :8 g3{-} a3 |
-        b3{d}.2 :8 b3{-} r |
-        \\ts 2 4 :4 b3 a3 |
-        \\ts 4 4 g3.1 |
-        :8 e3 d3 d3{- d}.2 :8 d3{-} r |
-        \\ts 2 4 :4 d3 e3 |
-        \\ts 4 4 g3{d}.2 :8 g3 a3 |
-        :2 b3 a3 |
-        g3.1 |
+        r.2 :4 d4 e4 |
+        g4{d}.2 :8 g4{-} a4 |
+        b4{d}.2 :8 b4{-} r |
+        \\ts 2 4 :4 b4 a4 |
+        \\ts 4 4 g4.1 |
+        :8 e4 d4 d4{-}.2 :8 d4{-} r |
+        \\ts 2 4 :4 d4 e4 |
+        \\ts 4 4 g4{d}.2 :8 g4 a4 |
+        :2 b4 a4 |
+        g4.1 |
         \\tempo 88
-        \\ts 4 4 :2 g3{-} r |
+        \\ts 4 4 :2 g4{-} r |
         
         \\track "Alto"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
@@ -192,7 +197,7 @@ class AlphaTabRunner {
         \\tempo 88
         \\ts 4 4 :2 d3 r |
         
-        \\track "Piano Upper"
+        \\track "Piano"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
         r.8 d6{d}.4 d6{-}.2 |
         r.8 d6{d}.4 d6{-}.2 |
@@ -207,8 +212,7 @@ class AlphaTabRunner {
         g5.4 :16 ab4 bb4 c5 eb5 :8{tu 3} f5 g5 ab5 :8{tu 3} bb5 c6 eb6 |
         \\tempo 88
         \\ts 12 8 (a5{d} b5{d} d6{d}).2 a4{d}.2 |
-        
-        \\track "Piano Upper 2"
+
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
         r.8 :16 g5 a5 :8 f#5 d5 d5{-}.2 |
         r.8 :16 g5 a5 :8 f#5 d5 d5{-}.2 |
@@ -224,7 +228,6 @@ class AlphaTabRunner {
         \\tempo 88
         \\ts 12 8 :8 g2 d3 g3 a3 b3 d4 a4 d4 b3 a3 g3 d3 |
         
-        \\track "Piano Lower"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks G
         :1 (d4 g4) |
         :1 (d4 g4) |
@@ -239,7 +242,7 @@ class AlphaTabRunner {
         :16 ab3 c4 eb4 g4 (ab3{- d} c4{- d} eb4{- d} g4{- d}).2 |
         \\tempo 88
         \\clef F4
-        \\ts 12 8 :1 g2{d} |`, [0,1,2,3,4,5,6]);
+        \\ts 12 8 :1 g2{d} |`, [0,1,2,3,4]);
 
         let updatedTrackIndexes = [];
         for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
