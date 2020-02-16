@@ -159,7 +159,7 @@ class AlphaTabRunner {
         b4{d}.2 :8 b4{-} r |
         \\ts 2 4 :4 b4 a4 |
         \\ts 4 4 g4.1 |
-        :8 e4 d4 d4{- d}.2 :8 d4{-} r |
+        :8 e4 d4 d4{-}.2 :8 d4{-} r |
         \\ts 2 4 :4 d4 e4 |
         \\ts 4 4 g4{d}.2 :8 g4 a4 |
         :2 b4 a4 |
@@ -345,7 +345,7 @@ class AlphaTabRunner {
         f4{d -}.2{dec} |
         f4{d -}.2{dec} |
         r.2{d} |
-        
+
         \\track "Soprano 2"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
         \\lyrics "When loud by land - side stream- lets gush, And clear in the green- wood quires the thrush, And songs in the shad- ows Comes a- gain to me, Comes a- gain to me _ The gift of the tongues of the lea _ Comes a- gain to me, Comes a- gain to me. Straight way my old - en heart re- turns And danc- es with the danc- ing burns; It sings _ _ with the spar- rows; Sings my heart a- loud, Sings my heart a- loud- To the sil- ver rain - y ar- rows. _ Sings my heart a- loud, Sings my heart a- loud.- It bears the song of the sky- lark down, And youth on the high- ways Fol- lows and sees; Fol- lows and sees: _ And heark- ens the song of the leas _ Fol- lows and sees, Fol - - lows and sees. So when the earth is a- live with gods, And the lus - ty plough- man breaks the sod And the grass sings _ in the mead- ows, Sits my heart at ease _ Sits _ my heart at ease, _ Hear- ing the song of the leas, _ Sing- ing the songs of the mead- ows. _ Sits my heart at ease, _ Sits _ my heart at ease. _ _"
@@ -918,7 +918,7 @@ class AlphaTabRunner {
         :4 e3{d} r f3.8 |
         \\tempo 40 f3{d}.2{dec} | f3{d -}.2{dec} | f3{d -}.2{dec} | r.2{d} |
 
-        \\track "Piano Upper 1"
+        \\track "Piano"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
         \\ts 6 8 e5{d}.8 f5.16 c6.8 (f5{d} a5{d}).4 |
         \\clef bass c3{d}.8 f3.16 g3.8 d3{d}.4 |
@@ -1018,7 +1018,6 @@ class AlphaTabRunner {
         (c5{d} f4{d}).2 |
         (c5{d -} f4{d -}).2 |
 
-        \\track "Piano Upper 2"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F
         \\ts 6 8 d5{d}.8 c5.16 a4.8 b4b{d}.4 |
         \\clef bass :4 d3{d} c3{d} |
@@ -1054,7 +1053,6 @@ class AlphaTabRunner {
         r.2{d dec} | r.2{d dec} | :4 b4b{d} c5{d} | c5{d}.2 |
         r.2{d} | r.2{d} | \\tempo 40 r.2{d} | r.2{d} | r.2{d} | r.2{d} |
 
-        \\track "Piano Lower"
         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks F \\clef bass
         \\ts 6 8 r.2{d} |
         :4 (f2{d} b1b{d}) (f2{d} b1b{d}) | r.2{d} | r.2{d} |
@@ -1151,8 +1149,7 @@ class AlphaTabRunner {
         :8 f3 e4 f4 f3 b3b f4 |
         (c4{d} a3{d} f3{d}).2 |
         (a3{d} f3{d} c3{d} f2{d} c2{d} f1{d}).2 |
-        
-        `, [4]);
+        `, [1,2]);
 
         let updatedTrackIndexes = [];
         for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
