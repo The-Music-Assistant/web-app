@@ -110,3 +110,28 @@ export const getPendingUsers = data => {
 export const joinChoir = data => {
     return axios.get("/member", data);
 };
+
+/**
+ * Gets a specific piece of sheet music receiving {
+ *  sheet_music: (Alpha-Tex-Encoding),
+ *  part_list: (Parts that a person can perform)
+ * }
+ * @param {Object} data
+ * @param {string} data.sheetMusicId - The sheet music id to retrieve
+ */
+export const getSpecificSheetMusic = data => {
+    return axios.get("/sheetMusic/specific", data);
+}
+
+/**
+ * Gets a specific part from a specific piece of sheet music receiving {
+ *  performance_expectation: (Array of pairs of numbers: midi_value, duration)
+ *  lower_upper: (2 valued array representing the lower and upper bound for the sheet music)
+ * }
+ * @param {Object} data 
+ * @param {string} data.sheetMusicId - The sheet music id to retrieve
+ * @param {string} data.partName - The name of the part to be retrieved
+ */
+export const getPartSheetMusic = data => {
+    return axios.get("/sheetMusic/part", data);
+}
