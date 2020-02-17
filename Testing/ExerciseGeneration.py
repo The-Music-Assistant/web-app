@@ -140,7 +140,7 @@ expectedNotes, numberOfMeasures = getExpectedNotes(track)
 noteIndex = 0
 measureErrors = []
 for i in range(numberOfMeasures - 1):
-    measureErrors.append([0,0,0, i]) #Duration, Pitch, Subsequent Bad
+    measureErrors.append([0,0,0, i, 0]) #Duration, Pitch, Subsequent Bad, Expected Duration
 
 for note in expectedNotes:
     expectedMIDI = note[0][0]
@@ -155,14 +155,21 @@ for note in expectedNotes:
     while ((expectedDuration - performedDuration) > 0.08 and noteIndex < len(performance)):
         performedNote = performance[noteIndex]
         noteIndex = noteIndex + 1
+        if ((performedDuration + performedNote[1]) > (expectedDuration + 0.08)):
+            performedDuration = expectedDuration + 0.08;
         performedDuration = performedDuration + performedNote[1]
         comparisonNotes.append(performedNote)
+        
         performedMIDI = performedMIDI + performedNote[0] * performedNote[1] #MIDI * duration; for avging later
         if performedNote[1] > longestComparisonNote[1]:
             longestComparisonNote = [performedNote[0], performedNote[1]]
     if performedDuration == 0:
         performedDuration = -1
     performedMIDI = performedMIDI / performedDuration #The Average MIDI over the time sung is the performed MIDI
+    while (performedDuration - 0.08 > expectedDuration):
+        performedDuration = performedDuration - performance[noteIndex][1] 
+        noteIndex = noteIndex - 1
+        
     
     #Assuming there might have been a minor error notes, we add all comparison notes with the same duration
     #To our comparison duration thingy
@@ -179,14 +186,18 @@ for note in expectedNotes:
     for measureIndex in note[1]:
         measureErrors[measureIndex][0] = measureErrors[measureIndex][0] + durationDifference
         measureErrors[measureIndex][1] = measureErrors[measureIndex][1] + pitchDifference
-
+        measureErrors[measureIndex][4] = measureErrors[measureIndex][4] + expectedDuration
+for i in range(numberOfMeasures - 1):
+    measureErrors[i][0] =  measureErrors[i][0] / measureErrors[i][4]
+    measureErrors[i][1] =  measureErrors[i][1] / measureErrors[i][4]
+    
 for i in range(numberOfMeasures - 1):
     for j in range(i, numberOfMeasures - 1):
         if measureErrors[j][1] < measureErrors[i][1]:
             break
         measureErrors[i][2] = j - i
         
-measureErrors.sort(reverse = True)
+#measureErrors.sort(reverse = True)
 for i in range(numberOfMeasures - 1):
-    print("{0}: {1:.2f}, {2:.2f}, {3}".format(measureErrors[i][3], measureErrors[i][0], measureErrors[i][1], measureErrors[i][2]))
+    print("{0:2d}: {1:6.2f}, {2:6.2f}, {3:2d}".format(measureErrors[i][3], measureErrors[i][0], measureErrors[i][1], measureErrors[i][2]))
     
