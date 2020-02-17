@@ -84,7 +84,7 @@ class PitchDetection {
                     console.log(`[error][PitchDetection] ${err}`);
                     this.displayMidi(0);
                 });
-        }, 100);
+        }, 1);
     }
 
     /**

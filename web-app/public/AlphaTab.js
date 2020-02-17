@@ -1,5 +1,5 @@
 /*
- * alphaTab v0.9.6.289 (develop)
+ * alphaTab v0.9.6.294 (develop)
  *
  * Copyright © 2020, Daniel Kuschny and Contributors, All rights reserved.
  * 
@@ -13911,12 +13911,13 @@
         }
         , bars: function () {
             this.bar();
-            while (this._sy != 1) {
-                if (this._sy != 11) {
-                    this.error("bar", 11, true);
-                }
+            while (this._sy != 1) if (this._sy == 11) {
                 this.newSy();
                 this.bar();
+            } else if (this._sy == 12) {
+                this.bar();
+            } else {
+                break;
             }
         }
         , trackStaffMeta: function () {
@@ -13994,7 +13995,9 @@
             }
             this.barMeta(bar);
             var voice = bar.voices[0];
-            while (this._sy != 11 && this._sy != 1) this.beat(voice);
+            while (this._sy != 11 && this._sy != 1) if (!this.beat(voice)) {
+                break;
+            }
             if (voice.beats.length == 0) {
                 var emptyBeat = new alphaTab.model.Beat();
                 emptyBeat.isEmpty = true;
@@ -14021,15 +14024,21 @@
             if (this._sy == 7) {
                 this.newSy();
                 this.note(beat);
-                while (this._sy != 8 && this._sy != 1) this.note(beat);
+                while (this._sy != 8 && this._sy != 1) if (!this.note(beat)) {
+                    break;
+                }
                 if (this._sy != 8) {
                     this.error("note-list", 8, true);
                 }
                 this.newSy();
             } else if (this._sy == 5 && Std.string(this._syData).toLowerCase() == "r") {
                 this.newSy();
-            } else {
-                this.note(beat);
+            } else if (!this.note(beat)) {
+                var index = voice.beats.length - 1;
+                if (index != -1) {
+                    voice.beats.splice(index, 1);
+                }
+                return false;
             }
             if (this._sy == 4) {
                 this._allowNegatives = true;
@@ -14062,6 +14071,7 @@
                 voice.addBeat(beat.clone());
                 ++i;
             }
+            return true;
         }
         , beatDuration: function () {
             if (this._sy != 3) {
@@ -14390,7 +14400,7 @@
                     tone = tuning.noteValue;
                     break;
                 default:
-                    this.error("note-fret", 2, true);
+                    return false;
             }
             this.newSy();
             var isFretted = octave == -1 && this._currentStaff.tuning.length > 0;
@@ -14424,6 +14434,7 @@
             }
             beat.addNote(note);
             this.noteEffects(note);
+            return true;
         }
         , noteEffects: function (note) {
             if (this._sy != 9) {
@@ -24752,52 +24763,11 @@
         }
         return b;
     };
-    system.Convert = function () {
-    };
-    system.Convert.__name__ = ["system", "Convert"];
-    system.Convert.toInt8 = function (v) {
-        system.Convert._int32Buffer[0] = v;
-        return system.Convert._int8Buffer[0];
-    };
-    system.Convert.toUInt8 = function (v) {
-        system.Convert._int32Buffer[0] = v;
-        return system.Convert._uint8Buffer[0];
-    };
-    system.Convert.toInt16 = function (v) {
-        system.Convert._int32Buffer[0] = v;
-        return system.Convert._int16Buffer[0];
-    };
-    system.Convert.toUInt16 = function (v) {
-        system.Convert._int32Buffer[0] = v;
-        return system.Convert._uint16Buffer[0];
-    };
-    system.Convert.toUInt32 = function (v) {
-        system.Convert._int32Buffer[0] = v;
-        return system.Convert._uint32Buffer[0];
-    };
-    system.Convert.toInt32 = function (v) {
-        system.Convert._uint32Buffer[0] = v;
-        return system.Convert._int32Buffer[0];
-    };
-    system.Convert.toInt32_Double = function (v) {
-        if (v >= 0) {
-            if (v < 2147483647.5) {
-                return v | 0;
-            }
-        } else if (v >= -2147483648.5) {
-            return v | 0;
-        }
-        return v | 0;
-    };
-    system.Convert.toInt32_Single = function (v) {
-        var this1 = v;
-        return system.Convert.toInt32_Double(this1);
-    };
     alphaTab.model.TupletGroup = $hx_exports["alphaTab"]["model"]["TupletGroup"] = function (voice) {
+        this._isEqualLengthTuplet = true;
+        this._totalDuration = 0;
         this.beats = null;
         this.voice = null;
-        this.tupletStart = 0;
-        this.tupletEnd = 0;
         this.isFull = false;
         this.voice = voice;
         var this1 = [];
@@ -24807,21 +24777,35 @@
     alphaTab.model.TupletGroup.prototype = {
         check: function (beat) {
             if (this.beats.length == 0) {
-                this.tupletStart = beat.get_absolutePlaybackStart();
-                var beatDuration = beat.playbackDuration;
-                if (beat.graceType == 0) {
-                    beatDuration = alphaTab.audio.MidiUtils.removeTuplet(beatDuration, beat.tupletNumerator, beat.tupletDenominator);
-                }
-                this.tupletEnd = this.tupletStart + beatDuration * beat.tupletDenominator;
-            } else if (beat.graceType != 0) {
+                this.beats.push(beat);
+                this._totalDuration = this._totalDuration + beat.playbackDuration;
                 return true;
-            } else if (beat.voice != this.voice || this.isFull || beat.tupletNumerator != this.beats[0].tupletNumerator || beat.tupletDenominator != this.beats[0].tupletDenominator || beat.get_absolutePlaybackStart() > this.tupletEnd) {
+            }
+            if (beat.graceType != 0) {
+                return true;
+            }
+            if (beat.voice != this.voice || this.isFull || beat.tupletNumerator != this.beats[0].tupletNumerator || beat.tupletDenominator != this.beats[0].tupletDenominator) {
                 return false;
             }
+            if (beat.playbackDuration != this.beats[0].playbackDuration) {
+                this._isEqualLengthTuplet = false;
+            }
             this.beats.push(beat);
-            var beatEnd = beat.get_absolutePlaybackStart() + beat.playbackDuration;
-            if (this.tupletEnd < beatEnd + alphaTab.model.TupletGroup.FullThreshold) {
-                this.isFull = true;
+            this._totalDuration = this._totalDuration + beat.playbackDuration;
+            if (this._isEqualLengthTuplet) {
+                if (this.beats.length == this.beats[0].tupletNumerator) {
+                    this.isFull = true;
+                }
+            } else {
+                var factor = this.beats[0].tupletNumerator / this.beats[0].tupletDenominator | 0;
+                var potentialMatch = new system.Int32ArrayIterator(alphaTab.model.TupletGroup.AllTicks);
+                while (potentialMatch.hasNext()) {
+                    var potentialMatch1 = potentialMatch.next();
+                    if (this._totalDuration == potentialMatch1 * factor) {
+                        this.isFull = true;
+                        break;
+                    }
+                }
             }
             return true;
         }
@@ -25547,6 +25531,7 @@
             this._synth.postMessage({cmd: "alphaSynth." + "pause"});
         }
         , playPause: function () {
+            this._output.activate();
             this._synth.postMessage({cmd: "alphaSynth." + "playPause"});
         }
         , stop: function () {
@@ -37094,7 +37079,8 @@
                 _gthis._api.renderer.updateSettings(_gthis._api.settings);
                 var s = _gthis._contents;
                 if (!(s == null || s.length == 0)) {
-                    _gthis._api.tex(_gthis._contents, null);
+                    _gthis._api.tex(_gthis._contents, _gthis._initialTrackIndexes);
+                    _gthis._initialTrackIndexes = null;
                 } else {
                     var s1 = _gthis._file;
                     if (!(s1 == null || s1.length == 0)) {
@@ -37203,7 +37189,7 @@
                     } else {
                         value = alphaTab.platform.Platform.parseIntMinValue(Std.string(item));
                     }
-                    if (value >= 0) {
+                    if (value >= 0 || value == -1) {
                         tracks.push(value);
                     }
                     ++i;
@@ -39608,6 +39594,47 @@
     system.collections.generic.IEnumerable = function () {
     };
     system.collections.generic.IEnumerable.__name__ = ["system", "collections", "generic", "IEnumerable"];
+    system.Convert = function () {
+    };
+    system.Convert.__name__ = ["system", "Convert"];
+    system.Convert.toInt8 = function (v) {
+        system.Convert._int32Buffer[0] = v;
+        return system.Convert._int8Buffer[0];
+    };
+    system.Convert.toUInt8 = function (v) {
+        system.Convert._int32Buffer[0] = v;
+        return system.Convert._uint8Buffer[0];
+    };
+    system.Convert.toInt16 = function (v) {
+        system.Convert._int32Buffer[0] = v;
+        return system.Convert._int16Buffer[0];
+    };
+    system.Convert.toUInt16 = function (v) {
+        system.Convert._int32Buffer[0] = v;
+        return system.Convert._uint16Buffer[0];
+    };
+    system.Convert.toUInt32 = function (v) {
+        system.Convert._int32Buffer[0] = v;
+        return system.Convert._uint32Buffer[0];
+    };
+    system.Convert.toInt32 = function (v) {
+        system.Convert._uint32Buffer[0] = v;
+        return system.Convert._int32Buffer[0];
+    };
+    system.Convert.toInt32_Double = function (v) {
+        if (v >= 0) {
+            if (v < 2147483647.5) {
+                return v | 0;
+            }
+        } else if (v >= -2147483648.5) {
+            return v | 0;
+        }
+        return v | 0;
+    };
+    system.Convert.toInt32_Single = function (v) {
+        var this1 = v;
+        return system.Convert.toInt32_Double(this1);
+    };
     system._CsString = {};
     system._CsString.CsString_Impl_ = {};
     system._CsString.CsString_Impl_.__name__ = ["system", "_CsString", "CsString_Impl_"];
@@ -40525,14 +40552,15 @@
     alphaTab.model._TripletFeel.TripletFeel_Impl_.Dotted8th = 4;
     alphaTab.model._TripletFeel.TripletFeel_Impl_.Scottish16th = 5;
     alphaTab.model._TripletFeel.TripletFeel_Impl_.Scottish8th = 6;
-    system.Convert._conversionBuffer = new ArrayBuffer(8);
-    system.Convert._int8Buffer = new Int8Array(system.Convert._conversionBuffer);
-    system.Convert._uint8Buffer = new Uint8Array(system.Convert._conversionBuffer);
-    system.Convert._int16Buffer = new Int16Array(system.Convert._conversionBuffer);
-    system.Convert._uint16Buffer = new Uint16Array(system.Convert._conversionBuffer);
-    system.Convert._int32Buffer = new Int32Array(system.Convert._conversionBuffer);
-    system.Convert._uint32Buffer = new Uint32Array(system.Convert._conversionBuffer);
-    alphaTab.model.TupletGroup.FullThreshold = alphaTab.audio.MidiUtils.toTicks(128);
+    alphaTab.model.TupletGroup.HalfTicks = 1920;
+    alphaTab.model.TupletGroup.QuarterTicks = 960;
+    alphaTab.model.TupletGroup.EighthTicks = 480;
+    alphaTab.model.TupletGroup.SixteenthTicks = 240;
+    alphaTab.model.TupletGroup.ThirtySecondTicks = 120;
+    alphaTab.model.TupletGroup.SixtyFourthTicks = 60;
+    alphaTab.model.TupletGroup.OneHundredTwentyEighthTicks = 30;
+    alphaTab.model.TupletGroup.TwoHundredFiftySixthTicks = 15;
+    alphaTab.model.TupletGroup.AllTicks = new Int32Array([1920, 960, 480, 240, 120, 60, 30, 15]);
     alphaTab.model._VibratoType.VibratoType_Impl_.None = 0;
     alphaTab.model._VibratoType.VibratoType_Impl_.Slight = 1;
     alphaTab.model._VibratoType.VibratoType_Impl_.Wide = 2;
@@ -40820,5 +40848,12 @@
     js.html.compat.Float32Array.BYTES_PER_ELEMENT = 4;
     js.html.compat.Float64Array.BYTES_PER_ELEMENT = 8;
     js.html.compat.Uint8Array.BYTES_PER_ELEMENT = 1;
+    system.Convert._conversionBuffer = new ArrayBuffer(8);
+    system.Convert._int8Buffer = new Int8Array(system.Convert._conversionBuffer);
+    system.Convert._uint8Buffer = new Uint8Array(system.Convert._conversionBuffer);
+    system.Convert._int16Buffer = new Int16Array(system.Convert._conversionBuffer);
+    system.Convert._uint16Buffer = new Uint16Array(system.Convert._conversionBuffer);
+    system.Convert._int32Buffer = new Int32Array(system.Convert._conversionBuffer);
+    system.Convert._uint32Buffer = new Uint32Array(system.Convert._conversionBuffer);
     alphaTab.Main.main();
 })(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this, typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
