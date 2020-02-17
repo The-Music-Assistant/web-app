@@ -50,7 +50,6 @@ const p5Sketch = p => {
      */
     p.setup = function(drawerGiven) {
         if (drawerGiven === undefined) {
-            p.noCanvas();
             p.noLoop();
             return;
         }
