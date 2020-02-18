@@ -150,7 +150,7 @@ class AuthCard extends Component {
         // 1 uppercase letter
         // 1 number (0-9)
         // 1 special character (!, @, #, $, %, ^, &, *, or -)
-        if (!trimmedPassword.match(/^(?=.*\d)(?=.*[!@#$%^&*-])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)) {
+        if (!trimmedPassword.match(/^(?=.*\d)(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)) {
             // If the password doesn't meet security requirements, show and alert and return false (not valid)
             this.props.showAlert(
                 alertBarTypes.ERROR,
