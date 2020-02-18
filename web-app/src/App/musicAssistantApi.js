@@ -124,7 +124,7 @@ export const joinChoir = data => {
 
 /**
  * Gets all sheet music for a choir receiving {
- *   sheet_music_id - Sheet music id for specific sheet music retrieval later
+ *   hex(sheet_music_id) - Hexed sheet music id for specific sheet music retrieval later
  *   title - title of sheet music
  *   composer_names - composer names
  * }
@@ -133,11 +133,11 @@ export const joinChoir = data => {
  */
 export const getSheetMusic = data => {
     return axios.request({
-        method: "GET",
-        url: "/sheet-music",
-        params: data
-    });
-};
+        method: 'GET',
+        url: `/sheet-music`,
+        params: data,
+      });
+}
 
 /**
  * Gets a specific piece of sheet music receiving {

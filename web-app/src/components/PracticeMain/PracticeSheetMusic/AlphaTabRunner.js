@@ -169,7 +169,6 @@ class AlphaTabRunner {
             console.log("error", error);
         });
 
-
     }
 }
 
