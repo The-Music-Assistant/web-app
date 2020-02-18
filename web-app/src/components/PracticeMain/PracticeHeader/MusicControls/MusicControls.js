@@ -42,6 +42,9 @@ class MusicControls extends Component {
      * Plays or pauses the music
      */
     playPauseButtonHandler = () => {
+        if (!AlphaTabRunner.texLoaded) {
+            return;
+        }
         // Updates state
         this.setState(prevState => ({
             isPlaying: !prevState.isPlaying
@@ -66,6 +69,9 @@ class MusicControls extends Component {
      * Stops the music
      */
     stopButtonHandler = () => {
+        if (!AlphaTabRunner.texLoaded) {
+            return;
+        }
         this.donePlaying();
 
         AlphaTabRunner.api.stop();

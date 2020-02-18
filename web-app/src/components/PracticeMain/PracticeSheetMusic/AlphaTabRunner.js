@@ -26,6 +26,7 @@ class AlphaTabRunner {
     drawer;
     noteList;
     p5Obj;
+    texLoaded;
 
     /**
      * Initializes the AlphaTab API
@@ -40,6 +41,7 @@ class AlphaTabRunner {
         this.noteStreamIndex = 0;
         this.cumulativeTime = 0;
         this.p5Obj = null;
+        this.texLoaded = false;
 
         // AlphaTab API settings
         let settings = {
@@ -158,6 +160,7 @@ class AlphaTabRunner {
                 this.noteStream = response.data.performance_expectation;
                 AlphaTabRunner.noteList = new NoteList(0);
                 AlphaTabRunner.noteList.updateBounds(response.data.lower_upper[0], response.data.lower_upper[1]);
+                AlphaTabRunner.texLoaded = true;
             }).catch((error) => {
                 console.log("error", error);
             })
