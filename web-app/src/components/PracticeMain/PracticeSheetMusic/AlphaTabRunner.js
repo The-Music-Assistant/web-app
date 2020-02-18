@@ -60,8 +60,6 @@ class AlphaTabRunner {
             settings
         );
 
-        this.loadTex();
-
         // Listener is executed when AlphaTab is rendered on the screen
         this.api.addPostRenderFinished(() => {
             this.alphaTabRenderFinished();
@@ -122,7 +120,7 @@ class AlphaTabRunner {
 
     static alphaTabPlayerStateChanged() {
         if (AlphaTabRunner.api.playerState !== 1) {
-            PitchDetection.stopPitchDetection(this.intervalID);
+            PitchDetection.stopPitchDetection(this.intervalID, "7B944DFD519011EAAEC302F168716C78");
         } else {
             // Runs the pitch detection model on microphone input and displays it on the screen
             // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready

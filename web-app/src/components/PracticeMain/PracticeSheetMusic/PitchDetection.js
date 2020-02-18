@@ -11,6 +11,7 @@ import ml5 from "ml5";
 
 // File imports
 import AlphaTabRunner from "./AlphaTabRunner";
+import { addPerformance } from "../../../App/musicAssistantApi";
 
 class PitchDetection {
     audioContext;
@@ -91,8 +92,12 @@ class PitchDetection {
      * Stops the detection of the pitch
      * @param {number} setIntervalID The id of the setInterval process to stop
      */
-    static stopPitchDetection(setIntervalID) {
+    static async stopPitchDetection(setIntervalID, sheetMusicId) {
         clearInterval(setIntervalID);
+        await addPerformance({
+            performanceData: AlphaTabRunner.noteList.performanceData,
+            sheetMusicId: sheetMusicId
+        });
     }
 
     /**

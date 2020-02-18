@@ -15,6 +15,7 @@ import PracticeSheetMusic from "./PracticeSheetMusic/PracticeSheetMusic";
 
 // Style imports
 import styles from "./PracticeMain.module.scss";
+import AlphaTabRunner from "./PracticeSheetMusic/AlphaTabRunner";
 
 class PracticeMain extends Component {
     state = {
@@ -41,6 +42,10 @@ class PracticeMain extends Component {
         //     }
         // ]
     };
+
+    componentDidMount() {
+        AlphaTabRunner.loadTex();
+    }
 
     // /**
     //  * Updates track list when a track is selected or deselected

@@ -176,8 +176,7 @@ export const getPartSheetMusic = data => {
 
 /**
  * Adds a performance for the current user for the provided sheet music
- * }
- * @param {object} data
+ * @param {Object} data 
  * @param {string} data.performanceData - The performance data to be added
  * @param {string} data.sheetMusicId - The sheet music id to add the performance to
  */
