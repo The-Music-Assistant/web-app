@@ -35,13 +35,12 @@ export const handleAuthStateChanges = () => {
     return dispatch => {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                dispatch(userAuthenticated());
-
                 // Sets the Axios auth header with the user's id token
                 firebase
                     .auth()
                     .currentUser.getIdToken()
                     .then(setAxiosAuthToken)
+                    .then(dispatch(userAuthenticated()))
                     .then(() => {
                         // A user must have a verified email before they can use the app
                         // The welcome page blocks the user until they verify their email
@@ -56,6 +55,8 @@ export const handleAuthStateChanges = () => {
                         console.log("[actions/auth/handleAuthStateChanges]", error);
                     });
             } else {
+                // Clears the old Axios auth header token if there is one
+                setAxiosAuthToken("");
                 dispatch(userNotAuthenticated());
             }
         });
