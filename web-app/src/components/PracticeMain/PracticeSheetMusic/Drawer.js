@@ -26,7 +26,16 @@ class Drawer {
         this.note = new Note(60);
         this.belowOrAbove = 0;
         this.noteHeight = 0;
+        this.baseOctave = 4;
         this.updateNote(this.note.midiVal);
+    }
+
+    setTopLineAndDistanceBetween(topLine, distanceBetweenLines, baseOctave) {
+        this.topLine = topLine;
+        this.distanceBetweenLines = distanceBetweenLines;
+        // stores the height of the lowest line of the staff being sung
+        this.firstLine = this.topLine + this.distanceBetweenLines * 6;
+        this.baseOctave = baseOctave;
     }
 
     /**
@@ -53,7 +62,7 @@ class Drawer {
         const heightMod = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
 
         // C4 is the starting note so subtract 4 to get base octave
-        let octaveMod = this.note.octave - 4;
+        let octaveMod = this.note.octave - this.baseOctave;
         let value = heightMod[this.note.midiVal % heightMod.length];
 
         // Includes bump to jump between octaves

@@ -93,19 +93,24 @@ const p5Sketch = p => {
                 previousPos[2] !== -1 &&
                 previousPos[3] !== -1
             ) {
-                let diff = Math.abs(
-                    lastPitchAndTime[0] - AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex]
-                );
-
-                // fill with green if really close
-                if (diff < 1) {
-                    p.stroke(0, 255, 0);
-                } else if (diff < 2) {
-                    // yellow if farther away
-                    p.stroke("#CCCC00");
-                } else {
-                    // and red if too far or singing when should be silent
+                if (AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex] === -1) {
+                    // singing should be silent
                     p.stroke(255, 0, 0);
+                } else {
+                    let diff = Math.abs(
+                        lastPitchAndTime[0] - AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex]
+                    );
+
+                    // fill with green if really close
+                    if (diff < 1) {
+                        p.stroke(0, 255, 0);
+                    } else if (diff < 2) {
+                        // yellow if farther away
+                        p.stroke("#CCCC00");
+                    } else {
+                        // and red if too far or singing when should be silent
+                        p.stroke(255, 0, 0);
+                    }
                 }
 
                 p.strokeWeight(3);
