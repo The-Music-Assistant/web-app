@@ -26,7 +26,8 @@ class MusicControls extends Component {
     state = {
         // trackSelectionIsActive: false
         isPlaying: false,
-        value: '?'
+        trackName: '?',
+        musicDisplayed: '?'
     };
 
     // /**
@@ -40,15 +41,20 @@ class MusicControls extends Component {
     // };
 
     trackSelectionButtonHandler = (event) => {
-        this.setState({ value: event.target.value });
+        this.setState({ trackName: event.target.value });
         AlphaTabRunner.changePart(event.target.value);
     };
+
+    musicSelectorHandler = (event) => {
+        this.setState({ musicDisplayed: event.target.value });
+        AlphaTabRunner.changeMusic(event.target.value);
+    }
 
     /**
      * Plays or pauses the music
      */
     playPauseButtonHandler = () => {
-        if (!AlphaTabRunner.texLoaded) {
+        if (AlphaTabRunner.texLoaded === null) {
             return;
         }
         // Updates state
@@ -75,7 +81,7 @@ class MusicControls extends Component {
      * Stops the music
      */
     stopButtonHandler = () => {
-        if (!AlphaTabRunner.texLoaded) {
+        if (AlphaTabRunner.texLoaded === null) {
             return;
         }
         this.donePlaying();
@@ -156,6 +162,11 @@ class MusicControls extends Component {
 
                 <select id="sheetMusicPart" onChange={this.trackSelectionButtonHandler}>
                     <option value="default">Waiting for sheet music</option>
+                </select>
+
+                <label htmlFor="texToDisplay">Choose music:</label>
+                <select id="texToDisplay" onChange={this.musicSelectorHandler}>
+                    <option value="default">Sheet Music</option>
                 </select> 
                 {/* <span className={styles.musicControlsDivider}></span>
 
