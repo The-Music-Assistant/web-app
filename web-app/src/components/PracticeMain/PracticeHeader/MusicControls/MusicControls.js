@@ -25,17 +25,23 @@ class MusicControls extends Component {
     // Component state
     state = {
         // trackSelectionIsActive: false
-        isPlaying: false
+        isPlaying: false,
+        value: '?'
     };
 
-    /**
-     * Switches flag for track selection dropdown menu
-     * If the menu is not showing, show it; otherwise, hide it
-     */
-    trackSelectionButtonHandler = () => {
-        this.setState(prevState => ({
-            trackSelectionIsActive: !prevState.trackSelectionIsActive
-        }));
+    // /**
+    //  * Switches flag for track selection dropdown menu
+    //  * If the menu is not showing, show it; otherwise, hide it
+    //  */
+    // trackSelectionButtonHandler = () => {
+    //     this.setState(prevState => ({
+    //         trackSelectionIsActive: !prevState.trackSelectionIsActive
+    //     }));
+    // };
+
+    trackSelectionButtonHandler = (event) => {
+        this.setState({ value: event.target.value });
+        AlphaTabRunner.changePart(event.target.value);
     };
 
     /**
@@ -146,14 +152,11 @@ class MusicControls extends Component {
                     <img src={stopButtonImg} alt='Stop Button' />
                 </button>
                 
-                <form action="">
-                    <label htmlFor="sheetMusicPart">Choose a part:</label>
+                <label htmlFor="sheetMusicPart">Choose a part:</label>
 
-                    <select id="sheetMusicPart">
-                        <option value="default">Waiting for sheet music</option>
-                    </select> 
-                </form>
-
+                <select id="sheetMusicPart" onChange={this.trackSelectionButtonHandler}>
+                    <option value="default">Waiting for sheet music</option>
+                </select> 
                 {/* <span className={styles.musicControlsDivider}></span>
 
                 <button

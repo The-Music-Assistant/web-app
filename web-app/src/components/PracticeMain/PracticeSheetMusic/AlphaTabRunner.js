@@ -137,12 +137,15 @@ class AlphaTabRunner {
         AlphaTabRunner.cumulativeTime = 0;
     }
 
-    static changePart() {
-        
-        // api.renderTracks([
-        //     api.score.tracks[2],
-        //     api.score.tracks[3]
-        // ]);
+    static changePart(value) {
+        let trackNumber = parseInt(value.substring(1), 10);
+        if (!AlphaTabRunner.currentTrackIndexes.includes(trackNumber)) {
+            // AlphaTabRunner.api.renderTracks([
+            //     AlphaTabRunner.api.tracks[trackNumber]
+            // ]);
+            // AlphaTabRunner.currentTrackIndexes = [trackNumber];
+            console.log(AlphaTabRunner.api.tracks)
+        }
     }
 
     static async loadTex () {
@@ -153,16 +156,17 @@ class AlphaTabRunner {
             let trackIndexArray = [0];
             let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
             for (let i = 0; i < response.data.part_list.length; i++) {
-                sheetMusicPartDropdown.options[i]=new Option(response.data.part_list[i], "track" + i, true, false)
+                sheetMusicPartDropdown.options[i]=new Option(response.data.part_list[i], "t" + i, true, false)
             }
             AlphaTabRunner.api.tex(response.data.sheet_music,trackIndexArray);
 
-            let updatedTrackIndexes = [];
-            for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
-                updatedTrackIndexes.push(i);
-            }
+            // let updatedTrackIndexes = [];
+            // for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
+            //     updatedTrackIndexes.push(i);
+            // }
 
-            AlphaTabRunner.currentTrackIndexes = updatedTrackIndexes;
+            // AlphaTabRunner.currentTrackIndexes = updatedTrackIndexes;
+            AlphaTabRunner.currentTrackIndexes = [0];
 
             data.partName = response.data.part_list[0];
             getPartSheetMusic(data).then((response) => {
