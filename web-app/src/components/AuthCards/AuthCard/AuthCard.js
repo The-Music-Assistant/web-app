@@ -171,6 +171,8 @@ class AuthCard extends Component {
      * @param {string} password - User's password
      */
     signInWithEmailPassword = (email, password) => {
+        this.props.setLoading(true);
+        
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
