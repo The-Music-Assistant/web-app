@@ -15,6 +15,7 @@ import Drawer from "./Drawer";
 import NoteList from "./NoteList";
 import p5Sketch from "./sketch";
 import { getSpecificSheetMusic, getPartSheetMusic } from "../../../App/musicAssistantApi";
+import TexLoaded from "./TexLoaded";
 
 
 /**
@@ -35,16 +36,11 @@ class AlphaTabRunner {
      * Displays the piece of music on the screen
      */
     static initializeAPI() {
-        // TODO: Pull from database on last loaded tracks
-        // Specifies what tracks to render on load
-        this.currentTrackIndexes = [];
-
-        this.noteStream = [-1, 4*(60/84), -1, 2*(60/84), 62, (60/84)*1, 64, (60/84)*1, 67, (60/84)*3.5, 69, (60/84)*(0.5), 71, (60/84)*3.5, -1, (60/84)*(0.5), 71, (60/84)*1, 69, (60/84)*1, 67, (60/84)*4, 64, (60/84)*(0.5), 62, (60/84)*4, -1, (60/84)*(0.5), 62, (60/84)*1, 64, (60/84)*1, 67, (60/84)*3, 67, (60/84)*(0.5), 69, (60/84)*(0.5), 71, (60/84)*2, 69, (60/84)*2, 68, ((60/84)*4 + (60/88)*2), -1, (60/88)*2];
+        this.noteStream = [-1,0];
         this.noteStreamIndex = 0;
         this.cumulativeTime = 0;
         this.p5Obj = null;
         this.texLoaded = null;
-        this.partNames = null;
         this.renderedOnce = false;
 
         // AlphaTab API settings
@@ -97,7 +93,8 @@ class AlphaTabRunner {
             // used to setup the canvas so the canvas needs to be directly on top of the alphaTab container where these are stored
             const topLineHeight = topLine.y.animVal.value;
             const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
-            AlphaTabRunner.drawer.setTopLineAndDistanceBetween(topLineHeight, distanceBetweenLines, 2);
+            console.log(AlphaTabRunner.texLoaded.getStartOctave())
+            AlphaTabRunner.drawer.setTopLineAndDistanceBetween(topLineHeight, distanceBetweenLines, AlphaTabRunner.texLoaded.getStartOctave());
             return;
         } else {
             this.renderedOnce = true;
@@ -137,7 +134,7 @@ class AlphaTabRunner {
 
     static alphaTabPlayerStateChanged() {
         if (AlphaTabRunner.api.playerState !== 1) {
-            PitchDetection.stopPitchDetection(this.intervalID, "7B944DFD519011EAAEC302F168716C78");
+            PitchDetection.stopPitchDetection(this.intervalID, "7CEEDD29533511EAAEC302F168716C78");
         } else {
             // Runs the pitch detection model on microphone input and displays it on the screen
             // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
@@ -154,21 +151,20 @@ class AlphaTabRunner {
 
     static changePart(value) {
         let trackNumber = parseInt(value.substring(1), 10);
-        if (!AlphaTabRunner.currentTrackIndexes.includes(trackNumber)) {
-            console.log(AlphaTabRunner.api.score.tracks)
+        if (!AlphaTabRunner.texLoaded.currentTrackIndexes.includes(trackNumber)) {
             AlphaTabRunner.api.renderTracks([
                 AlphaTabRunner.api.score.tracks[trackNumber]
             ]);
-            AlphaTabRunner.currentTrackIndexes = [trackNumber];
+            AlphaTabRunner.texLoaded.updateCurrentTrackIndexes(trackNumber);
 
             let data = {
-                sheetMusicId: "7B944DFD519011EAAEC302F168716C78",
-                partName: AlphaTabRunner.partNames[trackNumber]
+                sheetMusicId: "7CEEDD29533511EAAEC302F168716C78",
+                partName: AlphaTabRunner.texLoaded.partNames[trackNumber]
             };
             getPartSheetMusic(data).then((response) => {
                 AlphaTabRunner.noteStream = response.data.performance_expectation;
                 AlphaTabRunner.noteList.updateBounds(response.data.lower_upper[0], response.data.lower_upper[1]);
-                AlphaTabRunner.texLoaded = 'Sheet Music';
+                AlphaTabRunner.texLoaded.typeOfTex = 'Sheet Music';
             }).catch((error) => {
                 console.log("error", error);
             });
@@ -189,31 +185,24 @@ class AlphaTabRunner {
 
     static async loadTex () {
         let data = {
-            sheetMusicId: "7B944DFD519011EAAEC302F168716C78"
+            sheetMusicId: "7CEEDD29533511EAAEC302F168716C78"
         }
         getSpecificSheetMusic(data).then((response) => {
-            let trackIndexArray = [0];
+            AlphaTabRunner.texLoaded = new TexLoaded('Sheet Music', response.data.part_list, response.data.clefs)
+
             let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
             for (let i = 0; i < response.data.part_list.length; i++) {
                 sheetMusicPartDropdown.options[i]=new Option(response.data.part_list[i], "t" + i, true, false)
             }
-            AlphaTabRunner.api.tex(response.data.sheet_music,trackIndexArray);
 
-            // let updatedTrackIndexes = [];
-            // for (let i = 0; i < AlphaTabRunner.api.score.tracks.length; i++) {
-            //     updatedTrackIndexes.push(i);
-            // }
+            AlphaTabRunner.api.tex(response.data.sheet_music,AlphaTabRunner.texLoaded.currentTrackIndexes);
 
-            // AlphaTabRunner.currentTrackIndexes = updatedTrackIndexes;
-            AlphaTabRunner.currentTrackIndexes = [0];
-
-            AlphaTabRunner.partNames = response.data.part_list;
             data.partName = response.data.part_list[0];
             getPartSheetMusic(data).then((response) => {
                 AlphaTabRunner.noteStream = response.data.performance_expectation;
                 AlphaTabRunner.noteList = new NoteList(0);
                 AlphaTabRunner.noteList.updateBounds(response.data.lower_upper[0], response.data.lower_upper[1]);
-                AlphaTabRunner.texLoaded = 'Sheet Music';
+                AlphaTabRunner.texLoaded.typeOfTex = 'Sheet Music';
             }).catch((error) => {
                 console.log("error", error);
             })
