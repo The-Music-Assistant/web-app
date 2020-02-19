@@ -137,15 +137,24 @@ class AlphaTabRunner {
         AlphaTabRunner.cumulativeTime = 0;
     }
 
+    static changePart() {
+        
+        // api.renderTracks([
+        //     api.score.tracks[2],
+        //     api.score.tracks[3]
+        // ]);
+    }
+
     static async loadTex () {
         let data = {
             sheetMusicId: "7B944DFD519011EAAEC302F168716C78"
         }
         getSpecificSheetMusic(data).then((response) => {
             let trackIndexArray = [0];
-            // for (let i = 0; i < response.data.part_list.length; i++) {
-            //     trackIndexArray.push(i);
-            // }
+            let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
+            for (let i = 0; i < response.data.part_list.length; i++) {
+                sheetMusicPartDropdown.options[i]=new Option(response.data.part_list[i], "track" + i, true, false)
+            }
             AlphaTabRunner.api.tex(response.data.sheet_music,trackIndexArray);
 
             let updatedTrackIndexes = [];

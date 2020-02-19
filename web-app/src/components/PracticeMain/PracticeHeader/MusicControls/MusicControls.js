@@ -145,6 +145,14 @@ class MusicControls extends Component {
                     onClick={this.stopButtonHandler}>
                     <img src={stopButtonImg} alt='Stop Button' />
                 </button>
+                
+                <form action="">
+                    <label htmlFor="sheetMusicPart">Choose a part:</label>
+
+                    <select id="sheetMusicPart">
+                        <option value="default">Waiting for sheet music</option>
+                    </select> 
+                </form>
 
                 {/* <span className={styles.musicControlsDivider}></span>
 
