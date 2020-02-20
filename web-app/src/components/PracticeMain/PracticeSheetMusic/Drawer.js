@@ -7,6 +7,8 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+const LedgerLines = require('./LedgerLines.js');
+
 class Drawer {
     /**
      * Creates a new Drawer setting up storage of the most recent midi note and information about how to draw it on the screen
@@ -82,26 +84,46 @@ class Drawer {
             return;
         }
 
-        // similar to note height, there's a cycle between octaves for ledger lines
-        const aboveBelowMod = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4];
+        // // similar to note height, there's a cycle between octaves for ledger lines
+        // const aboveBelowMod = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4];
 
         // sets up base if ledger lines are even needed. base == 0 means no ledger lines
         // base < 0 means they go below the staff, base > 0 means they go above the staff
         // TODO: Ensure this works with Bass clef
         let base = 0;
-        if (this.note.midiVal >= this.upperLimit) {
-            base = this.upperLimit;
-        } else if (this.note.midiVal <= this.lowerLimit) {
-            base = -1 * this.lowerLimit;
+        let actualUpperLimit;
+        let actualLowerLimit;
+        if (this.baseOctave === 4) {
+            actualUpperLimit = this.upperLimit;
+            actualLowerLimit = this.lowerLimit;
+        } else {
+            actualUpperLimit = this.upperLimit2;
+            actualLowerLimit = this.lowerLimit2;
+        }
+        if (this.note.midiVal >= actualUpperLimit) {
+            base = 1;
+        } else if (this.note.midiVal <= actualLowerLimit) {
+            base = -1;
         }
 
         // If need ledger lines, then calculate how many are required
         if (base !== 0) {
-            let difference = Math.abs(Math.abs(base) - this.note.midiVal);
-            let loopAdd = 4 * Math.floor(difference / aboveBelowMod.length);
-            let modAmount = difference % aboveBelowMod.length;
-            modAmount = aboveBelowMod[modAmount];
-            this.belowOrAbove = loopAdd + modAmount;
+            // let difference = Math.abs(Math.abs(base) - this.note.midiVal);
+            // let loopAdd = 4 * Math.floor(difference / aboveBelowMod.length);
+            // let modAmount = difference % aboveBelowMod.length;
+            // modAmount = aboveBelowMod[modAmount];
+            // this.belowOrAbove = loopAdd + modAmount;
+            let direction;
+            let start;
+            if (base > 0) {
+                direction = "up";
+                start = this.baseOctave === 4 ? "a" : "c";
+            } else {
+                direction = "down";
+                start = this.baseOctave === 4 ? "c" : "e";
+            }
+
+            this.belowOrAbove = LedgerLines.getNumberOfLedgerLines(this.note.midiVal, direction, start);
 
             // Signals to draw ledger lines below staff
             if (base < 0) {
@@ -145,14 +167,6 @@ class Note {
     }
 
     /**
-     * Gets the octave of the current note
-     * @returns The octave of the current note
-     */
-    getOctave() {
-        return Math.floor(this.midiVal / 12) - 1;
-    }
-
-    /**
      * Converts the stored midi value to its character representation
      * @returns A tuple with the character part and the octave
      */
@@ -167,7 +181,7 @@ class Note {
         } else {
             const letters = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
             charPart = letters[this.midiVal % letters.length];
-            octave = this.getOctave(this.midiVal);
+            octave = LedgerLines.getOctave(this.midiVal);
         }
         return { charPart, octave };
     }
