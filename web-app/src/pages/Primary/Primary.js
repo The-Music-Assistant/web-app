@@ -15,6 +15,7 @@ import Header from "../../components/Header/Header";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import SideNav from "../../components/SideNav/SideNav";
 import PracticeMain from "../../components/PracticeMain/PracticeMain";
+import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
 import Footer from "../../components/Footer/Footer";
 
 // Image imports
@@ -119,7 +120,7 @@ class Primary extends Component {
                     isMobile={this.state.isMobile}
                 />
                 {mainNav}
-                <PracticeMain />
+                <ChoirSelection />
                 <Footer />
             </div>
         );

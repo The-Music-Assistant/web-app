@@ -6,7 +6,6 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
-import p5 from "p5";
 import AlphaTabRunner from "./AlphaTabRunner";
 
 /**
@@ -190,4 +189,4 @@ const p5Sketch = p => {
     };
 };
 
-export default new p5(p5Sketch);
+export default p5Sketch;

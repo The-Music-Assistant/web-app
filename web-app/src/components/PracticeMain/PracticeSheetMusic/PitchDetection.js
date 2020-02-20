@@ -10,7 +10,6 @@
 import ml5 from "ml5";
 
 // File imports
-import p5 from "./sketch";
 import AlphaTabRunner from "./AlphaTabRunner";
 
 class PitchDetection {
@@ -74,7 +73,7 @@ class PitchDetection {
         AlphaTabRunner.noteList.clear();
         // Run nested anonymous function every 1 ms
         return setInterval(() => {
-            p5.redraw();
+            AlphaTabRunner.p5Obj.redraw();
             // Gets the current pitch and sends it to displayMidi
             this.pitchDetectionModel
                 .getPitch()

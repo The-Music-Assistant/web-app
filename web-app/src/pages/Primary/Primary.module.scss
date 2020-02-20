@@ -9,6 +9,8 @@
 @import "../../root-styles/utilities.scss";
 
 .primary {
+    min-height: 100vh;
+    
     @include grid-container(
         $grid-template-rows: auto 1fr auto,
         $grid-template-columns: null,
@@ -27,5 +29,4 @@
             "side-nav practice-main"
             "foot foot";
     }
-    min-height: 100vh;
 }

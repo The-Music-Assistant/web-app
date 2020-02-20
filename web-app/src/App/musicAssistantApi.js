@@ -27,7 +27,6 @@ export const setAxiosAuthToken = authToken => {
  * @param {string} data.profilePictureUrl - The person's profile picture url
  */
 export const addUser = data => {
-    console.log(data);
     return axios.post("/person", data);
 };
 
@@ -59,7 +58,7 @@ export const addChoir = data => {
  * Gets the choirs that this user is a part of
  */
 export const getUsersChoirs = () => {
-    return axios.get("/chor");
+    return axios.get("/choir");
 };
 
 /**

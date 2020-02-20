@@ -10,9 +10,10 @@
 
 import player from "./default.sf2";
 import PitchDetection from "./PitchDetection";
-import p5 from "./sketch";
+import p5 from "p5";
 import Drawer from "./Drawer";
 import NoteList from "./NoteList";
+import p5Sketch from "./sketch";
 
 /**
  * Runs AlphaTab including initialization and keeping a Drawer and NoteList instance
@@ -22,6 +23,7 @@ class AlphaTabRunner {
     intervalID;
     drawer;
     noteList;
+    p5Obj;
 
     /**
      * Initializes the AlphaTab API
@@ -35,6 +37,7 @@ class AlphaTabRunner {
         this.noteStream = [-1, 4*(60/84), -1, 2*(60/84), 62, (60/84)*1, 64, (60/84)*1, 67, (60/84)*3.5, 69, (60/84)*(0.5), 71, (60/84)*3.5, -1, (60/84)*(0.5), 71, (60/84)*1, 69, (60/84)*1, 67, (60/84)*4, 64, (60/84)*(0.5), 62, (60/84)*4, -1, (60/84)*(0.5), 62, (60/84)*1, 64, (60/84)*1, 67, (60/84)*3, 67, (60/84)*(0.5), 69, (60/84)*(0.5), 71, (60/84)*2, 69, (60/84)*2, 68, ((60/84)*4 + (60/88)*2), -1, (60/88)*2];
         this.noteStreamIndex = 0;
         this.cumulativeTime = 0;
+        this.p5Obj = null;
 
         // AlphaTab API settings
         let settings = {
@@ -103,7 +106,8 @@ class AlphaTabRunner {
                 // TODO: Pull this from database
                 AlphaTabRunner.noteList.updateBounds(55, 82);
                 
-                p5.setup(AlphaTabRunner.drawer);
+                AlphaTabRunner.p5Obj = new p5(p5Sketch);
+                AlphaTabRunner.p5Obj.setup(AlphaTabRunner.drawer);
 
                 // Prepares for microphone input sets up the pitch detection model
                 PitchDetection.setupPitchDetection().then(() => {
@@ -119,7 +123,6 @@ class AlphaTabRunner {
     }
 
     static alphaTabPlayerStateChanged() {
-        console.log(AlphaTabRunner.noteStreamIndex, AlphaTabRunner.cumulativeTime = 0);
         if (AlphaTabRunner.api.playerState !== 1) {
             PitchDetection.stopPitchDetection(this.intervalID);
         } else {

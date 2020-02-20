@@ -1,0 +1,20 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/ChoirSelection/ChoirSelection.module.scss
+// Description: SCSS styles for the choir selection component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 2/19/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.choirSelection {
+    @include flex-container(
+        $direction: row,
+        $justify-content: space-between,
+        $align-items: center,
+        $wrap: wrap
+    );
+    
+    margin: 40px 20px;
+}
