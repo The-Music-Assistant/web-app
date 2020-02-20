@@ -1,7 +1,7 @@
 const HALF_STEP_CYCLE_UP_START_C = [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7];
 const HALF_STEP_CYCLE_UP_START_A = [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 7, 1, 1, 1];
 const HALF_STEP_CYCLE_DOWN_START_C = [1, 1, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1];
-const HALF_STEP_CYCLE_DOWN_START_E = [1, 1, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1];
+const HALF_STEP_CYCLE_DOWN_START_E = [2, 2, 1, 1, 1, 7, 7, 7, 7, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2];
 
 class LedgerLines {
     static getNumberOfLedgerLines(midi, direction, start) {
