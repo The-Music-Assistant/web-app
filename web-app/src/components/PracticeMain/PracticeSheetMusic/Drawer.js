@@ -108,11 +108,6 @@ class Drawer {
 
         // If need ledger lines, then calculate how many are required
         if (base !== 0) {
-            // let difference = Math.abs(Math.abs(base) - this.note.midiVal);
-            // let loopAdd = 4 * Math.floor(difference / aboveBelowMod.length);
-            // let modAmount = difference % aboveBelowMod.length;
-            // modAmount = aboveBelowMod[modAmount];
-            // this.belowOrAbove = loopAdd + modAmount;
             let direction;
             let start;
             if (base > 0) {
@@ -123,7 +118,10 @@ class Drawer {
                 start = this.baseOctave === 4 ? "c" : "e";
             }
 
-            this.belowOrAbove = LedgerLines.getNumberOfLedgerLines(this.note.midiVal, direction, start);
+            // LedgerLines loop every 24 notes so if more than 24 then add 7 octaves
+            let difference = Math.abs(Math.abs(base) - this.note.midiVal);
+            let loopAdd = 7 * Math.floor(difference / 24);
+            this.belowOrAbove = LedgerLines.getNumberOfLedgerLines(this.note.midiVal, direction, start) + loopAdd;
 
             // Signals to draw ledger lines below staff
             if (base < 0) {
