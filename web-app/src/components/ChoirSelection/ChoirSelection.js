@@ -8,9 +8,14 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import shortid from "shortid";
 
 // Component imports
 import ChoirCard from "./ChoirCard/ChoirCard";
+
+// Image imports
+import plusIcon from "../../assets/icons/plus-icon.svg";
+import questionIcon from "../../assets/icons/question-icon.svg";
 
 // File imports
 import { getUsersChoirs } from "../../App/musicAssistantApi";
@@ -32,16 +37,49 @@ class ChoirSelection extends Component {
     }
 
     createChoirComponents = () => {
-        return this.state.choirs.map(choir => {
+        const colors = ["secondaryBlue", "green", "primaryBlue", "orange", "tertiaryBlue", "red"];
+        let colorIndex = -1;
+        const components = this.state.choirs.map(choir => {
+            colorIndex ++;
+            if (colorIndex >= colors.length) {
+                colorIndex = 0;
+            }
+            
             return (
                 <ChoirCard
                     key={choir.choir_id}
                     headerImgSrc={choir.picture_url}
                     name={choir.choir_name}
                     description={choir.description}
+                    noDescription={false}
+                    cardColor={colors[colorIndex]}
                 />
             );
         });
+
+        components.push(
+            <ChoirCard
+                key={shortid.generate()}
+                headerImgSrc={plusIcon}
+                name='New Choir'
+                description={null}
+                noDescription={true}
+                cardColor="orange"
+            />
+        );
+
+        components.push(
+            <ChoirCard
+                key={shortid.generate()}
+                headerImgSrc={questionIcon}
+                name='View Pending Choir Requests'
+                description={null}
+                noDescription={true}
+                cardColor="tertiaryBlue"
+            />
+        );
+
+        return components;
     };
 
     render() {

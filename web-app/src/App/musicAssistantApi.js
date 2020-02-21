@@ -8,7 +8,7 @@
 
 import axios from "axios";
 
-axios.defaults.baseURL = "https://danielgriessler.com";
+axios.defaults.baseURL = "http://ec2-3-20-82-144.us-east-2.compute.amazonaws.com:2765";
 // axios.defaults.timeout = 3000;
 
 /**

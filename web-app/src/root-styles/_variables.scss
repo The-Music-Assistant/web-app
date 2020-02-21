@@ -23,5 +23,9 @@ $desktop-breakpoint: 1024px;
 $large-desktop-breakpoint: 1400px;
 
 $primary-box-shadow: 10px 10px 20px rgba($color: #898989, $alpha: 0.7);
-$green-box-shadow: 10px 10px 20px rgba($color: $green-color, $alpha: 1);
-$red-box-shadow: 10px 10px 20px rgba($color: $red-color, $alpha: 1);
+$primary-color-box-shadow: 10px 10px 20px rgba($color: $primary-color, $alpha: 1);
+$secondary-color-box-shadow: 10px 10px 20px rgba($color: $secondary-color, $alpha: 1);
+$tertiary-color-box-shadow: 10px 10px 20px rgba($color: $tertiary-color, $alpha: 1);
+$green-color-box-shadow: 10px 10px 20px rgba($color: $green-color, $alpha: 1);
+$orange-color-box-shadow: 10px 10px 20px rgba($color: $orange-color, $alpha: 1);
+$red-color-box-shadow: 10px 10px 20px rgba($color: $red-color, $alpha: 1);
