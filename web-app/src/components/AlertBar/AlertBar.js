@@ -25,15 +25,12 @@ class AlertBar extends Component {
 
     // Component state
     // transition indicates the current transition direction (up or down)
-    // timerIds holds the ids for all of alert bar animations
     state = {
-        transition: null,
-        timerIds: {
-            slideDownTimerId: null,
-            slideUpTimerId: null,
-            isDoneTimerId: null
-        }
+        transition: null
     };
+
+    // The ids for all of the alert bar animations
+    timerIds = {};
 
     /**
      * Creates timers for alert bar animations
@@ -56,15 +53,15 @@ class AlertBar extends Component {
         }, this.TRANSITION_TIME_MS * 2 + this.DISPLAY_TIME_MS);
 
         // Holds timer ids in state
-        this.setState({ timerIds: { slideDownTimerId, slideUpTimerId, isDoneTimerId } });
+        this.timerIds = { slideDownTimerId, slideUpTimerId, isDoneTimerId };
     }
 
     /**
      * Clears all timers
      */
     componentWillUnmount() {
-        for (const timerId in this.state.timerIds) {
-            clearTimeout(this.state.timerIds[timerId]);
+        for (const timerId in this.timerIds) {
+            clearTimeout(this.timerIds[timerId]);
         }
     }
 
@@ -73,8 +70,8 @@ class AlertBar extends Component {
      */
     closeButttonClickedHandler = () => {
         // Clears the necessary timer ids in order to override the slide up
-        clearTimeout(this.state.timerIds.slideUpTimerId);
-        clearTimeout(this.state.timerIds.isDoneTimerId);
+        clearTimeout(this.timerIds.slideUpTimerId);
+        clearTimeout(this.timerIds.isDoneTimerId);
 
         // Alert bar slides up
         this.setState({ transition: "up" });

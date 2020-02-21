@@ -13,7 +13,7 @@
     height: 250px;
     border-radius: 10px;
     box-shadow: $primary-box-shadow;
-    transition: box-shadow 0.2s ease-in;
+    transition: box-shadow 0.2s ease-in-out;
     cursor: pointer;
 
     &HeaderImg {
@@ -46,7 +46,7 @@
         margin: 20px 20px 0;
         display: -webkit-box;
         -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;  
+        -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
@@ -57,20 +57,17 @@
         margin: 20px 20px 0;
         display: -webkit-box;
         -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;  
+        -webkit-box-orient: vertical;
         overflow: hidden;
     }
 }
 
 .choirCardNoDescription {
-    width: 250px;
-    height: 250px;
-    border-radius: 10px;
-    box-shadow: $primary-box-shadow;
-    margin: 0 70px 50px 0;
-    transition: box-shadow 0.2s ease-in;
-    cursor: pointer;
-    @include grid-container($grid-template-rows: 80px auto, $grid-template-columns: 1fr, $align-items: center);
+    @include grid-container(
+        $grid-template-rows: 80px auto,
+        $grid-template-columns: 1fr,
+        $align-items: center
+    );
 
     &HeaderImg {
         display: block;
@@ -157,5 +154,3 @@
         background-color: darken($color: $red-color, $amount: 10%);
     }
 }
-
-

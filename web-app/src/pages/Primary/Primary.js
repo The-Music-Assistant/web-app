@@ -8,6 +8,7 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import AlertBar from "../../components/AlertBar/AlertBar";
 import shortid from "shortid";
 
 // Component imports
@@ -47,7 +48,8 @@ class Primary extends Component {
     // Component state
     state = {
         isMobile: window.innerWidth < 768,
-        showMobileNav: false
+        showMobileNav: false,
+        alertData: null
     };
 
     mainNavTabs = [];
@@ -101,6 +103,22 @@ class Primary extends Component {
     };
 
     /**
+     * Sets alertData in state when a new alert is triggered
+     */
+    showAlertHandler = (type, heading, message) => {
+        this.setState({
+            alertData: { type, heading, message }
+        });
+    };
+
+    /**
+     * Sets alertData to null in state when the alert is done
+     */
+    alertIsDoneHandler = () => {
+        this.setState({ alertData: null });
+    };
+
+    /**
      * Renders the Primary component
      */
     render() {
@@ -115,12 +133,20 @@ class Primary extends Component {
         // Returns the JSX to display
         return (
             <div className={styles.primary}>
+                {this.state.alertData ? (
+                    <AlertBar
+                        type={this.state.alertData.type}
+                        heading={this.state.alertData.heading}
+                        message={this.state.alertData.message}
+                        done={this.alertIsDoneHandler}
+                    />
+                ) : null}
                 <Header
                     hamburgerMenuClicked={this.handleShowHamburgerMenu}
                     isMobile={this.state.isMobile}
                 />
                 {mainNav}
-                <ChoirSelection />
+                <ChoirSelection showAlert={this.showAlertHandler} />
                 <Footer />
             </div>
         );

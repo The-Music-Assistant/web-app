@@ -84,19 +84,19 @@ class Auth extends Component {
     };
 
     /**
-     * Sets alertData to null in state when the alert is done
-     */
-    alertIsDoneHandler = () => {
-        this.setState({ alertData: null });
-    };
-
-    /**
      * Sets alertData in state when a new alert is triggered
      */
     showAlertHandler = (type, heading, message) => {
         this.setState({
             alertData: { type, heading, message }
         });
+    };
+
+    /**
+     * Sets alertData to null in state when the alert is done
+     */
+    alertIsDoneHandler = () => {
+        this.setState({ alertData: null });
     };
 
     /**

@@ -8,7 +8,7 @@
 
 import axios from "axios";
 
-axios.defaults.baseURL = "http://ec2-3-20-82-144.us-east-2.compute.amazonaws.com:2765";
+axios.defaults.baseURL = "https://server.music-assistant.com";
 // axios.defaults.timeout = 3000;
 
 /**
@@ -67,7 +67,11 @@ export const getUsersChoirs = () => {
  * @param {string} data.choirId - The choir ID retrieve
  */
 export const getChoir = data => {
-    return axios.get("/choir/specific", data);
+    return axios.request({
+        method: "GET",
+        url: "/choir/specific",
+        params: data
+    });
 };
 
 /**
@@ -107,7 +111,7 @@ export const getPendingUsers = data => {
  * @param {string} data.accessCode - The access code for the choir you are attempting to join
  */
 export const joinChoir = data => {
-    return axios.get("/member", data);
+    return axios.post("/member", data);
 };
 
 /**
@@ -119,18 +123,26 @@ export const joinChoir = data => {
  * @param {string} data.sheetMusicId - The sheet music id to retrieve
  */
 export const getSpecificSheetMusic = data => {
-    return axios.get("/sheetMusic/specific", data);
-}
+    return axios.request({
+        method: "GET",
+        url: "/sheetMusic/specific",
+        params: data
+    });
+};
 
 /**
  * Gets a specific part from a specific piece of sheet music receiving {
  *  performance_expectation: (Array of pairs of numbers: midi_value, duration)
  *  lower_upper: (2 valued array representing the lower and upper bound for the sheet music)
  * }
- * @param {Object} data 
+ * @param {Object} data
  * @param {string} data.sheetMusicId - The sheet music id to retrieve
  * @param {string} data.partName - The name of the part to be retrieved
  */
 export const getPartSheetMusic = data => {
-    return axios.get("/sheetMusic/part", data);
-}
+    return axios.request({
+        method: "GET",
+        url: "/sheetMusic/part",
+        params: data
+    });
+};
