@@ -87,9 +87,10 @@ const p5Sketch = p => {
         // The currently upcommented code draws over the first measure
         // Expand the use of the measurePositions to draw the rest of the measures, add watcher for scroller to automatically update for measureSeparator or otherwise just check for more that haven't been drawn
 
-        if (AlphaTabRunner.highlightMeasures) {
+        if (AlphaTabRunner && AlphaTabRunner.highlightMeasures) {
             if (state === STATE_SHEET_MUSIC) {
                 state = STATE_HIGHLIGHT;
+                p.clear();
             }
             let measurePositions = document.getElementById("aTS").getElementsByClassName("measureSeparator");
             p.fill(0, 255, 0);
@@ -140,21 +141,8 @@ const p5Sketch = p => {
                 }
             }
             return;
-        } else if (state === STATE_HIGHLIGHT) {
-            let pos1X = AlphaTabRunner.texLoaded.firstBarMeasurePosition.left;
-            let pos1Y = AlphaTabRunner.texLoaded.firstBarMeasurePosition.top + drawer.distanceBetweenLines;
-            let pos2X = canvas.width;
-            let height = canvas.height;
-            // fills with white
-            p.fill("#F8F8F8");
-
-            // draws clearing rectangle with total height of alpha tab from previous X position to the end
-            p.rect(
-                pos1X,
-                pos1Y,
-                pos2X - pos1X,
-                height
-            );
+        } else if (state === STATE_HIGHLIGHT) {          
+            p.clear();
             latestDrawnMeasure = -1;
             latestBase = 0;
             musicSections.length = 0;

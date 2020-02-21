@@ -7,7 +7,7 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
-const LedgerLines = require('./LedgerLines.js');
+import LedgerLines from "./LedgerLines";
 
 class Drawer {
     /**

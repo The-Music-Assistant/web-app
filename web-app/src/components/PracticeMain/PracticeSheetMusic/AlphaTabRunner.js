@@ -172,7 +172,7 @@ class AlphaTabRunner {
             AlphaTabRunner.texLoaded.updateCurrentTrackIndexes(trackNumber);
             
             AlphaTabRunner.api.renderTracks(
-                AlphaTabRunner.texLoaded.currentTrackIndexes
+                [AlphaTabRunner.api.score.tracks[AlphaTabRunner.texLoaded.currentTrackIndexes[0]]]
             );
 
             let data = {

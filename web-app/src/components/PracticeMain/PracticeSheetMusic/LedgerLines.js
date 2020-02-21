@@ -62,4 +62,4 @@ class LedgerLines {
     }
 }
 
-module.exports = LedgerLines;
+export default LedgerLines;
