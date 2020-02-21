@@ -167,7 +167,13 @@ class MusicControls extends Component {
                 <label htmlFor="texToDisplay">Choose music:</label>
                 <select id="texToDisplay" onChange={this.musicSelectorHandler}>
                     <option value="default">Sheet Music</option>
-                </select> 
+                </select>
+
+                {/* <div id="list1" className="dropdown-check-list" tabIndex="100">
+                    <span className="anchor">Track Not Muted:</span>
+                    <ul id="volumeTracks" className="items">
+                    </ul>
+                </div> */}
                 {/* <span className={styles.musicControlsDivider}></span>
 
                 <button

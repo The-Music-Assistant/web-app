@@ -101,9 +101,9 @@ class Drawer {
             actualLowerLimit = this.lowerLimit2;
         }
         if (this.note.midiVal >= actualUpperLimit) {
-            base = 1;
+            base = actualUpperLimit;
         } else if (this.note.midiVal <= actualLowerLimit) {
-            base = -1;
+            base = -1 * actualLowerLimit;
         }
 
         // If need ledger lines, then calculate how many are required

@@ -2,11 +2,13 @@ class TexLoaded {
     constructor(typeOfTex, partNames, clefs) {
         this.typeOfTex = typeOfTex;
         this.partNames = partNames;
+        this.mutedTracks = [];
         this.clefs = clefs;
         this.clefs.forEach((track) => {
             for (let i = 0; i < track.length; i++) {
                 track[i] = track[i].toLowerCase();
             }
+            this.mutedTracks.push(false);
         });
         this.currentTrackIndexes = [0];
     }
