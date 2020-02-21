@@ -27,7 +27,8 @@ class MusicControls extends Component {
         // trackSelectionIsActive: false
         isPlaying: false,
         trackName: '?',
-        musicDisplayed: '?'
+        musicDisplayed: '?',
+        generatingExercises: false
     };
 
     // /**
@@ -47,7 +48,16 @@ class MusicControls extends Component {
 
     musicSelectorHandler = (event) => {
         this.setState({ musicDisplayed: event.target.value });
+        if (event.target.value === "sheetMusic") {
+            this.setState({ generatingExercises: false });
+        } else if (event.target.value === "performance") {
+            this.setState({ generatingExercises: true });
+        }
         AlphaTabRunner.changeMusic(event.target.value);
+    }
+
+    generateExerciseHandler = () => {
+        console.log('exercises');
     }
 
     /**
@@ -126,19 +136,24 @@ class MusicControls extends Component {
             playPauseButtonAltText = "Pause Button";
         }
 
-        // let trackSelectionDropdownMenu = null;
-        // if (this.state.trackSelectionIsActive) {
-        //     trackSelectionDropdownMenu = (
-        //         <TrackSelectionDropdownMenu
-        //             trackList={this.props.trackList}
-        //             trackListSelectionChanged={this.props.trackListSelectionChanged}
-        //         />
-        //     );
-        // }
+        let generateExerciseAltText = "Generate Exercise";
 
-        // Returns the JSX to display
-        return (
-            <section className={styles.musicControls}>
+        let buttons = null;
+        if (this.state.generatingExercises) {
+            buttons = (
+                <button
+                    className={[
+                        styles.musicControlsButton,
+                        styles.musicControlsPlayPauseButton
+                    ].join(" ")}
+                    type='button'
+                    onClick={this.generateExerciseHandler}>
+                    <img id="generateExerciseBtn" src={playPauseButton} alt={generateExerciseAltText} />
+                </button>
+            );
+        } else {
+            buttons = (
+                <div>
                 <button
                     className={[
                         styles.musicControlsButton,
@@ -157,16 +172,63 @@ class MusicControls extends Component {
                     onClick={this.stopButtonHandler}>
                     <img src={stopButtonImg} alt='Stop Button' />
                 </button>
-                
+
                 <label htmlFor="sheetMusicPart">Choose a part:</label>
 
                 <select id="sheetMusicPart" onChange={this.trackSelectionButtonHandler}>
                     <option value="default">Waiting for sheet music</option>
                 </select>
+                </div>
+            );
+        }
+
+        // let trackSelectionDropdownMenu = null;
+        // if (this.state.trackSelectionIsActive) {
+        //     trackSelectionDropdownMenu = (
+        //         <TrackSelectionDropdownMenu
+        //             trackList={this.props.trackList}
+        //             trackListSelectionChanged={this.props.trackListSelectionChanged}
+        //         />
+        //     );
+        // }
+
+        // Returns the JSX to display
+        return (
+            <section className={styles.musicControls}>
+                {buttons}
+                {/* <button
+                    className={[
+                        styles.musicControlsButton,
+                        styles.musicControlsPlayPauseButton
+                    ].join(" ")}
+                    type='button'
+                    onClick={this.playPauseButtonHandler}>
+                    <img src={playPauseButton} alt={playPauseButtonAltText} />
+                </button>
+
+                <button
+                    className={[styles.musicControlsButton, styles.musicControlsStopButton].join(
+                        " "
+                    )}
+                    type='button'
+                    onClick={this.stopButtonHandler}>
+                    <img src={stopButtonImg} alt='Stop Button' />
+                </button>
+
+                <button
+                    className={[
+                        styles.musicControlsButton,
+                        styles.musicControlsPlayPauseButton
+                    ].join(" ")}
+                    type='button'
+                    onClick={this.generateExerciseHandler}>
+                    <img id="generateExerciseBtn" src={playPauseButton} alt={generateExerciseAltText} />
+                </button> */}
 
                 <label htmlFor="texToDisplay">Choose music:</label>
                 <select id="texToDisplay" onChange={this.musicSelectorHandler}>
-                    <option value="default">Sheet Music</option>
+                    <option value="sheetMusic">Sheet Music</option>
+                    <option value="performance">Performance</option>
                 </select>
 
                 {/* <div id="list1" className="dropdown-check-list" tabIndex="100">

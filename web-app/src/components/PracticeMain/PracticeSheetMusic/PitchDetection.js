@@ -88,6 +88,17 @@ class PitchDetection {
         }, 1);
     }
 
+    static startHighlighting() {
+        return setInterval(() => {
+            p5.redraw();
+        }, 1);
+    }
+
+    static stopHighlighting(setIntervalID) {
+        clearInterval(setIntervalID);
+        p5.redraw();
+    }
+
     /**
      * Stops the detection of the pitch
      * @param {number} setIntervalID The id of the setInterval process to stop

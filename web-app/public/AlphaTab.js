@@ -1607,6 +1607,13 @@
                 this.Buffer += Std.string(s);
             }
         }
+        , fillRectClass: function (x, y, w, h) {
+            if (w > 0) {
+                var s = "<rect class = measureSeparator" + " x=\"" + Std.string(system.Convert.toInt32_Single(x) - 0) + "\" y=\"" + Std.string(system.Convert.toInt32_Single(y) - 0) + "\" width=\"" + Std.string(w) + "\" height=\"" + Std.string(h) + "\" fill=\"" + this.get_color().rgba + "\" />\n";
+                this.rectIndex++;
+                this.Buffer += Std.string(s);
+            }
+        }
         , strokeRect: function (x, y, w, h) {
             var s = "<rect x=\"" + Std.string(system.Convert.toInt32_Single(x) - 0) + "\" y=\"" + Std.string(system.Convert.toInt32_Single(y) - 0) + "\" width=\"" + Std.string(w) + "\" height=\"" + Std.string(h) + "\" stroke=\"" + this.get_color().rgba + "\"";
             this.Buffer += Std.string(s);
@@ -29283,12 +29290,12 @@
             var left = system.Convert.toInt32_Single(cx + this.x);
             var h = bottom - top;
             if (this.renderer.get_isLast()) {
-                canvas.fillRect(left + this.width - blockWidth - blockWidth, top, this.get_scale(), h);
-                canvas.fillRect(left + this.width - blockWidth, top, blockWidth, h);
+                canvas.fillRectClass(left + this.width - blockWidth - blockWidth, top, this.get_scale(), h);
+                canvas.fillRectClass(left + this.width - blockWidth, top, blockWidth, h);
             } else if (this.renderer.get_nextRenderer() == null || this.renderer.get_nextRenderer().staff != this.renderer.staff || !this.renderer.get_nextRenderer().bar.get_masterBar().isRepeatStart) {
-                canvas.fillRect(left + this.width - this.get_scale(), top, this.get_scale(), h);
+                canvas.fillRectClass(left + this.width - this.get_scale(), top, this.get_scale(), h);
                 if (this.renderer.bar.get_masterBar().isDoubleBar) {
-                    canvas.fillRect(left + this.width - 5 * this.get_scale(), top, this.get_scale(), h);
+                    canvas.fillRectClass(left + this.width - 5 * this.get_scale(), top, this.get_scale(), h);
                 }
             }
         }

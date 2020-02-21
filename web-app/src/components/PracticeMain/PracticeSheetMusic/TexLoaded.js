@@ -11,6 +11,8 @@ class TexLoaded {
             this.mutedTracks.push(false);
         });
         this.currentTrackIndexes = [0];
+        this.firstBarMeasurePosition = null;
+        this.measurePositions = null;
     }
 
     getStartOctave() {
