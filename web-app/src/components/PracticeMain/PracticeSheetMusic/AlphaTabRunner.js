@@ -14,14 +14,18 @@ import p5 from "p5";
 import Drawer from "./Drawer";
 import NoteList from "./NoteList";
 import p5Sketch from "./sketch";
-import { getSpecificSheetMusic, getPartSheetMusic } from "../../../App/musicAssistantApi";
+import { getSpecificSheetMusic, getPartSheetMusic, getExercise } from "../../../App/musicAssistantApi";
 import TexLoaded from "./TexLoaded";
-
 
 /**
  * Runs AlphaTab including initialization and keeping a Drawer and NoteList instance
  */
 class AlphaTabRunner {
+    static HIGHLIGHT_OFF = 0;
+    static HIGHLIGHT_ON = 1;
+    static HIGHLIGHT_PENDING_START = 2;
+    static HIGHLIGHT_PENDING_STOP = 3;
+
     api;
     intervalID;
     drawer;
@@ -30,7 +34,8 @@ class AlphaTabRunner {
     texLoaded;
     partNames;
     renderedOnce;
-    highlightID;
+    isHighlighting;
+    highlightAck;
 
     /**
      * Initializes the AlphaTab API
@@ -43,6 +48,8 @@ class AlphaTabRunner {
         this.p5Obj = null;
         this.texLoaded = null;
         this.renderedOnce = false;
+        this.isHighlighting = false;
+        this.highlightAck = false;
 
         // AlphaTab API settings
         let settings = {
@@ -78,7 +85,7 @@ class AlphaTabRunner {
             this.alphaTabPlayerFinished();
         });
 
-        this.highlightMeasures = false;
+        this.highlightMeasures = AlphaTabRunner.HIGHLIGHT_OFF;
     }
 
     /**
@@ -104,6 +111,12 @@ class AlphaTabRunner {
                 width: parseInt(barCursor.style.width.substring(0,barCursor.style.left.length - 2), 10),
                 height: parseInt(barCursor.style.height.substring(0,barCursor.style.left.length - 2),10)
             };
+
+            if (AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_PENDING_START) {
+                this.startHighlighting();
+            } else if (AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_PENDING_STOP) {
+                this.stopHighlighting();
+            }
             return;
         } else {
             this.renderedOnce = true;
@@ -189,30 +202,72 @@ class AlphaTabRunner {
         }
     }
 
-    static changeMusic(value) {
+    static startHighlighting() {
+        AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_ON;
+        p5.loop();
+    }
+
+    static highlight() {
+        if (AlphaTabRunner.highlightMeasures && AlphaTabRunner.highlightAck) {
+            AlphaTabRunner.highlightAck = false;
+            PitchDetection.highlight();
+        }
+    }
+
+    static stopHighlighting() {
+        AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_OFF;
+        p5.noLoop();
+        p5.redraw();
+    }
+
+    static changeMusic(value, measureStart, measureEnd) {
         if (this.texLoaded === null || value === this.texLoaded) {
             return;
         } else {
             if (value === "sheetMusic") {
-                AlphaTabRunner.highlightMeasures = false;
-                PitchDetection.stopHighlighting(AlphaTabRunner.highlightID);
-                AlphaTabRunner.highlightID = null;
+                AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_STOP;
                 AlphaTabRunner.loadTex();
             } else if (value === "performance") {
-                AlphaTabRunner.highlightMeasures = true;
-                AlphaTabRunner.highlightID = PitchDetection.startHighlighting();
+                if (AlphaTabRunner.texLoaded.typeOfTex === 'Exercise') {
+                    AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_START;
+                    AlphaTabRunner.loadTex();
+                } else {
+                    this.startHighlighting();
+                }
+            } else if (value === "exercise" && measureStart && measureEnd) {
+                AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_STOP;
+                AlphaTabRunner.loadExercise(measureStart, measureEnd);
             } else {
-                console.log("Load exercise:", value);
+                console.log("not recognized: ", value);
             }
         }
+    }
+
+    static timeToMeasureNumber(currentPosition, currentMeasure, measureToLength) {
+        const EPSILON = 0.01;
+        let tempCurrentPosition = currentPosition;
+        let tempCurrentMeasure = currentMeasure;
+        while (tempCurrentPosition > EPSILON) {
+            tempCurrentPosition -= measureToLength[tempCurrentMeasure - 1];
+            tempCurrentMeasure++;
+        }
+        return tempCurrentMeasure;
     }
 
     static getPlaybackRange() {
         const measureToLength = AlphaTabRunner.texLoaded.measureLengths;
         let playbackMeasures = null;
         if (measureToLength !== null) { 
-            const EPSILON = 0.01;
             if (AlphaTabRunner.api.playbackRange !== null) {
+                // TODO: figure out how to switch if the endTick is less than the startTick
+                // let startTick = AlphaTabRunner.api.playbackRange.startTick;
+                // let endTick = AlphaTabRunner.api.playbackRange.endTick;
+                // if (endTick < startTick) {
+                //     let temp = startTick;
+                //     startTick = endTick;
+                //     endTick = temp;
+                // }
+
                 playbackMeasures = [];
                 let currentPosition = AlphaTabRunner.api.timePosition / 1000;
                 let comparePosition = currentPosition;
@@ -223,16 +278,11 @@ class AlphaTabRunner {
                 let ratio = AlphaTabRunner.api.tickPosition / comparePosition;
                 let targetEndTime = (AlphaTabRunner.api.playbackRange.endTick / ratio) - currentPosition;
                 let currentMeasure = 1;
-                while(currentPosition > EPSILON) {
-                    currentPosition -= measureToLength[currentMeasure - 1];
-                    currentMeasure++;
-                }
+                currentMeasure = this.timeToMeasureNumber(currentPosition, currentMeasure, measureToLength);
                 playbackMeasures.push(currentMeasure);
+
                 currentPosition = targetEndTime;
-                while(currentPosition > EPSILON) {
-                    currentPosition -= measureToLength[currentMeasure - 1];
-                    currentMeasure++;
-                }
+                currentMeasure = this.timeToMeasureNumber(currentPosition, currentMeasure, measureToLength);
                 playbackMeasures.push(currentMeasure - 1);
             }
         }
@@ -261,32 +311,90 @@ class AlphaTabRunner {
         
     // }
 
-    static async loadTex () {
-        let data = {
-            sheetMusicId: "5050284854B611EAAEC302F168716C78"
-        }
-        getSpecificSheetMusic(data).then((response) => {
-            AlphaTabRunner.texLoaded = new TexLoaded('Sheet Music', response.data.part_list, response.data.clefs)
+    static async loadExercise(measureStart, measureEnd) {
+        let texToDisplay = document.getElementById("texToDisplay");
+        texToDisplay.options[2]=new Option("Exercise", "exercise", false, true);
 
-            // TODO: Once track muting is fixed, uncomment to re add it
-            let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
-            // let trackVolume = document.getElementById("volumeTracks");
-            // const numberOfChildren = trackVolume.children.length;
-            // for (let i = 0; i < numberOfChildren; i++) {
-            //     trackVolume.removeChild(trackVolume.lastElementChild);
-            // }
-            for (let i = 0; i < response.data.part_list.length; i++) {
-                sheetMusicPartDropdown.options[i]=new Option(response.data.part_list[i], "t" + i, true, false);
+        let data = {
+            sheetMusicId: "5050284854B611EAAEC302F168716C78",
+            trackNumber: 1,
+            staffNumber: 1,
+            measureStart,
+            measureEnd,
+            isDurationExercise: false
+        }
+
+        getExercise(data).then((response) => {
+            AlphaTabRunner.texLoaded.update('Exercise', response.data.part_list, response.data.clefs, response.data.part);
+
+            AlphaTabRunner.api.tex(response.data.sheet_music, AlphaTabRunner.texLoaded.currentTrackIndexes);
+
+            this.updateDropdown(response.data.part_list);
+
+            AlphaTabRunner.noteStream = response.data.performance_expectation;
+            AlphaTabRunner.noteList.clear();
+            AlphaTabRunner.noteList.updateBounds(response.data.lower_upper[0], response.data.lower_upper[1]);
+            AlphaTabRunner.texLoaded.measureLengths = response.data.measure_lengths;
+        }).catch((error) => {
+            console.log("error_e", error);
+        });
+    }
+
+    static updateDropdown(partList) {
+        // TODO: Once track muting is fixed, uncomment to re add it
+        // let trackVolume = document.getElementById("volumeTracks");
+        // const numberOfChildren = trackVolume.children.length;
+        // for (let i = 0; i < numberOfChildren; i++) {
+        //     trackVolume.removeChild(trackVolume.lastElementChild);
+        // }
+        let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
+        if (sheetMusicPartDropdown) {
+            let i = 0;
+            for (; i < partList.length; i++) {
+                sheetMusicPartDropdown.options[i]=new Option(partList[i], "t" + i, false, false);
+
                 // const newTrackVolume = document.createElement('li');
                 // const x = document.createElement("INPUT");
                 // x.setAttribute("type", "checkbox");
                 // x.checked = true;
                 // newTrackVolume.appendChild(x);
-                // newTrackVolume.appendChild(document.createTextNode(response.data.part_list[i]));
+                // newTrackVolume.appendChild(document.createTextNode(partList[i]));
                 // newTrackVolume.onclick = function() {
                 //     AlphaTabRunner.changeTrackVolume(this.children[0].checked, this.innerText);
                 // };
                 // trackVolume.appendChild(newTrackVolume);
+            }
+            for (; i < sheetMusicPartDropdown.options.length; i++) {
+                sheetMusicPartDropdown.options[i] = null;
+            }
+        }
+    }
+
+    static async loadTex () {
+        let texToDisplay = document.getElementById("texToDisplay");
+        texToDisplay.options[2]=null;
+
+        let data = {
+            sheetMusicId: "5050284854B611EAAEC302F168716C78"
+        }
+        getSpecificSheetMusic(data).then((response) => {
+            let partList = response.data.part_list;
+            if (AlphaTabRunner.texLoaded === null) {
+                AlphaTabRunner.texLoaded = new TexLoaded('Sheet Music', partList, response.data.clefs, response.data.part);
+            } else {
+                AlphaTabRunner.texLoaded.update('Sheet Music', partList, response.data.clefs, response.data.part);
+            }
+            
+            this.updateDropdown(partList);
+
+            
+            for (let i = 0; i < partList.length; i++) {
+                if (partList[i] === AlphaTabRunner.texLoaded.myPart) {
+                    AlphaTabRunner.texLoaded.updateCurrentTrackIndexes(i);
+                    let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
+                    sheetMusicPartDropdown[i].selected = true;
+                    break;
+                }
             }
 
             AlphaTabRunner.api.tex(response.data.sheet_music,AlphaTabRunner.texLoaded.currentTrackIndexes);
@@ -300,12 +408,11 @@ class AlphaTabRunner {
                 AlphaTabRunner.texLoaded.typeOfTex = 'Sheet Music';
             }).catch((error) => {
                 console.log("error", error);
-            })
+            });
 
         }).catch((error) => {
             console.log("error", error);
         });
-
     }
 }
 

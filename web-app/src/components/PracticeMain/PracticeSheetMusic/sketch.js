@@ -87,13 +87,48 @@ const p5Sketch = p => {
         // The currently upcommented code draws over the first measure
         // Expand the use of the measurePositions to draw the rest of the measures, add watcher for scroller to automatically update for measureSeparator or otherwise just check for more that haven't been drawn
 
-        if (AlphaTabRunner && AlphaTabRunner.highlightMeasures) {
+        // TODO Fix the first measure highlighting
+        if (AlphaTabRunner && AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_ON) {
             if (state === STATE_SHEET_MUSIC) {
                 state = STATE_HIGHLIGHT;
                 p.clear();
             }
-            let measurePositions = document.getElementById("aTS").getElementsByClassName("measureSeparator");
+
+            const measurePositions = document.getElementById("aTS").getElementsByClassName("measureSeparator");
             p.fill(0, 255, 0);
+            let firstBarPos = AlphaTabRunner.texLoaded.firstBarMeasurePosition;
+            let cursorBarStyle = document.getElementsByClassName("at-cursor-bar")[0].style;
+            let compareBarPos = {
+                left: parseInt(cursorBarStyle.left.substring(0,cursorBarStyle.left.length - 2), 10),
+                top: parseInt(cursorBarStyle.top.substring(0,cursorBarStyle.left.length - 2), 10),
+                width: parseInt(cursorBarStyle.width.substring(0,cursorBarStyle.left.length - 2), 10),
+                height: parseInt(cursorBarStyle.height.substring(0,cursorBarStyle.left.length - 2),10)
+            };
+            if (!isNaN(compareBarPos.left) && !isNaN(compareBarPos.top) && !isNaN(compareBarPos.width) && !isNaN(compareBarPos.height)
+            && (firstBarPos.left !== compareBarPos.left || firstBarPos.top !== compareBarPos.top || firstBarPos.width !== compareBarPos.width || firstBarPos.height !== compareBarPos.height)) {
+                p.fill("#F8F8F8");
+
+                // draws clearing rectangle with total height of alpha tab from previous X position to the end
+                p.rect(
+                    0,
+                    measurePositions[0].y.baseVal.value,
+                    measurePositions[0].x.baseVal.value,
+                    drawer.distanceBetweenLines*4
+                );
+                AlphaTabRunner.texLoaded.firstBarMeasurePosition = {
+                    left: compareBarPos.left,
+                    top: compareBarPos.top,
+                    width: compareBarPos.width,
+                    height: compareBarPos.height
+                };
+
+                p.fill(0, 255, 0);
+                let firstBarPos = AlphaTabRunner.texLoaded.firstBarMeasurePosition;
+                let pos1X = firstBarPos.left;
+                let pos1Y = firstBarPos.top + drawer.distanceBetweenLines; 
+                let pos2X = measurePositions[0].x.baseVal.value;
+                p.rect(pos1X, pos1Y, pos2X-pos1X, drawer.distanceBetweenLines*4);
+            }
 
             if (latestDrawnMeasure === -1) {
                 // draws highlight on first measure
@@ -122,22 +157,26 @@ const p5Sketch = p => {
                 // draws height of later measures only drawing new measures
                 while (latestDrawnMeasure < measurePositions.length - 1) {
                     let pos1X = measurePositions[latestDrawnMeasure].x.baseVal.value + latestBase;
-                    let pos1Y = measurePositions[latestDrawnMeasure].y.baseVal.value; 
-                    latestDrawnMeasure++;
-                    if (!measurePositions[latestDrawnMeasure-1].parentNode.isSameNode(measurePositions[latestDrawnMeasure].parentNode)) {
-                        currentMusicSection.endMeasure = latestDrawnMeasure;
-                        const newSection = JSON.parse(JSON.stringify(currentMusicSection))
-                        musicSections.push(newSection);
-                        latestBase = latestBase + measurePositions[latestDrawnMeasure-1].x.baseVal.value + 1;
-                        currentMusicSection.startMeasure = latestDrawnMeasure;
-                        currentMusicSection.base = latestBase;
+                    let pos1Y = measurePositions[latestDrawnMeasure].y.baseVal.value;
+                    if (latestDrawnMeasure === 0 || pos1Y === measurePositions[latestDrawnMeasure-1].y.baseVal.value) {
+                        latestDrawnMeasure++; 
+                        if (!measurePositions[latestDrawnMeasure-1].parentNode.isSameNode(measurePositions[latestDrawnMeasure].parentNode)) {
+                            currentMusicSection.endMeasure = latestDrawnMeasure;
+                            const newSection = JSON.parse(JSON.stringify(currentMusicSection))
+                            musicSections.push(newSection);
+                            latestBase = latestBase + measurePositions[latestDrawnMeasure-1].x.baseVal.value + 1;
+                            currentMusicSection.startMeasure = latestDrawnMeasure;
+                            currentMusicSection.base = latestBase;
+                        }
+                        let dist = Math.abs(measurePositions[latestDrawnMeasure].x.baseVal.value + latestBase - pos1X);
+                        p.rect(pos1X, pos1Y, dist, drawer.distanceBetweenLines*4);
+                    } else {
+                        break;
                     }
-                    let dist = Math.abs(measurePositions[latestDrawnMeasure].x.baseVal.value + latestBase - pos1X);
-                    p.rect(pos1X, pos1Y, dist, drawer.distanceBetweenLines*4);   
                 }
             }
             return;
-        } else if (state === STATE_HIGHLIGHT) {          
+        } else if (state === STATE_HIGHLIGHT) {  
             p.clear();
             latestDrawnMeasure = -1;
             latestBase = 0;
@@ -145,7 +184,10 @@ const p5Sketch = p => {
             currentMusicSection = null;
             state = STATE_SHEET_MUSIC;
             return;
+        } else if (AlphaTabRunner.api && AlphaTabRunner.api.playerState !== 1) {
+            return;
         }
+
         // handles clearing ahead and drawing line behind the note head
         if (previousPos[0] !== -1 && previousPos[1] !== -1) {
             // fills with white

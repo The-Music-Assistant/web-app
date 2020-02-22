@@ -1,7 +1,8 @@
 class TexLoaded {
-    constructor(typeOfTex, partNames, clefs) {
+    constructor(typeOfTex, partNames, clefs, myPart) {
         this.typeOfTex = typeOfTex;
         this.partNames = partNames;
+        this.myPart = myPart;
         this.mutedTracks = [];
         this.clefs = clefs;
         this.clefs.forEach((track) => {
@@ -10,6 +11,17 @@ class TexLoaded {
             }
             this.mutedTracks.push(false);
         });
+        this.currentTrackIndexes = [0];
+        this.firstBarMeasurePosition = null;
+        this.measurePositions = null;
+        this.measureLengths = null;
+    }
+
+    update(typeOfTex, partNames, clefs, myPart) {
+        this.typeOfTex = typeOfTex;
+        this.partNames = partNames;
+        this.clefs = clefs;
+        this.myPart = myPart;
         this.currentTrackIndexes = [0];
         this.firstBarMeasurePosition = null;
         this.measurePositions = null;

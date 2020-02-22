@@ -36,6 +36,10 @@ export const addUser = data => {
     return axios.post("/person", data);
 };
 
+export const getUser = () => {
+    return axios.get("/person");
+};
+
 /**
  * Updates a user in the database
  * @param {object} data
@@ -144,6 +148,7 @@ export const getSheetMusic = data => {
  *  sheet_music: (Alpha-Tex-Encoding),
  *  part_list: (Parts that a person can perform)
  *  clefs: (Array with value for each track. Each track value is an array with clefs for each staff)
+ *  part: (The part that the person sings in the choir)
  * }
  * @param {object} data
  * @param {string} data.sheetMusicId - The sheet music id to retrieve
@@ -218,3 +223,39 @@ export const getUsersPerformancesForSheetMusic = data => {
         params: data
     });
 };
+
+/**
+ * Gets the alphaTex for an exercise receiving {
+ *  sheet_music: (alphaTex for the generated exercise or null if not possible)
+ *  part_list: (Parts that a person can perform)
+ *  clefs: (Array with value for each track. Each track value is an array with clefs for each staff)
+ *  performance_expectation: (Array of pairs of numbers: midi_value, duration)
+ *  lower_upper: (2 valued array representing the lower and upper bound for the sheet music)
+ *  measure_lengths: (one value per array representing length in seconds)
+ * }
+ * @param {Object} data 
+ * @param {string} data.sheetMusicId - The sheet music id from which to generate the exercise
+ * @param {number} data.trackNumber - The track number to access (note: this is +1 more than the track index for any array)
+ * @param {number} data.staffNumber - The staff number to access (note: this is +1 more than the staff index for any array)
+ * @param {number} data.measureStart - The measure number to start with
+ * @param {number} data.measureEnd - The measure number to end with
+ * @param {Boolean} data.isDurationExercise - If true, generates a duration exercise otherwise just a normal exercise
+ */
+export const getExercise = data => {
+    return axios.request({
+        method: 'GET',
+        url: `/exercise`,
+        params: data
+    });
+}
+
+/**
+ * Adds selected part to sheet music for given member receiving nothing
+ * @param {Object} data 
+ * @param {string} data.sheetMusicId - The sheet music id to which the part for the member is being added
+ * @param {string} data.part - The part from the sheet music that the member is selecting
+ * @param {string} data.memberId - The member who is selecting a part
+ */
+export const pickPartInSheetMusic = data => {
+    return axios.put('/sheet-music-part', data);
+}

@@ -29,8 +29,8 @@ class MusicControls extends Component {
         trackName: '?',
         musicDisplayed: '?',
         generatingExercises: false,
-        startMeasure: 0,
-        endMeasure: 0,
+        startMeasure: 1,
+        endMeasure: 1,
         measureSelectorOpen: false
     };
 
@@ -51,19 +51,57 @@ class MusicControls extends Component {
 
     musicSelectorHandler = (event) => {
         this.setState({ musicDisplayed: event.target.value });
-        if (event.target.value === "sheetMusic") {
+        if (event.target.value === "performance") {
+            this.setState({
+                generatingExercises: true,
+                startMeasure: 1,
+                endMeasure: 1,
+            });
+        } else {
             this.setState({ generatingExercises: false });
-        } else if (event.target.value === "performance") {
-            this.setState({ generatingExercises: true });
         }
         AlphaTabRunner.changeMusic(event.target.value);
     }
 
+    playbackMeasureHandler = () => {
+        if (this.state.measureSelectorOpen) {
+            setTimeout(() => {
+                let playbackMeasures = AlphaTabRunner.getPlaybackRange();
+                if (playbackMeasures !== null) {
+                    this.setState({
+                        startMeasure: playbackMeasures[0],
+                        endMeasure: playbackMeasures[1],
+                    });
+                }
+              }, 500);
+        }
+    }
+
+    measureSelectorHandler = (open) => {
+        if (open) {
+            this.setState({ measureSelectorOpen: true })
+            document.getElementById("aTS").addEventListener('mouseup', this.playbackMeasureHandler);
+        } else {
+            document.getElementById("aTS").removeEventListener('mouseup', this.playbackMeasureHandler);
+            this.setState({
+                measureSelectorOpen: false
+            });
+        }
+    }
+
     generateExerciseHandler = () => {
-        console.log('exercises');
-        this.setState(prevState => ({
-            measureSelectorOpen: !prevState.measureSelectorOpen
-        }));
+        if (!this.state.measureSelectorOpen) {
+            let playbackMeasures = AlphaTabRunner.getPlaybackRange();
+            if (playbackMeasures !== null) {
+                this.setState({
+                    startMeasure: playbackMeasures[0],
+                    endMeasure: playbackMeasures[1],
+                });
+            }
+            this.measureSelectorHandler(true);
+        } else {
+            this.measureSelectorHandler(false);
+        }
     }
 
     startMeasureHandler = (event) => {
@@ -76,7 +114,9 @@ class MusicControls extends Component {
 
     submitMeasuresHandler = (event) => {
         event.preventDefault();
-        console.log('start:', this.state.startMeasure, 'end:', this.state.endMeasure);
+        AlphaTabRunner.changeMusic('exercise', this.state.startMeasure, this.state.endMeasure);
+        this.measureSelectorHandler(false);
+        this.setState({ generatingExercises: false });
     }
 
 
@@ -201,21 +241,23 @@ class MusicControls extends Component {
                 </div>
             );
         }
-
-        let exerciseSelector = !this.state.measureSelectorOpen ? null : (
-            <form onSubmit={this.submitMeasuresHandler}>
-                <label>
-                    Start measure:
-                    <input type="number" placeholder="Enter Start Measure" onChange={this.startMeasureHandler} />
-                </label><br />
-                <label>
-                    End measure:
-                    <input type="number" placeholder="Enter End Measure" onChange={this.endMeasureHandler} />
-                </label>
-
-                <input type="submit" value="Submit" />
-            </form>
-        );
+        let exerciseSelector = null;
+        if (this.state.measureSelectorOpen) {
+            exerciseSelector = (
+                <form onSubmit={this.submitMeasuresHandler}>
+                    <label>
+                        Start measure:
+                        <input type="number" placeholder="Enter Start Measure" value={this.state.startMeasure} onChange={this.startMeasureHandler} />
+                    </label><br />
+                    <label>
+                        End measure:
+                        <input type="number" placeholder="Enter End Measure" value={this.state.endMeasure} onChange={this.endMeasureHandler} />
+                    </label>
+    
+                    <input type="submit" value="Submit" />
+                </form>
+            );
+        }
 
         // let trackSelectionDropdownMenu = null;
         // if (this.state.trackSelectionIsActive) {
