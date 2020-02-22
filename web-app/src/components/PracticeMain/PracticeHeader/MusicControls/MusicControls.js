@@ -28,7 +28,10 @@ class MusicControls extends Component {
         isPlaying: false,
         trackName: '?',
         musicDisplayed: '?',
-        generatingExercises: false
+        generatingExercises: false,
+        startMeasure: 0,
+        endMeasure: 0,
+        measureSelectorOpen: false
     };
 
     // /**
@@ -58,7 +61,24 @@ class MusicControls extends Component {
 
     generateExerciseHandler = () => {
         console.log('exercises');
+        this.setState(prevState => ({
+            measureSelectorOpen: !prevState.measureSelectorOpen
+        }));
     }
+
+    startMeasureHandler = (event) => {
+        this.setState({startMeasure: event.target.value});
+    }
+
+    endMeasureHandler = (event) => {
+        this.setState({ endMeasure: event.target.value});
+    }
+
+    submitMeasuresHandler = (event) => {
+        event.preventDefault();
+        console.log('start:', this.state.startMeasure, 'end:', this.state.endMeasure);
+    }
+
 
     /**
      * Plays or pauses the music
@@ -182,6 +202,21 @@ class MusicControls extends Component {
             );
         }
 
+        let exerciseSelector = !this.state.measureSelectorOpen ? null : (
+            <form onSubmit={this.submitMeasuresHandler}>
+                <label>
+                    Start measure:
+                    <input type="number" placeholder="Enter Start Measure" onChange={this.startMeasureHandler} />
+                </label><br />
+                <label>
+                    End measure:
+                    <input type="number" placeholder="Enter End Measure" onChange={this.endMeasureHandler} />
+                </label>
+
+                <input type="submit" value="Submit" />
+            </form>
+        );
+
         // let trackSelectionDropdownMenu = null;
         // if (this.state.trackSelectionIsActive) {
         //     trackSelectionDropdownMenu = (
@@ -252,6 +287,22 @@ class MusicControls extends Component {
                 </button> */}
 
                 {/* {trackSelectionDropdownMenu} */}
+
+                {/* <div className="form-popup" id="myForm">
+                    <form action="/action_page.php" className="form-container">
+                        <label htmlFor="startMeasure"><b>Start measure</b></label>
+                        <input type="number" placeholder="Enter Start Measure" name="startMeasure" required></input>
+
+                        <label htmlFor="endMeasure"><b>End measure</b></label>
+                        <input type="number" placeholder="Enter End Measure" name="endMeasure" required></input>
+
+                        <button type="submit" className="btn">Generate</button>
+                        <button type="button" className="btn cancel" onClick={this.generateExerciseHandler()}>Close</button>
+                    </form>
+                </div> */}
+
+                {exerciseSelector}
+
             </section>
         );
     }

@@ -95,10 +95,6 @@ const p5Sketch = p => {
             let measurePositions = document.getElementById("aTS").getElementsByClassName("measureSeparator");
             p.fill(0, 255, 0);
 
-            // use the ratio of tickposition to timeposition to get time bounds and convert to measure bounds for exercise selection
-            // console.log(AlphaTabRunner.api.playbackRange, AlphaTabRunner.api.tickPosition, AlphaTabRunner.api.timePosition)
-            // AlphaTabRunner.api.timePosition = 32086.56093388224790436982292545
-
             if (latestDrawnMeasure === -1) {
                 // draws highlight on first measure
                 let firstBarPos = AlphaTabRunner.texLoaded.firstBarMeasurePosition;

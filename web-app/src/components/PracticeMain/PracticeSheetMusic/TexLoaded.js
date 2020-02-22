@@ -13,6 +13,7 @@ class TexLoaded {
         this.currentTrackIndexes = [0];
         this.firstBarMeasurePosition = null;
         this.measurePositions = null;
+        this.measureLengths = null;
     }
 
     getStartOctave() {

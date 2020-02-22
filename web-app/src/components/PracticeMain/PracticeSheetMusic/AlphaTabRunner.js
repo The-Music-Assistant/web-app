@@ -207,6 +207,38 @@ class AlphaTabRunner {
         }
     }
 
+    static getPlaybackRange() {
+        const measureToLength = AlphaTabRunner.texLoaded.measureLengths;
+        let playbackMeasures = null;
+        if (measureToLength !== null) { 
+            const EPSILON = 0.01;
+            if (AlphaTabRunner.api.playbackRange !== null) {
+                playbackMeasures = [];
+                let currentPosition = AlphaTabRunner.api.timePosition / 1000;
+                let comparePosition = currentPosition;
+                if (currentPosition === 0) {
+                    AlphaTabRunner.api.timePosition = measureToLength[0];
+                    comparePosition = AlphaTabRunner.api.tickPosition;
+                }
+                let ratio = AlphaTabRunner.api.tickPosition / comparePosition;
+                let targetEndTime = (AlphaTabRunner.api.playbackRange.endTick / ratio) - currentPosition;
+                let currentMeasure = 1;
+                while(currentPosition > EPSILON) {
+                    currentPosition -= measureToLength[currentMeasure - 1];
+                    currentMeasure++;
+                }
+                playbackMeasures.push(currentMeasure);
+                currentPosition = targetEndTime;
+                while(currentPosition > EPSILON) {
+                    currentPosition -= measureToLength[currentMeasure - 1];
+                    currentMeasure++;
+                }
+                playbackMeasures.push(currentMeasure - 1);
+            }
+        }
+        return playbackMeasures;
+    }
+
     // static changeTrackVolume(isChecked, name) {
     //     if (AlphaTabRunner.texLoaded) {
     //         let partIndex = AlphaTabRunner.texLoaded.partNames.indexOf(name);
@@ -264,6 +296,7 @@ class AlphaTabRunner {
                 AlphaTabRunner.noteStream = response.data.performance_expectation;
                 AlphaTabRunner.noteList = new NoteList(0);
                 AlphaTabRunner.noteList.updateBounds(response.data.lower_upper[0], response.data.lower_upper[1]);
+                AlphaTabRunner.texLoaded.measureLengths = response.data.measure_lengths;
                 AlphaTabRunner.texLoaded.typeOfTex = 'Sheet Music';
             }).catch((error) => {
                 console.log("error", error);
