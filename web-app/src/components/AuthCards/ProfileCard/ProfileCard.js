@@ -154,7 +154,6 @@ class ProfileCard extends Component {
             // Modifies user data object to hold first name and last name
             const userData = { ...this.state.formData };
             delete userData.profilePicture;
-            userData.profilePictureUrl = profilePictureFileExtension;
 
             // Sends the user data to the AWS server
             await addUser(userData);

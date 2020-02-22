@@ -10,9 +10,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-// File imports
-import profilePic from "../../assets/images/profile-pic.jpeg";
-
 // Component imports
 import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
 import UserWidget from "./UserWidget/UserWidget";
@@ -24,7 +21,7 @@ import styles from "./Header.module.scss";
 class Header extends Component {
     // Component state
     state = {
-        profilePic: profilePic,
+        profilePic: null,
         name: "Dan Levy"
     };
 
