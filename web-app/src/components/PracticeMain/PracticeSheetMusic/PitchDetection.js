@@ -94,10 +94,15 @@ class PitchDetection {
      */
     static async stopPitchDetection(setIntervalID, sheetMusicId) {
         clearInterval(setIntervalID);
-        await addPerformance({
+        let performanceData = {
             performanceData: AlphaTabRunner.noteList.performanceData,
-            sheetMusicId: sheetMusicId
-        });
+            sheetMusicId,
+            exerciseId: null
+        }
+        if (AlphaTabRunner.texLoaded.typeOfTex === "Exercise" && AlphaTabRunner.texLoaded.id !== null) {
+            performanceData.exerciseId = AlphaTabRunner.texLoaded.id;
+        }
+        await addPerformance(performanceData);
     }
 
     /**

@@ -12,6 +12,8 @@ import React, { Component } from "react";
 // File imports
 import AlphaTabRunner from "../../PracticeSheetMusic/AlphaTabRunner";
 import PitchDetection from "../../PracticeSheetMusic/PitchDetection";
+import { userGetsFeedback } from "../../../../App/musicAssistantApi";
+
 
 // Image imports
 import playButtonImg from "../../../../assets/icons/play-icon-fa.svg";
@@ -31,7 +33,8 @@ class MusicControls extends Component {
         generatingExercises: false,
         startMeasure: 1,
         endMeasure: 1,
-        measureSelectorOpen: false
+        measureSelectorOpen: false,
+        getsFeedback: false
     };
 
     // /**
@@ -184,6 +187,22 @@ class MusicControls extends Component {
         });
     };
 
+    checkFeedback() {
+        const feedbackReadyId = setInterval(() => {
+            const data = {
+                sheetMusicId: "5050284854B611EAAEC302F168716C78"
+            }
+            userGetsFeedback(data).then((response) => {
+                clearInterval(feedbackReadyId);
+                if ((response.data["gets_feedback"] && !this.state.getsFeedback) || (!response.data["gets_feedback"] && this.state.getsFeedback)) {
+                    this.setState({ getsFeedback: response.data["gets_feedback"] });
+                }
+            }).catch((error) => {
+                console.log("getsfeedback", error);
+            });
+        }, 3000);
+    }
+
     /**
      * Renders the MusicControls component
      */
@@ -259,6 +278,19 @@ class MusicControls extends Component {
             );
         }
 
+        this.checkFeedback();
+        let feedbackMessage = null;
+        let performanceButton = null;
+        if (this.state.getsFeedback) {
+            performanceButton = (
+                <option value="performance">Performance</option>
+            );
+        } else {
+            feedbackMessage = (
+                <p>No feedback</p>
+            );
+        }
+
         // let trackSelectionDropdownMenu = null;
         // if (this.state.trackSelectionIsActive) {
         //     trackSelectionDropdownMenu = (
@@ -305,7 +337,7 @@ class MusicControls extends Component {
                 <label htmlFor="texToDisplay">Choose music:</label>
                 <select id="texToDisplay" onChange={this.musicSelectorHandler}>
                     <option value="sheetMusic">Sheet Music</option>
-                    <option value="performance">Performance</option>
+                    {performanceButton}
                 </select>
 
                 {/* <div id="list1" className="dropdown-check-list" tabIndex="100">
@@ -344,6 +376,8 @@ class MusicControls extends Component {
                 </div> */}
 
                 {exerciseSelector}
+
+                {feedbackMessage}
 
             </section>
         );

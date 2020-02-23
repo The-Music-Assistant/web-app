@@ -116,6 +116,21 @@ export const getPendingMembers = data => {
 };
 
 /**
+ * Gets if the user recieves feedback and recieves {
+ *  gets_feedback: (boolean true or false)
+ * }
+ * @param {Object} data
+ * @param {string} data.sheetMusicId - The sheet music the user is singing
+ */
+export const userGetsFeedback = data => {
+    return axios.request({
+        method: 'GET',
+        url: `/member/gets-feedback`,
+        params: data
+    });
+}
+
+/**
  * Adds the user as a pending member of the given choir
  * @param {object} data
  * @param {string} data.memberType - The member type that you are attempting to join as
@@ -183,7 +198,8 @@ export const getPartSheetMusic = data => {
  * Adds a performance for the current user for the provided sheet music
  * @param {Object} data 
  * @param {string} data.performanceData - The performance data to be added
- * @param {string} data.sheetMusicId - The sheet music id to add the performance to
+ * @param {string} data.sheetMusicId - The sheet music id to add the performance to, also used to authenticate user so this is required
+ * @param {string} data.exerciseId - If not null then the performance will be attached to this exercise otherwise attached to sheet music
  */
 export const addPerformance = data => {
     return axios.post("/performance", data);

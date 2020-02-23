@@ -207,13 +207,6 @@ class AlphaTabRunner {
         p5.loop();
     }
 
-    static highlight() {
-        if (AlphaTabRunner.highlightMeasures && AlphaTabRunner.highlightAck) {
-            AlphaTabRunner.highlightAck = false;
-            PitchDetection.highlight();
-        }
-    }
-
     static stopHighlighting() {
         AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_OFF;
         p5.noLoop();
@@ -317,7 +310,7 @@ class AlphaTabRunner {
 
         let data = {
             sheetMusicId: "5050284854B611EAAEC302F168716C78",
-            trackNumber: 1,
+            trackNumber: AlphaTabRunner.texLoaded.currentTrackIndexes[0] + 1,
             staffNumber: 1,
             measureStart,
             measureEnd,
@@ -325,7 +318,7 @@ class AlphaTabRunner {
         }
 
         getExercise(data).then((response) => {
-            AlphaTabRunner.texLoaded.update('Exercise', response.data.part_list, response.data.clefs, response.data.part);
+            AlphaTabRunner.texLoaded.update('Exercise', response.data.part_list, response.data.clefs, response.data.part, response.data.exerciseId);
 
             AlphaTabRunner.api.tex(response.data.sheet_music, AlphaTabRunner.texLoaded.currentTrackIndexes);
 
@@ -370,7 +363,7 @@ class AlphaTabRunner {
         }
     }
 
-    static async loadTex () {
+    static async loadTex () {      
         let texToDisplay = document.getElementById("texToDisplay");
         texToDisplay.options[2]=null;
 
@@ -380,9 +373,9 @@ class AlphaTabRunner {
         getSpecificSheetMusic(data).then((response) => {
             let partList = response.data.part_list;
             if (AlphaTabRunner.texLoaded === null) {
-                AlphaTabRunner.texLoaded = new TexLoaded('Sheet Music', partList, response.data.clefs, response.data.part);
+                AlphaTabRunner.texLoaded = new TexLoaded('Sheet Music', partList, response.data.clefs, response.data.part, "5050284854B611EAAEC302F168716C78");
             } else {
-                AlphaTabRunner.texLoaded.update('Sheet Music', partList, response.data.clefs, response.data.part);
+                AlphaTabRunner.texLoaded.update('Sheet Music', partList, response.data.clefs, response.data.part, "5050284854B611EAAEC302F168716C78");
             }
             
             this.updateDropdown(partList);
@@ -392,7 +385,9 @@ class AlphaTabRunner {
                 if (partList[i] === AlphaTabRunner.texLoaded.myPart) {
                     AlphaTabRunner.texLoaded.updateCurrentTrackIndexes(i);
                     let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
-                    sheetMusicPartDropdown[i].selected = true;
+                    if (sheetMusicPartDropdown) {
+                        sheetMusicPartDropdown[i].selected = true;
+                    }
                     break;
                 }
             }
