@@ -1,7 +1,7 @@
 import ml5 from "ml5";
 import p5 from "./sketch";
 import AlphaTabRunner from "./AlphaTabRunner";
-
+import ExerciseGeneration from "./ExerciseGeneration";
 class PitchDetection {
     audioContext;
     micStream;
@@ -118,8 +118,7 @@ class PitchDetection {
         //xhr.send("stop");
         clearInterval(setIntervalID);
         //console.log(JSON.stringify(AlphaTabRunner.noteList.performanceData));
-        console.log(JSON.parse(this.sheetMusic));
-        //this.getExercise(AlphaTabRunner.noteList.performanceData, 0, 0, this.sheetMusic);
+        ExerciseGeneration.getExercise(AlphaTabRunner.noteList.performanceData, 0, 0, 0, 8)
     }
     
     
