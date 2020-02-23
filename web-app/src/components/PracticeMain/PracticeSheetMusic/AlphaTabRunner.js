@@ -34,8 +34,7 @@ class AlphaTabRunner {
     texLoaded;
     partNames;
     renderedOnce;
-    isHighlighting;
-    highlightAck;
+    playerState;
 
     /**
      * Initializes the AlphaTab API
@@ -86,6 +85,7 @@ class AlphaTabRunner {
         });
 
         this.highlightMeasures = AlphaTabRunner.HIGHLIGHT_OFF;
+        this.playerState = 0;
     }
 
     /**
@@ -102,7 +102,7 @@ class AlphaTabRunner {
             // used to setup the canvas so the canvas needs to be directly on top of the alphaTab container where these are stored
             const topLineHeight = topLine.y.animVal.value;
             const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
-            AlphaTabRunner.drawer.setTopLineAndDistanceBetween(topLineHeight, distanceBetweenLines, AlphaTabRunner.texLoaded.getStartOctave());
+            AlphaTabRunner.drawer.setTopLineAndDistanceBetween(topLineHeight + 1, distanceBetweenLines, AlphaTabRunner.texLoaded.getStartOctave());
 
             let barCursor = document.getElementsByClassName("at-cursor-bar")[0];
             AlphaTabRunner.texLoaded.firstBarMeasurePosition = {
@@ -142,9 +142,8 @@ class AlphaTabRunner {
                     height: parseInt(barCursor.style.height.substring(0,barCursor.style.left.length - 2),10)
                 };
 
-                // TODO: Update these values on subsequent renders since we just need to update their bounds
-                // Creates a new drawer and noteList
-                AlphaTabRunner.drawer = new Drawer(topLineHeight + 1, distanceBetweenLines);
+                // Creates a new drawer
+                AlphaTabRunner.drawer = new Drawer(topLineHeight + 1, distanceBetweenLines, AlphaTabRunner.texLoaded.getStartOctave());
                 
                 AlphaTabRunner.p5Obj = new p5(p5Sketch);
                 AlphaTabRunner.p5Obj.setup(AlphaTabRunner.drawer);
@@ -163,9 +162,22 @@ class AlphaTabRunner {
     }
 
     static alphaTabPlayerStateChanged() {
-        if (AlphaTabRunner.api.playerState !== 1) {
+        if (AlphaTabRunner.api.playerState !== 1 && AlphaTabRunner.playerState === 1) {
             PitchDetection.stopPitchDetection(this.intervalID, "5050284854B611EAAEC302F168716C78");
-        } else {
+            AlphaTabRunner.playerState = 0;
+        } else if (AlphaTabRunner.playerState === 0) {
+            AlphaTabRunner.playerState = 1;
+            try {
+                let topLine = document.getElementById("rect_0");
+                let nextLine = document.getElementById("rect_1");
+                const topLineHeight = topLine.y.animVal.value;
+
+                const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
+                AlphaTabRunner.drawer.setTopLineAndDistanceBetween(topLineHeight + 1, distanceBetweenLines, AlphaTabRunner.texLoaded.getStartOctave());
+            } catch(error) {
+                console.log(error);
+            }
+
             // Runs the pitch detection model on microphone input and displays it on the screen
             // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
             this.intervalID = PitchDetection.startPitchDetection();
@@ -394,10 +406,11 @@ class AlphaTabRunner {
 
             AlphaTabRunner.api.tex(response.data.sheet_music,AlphaTabRunner.texLoaded.currentTrackIndexes);
 
-            data.partName = response.data.part_list[0];
+            data.partName = response.data.part_list[AlphaTabRunner.texLoaded.currentTrackIndexes[0]];
             getPartSheetMusic(data).then((response) => {
                 AlphaTabRunner.noteStream = response.data.performance_expectation;
                 AlphaTabRunner.noteList = new NoteList(0);
+
                 AlphaTabRunner.noteList.updateBounds(response.data.lower_upper[0], response.data.lower_upper[1]);
                 AlphaTabRunner.texLoaded.measureLengths = response.data.measure_lengths;
                 AlphaTabRunner.texLoaded.typeOfTex = 'Sheet Music';

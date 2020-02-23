@@ -15,7 +15,7 @@ class Drawer {
      * @param {Number} topLine Height of the top line of the selected part to sing
      * @param {Number} distanceBetweenLines Distance between lines in the staff
      */
-    constructor(topLine, distanceBetweenLines) {
+    constructor(topLine, distanceBetweenLines, baseOctave) {
         this.topLine = topLine;
         this.distanceBetweenLines = distanceBetweenLines;
         // stores the height of the lowest line of the staff being sung
@@ -28,7 +28,7 @@ class Drawer {
         this.note = new Note(60);
         this.belowOrAbove = 0;
         this.noteHeight = 0;
-        this.baseOctave = 4;
+        this.baseOctave = baseOctave;
         this.updateNote(this.note.midiVal);
     }
 
@@ -37,6 +37,10 @@ class Drawer {
         this.distanceBetweenLines = distanceBetweenLines;
         // stores the height of the lowest line of the staff being sung
         this.firstLine = this.topLine + this.distanceBetweenLines * (baseOctave === 4 ? 5 : 6);
+        this.baseOctave = baseOctave;
+    }
+
+    setBaseOctave(baseOctave) {
         this.baseOctave = baseOctave;
     }
 
@@ -63,7 +67,7 @@ class Drawer {
         // This calculates what the height of the note should be based on the first line
         const heightMod = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
 
-        // C4 is the starting note so subtract 4 to get base octave
+        // based on the starting note subtract the base octave since the start note is in that given octave
         let octaveMod = this.note.octave - this.baseOctave;
         let value = heightMod[this.note.midiVal % heightMod.length];
 

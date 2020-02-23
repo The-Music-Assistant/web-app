@@ -113,7 +113,6 @@ class PitchDetection {
         if (frequency) {
             // Converts frequency to midi value
             let midiNum = (Math.log(frequency / 440) / Math.log(2)) * 12 + 69;
-            
             AlphaTabRunner.noteList.addNote(midiNum, AlphaTabRunner.api.timePosition / 1000);
             AlphaTabRunner.drawer.updateNote(AlphaTabRunner.noteList.average);
         } else {
