@@ -19,6 +19,7 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 
 // File imports
 import { addUser } from "../../../App/musicAssistantApi";
+import {getUserInfo} from "../../../store/actions";
 import firebase from "../../../vendors/Firebase/firebase";
 import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
@@ -140,15 +141,9 @@ class ProfileCard extends Component {
         try {
             // Uploads the profile picture if it exists (profile picture is not required)
             const profilePicture = this.state.formData.profilePicture;
-            let profilePictureFileExtension = null;
             if (profilePicture) {
-                profilePictureFileExtension = profilePicture.type.substring(6);
                 const userUid = firebase.auth().currentUser.uid;
-                await this.uploadProfilePicture(
-                    userUid,
-                    profilePicture,
-                    profilePictureFileExtension
-                );
+                await this.uploadProfilePicture(userUid, profilePicture);
             }
 
             // Modifies user data object to hold first name and last name
@@ -157,6 +152,8 @@ class ProfileCard extends Component {
 
             // Sends the user data to the AWS server
             await addUser(userData);
+
+            this.props.updateUserInfo();
         } catch (error) {
             console.log("[ProfileCard/uploadData]", error);
 
@@ -175,8 +172,8 @@ class ProfileCard extends Component {
      * @param {object} picture - The picture file to upload
      * @param {string} extension - The file extension to use (e.g. jpeg or png)
      */
-    uploadProfilePicture = (userUid, picture, extension) => {
-        const path = `users/${userUid}/profile_picture.${extension}`;
+    uploadProfilePicture = (userUid, picture) => {
+        const path = `users/${userUid}/profile_picture`;
         return firebase
             .storage()
             .ref()
@@ -197,12 +194,19 @@ class ProfileCard extends Component {
         const imageInput = this.state.formData.profilePicture ? (
             <div className={profileCardStyles.profileCardImageInput}>
                 <div className={profileCardStyles.profileCardImageInputImgContainer}>
-                    <img src={URL.createObjectURL(this.state.formData.profilePicture)} className={profileCardStyles.profileCardImageInputImg} alt='Profile Picture' onError={this.imageInputErrorHandler} /> {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
+                    <img
+                        src={URL.createObjectURL(this.state.formData.profilePicture)}
+                        className={profileCardStyles.profileCardImageInputImg}
+                        alt='Profile Picture'
+                        onError={this.imageInputErrorHandler}
+                    />{" "}
+                    {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
                     <button
                         className={profileCardStyles.profileCardImageInputRemoveButton}
                         type='button'
                         onClick={this.removeImageHandler}>
-                        <img src={closeIconRed} alt={"Remove Profile Picture"} />{" "} {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
+                        <img src={closeIconRed} alt={"Remove Profile Picture"} />{" "}
+                        {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
                     </button>
                 </div>
                 <ImageInput
@@ -277,7 +281,17 @@ const mapStateToProps = state => {
     };
 };
 
-// Profile card prop types
+/**
+ * Passes certain redux actions to UserWidget
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        updateUserInfo: () => dispatch(getUserInfo())
+    };
+};
+
+// Prop types for the profile card component
 ProfileCard.propTypes = {
     isAuthenticated: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     setLoading: PropTypes.func.isRequired,
@@ -285,4 +299,4 @@ ProfileCard.propTypes = {
     done: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps)(ProfileCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileCard);

@@ -20,12 +20,12 @@ import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
 import Footer from "../../components/Footer/Footer";
 
 // Image imports
-import homeIconBlue from "../../assets/icons/home-icon-blue-fa.svg";
+// import homeIconBlue from "../../assets/icons/home-icon-blue-fa.svg";
 import practiceIconBlue from "../../assets/icons/practice-icon-blue-fa.svg";
 import progressIconBlue from "../../assets/icons/progress-icon-blue-fa.svg";
 import choirIconBlue from "../../assets/icons/choir-icon-blue-fa.svg";
 import messagesIconBlue from "../../assets/icons/messages-icon-blue-fa.svg";
-import homeIconWhite from "../../assets/icons/home-icon-white-fa.svg";
+// import homeIconWhite from "../../assets/icons/home-icon-white-fa.svg";
 import practiceIconWhite from "../../assets/icons/practice-icon-white-fa.svg";
 import progressIconWhite from "../../assets/icons/progress-icon-white-fa.svg";
 import choirIconWhite from "../../assets/icons/choir-icon-white-fa.svg";
@@ -38,7 +38,7 @@ class Primary extends Component {
     // Creates main navigation tabs (links)
     constructor(props) {
         super(props);
-        this.generateMainNavTab("Home", homeIconBlue, homeIconWhite, false);
+        // this.generateMainNavTab("Home", homeIconBlue, homeIconWhite, false);
         this.generateMainNavTab("Practice", practiceIconBlue, practiceIconWhite, true);
         this.generateMainNavTab("Progress", progressIconBlue, progressIconWhite, false);
         this.generateMainNavTab("Choir", choirIconBlue, choirIconWhite, false);
@@ -52,7 +52,27 @@ class Primary extends Component {
         alertData: null
     };
 
+    // Indicates whether the component is mounted or not
+    _isMounted = false;
+
+    // Main navigation tabs
     mainNavTabs = [];
+
+    /**
+     * Creates an event listener for window resize
+     */
+    componentDidMount() {
+        this._isMounted = true;
+        window.addEventListener("resize", this.handleWindowResize);
+    }
+
+    /**
+     * Removes the window event resize event listener
+     */
+    componentWillUnmount() {
+        this._isMounted = false;
+        window.removeEventListener("resize", this.handleWindowResize);
+    }
 
     /**
      * Creates a main nav tab and pushes the tab to the array of main nav tabs
@@ -71,20 +91,6 @@ class Primary extends Component {
         };
         this.mainNavTabs.push(tab);
     };
-
-    /**
-     * Creates an event listener for window resize
-     */
-    componentDidMount() {
-        window.addEventListener("resize", this.handleWindowResize);
-    }
-
-    /**
-     * Removes the window event resize event listener
-     */
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.handleWindowResize);
-    }
 
     /**
      * Updates state when the window resizes

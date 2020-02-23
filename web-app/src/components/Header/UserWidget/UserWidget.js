@@ -7,7 +7,7 @@
 // ----------------------------------------------------------------------------
 
 // NPM module imports
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -17,23 +17,53 @@ import { signOut } from "../../../store/actions";
 // Style imports
 import styles from "./UserWidget.module.scss";
 
-const UserWidget = props => {
-    // TODO: Don't display the img tag is there is no profile picture
+class UserWidget extends Component {
+    // Component state
+    state = {
+        profilePictureError: false
+    };
 
     /**
      * Signs the user out
      */
-    const widgetClickedHandler = () => {
-        props.signOut();
+    widgetClickedHandler = () => {
+        this.props.signOut();
     };
 
-    // Returns the JSX to display
-    return (
-        <div className={styles.userWidget} onClick={widgetClickedHandler}>
-            <img className={styles.userWidgetImg} src={props.profilePic} alt='Profile Pic' />
-            <h2 className={styles.userWidgetName}>{props.name}</h2>
-        </div>
-    );
+    profilePictureErrorHandler = () => {
+        this.setState({ profilePictureError: true });
+    };
+
+    /**
+     * Renders the User Widget component
+     */
+    render() {
+        // Returns the JSX to display
+        return (
+            <div className={styles.userWidget} onClick={this.widgetClickedHandler}>
+                {this.props.profilePictureUrl && !this.state.profilePictureError ? (
+                    <img
+                        className={styles.userWidgetImg}
+                        src={this.props.profilePictureUrl}
+                        alt='Profile Pic'
+                        onError={this.profilePictureErrorHandler}
+                    />
+                ) : null}
+                <h2 className={styles.userWidgetName}>{this.props.name}</h2>
+            </div>
+        );
+    }
+}
+
+/**
+ * Gets the current state from Redux and passes it to the UserWidget component as props
+ * @param {object} state - The Redux state
+ */
+const mapStateToProps = state => {
+    return {
+        name: state.auth.usersName,
+        profilePictureUrl: state.auth.usersPictureUrl
+    };
 };
 
 /**
@@ -53,4 +83,4 @@ UserWidget.propTypes = {
     signOut: PropTypes.func.isRequired
 };
 
-export default connect(null, mapDispatchToProps)(UserWidget);
+export default connect(mapStateToProps, mapDispatchToProps)(UserWidget);

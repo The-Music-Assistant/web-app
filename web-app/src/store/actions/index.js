@@ -8,6 +8,7 @@
 
 export {
     handleAuthStateChanges,
+    getUserInfo,
     authFlowComplete,
     welcomePageComplete,
     startAuthFlow,

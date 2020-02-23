@@ -9,7 +9,8 @@
 // File imports
 import * as actionTypes from "./actionTypes";
 import firebase from "../../vendors/Firebase/firebase";
-import { setAxiosAuthToken } from "../../App/musicAssistantApi";
+import { setAxiosAuthToken, getUser } from "../../App/musicAssistantApi";
+import "firebase/storage";
 
 /**
  * Signs the current user out
@@ -40,8 +41,14 @@ export const handleAuthStateChanges = () => {
                     .auth()
                     .currentUser.getIdToken()
                     .then(setAxiosAuthToken)
+                    .catch(error => {
+                        // Clears the old Axios auth header token if there is one
+                        setAxiosAuthToken("");
+                        dispatch(authError(error));
+                        console.log("[actions/auth/handleAuthStateChanges]", error);
+                    })
                     .then(() => {
-                        dispatch(userAuthenticated());
+                        dispatch(getUserInfo());
                     })
                     .then(() => {
                         // A user must have a verified email before they can use the app
@@ -49,12 +56,6 @@ export const handleAuthStateChanges = () => {
                         if (!user.emailVerified) {
                             dispatch(showWelcomePage());
                         }
-                    })
-                    .catch(error => {
-                        // Clears the old Axios auth header token if there is one
-                        setAxiosAuthToken("");
-                        dispatch(authError(error));
-                        console.log("[actions/auth/handleAuthStateChanges]", error);
                     });
             } else {
                 // Clears the old Axios auth header token if there is one
@@ -62,6 +63,41 @@ export const handleAuthStateChanges = () => {
                 dispatch(userNotAuthenticated());
             }
         });
+    };
+};
+
+export const getUserInfo = () => {
+    return dispatch => {
+        let user = firebase.auth().currentUser;
+        if (user) {
+            getUser()
+                .then(snapshot => {
+                    dispatch(
+                        retrievedUsersName(snapshot.data.first_name + " " + snapshot.data.last_name)
+                    );
+                    dispatch(userAuthenticated());
+                })
+                .catch(error => {
+                    dispatch(authError(error));
+                    dispatch(usersNameRetrievalFailed());
+                    console.log("[actions/auth/handleAuthStateChanges]", error);
+                })
+                .then(() => {
+                    return firebase
+                        .storage()
+                        .ref()
+                        .child(`users/${user.uid}/profile_picture_200x200`)
+                        .getDownloadURL();
+                })
+                .then(url => {
+                    dispatch(retrievedUsersPictureUrl(url));
+                })
+                .catch(error => {
+                    dispatch(authError(error));
+                    dispatch(usersPictureUrlRetrievalFailed());
+                    console.log("[actions/auth/handleAuthStateChanges]", error);
+                });
+        }
     };
 };
 
@@ -138,5 +174,43 @@ const authError = error => {
 const signOutSuccess = () => {
     return {
         type: actionTypes.SIGN_OUT
+    };
+};
+
+/**
+ * Returns RETRIEVED_USERS_NAME action type and the user's full name
+ */
+const retrievedUsersName = name => {
+    return {
+        type: actionTypes.RETRIEVED_USERS_NAME,
+        name
+    };
+};
+
+/**
+ * Returns USERS_NAME_RETRIEVAL_FAILED action type
+ */
+const usersNameRetrievalFailed = () => {
+    return {
+        type: actionTypes.USERS_NAME_RETRIEVAL_FAILED
+    };
+};
+
+/**
+ * Returns RETRIEVED_USERS_PICTURE_URL action type and the user's picture url
+ */
+const retrievedUsersPictureUrl = url => {
+    return {
+        type: actionTypes.RETRIEVED_USERS_PICTURE_URL,
+        url
+    };
+};
+
+/**
+ * Returns USERS_PICTURE_URL_RETRIEVAL_FAILED action type
+ */
+const usersPictureUrlRetrievalFailed = () => {
+    return {
+        type: actionTypes.USERS_PICTURE_URL_RETRIEVAL_FAILED
     };
 };

@@ -33,20 +33,22 @@ class ChoirSelection extends Component {
         minLoadingTimeElapsed: false
     };
 
+    // Indicates whether the component is mounted or not
+    _isMounted = false;
+
+    // Timeout id (used if components unmounts)
     loadingWaitTimeoutId = null;
 
     /**
      * Gets the choir list
      */
     componentDidMount() {
+        this._isMounted = true;
         this.getChoirList();
     }
 
-    /**
-     * Clears any async functions
-     */
     componentWillUnmount() {
-        clearTimeout(this.loadingWaitTimeoutId);
+        this._isMounted = false;
     }
 
     /**
@@ -54,18 +56,20 @@ class ChoirSelection extends Component {
      */
     getChoirList() {
         // Starts loading
-        this.setState({ isLoading: true, minLoadingTimeElapsed: false });
+        if (this._isMounted) this.setState({ isLoading: true, minLoadingTimeElapsed: false });
         this.loadingWaitTimeoutId = setTimeout(() => {
-            this.setState({ minLoadingTimeElapsed: true });
+            if (this._isMounted) this.setState({ minLoadingTimeElapsed: true });
         }, 500);
 
         // Gets the choir list
         getUsersChoirs()
-            .then(snapshot => this.setState({ choirs: snapshot.data.choirs, isLoading: false }))
+            .then(snapshot => {
+                if (this._isMounted) this.setState({ choirs: snapshot.data.choirs, isLoading: false });
+            })
             .catch(error => {
                 console.log(error);
                 this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
-                this.setState({ isLoading: false });
+                if (this._isMounted) this.setState({ isLoading: false });
             });
     }
 

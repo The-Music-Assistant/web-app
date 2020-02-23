@@ -11,7 +11,7 @@
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 // Component imports
@@ -41,16 +41,14 @@ class App extends Component {
     }
 
     /**
-     * Renders the App component (this is the root component)
+     * Gets the page to render
      */
-    render() {
-        // The page to display
+    getPage = () => {
         let page;
 
         if (this.props.isAuthenticated === null || !this.state.startupMinTimeElapsed) {
-            // If startup is occurring, show the startup page
             page = (
-                <div className='App'>
+                <div>
                     <Route path='/startup'>
                         <Startup />
                     </Route>
@@ -58,9 +56,8 @@ class App extends Component {
                 </div>
             );
         } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
-            // If authentication needed or is already in progress, show the auth page
             page = (
-                <div className='App'>
+                <div>
                     <Route path='/auth'>
                         <Auth />
                     </Route>
@@ -68,9 +65,8 @@ class App extends Component {
                 </div>
             );
         } else if (this.props.showWelcomePage) {
-            // If a request has been made to show the welcome page, show it
             page = (
-                <div className='App'>
+                <div>
                     <Route path='/welcome'>
                         <Welcome />
                     </Route>
@@ -78,10 +74,9 @@ class App extends Component {
                 </div>
             );
         } else {
-            // If the user is authenticated and no other data is needed, show the primary page
             page = (
-                <div className='App'>
-                    <Route path='/'>
+                <div>
+                    <Route path='/' exact>
                         <Primary />
                     </Route>
                     <Redirect to='/' />
@@ -89,13 +84,19 @@ class App extends Component {
             );
         }
 
-        // Returns the selected page
         return page;
+    };
+
+    /**
+     * Renders the App component (this is the root component)
+     */
+    render() {
+        return <div className='App'>{this.getPage()}</div>;
     }
 }
 
 /**
- * Gets the current state from Redux and passes it to App as props
+ * Gets the current state from Redux and passes it to the App component as props
  * @param {object} state - The Redux state
  */
 const mapStateToProps = state => {

@@ -13,6 +13,7 @@
     flex-direction: column;
     align-items: center;
     margin-left: auto;
+    cursor: pointer;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         flex-direction: row;
