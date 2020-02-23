@@ -108,18 +108,32 @@ class MusicControls extends Component {
     }
 
     startMeasureHandler = (event) => {
-        this.setState({startMeasure: event.target.value});
+        let startMeasure = parseInt(event.target.value, 10);
+        if (isNaN(startMeasure)) { 
+            startMeasure = "";
+        }
+        this.setState({startMeasure});
     }
 
     endMeasureHandler = (event) => {
-        this.setState({ endMeasure: event.target.value});
+        let endMeasure = parseInt(event.target.value, 10);
+        if (isNaN(endMeasure)) { 
+            endMeasure = "";
+        }
+        this.setState({endMeasure});
     }
 
     submitMeasuresHandler = (event) => {
         event.preventDefault();
-        AlphaTabRunner.changeMusic('exercise', this.state.startMeasure, this.state.endMeasure);
-        this.measureSelectorHandler(false);
-        this.setState({ generatingExercises: false });
+        let maxMeasureNumber = AlphaTabRunner.noteStream.length - 2;
+        console.log(maxMeasureNumber)
+        if (typeof(this.state.startMeasure) !== 'number' || typeof(this.state.endMeasure) !== 'number' || this.state.startMeasure > this.state.endMeasure || this.state.startMeasure <= 0 || this.state.endMeasure <= 0 || this.state.startMeasure > maxMeasureNumber || this.state.endMeasure > maxMeasureNumber) {
+            console.log('nope', typeof(this.state.startMeasure))
+        } else {
+            AlphaTabRunner.changeMusic('exercise', this.state.startMeasure, this.state.endMeasure);
+            this.measureSelectorHandler(false);
+            this.setState({ generatingExercises: false });
+        }
     }
 
 
