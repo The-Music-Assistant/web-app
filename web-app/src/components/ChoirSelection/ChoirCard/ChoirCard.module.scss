@@ -8,6 +8,10 @@
 
 @import "../../../root-styles/utilities.scss";
 
+a {
+    text-decoration: none;
+}
+
 .choirCard {
     width: 250px;
     height: 250px;

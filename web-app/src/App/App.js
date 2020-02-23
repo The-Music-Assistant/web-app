@@ -11,7 +11,7 @@
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 // Component imports
@@ -47,41 +47,13 @@ class App extends Component {
         let page;
 
         if (this.props.isAuthenticated === null || !this.state.startupMinTimeElapsed) {
-            page = (
-                <div>
-                    <Route path='/startup'>
-                        <Startup />
-                    </Route>
-                    <Redirect to='/startup' />
-                </div>
-            );
+            page = <Redirect to='/startup' />;
         } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
-            page = (
-                <div>
-                    <Route path='/auth'>
-                        <Auth />
-                    </Route>
-                    <Redirect to='/auth' />
-                </div>
-            );
+            page = <Redirect to='/auth' />;
         } else if (this.props.showWelcomePage) {
-            page = (
-                <div>
-                    <Route path='/welcome'>
-                        <Welcome />
-                    </Route>
-                    <Redirect to='/welcome' />
-                </div>
-            );
+            page = <Redirect to='/welcome' />;
         } else {
-            page = (
-                <div>
-                    <Route path='/' exact>
-                        <Primary />
-                    </Route>
-                    <Redirect to='/' />
-                </div>
-            );
+            page = <Redirect to='/practice' />;
         }
 
         return page;
@@ -91,7 +63,19 @@ class App extends Component {
      * Renders the App component (this is the root component)
      */
     render() {
-        return <div className='App'>{this.getPage()}</div>;
+        return (
+            <BrowserRouter>
+                <div className='App'>
+                    {this.getPage()}
+                    <Switch>
+                        <Route path='/startup' component={Startup} />
+                        <Route path='/auth' component={Auth} />
+                        <Route path='/welcome' component={Welcome} />
+                        <Route path='/practice' component={Primary} />
+                    </Switch>
+                </div>
+            </BrowserRouter>
+        );
     }
 }
 

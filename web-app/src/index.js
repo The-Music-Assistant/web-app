@@ -13,12 +13,11 @@
 // NPM module imports
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 
 // File imports
 import * as serviceWorker from "./serviceWorker";
-import {store} from "./store/reduxSetup";
+import { store } from "./store/reduxSetup";
 
 // Component imports
 import App from "./App/App";
@@ -26,9 +25,7 @@ import App from "./App/App";
 // App container with React Router and Redux
 const app = (
     <Provider store={store}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <App />
     </Provider>
 );
 

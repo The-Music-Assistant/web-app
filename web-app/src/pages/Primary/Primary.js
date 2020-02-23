@@ -8,8 +8,8 @@
 
 // NPM module imports
 import React, { Component } from "react";
-import AlertBar from "../../components/AlertBar/AlertBar";
 import shortid from "shortid";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 
 // Component imports
 import Header from "../../components/Header/Header";
@@ -18,6 +18,7 @@ import SideNav from "../../components/SideNav/SideNav";
 import PracticeMain from "../../components/PracticeMain/PracticeMain";
 import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
 import Footer from "../../components/Footer/Footer";
+import AlertBar from "../../components/AlertBar/AlertBar";
 
 // Image imports
 // import homeIconBlue from "../../assets/icons/home-icon-blue-fa.svg";
@@ -62,6 +63,7 @@ class Primary extends Component {
      * Creates an event listener for window resize
      */
     componentDidMount() {
+        // this.props.history.push("/practice-sheet-music");
         this._isMounted = true;
         window.addEventListener("resize", this.handleWindowResize);
     }
@@ -152,7 +154,10 @@ class Primary extends Component {
                     isMobile={this.state.isMobile}
                 />
                 {mainNav}
-                <ChoirSelection showAlert={this.showAlertHandler} />
+                <Switch>
+                    <Route path={'/practice/sheet-music'} component={PracticeMain} />
+                    <Route path='/practice' component={() => <ChoirSelection showAlert={this.showAlertHandler} />} />
+                </Switch>
                 <Footer />
             </div>
         );

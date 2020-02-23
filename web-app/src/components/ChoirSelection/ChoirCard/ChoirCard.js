@@ -9,6 +9,7 @@
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withRouter, Link } from "react-router-dom";
 
 // Image imports
 import cameraImg from "../../../assets/icons/camera-white-fa.svg";
@@ -54,38 +55,42 @@ class ChoirCard extends Component {
             );
         } else {
             cardElement = (
-                <div
-                    className={`${styles.choirCard} ${styles[this.props.cardColor]}`}
-                    onClick={this.props.onClick}>
-                    {!this.state.imgLoadingError && this.props.headerImgSrc ? (
-                        // Adds an image element if an choir image exists
-                        <img
-                            className={styles.choirCardHeaderImg}
-                            src={this.props.headerImgSrc}
-                            loading='lazy'
-                            alt='Choir'
-                        />
-                    ) : (
-                        // If a choir image does not exist or can't be loaded, show a placeholder
-                        <div
-                            className={`${styles.choirCardHeaderImgPlaceholder} ${
-                                styles[this.props.cardColor + "Darken"]
-                            }`}>
+                <Link to={`${this.props.match.url}/sheet-music`}>
+                    <div
+                        className={`${styles.choirCard} ${styles[this.props.cardColor]}`}
+                        onClick={this.props.onClick}>
+                        {!this.state.imgLoadingError && this.props.headerImgSrc ? (
+                            // Adds an image element if an choir image exists
                             <img
-                                className={styles.choirCardHeaderImgPlaceholderImg}
-                                src={cameraImg}
+                                className={styles.choirCardHeaderImg}
+                                src={this.props.headerImgSrc}
+                                loading='lazy'
                                 alt='Choir'
-                                onError={this.imageLoadingErrorHandler}
                             />
-                        </div>
-                    )}
-                    <h1 className={styles.choirCardName}>{this.props.name}</h1>
+                        ) : (
+                            // If a choir image does not exist or can't be loaded, show a placeholder
+                            <div
+                                className={`${styles.choirCardHeaderImgPlaceholder} ${
+                                    styles[this.props.cardColor + "Darken"]
+                                }`}>
+                                <img
+                                    className={styles.choirCardHeaderImgPlaceholderImg}
+                                    src={cameraImg}
+                                    alt='Choir'
+                                    onError={this.imageLoadingErrorHandler}
+                                />
+                            </div>
+                        )}
+                        <h1 className={styles.choirCardName}>{this.props.name}</h1>
 
-                    {/* Only adds a description h2 element if a choir description exists */}
-                    {this.props.description ? (
-                        <h2 className={styles.choirCardDescription}>{this.props.description}</h2>
-                    ) : null}
-                </div>
+                        {/* Only adds a description h2 element if a choir description exists */}
+                        {this.props.description ? (
+                            <h2 className={styles.choirCardDescription}>
+                                {this.props.description}
+                            </h2>
+                        ) : null}
+                    </div>
+                </Link>
             );
         }
 
@@ -111,4 +116,4 @@ ChoirCard.propTypes = {
     onClick: PropTypes.func.isRequired
 };
 
-export default ChoirCard;
+export default withRouter(ChoirCard);
