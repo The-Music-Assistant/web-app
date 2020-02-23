@@ -25,38 +25,25 @@ import "normalize.css";
 import "./App.scss";
 
 class App extends Component {
-    // Component state
-    // startupMinTimeElapsed indicates if the minimum time elapsed for starting up has occurred
-    state = {
-        startupMinTimeElapsed: false
-    };
-
-    /**
-     * Starts a timer for elapsing startup time
-     */
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({ startupMinTimeElapsed: true });
-        }, 2000);
-    }
-
     /**
      * Gets the page to render
      */
-    getPage = () => {
-        let page;
+    getRedirect = () => {
+        let redirect;
 
-        if (this.props.isAuthenticated === null || !this.state.startupMinTimeElapsed) {
-            page = <Redirect to='/startup' />;
+        if (!this.props.isStartupDone) {
+            redirect = <Redirect to='/startup' />;
         } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
-            page = <Redirect to='/auth' />;
+            redirect = <Redirect to='/auth' />;
         } else if (this.props.showWelcomePage) {
-            page = <Redirect to='/welcome' />;
+            redirect = <Redirect to='/welcome' />;
         } else {
-            page = <Redirect to='/practice' />;
+            redirect = <Redirect to='/practice' />;
         }
 
-        return page;
+        console.log(redirect);
+
+        return redirect;
     };
 
     /**
@@ -66,12 +53,18 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <div className='App'>
-                    {this.getPage()}
+                    {this.getRedirect()}
                     <Switch>
-                        <Route path='/startup' component={Startup} />
-                        <Route path='/auth' component={Auth} />
-                        <Route path='/welcome' component={Welcome} />
-                        <Route path='/practice' component={Primary} />
+                        <Route path='/startup'>
+                            <Startup />
+                        </Route>
+                        {this.props.isStartupDone ? <Route component={Auth} path='/auth' /> : null}
+                        {this.props.isStartupDone ? (
+                            <Route component={Welcome} path='/welcome' />
+                        ) : null}
+                        {this.props.isStartupDone ? (
+                            <Route component={Primary} path='/practice' />
+                        ) : null}
                     </Switch>
                 </div>
             </BrowserRouter>
@@ -85,6 +78,7 @@ class App extends Component {
  */
 const mapStateToProps = state => {
     return {
+        isStartupDone: state.startup.isDone,
         isAuthenticated: state.auth.isAuthenticated,
         isAuthFlowComplete: state.auth.isAuthFlowComplete,
         showWelcomePage: state.auth.showWelcomePage
@@ -93,9 +87,10 @@ const mapStateToProps = state => {
 
 // Prop types for the App component
 App.propTypes = {
-    isAuthenticated: PropTypes.oneOfType([PropTypes.bool]),
-    isAuthFlowComplete: PropTypes.oneOfType([PropTypes.bool]),
-    showWelcomePage: PropTypes.bool
+    isStartupDone: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool,
+    isAuthFlowComplete: PropTypes.bool,
+    showWelcomePage: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps)(App);

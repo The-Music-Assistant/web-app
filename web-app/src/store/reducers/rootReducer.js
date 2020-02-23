@@ -12,10 +12,12 @@ import { combineReducers } from "redux";
 
 // File imports
 import authReducer from "./auth";
+import startupReducer from "./startup";
 
 // Creates the root reducer by combining all reducers
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    startup: startupReducer
 });
 
 export default rootReducer;

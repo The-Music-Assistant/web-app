@@ -9,7 +9,7 @@
 // NPM module imports
 import React, { Component } from "react";
 import shortid from "shortid";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 // Component imports
 import Header from "../../components/Header/Header";
@@ -155,8 +155,13 @@ class Primary extends Component {
                 />
                 {mainNav}
                 <Switch>
-                    <Route path={'/practice/sheet-music'} component={PracticeMain} />
-                    <Route path='/practice' component={() => <ChoirSelection showAlert={this.showAlertHandler} />} />
+                    <Route path={"/practice/sheet-music"}>
+                        <PracticeMain />
+                    </Route>
+                    {/* <Route path='/practice' component={() => <ChoirSelection showAlert={this.showAlertHandler} />} /> */}
+                    <Route path='/practice'>
+                        <ChoirSelection showAlert={this.showAlertHandler} />
+                    </Route>
                 </Switch>
                 <Footer />
             </div>

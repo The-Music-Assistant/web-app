@@ -20,6 +20,7 @@
     }
 
     &Img {
+        object-fit: cover;
         width: 25px;
         height: 25px;
         border-radius: 50%;
@@ -39,5 +40,10 @@
             margin: 0 0 0 10px;
             padding: 0;
         }
+    }
+
+    &DownArrow {
+        width: 15px;
+        margin-left: 10px;;
     }
 }

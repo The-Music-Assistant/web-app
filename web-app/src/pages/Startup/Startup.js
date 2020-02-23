@@ -8,7 +8,11 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { MetroSpinner } from "react-spinners-kit";
+
+// File imports
+import { startupDone } from "../../store/actions";
 
 // Image imports
 import logo from "../../assets/logos/music-assistant-logo.png";
@@ -19,14 +23,25 @@ import styles from "./Startup.module.scss";
 class Startup extends Component {
     // Component state
     state = {
-        windowInnerHeight: window.innerHeight
+        windowInnerHeight: window.innerHeight,
+        minTimeElapsed: false
     };
 
     /**
      * Starts a window resize event listener
      */
     componentDidMount() {
+        setTimeout(() => {
+            this.setState({ minTimeElapsed: true });
+        }, 2000);
         window.addEventListener("resize", this.handleWindowResize);
+    }
+
+    componentDidUpdate() {
+        if (this.props.isAuthenticated !== null && this.state.minTimeElapsed) {
+            console.log("CALL");
+            this.props.startupDone();
+        }
     }
 
     /**
@@ -65,4 +80,24 @@ class Startup extends Component {
     }
 }
 
-export default Startup;
+/**
+ * Gets the current state from Redux and passes it to the Startup component as props
+ * @param {object} state - The Redux state
+ */
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    };
+};
+
+/**
+ * Passes certain redux actions to the Startup component
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        startupDone: () => dispatch(startupDone())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Startup);

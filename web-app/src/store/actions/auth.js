@@ -6,17 +6,20 @@
 // Created Date: 12/31/2019
 ---------------------------------------------------------------------------- */
 
+// NPM module imports
+import "firebase/storage";
+
 // File imports
 import * as actionTypes from "./actionTypes";
 import firebase from "../../vendors/Firebase/firebase";
 import { setAxiosAuthToken, getUser } from "../../App/musicAssistantApi";
-import "firebase/storage";
 
 /**
  * Signs the current user out
  */
 export const signOut = () => {
     return dispatch => {
+        dispatch(doNotShowWelcomePage());
         firebase
             .auth()
             .signOut()
@@ -126,6 +129,15 @@ export const authFlowComplete = showWelcomePage => {
 export const showWelcomePage = () => {
     return {
         type: actionTypes.SHOW_WELCOME_PAGE
+    };
+};
+
+/**
+ * Returns DO_NOT_SHOW_WELCOME_PAGE action type
+ */
+export const doNotShowWelcomePage = () => {
+    return {
+        type: actionTypes.DO_NOT_SHOW_WELCOME_PAGE
     };
 };
 

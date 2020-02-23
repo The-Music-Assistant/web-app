@@ -10,7 +10,10 @@ export {
     handleAuthStateChanges,
     getUserInfo,
     authFlowComplete,
+    doNotShowWelcomePage,
     welcomePageComplete,
     startAuthFlow,
     signOut
 } from "./auth";
+
+export { startupDone } from "./startup";

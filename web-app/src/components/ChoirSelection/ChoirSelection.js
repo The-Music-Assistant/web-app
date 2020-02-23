@@ -64,7 +64,8 @@ class ChoirSelection extends Component {
         // Gets the choir list
         getUsersChoirs()
             .then(snapshot => {
-                if (this._isMounted) this.setState({ choirs: snapshot.data.choirs, isLoading: false });
+                if (this._isMounted)
+                    this.setState({ choirs: snapshot.data.choirs, isLoading: false });
             })
             .catch(error => {
                 console.log(error);

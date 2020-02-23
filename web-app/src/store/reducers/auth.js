@@ -62,6 +62,8 @@ const authReducer = (state = initialState, action) => {
             return updateObject(state, { error: action.error });
         case actionTypes.SHOW_WELCOME_PAGE:
             return updateObject(state, { showWelcomePage: true });
+        case actionTypes.DO_NOT_SHOW_WELCOME_PAGE:
+            return updateObject(state, { showWelcomePage: false });
         case actionTypes.WELCOME_PAGE_COMPLETE:
             return updateObject(state, { showWelcomePage: false });
         case actionTypes.SIGN_OUT:

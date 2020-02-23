@@ -8,6 +8,7 @@
 
 // NPM module imports
 import React from "react";
+import {withRouter} from "react-router-dom";
 
 // Image imports
 import leftArrowBlue from "../../../assets/icons/left-arrow-blue-fa.svg";
@@ -18,9 +19,9 @@ import MusicControls from "./MusicControls/MusicControls";
 // Style imports
 import styles from "./PracticeHeader.module.scss";
 
-const PracticeHeader = () => {
+const PracticeHeader = props => {
     const handleBackButtonClicked = () => {
-        // TODO: Add logic to go back to the practice selection page
+        props.history.goBack();
     };
 
     // Returns the JSX to display
@@ -40,4 +41,4 @@ const PracticeHeader = () => {
     );
 };
 
-export default PracticeHeader;
+export default withRouter(PracticeHeader);
