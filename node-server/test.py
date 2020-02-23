@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def result():
     if len(list(request.form)) > 0:
-        args = list(request.form)[0].split(" ");
+        args = list(request.form)[0].split(" ")
         if args[0] == "play":
             winsound.PlaySound(args[1], winsound.SND_ASYNC)
         else:

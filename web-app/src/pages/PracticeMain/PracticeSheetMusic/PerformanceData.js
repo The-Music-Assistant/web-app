@@ -23,7 +23,7 @@ class PerformanceData {
      * @param {Number} time Time when the note was started
      */
     addPitch(note, time) {
-        /*
+        
         try {
             if (this.pitches[this.pitches.length - 1].midival !== note) {
                 this.pitches.push(new Pitch(note, time));
@@ -31,8 +31,8 @@ class PerformanceData {
         } catch(e) {
             this.pitches.push(new Pitch(note, time));
         }
-        */
-       this.pitches.push(new Pitch(note, time));
+        
+       //this.pitches.push(new Pitch(note, time));
     }
 }
 

@@ -69,7 +69,7 @@ class AlphaTabRunner {
         });
 
         this.currentTestIndex = 0;
-        this.tests = ["D:\\Senior Project\\WAV\\Testing.wav"];
+        this.tests = ["C:\\Testing.wav"];
     }
 
     /**
