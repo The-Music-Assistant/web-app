@@ -24,6 +24,14 @@ class TexLoaded {
         this.typeOfTex = typeOfTex;
         this.partNames = partNames;
         this.clefs = clefs;
+        if (this.clefs) {
+            this.clefs.forEach((track) => {
+                for (let i = 0; i < track.length; i++) {
+                    track[i] = track[i].toLowerCase();
+                }
+                this.mutedTracks.push(false);
+            });
+        }
         this.myPart = myPart;
         this.currentTrackIndexes = [0];
         this.firstBarMeasurePosition = null;
