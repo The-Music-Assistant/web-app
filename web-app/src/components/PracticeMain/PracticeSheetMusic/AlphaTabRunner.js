@@ -180,7 +180,7 @@ class AlphaTabRunner {
             PitchDetection.stopPitchDetection(this.intervalID, "5050284854B611EAAEC302F168716C78");
             AlphaTabRunner.playerState = 0;
 
-            p5.clear();
+            AlphaTabRunner.p5Obj.clear();
             AlphaTabRunner.api.settings.display.startBar = 1;
             AlphaTabRunner.api.updateSettings();
             AlphaTabRunner.api.render();
@@ -216,7 +216,7 @@ class AlphaTabRunner {
         PitchDetection.stopPitchDetection(this.intervalID, "5050284854B611EAAEC302F168716C78");
         AlphaTabRunner.playerState = 0;
 
-        p5.clear();
+        AlphaTabRunner.p5Obj.clear();
         AlphaTabRunner.api.settings.display.startBar = 1;
         AlphaTabRunner.api.updateSettings();
         AlphaTabRunner.api.render();
@@ -249,13 +249,13 @@ class AlphaTabRunner {
 
     static startHighlighting() {
         AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_ON;
-        p5.loop();
+        AlphaTabRunner.p5Obj.loop();
     }
 
     static stopHighlighting() {
         AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_OFF;
-        p5.noLoop();
-        p5.redraw();
+        AlphaTabRunner.p5Obj.noLoop();
+        AlphaTabRunner.p5Obj.redraw();
     }
 
     static changeMusic(value, measureStart, measureEnd) {

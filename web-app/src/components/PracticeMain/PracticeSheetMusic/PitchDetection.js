@@ -73,7 +73,7 @@ class PitchDetection {
     static startPitchDetection() {
         AlphaTabRunner.noteList.clear();
         if (AlphaTabRunner.getsFeedback) {
-            p5.loop();
+            AlphaTabRunner.p5Obj.loop();
             this.listen(0, 0);
         }
     }
@@ -82,7 +82,7 @@ class PitchDetection {
         let increment = AlphaTabRunner.texLoaded.lengthsPerSection[currentSectionIndex];
         if (AlphaTabRunner.api.timePosition / 1000 > currentCount + increment) {
             AlphaTabRunner.resetDrawPositions = true;
-            p5.clear();
+            AlphaTabRunner.p5Obj.clear();
             AlphaTabRunner.api.settings.display.startBar = AlphaTabRunner.api.settings.display.startBar + AlphaTabRunner.barCount - 1;
             AlphaTabRunner.api.updateSettings();
             AlphaTabRunner.api.render();
@@ -110,7 +110,7 @@ class PitchDetection {
      */
     static async stopPitchDetection(setIntervalID, sheetMusicId) {
         if (AlphaTabRunner.getsFeedback) {
-            p5.noLoop();
+            AlphaTabRunner.p5Obj.noLoop();
             // clearInterval(setIntervalID);
         }
         /*
