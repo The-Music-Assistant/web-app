@@ -74,35 +74,32 @@ class PitchDetection {
         AlphaTabRunner.noteList.clear();
         if (AlphaTabRunner.getsFeedback) {
             p5.loop();
-            // Run nested anonymous function every 1 ms
-            // return setInterval(() => {
-            //     // Gets the current pitch and sends it to displayMidi
-            //     this.pitchDetectionModel
-            //         .getPitch()
-            //         .then(frequency => {
-            //             this.displayMidi(frequency);
-            //         })
-            //         .catch(err => {
-            //             console.log(`[error][PitchDetection] ${err}`);
-            //             this.displayMidi(0);
-            //         });
-            // }, 500);
-            this.listen();
+            this.listen(0, 0);
         }
     }
 
-    static listen() {
+    static listen(currentSectionIndex, currentCount) {
+        let increment = AlphaTabRunner.texLoaded.lengthsPerSection[currentSectionIndex];
+        if (AlphaTabRunner.api.timePosition / 1000 > currentCount + increment) {
+            AlphaTabRunner.resetDrawPositions = true;
+            p5.clear();
+            AlphaTabRunner.api.settings.display.startBar = AlphaTabRunner.api.settings.display.startBar + AlphaTabRunner.barCount - 1;
+            AlphaTabRunner.api.updateSettings();
+            AlphaTabRunner.api.render();
+            currentCount += increment;
+        }
+
         if (AlphaTabRunner.playerState === 1) {
             this.pitchDetectionModel
             .getPitch()
             .then(frequency => {
                 this.displayMidi(frequency);
-                this.listen();
+                this.listen(currentSectionIndex, currentCount);
             })
             .catch(err => {
                 console.log(`[error][PitchDetection] ${err}`);
                 this.displayMidi(0);
-                this.listen();
+                this.listen(currentSectionIndex, currentCount);
             });
         }
     }

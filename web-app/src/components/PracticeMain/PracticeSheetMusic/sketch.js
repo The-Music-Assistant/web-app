@@ -186,6 +186,17 @@ const p5Sketch = p => {
             return;
         }
 
+        if (AlphaTabRunner && AlphaTabRunner.resetDrawPositions) {
+            console.log('swithc!')
+            previousPos[0] = -1;
+            previousPos[1] = -1;
+            previousPos[2] = -1;
+            previousPos[3] = -1;
+            AlphaTabRunner.resetDrawPositions = false;
+            barCursor = document.getElementById("bC");
+            alphaTabSurface = document.getElementById("aTS");
+        }
+
         // handles clearing ahead and drawing line behind the note head
         if (previousPos[0] !== -1 && previousPos[1] !== -1) {
             // fills with white
@@ -194,9 +205,9 @@ const p5Sketch = p => {
             // draws clearing rectangle with total height of alpha tab from previous X position to the end
             p.rect(
                 previousPos[0],
-                30,
+                0,
                 alphaTabSurface.clientWidth - previousPos[0],
-                alphaTabSurface.clientHeight - 30
+                alphaTabSurface.clientHeight
             );
 
             // don't draw silence which has special value -1 or if we don't have a previous point
