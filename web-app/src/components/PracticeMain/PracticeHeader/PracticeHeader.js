@@ -20,21 +20,21 @@ import MusicControls from "./MusicControls/MusicControls";
 import styles from "./PracticeHeader.module.scss";
 
 const PracticeHeader = props => {
-    // const handleBackButtonClicked = () => {
-    //     props.history.goBack();
-    // };
+    const handleBackButtonClicked = () => {
+        props.history.goBack();
+    };
 
     // Returns the JSX to display
     return (
         <div className={styles.practiceHeader}>
-            {/* <button className={styles.practiceHeaderBackButton} onClick={handleBackButtonClicked}>
+            <button className={styles.practiceHeaderBackButton} onClick={handleBackButtonClicked}>
                 <img
                     className={styles.practiceHeaderBackButtonArrow}
                     src={leftArrowBlue}
                     alt='Back Button'
                 />
                 <span className={styles.practiceHeaderBackButtonText}>Latest Pieces</span>
-            </button> */}
+            </button>
 
             <MusicControls />
         </div>

@@ -9,9 +9,12 @@
 @import "../../../root-styles/utilities.scss";
 
 .userWidget {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    @include flex-container(
+        $direction: column,
+        $justify-content: null,
+        $align-items: center,
+        $wrap: nowrap
+    );
     margin-left: auto;
     cursor: pointer;
 
@@ -43,7 +46,12 @@
     }
 
     &DownArrow {
-        width: 15px;
-        margin-left: 10px;;
+        display: none;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            display: block;
+            width: 15px;
+            margin-left: 10px;
+        }
     }
 }

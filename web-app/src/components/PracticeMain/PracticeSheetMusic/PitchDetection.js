@@ -61,7 +61,7 @@ class PitchDetection {
         this.label = document.querySelector("#frequency");
 
         // Creates pitch detection model
-        return ml5.pitchDetection("./Pitch-Detection-Model/", this.audioContext, this.micStream)
+        return ml5.pitchDetection("/Pitch-Detection-Model/", this.audioContext, this.micStream)
             .ready;
     }
 
