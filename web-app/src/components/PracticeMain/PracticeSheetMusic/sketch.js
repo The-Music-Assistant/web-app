@@ -82,18 +82,10 @@ const p5Sketch = p => {
      * TODO: Handle sheet music scale
      */
     p.draw = function() {
-        
         // This does the highlighting of the measures
 
         // TODO Fix the first measure highlighting
         if (AlphaTabRunner && AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_ON) {
-            if (state === STATE_SHEET_MUSIC) {
-                state = STATE_HIGHLIGHT;
-                p.clear();
-            }
-
-            const measurePositions = document.getElementById("aTS").getElementsByClassName("measureSeparator");
-            p.fill(0, 255, 0);
             let firstBarPos = AlphaTabRunner.texLoaded.firstBarMeasurePosition;
             let cursorBarStyle = document.getElementsByClassName("at-cursor-bar")[0].style;
             let compareBarPos = {
@@ -102,6 +94,18 @@ const p5Sketch = p => {
                 width: parseInt(cursorBarStyle.width.substring(0,cursorBarStyle.left.length - 2), 10),
                 height: parseInt(cursorBarStyle.height.substring(0,cursorBarStyle.left.length - 2),10)
             };
+            if (compareBarPos === null || firstBarPos === null) {
+                return;
+            }
+            if (state === STATE_SHEET_MUSIC) {
+                state = STATE_HIGHLIGHT;
+                p.clear();
+            }
+
+            const measurePositions = document.getElementById("aTS").getElementsByClassName("measureSeparator");
+            p.noStroke();
+            p.fill(0, 255, 0);
+            
             if (!isNaN(compareBarPos.left) && !isNaN(compareBarPos.top) && !isNaN(compareBarPos.width) && !isNaN(compareBarPos.height)
             && (firstBarPos.left !== compareBarPos.left || firstBarPos.top !== compareBarPos.top || firstBarPos.width !== compareBarPos.width || firstBarPos.height !== compareBarPos.height)) {
                 p.fill("#F8F8F8");

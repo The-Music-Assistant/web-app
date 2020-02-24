@@ -61,8 +61,8 @@ class AlphaTabRunner {
             },
             "display": {
                 layoutMode: "horizontal",
-                barCount: AlphaTabRunner.barCount,
-                startBar: 1
+                startBar: 1,
+                barCount: AlphaTabRunner.barCount
             }
         };
 
@@ -126,6 +126,9 @@ class AlphaTabRunner {
                 height: parseInt(barCursor.style.height.substring(0,barCursor.style.left.length - 2),10)
             };
 
+            let aTS = document.getElementById("aTS");
+            AlphaTabRunner.p5Obj.resizeCanvas(aTS.clientWidth, aTS.clientHeight);
+
             if (AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_PENDING_START) {
                 this.startHighlighting();
             } else if (AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_PENDING_STOP) {
@@ -158,7 +161,7 @@ class AlphaTabRunner {
 
                 // Creates a new drawer
                 AlphaTabRunner.drawer = new Drawer(topLineHeight + 1, distanceBetweenLines, AlphaTabRunner.texLoaded.getStartOctave());
-                
+
                 AlphaTabRunner.p5Obj = new p5(p5Sketch);
                 AlphaTabRunner.p5Obj.setup(AlphaTabRunner.drawer);
 
@@ -182,12 +185,13 @@ class AlphaTabRunner {
 
             AlphaTabRunner.p5Obj.clear();
             AlphaTabRunner.api.settings.display.startBar = 1;
+            AlphaTabRunner.api.settings.display.barCount = 20;
             AlphaTabRunner.api.updateSettings();
             AlphaTabRunner.api.render();
 
             AlphaTabRunner.noteStreamIndex = 0;
             AlphaTabRunner.cumulativeTime = 0;
-        } else if (AlphaTabRunner.playerState === 0) {
+        } else if (AlphaTabRunner.api.playerState === 1 && AlphaTabRunner.playerState === 0) {
             this.resetDrawPositions = true;
             AlphaTabRunner.playerState = 1;
             try {
@@ -218,6 +222,7 @@ class AlphaTabRunner {
 
         AlphaTabRunner.p5Obj.clear();
         AlphaTabRunner.api.settings.display.startBar = 1;
+         AlphaTabRunner.api.settings.display.barCount = 20;
         AlphaTabRunner.api.updateSettings();
         AlphaTabRunner.api.render();
         AlphaTabRunner.noteStreamIndex = 0;
@@ -259,21 +264,24 @@ class AlphaTabRunner {
     }
 
     static changeMusic(value, measureStart, measureEnd) {
-        if (this.texLoaded === null || value === this.texLoaded) {
+        if (this.texLoaded !== null && value === this.texLoaded.typeOfTex) {
             return;
         } else {
             if (value === "sheetMusic") {
                 AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_STOP;
+                AlphaTabRunner.api.settings.display.barCount = AlphaTabRunner.barCount;
+                AlphaTabRunner.api.updateSettings();
                 AlphaTabRunner.loadTex();
             } else if (value === "performance") {
-                if (AlphaTabRunner.texLoaded.typeOfTex === 'Exercise') {
-                    AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_START;
-                    AlphaTabRunner.loadTex();
-                } else {
-                    this.startHighlighting();
-                }
+                AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_START;
+                
+                AlphaTabRunner.api.settings.display.barCount = AlphaTabRunner.texLoaded.measureLengths.length;
+                AlphaTabRunner.api.updateSettings();
+                AlphaTabRunner.loadTex();
             } else if (value === "exercise" && measureStart && measureEnd) {
                 AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_STOP;
+                AlphaTabRunner.api.settings.display.barCount = AlphaTabRunner.barCount;
+                AlphaTabRunner.api.updateSettings();
                 AlphaTabRunner.loadExercise(measureStart, measureEnd);
             } else {
                 console.log("not recognized: ", value);

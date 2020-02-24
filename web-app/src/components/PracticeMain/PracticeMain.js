@@ -44,7 +44,7 @@ class PracticeMain extends Component {
     };
 
     componentDidMount() {
-        AlphaTabRunner.loadTex();
+        AlphaTabRunner.changeMusic('sheetMusic');
     }
 
     // /**

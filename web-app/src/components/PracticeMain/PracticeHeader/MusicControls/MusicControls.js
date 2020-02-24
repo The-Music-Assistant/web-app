@@ -48,11 +48,17 @@ class MusicControls extends Component {
     // };
 
     trackSelectionButtonHandler = (event) => {
+        if (this.state.isPlaying) {
+            this.stopButtonHandler();
+        }
         this.setState({ trackName: event.target.value });
         AlphaTabRunner.changePart(event.target.value);
     };
 
     musicSelectorHandler = (event) => {
+        if (this.state.isPlaying) {
+            this.stopButtonHandler();
+        }
         this.setState({ musicDisplayed: event.target.value });
         if (event.target.value === "performance") {
             this.setState({

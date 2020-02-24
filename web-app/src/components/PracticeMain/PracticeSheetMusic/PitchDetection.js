@@ -79,14 +79,17 @@ class PitchDetection {
     }
 
     static listen(currentSectionIndex, currentCount) {
-        let increment = AlphaTabRunner.texLoaded.lengthsPerSection[currentSectionIndex];
-        if (AlphaTabRunner.api.timePosition / 1000 > currentCount + increment) {
-            AlphaTabRunner.resetDrawPositions = true;
-            AlphaTabRunner.p5Obj.clear();
-            AlphaTabRunner.api.settings.display.startBar = AlphaTabRunner.api.settings.display.startBar + AlphaTabRunner.barCount - 1;
-            AlphaTabRunner.api.updateSettings();
-            AlphaTabRunner.api.render();
-            currentCount += increment;
+        let increment = null;
+        if (AlphaTabRunner.texLoaded.lengthsPerSection !== null) {
+            increment = AlphaTabRunner.texLoaded.lengthsPerSection[currentSectionIndex];
+            if (AlphaTabRunner.api.timePosition / 1000 > currentCount + increment) {
+                AlphaTabRunner.resetDrawPositions = true;
+                AlphaTabRunner.p5Obj.clear();
+                AlphaTabRunner.api.settings.display.startBar = AlphaTabRunner.api.settings.display.startBar + AlphaTabRunner.barCount - 1;
+                AlphaTabRunner.api.updateSettings();
+                AlphaTabRunner.api.render();
+                currentCount += increment;
+            }
         }
 
         if (AlphaTabRunner.playerState === 1) {
