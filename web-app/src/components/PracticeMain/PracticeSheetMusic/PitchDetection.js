@@ -72,20 +72,40 @@ class PitchDetection {
      */
     static startPitchDetection() {
         AlphaTabRunner.noteList.clear();
-        // Run nested anonymous function every 1 ms
-        return setInterval(() => {
-            AlphaTabRunner.p5Obj.redraw();
-            // Gets the current pitch and sends it to displayMidi
+        console.log(AlphaTabRunner.getsFeedback)
+        if (AlphaTabRunner.getsFeedback) {
+            p5.loop();
+            // Run nested anonymous function every 1 ms
+            // return setInterval(() => {
+            //     // Gets the current pitch and sends it to displayMidi
+            //     this.pitchDetectionModel
+            //         .getPitch()
+            //         .then(frequency => {
+            //             this.displayMidi(frequency);
+            //         })
+            //         .catch(err => {
+            //             console.log(`[error][PitchDetection] ${err}`);
+            //             this.displayMidi(0);
+            //         });
+            // }, 500);
+            this.listen();
+        }
+    }
+
+    static listen() {
+        if (AlphaTabRunner.playerState === 1) {
             this.pitchDetectionModel
-                .getPitch()
-                .then(frequency => {
-                    this.displayMidi(frequency);
-                })
-                .catch(err => {
-                    console.log(`[error][PitchDetection] ${err}`);
-                    this.displayMidi(0);
-                });
-        }, 1);
+            .getPitch()
+            .then(frequency => {
+                this.displayMidi(frequency);
+                this.listen();
+            })
+            .catch(err => {
+                console.log(`[error][PitchDetection] ${err}`);
+                this.displayMidi(0);
+                this.listen();
+            });
+        }
     }
 
     /**
@@ -93,11 +113,22 @@ class PitchDetection {
      * @param {number} setIntervalID The id of the setInterval process to stop
      */
     static async stopPitchDetection(setIntervalID, sheetMusicId) {
-        clearInterval(setIntervalID);
+        if (AlphaTabRunner.getsFeedback) {
+            p5.noLoop();
+            // clearInterval(setIntervalID);
+        }
+        /*
+        measureStart - The measure number to start with
+        measureEnd - The measure number to end with
+        isDurationExercise 
+        */
         let performanceData = {
             performanceData: AlphaTabRunner.noteList.performanceData,
             sheetMusicId,
-            exerciseId: null
+            exerciseId: null,
+            measureStart: AlphaTabRunner.texLoaded.measureStart,
+            measureEnd: AlphaTabRunner.texLoaded.measureEnd,
+            isDurationExercise: false
         }
         if (AlphaTabRunner.texLoaded.typeOfTex === "Exercise" && AlphaTabRunner.texLoaded.id !== null) {
             performanceData.exerciseId = AlphaTabRunner.texLoaded.id;

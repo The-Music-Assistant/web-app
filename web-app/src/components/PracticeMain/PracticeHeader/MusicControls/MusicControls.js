@@ -125,10 +125,9 @@ class MusicControls extends Component {
 
     submitMeasuresHandler = (event) => {
         event.preventDefault();
-        let maxMeasureNumber = AlphaTabRunner.noteStream.length - 2;
-        console.log(maxMeasureNumber)
+        let maxMeasureNumber = AlphaTabRunner.texLoaded.measureLengths.length;
         if (typeof(this.state.startMeasure) !== 'number' || typeof(this.state.endMeasure) !== 'number' || this.state.startMeasure > this.state.endMeasure || this.state.startMeasure <= 0 || this.state.endMeasure <= 0 || this.state.startMeasure > maxMeasureNumber || this.state.endMeasure > maxMeasureNumber) {
-            console.log('nope', typeof(this.state.startMeasure))
+            alert("Please input valid start and end measures.");
         } else {
             AlphaTabRunner.changeMusic('exercise', this.state.startMeasure, this.state.endMeasure);
             this.measureSelectorHandler(false);

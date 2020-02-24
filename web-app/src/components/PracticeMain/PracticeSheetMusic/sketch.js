@@ -84,8 +84,6 @@ const p5Sketch = p => {
     p.draw = function() {
         
         // This does the highlighting of the measures
-        // The currently upcommented code draws over the first measure
-        // Expand the use of the measurePositions to draw the rest of the measures, add watcher for scroller to automatically update for measureSeparator or otherwise just check for more that haven't been drawn
 
         // TODO Fix the first measure highlighting
         if (AlphaTabRunner && AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_ON) {

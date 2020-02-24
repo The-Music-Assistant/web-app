@@ -1,5 +1,5 @@
 class TexLoaded {
-    constructor(typeOfTex, partNames, clefs, myPart, id) {
+    constructor(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd) {
         this.typeOfTex = typeOfTex;
         this.partNames = partNames;
         this.myPart = myPart;
@@ -15,12 +15,13 @@ class TexLoaded {
         }
         this.currentTrackIndexes = [0];
         this.firstBarMeasurePosition = null;
-        this.measurePositions = null;
         this.measureLengths = null;
         this.id = id;
+        this.measureStart = measureStart;
+        this.measureEnd = measureEnd;
     }
 
-    update(typeOfTex, partNames, clefs, myPart) {
+    update(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd) {
         this.typeOfTex = typeOfTex;
         this.partNames = partNames;
         this.clefs = clefs;
@@ -35,8 +36,10 @@ class TexLoaded {
         this.myPart = myPart;
         this.currentTrackIndexes = [0];
         this.firstBarMeasurePosition = null;
-        this.measurePositions = null;
         this.measureLengths = null;
+        this.id = id;
+        this.measureStart = measureStart;
+        this.measureEnd = measureEnd;
     }
 
     getStartOctave() {

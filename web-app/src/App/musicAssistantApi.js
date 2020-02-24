@@ -200,6 +200,9 @@ export const getPartSheetMusic = data => {
  * @param {string} data.performanceData - The performance data to be added
  * @param {string} data.sheetMusicId - The sheet music id to add the performance to, also used to authenticate user so this is required
  * @param {string} data.exerciseId - If not null then the performance will be attached to this exercise otherwise attached to sheet music
+ * @param {Boolean} data.isDurationExercise - If exercise, specify if it is a duration exercise
+ * @param {number} data.measureStart - Start of performance
+ * @param {number} data.measureEnd - End of performance
  */
 export const addPerformance = data => {
     return axios.post("/performance", data);
