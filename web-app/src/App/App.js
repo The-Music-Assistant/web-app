@@ -38,7 +38,7 @@ class App extends Component {
         } else if (this.props.showWelcomePage) {
             redirect = <Redirect to='/welcome' />;
         } else {
-            redirect = <Redirect to='/practice' />;
+            redirect = <Redirect to='/sheet-music' />;
         }
 
         console.log(redirect);
@@ -63,7 +63,7 @@ class App extends Component {
                             <Route component={Welcome} path='/welcome' />
                         ) : null}
                         {this.props.isStartupDone ? (
-                            <Route component={Primary} path='/practice' />
+                            <Route component={Primary} path='/sheet-music' />
                         ) : null}
                     </Switch>
                 </div>

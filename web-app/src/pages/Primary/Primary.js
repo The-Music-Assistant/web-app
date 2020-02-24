@@ -155,7 +155,7 @@ class Primary extends Component {
                 />
                 {mainNav}
                 <Switch>
-                    <Route path={"/practice/sheet-music"}>
+                    <Route path="/sheet-music">
                         <PracticeMain />
                     </Route>
                     {/* <Route path='/practice' component={() => <ChoirSelection showAlert={this.showAlertHandler} />} /> */}
