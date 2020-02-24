@@ -72,7 +72,6 @@ class PitchDetection {
      */
     static startPitchDetection() {
         AlphaTabRunner.noteList.clear();
-        console.log(AlphaTabRunner.getsFeedback)
         if (AlphaTabRunner.getsFeedback) {
             p5.loop();
             // Run nested anonymous function every 1 ms
