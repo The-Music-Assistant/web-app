@@ -182,6 +182,7 @@ class MusicControls extends Component {
      * TODO: Figure out what this does
      */
     componentDidMount() {
+        this.checkFeedback();
         const id = window.setInterval(() => {
             if (AlphaTabRunner.api != null) {
                 clearInterval(id);
@@ -202,19 +203,16 @@ class MusicControls extends Component {
     };
 
     checkFeedback() {
-        const feedbackReadyId = setInterval(() => {
-            const data = {
-                sheetMusicId: "5050284854B611EAAEC302F168716C78"
+        const data = {
+            sheetMusicId: "5050284854B611EAAEC302F168716C78"
+        }
+        userGetsFeedback(data).then((response) => {
+            if ((response.data["gets_feedback"] && !this.state.getsFeedback) || (!response.data["gets_feedback"] && this.state.getsFeedback)) {
+                this.setState({ getsFeedback: response.data["gets_feedback"] });
             }
-            userGetsFeedback(data).then((response) => {
-                clearInterval(feedbackReadyId);
-                if ((response.data["gets_feedback"] && !this.state.getsFeedback) || (!response.data["gets_feedback"] && this.state.getsFeedback)) {
-                    this.setState({ getsFeedback: response.data["gets_feedback"] });
-                }
-            }).catch((error) => {
-                console.log("getsfeedback", error);
-            });
-        }, 3000);
+        }).catch((error) => {
+            console.log("getsfeedback", error);
+        });
     }
 
     /**
@@ -291,8 +289,7 @@ class MusicControls extends Component {
                 </form>
             );
         }
-
-        this.checkFeedback();
+        
         let feedbackMessage = null;
         let performanceButton = null;
         if (this.state.getsFeedback) {
