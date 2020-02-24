@@ -90,6 +90,7 @@ class AlphaTabRunner {
         this.highlightMeasures = AlphaTabRunner.HIGHLIGHT_OFF;
         this.playerState = 0;
         this.getsFeedback = false;
+        this.sheetMusicLength = null;
     }
 
     /**
@@ -274,8 +275,8 @@ class AlphaTabRunner {
                 AlphaTabRunner.loadTex();
             } else if (value === "performance") {
                 AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_START;
-                
-                AlphaTabRunner.api.settings.display.barCount = AlphaTabRunner.texLoaded.measureLengths.length;
+                console.log(AlphaTabRunner.sheetMusicLength)
+                AlphaTabRunner.api.settings.display.barCount = AlphaTabRunner.sheetMusicLength !== null ? AlphaTabRunner.sheetMusicLength : AlphaTabRunner.barCount;
                 AlphaTabRunner.api.updateSettings();
                 AlphaTabRunner.loadTex();
             } else if (value === "exercise" && measureStart && measureEnd) {
@@ -453,6 +454,7 @@ class AlphaTabRunner {
 
                 AlphaTabRunner.noteList.updateBounds(response.data.lower_upper[0], response.data.lower_upper[1]);
                 AlphaTabRunner.texLoaded.setMeasureLengths(response.data.measure_lengths, AlphaTabRunner.barCount);
+                AlphaTabRunner.sheetMusicLength = AlphaTabRunner.texLoaded.measureLengths.length;
                 AlphaTabRunner.texLoaded.measureEnd = AlphaTabRunner.texLoaded.measureLengths.length + 1;
                 AlphaTabRunner.texLoaded.typeOfTex = 'Sheet Music';
             }).catch((error) => {

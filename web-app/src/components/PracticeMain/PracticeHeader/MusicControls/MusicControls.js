@@ -68,6 +68,9 @@ class MusicControls extends Component {
             });
         } else {
             this.setState({ generatingExercises: false });
+            this.setState({
+                measureSelectorOpen: false
+            });
         }
         AlphaTabRunner.changeMusic(event.target.value);
     }
