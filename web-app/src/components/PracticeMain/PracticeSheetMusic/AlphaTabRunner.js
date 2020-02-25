@@ -14,7 +14,7 @@ import p5 from "p5";
 import Drawer from "./Drawer";
 import NoteList from "./NoteList";
 import p5Sketch from "./sketch";
-import { getSpecificSheetMusic, getPartSheetMusic, getExercise, userGetsFeedback } from "../../../App/musicAssistantApi";
+import { getSpecificSheetMusic, getPartSheetMusic, getExercise, userGetsFeedback, getSinglePartSheetMusic } from "../../../App/musicAssistantApi";
 import TexLoaded from "./TexLoaded";
 
 /**
@@ -273,6 +273,11 @@ class AlphaTabRunner {
                 AlphaTabRunner.api.settings.display.barCount = AlphaTabRunner.barCount;
                 AlphaTabRunner.api.updateSettings();
                 AlphaTabRunner.loadTex();
+            } else if (value === "myPart") {
+                AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_STOP;
+                AlphaTabRunner.api.settings.display.barCount = AlphaTabRunner.barCount;
+                AlphaTabRunner.api.updateSettings();
+                this.loadJustMyPart();
             } else if (value === "performance") {
                 AlphaTabRunner.highlightMeasures = AlphaTabRunner.HIGHLIGHT_PENDING_START;
                 AlphaTabRunner.api.settings.display.barCount = AlphaTabRunner.sheetMusicLength !== null ? AlphaTabRunner.sheetMusicLength : AlphaTabRunner.barCount;
@@ -357,6 +362,30 @@ class AlphaTabRunner {
     //     }
         
     // }
+
+    static async loadJustMyPart() {
+        let data = {
+            sheetMusicId: "5050284854B611EAAEC302F168716C78"
+        }
+
+        getSinglePartSheetMusic(data).then((response) => {
+            AlphaTabRunner.texLoaded.update('Sheet Music', response.data.part_list, response.data.clefs, response.data.part, null, 1, 1);
+            AlphaTabRunner.texLoaded.updateCurrentTrackIndexes(0);
+            AlphaTabRunner.api.tex(response.data.sheet_music, AlphaTabRunner.texLoaded.currentTrackIndexes);
+
+            this.updateDropdown(response.data.part_list);
+
+            AlphaTabRunner.noteStream = response.data.performance_expectation;
+            AlphaTabRunner.noteList.clear();
+            AlphaTabRunner.noteList.updateBounds(response.data.lower_upper[0], response.data.lower_upper[1]);
+            AlphaTabRunner.texLoaded.setMeasureLengths(response.data.measure_lengths, AlphaTabRunner.barCount);          
+            AlphaTabRunner.sheetMusicLength = AlphaTabRunner.texLoaded.measureLengths.length;
+            AlphaTabRunner.texLoaded.updateLengthsPerSection(1, AlphaTabRunner.texLoaded.measureLengths.length + 1, AlphaTabRunner.barCount)
+            AlphaTabRunner.texLoaded.typeOfTex = 'Sheet Music';
+        }).catch((error) => {
+            console.log('error_p', error);
+        });
+    }
 
     static async loadExercise(measureStart, measureEnd) {
         let texToDisplay = document.getElementById("texToDisplay");

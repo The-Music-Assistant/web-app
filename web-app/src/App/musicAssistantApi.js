@@ -269,6 +269,26 @@ export const getExercise = data => {
 }
 
 /**
+ * Gets the sheet music and performance data for the user's specific part receiving {
+ *  sheet_music: (AlphaTex for the part),
+ *  performance_expectation: The expected performance from the user,
+ *  lower_upper: The lower and upper notes to expect during the performance
+ *  measure_lengths: The lengths of each of the measures
+ *  part_names: Updated list of part names for this sheet music
+ *  clefs: Updated list of clefs for this sheet music
+ * }
+ * @param {Object} data 
+ * @param {string} data.sheetMusicId - The sheet music id to retrieve the part from
+ */
+export const getSinglePartSheetMusic = data => {
+    return axios.request({
+        method: 'GET',
+        url: `/sheet-music-part`,
+        params: data
+    })
+}
+
+/**
  * Adds selected part to sheet music for given member receiving nothing
  * @param {Object} data 
  * @param {string} data.sheetMusicId - The sheet music id to which the part for the member is being added
