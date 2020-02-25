@@ -74,6 +74,7 @@ class PitchDetection {
         AlphaTabRunner.noteList.clear();
         if (AlphaTabRunner.getsFeedback) {
             AlphaTabRunner.p5Obj.loop();
+            // TODO: Fix when starting at different start measure in exercise
             this.listen(0, 0);
         }
     }
@@ -82,6 +83,7 @@ class PitchDetection {
         let increment = null;
         if (AlphaTabRunner.texLoaded.lengthsPerSection !== null) {
             increment = AlphaTabRunner.texLoaded.lengthsPerSection[currentSectionIndex];
+
             if (AlphaTabRunner.api.timePosition / 1000 > currentCount + increment) {
                 AlphaTabRunner.resetDrawPositions = true;
                 AlphaTabRunner.p5Obj.clear();
@@ -104,6 +106,16 @@ class PitchDetection {
                 this.displayMidi(0);
                 this.listen(currentSectionIndex, currentCount);
             });
+
+            try {
+                const topLine = document.getElementById("rect_0");
+                const nextLine = document.getElementById("rect_1");
+                const topLineHeight = topLine.y.animVal.value;
+                const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
+                if (topLineHeight !== AlphaTabRunner.drawer.topLine || distanceBetweenLines !== AlphaTabRunner.drawer.distanceBetweenLines) {
+                    AlphaTabRunner.drawer.setTopLineAndDistanceBetween(topLineHeight, distanceBetweenLines, AlphaTabRunner.drawer.baseOctave);
+                }
+            } catch(error) {}
         }
     }
 

@@ -27,8 +27,8 @@ class TexLoaded {
         this.lengthsPerSection = [];
         let count = 0;
         let total = 0;
-        for (let i = 0; i < measureLengths.length; i++) {
-            total += measureLengths[i];
+        for (let i = this.measureStart; i < this.measureEnd; i++) {
+            total += measureLengths[i - this.measureStart];
             count++;
             if (count === barCount - 1) {
                 this.lengthsPerSection.push(total);
@@ -39,6 +39,29 @@ class TexLoaded {
         if (count > 0) {
             this.lengthsPerSection.push(total);
         }
+
+    }
+
+    updateLengthsPerSection(measureStart, measureEnd, barCount) {
+        this.measureStart = measureStart;
+        this.measureEnd = measureEnd;
+        this.lengthsPerSection = [];
+        let count = 0;
+        let total = 0;
+
+        for (let i = this.measureStart; i < this.measureEnd; i++) {
+            total += this.measureLengths[i - this.measureStart];
+            count++;
+            if (count === barCount - 1) {
+                this.lengthsPerSection.push(total);
+                total = 0;
+                count = 0;
+            }
+        }
+        if (count > 0) {
+            this.lengthsPerSection.push(total);
+        }
+
     }
 
     update(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd) {
