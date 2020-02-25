@@ -218,14 +218,6 @@ class AlphaTabRunner {
     static alphaTabPlayerFinished() {
         // resets the time back to the beginning of the song and our tracker points at the beginning of the piece again
         // TODO: Fix confusion when playing/pausing quickly
-        PitchDetection.stopPitchDetection(this.intervalID, "5050284854B611EAAEC302F168716C78");
-        AlphaTabRunner.playerState = 0;
-
-        AlphaTabRunner.p5Obj.clear();
-        AlphaTabRunner.api.settings.display.startBar = 1;
-         AlphaTabRunner.api.settings.display.barCount = 20;
-        AlphaTabRunner.api.updateSettings();
-        AlphaTabRunner.api.render();
         AlphaTabRunner.noteStreamIndex = 0;
         AlphaTabRunner.cumulativeTime = 0;
     }

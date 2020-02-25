@@ -82,6 +82,9 @@ const p5Sketch = p => {
      * TODO: Handle sheet music scale
      */
     p.draw = function() {
+        if (!AlphaTabRunner.getsFeedback) {
+            return;
+        }
         // This does the highlighting of the measures
 
         // TODO Fix the first measure highlighting
