@@ -8,8 +8,7 @@
 
 import axios from "axios";
 
-// axios.defaults.baseURL = "https://server.music-assistant.com/";
-axios.defaults.baseURL = "http://MusicAssistantRouter-47263445.us-east-2.elb.amazonaws.com";
+axios.defaults.baseURL = "https://server.music-assistant.com/";
 // axios.defaults.timeout = 3000;
 
 /**

@@ -322,7 +322,8 @@ class AlphaTabRunner {
                     comparePosition = AlphaTabRunner.api.tickPosition;
                 }
                 let ratio = AlphaTabRunner.api.tickPosition / comparePosition;
-                let targetEndTime = (AlphaTabRunner.api.playbackRange.endTick / ratio) - currentPosition;
+                let targetEndTime = (AlphaTabRunner.api.playbackRange.endTick / ratio) - (AlphaTabRunner.api.playbackRange.startTick / ratio);
+                console.log(AlphaTabRunner.api.playbackRange.endTick, ratio, AlphaTabRunner.api.playbackRange.startTick, targetEndTime, AlphaTabRunner.api.tickPosition, AlphaTabRunner.api.timePosition )
                 let currentMeasure = 1;
                 currentMeasure = this.timeToMeasureNumber(currentPosition, currentMeasure, measureToLength);
                 playbackMeasures.push(currentMeasure);
