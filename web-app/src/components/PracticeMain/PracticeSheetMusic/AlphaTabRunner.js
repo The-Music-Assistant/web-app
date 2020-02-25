@@ -447,7 +447,7 @@ class AlphaTabRunner {
 
     static async loadTex () {      
         let texToDisplay = document.getElementById("texToDisplay");
-        texToDisplay.options[2]=null;
+        texToDisplay.options[3]=null;
 
         let data = {
             sheetMusicId: "5050284854B611EAAEC302F168716C78"

@@ -75,8 +75,8 @@ class PitchDetection {
         if (AlphaTabRunner.getsFeedback) {
             AlphaTabRunner.p5Obj.loop();
             // TODO: Fix when starting at different start measure in exercise
-            this.listen(0, 0);
         }
+        this.listen(0, 0);
     }
 
     static listen(currentSectionIndex, currentCount) {
