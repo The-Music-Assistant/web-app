@@ -36,10 +36,6 @@ export const addUser = data => {
     return axios.post("/person", data);
 };
 
-export const getUser = () => {
-    return axios.get("/person");
-};
-
 /**
  * Updates a user in the database
  * @param {object} data
@@ -195,7 +191,23 @@ export const getPartSheetMusic = data => {
 };
 
 /**
- * Adds a performance for the current user for the provided sheet music
+ * Initalizes a performance for the current user for the provided sheet music recieves {
+ *  performance_id: Performance id of generated performance for updates
+ * }
+ * @param {Object} data 
+ * @param {string} data.performanceData - The performance data to be added
+ * @param {string} data.sheetMusicId - The sheet music id to add the performance to, also used to authenticate user so this is required
+ * @param {string} data.exerciseId - If not null then the performance will be attached to this exercise otherwise attached to sheet music
+ * @param {Boolean} data.isDurationExercise - If exercise, specify if it is a duration exercise
+ * @param {number} data.measureStart - Start of performance
+ * @param {number} data.measureEnd - End of performance
+ */
+export const initializeRunningPerformance = data => {
+    return axios.post("/performance/new/no-analysis", data);
+};
+
+/**
+ * Adds a new performance for the current user for the provided sheet music and analyzes it immediately
  * @param {Object} data 
  * @param {string} data.performanceData - The performance data to be added
  * @param {string} data.sheetMusicId - The sheet music id to add the performance to, also used to authenticate user so this is required
@@ -205,7 +217,33 @@ export const getPartSheetMusic = data => {
  * @param {number} data.measureEnd - End of performance
  */
 export const addPerformance = data => {
-    return axios.post("/performance", data);
+    return axios.post("/performance/new/analysis", data);
+};
+
+/**
+ * Updates a stored performance with additional values
+ * @param {Object} data 
+ * @param {string} data.performanceData - The performance data to be added
+ * @param {string} data.performanceId - The performance id to update
+ * @param {string} data.sheetMusicId - The sheet music id for the performance
+ */
+export const updateRunningPerformance = data => {
+    return axios.put("/performance/no-analysis", data);
+};
+
+/**
+ * Closes out a running performance with the most recent data and asks to analyze it
+ * @param {Object} data 
+ * @param {string} data.performanceData - The performance data to be added
+ * @param {string} data.performanceId - The performance id to update
+ * @param {string} data.sheetMusicId - The sheet music id for the performance
+ * @param {string} data.exerciseId - If not null then the performance will be attached to this exercise otherwise attached to sheet music
+ * @param {Boolean} data.isDurationExercise - If exercise, specify if it is a duration exercise
+ * @param {number} data.measureStart - Start of performance
+ * @param {number} data.measureEnd - End of performance
+ */
+export const closeRunningPerformance = data => {
+    return axios.put("/performance/analysis", data);
 };
 
 /**

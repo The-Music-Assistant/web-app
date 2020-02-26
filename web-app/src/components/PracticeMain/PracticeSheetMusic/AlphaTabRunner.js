@@ -447,7 +447,7 @@ class AlphaTabRunner {
         getSpecificSheetMusic(data).then((response) => {
             let partList = response.data.part_list;
             if (AlphaTabRunner.texLoaded === null) {
-                AlphaTabRunner.texLoaded = new TexLoaded('Sheet Music', partList, response.data.clefs, response.data.part, null, 1, 1);
+                AlphaTabRunner.texLoaded = new TexLoaded('Sheet Music', partList, response.data.clefs, response.data.part, null, 1, 1, "5050284854B611EAAEC302F168716C78");
             } else {
                 AlphaTabRunner.texLoaded.update('Sheet Music', partList, response.data.clefs, response.data.part, null, 1, 1);
             }

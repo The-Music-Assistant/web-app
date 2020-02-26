@@ -44,7 +44,6 @@ export const handleAuthStateChanges = () => {
                     .auth()
                     .currentUser.getIdToken()
                     .then(setAxiosAuthToken)
-<<<<<<< HEAD
                     .catch(error => {
                         // Clears the old Axios auth header token if there is one
                         setAxiosAuthToken("");
@@ -54,9 +53,6 @@ export const handleAuthStateChanges = () => {
                     .then(() => {
                         dispatch(getUserInfo());
                     })
-=======
-                    .then(dispatch(userAuthenticated()))
->>>>>>> Merged fix on master for authentication, blocked play and stop buttons until tex is loaded, modified performancedata so that it doesn't report multiple notes in a row at the same time
                     .then(() => {
                         // A user must have a verified email before they can use the app
                         // The welcome page blocks the user until they verify their email

@@ -1,5 +1,5 @@
 class TexLoaded {
-    constructor(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd) {
+    constructor(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd, sheetMusicId) {
         this.typeOfTex = typeOfTex;
         this.partNames = partNames;
         this.myPart = myPart;
@@ -20,6 +20,8 @@ class TexLoaded {
         this.id = id;
         this.measureStart = measureStart;
         this.measureEnd = measureEnd;
+        this.performanceId = null;
+        this.sheetMusicId = sheetMusicId;
     }
 
     setMeasureLengths(measureLengths, barCount) {
@@ -39,7 +41,6 @@ class TexLoaded {
         if (count > 0) {
             this.lengthsPerSection.push(total);
         }
-
     }
 
     updateLengthsPerSection(measureStart, measureEnd, barCount) {
@@ -61,7 +62,6 @@ class TexLoaded {
         if (count > 0) {
             this.lengthsPerSection.push(total);
         }
-
     }
 
     update(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd) {

@@ -12,6 +12,8 @@ import ml5 from "ml5";
 // File imports
 import AlphaTabRunner from "./AlphaTabRunner";
 import { addPerformance } from "../../../App/musicAssistantApi";
+import { initializeRunningPerformance, updateRunningPerformance, closeRunningPerformance } from "../../../App/musicAssistantApi";
+
 
 class PitchDetection {
     audioContext;
@@ -71,6 +73,7 @@ class PitchDetection {
      * @returns The id of the current setInterval process (this can be used to stop the current setInterval process)
      */
     static startPitchDetection() {
+        AlphaTabRunner.texLoaded.performanceId = null;
         AlphaTabRunner.noteList.clear();
         if (AlphaTabRunner.getsFeedback) {
             AlphaTabRunner.p5Obj.loop();
@@ -79,12 +82,53 @@ class PitchDetection {
         this.listen(0, 0);
     }
 
+    static async pageTurn() {
+        let sheetMusicId = AlphaTabRunner.texLoaded.sheetMusicId;
+        if (AlphaTabRunner.texLoaded.performanceId === null) {            
+            let performanceData = {
+                performanceData: JSON.stringify(JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))),
+                sheetMusicId,
+                exerciseId: null,
+                measureStart: AlphaTabRunner.texLoaded.measureStart,
+                measureEnd: AlphaTabRunner.texLoaded.measureEnd,
+                isDurationExercise: false
+            }
+            if (AlphaTabRunner.texLoaded.typeOfTex === "Exercise" && AlphaTabRunner.texLoaded.id !== null) {
+                performanceData.exerciseId = AlphaTabRunner.texLoaded.id;
+            }
+    
+            AlphaTabRunner.noteList.clear();
+    
+            initializeRunningPerformance(performanceData).then((response) => {
+                AlphaTabRunner.texLoaded.performanceId = response.data.performance_id;
+                console.log('initial', AlphaTabRunner.texLoaded.performanceId)
+            }).catch((error) => {
+                console.log("pT:", error);
+            });           
+        } else {
+            let performanceData = {
+                performanceData: JSON.stringify(JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))),
+                performanceId: AlphaTabRunner.texLoaded.performanceId,
+                sheetMusicId
+            }
+            AlphaTabRunner.noteList.clear();
+
+            updateRunningPerformance(performanceData).then((response) => {
+                console.log('updated', AlphaTabRunner.texLoaded.performanceId)
+            }).catch((error) => {
+                console.log("uR:", error);
+            });
+        }
+    }
+
     static listen(currentSectionIndex, currentCount) {
         let increment = null;
         if (AlphaTabRunner.texLoaded.lengthsPerSection !== null) {
             increment = AlphaTabRunner.texLoaded.lengthsPerSection[currentSectionIndex];
 
             if (AlphaTabRunner.api.timePosition / 1000 > currentCount + increment) {
+                this.pageTurn();
+
                 AlphaTabRunner.resetDrawPositions = true;
                 AlphaTabRunner.p5Obj.clear();
                 AlphaTabRunner.api.settings.display.startBar = AlphaTabRunner.api.settings.display.startBar + AlphaTabRunner.barCount - 1;
@@ -126,15 +170,10 @@ class PitchDetection {
     static async stopPitchDetection(setIntervalID, sheetMusicId) {
         if (AlphaTabRunner.getsFeedback) {
             AlphaTabRunner.p5Obj.noLoop();
-            // clearInterval(setIntervalID);
         }
-        /*
-        measureStart - The measure number to start with
-        measureEnd - The measure number to end with
-        isDurationExercise 
-        */
+
         let performanceData = {
-            performanceData: AlphaTabRunner.noteList.performanceData,
+            performanceData: JSON.stringify(JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))),
             sheetMusicId,
             exerciseId: null,
             measureStart: AlphaTabRunner.texLoaded.measureStart,
@@ -144,7 +183,29 @@ class PitchDetection {
         if (AlphaTabRunner.texLoaded.typeOfTex === "Exercise" && AlphaTabRunner.texLoaded.id !== null) {
             performanceData.exerciseId = AlphaTabRunner.texLoaded.id;
         }
-        await addPerformance(performanceData);
+
+        AlphaTabRunner.noteList.clear();
+
+
+        if (AlphaTabRunner.texLoaded.performanceId !== null) {
+            performanceData.performanceId = AlphaTabRunner.texLoaded.performanceId;
+
+            const currentPerformanceId = AlphaTabRunner.texLoaded.performanceId;
+
+            closeRunningPerformance(performanceData).then((response) => {
+                if (AlphaTabRunner.texLoaded.performanceId === currentPerformanceId) {
+                    AlphaTabRunner.texLoaded.performanceId = null;
+                    console.log('was open')
+                }
+                console.log('closed', AlphaTabRunner.texLoaded.performanceId)
+            }).catch((error) => {
+                console.log("uR:", error);
+            });
+        } else {
+            
+            await addPerformance(performanceData);
+            console.log('was not open', AlphaTabRunner.texLoaded.performanceId)
+        }
     }
 
     /**
