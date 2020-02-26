@@ -17,6 +17,7 @@ import {
     updateRunningPerformance,
     closeRunningPerformance
 } from "../../../App/musicAssistantApi";
+import * as logs from "../../../vendors/Firebase/logs";
 
 class PitchDetection {
     audioContext;
@@ -112,7 +113,11 @@ class PitchDetection {
                     AlphaTabRunner.texLoaded.performanceId = response.data.performance_id;
                 })
                 .catch(error => {
-                    console.log("pT:", error);
+                    logs.sheetMusicError(
+                        error.response.status,
+                        error.response.data,
+                        "[PitchDetection/pageTurn]"
+                    );
                 });
         } else {
             let performanceData = {
@@ -125,7 +130,11 @@ class PitchDetection {
             AlphaTabRunner.noteList.clear();
 
             updateRunningPerformance(performanceData).catch(error => {
-                console.log("uR:", error);
+                logs.sheetMusicError(
+                    error.response.status,
+                    error.response.data,
+                    "[PitchDetection/pageTurn]"
+                );
             });
         }
     }
@@ -155,8 +164,8 @@ class PitchDetection {
                     this.displayMidi(frequency);
                     this.listen(currentSectionIndex, currentCount);
                 })
-                .catch(err => {
-                    console.log(`[error][PitchDetection] ${err}`);
+                .catch(error => {
+                    logs.sheetMusicError(null, error, "[PitchDetection/listen]");
                     this.displayMidi(0);
                     this.listen(currentSectionIndex, currentCount);
                 });
@@ -220,7 +229,11 @@ class PitchDetection {
                     }
                 })
                 .catch(error => {
-                    console.log("uR:", error);
+                    logs.sheetMusicError(
+                        error.response.status,
+                        error.response.data,
+                        "[PitchDetection/stopPitchDetection]"
+                    );
                 });
         } else {
             await addPerformance(performanceData);

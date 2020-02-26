@@ -115,7 +115,6 @@ class AlphaTabRunner {
                 })
                 .catch(error => {
                     logs.sheetMusicError(null, error, "[AlphaTabRunner/alphaTabRenderFinished]");
-                    console.log("getsfeedback", error);
                 });
         }
 
@@ -211,7 +210,6 @@ class AlphaTabRunner {
                 // Prepares for microphone input sets up the pitch detection model
                 PitchDetection.setupPitchDetection().catch(error => {
                     logs.sheetMusicError(null, error, "[AlphaTabRunner/alphaTabRenderFinished]");
-                    console.log(error);
                 });
             } else {
                 topLine = document.getElementById("rect_0");
@@ -249,7 +247,6 @@ class AlphaTabRunner {
                 );
             } catch (error) {
                 logs.sheetMusicError(null, error, "[AlphaTabRunner/alphaTabPlayerStateChanged]");
-                console.log(error);
             }
 
             AlphaTabRunner.api.playbackRange = null;
@@ -296,7 +293,6 @@ class AlphaTabRunner {
                         error.response.data,
                         "[AlphaTabRunner/changePart]"
                     );
-                    console.log("error", error);
                 });
         }
     }
@@ -479,7 +475,6 @@ class AlphaTabRunner {
                     error.response.data,
                     "[AlphaTabRunner/loadJustMyPart]"
                 );
-                console.log("error_p", error);
             });
     }
 
@@ -531,7 +526,6 @@ class AlphaTabRunner {
                     error.response.data,
                     "[AlphaTabRunner/loadExercise]"
                 );
-                console.log("error_e", error);
             });
     }
 
@@ -646,7 +640,6 @@ class AlphaTabRunner {
                             error.response.data,
                             "[AlphaTabRunner/loadTex]"
                         );
-                        console.log("error", error);
                     });
             })
             .catch(error => {
@@ -655,7 +648,6 @@ class AlphaTabRunner {
                     error.response.data,
                     "[AlphaTabRunner/loadTex]"
                 );
-                console.log("error", error);
             });
     }
 }

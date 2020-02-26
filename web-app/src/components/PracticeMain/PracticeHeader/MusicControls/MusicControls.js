@@ -13,7 +13,7 @@ import React, { Component } from "react";
 import AlphaTabRunner from "../../PracticeSheetMusic/AlphaTabRunner";
 import PitchDetection from "../../PracticeSheetMusic/PitchDetection";
 import { userGetsFeedback } from "../../../../App/musicAssistantApi";
-
+import * as logs from "../../../../vendors/Firebase/logs";
 
 // Image imports
 import playButtonImg from "../../../../assets/icons/play-icon-fa.svg";
@@ -28,8 +28,8 @@ class MusicControls extends Component {
     state = {
         // trackSelectionIsActive: false
         isPlaying: false,
-        trackName: '?',
-        musicDisplayed: '?',
+        trackName: "?",
+        musicDisplayed: "?",
         generatingExercises: false,
         startMeasure: 1,
         endMeasure: 1,
@@ -47,7 +47,7 @@ class MusicControls extends Component {
     //     }));
     // };
 
-    trackSelectionButtonHandler = (event) => {
+    trackSelectionButtonHandler = event => {
         if (this.state.isPlaying) {
             this.stopButtonHandler();
         }
@@ -55,7 +55,7 @@ class MusicControls extends Component {
         AlphaTabRunner.changePart(event.target.value);
     };
 
-    musicSelectorHandler = (event) => {
+    musicSelectorHandler = event => {
         if (this.state.isPlaying) {
             this.stopButtonHandler();
         }
@@ -64,7 +64,7 @@ class MusicControls extends Component {
             this.setState({
                 generatingExercises: true,
                 startMeasure: 1,
-                endMeasure: 1,
+                endMeasure: 1
             });
         } else {
             this.setState({ generatingExercises: false });
@@ -73,7 +73,7 @@ class MusicControls extends Component {
             });
         }
         AlphaTabRunner.changeMusic(event.target.value);
-    }
+    };
 
     playbackMeasureHandler = () => {
         if (this.state.measureSelectorOpen) {
@@ -82,24 +82,26 @@ class MusicControls extends Component {
                 if (playbackMeasures !== null) {
                     this.setState({
                         startMeasure: playbackMeasures[0],
-                        endMeasure: playbackMeasures[1],
+                        endMeasure: playbackMeasures[1]
                     });
                 }
-              }, 500);
+            }, 500);
         }
-    }
+    };
 
-    measureSelectorHandler = (open) => {
+    measureSelectorHandler = open => {
         if (open) {
-            this.setState({ measureSelectorOpen: true })
-            document.getElementById("aTS").addEventListener('mouseup', this.playbackMeasureHandler);
+            this.setState({ measureSelectorOpen: true });
+            document.getElementById("aTS").addEventListener("mouseup", this.playbackMeasureHandler);
         } else {
-            document.getElementById("aTS").removeEventListener('mouseup', this.playbackMeasureHandler);
+            document
+                .getElementById("aTS")
+                .removeEventListener("mouseup", this.playbackMeasureHandler);
             this.setState({
                 measureSelectorOpen: false
             });
         }
-    }
+    };
 
     generateExerciseHandler = () => {
         if (!this.state.measureSelectorOpen) {
@@ -107,43 +109,50 @@ class MusicControls extends Component {
             if (playbackMeasures !== null) {
                 this.setState({
                     startMeasure: playbackMeasures[0],
-                    endMeasure: playbackMeasures[1],
+                    endMeasure: playbackMeasures[1]
                 });
             }
             this.measureSelectorHandler(true);
         } else {
             this.measureSelectorHandler(false);
         }
-    }
+    };
 
-    startMeasureHandler = (event) => {
+    startMeasureHandler = event => {
         let startMeasure = parseInt(event.target.value, 10);
-        if (isNaN(startMeasure)) { 
+        if (isNaN(startMeasure)) {
             startMeasure = "";
         }
-        this.setState({startMeasure});
-    }
+        this.setState({ startMeasure });
+    };
 
-    endMeasureHandler = (event) => {
+    endMeasureHandler = event => {
         let endMeasure = parseInt(event.target.value, 10);
-        if (isNaN(endMeasure)) { 
+        if (isNaN(endMeasure)) {
             endMeasure = "";
         }
-        this.setState({endMeasure});
-    }
+        this.setState({ endMeasure });
+    };
 
-    submitMeasuresHandler = (event) => {
+    submitMeasuresHandler = event => {
         event.preventDefault();
         let maxMeasureNumber = AlphaTabRunner.texLoaded.measureLengths.length;
-        if (typeof(this.state.startMeasure) !== 'number' || typeof(this.state.endMeasure) !== 'number' || this.state.startMeasure > this.state.endMeasure || this.state.startMeasure <= 0 || this.state.endMeasure <= 0 || this.state.startMeasure > maxMeasureNumber || this.state.endMeasure > maxMeasureNumber) {
+        if (
+            typeof this.state.startMeasure !== "number" ||
+            typeof this.state.endMeasure !== "number" ||
+            this.state.startMeasure > this.state.endMeasure ||
+            this.state.startMeasure <= 0 ||
+            this.state.endMeasure <= 0 ||
+            this.state.startMeasure > maxMeasureNumber ||
+            this.state.endMeasure > maxMeasureNumber
+        ) {
             alert("Please input valid start and end measures.");
         } else {
-            AlphaTabRunner.changeMusic('exercise', this.state.startMeasure, this.state.endMeasure);
+            AlphaTabRunner.changeMusic("exercise", this.state.startMeasure, this.state.endMeasure);
             this.measureSelectorHandler(false);
             this.setState({ generatingExercises: false });
         }
-    }
-
+    };
 
     /**
      * Plays or pauses the music
@@ -164,8 +173,8 @@ class MusicControls extends Component {
                 .then(() => {
                     AlphaTabRunner.api.playPause();
                 })
-                .catch(err => {
-                    console.log(`[error][MusicContainer] ${err}`);
+                .catch(error => {
+                    logs.sheetMusicError(null, error, "[MusicControls/playPauseButtonHandler]");
                 });
         } else {
             AlphaTabRunner.api.playPause();
@@ -213,14 +222,23 @@ class MusicControls extends Component {
     checkFeedback() {
         const data = {
             sheetMusicId: "5050284854B611EAAEC302F168716C78"
-        }
-        userGetsFeedback(data).then((response) => {
-            if ((response.data["gets_feedback"] && !this.state.getsFeedback) || (!response.data["gets_feedback"] && this.state.getsFeedback)) {
-                this.setState({ getsFeedback: response.data["gets_feedback"] });
-            }
-        }).catch((error) => {
-            console.log("getsfeedback", error);
-        });
+        };
+        userGetsFeedback(data)
+            .then(response => {
+                if (
+                    (response.data["gets_feedback"] && !this.state.getsFeedback) ||
+                    (!response.data["gets_feedback"] && this.state.getsFeedback)
+                ) {
+                    this.setState({ getsFeedback: response.data["gets_feedback"] });
+                }
+            })
+            .catch(error => {
+                logs.sheetMusicError(
+                    error.response.status,
+                    error.response.data,
+                    "[MusicControls/checkFeedback]"
+                );
+            });
     }
 
     /**
@@ -247,36 +265,41 @@ class MusicControls extends Component {
                     ].join(" ")}
                     type='button'
                     onClick={this.generateExerciseHandler}>
-                    <img id="generateExerciseBtn" src={playPauseButton} alt={generateExerciseAltText} />
+                    <img
+                        id='generateExerciseBtn'
+                        src={playPauseButton}
+                        alt={generateExerciseAltText}
+                    />
                 </button>
             );
         } else {
             buttons = (
                 <div>
-                <button
-                    className={[
-                        styles.musicControlsButton,
-                        styles.musicControlsPlayPauseButton
-                    ].join(" ")}
-                    type='button'
-                    onClick={this.playPauseButtonHandler}>
-                    <img src={playPauseButton} alt={playPauseButtonAltText} />
-                </button>
+                    <button
+                        className={[
+                            styles.musicControlsButton,
+                            styles.musicControlsPlayPauseButton
+                        ].join(" ")}
+                        type='button'
+                        onClick={this.playPauseButtonHandler}>
+                        <img src={playPauseButton} alt={playPauseButtonAltText} />
+                    </button>
 
-                <button
-                    className={[styles.musicControlsButton, styles.musicControlsStopButton].join(
-                        " "
-                    )}
-                    type='button'
-                    onClick={this.stopButtonHandler}>
-                    <img src={stopButtonImg} alt='Stop Button' />
-                </button>
+                    <button
+                        className={[
+                            styles.musicControlsButton,
+                            styles.musicControlsStopButton
+                        ].join(" ")}
+                        type='button'
+                        onClick={this.stopButtonHandler}>
+                        <img src={stopButtonImg} alt='Stop Button' />
+                    </button>
 
-                <label htmlFor="sheetMusicPart">Choose a part:</label>
+                    <label htmlFor='sheetMusicPart'>Choose a part:</label>
 
-                <select id="sheetMusicPart" onChange={this.trackSelectionButtonHandler}>
-                    <option value="default">Waiting for sheet music</option>
-                </select>
+                    <select id='sheetMusicPart' onChange={this.trackSelectionButtonHandler}>
+                        <option value='default'>Waiting for sheet music</option>
+                    </select>
                 </div>
             );
         }
@@ -286,28 +309,35 @@ class MusicControls extends Component {
                 <form onSubmit={this.submitMeasuresHandler}>
                     <label>
                         Start measure:
-                        <input type="number" placeholder="Enter Start Measure" value={this.state.startMeasure} onChange={this.startMeasureHandler} />
-                    </label><br />
+                        <input
+                            type='number'
+                            placeholder='Enter Start Measure'
+                            value={this.state.startMeasure}
+                            onChange={this.startMeasureHandler}
+                        />
+                    </label>
+                    <br />
                     <label>
                         End measure:
-                        <input type="number" placeholder="Enter End Measure" value={this.state.endMeasure} onChange={this.endMeasureHandler} />
+                        <input
+                            type='number'
+                            placeholder='Enter End Measure'
+                            value={this.state.endMeasure}
+                            onChange={this.endMeasureHandler}
+                        />
                     </label>
-    
-                    <input type="submit" value="Submit" />
+
+                    <input type='submit' value='Submit' />
                 </form>
             );
         }
-        
+
         let feedbackMessage = null;
         let performanceButton = null;
         if (this.state.getsFeedback) {
-            performanceButton = (
-                <option value="performance">Performance</option>
-            );
+            performanceButton = <option value='performance'>Performance</option>;
         } else {
-            feedbackMessage = (
-                <p>No feedback</p>
-            );
+            feedbackMessage = <p>No feedback</p>;
         }
 
         // let trackSelectionDropdownMenu = null;
@@ -353,9 +383,9 @@ class MusicControls extends Component {
                     <img id="generateExerciseBtn" src={playPauseButton} alt={generateExerciseAltText} />
                 </button> */}
 
-                <label htmlFor="texToDisplay">Choose music:</label>
-                <select id="texToDisplay" onChange={this.musicSelectorHandler}>
-                    <option value="sheetMusic">Sheet Music</option>
+                <label htmlFor='texToDisplay'>Choose music:</label>
+                <select id='texToDisplay' onChange={this.musicSelectorHandler}>
+                    <option value='sheetMusic'>Sheet Music</option>
                     {/* <option value="myPart">Just My Part</option> */}
                     {performanceButton}
                 </select>
@@ -398,7 +428,6 @@ class MusicControls extends Component {
                 {exerciseSelector}
 
                 {feedbackMessage}
-
             </section>
         );
     }
