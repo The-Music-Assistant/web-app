@@ -2552,8 +2552,8 @@
                 $console.debug(msg, details);
                 break;
             case 2:
-                msg = "[Info]" + msg;
-                $console.info(msg, details);
+                // msg = "[Info]" + msg;
+                // $console.info(msg, details);
                 break;
             case 3:
                 $console.warn(msg, details);
@@ -3231,7 +3231,7 @@
             var failCounter = 0;
             var failCounterId = window.setInterval(function () {
                 failCounter += 1;
-                alphaTab.util.Logger.warning("Rendering", "Could not load font '" + _gthis._family + "' within " + Std.string(failCounter * 5) + " seconds", null);
+                // alphaTab.util.Logger.warning("Rendering", "Could not load font '" + _gthis._family + "' within " + Std.string(failCounter * 5) + " seconds", null);
             }, 5000);
             alphaTab.util.Logger.debug("Font", "Start checking for font availablility: " + this._family, null);
             var cssFontLoadingModuleSupported = !(!window.document.fonts) && !(!window.document.fonts["load"]);

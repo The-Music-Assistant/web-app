@@ -9,10 +9,10 @@
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter, Link } from "react-router-dom";
 
 // Image imports
 import cameraImg from "../../../assets/icons/camera-white-fa.svg";
+import * as logs from "../../../vendors/Firebase/logs";
 
 // Style imports
 import styles from "./ChoirCard.module.scss";
@@ -27,6 +27,11 @@ class ChoirCard extends Component {
      * Updates state if there was an error loading the choir image
      */
     imageLoadingErrorHandler = () => {
+        logs.choirSelectionError(
+            null,
+            "Choir image failed to load.",
+            "[ChoirCard/imageLoadingErrorHandler]"
+        );
         this.setState({ imgLoadingError: true });
     };
 
@@ -55,42 +60,38 @@ class ChoirCard extends Component {
             );
         } else {
             cardElement = (
-                <Link to={`${this.props.match.url}/sheet-music`}>
-                    <div
-                        className={`${styles.choirCard} ${styles[this.props.cardColor]}`}
-                        onClick={this.props.onClick}>
-                        {!this.state.imgLoadingError && this.props.headerImgSrc ? (
-                            // Adds an image element if an choir image exists
+                <div
+                    className={`${styles.choirCard} ${styles[this.props.cardColor]}`}
+                    onClick={this.props.onClick}>
+                    {!this.state.imgLoadingError && this.props.headerImgSrc ? (
+                        // Adds an image element if an choir image exists
+                        <img
+                            className={styles.choirCardHeaderImg}
+                            src={this.props.headerImgSrc}
+                            loading='lazy'
+                            alt='Choir'
+                        />
+                    ) : (
+                        // If a choir image does not exist or can't be loaded, show a placeholder
+                        <div
+                            className={`${styles.choirCardHeaderImgPlaceholder} ${
+                                styles[this.props.cardColor + "Darken"]
+                            }`}>
                             <img
-                                className={styles.choirCardHeaderImg}
-                                src={this.props.headerImgSrc}
-                                loading='lazy'
+                                className={styles.choirCardHeaderImgPlaceholderImg}
+                                src={cameraImg}
                                 alt='Choir'
+                                onError={this.imageLoadingErrorHandler}
                             />
-                        ) : (
-                            // If a choir image does not exist or can't be loaded, show a placeholder
-                            <div
-                                className={`${styles.choirCardHeaderImgPlaceholder} ${
-                                    styles[this.props.cardColor + "Darken"]
-                                }`}>
-                                <img
-                                    className={styles.choirCardHeaderImgPlaceholderImg}
-                                    src={cameraImg}
-                                    alt='Choir'
-                                    onError={this.imageLoadingErrorHandler}
-                                />
-                            </div>
-                        )}
-                        <h1 className={styles.choirCardName}>{this.props.name}</h1>
+                        </div>
+                    )}
+                    <h1 className={styles.choirCardName}>{this.props.name}</h1>
 
-                        {/* Only adds a description h2 element if a choir description exists */}
-                        {this.props.description ? (
-                            <h2 className={styles.choirCardDescription}>
-                                {this.props.description}
-                            </h2>
-                        ) : null}
-                    </div>
-                </Link>
+                    {/* Only adds a description h2 element if a choir description exists */}
+                    {this.props.description ? (
+                        <h2 className={styles.choirCardDescription}>{this.props.description}</h2>
+                    ) : null}
+                </div>
             );
         }
 
@@ -113,7 +114,7 @@ ChoirCard.propTypes = {
     description: PropTypes.string,
     noDescription: PropTypes.bool.isRequired, // Is true for the "New Choir" and "View Pending Choir Requests" cards
     cardColor: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func
 };
 
-export default withRouter(ChoirCard);
+export default ChoirCard;

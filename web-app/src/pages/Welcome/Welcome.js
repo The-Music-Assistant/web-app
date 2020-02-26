@@ -16,6 +16,7 @@ import { MetroSpinner } from "react-spinners-kit";
 import { signOut, welcomePageComplete } from "../../store/actions";
 import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
 import firebase from "../../vendors/Firebase/firebase";
+import * as logs from "../../vendors/Firebase/logs";
 
 // Image imports
 import logo from "../../assets/logos/music-assistant-logo.png";
@@ -61,7 +62,11 @@ class Welcome extends Component {
                 });
             })
             .catch(error => {
-                console.log(error);
+                logs.authError(
+                    error.code,
+                    error.message,
+                    "[Welcome/resendEmailVerificationButtonClickedHandler]"
+                );
                 this.setState({
                     isLoading: false,
                     alert: {

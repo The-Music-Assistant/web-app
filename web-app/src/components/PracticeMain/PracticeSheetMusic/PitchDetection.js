@@ -46,15 +46,15 @@ class PitchDetection {
                                 this.pitchDetectionModel = model;
                                 resolve();
                             })
-                            .catch(err => {
-                                reject(`[error][PitchDetection] ${err}`);
+                            .catch(error => {
+                                reject(error);
                             });
                     })
                     .catch(error => {
                         reject(error);
                     });
             } else {
-                reject("[error][PitchDetection/setupPitchDetection] Cannot access microphone");
+                reject("Cannot access microphone.");
             }
         });
     }

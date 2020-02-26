@@ -8,6 +8,10 @@
 
 @import "../../root-styles/utilities.scss";
 
+a {
+    text-decoration: none;
+}
+
 .choirSelection {
     @include grid-container(
         $grid-template-rows: null,

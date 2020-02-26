@@ -8,6 +8,7 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import { withRouter, Link } from "react-router-dom";
 import shortid from "shortid";
 import { MetroSpinner } from "react-spinners-kit";
 
@@ -19,6 +20,7 @@ import plusIcon from "../../assets/icons/plus-icon.svg";
 import questionIcon from "../../assets/icons/question-icon.svg";
 
 // File imports
+import * as logs from "../../vendors/Firebase/logs";
 import { getUsersChoirs, joinChoir } from "../../App/musicAssistantApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 
@@ -68,15 +70,15 @@ class ChoirSelection extends Component {
                     this.setState({ choirs: snapshot.data.choirs, isLoading: false });
             })
             .catch(error => {
-                console.log(error);
+                logs.choirSelectionError(
+                    error.code,
+                    error.message,
+                    "[ChoirSelection/getChoirList]"
+                );
                 this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
                 if (this._isMounted) this.setState({ isLoading: false });
             });
     }
-
-    choirClickHandler = event => {
-        // console.log(event.target);
-    };
 
     /**
      * Attempts to join a new choir
@@ -97,6 +99,11 @@ class ChoirSelection extends Component {
                     );
                 })
                 .catch(error => {
+                    logs.choirSelectionError(
+                        error.response.status,
+                        error.response.data,
+                        "[ChoirSelection/newChoirClickHandler]"
+                    );
                     this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
                 });
         }
@@ -129,15 +136,16 @@ class ChoirSelection extends Component {
 
                 // Returns a choir card
                 return (
-                    <ChoirCard
-                        key={choir.choir_id}
-                        headerImgSrc={choir.picture_url}
-                        name={choir.choir_name}
-                        description={choir.description}
-                        noDescription={false}
-                        cardColor={colors[colorIndex]}
-                        onClick={this.choirClickHandler}
-                    />
+                    <Link key={shortid.generate()} to={`${this.props.match.url}/sheet-music`}>
+                        <ChoirCard
+                            id={choir.choir_id}
+                            headerImgSrc={choir.picture_url}
+                            name={choir.choir_name}
+                            description={choir.description}
+                            noDescription={false}
+                            cardColor={colors[colorIndex]}
+                        />
+                    </Link>
                 );
             });
         }
@@ -199,4 +207,4 @@ class ChoirSelection extends Component {
     }
 }
 
-export default ChoirSelection;
+export default withRouter(ChoirSelection);

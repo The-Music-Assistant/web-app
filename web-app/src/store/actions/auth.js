@@ -12,6 +12,7 @@ import "firebase/storage";
 // File imports
 import * as actionTypes from "./actionTypes";
 import firebase from "../../vendors/Firebase/firebase";
+import * as logs from "../../vendors/Firebase/logs";
 import { setAxiosAuthToken, getUser } from "../../App/musicAssistantApi";
 
 /**
@@ -48,7 +49,11 @@ export const handleAuthStateChanges = () => {
                         // Clears the old Axios auth header token if there is one
                         setAxiosAuthToken("");
                         dispatch(authError(error));
-                        console.log("[actions/auth/handleAuthStateChanges]", error);
+                        logs.authError(
+                            error.code,
+                            error.message,
+                            "[store/actions/auth/handleAuthStateChanges]"
+                        );
                     })
                     .then(() => {
                         dispatch(getUserInfo());
@@ -83,7 +88,11 @@ export const getUserInfo = () => {
                 .catch(error => {
                     dispatch(authError(error));
                     dispatch(usersNameRetrievalFailed());
-                    console.log("[actions/auth/handleAuthStateChanges]", error);
+                    logs.authError(
+                        error.status,
+                        error.data,
+                        "[store/actions/auth/getUserInfo]"
+                    );
                 })
                 .then(() => {
                     return firebase
@@ -98,7 +107,6 @@ export const getUserInfo = () => {
                 .catch(error => {
                     dispatch(authError(error));
                     dispatch(usersPictureUrlRetrievalFailed());
-                    console.log("[actions/auth/handleAuthStateChanges]", error);
                 });
         }
     };

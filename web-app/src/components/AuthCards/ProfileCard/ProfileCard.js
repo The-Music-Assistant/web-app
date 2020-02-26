@@ -19,8 +19,9 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 
 // File imports
 import { addUser } from "../../../App/musicAssistantApi";
-import {getUserInfo} from "../../../store/actions";
+import { getUserInfo } from "../../../store/actions";
 import firebase from "../../../vendors/Firebase/firebase";
+import * as logs from "../../../vendors/Firebase/logs";
 import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
 import * as authStages from "../../../pages/Auth/authStages";
@@ -63,9 +64,14 @@ class ProfileCard extends Component {
      * Shows an alert with the error details and removes the image from state
      */
     imageInputErrorHandler = () => {
+        logs.authError(
+            null,
+            "We couldn't load your profile picture. Please select a new one.",
+            "[ProfileCard/imageInputErrorHandler]"
+        );
         this.props.showAlert(
             alertBarTypes.ERROR,
-            "Image Upload Error",
+            "Image Loading Error",
             "We couldn't load your profile picture. Please select a new one."
         );
         this.removeImageHandler();
@@ -123,12 +129,16 @@ class ProfileCard extends Component {
                     this.props.done(authStages.PROFILE);
                 })
                 .catch(error => {
-                    console.log("[ProfileCard/submitHandler]", error);
+                    logs.authError(error.code, error.message, "[ProfileCard/submitHandler]");
                     this.props.setLoading(false);
                     this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
                 });
         } else {
-            console.log("[ProfileCard/submitHandler]", "Not authenticated. Can't submit form");
+            logs.authError(
+                null,
+                "Not authenticated. Can't submit form.",
+                "[ProfileCard/submitHandler]"
+            );
         }
     };
 
@@ -155,12 +165,12 @@ class ProfileCard extends Component {
 
             this.props.updateUserInfo();
         } catch (error) {
-            console.log("[ProfileCard/uploadData]", error);
+            logs.authError(error.code, error.message, "[ProfileCard/uploadData]");
 
             // Throws a new error if the picture upload fails or the AWS upload fails
             const newError = new Error();
             newError.message = error.response.data;
-            newError.status = error.response.status;
+            newError.code = error.response.status;
             throw newError;
         }
         this.props.setLoading(false);
@@ -195,13 +205,11 @@ class ProfileCard extends Component {
             <div className={profileCardStyles.profileCardImageInput}>
                 <div className={profileCardStyles.profileCardImageInputImgContainer}>
                     <img src={URL.createObjectURL(this.state.formData.profilePicture)} className={profileCardStyles.profileCardImageInputImg} alt='Profile Picture' onError={this.imageInputErrorHandler} /> {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
-                    
                     <button
                         className={profileCardStyles.profileCardImageInputRemoveButton}
                         type='button'
                         onClick={this.removeImageHandler}>
                         <img src={closeIconRed} alt={"Remove Profile Picture"} /> {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
-                        
                     </button>
                 </div>
                 <ImageInput
