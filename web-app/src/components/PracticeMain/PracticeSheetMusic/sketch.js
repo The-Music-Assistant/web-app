@@ -194,7 +194,6 @@ const p5Sketch = p => {
         }
 
         if (AlphaTabRunner && AlphaTabRunner.resetDrawPositions) {
-            console.log('swithc!')
             previousPos[0] = -1;
             previousPos[1] = -1;
             previousPos[2] = -1;

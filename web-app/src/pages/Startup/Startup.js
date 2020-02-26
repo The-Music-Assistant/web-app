@@ -39,7 +39,6 @@ class Startup extends Component {
 
     componentDidUpdate() {
         if (this.props.isAuthenticated !== null && this.state.minTimeElapsed) {
-            console.log("CALL");
             this.props.startupDone();
         }
     }

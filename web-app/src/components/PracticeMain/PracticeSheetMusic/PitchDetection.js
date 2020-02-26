@@ -12,8 +12,11 @@ import ml5 from "ml5";
 // File imports
 import AlphaTabRunner from "./AlphaTabRunner";
 import { addPerformance } from "../../../App/musicAssistantApi";
-import { initializeRunningPerformance, updateRunningPerformance, closeRunningPerformance } from "../../../App/musicAssistantApi";
-
+import {
+    initializeRunningPerformance,
+    updateRunningPerformance,
+    closeRunningPerformance
+} from "../../../App/musicAssistantApi";
 
 class PitchDetection {
     audioContext;
@@ -84,38 +87,44 @@ class PitchDetection {
 
     static async pageTurn() {
         let sheetMusicId = AlphaTabRunner.texLoaded.sheetMusicId;
-        if (AlphaTabRunner.texLoaded.performanceId === null) {            
+        if (AlphaTabRunner.texLoaded.performanceId === null) {
             let performanceData = {
-                performanceData: JSON.stringify(JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))),
+                performanceData: JSON.stringify(
+                    JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))
+                ),
                 sheetMusicId,
                 exerciseId: null,
                 measureStart: AlphaTabRunner.texLoaded.measureStart,
                 measureEnd: AlphaTabRunner.texLoaded.measureEnd,
                 isDurationExercise: false
-            }
-            if (AlphaTabRunner.texLoaded.typeOfTex === "Exercise" && AlphaTabRunner.texLoaded.id !== null) {
+            };
+            if (
+                AlphaTabRunner.texLoaded.typeOfTex === "Exercise" &&
+                AlphaTabRunner.texLoaded.id !== null
+            ) {
                 performanceData.exerciseId = AlphaTabRunner.texLoaded.id;
             }
-    
-            AlphaTabRunner.noteList.clear();
-    
-            initializeRunningPerformance(performanceData).then((response) => {
-                AlphaTabRunner.texLoaded.performanceId = response.data.performance_id;
-                console.log('initial', AlphaTabRunner.texLoaded.performanceId)
-            }).catch((error) => {
-                console.log("pT:", error);
-            });           
-        } else {
-            let performanceData = {
-                performanceData: JSON.stringify(JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))),
-                performanceId: AlphaTabRunner.texLoaded.performanceId,
-                sheetMusicId
-            }
+
             AlphaTabRunner.noteList.clear();
 
-            updateRunningPerformance(performanceData).then((response) => {
-                console.log('updated', AlphaTabRunner.texLoaded.performanceId)
-            }).catch((error) => {
+            initializeRunningPerformance(performanceData)
+                .then(response => {
+                    AlphaTabRunner.texLoaded.performanceId = response.data.performance_id;
+                })
+                .catch(error => {
+                    console.log("pT:", error);
+                });
+        } else {
+            let performanceData = {
+                performanceData: JSON.stringify(
+                    JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))
+                ),
+                performanceId: AlphaTabRunner.texLoaded.performanceId,
+                sheetMusicId
+            };
+            AlphaTabRunner.noteList.clear();
+
+            updateRunningPerformance(performanceData).catch(error => {
                 console.log("uR:", error);
             });
         }
@@ -131,7 +140,8 @@ class PitchDetection {
 
                 AlphaTabRunner.resetDrawPositions = true;
                 AlphaTabRunner.p5Obj.clear();
-                AlphaTabRunner.api.settings.display.startBar = AlphaTabRunner.api.settings.display.startBar + AlphaTabRunner.barCount - 1;
+                AlphaTabRunner.api.settings.display.startBar =
+                    AlphaTabRunner.api.settings.display.startBar + AlphaTabRunner.barCount - 1;
                 AlphaTabRunner.api.updateSettings();
                 AlphaTabRunner.api.render();
                 currentCount += increment;
@@ -140,26 +150,33 @@ class PitchDetection {
 
         if (AlphaTabRunner.playerState === 1) {
             this.pitchDetectionModel
-            .getPitch()
-            .then(frequency => {
-                this.displayMidi(frequency);
-                this.listen(currentSectionIndex, currentCount);
-            })
-            .catch(err => {
-                console.log(`[error][PitchDetection] ${err}`);
-                this.displayMidi(0);
-                this.listen(currentSectionIndex, currentCount);
-            });
+                .getPitch()
+                .then(frequency => {
+                    this.displayMidi(frequency);
+                    this.listen(currentSectionIndex, currentCount);
+                })
+                .catch(err => {
+                    console.log(`[error][PitchDetection] ${err}`);
+                    this.displayMidi(0);
+                    this.listen(currentSectionIndex, currentCount);
+                });
 
             try {
                 const topLine = document.getElementById("rect_0");
                 const nextLine = document.getElementById("rect_1");
                 const topLineHeight = topLine.y.animVal.value;
                 const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
-                if (topLineHeight !== AlphaTabRunner.drawer.topLine || distanceBetweenLines !== AlphaTabRunner.drawer.distanceBetweenLines) {
-                    AlphaTabRunner.drawer.setTopLineAndDistanceBetween(topLineHeight, distanceBetweenLines, AlphaTabRunner.drawer.baseOctave);
+                if (
+                    topLineHeight !== AlphaTabRunner.drawer.topLine ||
+                    distanceBetweenLines !== AlphaTabRunner.drawer.distanceBetweenLines
+                ) {
+                    AlphaTabRunner.drawer.setTopLineAndDistanceBetween(
+                        topLineHeight,
+                        distanceBetweenLines,
+                        AlphaTabRunner.drawer.baseOctave
+                    );
                 }
-            } catch(error) {}
+            } catch (error) {}
         }
     }
 
@@ -173,38 +190,40 @@ class PitchDetection {
         }
 
         let performanceData = {
-            performanceData: JSON.stringify(JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))),
+            performanceData: JSON.stringify(
+                JSON.parse(JSON.stringify(AlphaTabRunner.noteList.performanceData))
+            ),
             sheetMusicId,
             exerciseId: null,
             measureStart: AlphaTabRunner.texLoaded.measureStart,
             measureEnd: AlphaTabRunner.texLoaded.measureEnd,
             isDurationExercise: false
-        }
-        if (AlphaTabRunner.texLoaded.typeOfTex === "Exercise" && AlphaTabRunner.texLoaded.id !== null) {
+        };
+        if (
+            AlphaTabRunner.texLoaded.typeOfTex === "Exercise" &&
+            AlphaTabRunner.texLoaded.id !== null
+        ) {
             performanceData.exerciseId = AlphaTabRunner.texLoaded.id;
         }
 
         AlphaTabRunner.noteList.clear();
-
 
         if (AlphaTabRunner.texLoaded.performanceId !== null) {
             performanceData.performanceId = AlphaTabRunner.texLoaded.performanceId;
 
             const currentPerformanceId = AlphaTabRunner.texLoaded.performanceId;
 
-            closeRunningPerformance(performanceData).then((response) => {
-                if (AlphaTabRunner.texLoaded.performanceId === currentPerformanceId) {
-                    AlphaTabRunner.texLoaded.performanceId = null;
-                    console.log('was open')
-                }
-                console.log('closed', AlphaTabRunner.texLoaded.performanceId)
-            }).catch((error) => {
-                console.log("uR:", error);
-            });
+            closeRunningPerformance(performanceData)
+                .then(response => {
+                    if (AlphaTabRunner.texLoaded.performanceId === currentPerformanceId) {
+                        AlphaTabRunner.texLoaded.performanceId = null;
+                    }
+                })
+                .catch(error => {
+                    console.log("uR:", error);
+                });
         } else {
-            
             await addPerformance(performanceData);
-            console.log('was not open', AlphaTabRunner.texLoaded.performanceId)
         }
     }
 

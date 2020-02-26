@@ -75,7 +75,7 @@ class ChoirSelection extends Component {
     }
 
     choirClickHandler = event => {
-        console.log(event.target);
+        // console.log(event.target);
     };
 
     /**

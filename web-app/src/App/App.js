@@ -41,8 +41,6 @@ class App extends Component {
             redirect = <Redirect to='/practice' />;
         }
 
-        console.log(redirect);
-
         return redirect;
     };
 

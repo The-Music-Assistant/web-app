@@ -9,6 +9,8 @@
 // NPM module imports
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/analytics";
+import "firebase/performance";
 
 /*
  * Firebase app config object
@@ -27,5 +29,11 @@ const firebaseConfig = {
 
 // Initializes the Firebase app
 firebase.initializeApp(firebaseConfig);
+
+// Initializes Firebase Analytics
+firebase.analytics();
+
+// Initializes Firebase Performance Monitoring
+firebase.performance();
 
 export default firebase;
