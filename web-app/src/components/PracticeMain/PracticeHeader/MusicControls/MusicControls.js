@@ -383,10 +383,10 @@ class MusicControls extends Component {
                     <img id="generateExerciseBtn" src={playPauseButton} alt={generateExerciseAltText} />
                 </button> */}
 
-                <label htmlFor='texToDisplay'>Choose music:</label>
-                <select id='texToDisplay' onChange={this.musicSelectorHandler}>
-                    <option value='sheetMusic'>Sheet Music</option>
-                    {/* <option value="myPart">Just My Part</option> */}
+                <label htmlFor="texToDisplay">Choose music:</label>
+                <select id="texToDisplay" onChange={this.musicSelectorHandler}>
+                    <option value="sheetMusic">Sheet Music</option>
+                    <option value="myPart">Just My Part</option>
                     {performanceButton}
                 </select>
 

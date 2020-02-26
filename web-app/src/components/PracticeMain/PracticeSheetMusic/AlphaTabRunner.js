@@ -374,6 +374,7 @@ class AlphaTabRunner {
                     comparePosition = AlphaTabRunner.api.tickPosition;
                 }
                 let ratio = AlphaTabRunner.api.tickPosition / comparePosition;
+<<<<<<< HEAD
                 let targetEndTime =
                     AlphaTabRunner.api.playbackRange.endTick / ratio -
                     AlphaTabRunner.api.playbackRange.startTick / ratio;
@@ -385,6 +386,10 @@ class AlphaTabRunner {
                     AlphaTabRunner.api.tickPosition,
                     AlphaTabRunner.api.timePosition
                 );
+=======
+                let targetEndTime = (AlphaTabRunner.api.playbackRange.endTick / ratio) - (AlphaTabRunner.api.playbackRange.startTick / ratio);
+
+>>>>>>> Added commented out base url for when developing server, removed unneeded log function, enabled Just My Part option
                 let currentMeasure = 1;
                 currentMeasure = this.timeToMeasureNumber(
                     currentPosition,
