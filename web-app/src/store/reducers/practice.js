@@ -13,7 +13,8 @@ import { updateObject } from "../utility";
 // Initial Redux practice state
 const initialState = {
     selectedChoirId: null,
-    selectedChoirName: null
+    selectedChoirName: null,
+    selectedSheetMusicId: null
 };
 
 /**
@@ -28,6 +29,8 @@ const practiceReducer = (state = initialState, action) => {
                 selectedChoirId: action.id,
                 selectedChoirName: action.name
             });
+        case actionTypes.PRACTICE_SONG_SELECTED:
+            return updateObject(state, { selectedSheetMusicId: action.id });
         default:
             return state;
     }

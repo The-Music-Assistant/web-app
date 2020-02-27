@@ -1,0 +1,52 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/Buttons/BackButton/BackButton.module.scss
+// Description: SCSS styles for the back button component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 2/27/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.backButton {
+    @include flex-container(
+        $direction: row,
+        $justify-content: space-between,
+        $align-items: center,
+        $wrap: nowrap
+    );
+    justify-self: left;
+
+    &:hover {
+        animation: backButtonAnimation 0.5s ease-in-out;
+    }
+
+    &Arrow {
+        height: 20px;
+        padding-right: 10px;
+        margin-bottom: 2px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            height: 16px;
+        }
+    }
+
+    &Text {
+        @include text($size: 1rem, $weight: 500, $color: $primary-color, $line-height: null);
+        display: none;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            display: initial;
+        }
+    }
+}
+
+@keyframes backButtonAnimation {
+    50% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}

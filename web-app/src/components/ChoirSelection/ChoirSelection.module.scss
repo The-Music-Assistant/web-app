@@ -9,19 +9,15 @@
 @import "../../root-styles/utilities.scss";
 
 .choirSelection {
-    @include grid-container(
-        $grid-template-rows: null,
-        $grid-template-columns: repeat(auto-fill, 250px),
-        $align-items: null
-    );
-    row-gap: 30px;
-    column-gap: 50px;
-    justify-content: center;
-    margin: 40px;
+    &Heading {
+        @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
+        text-align: center;
+        margin-top: 20px;
 
-    @include media-query($breakpoint: $tablet-breakpoint) {
-        row-gap: 50px;
-        column-gap: 70px;
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 1.5rem;
+            margin-top: 40px;
+        }
     }
 
     &Spinner {
@@ -31,10 +27,29 @@
             $align-items: center,
             $wrap: nowrap
         );
+        height: 100%;
 
         &Message {
             @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
             margin-top: 30px;
+        }
+    }
+
+    &Cards {
+        @include grid-container(
+            $grid-template-rows: null,
+            $grid-template-columns: repeat(auto-fill, 280px),
+            $align-items: null
+        );
+        row-gap: 30px;
+        column-gap: 50px;
+        justify-content: center;
+        margin: 20px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            row-gap: 50px;
+            column-gap: 70px;
+            margin: 40px;
         }
     }
 }

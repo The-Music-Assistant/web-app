@@ -18,4 +18,4 @@ export {
 
 export { startupDone } from "./startup";
 
-export { choirSelectedForPractice } from "./practice";
+export { choirSelectedForPractice, musicSelectedForPractice } from "./practice";

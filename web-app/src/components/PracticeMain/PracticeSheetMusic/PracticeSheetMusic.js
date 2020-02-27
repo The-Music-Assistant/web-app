@@ -16,6 +16,7 @@ import AlphaTabRunner from "./AlphaTabRunner";
 // Style imports
 // TODO: Move to CSS modules
 import "./PracticeSheetMusic.scss";
+import PitchDetection from "./PitchDetection";
 
 class PracticeSheetMusic extends Component {
     state = {
@@ -38,6 +39,10 @@ class PracticeSheetMusic extends Component {
                 AlphaTabRunner.totalTracks
             )
         });
+    }
+
+    componentWillUnmount() {
+        PitchDetection.endPitchDetection();
     }
 
     /**

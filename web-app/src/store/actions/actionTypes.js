@@ -33,3 +33,4 @@ export const STARTUP_DONE = "STARTUP_DONE";
 
 // Practice action types
 export const PRACTICE_CHOIR_SELECTED = "PRACTICE_CHOIR_SELECTED";
+export const PRACTICE_SONG_SELECTED = "PRACTICE_SONG_SELECTED";

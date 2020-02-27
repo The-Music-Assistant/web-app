@@ -60,6 +60,10 @@ class PitchDetection {
         });
     }
 
+    static endPitchDetection() {
+        this.micStream.getTracks()[0].stop();
+    }
+
     /**
      * Sets up ML5 pitch detection
      */

@@ -21,3 +21,14 @@ export const choirSelectedForPractice = (id, name) => {
         name
     };
 };
+
+/**
+ * Returns the PRACTICE_SONG_SELECTED action type and sheet_music id
+ * @param {string} id - The sheet music id
+ */
+export const musicSelectedForPractice = id => {
+    return {
+        type: actionTypes.PRACTICE_SONG_SELECTED,
+        id
+    };
+};

@@ -21,24 +21,4 @@
     @include media-query($breakpoint: $tablet-breakpoint) {
         width: calc(100% - 40px);
     }
-
-    &BackButton {
-        @include flex-container(
-            $direction: row,
-            $justify-content: space-between,
-            $align-items: center,
-            $wrap: nowrap
-        );
-        justify-self: left;
-
-        &Arrow {
-            height: 16px;
-            padding-right: 10px;
-            margin-bottom: 2px;
-        }
-
-        &Text {
-            @include text($size: 1rem, $weight: 500, $color: $primary-color, $line-height: null);
-        }
-    }
 }

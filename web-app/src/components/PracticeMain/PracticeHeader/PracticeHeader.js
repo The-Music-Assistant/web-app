@@ -8,34 +8,28 @@
 
 // NPM module imports
 import React from "react";
-import {withRouter} from "react-router-dom";
-
-// Image imports
-import leftArrowBlue from "../../../assets/icons/left-arrow-blue-fa.svg";
+import { withRouter } from "react-router-dom";
 
 // Component imports
 import MusicControls from "./MusicControls/MusicControls";
+import BackButton from "../../Buttons/BackButton/BackButton";
 
 // Style imports
 import styles from "./PracticeHeader.module.scss";
 
 const PracticeHeader = props => {
-    const handleBackButtonClicked = () => {
+    const backButtonClickedHandler = () => {
         props.history.goBack();
     };
 
     // Returns the JSX to display
     return (
         <div className={styles.practiceHeader}>
-            <button className={styles.practiceHeaderBackButton} onClick={handleBackButtonClicked}>
-                <img
-                    className={styles.practiceHeaderBackButtonArrow}
-                    src={leftArrowBlue}
-                    alt='Back Button'
-                />
-                <span className={styles.practiceHeaderBackButtonText}>Latest Pieces</span>
-            </button>
-
+            <BackButton
+                value='music-selection-back'
+                text='Music Selection'
+                onClick={backButtonClickedHandler}
+            />
             <MusicControls />
         </div>
     );

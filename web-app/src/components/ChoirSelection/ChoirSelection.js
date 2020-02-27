@@ -65,8 +65,8 @@ class ChoirSelection extends Component {
         // Gets the choir list
         getUsersChoirs()
             .then(snapshot => {
-                if (this._isMounted)
-                    this.setState({ choirs: snapshot.data.choirs, isLoading: false });
+                // if (this._isMounted)
+                this.setState({ choirs: snapshot.data.choirs, isLoading: false });
             })
             .catch(error => {
                 logs.choirSelectionError(
@@ -189,7 +189,7 @@ class ChoirSelection extends Component {
      * Returns the JSX to display
      */
     render() {
-        // The component to display
+        // The component to display (loading or cards)
         let component;
 
         if (this.state.isLoading || !this.state.minLoadingTimeElapsed) {
@@ -202,11 +202,18 @@ class ChoirSelection extends Component {
             );
         } else {
             // Display the choir cards
-            component = <div className={styles.choirSelection}>{this.createChoirComponents()}</div>;
+            component = (
+                <div className={styles.choirSelectionCards}>{this.createChoirComponents()}</div>
+            );
         }
 
-        // Returns the component to display
-        return component;
+        // Returns the JSX to display
+        return (
+            <div className={styles.choirSelection}>
+                <h1 className={styles.choirSelectionHeading}>Choir Selection</h1>
+                {component}
+            </div>
+        );
     }
 }
 

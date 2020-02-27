@@ -13,6 +13,7 @@ import { withRouter } from "react-router-dom";
 import shortid from "shortid";
 
 // Component imports
+import MusicSelectionHeader from "./MusicSelectionHeader/MusicSelectionHeader";
 import MusicCard from "./MusicCard/MusicCard";
 import { MetroSpinner } from "react-spinners-kit";
 
@@ -54,18 +55,23 @@ class MusicSelection extends Component {
         // Gets music
         getSheetMusic({ choirId: this.props.match.params.choirId })
             .then(snapshot => {
-                if (this._isMounted) this.setState({ isLoading: false, music: snapshot.data.sheet_music });
+                if (this._isMounted)
+                    this.setState({ isLoading: false, music: snapshot.data.sheet_music });
             })
             .catch(error => {
                 // logs.choirSelectionError(
                 //     error.response.status,
                 //     error.response.data,
-                //     "[ChoirSelection/getChoirList]"
+                //     "[MusicSelection/getMusicList]"
                 // );
                 this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
                 if (this._isMounted) this.setState({ isLoading: false });
                 console.log(error);
             });
+    };
+
+    viewSongClickedHandler = id => {
+        this.props.history.push(`${this.props.match.url}/music/${id}`);
     };
 
     createSheetMusicComponents = () => {
@@ -89,11 +95,15 @@ class MusicSelection extends Component {
                     title={musicPiece.title}
                     composers={musicPiece.composer_names}
                     cardColor={colors[colorIndex]}
-                    viewSongClicked={() => {}}
+                    viewSongClicked={() => this.viewSongClickedHandler(musicPiece.sheet_music_id)}
                     viewExercisesClicked={() => {}}
                 />
             );
         });
+    };
+
+    backButtonClickedHandler = () => {
+        this.props.history.goBack();
     };
 
     render() {
@@ -109,7 +119,7 @@ class MusicSelection extends Component {
                 </div>
             );
         } else {
-            // Display the choir cards
+            // Display the music cards
             component = (
                 <div className={styles.musicSelectionCards}>
                     {this.createSheetMusicComponents()}
@@ -118,10 +128,10 @@ class MusicSelection extends Component {
         }
         return (
             <div className={styles.musicSelection}>
-                <h1
-                    className={
-                        styles.musicSelectionHeading
-                    }>{`${this.props.choirName} - Music`}</h1>
+                <MusicSelectionHeader
+                    heading={`${this.props.choirName} - Music`}
+                    backButtonClickedHandler={this.backButtonClickedHandler}
+                />
                 {component}
             </div>
         );

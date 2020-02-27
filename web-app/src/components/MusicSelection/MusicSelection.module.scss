@@ -9,11 +9,6 @@
 @import "../../root-styles/utilities.scss";
 
 .musicSelection {
-    &Heading {
-        @include text($size: 1.5rem, $weight: 400, $color: $primary-color, $line-height: null);
-        margin: 40px;
-    }
-
     &Spinner {
         @include flex-container(
             $direction: column,
@@ -21,6 +16,7 @@
             $align-items: center,
             $wrap: nowrap
         );
+        height: 100%;
 
         &Message {
             @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
@@ -37,12 +33,13 @@
         row-gap: 30px;
         column-gap: 50px;
         justify-content: center;
-        margin: 40px;
+        margin: 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             grid-template-columns: repeat(auto-fill, 375px);
             row-gap: 50px;
             column-gap: 70px;
+            margin: 40px;
         }
     }
 }
