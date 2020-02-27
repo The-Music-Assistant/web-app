@@ -8,7 +8,8 @@
 
 // NPM module imports
 import React, { Component } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import shortid from "shortid";
 import { MetroSpinner } from "react-spinners-kit";
 
@@ -23,6 +24,7 @@ import questionIcon from "../../assets/icons/question-icon.svg";
 import * as logs from "../../vendors/Firebase/logs";
 import { getUsersChoirs, joinChoir } from "../../App/musicAssistantApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
+import { choirSelectedForPractice } from "../../store/actions";
 
 // Style imports
 import styles from "./ChoirSelection.module.scss";
@@ -37,9 +39,6 @@ class ChoirSelection extends Component {
 
     // Indicates whether the component is mounted or not
     _isMounted = false;
-
-    // Timeout id (used if components unmounts)
-    loadingWaitTimeoutId = null;
 
     /**
      * Gets the choir list
@@ -59,7 +58,7 @@ class ChoirSelection extends Component {
     getChoirList() {
         // Starts loading
         if (this._isMounted) this.setState({ isLoading: true, minLoadingTimeElapsed: false });
-        this.loadingWaitTimeoutId = setTimeout(() => {
+        setTimeout(() => {
             if (this._isMounted) this.setState({ minLoadingTimeElapsed: true });
         }, 500);
 
@@ -71,14 +70,19 @@ class ChoirSelection extends Component {
             })
             .catch(error => {
                 logs.choirSelectionError(
-                    error.code,
-                    error.message,
+                    error.response.status,
+                    error.response.data,
                     "[ChoirSelection/getChoirList]"
                 );
-                this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
+                this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
                 if (this._isMounted) this.setState({ isLoading: false });
             });
     }
+
+    choirClickedHandler = (id, name) => {
+        this.props.choirSelected(id, name);
+        this.props.history.push(`${this.props.match.url}/choirs/${id}`);
+    };
 
     /**
      * Attempts to join a new choir
@@ -104,7 +108,7 @@ class ChoirSelection extends Component {
                         error.response.data,
                         "[ChoirSelection/newChoirClickHandler]"
                     );
-                    this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
+                    this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
                 });
         }
     };
@@ -136,16 +140,15 @@ class ChoirSelection extends Component {
 
                 // Returns a choir card
                 return (
-                    <Link key={shortid.generate()} to={`${this.props.match.url}/sheet-music`}>
-                        <ChoirCard
-                            id={choir.choir_id}
-                            headerImgSrc={choir.picture_url}
-                            name={choir.choir_name}
-                            description={choir.description}
-                            noDescription={false}
-                            cardColor={colors[colorIndex]}
-                        />
-                    </Link>
+                    <ChoirCard
+                        key={shortid.generate()}
+                        headerImgSrc={choir.picture_url}
+                        name={choir.choir_name}
+                        description={choir.description}
+                        noDescription={false}
+                        cardColor={colors[colorIndex]}
+                        onClick={() => this.choirClickedHandler(choir.choir_id, choir.choir_name)}
+                    />
                 );
             });
         }
@@ -207,4 +210,14 @@ class ChoirSelection extends Component {
     }
 }
 
-export default withRouter(ChoirSelection);
+/**
+ * Passes certain redux actions to ChoirSelection
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        choirSelected: (id, name) => dispatch(choirSelectedForPractice(id, name))
+    };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(ChoirSelection));

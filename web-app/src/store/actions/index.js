@@ -17,3 +17,5 @@ export {
 } from "./auth";
 
 export { startupDone } from "./startup";
+
+export { choirSelectedForPractice } from "./practice";

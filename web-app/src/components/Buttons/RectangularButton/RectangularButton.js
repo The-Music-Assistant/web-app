@@ -37,6 +37,7 @@ const RectangularButton = props => {
 // RectangularButton prop types
 RectangularButton.propTypes = {
     backgroundColor: PropTypes.oneOf([
+        rectButtonBgColors.WHITE,
         rectButtonBgColors.BLUE,
         rectButtonBgColors.GREEN,
         rectButtonBgColors.ORANGE,

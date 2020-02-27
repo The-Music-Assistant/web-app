@@ -165,15 +165,19 @@ class ProfileCard extends Component {
 
             this.props.updateUserInfo();
         } catch (error) {
-            logs.authError(error.code, error.message, "[ProfileCard/uploadData]");
-
             // Throws a new error if the picture upload fails or the AWS upload fails
             const newError = new Error();
-            newError.message = error.response.data;
-            newError.code = error.response.status;
+            if (error.code) {
+                // Creates error if it's a Firebase error (Axios doesn't have an error.code, but Firebase does)
+                newError.code = error.code;
+                newError.message = error.message;
+            } else {
+                // Creates an error if it's a server error
+                newError.code = error.response.status;
+                newError.message = error.response.data;
+            }
             throw newError;
         }
-        this.props.setLoading(false);
     };
 
     /**
@@ -204,12 +208,19 @@ class ProfileCard extends Component {
         const imageInput = this.state.formData.profilePicture ? (
             <div className={profileCardStyles.profileCardImageInput}>
                 <div className={profileCardStyles.profileCardImageInputImgContainer}>
-                    <img src={URL.createObjectURL(this.state.formData.profilePicture)} className={profileCardStyles.profileCardImageInputImg} alt='Profile Picture' onError={this.imageInputErrorHandler} /> {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
+                    <img
+                        src={URL.createObjectURL(this.state.formData.profilePicture)}
+                        className={profileCardStyles.profileCardImageInputImg}
+                        alt='Profile Picture'
+                        onError={this.imageInputErrorHandler}
+                    />{" "}
+                    {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
                     <button
                         className={profileCardStyles.profileCardImageInputRemoveButton}
                         type='button'
                         onClick={this.removeImageHandler}>
-                        <img src={closeIconRed} alt={"Remove Profile Picture"} /> {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
+                        <img src={closeIconRed} alt={"Remove Profile Picture"} />{" "}
+                        {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
                     </button>
                 </div>
                 <ImageInput

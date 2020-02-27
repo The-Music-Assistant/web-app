@@ -146,7 +146,7 @@ export const joinChoir = data => {
  *   composer_names - composer names
  * }
  * @param data
- * @param data.choirId - Will get all sheet music with this choir id which the user has access to
+ * @param {string} data.choirId - Will get all sheet music with this choir id which the user has access to
  */
 export const getSheetMusic = data => {
     return axios.request({

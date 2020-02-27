@@ -30,3 +30,6 @@ export const AUTH_ERROR = "AUTH_ERROR";
 
 // Startup action types
 export const STARTUP_DONE = "STARTUP_DONE";
+
+// Practice action types
+export const PRACTICE_CHOIR_SELECTED = "PRACTICE_CHOIR_SELECTED";

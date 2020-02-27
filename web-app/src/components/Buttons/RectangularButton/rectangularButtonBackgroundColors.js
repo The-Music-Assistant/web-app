@@ -6,6 +6,7 @@
 // Created Date: 2/13/2020
 // ----------------------------------------------------------------------------
 
+export const WHITE = "white";
 export const BLUE = "blue";
 export const GREEN = "green";
 export const ORANGE = "orange";

@@ -13,11 +13,13 @@ import { combineReducers } from "redux";
 // File imports
 import authReducer from "./auth";
 import startupReducer from "./startup";
+import practiceReducer from "./practice";
 
 // Creates the root reducer by combining all reducers
 const rootReducer = combineReducers({
     auth: authReducer,
-    startup: startupReducer
+    startup: startupReducer,
+    practice: practiceReducer
 });
 
 export default rootReducer;

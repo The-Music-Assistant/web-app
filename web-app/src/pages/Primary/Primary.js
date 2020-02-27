@@ -17,6 +17,7 @@ import Header from "../../components/Header/Header";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import SideNav from "../../components/SideNav/SideNav";
 import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
+import MusicSelection from "../../components/MusicSelection/MusicSelection";
 import AlertBar from "../../components/AlertBar/AlertBar";
 import Home from "../../components/Home/Home";
 import PracticeMain from "../../components/PracticeMain/PracticeMain";
@@ -180,10 +181,12 @@ class Primary extends Component {
                 />
                 {mainNav}
                 <Switch>
+                    <Route path='/practice/choirs/:choirId'>
+                        <MusicSelection showAlert={this.showAlertHandler} />
+                    </Route>
                     <Route path='/practice/sheet-music'>
                         <PracticeMain />
                     </Route>
-                    {/* <Route path='/practice' component={() => <ChoirSelection showAlert={this.showAlertHandler} />} /> */}
                     <Route path='/practice'>
                         <ChoirSelection showAlert={this.showAlertHandler} />
                     </Route>
