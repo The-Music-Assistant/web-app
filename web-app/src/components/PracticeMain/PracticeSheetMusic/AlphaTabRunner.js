@@ -374,22 +374,9 @@ class AlphaTabRunner {
                     comparePosition = AlphaTabRunner.api.tickPosition;
                 }
                 let ratio = AlphaTabRunner.api.tickPosition / comparePosition;
-<<<<<<< HEAD
                 let targetEndTime =
                     AlphaTabRunner.api.playbackRange.endTick / ratio -
                     AlphaTabRunner.api.playbackRange.startTick / ratio;
-                console.log(
-                    AlphaTabRunner.api.playbackRange.endTick,
-                    ratio,
-                    AlphaTabRunner.api.playbackRange.startTick,
-                    targetEndTime,
-                    AlphaTabRunner.api.tickPosition,
-                    AlphaTabRunner.api.timePosition
-                );
-=======
-                let targetEndTime = (AlphaTabRunner.api.playbackRange.endTick / ratio) - (AlphaTabRunner.api.playbackRange.startTick / ratio);
-
->>>>>>> Added commented out base url for when developing server, removed unneeded log function, enabled Just My Part option
                 let currentMeasure = 1;
                 currentMeasure = this.timeToMeasureNumber(
                     currentPosition,
@@ -433,6 +420,9 @@ class AlphaTabRunner {
     // }
 
     static async loadJustMyPart() {
+        let texToDisplay = document.getElementById("texToDisplay");
+        texToDisplay.options[3]=null;
+
         let data = {
             sheetMusicId: "5050284854B611EAAEC302F168716C78"
         };
@@ -485,7 +475,7 @@ class AlphaTabRunner {
 
     static async loadExercise(measureStart, measureEnd) {
         let texToDisplay = document.getElementById("texToDisplay");
-        texToDisplay.options[2] = new Option("Exercise", "exercise", false, true);
+        texToDisplay.options[3]=new Option("Exercise", "exercise", false, true);
 
         let data = {
             sheetMusicId: "5050284854B611EAAEC302F168716C78",
@@ -558,13 +548,15 @@ class AlphaTabRunner {
                 // };
                 // trackVolume.appendChild(newTrackVolume);
             }
-            for (; i < sheetMusicPartDropdown.options.length; i++) {
-                sheetMusicPartDropdown.options[i] = null;
+            let optionsLength = sheetMusicPartDropdown.options.length;
+            let lastIndex = i;
+            for (; i < optionsLength; i++) {
+                sheetMusicPartDropdown.options[lastIndex] = null;
             }
         }
     }
 
-    static async loadTex() {
+    static async loadTex () {
         let texToDisplay = document.getElementById("texToDisplay");
         texToDisplay.options[3] = null;
 

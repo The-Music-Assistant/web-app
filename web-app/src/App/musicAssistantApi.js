@@ -316,6 +316,7 @@ export const getExercise = data => {
  *  measure_lengths: The lengths of each of the measures
  *  part_names: Updated list of part names for this sheet music
  *  clefs: Updated list of clefs for this sheet music
+ *  exerciseId: Since this is treated as exercise, the exercise id for this exercise
  * }
  * @param {Object} data 
  * @param {string} data.sheetMusicId - The sheet music id to retrieve the part from
