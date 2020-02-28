@@ -68,7 +68,7 @@ class AlphaTabRunner {
             },
             display: {
                 layoutMode: "horizontal",
-                startBar: 1,
+                startBar: 29,
                 barCount: AlphaTabRunner.barCount
             }
         };
@@ -560,6 +560,241 @@ class AlphaTabRunner {
     }
 
     static async loadTex() {
+        AlphaTabRunner.api.tex(
+            `\\title "Newtown Psalm"\n
+             \\subtitle "John F. Hudson (b. 1987)"\n
+             \\tempo 72\n
+             .\n
+             \n
+             \\track "Soprano"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- us no- ster. _ su- per- ve- ni- én- te,"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
+             :4 r f4{dy pp cre} f4{cre} f4{cre} |\n
+             gb4{d}.4 gb4.8 gb4.2{dec} |\n
+             :4 r gb4{cre} gb4{cre} gb4{cre} |\n
+             gb4{d}.4 gb4.8 gb4.2{dec} | r.1 | r.1 |\n
+             :4 r ab4{dy p cre} ab4{cre} ab4{cre} |\n
+             ab4{d}.4 ab4.8 ab4.2{dec} |\n
+             :4 r bb4{cre} bb4{cre} bb4{cre} |\n
+             bb4{d}.4 bb4.8 bb4.2{dec} |\n
+             :4 r c5{dy mp} :4{tu 3} c5 c5 c5 |\n
+             :2 c5{cre} bb4{cre} |\n
+             r.4 :8 bb4{dy mf} bb4 :4 bb4 bb4 |\n
+             bb4{d}.4 :8 ab4 ab4 r ab4.4 |\n
+             ab4.2 :4 ab4 ab4 |\n
+             gb4.2{dec} :4 gb4{dec} r{dec} |\n
+             gb4.2{dy mp} :4 gb4 gb4 |\n
+             :2 ab4 eb4 |\n
+             :2 gb4 gb4{dec} |\n
+             :2 gb4{- dec} r |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ts 4 4 r.1 | r.1 |\n
+             :8 a4{dy f} e4 g#4 d#4 f#4 c#4 r.4 |\n
+             r.1 |\n
+             \n
+
+             \\track "Alto 1"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni - si tu De- us _ no- ster. _ _ An- gu- stí- a, _ an- gu- stí- a"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
+             :4 r f4{dy pp cre} f4{cre} f4{cre} |\n
+             f4{d}.4 f4.8 f4.2{dec} |\n
+             :4 r eb4{cre} eb4{cre} eb4{cre} |\n
+             eb4{d}.4 eb4.8 eb4.2{dec} | r.1 | r.1 |\n
+             :4 r f4{dy p cre} f4{cre} f4{cre} |\n
+             gb4{d}.4 gb4.8 gb4.2{dec} |\n
+             :4 r gb4{cre} gb4{cre} gb4{cre} |\n
+             ab4{d}.4 ab4.8 gb4.2{dec} |\n
+             :4 r ab4{dy mp} :4{tu 3} ab4 ab4 ab4 |\n
+             :2 ab4{cre} gb4{cre} |\n
+             r.4 :8 gb4{dy mf} gb4 :4 gb4 eb4 |\n
+             f4{d}.4 :8 f4 f4 r eb4.4 |\n
+             db4.2 :4 c4 db4 |\n
+             eb4.2{dec} :4 db4{dec} r |\n
+             :4 eb4 f4 f4 f4 |\n
+             eb4.2 :4 eb4 b#4 |\n
+             :2 db4 db4{dec} |\n
+             db4{-}.1{dec} |\n
+             \\ks e \\ts 3 4 \\tempo 168 :4 c#4 r r | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ts 4 4 r.2 :4 r g#4{dy f} |\n
+             :4 g#4 f#4 g#4.2 |\n
+             g#4{-}.2 :4 r g#4 |\n
+             :4 g#4 a4 b4.2 |\n
+             \n
+
+             \\track "Alto 2"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni - si tu De- us _ no- ster. _ _ An- gu- stí- a, _ an- gu- stí- a"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
+             :4 r f4{dy pp cre} f4{cre} f4{cre} |\n
+             f4{d}.4 f4.8 f4.2{dec} |\n
+             :4 r eb4{cre} eb4{cre} eb4{cre} |\n
+             eb4{d}.4 eb4.8 eb4.2{dec} | r.1 | r.1 |\n
+             :4 r f4{dy p cre} f4{cre} f4{cre} |\n
+             gb4{d}.4 gb4.8 gb4.2{dec} |\n
+             :4 r gb4{cre} gb4{cre} gb4{cre} |\n
+             ab4{d}.4 ab4.8 gb4.2{dec} |\n
+             :4 r ab4{dy mp} :4{tu 3} ab4 ab4 ab4 |\n
+             :2 ab4{cre} gb4{cre} |\n
+             r.4 :8 gb4{dy mf} gb4 :4 gb4 eb4 |\n
+             f4{d}.4 :8 f4 f4 r eb4.4 |\n
+             db4.2 :4 c4 db4 |\n
+             eb4.2{dec} :4 db4{dec} r |\n
+             :4 eb4 f4 f4 f4 |\n
+             eb4.2 :4 eb4 b#4 |\n
+             :2 cb4 cb4{dec} |\n
+             :2 cb4{- dec} r |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ts 4 4 r.2 :4 r g#4{dy f} |\n
+             :4 g#4 f#4 g#4.2 |\n
+             g#4{-}.2 :4 r g#4 |\n
+             :4 g#4 a4 b4.2 |\n
+             \n
+
+             \\track "Tenor"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db \\clef bass\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- - us _ no- ster. _ su- per- ve- ni- én- te,"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
+             :4 r db4{dy pp cre} db4{cre} db4{cre} |\n
+             db4{d}.4 db4.8 db4.2{dec} |\n
+             :4 r db4{cre} db4{cre} db4{cre} |\n
+             c4{d}.4 c4.8 c4.2{dec} | r.1 | r.1 |\n
+             :4 r eb4{dy p cre} eb4{cre} eb4{cre} |\n
+             db4{d}.4 db4.8 db4.2{dec} |\n
+             :4 r d4{cre} d4{cre} d4{cre} |\n
+             eb4{d}.4 eb4.8 eb4.2 |\n
+             :4 r c4{dy mp} :4{tu 3} c4 c4 eb4 |\n
+             :2 db4{cre} db4{cre} |\n
+             r.4 :8 db4{dy mf} db4 db4.4 cb4 |\n
+             cb4{d}.4 :8 cb4 cb4 r cb4 |\n
+             cb4.2 :4 db4 cb4 |\n
+             bb3.2{dec} :4 bb3{dec} r |\n
+             bb3.2{dy mp} :4 bb3 bb3 |\n
+             :4 gb3 bb3 ab3 eb3 |\n
+             :2 eb3 eb3{dec} |\n
+             :2 eb3{- dec} r |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ts 4 4 r.1 | r.1 | :8 a3{dy f} e3 g#3 d#3 f#3 c#3 r.4 |\n
+             r.1 |\n
+             \n
+
+             \\track "Bass"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db \\clef bass\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- us _ no- ster. _ An- gu- stí- a, _ an- gu- stí- a"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
+             :4 r bb3{dy pp cre} bb3{cre} bb3{cre} |\n
+             bb3{d}.4 bb3.8 bb3.2{dec} |\n
+             :4 r bb3{cre} bb3{cre} bb3{cre} |\n
+             bb3{d}.4 bb3.8 bb3.2{dec} | r.1 | r.1 |\n
+             :4 r bb3{dy p cre} bb3{cre} bb3{cre} |\n
+             bb3{d}.4 bb3.8 bb3.2 |\n
+             :4 r bb3{cre} bb3{cre} bb3{cre} |\n
+             bb3{d}.4 bb3.8 bb3.2{dec} |\n
+             :4 r f3{dy mp} :4{tu 3} f3 f3 f3 |\n
+             :2 f3{cre} f3{cre} |\n
+             r.4 :8 f3{dy mf} f3 :4 f3 f3 |\n
+             f3{d}.4 :8 f3 f3 r f3.4 |\n
+             f3.2 :4 f3 f3 |\n
+             f3.2{dec} :4 f3{dec} r |\n
+             eb3.2{dy mp} :4 eb3 db3 |\n
+             cb3.2 :4 cb3 ab2 |\n
+             :2 gb2 gb2{dec} |\n
+             :2 gb2{- dec} r |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ts 4 4 r.2 :4 r g#3 |\n
+             :4 g#3 f#3 g#3.2 |\n
+             g#3{-}.2 :4 r g#3 |\n
+             :4 g#3 a3 b3.2 |\n
+             \n
+
+             \\track "Piano"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
+             r.4{dy f} |\n
+             (f6 gb5).2 :8 (db6 eb5) bb5 (eb6 f5).4 |\n
+             :4 (eb6{-} f5{-}){dec} (ab5 db5){dec} (ab5 bb4).2{dy mf} |\n
+             (db6 eb5).2{dec} :8 (bb5 c5){dec} eb6{dec} (ab5 bb4).4{dec} |\n
+             (ab5{-} bb4{-}).4{dec} (f6{d} gb5{d}).2 | r.1{dy p} |\n
+             r.1 | r.1 | r.1 |\n
+             (f6 gb5).2{dy mp} :8 (db6 eb5) bb5 (eb6 f5).4 |\n
+             :4 (eb6{-} f5{-}){dec} (ab5 db5){dec} (ab5 bb4).2{dy p dec} |\n
+             r.1 | r.1 | r.1 |\n
+             r.2 :4 r (eb4 bb3){dy p} |\n
+             :2 (f4 ab3) r |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |
+             \\ks e \\ts 3 4 \\tempo 168 (a4 e4).4{dy p} :8 g#4 r r.4 |\n
+             :8 a4 e4 g#4 r r.4 |\n
+             (a4 e4).4 :8 d#4 r r.4 |\n
+             :8 a4 e4 d#4 r r.4 |\n
+             :8 b4{dy mp} e4{cre} a4{cre} r{cre} a4{cre} e4{cre} |\n
+             :8 g#4{cre} r{cre} a4{cre} e4{cre} d#4{cre} r{cre} |\n
+             \\ts 4 4 :4 (f#5 b4 f#4){dy f} r (b5 e5 b4) r |\n
+             \\ts 3 4 :8 a4{dy mf} e4 g#4 d#4 r.4 |\n
+             :8 a4 e4 g#4 d#4 r.4 |\n
+             \\ts 4 4 :8 a4{dy f} e4 g#4 d#4 f#4 c#4 r.4 |\n
+             :4 (f#4 c#4 b3) r (b4 f#4 e4) r |\n
+             :8 a4 e4 g#4 d#4 f#4 c#4 r.4 |\n
+             :4 (g#4 c#4 b3) r (b4 f#4) r |\n
+             \n
+
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
+             r.4{dy f} |\n
+             (db5 eb4).2 :4 (bb4 c4) (ab4 bb3) |\n
+             :4 (ab4{-} bb3{-}){dec} (ab4 c4){dec} (ab4 c4).2{dy mf} |\n
+             (bb4 c4).2{dec} :4 (db5 eb4){dec} (ab4 bb3){dec} |\n
+             (ab4{-} bb3{-}).4{dec} (db5{d} eb4{d}).2 | r.1{dy p} |\n
+             r.1 | r.1 | r.1 |\n
+             (db5 eb4).2{dy mp} :4 (bb4 c4) (ab4 bb3) |\n
+             :4 (ab4{-} bb3{-}){dec} (ab4 c4){dec} (ab4 c4).2{dy p dec} |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.1{dy p} | r.1 | r.1 |\n
+             r.1 | r.1{dy mp cre} | r.1{cre} | \\ts 4 4 r.1{dy f} | \\ts 3 4 r.1{dy mf} | r.1 |\n
+             \\ts 4 4 r.1{dy f} | r.1 | r.1 | r.1 |\n
+             \n
+
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db \\clef bass\n
+             (bb2 bb1).4{dy f} |\n
+             (bb2{-} bb1{-}).1 |\n
+             (bb2{- d} bb1{- d}).2 (bb2 bb1).4{dy mf} |\n
+             (bb2{-} bb1{-}).1 |\n
+             (bb2{- d} bb1{- d}).2 (bb2 bb1).4{dy p} |\n
+             (bb2 bb1).1 |\n
+             :4 (bb2{-} bb1{-}) r r.2 | r.1 |\n
+             r.2 :4 r (bb2 bb1) |\n
+             (bb2{-} bb1{-}).1{dy mp} |\n
+             (bb2{- d}  bb1{- d}).2{dec} (bb2 bb1).4{dy p} |\n
+             (bb2 bb1).1 |\n
+             :4 (bb2{-} bb1{-}) r r.2 |\n
+             r.1 |\n
+             r.2 :4 r (eb3 gb2){dy p} |\n
+             :2 (c3 f2) r |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 :4 (a3 c#3){dy p} r r |\n
+             :4 (a3 c#3) r r |\n
+             :4 (a3 c#3) r r |\n
+             :4 (a3 c#3) r r |\n
+             :4 (a3 c#3){dy mp cre} r{cre} (a3 c#3){cre} |\n
+             :4 r{cre} (a3 c#3){cre} r{cre} |\n
+             \\ts 4 4 :4 (g#2 g#1){dy f} r (f#2 f#1) r |\n
+             \\ts 3 4 :4 (c#3 g#2 c#2){dy mf} r r |\n
+             :4 (c#3 g#2 c#2) r r |\n
+             \\ts 4 4 :4 (c#3 g#2 c#2){dy f} r r (g#2 g#1) |\n
+             :4 (a2 a1) r (g#2 g#1) r |\n
+             :4 (c#3 g#2 c#2) r r (g#2 g#1) |\n
+             :4 (a2 a1) r (g#2 g#1) r |\n
+            `,
+            [0,1,2,3,4,5]
+        );
+
         let texToDisplay = document.getElementById("texToDisplay");
         texToDisplay.options[3] = null;
 
@@ -605,10 +840,10 @@ class AlphaTabRunner {
                     }
                 }
 
-                AlphaTabRunner.api.tex(
-                    response.data.sheet_music,
-                    AlphaTabRunner.texLoaded.currentTrackIndexes
-                );
+                // AlphaTabRunner.api.tex(
+                //     response.data.sheet_music,
+                //     AlphaTabRunner.texLoaded.currentTrackIndexes
+                // );
 
                 data.partName =
                     response.data.part_list[AlphaTabRunner.texLoaded.currentTrackIndexes[0]];
