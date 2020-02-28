@@ -74,6 +74,7 @@ class Startup extends Component {
                         <MetroSpinner size={75} color='#FFFFFF' loading={true} />
                     </div>
                 </div>
+                <h3 className={styles.startupAppVersion}>Version 0.0.1</h3>
             </div>
         );
     }

@@ -11,7 +11,7 @@
 .startup {
     background-color: $primary-color;
     @include flex-container(
-        $direction: row,
+        $direction: column,
         $justify-content: center,
         $align-items: center,
         $wrap: nowrap
@@ -56,5 +56,12 @@
             $align-items: center,
             $wrap: nowrap
         );
+    }
+
+    &AppVersion {
+        position: absolute;
+        bottom: 20px;
+        @include text($size: 0.8rem, $weight: 300, $color: $white-color, $line-height: null);
+        text-align: center;
     }
 }
