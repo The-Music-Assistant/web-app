@@ -44,16 +44,16 @@ const MobileNav = props => {
 
 // Prop types for MobileNav component
 MobileNav.propTypes = {
-    show: PropTypes.bool.isRequired,
-    tabs: PropTypes.arrayOf(
-        PropTypes.exact({
-            key: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            mobileIcon: PropTypes.string.isRequired,
-            desktopIcon: PropTypes.string.isRequired,
-            isCurrent: PropTypes.bool.isRequired
-        })
-    ).isRequired
+    // show: PropTypes.bool.isRequired,
+    // tabs: PropTypes.arrayOf(
+    //     PropTypes.exact({
+    //         key: PropTypes.string.isRequired,
+    //         name: PropTypes.string.isRequired,
+    //         mobileIcon: PropTypes.string.isRequired,
+    //         desktopIcon: PropTypes.string.isRequired,
+    //         isCurrent: PropTypes.bool.isRequired
+    //     })
+    // ).isRequired
 };
 
 export default MobileNav;

@@ -9,10 +9,14 @@
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 // Component imports
 import SideNavLink from "./SideNavLink/SideNavLink";
+
+// File imports
+import { signOut } from "../../store/actions";
 
 // Image imports
 import tmaLogo from "../../assets/logos/tma-logo-blue.png";
@@ -22,20 +26,14 @@ import signOutIconWhite from "../../assets/icons/sign-out-icon-white.svg";
 import styles from "./SideNav.module.scss";
 
 const SideNav = props => {
-    // const getRoute = tabName => {
-    //     switch (tabName) {
-    //         case "Home":
-    //             return "/home";
-    //         case "Practice":
-    //             return "/practice";
-    //         case "Progress":
-    //             return "/progress";
-    //         case "Choirs":
-    //             return "/choirs";
-    //         default:
-    //             return "/home";
-    //     }
-    // };
+    /**
+     * Gets confirmation from user and then signs the user out
+     */
+    const signOutClickedHandler = () => {
+        if (window.confirm("Do you want to sign out?")) {
+            props.signOut();
+        }
+    };
 
     // Returns the JSX to render
     return (
@@ -46,22 +44,31 @@ const SideNav = props => {
             <div className={styles.sideNavLinks}>
                 {props.tabs.map(tab => {
                     const isCurrentTab =
-                        props.location.pathname.substring(1) === tab.name.toLowerCase();
+                        props.location.pathname.substring(1).includes(tab.name.toLowerCase());
                     let icon;
                     if (isCurrentTab) {
                         icon = tab.blueIcon;
                     } else {
                         icon = tab.whiteIcon;
                     }
-                    return <SideNavLink name={tab.name} icon={icon} isCurrentTab={isCurrentTab} route={tab.route} />;
+                    return (
+                        <SideNavLink
+                            key={tab.key}
+                            name={tab.name}
+                            icon={icon}
+                            isCurrentTab={isCurrentTab}
+                            route={tab.route}
+                            isSignOutLink={false}
+                        />
+                    );
                 })}
             </div>
             <div className={styles.sideNavFooter}>
                 <SideNavLink
                     name='Sign Out'
                     icon={signOutIconWhite}
-                    isCurrentTab={false}
-                    onClick={() => null}
+                    onClick={signOutClickedHandler}
+                    isSignOutLink={true}
                 />
                 <small className={styles.sideNavFooterText}>
                     &copy; 2020
@@ -83,9 +90,19 @@ SideNav.propTypes = {
             name: PropTypes.string.isRequired,
             route: PropTypes.string.isRequired,
             blueIcon: PropTypes.string.isRequired,
-            whiteIcon: PropTypes.string.isRequired,
+            whiteIcon: PropTypes.string.isRequired
         })
     ).isRequired
 };
 
-export default withRouter(SideNav);
+/**
+ * Passes certain redux actions to SideNav
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        signOut: () => dispatch(signOut())
+    };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(SideNav));

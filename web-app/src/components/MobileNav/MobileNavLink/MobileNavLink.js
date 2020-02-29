@@ -38,9 +38,9 @@ const MobileNavLink = props => {
 
 // Prop types for the MobileNavLink component
 MobileNavLink.propTypes = {
-    isCurrentTab: PropTypes.bool.isRequired,
-    icon: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    // isCurrentTab: PropTypes.bool.isRequired,
+    // icon: PropTypes.string.isRequired,
+    // name: PropTypes.string.isRequired
 };
 
 export default MobileNavLink;

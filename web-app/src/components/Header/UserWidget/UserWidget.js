@@ -11,9 +11,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-// File imports
-import { signOut } from "../../../store/actions";
-
 // Style imports
 import styles from "./UserWidget.module.scss";
 
@@ -21,15 +18,6 @@ class UserWidget extends Component {
     // Component state
     state = {
         profilePictureError: false
-    };
-
-    /**
-     * Signs the user out
-     */
-    widgetClickedHandler = () => {
-        if (window.confirm("Do you want to sign out?")) {
-            this.props.signOut();
-        }
     };
 
     profilePictureErrorHandler = () => {
@@ -42,7 +30,7 @@ class UserWidget extends Component {
     render() {
         // Returns the JSX to display
         return (
-            <div className={styles.userWidget} onClick={this.widgetClickedHandler}>
+            <div className={styles.userWidget}>
                 {this.props.profilePictureUrl && !this.state.profilePictureError ? (
                     <img
                         className={styles.userWidgetImg}
@@ -68,21 +56,10 @@ const mapStateToProps = state => {
     };
 };
 
-/**
- * Passes certain redux actions to UserWidget
- * @param {function} dispatch - The react-redux dispatch function
- */
-const mapDispatchToProps = dispatch => {
-    return {
-        signOut: () => dispatch(signOut())
-    };
-};
-
 // Prop types for the UserWidget component
 UserWidget.propTypes = {
     profilePic: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    signOut: PropTypes.func.isRequired
+    name: PropTypes.string.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserWidget);
+export default connect(mapStateToProps)(UserWidget);

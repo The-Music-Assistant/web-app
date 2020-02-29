@@ -18,6 +18,7 @@
     margin-top: 40px;
     padding: 10px;
     transition: transform 0.2s ease-out;
+    cursor: pointer;
 
     &:first-child {
         margin-top: 0;
@@ -25,6 +26,10 @@
 
     &:hover {
         transform: translateY(-5px);
+    }
+
+    &SignOut {
+        margin-top: 20px !important;    // Overrides :first-child margin
     }
 
     &Icon {

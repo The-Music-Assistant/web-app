@@ -16,7 +16,6 @@
         $wrap: nowrap
     );
     margin-left: auto;
-    cursor: pointer;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         flex-direction: row;

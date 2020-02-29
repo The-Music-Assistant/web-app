@@ -14,7 +14,7 @@
     margin: auto;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
-        width: calc(100vw - 85px);
+        width: calc(100vw - 175px);
     }
 }
 
