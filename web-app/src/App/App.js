@@ -60,9 +60,7 @@ class App extends Component {
                         {this.props.isStartupDone ? (
                             <Route component={Welcome} path='/welcome' />
                         ) : null}
-                        {this.props.isStartupDone ? (
-                            <Route component={Primary} path='/practice' />
-                        ) : null}
+                        {this.props.isStartupDone ? <Route component={Primary} path='/' /> : null}
                     </Switch>
                 </div>
             </BrowserRouter>

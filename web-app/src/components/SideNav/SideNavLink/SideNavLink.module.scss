@@ -17,13 +17,14 @@
     );
     margin-top: 40px;
     padding: 10px;
+    transition: transform 0.2s ease-out;
 
     &:first-child {
         margin-top: 0;
     }
 
     &:hover {
-        cursor: pointer;
+        transform: translateY(-5px);
     }
 
     &Icon {
@@ -37,7 +38,7 @@
         &WhiteText {
             color: $white-color;
         }
-    
+
         &BlueText {
             color: $primary-color;
         }

@@ -1,0 +1,25 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/Home/Home.js
+// Description: SCSS styles for the home component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 2/29/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.home {
+    &HeroImg {
+        display: block;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: $primary-box-shadow;
+        margin: 60px auto 0;
+    }
+
+    &Text {
+        @include text($size: 1.25rem, $weight: 400, $color: $orange-color, $line-height: 1.7rem);
+        text-align: center;
+        margin-top: 40px;
+    }
+}

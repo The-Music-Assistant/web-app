@@ -57,12 +57,7 @@
         );
 
         &Text {
-            @include text(
-                $size: 0.75rem,
-                $weight: 300,
-                $color: $white-color,
-                $line-height: 1rem
-            );
+            @include text($size: 0.75rem, $weight: 300, $color: $white-color, $line-height: 1rem);
             text-align: center;
             margin-top: 20px;
         }

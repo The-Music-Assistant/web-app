@@ -10,6 +10,7 @@
 
 .primary {
     min-height: 100vh;
+    background-color: $background-color;
     
     @include grid-container(
         $grid-template-rows: auto 1fr auto,

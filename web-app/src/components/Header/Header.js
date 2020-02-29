@@ -22,7 +22,31 @@ class Header extends Component {
     // Component state
     state = {
         profilePic: null,
-        name: "Dan Levy"
+        name: "Dan Levy",
+        timeOfDay: null
+    };
+
+    componentDidMount() {
+        this.getTimeOfDay();
+    }
+
+    /**
+     * Gets the time of day
+     * Updates state with time
+     * Values are "Morning," "Afternoon," or "Evening"
+     */
+    getTimeOfDay = () => {
+        const currentHour = new Date().getHours();
+        let timeOfDay;
+        if (currentHour >= 3 && currentHour < 12) {
+            timeOfDay = "Morning";
+        } else if (currentHour >= 12 && currentHour < 18) {
+            timeOfDay = "Afternoon";
+        } else {
+            timeOfDay = "Evening";
+        }
+
+        this.setState({ timeOfDay });
     };
 
     // Returns JSX to render
@@ -35,7 +59,7 @@ class Header extends Component {
         return (
             <header className={styles.header}>
                 {/* {hamburgerMenu} */}
-                <h1 className={styles.headerHeading}>Good Afternoon</h1>
+                <h1 className={styles.headerHeading}>{`Good ${this.state.timeOfDay}`}</h1>
                 <UserWidget profilePic={this.state.profilePic} name={this.state.name} />
             </header>
         );

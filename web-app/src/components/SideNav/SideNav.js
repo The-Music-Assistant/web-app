@@ -9,6 +9,7 @@
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
+import {withRouter} from "react-router-dom";
 
 // Component imports
 import SideNavLink from "./SideNavLink/SideNavLink";
@@ -21,6 +22,21 @@ import signOutIconWhite from "../../assets/icons/sign-out-icon-white.svg";
 import styles from "./SideNav.module.scss";
 
 const SideNav = props => {
+    // const getRoute = tabName => {
+    //     switch (tabName) {
+    //         case "Home":
+    //             return "/home";
+    //         case "Practice":
+    //             return "/practice";
+    //         case "Progress":
+    //             return "/progress";
+    //         case "Choirs":
+    //             return "/choirs";
+    //         default:
+    //             return "/home";
+    //     }
+    // };
+
     // Returns the JSX to render
     return (
         <section id='side-nav' className={styles.sideNav}>
@@ -29,19 +45,24 @@ const SideNav = props => {
             </div>
             <div className={styles.sideNavLinks}>
                 {props.tabs.map(tab => {
-                    const icon = tab.isCurrent ? tab.blueIcon : tab.whiteIcon;
-                    return (
-                        <SideNavLink
-                            key={tab.key}
-                            name={tab.name}
-                            icon={icon}
-                            isCurrentTab={tab.isCurrent}
-                        />
-                    );
+                    const isCurrentTab =
+                        props.location.pathname.substring(1) === tab.name.toLowerCase();
+                    let icon;
+                    if (isCurrentTab) {
+                        icon = tab.blueIcon;
+                    } else {
+                        icon = tab.whiteIcon;
+                    }
+                    return <SideNavLink name={tab.name} icon={icon} isCurrentTab={isCurrentTab} route={tab.route} />;
                 })}
             </div>
             <div className={styles.sideNavFooter}>
-                <SideNavLink name='Sign Out' icon={signOutIconWhite} isCurrentTab={false} />
+                <SideNavLink
+                    name='Sign Out'
+                    icon={signOutIconWhite}
+                    isCurrentTab={false}
+                    onClick={() => null}
+                />
                 <small className={styles.sideNavFooterText}>
                     &copy; 2020
                     <br />
@@ -60,11 +81,11 @@ SideNav.propTypes = {
         PropTypes.exact({
             key: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
+            route: PropTypes.string.isRequired,
             blueIcon: PropTypes.string.isRequired,
             whiteIcon: PropTypes.string.isRequired,
-            isCurrent: PropTypes.bool.isRequired
         })
     ).isRequired
 };
 
-export default SideNav;
+export default withRouter(SideNav);

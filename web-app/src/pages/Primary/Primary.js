@@ -15,9 +15,12 @@ import { Switch, Route } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import SideNav from "../../components/SideNav/SideNav";
-import PracticeMain from "../../components/PracticeMain/PracticeMain";
 import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
 import AlertBar from "../../components/AlertBar/AlertBar";
+import Home from "../../components/Home/Home";
+import PracticeMain from "../../components/PracticeMain/PracticeMain";
+import Progress from "../../components/Progress/Progress";
+import Choirs from "../../components/Choirs/Choirs";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -36,10 +39,10 @@ class Primary extends Component {
     // Creates main navigation tabs (links)
     constructor(props) {
         super(props);
-        this.generateMainNavTab("Home", homeIconBlue, homeIconWhite, false);
-        this.generateMainNavTab("Practice", practiceIconBlue, practiceIconWhite, true);
-        this.generateMainNavTab("Progress", progressIconBlue, progressIconWhite, false);
-        this.generateMainNavTab("Choir", choirIconBlue, choirIconWhite, false);
+        this.generateMainNavTab("Home", "/home", homeIconBlue, homeIconWhite);
+        this.generateMainNavTab("Practice", "/practice", practiceIconBlue, practiceIconWhite);
+        this.generateMainNavTab("Progress", "/progress", progressIconBlue, progressIconWhite);
+        this.generateMainNavTab("Choirs", "/choirs", choirIconBlue, choirIconWhite);
         // this.generateMainNavTab("Sign Out", signOutIconBlue, signOutIconWhite, false);
     }
 
@@ -80,13 +83,13 @@ class Primary extends Component {
      * @param {string} whiteIcon - A white version of the icon
      * @param {boolean} isCurrent - Whether or not the tab is the current tab
      */
-    generateMainNavTab = (name, blueIcon, whiteIcon, isCurrent) => {
+    generateMainNavTab = (name, route, blueIcon, whiteIcon) => {
         const tab = {
             key: shortid.generate(),
             name,
+            route,
             blueIcon,
-            whiteIcon,
-            isCurrent
+            whiteIcon
         };
         this.mainNavTabs.push(tab);
     };
@@ -158,6 +161,15 @@ class Primary extends Component {
                     {/* <Route path='/practice' component={() => <ChoirSelection showAlert={this.showAlertHandler} />} /> */}
                     <Route path='/practice'>
                         <ChoirSelection showAlert={this.showAlertHandler} />
+                    </Route>
+                    <Route path='/progress'>
+                        <Progress />
+                    </Route>
+                    <Route path='/choirs'>
+                        <Choirs />
+                    </Route>
+                    <Route path='/home'>
+                        <Home />
                     </Route>
                 </Switch>
             </div>
