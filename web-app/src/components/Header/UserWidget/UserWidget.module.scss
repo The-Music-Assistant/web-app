@@ -35,23 +35,12 @@
     }
 
     &Name {
-        @include text($size: 0.75rem, $weight: 400, $color: $white-color, $line-height: null);
-        margin-top: 5px;
+        @include text($size: 0.75rem, $weight: 400, $color: $primary-color, $line-height: null);
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             font-size: 1rem;
             margin: 0 0 0 10px;
             padding: 0;
-        }
-    }
-
-    &DownArrow {
-        display: none;
-
-        @include media-query($breakpoint: $tablet-breakpoint) {
-            display: block;
-            width: 15px;
-            margin-left: 10px;
         }
     }
 }

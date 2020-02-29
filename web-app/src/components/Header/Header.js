@@ -27,15 +27,15 @@ class Header extends Component {
 
     // Returns JSX to render
     render() {
-        let hamburgerMenu = null;
-        if (this.props.isMobile) {
-            hamburgerMenu = <HamburgerMenu handleClick={this.props.hamburgerMenuClicked} />;
-        }
+        // let hamburgerMenu = null;
+        // if (this.props.isMobile) {
+        //     hamburgerMenu = <HamburgerMenu handleClick={this.props.hamburgerMenuClicked} />;
+        // }
 
         return (
             <header className={styles.header}>
-                {hamburgerMenu}
-                <Logo isMobile={this.props.isMobile} />
+                {/* {hamburgerMenu} */}
+                <h1 className={styles.headerHeading}>Good Afternoon</h1>
                 <UserWidget profilePic={this.state.profilePic} name={this.state.name} />
             </header>
         );

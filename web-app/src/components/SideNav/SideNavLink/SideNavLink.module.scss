@@ -9,14 +9,14 @@
 @import "../../../root-styles/utilities.scss";
 
 .sideNavLink {
-    position: relative;
     @include flex-container(
-        $direction: column,
+        $direction: row,
         $justify-content: null,
         $align-items: center,
         $wrap: null
     );
     margin-top: 40px;
+    padding: 10px;
 
     &:first-child {
         margin-top: 0;
@@ -27,24 +27,25 @@
     }
 
     &Icon {
-        width: 25px;
-
-        @include media-query($breakpoint: $desktop-breakpoint) {
-            width: 35px;
-        }
+        height: 25px;
     }
 
     &Name {
-        @include text($size: 0.875rem, $weight: 300, $color: $white-color, $line-height: null);
-        margin-top: 5px;
+        @include text($size: 0.875rem, $weight: 400, $color: null, $line-height: null);
+        margin-left: 20px;
+
+        &WhiteText {
+            color: $white-color;
+        }
+    
+        &BlueText {
+            color: $primary-color;
+        }
     }
 
-    &CurrentTabLine {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 3px;
+    &CurrentTab {
         background-color: $white-color;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
     }
 }

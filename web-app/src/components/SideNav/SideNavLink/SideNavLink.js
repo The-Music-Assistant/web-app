@@ -14,18 +14,14 @@ import PropTypes from "prop-types";
 import styles from "./SideNavLink.module.scss";
 
 const SideNavLink = props => {
-    // Adds a line to the tab if it is the current tab
-    let currentTabLine = null;
-    if (props.isCurrentTab) {
-        currentTabLine = <div className={styles.sideNavLinkCurrentTabLine}></div>;
-    }
+    const currentTabStyle = props.isCurrentTab ? styles.sideNavLinkCurrentTab : "";
+    const textColorStyle = props.isCurrentTab ? styles.sideNavLinkNameBlueText : styles.sideNavLinkNameWhiteText;
 
     // Returns the JSX to display
     return (
-        <div className={styles.sideNavLink}>
-            {currentTabLine}
+        <div className={`${styles.sideNavLink} ${currentTabStyle}`}>
             <img className={styles.sideNavLinkIcon} src={props.icon} alt={props.name + " Icon"} />
-            <h3 className={styles.sideNavLinkName}>{props.name}</h3>
+            <h3 className={`${styles.sideNavLinkName} ${textColorStyle}`}>{props.name}</h3>
         </div>
     );
 };
@@ -35,6 +31,6 @@ SideNavLink.propTypes = {
     isCurrentTab: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired
-}
+};
 
 export default SideNavLink;

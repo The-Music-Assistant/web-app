@@ -10,12 +10,11 @@
 
 .header {
     height: 60px;
-    padding: 0 10px;
-    background-color: $primary-color;
+    // padding: 0 10px;
     grid-area: head;
     @include grid-container(
         $grid-template-rows: null,
-        $grid-template-columns: 1fr 1fr 1fr,
+        $grid-template-columns: 1fr 1fr,
         $align-items: center
     );
 
@@ -27,5 +26,9 @@
 
     @include media-query($breakpoint: $desktop-breakpoint) {
         grid-template-columns: 1fr 1fr;
+    }
+
+    &Heading {
+        @include text($size: 1.5rem, $weight: 400, $color: $primary-color, $line-height: null);
     }
 }

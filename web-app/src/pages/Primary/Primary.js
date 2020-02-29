@@ -17,20 +17,17 @@ import MobileNav from "../../components/MobileNav/MobileNav";
 import SideNav from "../../components/SideNav/SideNav";
 import PracticeMain from "../../components/PracticeMain/PracticeMain";
 import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
-import Footer from "../../components/Footer/Footer";
 import AlertBar from "../../components/AlertBar/AlertBar";
 
 // Image imports
-// import homeIconBlue from "../../assets/icons/home-icon-blue-fa.svg";
-import practiceIconBlue from "../../assets/icons/practice-icon-blue-fa.svg";
-import progressIconBlue from "../../assets/icons/progress-icon-blue-fa.svg";
-import choirIconBlue from "../../assets/icons/choir-icon-blue-fa.svg";
-import messagesIconBlue from "../../assets/icons/messages-icon-blue-fa.svg";
-// import homeIconWhite from "../../assets/icons/home-icon-white-fa.svg";
-import practiceIconWhite from "../../assets/icons/practice-icon-white-fa.svg";
-import progressIconWhite from "../../assets/icons/progress-icon-white-fa.svg";
-import choirIconWhite from "../../assets/icons/choir-icon-white-fa.svg";
-import messagesIconWhite from "../../assets/icons/messages-icon-white-fa.svg";
+import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
+import practiceIconBlue from "../../assets/icons/practice-icon-blue.svg";
+import progressIconBlue from "../../assets/icons/progress-icon-blue.svg";
+import choirIconBlue from "../../assets/icons/choir-icon-blue.svg";
+import homeIconWhite from "../../assets/icons/home-icon-white.svg";
+import practiceIconWhite from "../../assets/icons/practice-icon-white.svg";
+import progressIconWhite from "../../assets/icons/progress-icon-white.svg";
+import choirIconWhite from "../../assets/icons/choir-icon-white.svg";
 
 // Style imports
 import styles from "./Primary.module.scss";
@@ -39,11 +36,11 @@ class Primary extends Component {
     // Creates main navigation tabs (links)
     constructor(props) {
         super(props);
-        // this.generateMainNavTab("Home", homeIconBlue, homeIconWhite, false);
+        this.generateMainNavTab("Home", homeIconBlue, homeIconWhite, false);
         this.generateMainNavTab("Practice", practiceIconBlue, practiceIconWhite, true);
         this.generateMainNavTab("Progress", progressIconBlue, progressIconWhite, false);
         this.generateMainNavTab("Choir", choirIconBlue, choirIconWhite, false);
-        this.generateMainNavTab("Messages", messagesIconBlue, messagesIconWhite, false);
+        // this.generateMainNavTab("Sign Out", signOutIconBlue, signOutIconWhite, false);
     }
 
     // Component state
@@ -79,16 +76,16 @@ class Primary extends Component {
     /**
      * Creates a main nav tab and pushes the tab to the array of main nav tabs
      * @param {string} name - The tab name
-     * @param {string} mobileIcon - Icon to display on mobile devices
-     * @param {string} desktopIcon - Icon to display on desktop devices
+     * @param {string} blueIcon - A blue version of the icon
+     * @param {string} whiteIcon - A white version of the icon
      * @param {boolean} isCurrent - Whether or not the tab is the current tab
      */
-    generateMainNavTab = (name, mobileIcon, desktopIcon, isCurrent) => {
+    generateMainNavTab = (name, blueIcon, whiteIcon, isCurrent) => {
         const tab = {
             key: shortid.generate(),
             name,
-            mobileIcon,
-            desktopIcon,
+            blueIcon,
+            whiteIcon,
             isCurrent
         };
         this.mainNavTabs.push(tab);
@@ -155,7 +152,7 @@ class Primary extends Component {
                 />
                 {mainNav}
                 <Switch>
-                    <Route path="/practice/sheet-music">
+                    <Route path='/practice/sheet-music'>
                         <PracticeMain />
                     </Route>
                     {/* <Route path='/practice' component={() => <ChoirSelection showAlert={this.showAlertHandler} />} /> */}
@@ -163,7 +160,6 @@ class Primary extends Component {
                         <ChoirSelection showAlert={this.showAlertHandler} />
                     </Route>
                 </Switch>
-                <Footer />
             </div>
         );
     }

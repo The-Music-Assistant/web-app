@@ -25,8 +25,8 @@
     @include media-query($breakpoint: $tablet-breakpoint) {
         grid-template-columns: auto 1fr;
         grid-template-areas:
-            "head head"
+            "side-nav head"
             "side-nav practice-main"
-            "foot foot";
+            "side-nav foot";
     }
 }

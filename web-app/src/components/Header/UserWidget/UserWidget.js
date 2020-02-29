@@ -14,9 +14,6 @@ import { connect } from "react-redux";
 // File imports
 import { signOut } from "../../../store/actions";
 
-// Image imports
-import downArrow from "../../../assets/icons/down-arrow-white-fa.svg";
-
 // Style imports
 import styles from "./UserWidget.module.scss";
 
@@ -55,7 +52,6 @@ class UserWidget extends Component {
                     />
                 ) : null}
                 <h2 className={styles.userWidgetName}>{this.props.name}</h2>
-                <img className={styles.userWidgetDownArrow} src={downArrow} alt='Down Arrow' />
             </div>
         );
     }
