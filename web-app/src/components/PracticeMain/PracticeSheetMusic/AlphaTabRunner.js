@@ -68,7 +68,7 @@ class AlphaTabRunner {
             },
             display: {
                 layoutMode: "horizontal",
-                startBar: 29,
+                startBar: 23,
                 barCount: AlphaTabRunner.barCount
             }
         };
@@ -566,9 +566,9 @@ class AlphaTabRunner {
              \\tempo 72\n
              .\n
              \n
-             \\track "Soprano"\n
+             \\track "Soprano 1"\n
              \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
-             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- us no- ster. _ su- per- ve- ni- én- te,"\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- us no- ster. _ su- per- ve- ni- én- te, su- per- ve- ni ve- ni- én- te re- quí- rent pa- cem et non e- ri. _ _ An- gu- stí- a _ _ _ _ su- per- ve- ni- ve- ni- én- te re- quí- rent pa- cem et non e- ri et non e- ri. Pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne. Pro- - pter fra - - tres _ me- os et pró- xi- mos me- os lo- - qué - bar _ pa- cem de te. _ _ Pa- cem, pa- cem, Dó- mi- ne. _ _"\n
              r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
              :4 r f4{dy pp cre} f4{cre} f4{cre} |\n
              gb4{d}.4 gb4.8 gb4.2{dec} |\n
@@ -588,16 +588,173 @@ class AlphaTabRunner {
              :2 ab4 eb4 |\n
              :2 gb4 gb4{dec} |\n
              :2 gb4{- dec} r |\n
-             \\ks e \\ts 3 4 \\tempo 168 r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
              \\ts 4 4 r.1 | r.1 |\n
              :8 a4{dy f} e4 g#4 d#4 f#4 c#4 r.4 |\n
              r.1 |\n
+             \\ts 3 4 :8 a4 e4 g#4 d#4 r.4 |\n
+             :8 a4 e4 g#4 d#4 r.4 | r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 a4{dy ff} b4 d#5 r |\n
+             e5.1{cre} |\n
+             e5.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 d#5 r e5 r |\n
+             \\ts 3 4 :8 f#5 f#5 f#5{-}.2 |\n
+             f#5{d -}.2 |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.2 :4 r e5{dy ff} |\n
+             :4 d#5 b4 c#5.2 |\n
+             \\ts 3 4 c#5{d -}.2 |\n
+             e5{d}.2 |\n
+             d#5{d}.2 |\n
+             d#5{-}.2 r.4 |\n
+             \\ts 4 4 :8 c#5 g#4 b4 f#4 r.2 |\n
+             r.4 :8 c#5 e5 r.4 :8 d#5 f#5 |\n
+             :4 r{dy fff} c#5 r :8 d#5 d#5 |\n
+             :4 r e5 r f#5 | r.1 |\n
+             :4 r e5 r f#5 |\n
+             :4 r g#5 r a5 |\n
+             :4 r :8 a5 a5 r.4 :8 b5 b5 | r.1 | \\ts 3 4 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1 | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             \\ts 4 4 \\tempo 76 r.4 bb4.2{dy mp} bb4.4 |\n
+             :8 bb4{cre} bb4{cre} bb4{d}.2{cre} |\n
+             r.4 db5.2{dy mf} db5.4 |\n
+             :8 db5 db5 db5{d}.2{cre} |\n
+             r.4 f5.2{dy f} f5.4 |\n
+             :8 f5 f5 f5{d}.2{cre} |\n
+             r.4 gb5{d}.2{dy ff} |\n
+             \\ts 2 4 :4 gb5 r |\n
+             \\ts 4 4 gb5{d}.2{cre} gb5.4 |\n
+             ab5{d}.2 r.4 | r.1 | r.1 | \\tempo 29 eb4.1{dy mf} |\n
+             :2 db4 eb4 |\n
+             f4.1 |\n
+             :2 f4{-} gb4 |\n
+             :2 ab4 bb4 |\n
+             :2 c5 db5 |\n
+             eb5.1{cre} |\n
+             :2 f5{dy f tu 3} f5{tu 3} f5{tu 3} |\n
+             gb5.1 |\n
+             ab5.1 |\n
+             :2 r db5 |\n
+             db5{-}.1 |\n
+             db5{d}.2{cre} eb5.4{cre} |\n
+             :2 eb5{cre} f5{cre} |\n
+             gb5.1{dy ff} |\n
+             gb5.1{dy ff} | r.1 |\n
+             :2 r db5{dy mp} |\n
+             db5.1{dec} |\n
+             db5{-}.1{dec dy p} |\n
+             db5{d -}.2{dec} r.4 | r.1 | r.1 | r.1 | r.1 |\n
+             db4.2{dy p} :4 db4 r |\n
+             eb4.1 |\n
+             f4{d}.2 r.4 |\n
+             f4{d}.2{dy pp} f4.4 |\n
+             f4.1 | f4{-}.1 | f4{-}.1 |
+             \n
+
+             \\track "Soprano 2"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- us no- ster. _ su- per- ve- ni- én- te, su- per- ve- ni ve- ni- én- te re- quí- rent pa- cem et non e- ri. _ _ An- gu- stí- a _ _ _ _ su- per- ve- ni- ve- ni- én- te re- quí- rent pa- cem et non e- ri et non e- ri. Pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne. Pro- - pter fra - - tres _ me- os et pró- xi- mos me- os lo- - qué - bar _ pa- cem de te. _ _ Pa- cem, pa- cem, Dó- mi- ne. _ _"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
+             :4 r f4{dy pp cre} f4{cre} f4{cre} |\n
+             gb4{d}.4 gb4.8 gb4.2{dec} |\n
+             :4 r gb4{cre} gb4{cre} gb4{cre} |\n
+             gb4{d}.4 gb4.8 gb4.2{dec} | r.1 | r.1 |\n
+             :4 r ab4{dy p cre} ab4{cre} ab4{cre} |\n
+             ab4{d}.4 ab4.8 ab4.2{dec} |\n
+             :4 r bb4{cre} bb4{cre} bb4{cre} |\n
+             bb4{d}.4 bb4.8 bb4.2{dec} |\n
+             :4 r c5{dy mp} :4{tu 3} c5 c5 c5 |\n
+             :2 c5{cre} bb4{cre} |\n
+             r.4 :8 bb4{dy mf} bb4 :4 bb4 bb4 |\n
+             bb4{d}.4 :8 ab4 ab4 r ab4.4 |\n
+             ab4.2 :4 ab4 ab4 |\n
+             gb4.2{dec} :4 gb4{dec} r{dec} |\n
+             gb4.2{dy mp} :4 gb4 gb4 |\n
+             :2 ab4 eb4 |\n
+             :2 gb4 gb4{dec} |\n
+             :2 gb4{- dec} r |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 |\n
+             :8 a4{dy f} e4 g#4 d#4 f#4 c#4 r.4 |\n
+             r.1 |\n
+             \\ts 3 4 :8 a4 e4 g#4 d#4 r.4 |\n
+             :8 a4 e4 g#4 d#4 r.4 | r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 a4{dy ff} b4 d#5 r |\n
+             e5.1{cre} |\n
+             e5.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 d#5 r e5 r |\n
+             \\ts 3 4 :8 f#5 f#5 f#5{-}.2 |\n
+             f#5{d -}.2 |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.2 :4 r e5{dy ff} |\n
+             :4 d#5 b4 c#5.2 |\n
+             \\ts 3 4 c#5{d -}.2 |\n
+             e5{d}.2 |\n
+             d#5{d}.2 |\n
+             d#5{-}.2 r.4 |\n
+             \\ts 4 4 :8 c#5 g#4 b4 f#4 r.2 |\n
+             r.4 :8 c#5 e5 r.4 :8 d#5 f#5 |\n
+             :4 r{dy fff} c#5 r :8 d#5 d#5 |\n
+             :4 r e5 r f#5 | r.1 |\n
+             :4 r e5 r f#5 |\n
+             :4 r g#5 r a5 |\n
+             :4 r :8 a5 a5 r.4 :8 f#5 f#5 | r.1 | \\ts 3 4 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1 | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             \\ts 4 4 \\tempo 76 r.4 bb4.2{dy mp} bb4.4 |\n
+             :8 bb4{cre} bb4{cre} bb4{d}.2{cre} |\n
+             r.4 db5.2{dy mf} db5.4 |\n
+             :8 db5 db5 db5{d}.2{cre} |\n
+             r.4 f5.2{dy f} f5.4 |\n
+             :8 eb5 eb5 eb5{d}.2{cre} |\n
+             r.4 f5{d}.2{dy ff} |\n
+             \\ts 2 4 :4 eb5 r |\n
+             \\ts 4 4 db5{d}.2{cre} gb5.4 |\n
+             gb5{d}.2 r.4 | r.1 | r.1 | \\tempo 29 eb4.1{dy mf} |\n
+             :2 db4 eb4 |\n
+             f4.1 |\n
+             :2 f4{-} gb4 |\n
+             :2 ab4 bb4 |\n
+             :2 c5 db5 |\n
+             eb5.1{cre} |\n
+             :2 f5{dy f tu 3} f5{tu 3} f5{tu 3} |\n
+             gb5.1 |\n
+             ab5.1 |\n
+             :2 r db5 |\n
+             db5{-}.1 |\n
+             db5{d}.2{cre} eb5.4{cre} |\n
+             :2 eb5{cre} f5{cre} |\n
+             f5.1{dy ff} |\n
+             f5.1 | r.1 |\n
+             :2 r db5{dy mp} |\n
+             db5.1{dec} |\n
+             db5{-}.1{dec dy p} |\n
+             db5{d -}.2{dec} r.4 | r.1 | r.1 | r.1 | r.1 |\n
+             db4.2{dy p} :4 db4 r |\n
+             eb4.1 |\n
+             eb4{d}.2 r.4 |\n
+             f4{d}.2{dy pp} f4.4 |\n
+             f4.1 | f4{-}.1 | f4{-}.1 |
              \n
 
              \\track "Alto 1"\n
              \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
-             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni - si tu De- us _ no- ster. _ _ An- gu- stí- a, _ an- gu- stí- a"\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni - si tu De- us _ no- ster. _ _ An- gu- stí- a, _ an- gu- stí- a _ _ re- quí- rent pa- cem et non e- ri. _ _ su- per- ve- ni- én- te, su- per- ve- ni su- per- ve- ni- én- te, su- per- ve- ni- én- te, ve- ni- én- te ve- ni- én- te re- quí- rent pa- cem et non e- ri et non e- ri. Pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne. Pro - pter fra- - - tres _ me- os et pró- xi- mos me - os lo- qué - bar _ _ _ pa- cem de te. _ _ Pa- cem, pa- cem, Dó- mi- ne. _ _"\n
              r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
              :4 r f4{dy pp cre} f4{cre} f4{cre} |\n
              f4{d}.4 f4.8 f4.2{dec} |\n
@@ -614,20 +771,83 @@ class AlphaTabRunner {
              db4.2 :4 c4 db4 |\n
              eb4.2{dec} :4 db4{dec} r |\n
              :4 eb4 f4 f4 f4 |\n
-             eb4.2 :4 eb4 b#4 |\n
+             eb4.2 :4 eb4 b3 |\n
              :2 db4 db4{dec} |\n
              db4{-}.1{dec} |\n
-             \\ks e \\ts 3 4 \\tempo 168 :4 c#4 r r | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 :4 c#4 r r | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
              \\ts 4 4 r.2 :4 r g#4{dy f} |\n
              :4 g#4 f#4 g#4.2 |\n
              g#4{-}.2 :4 r g#4 |\n
              :4 g#4 a4 b4.2 |\n
+             \\ts 3 4 b4{d -}.2 |\n
+             b4{-}.2 r.4 | r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 a4{dy ff} a4 a4 r |\n
+             b4.1{cre} |\n
+             b4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 c#5 r c#5 r |\n
+             \\ts 3 4 :8 d#5 d#5 d#5{-}.2 |\n
+             d#5{d -}.2 |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 |\n
+             \\ts 3 4 :8 c#5{dy ff} g#4 b4 f#4 g#4 d#4 |\n
+             r.4 :8 c#5 g#4 b4 f#4 |\n
+             :8 c#5 g#4 b4 f#4 g#4 d#4 |\n
+             r.4 :8 c#5 g#4 b4 f#4 |\n
+             \\ts 4 4 :8 g#4 d#4 r.4 :8 a4 e4 g#4 d#4 |\n
+             r.4 :8 a4 e4 r.4 :8 g#4 d#4 |\n
+             :4 r{dy fff} c#5 r :8 c#5 c#5 |\n
+             :4 r c#5 r c#5 | r.1 |\n
+             :4 r c#5 r c#5 |\n
+             :4 r c#5 r c#5 |\n
+             r.4 :8 c#5 c#5 r.4 :8 c#5 c#5 | r.1 | \\ts 3 4 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1 | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             \\ts 4 4 \\tempo 76 r.4 f4.2{dy mp} f4.4 |\n
+             :8 f4{cre} f4{cre} f4{d}.2{cre} |\n
+             r.4 f4.2{dy mf} f4.4 |\n
+             :8 gb4 gb4 gb4{d}.2{cre} |\n
+             r.4 f4{dy f}.2 f4.4 |\n
+             :8 gb4 gb4 gb4{d}.2{cre} |\n
+             r.4 bb4{d}.2{dy ff} |\n
+             \\ts 2 4 :4 bb4 r |\n
+             \\ts 4 4 ab4{d}.2{cre} db5.4 |\n
+             db5{d}.2 r.4 | r.1 | r.1 | \\tempo 29 r.1 |\n
+             eb4.1{dy mf} |\n
+             :2 db4 eb4 |\n
+             f4.1 |\n
+             :2 f4{-} gb4 |\n
+             :2 ab4 bb4 |\n
+             :2 c5{cre} db5{cre} |\n
+             eb5.1 |\n
+             :2{tu 3} f5 eb5 db5 |\n
+             :2 c5 eb5 |\n
+             :2 db5 r |\n
+             c5.1 |\n
+             :2 bb4{cre} ab4{cre} |\n
+             :4 gb4{cre} bb4{cre} eb5{cre} db5{cre} |\n
+             db5.1{dy ff} |\n
+             db5.1 | r.1 |\n
+             r.1 |\n
+             :2 f4{dy mp} f4{dec} |\n
+             f4{dy p - dec} |\n
+             f4{d -}.2{dec} r.4 | r.1 | r.1 | r.1 | r.1 |\n
+             db4.2{dy p} :4 c4 r |\n
+             db4.1 |\n
+             db4{d}.2 r.4 |\n
+             db4{d}.2{dy pp} db4.4 |\n
+             db4.1 | db4{-}.1 | db4{-}.1 |\n
              \n
 
              \\track "Alto 2"\n
              \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
-             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni - si tu De- us _ no- ster. _ _ An- gu- stí- a, _ an- gu- stí- a"\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni - si tu De- us _ no- ster. _ _ An- gu- stí- a, _ an- gu- stí- a _ _ re- quí- rent pa- cem et non e- ri. _ su- per- ve- ni- én- te, su- per- ve- ni su- per- ve- ni- én- te, su- per- ve- ni- én- te, ve- ni- én- te ve- ni- én- te re- quí- rent pa- cem et non e- ri et non e- ri. Pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne. Pro - pter fra- - - tres _ me- os et pró- xi- mos me - os lo- qué - bar _ _ _ pa- cem de te. _ _ Pa- cem, pa- cem, Dó- mi- ne. _ _"\n
              r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
              :4 r f4{dy pp cre} f4{cre} f4{cre} |\n
              f4{d}.4 f4.8 f4.2{dec} |\n
@@ -644,20 +864,83 @@ class AlphaTabRunner {
              db4.2 :4 c4 db4 |\n
              eb4.2{dec} :4 db4{dec} r |\n
              :4 eb4 f4 f4 f4 |\n
-             eb4.2 :4 eb4 b#4 |\n
-             :2 cb4 cb4{dec} |\n
-             :2 cb4{- dec} r |\n
-             \\ks e \\ts 3 4 \\tempo 168 r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             eb4.2 :4 eb4 b3 |\n
+             :2 b3 b3{dec} |\n
+             :2 b3{- dec} r |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
              \\ts 4 4 r.2 :4 r g#4{dy f} |\n
              :4 g#4 f#4 g#4.2 |\n
              g#4{-}.2 :4 r g#4 |\n
              :4 g#4 a4 b4.2 |\n
+             \\ts 3 4 b4{d -}.2 |\n
+             b4{-}.2 r.4 | r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 a4{dy ff} a4 a4 r |\n
+             b4.1{cre} |\n
+             b4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 c#5 r c#5 r |\n
+             \\ts 3 4 :8 d#5 d#5 d#5{-}.2 |\n
+             d#5{d -}.2 |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 |\n
+             \\ts 3 4 :8 c#5{dy ff} g#4 b4 f#4 g#4 d#4 |\n
+             r.4 :8 c#5 g#4 b4 f#4 |\n
+             :8 c#5 g#4 b4 f#4 g#4 d#4 |\n
+             r.4 :8 c#5 g#4 b4 f#4 |\n
+             \\ts 4 4 :8 g#4 d#4 r.4 :8 a4 e4 g#4 d#4 |\n
+             r.4 :8 a4 e4 r.4 :8 g#4 d#4 |\n
+             :4 r{dy fff} c#5 r :8 c#5 c#5 |\n
+             :4 r c#5 r c#5 | r.1 |\n
+             :4 r c#5 r c#5 |\n
+             :4 r c#5 r c#5 |\n
+             r.4 :8 c#5 c#5 r.4 :8 c#5 c#5 | r.1 | \\ts 3 4 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1 | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             \\ts 4 4 \\tempo 76 r.4 f4.2{dy mp} f4.4 |\n
+             :8 f4{cre} f4{cre} f4{d}.2{cre} |\n
+             r.4 f4.2{dy mf} f4.4 |\n
+             :8 f4 f4 f4{d}.2{cre} |\n
+             r.4 f4.2{dy f} f4.4 |\n
+             :8 gb4 gb4 gb4{d}.2{cre} |\n
+             r.4 gb4{d}.2{dy ff} |\n
+             \\ts 2 4 :4 gb4 r |\n
+             \\ts 4 4 ab4{d}.2{cre} ab4.4 |\n
+             ab4{d}.2 r.4 | r.1 | r.1 | \\tempo 29 r.1 |\n
+             eb4.1{dy mf} |\n
+             :2 db4 eb4 |\n
+             f4.1 |\n
+             :2 f4{-} gb4 |\n
+             :2 ab4 bb4 |\n
+             :2 c5{cre} db5{cre} |\n
+             eb5.1 |\n
+             :2{tu 3} f5 eb5 db5 |\n
+             :2 c5 eb5 |\n
+             :2 db5 r |\n
+             c5.1 |\n
+             :2 bb4{cre} ab4{cre} |\n
+             :4 gb4{cre} bb4{cre} eb5{cre} db5{cre} |\n
+             gb4.1{dy ff} |\n
+             gb4.1 | r.1 |\n
+             r.1 |\n
+             :2 f4{dy mp} f4{dec} |\n
+             f4{dy p - dec} |\n
+             f4{d -}.2{dec} r.4 | r.1 | r.1 | r.1 | r.1 |\n
+             db4.2{dy p} :4 c4 r |\n
+             bb3.1 |\n
+             bb3{d}.2 r.4 |\n
+             ab3{d}.2{dy pp} ab3.4 |\n
+             ab3.1 | ab3{-}.1 | ab3{-}.1 |\n
              \n
 
-             \\track "Tenor"\n
+             \\track "Tenor 1"\n
              \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db \\clef bass\n
-             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- - us _ no- ster. _ su- per- ve- ni- én- te,"\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- - us _ no- ster. _ su- per- ve- ni- én- te, su- per- ve- ni ve- ni- én- te re- quí- rent pa- cem et non e- ri. _ _ An- gu- stí- a _ _ _ _ su- per- ve- ni- ve- ni- én- te re- quí- rent pa- cem et non e- ri et non e- ri. Pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne. Pro- - pter fra - - tres _ me- os et pró- xi- mos me- os lo- - qué - bar _ pa- cem de te. _ Pa- cem, pa- cem, Dó- mi- ne. _ _"\n
              r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
              :4 r db4{dy pp cre} db4{cre} db4{cre} |\n
              db4{d}.4 db4.8 db4.2{dec} |\n
@@ -669,23 +952,177 @@ class AlphaTabRunner {
              eb4{d}.4 eb4.8 eb4.2 |\n
              :4 r c4{dy mp} :4{tu 3} c4 c4 eb4 |\n
              :2 db4{cre} db4{cre} |\n
-             r.4 :8 db4{dy mf} db4 db4.4 cb4 |\n
-             cb4{d}.4 :8 cb4 cb4 r cb4 |\n
-             cb4.2 :4 db4 cb4 |\n
+             r.4 :8 db4{dy mf} db4 db4.4 b3 |\n
+             b3{d}.4 :8 b3 b3 r b3 |\n
+             b3.2 :4 db4 b3 |\n
              bb3.2{dec} :4 bb3{dec} r |\n
              bb3.2{dy mp} :4 bb3 bb3 |\n
              :4 gb3 bb3 ab3 eb3 |\n
              :2 eb3 eb3{dec} |\n
              :2 eb3{- dec} r |\n
-             \\ks e \\ts 3 4 \\tempo 168 r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
              \\ts 4 4 r.1 | r.1 | :8 a3{dy f} e3 g#3 d#3 f#3 c#3 r.4 |\n
              r.1 |\n
+             \\ts 3 4 :8 a3 e3 g#3 d#3 r.4 |\n
+             :8 a3 e3 g#3 d#3 r.4 | r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 a3{dy ff} b3 d#4 r |\n
+             e4.1{cre} |\n
+             e4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 d#4 r e4 r |\n
+             \\ts 3 4 :8 f#4 f#4 f#4{-}.2 |\n
+             f#4{d -}.2 |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.2 :4 r e4{dy ff} |\n
+             :4 d#4 b3 c#4.2 |\n
+             \\ts 3 4 c#4{d -}.2 |\n
+             e4{d}.2 |\n
+             d#4{d}.2 |\n
+             d#4{-}.2 r.4 |\n
+             \\ts 4 4 :8 c#4 g#3 b3 f#3 r.2 |\n
+             r.4 :8 c#4 e4 r.4 :8 d#4 f#4 |\n
+             :4 r{dy fff} c#4 r :8 d#4 d#4 |\n
+             :4 r e4 r f#4 | r.1 |\n
+             :4 r c#4 r d#4 |\n
+             :4 r e4 r f#4 |\n
+             r.4 :8 f#4 f#4 r.4 :8 g#4 g#4 | r.1 | \\ts 3 4 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1 | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             \\ts 4 4 \\tempo 76 r.4 db4.2{dy mp} db4.4 |\n
+             :8 c4{cre} c4{cre} c4{d}.2{cre} |\n
+             r.4 db4.2{dy mf} eb4.4 |\n
+             :8 eb4 eb4 eb4{d}.2{cre} |\n
+             r.4 db4.2{dy f} eb4.4 |\n
+             f4 f4 f4{d}.2{cre} |\n
+             r.4 eb4{d}.2{dy ff} |\n
+             \\ts 2 4 :4 eb4 r |\n
+             \\ts 4 4 f4{d}.2{cre} f4.4 |\n
+             f4{d}.2 r.4 | r.1 | r.1 | \\tempo 29 eb3.1{dy mf} |\n
+             :2 db3 eb3 |\n
+             f3.1 |\n
+             :2 f3{-} gb3 |\n
+             :2 ab3 bb3 |\n
+             :2 c4 db4 |\n
+             eb4.1{cre} |\n
+             :2 f4{dy f tu 3} f4{tu 3} f4{tu 3} |\n
+             gb4.1 |\n
+             ab4.1 |\n
+             :2 r db4 |\n
+             db4{-}.1 |\n
+             db4{d}.2{cre} eb4.4{cre} |\n
+             :2 eb4{cre} f4{cre} |\n
+             f4.1{dy ff} |\n
+             f4.1 | r.1 |\n
+             r.1 | r.1 |\n
+             :2 db4{dy p} db4{dec} |\n
+             db4{d -}.2{dec} r.4 | r.1 | r.1 | r.1 | r.1 |\n
+             f3.2{dy p} :4 f3 r |\n
+             eb3.1 |\n
+             eb3{d}.2 r.4 |\n
+             f3{d}.2{dy pp} f3.4 |\n
+             f3.1 | f3{-}.1 | f3{-}.1 |\n
              \n
 
-             \\track "Bass"\n
+             \\track "Tenor 2"\n
              \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db \\clef bass\n
-             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- us _ no- ster. _ An- gu- stí- a, _ an- gu- stí- a"\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- - us _ no- ster. _ su- per- ve- ni- én- te, su- per- ve- ni ve- ni- én- te re- quí- rent pa- cem et non e- ri. _ _ An- gu- stí- a _ _ _ _ su- per- ve- ni- ve- ni- én- te re- quí- rent pa- cem et non e- ri et non e- ri. Pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne. Pro- - pter fra - - tres _ me- os et pró- xi- mos me- os lo- - qué - bar _ pa- cem de te. _ Pa- cem, pa- cem, Dó- mi- ne. _ _"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
+             :4 r db4{dy pp cre} db4{cre} db4{cre} |\n
+             db4{d}.4 db4.8 db4.2{dec} |\n
+             :4 r db4{cre} db4{cre} db4{cre} |\n
+             c4{d}.4 c4.8 c4.2{dec} | r.1 | r.1 |\n
+             :4 r eb4{dy p cre} eb4{cre} eb4{cre} |\n
+             db4{d}.4 db4.8 db4.2{dec} |\n
+             :4 r d4{cre} d4{cre} d4{cre} |\n
+             eb4{d}.4 eb4.8 eb4.2 |\n
+             :4 r c4{dy mp} :4{tu 3} c4 c4 eb4 |\n
+             :2 db4{cre} db4{cre} |\n
+             r.4 :8 db4{dy mf} db4 db4.4 b3 |\n
+             b3{d}.4 :8 b3 b3 r b3 |\n
+             b3.2 :4 db4 b3 |\n
+             bb3.2{dec} :4 bb3{dec} r |\n
+             bb3.2{dy mp} :4 bb3 bb3 |\n
+             :4 gb3 bb3 ab3 eb3 |\n
+             :2 eb3 eb3{dec} |\n
+             :2 eb3{- dec} r |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 | :8 a3{dy f} e3 g#3 d#3 f#3 c#3 r.4 |\n
+             r.1 |\n
+             \\ts 3 4 :8 a3 e3 g#3 d#3 r.4 |\n
+             :8 a3 e3 g#3 d#3 r.4 | r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 a3{dy ff} b3 d#4 r |\n
+             e4.1{cre} |\n
+             e4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 d#4 r e4 r |\n
+             \\ts 3 4 :8 f#4 f#4 f#4{-}.2 |\n
+             f#4{d -}.2 |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.2 :4 r e4{dy ff} |\n
+             :4 d#4 b3 c#4.2 |\n
+             \\ts 3 4 c#4{d -}.2 |\n
+             e4{d}.2 |\n
+             d#4{d}.2 |\n
+             d#4{-}.2 r.4 |\n
+             \\ts 4 4 :8 c#4 g#3 b3 f#3 r.2 |\n
+             r.4 :8 c#4 e4 r.4 :8 d#4 f#4 |\n
+             :4 r{dy fff} c#4 r :8 d#4 d#4 |\n
+             :4 r e4 r f#4 | r.1 |\n
+             :4 r c#4 r d#4 |\n
+             :4 r e4 r f#4 |\n
+             r.4 :8 f#4 f#4 r.4 :8 g#4 g#4 | r.1 | \\ts 3 4 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1 | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             \\ts 4 4 \\tempo 76 r.4 db4.2{dy mp} db4.4 |\n
+             :8 c4{cre} c4{cre} c4{d}.2{cre} |\n
+             r.4 db4.2{dy mf} eb4.4 |\n
+             :8 eb4 eb4 eb4{d}.2{cre} |\n
+             r.4 db4.2{dy f} eb4.4 |\n
+             f4 f4 f4{d}.2{cre} |\n
+             r.4 eb4{d}.2{dy ff} |\n
+             \\ts 2 4 :4 eb4 r |\n
+             \\ts 4 4 eb4{d}.2{cre} eb4.4 |\n
+             eb4{d}.2 r.4 | r.1 | r.1 | \\tempo 29 eb3.1{dy mf} |\n
+             :2 db3 eb3 |\n
+             f3.1 |\n
+             :2 f3{-} gb3 |\n
+             :2 ab3 bb3 |\n
+             :2 c4 db4 |\n
+             eb4.1{cre} |\n
+             :2 f4{dy f tu 3} f4{tu 3} f4{tu 3} |\n
+             gb4.1 |\n
+             ab4.1 |\n
+             :2 r db4 |\n
+             db4{-}.1 |\n
+             db4{d}.2{cre} eb4.4{cre} |\n
+             :2 eb4{cre} f4{cre} |\n
+             eb4.1{dy ff} |\n
+             eb4.1 | r.1 |\n
+             r.1 | r.1 |\n
+             :2 db4{dy p} db4{dec} |\n
+             db4{d -}.2{dec} r.4 | r.1 | r.1 | r.1 | r.1 |\n
+             f3.2{dy p} :4 f3 r |\n
+             eb3.1 |\n
+             eb3{d}.2 r.4 |\n
+             db3{d}.2{dy pp} db3.4 |\n
+             db3.1 | db3{-}.1 | db3{-}.1 |\n
+             \n
+
+             \\track "Bass 1"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db \\clef bass\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- us _ no- ster. _ An- gu- stí- a, _ an- gu- stí- a _ _ re- quí- rent pa- cem et non e- ri. _ _ su- per- ve- ni- én- te, su- per- ve- ni su- per- ve- ni- én- te, su- per- ve- ni- én- te, ve- ni- én- te ve- ni- én- te re- quí- rent pa- cem et non e- ri et non e- ri. Pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne. Pro - pter fra- - - tres _ me- os et pró- xi- mos me - os lo- qué - bar _ _ _ pa- cem de te. _ Pa- cem, pa- cem, Dó- mi- ne. _ _"\n
              r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
              :4 r bb3{dy pp cre} bb3{cre} bb3{cre} |\n
              bb3{d}.4 bb3.8 bb3.2{dec} |\n
@@ -702,15 +1139,171 @@ class AlphaTabRunner {
              f3.2 :4 f3 f3 |\n
              f3.2{dec} :4 f3{dec} r |\n
              eb3.2{dy mp} :4 eb3 db3 |\n
-             cb3.2 :4 cb3 ab2 |\n
+             b3.2 :4 b3 ab2 |\n
              :2 gb2 gb2{dec} |\n
              :2 gb2{- dec} r |\n
-             \\ks e \\ts 3 4 \\tempo 168 r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | \\ts 4 4 r.1 | \\ts 3 4 r.1 | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
              \\ts 4 4 r.2 :4 r g#3 |\n
              :4 g#3 f#3 g#3.2 |\n
              g#3{-}.2 :4 r g#3 |\n
              :4 g#3 a3 b3.2 |\n
+             \\ts 3 4 b3{d -}.2 |\n
+             b3{-}.2 r.4 | r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 a3{dy ff} a3 b3 r |\n
+             c#4.1{cre} |\n
+             c#4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 c#4 r c#4 r |\n
+             \\ts 3 4 :8 a#3 a#3 a#3{-}.2 |\n
+             a3{d -}.2 |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 |\n
+             \\ts 3 4 :8 c#4{dy ff} g#3 b3 f#3 g#3 d#3 |\n
+             r.4 :8 c#4 g#3 b3 f#3 |\n
+             :8 c#4 g#3 b3 f#3 g#3 d#3 |\n
+             r.4 :8 c#4 g#3 b3 f#3 |\n
+             \\ts 4 4 :8 g#3 d#3 r.4 :8 a3 e3 g#3 d#3 |\n
+             r.4 :8 a3 e3 r.4 :8 g#3 d#3 |\n
+             :4 r{dy fff} c#4 r :8 c#4 c#4 |\n
+             :4 r c#4 r c#4 | r.1 |\n
+             :4 r c#4 r c#4 |\n
+             :4 r c#4 r c#4 |\n
+             r.4 :8 c#4 c#4 r.4 :8 c#4 c#4 | r.1 | \\ts 3 4 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1 | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             \\ts 4 4 \\tempo 76 r.4 bb3.2{dy mp} bb3.4 |\n
+             :8 bb3{cre} bb3{cre} bb3{d}.2{cre} |\n
+             r.4 bb3.2{dy mf} bb3.4 |\n
+             :8 bb3 bb3 bb3{d}.2{cre} |\n
+             r.4 bb3.2{dy f} c4.4 |\n
+             :8 c4 c4 c4{d}.2{cre} |\n
+             r.4 bb3{d}.2{dy ff} |\n
+             \\ts 2 4 :4 bb3 r |\n
+             \\ts 4 4 bb3{d}.2{cre} db4.4 |\n
+             db4{d}.2 r.4 | r.1 | r.1 | \\tempo 29 r.1 |\n
+             eb3.1{dy mf} |\n
+             :2 db3 eb3 |\n
+             f3.1 |\n
+             :2 f3{-} gb3 |\n
+             :2 ab3 bb3 |\n
+             :2 c4{cre} db4{cre} |\n
+             eb4.1 |\n
+             :2{tu 3} f4{dy f} eb4 db4 |\n
+             :2 c4 eb4 |\n
+             :2 db4 r |\n
+             c4.1 |\n
+             :2 bb3{cre} ab3{cre} |\n
+             :4 gb3{cre} bb3{cre} eb4{cre} db4{cre} |\n
+             b3.1{dy ff} |\n
+             b3.1 | r.1 |\n
+             r.1 |\n
+             :2 r bb3{dy p} |\n
+             bb3.1 |\n
+             bb3{d -}.2{dec} r.4 | r.1 | r.1 | r.1 | r.1 |\n
+             bb2.2{dy p} :4 ab2 r |\n
+             gb2.1 |\n
+             gb2{d}.2 r.4 |\n
+             ab2{d}.2{dy pp} ab2.4 |\n
+             ab2.1 | ab2{-}.1 | ab2{-}.1 |\n
+             \n
+
+             \\track "Bass 2"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db \\clef bass\n
+             \\lyrics "Da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, da pa- cem, Dó- mi- ne, in dí- e- bus no- stris, qui- a non est á- li- us qui pu- gnet pro no- bis ni- si tu De- us _ no- ster. _ An- gu- stí- a, _ an- gu- stí- a _ _ re- quí- rent pa- cem et non e- ri. _ _ su- per- ve- ni- én- te, su- per- ve- ni su- per- ve- ni- én- te, su- per- ve- ni- én- te, ve- ni- én- te ve- ni- én- te re- quí- rent pa- cem et non e- ri et non e- ri. Pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne, pa- cem, Dó- mi- ne. Pro - pter fra- - - tres _ me- os et pró- xi- mos me - os lo- qué - bar _ _ _ pa- cem de te. _ Pa- cem, pa- cem, Dó- mi- ne. _ _"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 |\n
+             :4 r bb3{dy pp cre} bb3{cre} bb3{cre} |\n
+             bb3{d}.4 bb3.8 bb3.2{dec} |\n
+             :4 r bb3{cre} bb3{cre} bb3{cre} |\n
+             bb3{d}.4 bb3.8 bb3.2{dec} | r.1 | r.1 |\n
+             :4 r bb3{dy p cre} bb3{cre} bb3{cre} |\n
+             bb3{d}.4 bb3.8 bb3.2 |\n
+             :4 r bb3{cre} bb3{cre} bb3{cre} |\n
+             bb3{d}.4 bb3.8 bb3.2{dec} |\n
+             :4 r f3{dy mp} :4{tu 3} f3 f3 f3 |\n
+             :2 f3{cre} f3{cre} |\n
+             r.4 :8 f3{dy mf} f3 :4 f3 f3 |\n
+             f3{d}.4 :8 f3 f3 r f3.4 |\n
+             f3.2 :4 f3 f3 |\n
+             f3.2{dec} :4 f3{dec} r |\n
+             eb3.2{dy mp} :4 eb3 db3 |\n
+             b3.2 :4 b3 ab2 |\n
+             :2 gb2 gb2{dec} |\n
+             :2 gb2{- dec} r |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.2 :4 r g#3 |\n
+             :4 g#3 f#3 g#3.2 |\n
+             g#3{-}.2 :4 r g#3 |\n
+             :4 g#3 a3 b3.2 |\n
+             \\ts 3 4 b3{d -}.2 |\n
+             b3{-}.2 r.4 | r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 a3{dy ff} a3 b3 r |\n
+             c#4.1{cre} |\n
+             c#4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 :4 c#4 r c#4 r |\n
+             \\ts 3 4 :8 a#3 a#3 a#3{-}.2 |\n
+             a3{d -}.2 |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 |\n
+             \\ts 3 4 :8 c#4{dy ff} g#3 b3 f#3 g#3 d#3 |\n
+             r.4 :8 c#4 g#3 b3 f#3 |\n
+             :8 c#4 g#3 b3 f#3 g#3 d#3 |\n
+             r.4 :8 c#4 g#3 b3 f#3 |\n
+             \\ts 4 4 :8 g#3 d#3 r.4 :8 a3 e3 g#3 d#3 |\n
+             r.4 :8 a3 e3 r.4 :8 g#3 d#3 |\n
+             :4 r{dy fff} c#4 r :8 c#4 c#4 |\n
+             :4 r c#4 r c#4 | r.1 |\n
+             :4 r c#4 r c#4 |\n
+             :4 r c#4 r c#4 |\n
+             r.4 :8 c#4 c#4 r.4 :8 c#4 c#4 | r.1 | \\ts 3 4 r.2{d} | r.2{d} | r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1 | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             \\ts 4 4 \\tempo 76 r.4 bb3.2{dy mp} bb3.4 |\n
+             :8 bb3{cre} bb3{cre} bb3{d}.2{cre} |\n
+             r.4 bb3.2{dy mf} bb3.4 |\n
+             :8 bb3 bb3 bb3{d}.2{cre} |\n
+             r.4 bb3.2{dy f} bb3.4 |\n
+             :8 bb3 bb3 bb3{d}.2{cre} |\n
+             r.4 bb3{d}.2{dy ff} |\n
+             \\ts 2 4 :4 bb3 r |\n
+             \\ts 4 4 bb3{d}.2{cre} bb3.4 |\n
+             bb3{d}.2 r.4 | r.1 | r.1 | \\tempo 29 r.1{dy mf} |\n
+             eb3.1{dy mf} |\n
+             :2 db3 eb3 |\n
+             f3.1 |\n
+             :2 f3{-} gb3 |\n
+             :2 ab3 bb3 |\n
+             :2 c4{cre} db4{cre} |\n
+             eb4.1 |\n
+             :2{tu 3} f4{dy f} eb4 db4 |\n
+             :2 c4 eb4 |\n
+             :2 db4 r |\n
+             c4.1 |\n
+             :2 bb3{cre} ab3{cre} |\n
+             :4 gb3{cre} bb3{cre} eb4{cre} db4{cre} |\n
+             b3.1{dy ff} |\n
+             b3.1 | r.1 |\n
+             r.1 |\n
+             :2 r bb3{dy p} |\n
+             bb3.1 |\n
+             bb3{d -}.2{dec} r.4 | r.1 | r.1 | r.1 | r.1 |\n
+             bb2.2{dy p} :4 ab2 r |\n
+             gb2.1 |\n
+             gb2{d}.2 r.4 |\n
+             db2{d}.2{dy pp} db2.4 |\n
+             db2.1 | db2{-}.1 | db2{-}.1 |\n
              \n
 
              \\track "Piano"\n
@@ -741,6 +1334,102 @@ class AlphaTabRunner {
              :4 (f#4 c#4 b3) r (b4 f#4 e4) r |\n
              :8 a4 e4 g#4 d#4 f#4 c#4 r.4 |\n
              :4 (g#4 c#4 b3) r (b4 f#4) r |\n
+             \\ts 3 4 :8 a4 e4 g#4 d#4 r.4 |\n
+             :8 a4 e4 g#4 d#4 r.4 |\n
+             :8 e4{dy ff} a4 g#4 c#5 r.4 |\n
+             :8 e4 a4 g#4 c#5 r.4 |\n
+             \\ts 4 4 :4 (b4 a4 e4) r (d#5 b4 a4) r |\n
+             :8 e4{cre} a4{cre} g#4{cre} c#5{cre} :4 f#5{cre} r{cre} |\n
+             :8 e4{cre} a4 g#4 c#5 :4 f#5 r |\n
+             \\ts 3 4 :8 f#4 b4 c#5 f#5 r.4 |\n
+             :8 f#4 b4 c#5 f#5 r.4 |\n
+             \\ts 4 4 :4 (d#5 c#5 f#4) r (e5 c#5 g#4) r |\n
+             \\ts 3 4 :8 g#4 a#4 c#5 f#5 r.4 |\n
+             :8 g#4 a#4 c#5 f#5 r.4 |\n
+             \\ts 4 4 :8 d#4{dy f} g#4 f4 a#4 :4 d#5 r |\n
+             :8 d#4{cre} g#4{cre} f4{cre} a#4{cre} :4 d#5{cre} r |\n
+             \\ts 3 4 :8 a5{dy ff} e5 g#5 d#5 r.4 |\n
+             :8 a5 e5 g#5 d#5 r.4 |\n
+             \\ts 4 4 :8 a5 e5 g#5 d#5 f#5 c#5 r.4 |\n
+             :4 (d#5 g#4 d#4) r (c#5 b4 e4) r |\n
+             \\ts 3 4 :8 c#5 g#4 b4 f#4 g#4 d#4 |\n
+             r.4 :8 c#5 g#4 b4 f#4 |\n
+             :8 c#5 g#4 b4 f#4 g#4 d#4 |\n
+             r.4 :8 c#5 g#4 b4 f#4 \n
+             \\ts 4 4 :8 c#5 g#4 b4 f#4 a4 e4 g#4 d#4 |\n
+             :4 (g#5 d#5 c#5 g#4) r (b5 g#5 d#5 b4) r |\n
+             :4 (a5 e5 b4){dy fff} r (a5 e5 b4) r |\n
+             :4 (a5 e5 b4) r (a5 e5 b4) r |\n
+             :8 a5 e5 g#5 d#5 f#5 c#5 r.4 |\n
+             :4 (a5 e5 b4) r (a5 e5 b4) r |\n
+             :4 (a5 e5 b4) r (a5 e5 b4) r |\n
+             :4 (a5 e5 b4) r (a5 e5 b4) r |\n
+             :8 a5 e5 g#5 d#5 f#5 c#5 r.4 |\n
+             \\ts 3 4 :8 a5{dy f} e5 g#5 d#5 r.4 |\n
+             :8 a5{dec} e5{dec} g#5{dec} d#5{dec} r.4 |\n
+             :8 a4{dy mf} e4 g#4 d#4 r.4 |\n
+             :8 a4{dec} e4{dec} g#4{dec} d#4{dec} r.4 |\n
+             \\ts 4 4 r.4 c#5{d}.2{dy mp} |\n
+             \\ts 7 8 \\tempo 92 \\ks Db db5{dy p} :4 r r{d} |\n
+             :4 r c5 c5{d -} |\n
+             :4 r eb5 eb5{d -} |\n
+             eb5{d}.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             :4 r ab5 ab5{d -} |\n
+             ab5{-}.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             :4 r ab5 ab5{d -} |\n
+             ab5{-}.2 r.4{d} | r.2{dy mp} r.4{d} |\n
+             :4 r f5 eb5{d} |\n
+             eb5{-}.2 r.4{d} |\n
+             r.2 r.4{d} |\n
+             :4 r f5{cre} f5{- d cre} |\n
+             :4 r{dy mf} g5 g5{d -} |\n
+             :4 r eb5 eb5{d -} |\n
+             :4 r db5 db5{d -} |\n
+             :4 r{dec} bb4{dec} bb4{dec - d} | r.2{dy p} r.4{d} | r.2 r.4{d} |\n
+             :4 r ab5 ab5{d -} |\n
+             ab5{-}.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             :4 r eb6 eb6{d -} |\n
+             :4 r ab5 ab5{d -} |\n
+             \\ts 4 4 \\tempo 76 :8 bb3{dy mp} db4 bb3 db4 bb3 db4 bb3 db4 |\n
+             :8 c4{cre} eb4{cre} c4{cre} eb4{cre} c4{cre} eb4{cre} c4{cre} eb4{cre} |\n
+             :8 (db4 f4){dy mf} bb4 (db4 f4) bb4 (db4 f4) bb4 (db4 f4) bb4 |\n
+             :8 (f4 gb4) db5 (f4 gb4){cre} db5{cre} (f4 gb4){cre} db5{cre} (f4 gb4){cre} db5{cre} |\n
+             :8 (db5 f4){dy f} (f5 bb4) (db5 f4) (f5 bb4) (db5 f4) (f5 bb4) (db5 f4) (f5 bb4) |\n
+             :8 (f5 gb4) (eb5 c5) (f5 gb4) (eb5 c5){cre} (f5 gb4){cre} (eb5 c5){cre} (f5 gb4){cre} (eb5 c5){cre} |\n
+             :8 (gb5 eb5){dy ff} (f5 bb4) (gb5 eb5) (f5 bb4) (gb5 eb5) (f5 bb4) (gb5 eb5) (f5 bb4) |\n
+             \\ts 2 4 :8 (gb5 bb4) (eb5 gb4) (gb5 bb4) (eb5 gb4) |\n
+             \\ts 4 4 :8 (bb5 eb5) (gb5 bb4){cre} (eb6 gb5){cre} (bb5 eb5){cre} (f6 bb5){cre} (db6 f5){cre} (gb6 bb5) (eb6 gb5) |\n
+             (ab6{d} gb6{d} db6{d} ab5{d}).2 r.4 |\n
+             :8 (f6 gb5) db6 (ab6 bb5) f6 (db6 eb5) bb5{d}.4 |\n
+             (db6 eb5).4 :8 (bb5 c5) eb6 (ab5 bb4).2 |\n
+             \\tempo 29 r.4{dy mf} :8 bb3{tu 3} eb4{tu 3} bb4{tu 3} bb4{tu 3} eb4{tu 3} bb3{tu 3} r.4 |\n
+             r.4 :8 db4{tu 3} ab4{tu 3} db5{tu 3} db5{tu 3} ab4{tu 3} db4{tu 3} r.4 |\n
+             r.4 :8 ab3{tu 3} db4{tu 3} ab4{tu 3} ab4{tu 3} db4{tu 3} ab3{tu 3} r.4 |\n
+             r.4 :8 bb3{tu 3} eb4{tu 3} bb4{tu 3} bb4{tu 3} eb4{tu 3} bb3{tu 3} r.4 |\n
+             r.4 :8 db4{tu 3} f4{tu 3} db5{tu 3} db5{tu 3} f4{tu 3} db4{tu 3} r.4 |\n
+             r.4 :8 ab4{tu 3} db5{tu 3} ab5{tu 3} ab5{tu 3} db5{tu 3} ab4{tu 3} r.4 |\n
+             r.4{cre} :8 bb4{tu 3 cre} eb5{tu 3 cre} bb5{tu 3 cre} bb5{tu 3 cre} eb5{tu 3 cre} bb4{tu 3 cre} r.4{cre} |\n
+             r.4 :8 ab4{tu 3} db5{tu 3} ab5{tu 3} ab5{tu 3} db5{tu 3} ab4{tu 3} r.4 |\n
+             r.4{dy f} :8 bb4{tu 3} eb5{tu 3} bb5{tu 3} bb5{tu 3} eb5{tu 3} bb4{tu 3} r.4 |\n
+             r.4 :8 c4{tu 3} f4{tu 3} c5{tu 3} c5{tu 3} f4{tu 3} c4{tu 3} r.4 |\n
+             r.4 :8 db4{tu 3} ab4{tu 3} db5{tu 3} db5{tu 3} ab4{tu 3} db4{tu 3} r.4 |\n
+             r.4 :8 db4{tu 3} ab4{tu 3} db5{tu 3} db5{tu 3} ab4{tu 3} db4{tu 3} r.4 |\n
+             r.4{cre} :8 eb4{tu 3 cre} gb4{tu 3 cre} eb5{tu 3 cre} eb5{tu 3 cre} gb4{tu 3 cre} eb4{tu 3 cre} r.4{cre} |\n
+             r.4{cre} :8 gb4{tu 3 cre} bb4{tu 3 cre} gb5{tu 3 cre} gb5{tu 3 cre} bb4{tu 3 cre} gb4{tu 3 cre} r.4{cre} |\n
+             r.4 :8 gb3{tu 3 dy ff} db4{tu 3} gb4{tu 3} r.4 :8 gb4{tu 3} db5{tu 3} gb5{tu 3} |\n
+             r.4 :8 gb4{tu 3} db5{tu 3} gb5{tu 3} r.4 :8 gb5{tu 3} db6{tu 3} gb6{tu 3} |\n
+             :2 r{dy mf} c6 |\n
+             :2 c6{-} db6 |\n
+             :2 db6{- dy mp} eb6 |\n
+             :2 eb6{-} f6 |\n
+             f6{-}.2{dec} :4 (f4 db4){dec} r |\n
+             (f5 gb4).2{dy p} :8 (db5 eb4) bb4 (eb5 f4).4 |\n
+             :4 (eb5{-} f4{-}) (ab4 db4) (ab4 bb3).2 |\n
+             (db5 eb4).2 :8 (bb4 c4){dec} eb5{dec} (ab4 db4).4{dec} |\n
+             (ab4{-} db4{-}).4{dec} (f5{d} gb4{d}).2{dec} |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             (f6 gb5).2{dy pp} :4 (db6 eb5) (ab5 c5) |\n
+             (eb6 ab5 eb5).1{dy ppp} |\n
              \n
 
              \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
@@ -755,9 +1444,43 @@ class AlphaTabRunner {
              r.1 | r.1 | r.1 | r.1 | r.1 |\n
              r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
              r.1 | r.1 | r.1 |\n
-             \\ks e \\ts 3 4 \\tempo 168 r.1{dy p} | r.1 | r.1 |\n
-             r.1 | r.1{dy mp cre} | r.1{cre} | \\ts 4 4 r.1{dy f} | \\ts 3 4 r.1{dy mf} | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d dy p} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d dy mp cre} | r.2{d cre} | \\ts 4 4 r.1{dy f} | \\ts 3 4 r.2{d dy mf} | r.2{d} |\n
              \\ts 4 4 r.1{dy f} | r.1 | r.1 | r.1 |\n
+             \\ts 3 4 r.2{d} | r.2{d} | r.2{d dy ff} | r.2{d} | \\ts 4 4 r.1 |\n
+             r.1{cre} | r.1 | \\ts 3 4 r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1{dy f} | r.1{cre} | \\ts 3 4 r.2{d dy ff} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | \\ts 4 4 r.1 | r.1 |\n
+             r.1{dy fff} | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | \\ts 3 4 r.2{d dy f} | r.2{d dec} | r.2{d dy mf} |\n
+             r.2{d dec} | \\ts 4 4 r.1{dy mp} | \\ts 7 8 \\tempo 92 \\ks Db r.2{dy p} r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2{dy mp} r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2{dy mp cre} r.4{d cre} | r.2{dy mf} r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2{dy mp dec} r.4{d dec} | r.2{dy p} r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} | \\ts 4 4 \\tempo 76 r.1 | r.1 |\n
+             r.1{dy mf} | \\clef bass r.4 (eb4{d} bb3{d}).2{cre} |\n
+             r.4{dy f} (db4 bb3).2 (eb4 c4).4 |\n
+             r.4 (f4 eb4 c4 bb3).2{cre} (f4 eb4 c4 bb3).4{cre} |\n
+             r.4{dy ff} (gb4 f4 eb4 bb3).2 (gb4 f4 eb4 bb3).4 |\n
+             \\ts 2 4 r.2 |\n
+             \\ts 4 4 :4 r (eb4 bb3){cre} (f4 bb3){cre} (gb4 bb3){cre} |\n
+             (ab4{d} eb4{d} bb3{d}).2 (bb3 bb2).4 |\n
+             \\clef treble :4 (db5 eb4) (bb4 c4) (ab4 bb3).2 |\n
+             :4 (bb4 c4) (db5 eb4) (ab4 bb3).2 | \\tempo 29 r.1{dy mf} |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1{cre} |\n
+             r.1{dy f} | r.1 | r.1 | r.1 |\n
+             r.1 | r.1{cre} | r.1{cre} |\n
+             r.1{dy ff} | r.1 | r.1{dy mf} |\n
+             r.1 | r.1{dy mp} | r.1 |\n
+             r.1{dec} | r.1{dy p} | r.1 | r.1{dec} | r.1{dec} |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             (db5 eb4).2{dy pp} :4 (ab4 bb3) (bb4 c4) |\n
+             (ab4 f4).1{dy ppp} |\n
              \n
 
              \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db \\clef bass\n
@@ -791,8 +1514,169 @@ class AlphaTabRunner {
              :4 (a2 a1) r (g#2 g#1) r |\n
              :4 (c#3 g#2 c#2) r r (g#2 g#1) |\n
              :4 (a2 a1) r (g#2 g#1) r |\n
+             \\ts 3 4 :4 (c#3 g#2 c#2) r r |\n
+             :4 (c#3 g#2 c#2) r (g#2 g#1) |\n
+             :4 (f#2 f#1){dy ff} r r |\n
+             :4 (f#2 f#1) r (c#2 c#1) |\n
+             \\ts 4 4 :4 r (a2 a1) r (g#2 g#1) |\n
+             :4 (f#2 f#1){cre} r{cre} r{cre} (e2 e1){cre} |\n
+             :4 (f#2 f#1){cre} r r (d#2 d#1) |\n
+             \\ts 3 4 :4 (g#2 g#1) r (f#2 f#1) |\n
+             :4 (c#3 c#2) r (a2 a1) |\n
+             \\ts 4 4 :4 r (g#2 g#1) r (f#2 f#1) |\n
+             \\ts 3 4 :4 (d#2 d#1) r (c#2 c#1) |\n
+             :4 (a#2 a#1) r (g#2 g#1) |\n
+             \\ts 4 4 (f2 f1){dy f} r r (g#2 g#1) |\n
+             :4 (f2 f1){cre} r{cre} r{cre} (d#2 d#1){cre} |\n
+             \\ts 3 4 :4 (c#2 g#1 c#1){dy ff} r r |\n
+             :4 (c#2 g#1 c#1) r r |\n
+             \\ts 4 4 :4 (c#3 g#2 c#2) r r (g#2 g#1) |\n
+             :4 (e2 e1) r (g#2 g#1) r |\n
+             \\ts 3 4 :4 (c#3 c#2) r (f#2 f#1) |\n
+             (e2 e1).2 (f#2 f#1).4 |\n
+             :4 (a2 a1) r (f#2 f#1) |\n
+             (e2 e1).2 (d#2 d#1).4 |\n
+             \\ts 4 4 :4 (c#2 g#1 c#1) r (f#2 f#1) r |\n
+             :4 r (e2 e1) r (d#2 d#1) |\n
+             :4 (c#2 g#1 c#1){dy fff} r (f#2 c#2 f#1) r |\n
+             :4 (e2 b1 e1) r (d#2 a1 d#1) r |\n
+             (c#2 g#1 c#1).2 :4 r (g#2 g#1) |\n
+             :4 (c#3 g#2 c#2) r (f#2 c#2 f#1) r |\n
+             :4 (e2 b1 e1) r (d#2 a1 d#1) r |\n
+             :4 (c#2 g#1 c#1) r (c#2 g#1 c#1) r |\n
+             (c#2 g#1 c#1).2 :4 r (g#2 g#1) |\n
+             \\ts 3 4 :4 (c#3 c#2){dy f} r r |\n
+             :4 (c#3 c#2){dec} r{dec} r{dec} |\n
+             :4 (a3 c#3){dy mf} r r |\n
+             :4 (a3 c#3){dec} r{dec} r{dec} |\n
+             \\ts 4 4 r.1{dy mp} |\n
+             \\ts 7 8 \\tempo 92 \\ks Db :8 f3{dy p} bb3 db4 bb3 f3 bb3 db4 |\n
+             :8 f3 bb3 db4 bb3 f3 bb3 db4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             :8 f3 bb3 db4 bb3 f3 bb3 db4 |\n
+             :8 f3 bb3 db4 bb3 f3 bb3 db4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             :8 gb3 bb3 eb4 bb3 gb3 bb3 eb4 |\n
+             :8 gb3 bb3 eb4 bb3 gb3 bb3 eb4 |\n
+             :8 f3 ab3 eb4 ab3 f3 ab3 eb4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             :8 f3{dy mp} bb3 db4 bb3 f3 bb3 db4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             :8 f3 bb3 db4 bb3 f3 bb3 db4 |\n
+             :8 gb3 bb3 db4 bb3 gb3 bb3 db4 |\n
+             :8 gb3 bb3 eb4{cre} bb3{cre} gb3{cre} bb3{cre} eb4{cre} |\n
+             :8 f3{dy mf} ab3 c4 ab3 f3 ab3 c4 |\n
+             :8 f3 ab3 c4 ab3 f3 ab3 c4 |\n
+             :8 gb3 bb3 eb4 bb3 gb3 bb3 eb4 |\n
+             :8 gb3{dec} bb3{dec} eb4{dec} bb3{dec} gb3{dec} bb3{dec} db4{dec} |\n
+             :8 f3{dy p} bb3 db4 bb3 f3 bb3 db4 |\n
+             :8 f3 bb3 db4 bb3 f3 bb3 db4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             :8 gb3 bb3 eb4 bb3 gb3 bb3 eb4 |\n
+             :8 gb3 bb3 eb4 bb3 gb3 bb3 eb4 |\n
+             :8 f3 ab3 eb4 ab3 f3 ab3 eb4 |\n
+             :8 f3 ab3 db4 ab3 f3 ab3 db4 |\n
+             \\ts 4 4 \\tempo 76 (f3{d} bb2{d}).2 (f3 bb2).4 |\n
+             (f3{d} bb2{d}).2{cre} (f3 bb2).4{cre} |\n
+             (f3{d} bb2{d}).2{dy mf} (f3 bb2).4 |\n
+             (bb2 bb1).1 |\n
+             (bb2 bb1).1{dy ff} |\n
+             (bb2 f2 bb1).1 |\n
+             (bb2 bb1).1 |\n
+             \\ts 2 4 :4 (eb4 bb3) (bb2 bb1) |\n
+             \\ts 4 4 (eb2 eb1).1{cre} |\n
+             (eb2{- d} eb1{- d}).2 (bb1 bb0).4 |\n
+             (bb1{- d} bb0{- d}).2 (bb1 bb0).4 |\n
+             (bb1{- d} bb0{- d}).2 bb2.4 |\n
+             \\tempo 29 :8 eb2{tu 3 dy mf} bb2{tu 3} gb3{tu 3} r.2 :8 gb3{tu 3} bb2{tu 3} eb2{tu 3} |\n
+             :8 f2{tu 3} db3{tu 3} ab3{tu 3} r.2 :8 ab3{tu 3} db3{tu 3} f2{tu 3} |\n
+             :8 db2{tu 3} ab2{tu 3} f3{tu 3} r.2 :8 f3{tu 3} ab2{tu 3} db2{tu 3} |\n
+             :8 eb2{tu 3} bb2{tu 3} gb3{tu 3} r.2 :8 gb3{tu 3} bb2{tu 3} eb2{tu 3} |\n
+             :8 bb1{tu 3} f2{tu 3} bb2{tu 3} r.2 :8 bb2{tu 3} f2{tu 3} bb1{tu 3} |\n
+             :8 gb2{tu 3} db3{tu 3} bb3{tu 3} r.2 :8 bb3{tu 3} db3{tu 3} gb2{tu 3} |\n
+             :8 eb2{tu 3 cre} bb2{tu 3 cre} gb3{tu 3 cre} r.2{cre} :8 gb3{tu 3 cre} bb2{tu 3 cre} eb2{tu 3 cre} |\n
+             :8 db2{dy f tu 3} ab2{tu 3} f3{tu 3} r.2 :8 f3{tu 3} ab2{tu 3} db2{tu 3} |\n
+             :8 eb2{tu 3} bb2{tu 3} gb3{tu 3} r.2 :8 gb3{tu 3} bb2{tu 3} eb2{tu 3} |\n
+             :8 f2{tu 3} c3{tu 3} ab3{tu 3} r.2 :8 ab3{tu 3} c3{tu 3} f2{tu 3} |\n
+             :8 f2{tu 3} db3{tu 3} ab3{tu 3} r.2 :8 ab3{tu 3} db3{tu 3} f2{tu 3} |\n
+             :8 gb2{tu 3} db3{tu 3} bb3{tu 3} r.2 :8 bb3{tu 3} db3{tu 3} gb2{tu 3} |\n
+             :8 eb2{tu 3 cre} bb2{tu 3 cre} gb3{tu 3 cre} r.2{cre} :8 gb3{tu 3 cre} bb2{tu 3 cre} eb2{tu 3 cre} |\n
+             :8 db2{tu 3 cre} bb2{tu 3 cre} gb3{tu 3 cre} r.2{cre} :8 gb3{tu 3 cre} bb2{tu 3 cre} db2{tu 3 cre} |\n
+             :8 b1{tu 3 dy ff} gb2{tu 3} eb3{tu 3} r.4 :8 b2{tu 3} gb3{tu 3} eb4{tu 3} r.4 |\n
+             :8 b2{tu 3} gb3{tu 3} eb4{tu 3} r.4 :8 b3{tu 3} gb4{tu 3} eb5{tu 3} r.4 |\n
+             :8 bb2{tu 3 dy mf} f3{tu 3} db4{tu 3} db4{tu 3} f3{tu 3} bb2{tu 3} bb2{tu 3} f3{tu 3} db4{tu 3} db4{tu 3} f3{tu 3} bb2{tu 3} |\n
+             :8 bb2{tu 3} gb3{tu 3} db4{tu 3} db4{tu 3} gb3{tu 3} bb2{tu 3} bb2{tu 3} gb3{tu 3} db4{tu 3} db4{tu 3} gb3{tu 3} bb2{tu 3} |\n
+             :8 bb2{tu 3 dy mp} f3{tu 3} db4{tu 3} db4{tu 3} f3{tu 3} bb2{tu 3} bb2{tu 3} f3{tu 3} db4{tu 3} db4{tu 3} f3{tu 3} bb2{tu 3} |\n
+             :8 bb2{tu 3} gb3{tu 3} db4{tu 3} db4{tu 3} gb3{tu 3} bb2{tu 3} bb2{tu 3} gb3{tu 3} db4{tu 3} db4{tu 3} gb3{tu 3} bb2{tu 3} |\n
+             :8 bb2{tu 3 dec} gb3{tu 3 dec} db4{tu 3 dec} db4{tu 3 dec} gb3{tu 3 dec} bb2{tu 3 dec} :4 (gb3 bb2){dec} r |\n
+             (db4 eb3).2{dy p} :4 (c4 db3) (bb3 c3) |\n
+             :4 (bb3{-} c3{-}) (gb3 bb2) (ab3 c3).2 |\n
+             (c4 db3).2 :4 (db4 eb3){dec} (ab3 c3){dec} |\n
+             (ab3{-} c3{-}){dec} (db4{d} eb3{d}).2 |\n
+             r.1 | r.1 | r.1 | r.1 |\n
+             r.2 :4 r (ab2 db2){dy pp} |\n
+             (ab2{-} db2{-}).1 |\n
+             r.1{dy ppp} |\n
+             \n
+
+             \\track "Solo"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
+             \\lyrics "Ex - - pe- ctá - - vi- mus pa - - - cem _ _ et _ non _ e- rat _ bo - num _ tem- pus, _ _ _ ex - - pe- ctá - - vi- mus pa - - - cem. _ _"
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 | r.1{dy p} |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d dy p} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d dy mp cre} | r.2{d cre} | \\ts 4 4 r.1{dy f} | \\ts 3 4 r.2{d dy mf} | r.2{d} |\n
+             \\ts 4 4 r.1{dy f} | r.1 | r.1 | r.1 |\n
+             \\ts 3 4 r.2{d} | r.2{d} | r.2{d dy ff} | r.2{d} | \\ts 4 4 r.1 |\n
+             r.1{cre} | r.1 | \\ts 3 4 r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1{dy f} | r.1{cre} | \\ts 3 4 r.2{d dy ff} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | \\ts 4 4 r.1 | r.1 |\n
+             r.1{dy fff} | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | \\ts 3 4 r.2{d dy f} | r.2{d dec} | r.2{d dy mf} |\n
+             r.2{d dec} | \\ts 4 4 r.1{dy mp} | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | bb4.2{dy p} bb4{d -}.4 |\n
+             c5.2 ab4{d}.4 |\n
+             eb5.2 eb5{d -}.4 |\n
+             :4 eb5{-} ab4 ab4{d} |\n
+             eb5.2 eb5{d}.4 |\n
+             f5.2 f5{d}.4 |\n
+             eb5.2 eb5{d -}.4 |\n
+             eb5{-}.2 r.4{d} |\n
+             :4 bb4{dy mp} ab4 bb4 f4.8 |\n
+             :4 ab4 ab4 ab4{- d} |\n
+             :4 db5 c5 db5 eb5.8 |\n
+             :4 db5 db5 db5{d -} |\n
+             db5{-}.2 db5{d -}.4 | r.2{dy mp cre} r.4{d} | r.2{dy mf} r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             bb4{dy p}.2 bb4{d -}.4 |\n
+             c5.2 ab4{d}.4 |\n
+             eb5.2 eb5{d -}.4 |\n
+             :4 eb5{-} ab4 ab4{d} |\n
+             eb5.2 eb5{d -}.4 |\n
+             f5.2 f5{d -}.4 |\n
+             f5.2 f5{d -}.4 |\n
+             f5.2 r.4{d} | \\ts 4 4 \\tempo 76 r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | \\ts 2 4 r.2 | \\ts 4 4 r.1 |\n
+             r.1 | r.1 | r.1 | \\tempo 29 r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             \n
             `,
-            [0,1,2,3,4,5]
+            [0,1,2,3,4,5,6,7,8,9]
         );
 
         let texToDisplay = document.getElementById("texToDisplay");
