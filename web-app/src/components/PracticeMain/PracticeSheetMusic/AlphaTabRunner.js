@@ -155,6 +155,7 @@ class AlphaTabRunner {
             let aTS = document.getElementById("aTS");
             AlphaTabRunner.p5Obj.resizeCanvas(aTS.clientWidth, aTS.clientHeight);
 
+
             if (AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_PENDING_START) {
                 this.startHighlighting();
             } else if (AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_PENDING_STOP) {
@@ -163,6 +164,7 @@ class AlphaTabRunner {
             return;
         } else {
             this.renderedOnce = true;
+            AlphaTabRunner.highlightMeasures = this.HIGHLIGHT_OFF;
         }
 
         // We were getting an error where rect_0 or rect_1 were null even though AlphaTab said they were rendered
