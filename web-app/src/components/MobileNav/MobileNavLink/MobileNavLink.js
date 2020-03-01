@@ -38,7 +38,11 @@ const MobileNavLink = props => {
 
     if (!props.isSignOut) {
         // Wrap component in link
-        component = <Link to={props.route}>{component}</Link>;
+        component = (
+            <Link className={styles.mobileNavLinkAnchorTag} to={props.route}>
+                {component}
+            </Link>
+        );
     }
 
     // Returns the component to display
