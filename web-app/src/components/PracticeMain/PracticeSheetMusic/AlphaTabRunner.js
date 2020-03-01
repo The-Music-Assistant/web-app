@@ -1306,6 +1306,60 @@ class AlphaTabRunner {
              db2.1 | db2{-}.1 | db2{-}.1 |\n
              \n
 
+             \\track "Solo"\n
+             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
+             \\lyrics "Ex - - pe- ctá - - vi- mus pa - - - cem _ _ et _ non _ e- rat _ bo - num _ tem- pus, _ _ _ ex - - pe- ctá - - vi- mus pa - - - cem. _ _"\n
+             r.4{dy f} | r.1 | r.1 | r.1 | r.1 | r.1{dy p} |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             \\ks e \\ts 3 4 \\tempo 168 r.2{d dy p} | r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d dy mp cre} | r.2{d cre} | \\ts 4 4 r.1{dy f} | \\ts 3 4 r.2{d dy mf} | r.2{d} |\n
+             \\ts 4 4 r.1{dy f} | r.1 | r.1 | r.1 |\n
+             \\ts 3 4 r.2{d} | r.2{d} | r.2{d dy ff} | r.2{d} | \\ts 4 4 r.1 |\n
+             r.1{cre} | r.1 | \\ts 3 4 r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} |\n
+             r.2{d} | \\ts 4 4 r.1{dy f} | r.1{cre} | \\ts 3 4 r.2{d dy ff} | r.2{d} |\n
+             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
+             r.2{d} | r.2{d} | \\ts 4 4 r.1 | r.1 |\n
+             r.1{dy fff} | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | \\ts 3 4 r.2{d dy f} | r.2{d dec} | r.2{d dy mf} |\n
+             r.2{d dec} | \\ts 4 4 r.1{dy mp} | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
+             r.2 r.4{d} | bb4.2{dy p} bb4{d -}.4 |\n
+             c5.2 ab4{d}.4 |\n
+             eb5.2 eb5{d -}.4 |\n
+             :4 eb5{-} ab4 ab4{d} |\n
+             eb5.2 eb5{d}.4 |\n
+             f5.2 f5{d}.4 |\n
+             eb5.2 eb5{d -}.4 |\n
+             eb5{-}.2 r.4{d} |\n
+             :4 bb4{dy mp} ab4 bb4 f4.8 |\n
+             :4 ab4 ab4 ab4{- d} |\n
+             :4 db5 c5 db5 eb5.8 |\n
+             :4 db5 db5 db5{d -} |\n
+             db5{-}.2 db5{d -}.4 | r.2{dy mp cre} r.4{d} | r.2{dy mf} r.4{d} |\n
+             r.2 r.4{d} | r.2 r.4{d} |\n
+             bb4{dy p}.2 bb4{d -}.4 |\n
+             c5.2 ab4{d}.4 |\n
+             eb5.2 eb5{d -}.4 |\n
+             :4 eb5{-} ab4 ab4{d} |\n
+             eb5.2 eb5{d -}.4 |\n
+             f5.2 f5{d -}.4 |\n
+             f5.2 f5{d -}.4 |\n
+             f5.2 r.4{d} | \\ts 4 4 \\tempo 76 r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | \\ts 2 4 r.2 | \\ts 4 4 r.1 |\n
+             r.1 | r.1 | r.1 | \\tempo 29 r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             \n
+
              \\track "Piano"\n
              \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
              r.4{dy f} |\n
@@ -1620,60 +1674,6 @@ class AlphaTabRunner {
              r.2 :4 r (ab2 db2){dy pp} |\n
              (ab2{-} db2{-}).1 |\n
              r.1{dy ppp} |\n
-             \n
-
-             \\track "Solo"\n
-             \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks Db\n
-             \\lyrics "Ex - - pe- ctá - - vi- mus pa - - - cem _ _ et _ non _ e- rat _ bo - num _ tem- pus, _ _ _ ex - - pe- ctá - - vi- mus pa - - - cem. _ _"
-             r.4{dy f} | r.1 | r.1 | r.1 | r.1 | r.1{dy p} |\n
-             r.1 | r.1 | r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 |\n
-             \\ks e \\ts 3 4 \\tempo 168 r.2{d dy p} | r.2{d} | r.2{d} |\n
-             r.2{d} | r.2{d dy mp cre} | r.2{d cre} | \\ts 4 4 r.1{dy f} | \\ts 3 4 r.2{d dy mf} | r.2{d} |\n
-             \\ts 4 4 r.1{dy f} | r.1 | r.1 | r.1 |\n
-             \\ts 3 4 r.2{d} | r.2{d} | r.2{d dy ff} | r.2{d} | \\ts 4 4 r.1 |\n
-             r.1{cre} | r.1 | \\ts 3 4 r.2{d} | r.2{d} | \\ts 4 4 r.1 | \\ts 3 4 r.2{d} |\n
-             r.2{d} | \\ts 4 4 r.1{dy f} | r.1{cre} | \\ts 3 4 r.2{d dy ff} | r.2{d} |\n
-             \\ts 4 4 r.1 | r.1 | \\ts 3 4 r.2{d} | r.2{d} |\n
-             r.2{d} | r.2{d} | \\ts 4 4 r.1 | r.1 |\n
-             r.1{dy fff} | r.1 | r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | \\ts 3 4 r.2{d dy f} | r.2{d dec} | r.2{d dy mf} |\n
-             r.2{d dec} | \\ts 4 4 r.1{dy mp} | \\ts 7 8 \\tempo 92 \\ks Db r.2 r.4{d} | r.2 r.4{d} | r.2 r.4{d} |\n
-             r.2 r.4{d} | bb4.2{dy p} bb4{d -}.4 |\n
-             c5.2 ab4{d}.4 |\n
-             eb5.2 eb5{d -}.4 |\n
-             :4 eb5{-} ab4 ab4{d} |\n
-             eb5.2 eb5{d}.4 |\n
-             f5.2 f5{d}.4 |\n
-             eb5.2 eb5{d -}.4 |\n
-             eb5{-}.2 r.4{d} |\n
-             :4 bb4{dy mp} ab4 bb4 f4.8 |\n
-             :4 ab4 ab4 ab4{- d} |\n
-             :4 db5 c5 db5 eb5.8 |\n
-             :4 db5 db5 db5{d -} |\n
-             db5{-}.2 db5{d -}.4 | r.2{dy mp cre} r.4{d} | r.2{dy mf} r.4{d} |\n
-             r.2 r.4{d} | r.2 r.4{d} |\n
-             bb4{dy p}.2 bb4{d -}.4 |\n
-             c5.2 ab4{d}.4 |\n
-             eb5.2 eb5{d -}.4 |\n
-             :4 eb5{-} ab4 ab4{d} |\n
-             eb5.2 eb5{d -}.4 |\n
-             f5.2 f5{d -}.4 |\n
-             f5.2 f5{d -}.4 |\n
-             f5.2 r.4{d} | \\ts 4 4 \\tempo 76 r.1 | r.1 |\n
-             r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | \\ts 2 4 r.2 | \\ts 4 4 r.1 |\n
-             r.1 | r.1 | r.1 | \\tempo 29 r.1 |\n
-             r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
              \n
             `,
             [0,1,2,3,4,5,6,7,8,9]
