@@ -195,9 +195,6 @@ class MusicControls extends Component {
         AlphaTabRunner.cumulativeTime = 0;
     };
 
-    /**
-     * TODO: Figure out what this does
-     */
     componentDidMount() {
         this.checkFeedback();
         const id = window.setInterval(() => {

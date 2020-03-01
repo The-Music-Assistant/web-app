@@ -62,6 +62,7 @@ class PitchDetection {
 
     static endPitchDetection() {
         this.micStream.getTracks()[0].stop();
+        this.micStream = null;
     }
 
     /**
@@ -85,7 +86,6 @@ class PitchDetection {
         AlphaTabRunner.noteList.clear();
         if (AlphaTabRunner.getsFeedback) {
             AlphaTabRunner.p5Obj.loop();
-            // TODO: Fix when starting at different start measure in exercise
         }
         this.listen(0, 0);
     }
@@ -195,9 +195,9 @@ class PitchDetection {
 
     /**
      * Stops the detection of the pitch
-     * @param {number} setIntervalID The id of the setInterval process to stop
+     * @param {string} sheetMusicId The id of the sheet music to submit the performance
      */
-    static async stopPitchDetection(setIntervalID, sheetMusicId) {
+    static async stopPitchDetection(sheetMusicId) {
         if (AlphaTabRunner.getsFeedback) {
             AlphaTabRunner.p5Obj.noLoop();
         }

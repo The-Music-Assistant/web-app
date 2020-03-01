@@ -53,7 +53,6 @@ const p5Sketch = p => {
      * This function is called twice. Once, upon initialization p5 calls it which we use to tell p5 to stop looping
      * Then, AlphaTab will call setup when its done being rendered. Then, the canvas can be setup for drawing since
      * the canvas overlays the AlphaTab container
-     * TODO: Ensure that the canvas can resize when AlphaTab rerenders, use resizeCanvas
      * @param {Drawer} drawerGiven p5 will not provide this but AlphaTabRunner provides a reference to the Drawer being used
      */
     p.setup = function(drawerGiven) {

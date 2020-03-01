@@ -93,7 +93,6 @@ class Drawer {
 
         // sets up base if ledger lines are even needed. base == 0 means no ledger lines
         // base < 0 means they go below the staff, base > 0 means they go above the staff
-        // TODO: Ensure this works with Bass clef
         let base = 0;
         let actualUpperLimit;
         let actualLowerLimit;

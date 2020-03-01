@@ -23,7 +23,6 @@ class PerformanceData {
      * @param {Number} time Time when the note was started
      */
     addPitch(note, time) {
-        // TODO: Check to see if this is giving accurate enough data of performance. This if statement was added because we were getting a performance where the time from the first to the second note was exactly the same
         const EPSILON = 0.00001;
         try {
             if (this.pitches[this.pitches.length - 1].midival !== note) {

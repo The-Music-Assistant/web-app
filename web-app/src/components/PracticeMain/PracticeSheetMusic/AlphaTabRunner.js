@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/PracticeMain/PracticeSheetMusic/AlphaTabRunner.js
-// Description: TODO: Write a description
+// Description: Runs alphaTab turning on pitch detection and drawing when providing feedback
 // Author: Daniel Griessler
 // Email: dgriessler20@gmail.com
 // Created Date: 11/15/2019
@@ -34,12 +34,10 @@ class AlphaTabRunner {
     static HIGHLIGHT_PENDING_STOP = 3;
 
     api;
-    intervalID;
     drawer;
     noteList;
     p5Obj;
     texLoaded;
-    partNames;
     renderedOnce;
     playerState;
     getsFeedback;
@@ -49,6 +47,16 @@ class AlphaTabRunner {
      * Displays the piece of music on the screen
      */
     static initializeAPI() {
+        this.clearVariables();
+        this.setUpApi();
+    }
+
+    /**
+     * Clears out variables needed by this static class
+     */
+    static clearVariables() {
+        this.api = null;
+        this.p5Obj = null;
         this.noteStream = [-1, 0];
         this.noteStreamIndex = 0;
         this.cumulativeTime = 0;
@@ -57,7 +65,34 @@ class AlphaTabRunner {
         this.renderedOnce = false;
         this.barCount = 20;
         this.resetDrawPositions = true;
+        this.drawer = null;
+        this.noteList = null;
+        this.highlightMeasures = AlphaTabRunner.HIGHLIGHT_OFF;
+        this.playerState = 0;
+        this.getsFeedback = false;
+        this.sheetMusicLength = null;
+    }
 
+    /**
+     * Assumes destroys api if initialized, destroys p5Obj if initialized, stops microphone input if on
+     */
+    static destroy() {
+        if (AlphaTabRunner.playerState == 1) {
+            PitchDetection.stopPitchDetection("5050284854B611EAAEC302F168716C78");
+        }
+        if (PitchDetection.micStream && PitchDetection.micStream !== null) {
+            PitchDetection.endPitchDetection();
+        }
+        if (this.api !== null) {
+            this.api.destroy();
+        }
+        if (this.p5Obj !== null) {
+            this.p5Obj.remove();
+        }
+        this.clearVariables();
+    }
+
+    static setUpApi() {
         // AlphaTab API settings
         let settings = {
             player: {
@@ -93,16 +128,10 @@ class AlphaTabRunner {
         this.api.addPlayerFinished(() => {
             this.alphaTabPlayerFinished();
         });
-
-        this.highlightMeasures = AlphaTabRunner.HIGHLIGHT_OFF;
-        this.playerState = 0;
-        this.getsFeedback = false;
-        this.sheetMusicLength = null;
     }
 
     /**
      * Run when AlphaTab is rendered on the screen
-     * TODO: Fix so that it updates the variables on subsequent alphaTab renders besides the first one
      */
     static alphaTabRenderFinished() {
         if (AlphaTabRunner.playerState !== 1) {
@@ -222,7 +251,7 @@ class AlphaTabRunner {
 
     static alphaTabPlayerStateChanged() {
         if (AlphaTabRunner.api.playerState !== 1 && AlphaTabRunner.playerState === 1) {
-            PitchDetection.stopPitchDetection(this.intervalID, "5050284854B611EAAEC302F168716C78");
+            PitchDetection.stopPitchDetection("5050284854B611EAAEC302F168716C78");
             AlphaTabRunner.playerState = 0;
 
             AlphaTabRunner.p5Obj.clear();
@@ -256,13 +285,12 @@ class AlphaTabRunner {
 
             // Runs the pitch detection model on microphone input and displays it on the screen
             // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
-            this.intervalID = PitchDetection.startPitchDetection();
+            PitchDetection.startPitchDetection();
         }
     }
 
     static alphaTabPlayerFinished() {
         // resets the time back to the beginning of the song and our tracker points at the beginning of the piece again
-        // TODO: Fix confusion when playing/pausing quickly
         AlphaTabRunner.noteStreamIndex = 0;
         AlphaTabRunner.cumulativeTime = 0;
     }
@@ -359,15 +387,6 @@ class AlphaTabRunner {
         let playbackMeasures = null;
         if (measureToLength !== null) {
             if (AlphaTabRunner.api.playbackRange !== null) {
-                // TODO: figure out how to switch if the endTick is less than the startTick
-                // let startTick = AlphaTabRunner.api.playbackRange.startTick;
-                // let endTick = AlphaTabRunner.api.playbackRange.endTick;
-                // if (endTick < startTick) {
-                //     let temp = startTick;
-                //     startTick = endTick;
-                //     endTick = temp;
-                // }
-
                 playbackMeasures = [];
                 let currentPosition = AlphaTabRunner.api.timePosition / 1000;
                 let comparePosition = currentPosition;
