@@ -9,8 +9,11 @@
 @import "../../root-styles/utilities.scss";
 
 .choirs {
+    padding: 0 20px;
+
     &HeroImg {
         display: block;
+        width: 100%;
         max-width: 800px;
         border-radius: 10px;
         box-shadow: $primary-box-shadow;

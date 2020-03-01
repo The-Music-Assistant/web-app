@@ -9,9 +9,13 @@
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 // Component imports
 import MobileNavLink from "./MobileNavLink/MobileNavLink";
+
+// Image imports
+import signOutIconBlue from "../../assets/icons/sign-out-icon-blue.svg";
 
 // Style imports
 import styles from "./MobileNav.module.scss";
@@ -27,33 +31,50 @@ const MobileNav = props => {
 
     // Returns the JSX to display
     return (
-        <div className={[styles.mobileNav, styles[showHideClassName]].join(" ")}>
+        <div className={`${styles.mobileNav} ${styles[showHideClassName]}`}>
             {props.tabs.map(tab => {
+                const isCurrentTab = props.location.pathname
+                    .substring(1)
+                    .includes(tab.name.toLowerCase());
                 return (
                     <MobileNavLink
                         key={tab.key}
                         name={tab.name}
-                        icon={tab.mobileIcon}
-                        isCurrentTab={tab.isCurrent}
+                        route={tab.route}
+                        icon={tab.blueIcon}
+                        isCurrentTab={isCurrentTab}
+                        onClick={props.linkClicked}
+                        isSignOut={false}
                     />
                 );
             })}
+            <MobileNavLink
+                name="Sign Out"
+                icon={signOutIconBlue}
+                onClick={() => {
+                    props.linkClicked();
+                    props.signOutClicked();
+                }}
+                isSignOut={true}
+            />
         </div>
     );
 };
 
 // Prop types for MobileNav component
 MobileNav.propTypes = {
-    // show: PropTypes.bool.isRequired,
-    // tabs: PropTypes.arrayOf(
-    //     PropTypes.exact({
-    //         key: PropTypes.string.isRequired,
-    //         name: PropTypes.string.isRequired,
-    //         mobileIcon: PropTypes.string.isRequired,
-    //         desktopIcon: PropTypes.string.isRequired,
-    //         isCurrent: PropTypes.bool.isRequired
-    //     })
-    // ).isRequired
+    show: PropTypes.bool.isRequired,
+    tabs: PropTypes.arrayOf(
+        PropTypes.exact({
+            key: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            route: PropTypes.string.isRequired,
+            blueIcon: PropTypes.string.isRequired,
+            whiteIcon: PropTypes.string.isRequired
+        })
+    ).isRequired,
+    linkClicked: PropTypes.func.isRequired,
+    signOutClicked: PropTypes.func.isRequired
 };
 
-export default MobileNav;
+export default withRouter(MobileNav);

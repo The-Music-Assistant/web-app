@@ -9,14 +9,10 @@
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 // Component imports
 import SideNavLink from "./SideNavLink/SideNavLink";
-
-// File imports
-import { signOut } from "../../store/actions";
 
 // Image imports
 import tmaLogo from "../../assets/logos/tma-logo-blue.png";
@@ -26,15 +22,6 @@ import signOutIconWhite from "../../assets/icons/sign-out-icon-white.svg";
 import styles from "./SideNav.module.scss";
 
 const SideNav = props => {
-    /**
-     * Gets confirmation from user and then signs the user out
-     */
-    const signOutClickedHandler = () => {
-        if (window.confirm("Do you want to sign out?")) {
-            props.signOut();
-        }
-    };
-
     // Returns the JSX to render
     return (
         <section id='side-nav' className={styles.sideNav}>
@@ -67,7 +54,7 @@ const SideNav = props => {
                 <SideNavLink
                     name='Sign Out'
                     icon={signOutIconWhite}
-                    onClick={signOutClickedHandler}
+                    onClick={props.signOutClicked}
                     isSignOutLink={true}
                 />
                 <small className={styles.sideNavFooterText}>
@@ -92,17 +79,8 @@ SideNav.propTypes = {
             blueIcon: PropTypes.string.isRequired,
             whiteIcon: PropTypes.string.isRequired
         })
-    ).isRequired
+    ).isRequired,
+    signOutClicked: PropTypes.func.isRequired
 };
 
-/**
- * Passes certain redux actions to SideNav
- * @param {function} dispatch - The react-redux dispatch function
- */
-const mapDispatchToProps = dispatch => {
-    return {
-        signOut: () => dispatch(signOut())
-    };
-};
-
-export default withRouter(connect(null, mapDispatchToProps)(SideNav));
+export default withRouter(SideNav);

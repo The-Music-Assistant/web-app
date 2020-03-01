@@ -34,10 +34,12 @@
     }
 
     &Name {
-        @include text($size: 0.75rem, $weight: 400, $color: $primary-color, $line-height: null);
+        @include text($size: 0.75rem, $weight: 400, $color: $white-color, $line-height: null);
+        margin: 5px 0 0 0;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             font-size: 1rem;
+            color: $primary-color;
             margin: 0 0 0 10px;
             padding: 0;
         }

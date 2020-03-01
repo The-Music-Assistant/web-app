@@ -10,22 +10,26 @@
 
 .header {
     height: 60px;
-    // padding: 0 10px;
+    padding: 0 10px;
     grid-area: head;
     @include grid-container(
         $grid-template-rows: null,
-        $grid-template-columns: 1fr 1fr,
+        $grid-template-columns: 1fr 2fr 1fr,
         $align-items: center
     );
+    background-color: $primary-color;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         height: 70px;
         grid-template-columns: 1fr 1fr;
         padding: 0 30px;
+        background-color: transparent;
     }
 
-    @include media-query($breakpoint: $desktop-breakpoint) {
-        grid-template-columns: 1fr 1fr;
+    &Logo {
+        display: block;
+        height: 30px;
+        margin: auto;
     }
 
     &Heading {

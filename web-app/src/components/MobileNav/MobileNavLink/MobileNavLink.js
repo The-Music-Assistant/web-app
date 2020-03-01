@@ -9,6 +9,7 @@
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 // Style imports
 import styles from "./MobileNavLink.module.scss";
@@ -20,9 +21,9 @@ const MobileNavLink = props => {
         currentTabLine = <div className={styles.mobileNavLinkCurrentTabLine}></div>;
     }
 
-    // Returns the JSX to display
-    return (
-        <button className={styles.mobileNavLink}>
+    // The component to render
+    let component = (
+        <div className={styles.mobileNavLink} onClick={props.onClick}>
             <div className={styles.mobileNavLinkContainer}>
                 {currentTabLine}
                 <img
@@ -32,15 +33,26 @@ const MobileNavLink = props => {
                 />
                 <h3 className={styles.mobileNavLinkName}>{props.name}</h3>
             </div>
-        </button>
+        </div>
     );
+
+    if (!props.isSignOut) {
+        // Wrap component in link
+        component = <Link to={props.route}>{component}</Link>;
+    }
+
+    // Returns the component to display
+    return component;
 };
 
 // Prop types for the MobileNavLink component
 MobileNavLink.propTypes = {
-    // isCurrentTab: PropTypes.bool.isRequired,
-    // icon: PropTypes.string.isRequired,
-    // name: PropTypes.string.isRequired
+    isCurrentTab: PropTypes.bool,
+    name: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+    route: PropTypes.string,
+    onClick: PropTypes.func.isRequired,
+    isSignOut: PropTypes.bool.isRequired
 };
 
 export default MobileNavLink;

@@ -10,6 +10,7 @@
 import React, { Component } from "react";
 import shortid from "shortid";
 import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 // Component imports
 import Header from "../../components/Header/Header";
@@ -21,6 +22,10 @@ import Home from "../../components/Home/Home";
 import PracticeMain from "../../components/PracticeMain/PracticeMain";
 import Progress from "../../components/Progress/Progress";
 import Choirs from "../../components/Choirs/Choirs";
+import Footer from "../../components/Footer/Footer";
+
+// File imports
+import { signOut } from "../../store/actions";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -111,6 +116,15 @@ class Primary extends Component {
     };
 
     /**
+     * Gets confirmation from user and then signs the user out
+     */
+    signOutClickedHandler = () => {
+        if (window.confirm("Do you want to sign out?")) {
+            this.props.signOut();
+        }
+    };
+
+    /**
      * Sets alertData in state when a new alert is triggered
      */
     showAlertHandler = (type, heading, message) => {
@@ -130,12 +144,23 @@ class Primary extends Component {
      * Renders the Primary component
      */
     render() {
-        // Creates the correct type of main navigation based on the window size
         let mainNav = null;
+        let footer = null;
         if (this.state.isMobile) {
-            mainNav = <MobileNav tabs={this.mainNavTabs} show={this.state.showMobileNav} />;
+            mainNav = (
+                <MobileNav
+                    tabs={this.mainNavTabs}
+                    show={this.state.showMobileNav}
+                    linkClicked={this.handleShowHamburgerMenu}
+                    signOutClicked={this.signOutClickedHandler}
+                />
+            );
+
+            footer = <Footer />;
         } else {
-            mainNav = <SideNav tabs={this.mainNavTabs} />;
+            mainNav = (
+                <SideNav tabs={this.mainNavTabs} signOutClicked={this.signOutClickedHandler} />
+            );
         }
 
         // Returns the JSX to display
@@ -172,9 +197,20 @@ class Primary extends Component {
                         <Home />
                     </Route>
                 </Switch>
+                {footer}
             </div>
         );
     }
 }
 
-export default Primary;
+/**
+ * Passes certain redux actions to Primary
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        signOut: () => dispatch(signOut())
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Primary);

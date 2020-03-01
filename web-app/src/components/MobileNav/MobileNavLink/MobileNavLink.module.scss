@@ -12,11 +12,7 @@
     width: 100vw;
     position: relative;
     margin-top: 20px;
-    padding: 0 20px;
-
-    &:first-child {
-        margin-top: 0;
-    }
+    padding: 5px 20px;
 
     // Chrome and Safari currently don't allow for buttons to be grid containers
     &Container {
