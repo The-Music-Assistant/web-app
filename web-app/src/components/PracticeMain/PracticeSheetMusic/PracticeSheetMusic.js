@@ -10,7 +10,6 @@
 import React, { Component } from "react";
 
 // File imports
-import AlphaTabAPIUtility from "./AlphaTabAPIUtility";
 import AlphaTabRunner from "./AlphaTabRunner";
 
 // Style imports
@@ -30,15 +29,6 @@ class PracticeSheetMusic extends Component {
     componentDidMount() {
         // Initializes the AlphaTab API and displays the music
         AlphaTabRunner.initializeAPI();
-
-        // TODO: What is utilAPI and does it need to be in this component's state?
-        this.setState({
-            utilAPI: new AlphaTabAPIUtility(
-                AlphaTabRunner.api,
-                AlphaTabRunner.currentTrackIndexes,
-                AlphaTabRunner.totalTracks
-            )
-        });
     }
 
     componentWillUnmount() {
