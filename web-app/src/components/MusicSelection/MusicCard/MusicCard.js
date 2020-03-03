@@ -34,13 +34,13 @@ const MusicCard = props => {
                     text='View Song'
                     onClick={props.viewSongClicked}
                 />
-                <RectangularButton
+                {/* <RectangularButton
                     backgroundColor={rectButtonBgColors.WHITE}
                     type={buttonTypes.BUTTON}
                     value='view-exercises'
                     text='View Exercises'
                     onClick={props.viewExercisesClicked}
-                />
+                /> */}
             </div>
         </div>
     );
