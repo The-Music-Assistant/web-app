@@ -68,7 +68,7 @@ class AlphaTabRunner {
             },
             display: {
                 layoutMode: "horizontal",
-                startBar: 23,
+                startBar: 1,
                 barCount: AlphaTabRunner.barCount
             }
         };
@@ -952,9 +952,9 @@ class AlphaTabRunner {
              eb4{d}.4 eb4.8 eb4.2 |\n
              :4 r c4{dy mp} :4{tu 3} c4 c4 eb4 |\n
              :2 db4{cre} db4{cre} |\n
-             r.4 :8 db4{dy mf} db4 db4.4 b3 |\n
-             b3{d}.4 :8 b3 b3 r b3 |\n
-             b3.2 :4 db4 b3 |\n
+             r.4 :8 db4{dy mf} db4 db4.4 c4 |\n
+             c4{d}.4 :8 c4 c4 r c4 |\n
+             c4.2 :4 db4 c4 |\n
              bb3.2{dec} :4 bb3{dec} r |\n
              bb3.2{dy mp} :4 bb3 bb3 |\n
              :4 gb3 bb3 ab3 eb3 |\n
@@ -968,7 +968,7 @@ class AlphaTabRunner {
              :8 a3 e3 g#3 d#3 r.4 | r.2{d} | r.2{d} |\n
              \\ts 4 4 :4 a3{dy ff} b3 d#4 r |\n
              e4.1{cre} |\n
-             e4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             d#4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
              \\ts 4 4 :4 d#4 r e4 r |\n
              \\ts 3 4 :8 f#4 f#4 f#4{-}.2 |\n
              f#4{d -}.2 |\n
@@ -1043,9 +1043,9 @@ class AlphaTabRunner {
              eb4{d}.4 eb4.8 eb4.2 |\n
              :4 r c4{dy mp} :4{tu 3} c4 c4 eb4 |\n
              :2 db4{cre} db4{cre} |\n
-             r.4 :8 db4{dy mf} db4 db4.4 b3 |\n
-             b3{d}.4 :8 b3 b3 r b3 |\n
-             b3.2 :4 db4 b3 |\n
+             r.4 :8 db4{dy mf} db4 db4.4 c4 |\n
+             c4{d}.4 :8 c4 c4 r c4 |\n
+             c4.2 :4 db4 c4 |\n
              bb3.2{dec} :4 bb3{dec} r |\n
              bb3.2{dy mp} :4 bb3 bb3 |\n
              :4 gb3 bb3 ab3 eb3 |\n
@@ -1059,7 +1059,7 @@ class AlphaTabRunner {
              :8 a3 e3 g#3 d#3 r.4 | r.2{d} | r.2{d} |\n
              \\ts 4 4 :4 a3{dy ff} b3 d#4 r |\n
              e4.1{cre} |\n
-             e4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
+             d#4.1{cre} | \\ts 3 4 r.2{d} | r.2{d} |\n
              \\ts 4 4 :4 d#4 r e4 r |\n
              \\ts 3 4 :8 f#4 f#4 f#4{-}.2 |\n
              f#4{d -}.2 |\n
@@ -1139,7 +1139,7 @@ class AlphaTabRunner {
              f3.2 :4 f3 f3 |\n
              f3.2{dec} :4 f3{dec} r |\n
              eb3.2{dy mp} :4 eb3 db3 |\n
-             b3.2 :4 b3 ab2 |\n
+             b2.2 :4 b2 ab2 |\n
              :2 gb2 gb2{dec} |\n
              :2 gb2{- dec} r |\n
              \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
@@ -1232,7 +1232,7 @@ class AlphaTabRunner {
              f3.2 :4 f3 f3 |\n
              f3.2{dec} :4 f3{dec} r |\n
              eb3.2{dy mp} :4 eb3 db3 |\n
-             b3.2 :4 b3 ab2 |\n
+             b2.2 :4 b2 ab2 |\n
              :2 gb2 gb2{dec} |\n
              :2 gb2{- dec} r |\n
              \\ks e \\ts 3 4 \\tempo 168 r.2{d} | r.2{d} | r.2{d} |\n
@@ -1357,7 +1357,7 @@ class AlphaTabRunner {
              r.1 | r.1 | r.1 |\n
              r.1 | r.1 | r.1 |\n
              r.1 | r.1 | r.1 | r.1 | r.1 |\n
-             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
+             r.1 | r.1 | r.1 | r.1 | r.1 | r.1 | r.1 |\n
              \n
 
              \\track "Piano"\n
