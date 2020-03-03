@@ -8,6 +8,8 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 // File imports
 import AlphaTabRunner from "../../PracticeSheetMusic/AlphaTabRunner";
@@ -217,10 +219,7 @@ class MusicControls extends Component {
     };
 
     checkFeedback() {
-        const data = {
-            sheetMusicId: "5050284854B611EAAEC302F168716C78"
-        };
-        userGetsFeedback(data)
+        userGetsFeedback({ sheetMusicId: this.props.sheetMusicId })
             .then(response => {
                 if (
                     (response.data["gets_feedback"] && !this.state.getsFeedback) ||
@@ -380,10 +379,10 @@ class MusicControls extends Component {
                     <img id="generateExerciseBtn" src={playPauseButton} alt={generateExerciseAltText} />
                 </button> */}
 
-                <label htmlFor="texToDisplay">Choose music:</label>
-                <select id="texToDisplay" onChange={this.musicSelectorHandler}>
-                    <option value="sheetMusic">Sheet Music</option>
-                    <option value="myPart">Just My Part</option>
+                <label htmlFor='texToDisplay'>Choose music:</label>
+                <select id='texToDisplay' onChange={this.musicSelectorHandler}>
+                    <option value='sheetMusic'>Sheet Music</option>
+                    <option value='myPart'>Just My Part</option>
                     {performanceButton}
                 </select>
 
@@ -430,4 +429,19 @@ class MusicControls extends Component {
     }
 }
 
-export default MusicControls;
+// Prop types for the MusicControls component
+MusicControls.propTypes = {
+    sheetMusicId: PropTypes.string.isRequired
+};
+
+/**
+ * Gets the current state from Redux and passes it to the MusicControls component as props
+ * @param {object} state - The Redux state
+ */
+const mapStateToProps = state => {
+    return {
+        sheetMusicId: state.practice.selectedSheetMusicId
+    };
+};
+
+export default connect(mapStateToProps)(MusicControls);

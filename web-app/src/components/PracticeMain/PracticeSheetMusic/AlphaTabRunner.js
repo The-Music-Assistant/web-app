@@ -23,6 +23,7 @@ import {
 } from "../../../App/musicAssistantApi";
 import TexLoaded from "./TexLoaded";
 import * as logs from "../../../vendors/Firebase/logs";
+import { store } from "../../../store/reduxSetup";
 
 /**
  * Runs AlphaTab including initialization and keeping a Drawer and NoteList instance
@@ -145,10 +146,7 @@ class AlphaTabRunner {
      */
     static alphaTabRenderFinished() {
         if (AlphaTabRunner.playerState !== 1) {
-            const data = {
-                sheetMusicId: "5050284854B611EAAEC302F168716C78"
-            };
-            userGetsFeedback(data)
+            userGetsFeedback({ sheetMusicId: store.getState().practice.selectedSheetMusicId })
                 .then(response => {
                     AlphaTabRunner.getsFeedback = response.data["gets_feedback"];
                 })
@@ -260,7 +258,7 @@ class AlphaTabRunner {
 
     static alphaTabPlayerStateChanged() {
         if (AlphaTabRunner.api.playerState !== 1 && AlphaTabRunner.playerState === 1) {
-            PitchDetection.stopPitchDetection("5050284854B611EAAEC302F168716C78");
+            PitchDetection.stopPitchDetection(store.getState().practice.selectedSheetMusicId);
             AlphaTabRunner.playerState = 0;
 
             AlphaTabRunner.p5Obj.clear();
@@ -296,7 +294,7 @@ class AlphaTabRunner {
             // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
             PitchDetection.startPitchDetection();
         } else if (AlphaTabRunner.playerState === 2) {
-            PitchDetection.stopPitchDetection("5050284854B611EAAEC302F168716C78");
+            PitchDetection.stopPitchDetection(store.getState().practice.selectedSheetMusicId);
             AlphaTabRunner.playerState = 0;
         }
     }
@@ -317,7 +315,7 @@ class AlphaTabRunner {
             ]);
 
             let data = {
-                sheetMusicId: "5050284854B611EAAEC302F168716C78",
+                sheetMusicId: store.getState().practice.selectedSheetMusicId,
                 partName: AlphaTabRunner.texLoaded.partNames[trackNumber]
             };
             getPartSheetMusic(data)
@@ -456,12 +454,8 @@ class AlphaTabRunner {
         let texToDisplay = document.getElementById("texToDisplay");
         texToDisplay.options[3] = null;
 
-        let data = {
-            sheetMusicId: "5050284854B611EAAEC302F168716C78"
-        };
-
         try {
-            const singlePartResponse = await getSinglePartSheetMusic(data);
+            const singlePartResponse = await getSinglePartSheetMusic({sheetMusicId: store.getState().practice.selectedSheetMusicId});
             AlphaTabRunner.texLoaded.update(
                 "Sheet Music",
                 singlePartResponse.data.part_list,
@@ -510,7 +504,7 @@ class AlphaTabRunner {
         texToDisplay.options[3] = new Option("Exercise", "exercise", false, true);
 
         let data = {
-            sheetMusicId: "5050284854B611EAAEC302F168716C78",
+            sheetMusicId: store.getState().practice.selectedSheetMusicId,
             trackNumber: AlphaTabRunner.texLoaded.currentTrackIndexes[0] + 1,
             staffNumber: 1,
             measureStart,
@@ -592,7 +586,7 @@ class AlphaTabRunner {
         texToDisplay.options[3] = null;
 
         let data = {
-            sheetMusicId: "5050284854B611EAAEC302F168716C78"
+            sheetMusicId: store.getState().practice.selectedSheetMusicId
         };
 
         try {
@@ -607,7 +601,7 @@ class AlphaTabRunner {
                     null,
                     1,
                     1,
-                    "5050284854B611EAAEC302F168716C78"
+                    store.getState().practice.selectedSheetMusicId
                 );
             } else {
                 AlphaTabRunner.texLoaded.update(

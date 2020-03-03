@@ -8,6 +8,7 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import shortid from "shortid";
@@ -21,6 +22,7 @@ import { MetroSpinner } from "react-spinners-kit";
 import { getSheetMusic } from "../../App/musicAssistantApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import * as logs from "../../vendors/Firebase/logs";
+import { musicSelectedForPractice } from "../../store/actions";
 
 // Style imports
 import styles from "./MusicSelection.module.scss";
@@ -53,7 +55,7 @@ class MusicSelection extends Component {
         }, 500);
 
         // Gets music
-        getSheetMusic({ choirId: this.props.match.params.choirId })
+        getSheetMusic({ choirId: this.props.choirId })
             .then(snapshot => {
                 if (this._isMounted)
                     this.setState({ isLoading: false, music: snapshot.data.sheet_music });
@@ -70,6 +72,7 @@ class MusicSelection extends Component {
     };
 
     viewSongClickedHandler = id => {
+        this.props.musicSelected(id);
         this.props.history.push(`${this.props.match.url}/music/${id}`);
     };
 
@@ -137,6 +140,14 @@ class MusicSelection extends Component {
     }
 }
 
+// Prop types for the MusicControls component
+MusicSelection.propTypes = {
+    choirId: PropTypes.string.isRequired,
+    choirName: PropTypes.string.isRequired,
+    showAlert: PropTypes.func.isRequired,
+    musicSelected: PropTypes.func.isRequired
+};
+
 /**
  * Gets the current state from Redux and passes it to the MusicSelection component as props
  * @param {object} state - The Redux state
@@ -148,4 +159,14 @@ const mapStateToProps = state => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(MusicSelection));
+/**
+ * Passes certain redux actions to MusicSelection
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        musicSelected: id => dispatch(musicSelectedForPractice(id))
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicSelection));
