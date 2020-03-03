@@ -33,17 +33,14 @@ const MobileNav = props => {
     return (
         <div className={`${styles.mobileNav} ${styles[showHideClassName]}`}>
             {props.tabs.map(tab => {
-                const isCurrentTab = props.location.pathname
-                    .substring(1)
-                    .includes(tab.name.toLowerCase());
                 return (
                     <MobileNavLink
                         key={tab.key}
                         name={tab.name}
                         route={tab.route}
                         icon={tab.blueIcon}
-                        isCurrentTab={isCurrentTab}
-                        onClick={props.linkClicked}
+                        isCurrentTab={tab.isCurrentTab}
+                        onClick={() => props.navLinkClicked(tab.key)}
                         isSignOut={false}
                     />
                 );
@@ -70,11 +67,12 @@ MobileNav.propTypes = {
             name: PropTypes.string.isRequired,
             route: PropTypes.string.isRequired,
             blueIcon: PropTypes.string.isRequired,
-            whiteIcon: PropTypes.string.isRequired
+            whiteIcon: PropTypes.string.isRequired,
+            isCurrentTab: PropTypes.bool.isRequired
         })
     ).isRequired,
-    linkClicked: PropTypes.func.isRequired,
-    signOutClicked: PropTypes.func.isRequired
+    signOutClicked: PropTypes.func.isRequired,
+    navLinkClicked: PropTypes.func.isRequired
 };
 
 export default withRouter(MobileNav);

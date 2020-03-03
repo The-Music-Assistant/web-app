@@ -10,13 +10,12 @@
 
 .choirSelection {
     &Heading {
-        @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
+        @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
         text-align: center;
         margin-top: 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             font-size: 1.5rem;
-            margin-top: 40px;
         }
     }
 
@@ -50,6 +49,7 @@
             row-gap: 50px;
             column-gap: 70px;
             margin: 40px;
+            justify-content: start;
         }
     }
 }

@@ -19,7 +19,7 @@ import firebase from "../../vendors/Firebase/firebase";
 import * as logs from "../../vendors/Firebase/logs";
 
 // Image imports
-import logo from "../../assets/logos/music-assistant-logo.png";
+import logo from "../../assets/logos/tma-logo-white.png";
 import downArrow from "../../assets/icons/down-arrow-white-fa.svg";
 
 // Component  imports

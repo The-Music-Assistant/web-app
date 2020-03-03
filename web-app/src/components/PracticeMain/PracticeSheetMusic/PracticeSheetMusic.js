@@ -15,13 +15,8 @@ import AlphaTabRunner from "./AlphaTabRunner";
 // Style imports
 // TODO: Move to CSS modules
 import "./PracticeSheetMusic.scss";
-import PitchDetection from "./PitchDetection";
 
 class PracticeSheetMusic extends Component {
-    state = {
-        utilAPI: null
-    };
-
     /**
      * Initializes the AlphaTab API
      * Displays the piece of music on the screen
@@ -29,10 +24,7 @@ class PracticeSheetMusic extends Component {
     componentDidMount() {
         // Initializes the AlphaTab API and displays the music
         AlphaTabRunner.initializeAPI();
-    }
-
-    componentWillUnmount() {
-        PitchDetection.endPitchDetection();
+        AlphaTabRunner.changeMusic('sheetMusic');
     }
 
     /**

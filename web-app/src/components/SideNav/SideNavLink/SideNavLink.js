@@ -23,7 +23,7 @@ const SideNavLink = props => {
         component = (
             <button
                 className={`${styles.sideNavLink} ${styles.sideNavLinkSignOut}`}
-                type="button"
+                type='button'
                 onClick={props.onClick}>
                 <img
                     className={styles.sideNavLinkIcon}
@@ -43,7 +43,10 @@ const SideNavLink = props => {
 
         // Sets component to the regular version of SideNavLink
         component = (
-            <Link className={`${styles.sideNavLink} ${currentTabStyle}`} to={props.route}>
+            <Link
+                className={`${styles.sideNavLink} ${currentTabStyle}`}
+                to={props.route}
+                onClick={props.onClick}>
                 <img
                     className={styles.sideNavLinkIcon}
                     src={props.icon}
@@ -64,7 +67,7 @@ SideNavLink.propTypes = {
     name: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     route: PropTypes.string,
-    onClick: PropTypes.func
+    onClick: PropTypes.func.isRequired
 };
 
 export default withRouter(SideNavLink);

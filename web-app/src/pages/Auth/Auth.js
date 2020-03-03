@@ -16,7 +16,7 @@ import { authFlowComplete, startAuthFlow } from "../../store/actions";
 import * as authStages from "./authStages";
 
 // Image imports
-import logo from "../../assets/logos/music-assistant-logo.png";
+import logo from "../../assets/logos/tma-logo-white.png";
 
 // Component imports
 import AuthCard from "../../components/AuthCards/AuthCard/AuthCard";

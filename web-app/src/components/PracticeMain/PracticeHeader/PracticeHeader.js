@@ -14,12 +14,15 @@ import { withRouter } from "react-router-dom";
 import MusicControls from "./MusicControls/MusicControls";
 import BackButton from "../../Buttons/BackButton/BackButton";
 
+// File imports
+import AlphaTabRunner from "../PracticeSheetMusic/AlphaTabRunner";
+
 // Style imports
 import styles from "./PracticeHeader.module.scss";
 
 const PracticeHeader = props => {
     const backButtonClickedHandler = () => {
-        props.history.goBack();
+        AlphaTabRunner.destroy().then(props.history.goBack);
     };
 
     // Returns the JSX to display

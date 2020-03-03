@@ -89,13 +89,16 @@ const p5Sketch = p => {
         // TODO Fix the first measure highlighting
         if (AlphaTabRunner && AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_ON) {
             let firstBarPos = AlphaTabRunner.texLoaded.firstBarMeasurePosition;
-            let cursorBarStyle = document.getElementsByClassName("at-cursor-bar")[0].style;
-            let compareBarPos = {
-                left: parseInt(cursorBarStyle.left.substring(0,cursorBarStyle.left.length - 2), 10),
-                top: parseInt(cursorBarStyle.top.substring(0,cursorBarStyle.left.length - 2), 10),
-                width: parseInt(cursorBarStyle.width.substring(0,cursorBarStyle.left.length - 2), 10),
-                height: parseInt(cursorBarStyle.height.substring(0,cursorBarStyle.left.length - 2),10)
-            };
+            let compareBarPos = null;
+            try {
+                let cursorBarStyle = document.getElementsByClassName("at-cursor-bar")[0].style;
+                compareBarPos = {
+                    left: parseInt(cursorBarStyle.left.substring(0,cursorBarStyle.left.length - 2), 10),
+                    top: parseInt(cursorBarStyle.top.substring(0,cursorBarStyle.left.length - 2), 10),
+                    width: parseInt(cursorBarStyle.width.substring(0,cursorBarStyle.left.length - 2), 10),
+                    height: parseInt(cursorBarStyle.height.substring(0,cursorBarStyle.left.length - 2),10)
+                };
+            } catch(error) {}
             if (compareBarPos === null || firstBarPos === null) {
                 return;
             }

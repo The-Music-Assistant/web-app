@@ -17,11 +17,11 @@
     margin: 20px 20px 0;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
-        margin: 20px 40px 0;
+        margin: 20px 30px 0;
     }
 
     &Heading {
-        @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
+        @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
         text-align: center;
 
         @include media-query($breakpoint: $tablet-breakpoint) {

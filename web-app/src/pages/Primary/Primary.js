@@ -42,28 +42,20 @@ import choirIconWhite from "../../assets/icons/choir-icon-white.svg";
 import styles from "./Primary.module.scss";
 
 class Primary extends Component {
-    // Creates main navigation tabs (links)
     constructor(props) {
         super(props);
-        this.generateMainNavTab("Home", "/home", homeIconBlue, homeIconWhite);
-        this.generateMainNavTab("Practice", "/practice", practiceIconBlue, practiceIconWhite);
-        this.generateMainNavTab("Progress", "/progress", progressIconBlue, progressIconWhite);
-        this.generateMainNavTab("Choirs", "/choirs", choirIconBlue, choirIconWhite);
-        // this.generateMainNavTab("Sign Out", signOutIconBlue, signOutIconWhite, false);
-    }
 
-    // Component state
-    state = {
-        isMobile: window.innerWidth < 768,
-        showMobileNav: false,
-        alertData: null
-    };
+        // Component state
+        this.state = {
+            isMobile: window.innerWidth < 768,
+            showMobileNav: false,
+            alertData: null,
+            mainNavTabs: this.getMainNavTabs()
+        };
+    }
 
     // Indicates whether the component is mounted or not
     _isMounted = false;
-
-    // Main navigation tabs
-    mainNavTabs = [];
 
     /**
      * Creates an event listener for window resize
@@ -82,22 +74,36 @@ class Primary extends Component {
         window.removeEventListener("resize", this.handleWindowResize);
     }
 
+    getMainNavTabs = () => {
+        const tabs = [];
+        tabs.push(this.getMainNavTab("Home", "/home", homeIconBlue, homeIconWhite, false));
+        tabs.push(
+            this.getMainNavTab("Practice", "/practice", practiceIconBlue, practiceIconWhite, true)
+        );
+        tabs.push(
+            this.getMainNavTab("Progress", "/progress", progressIconBlue, progressIconWhite, false)
+        );
+        tabs.push(this.getMainNavTab("Choirs", "/choirs", choirIconBlue, choirIconWhite, false));
+        return tabs;
+    };
+
     /**
-     * Creates a main nav tab and pushes the tab to the array of main nav tabs
+     * Creates a main nav tab
      * @param {string} name - The tab name
      * @param {string} blueIcon - A blue version of the icon
      * @param {string} whiteIcon - A white version of the icon
      * @param {boolean} isCurrent - Whether or not the tab is the current tab
+     * @returns - A tab object
      */
-    generateMainNavTab = (name, route, blueIcon, whiteIcon) => {
-        const tab = {
+    getMainNavTab = (name, route, blueIcon, whiteIcon, isCurrentTab) => {
+        return {
             key: shortid.generate(),
             name,
             route,
             blueIcon,
-            whiteIcon
+            whiteIcon,
+            isCurrentTab
         };
-        this.mainNavTabs.push(tab);
     };
 
     /**
@@ -122,6 +128,24 @@ class Primary extends Component {
     signOutClickedHandler = () => {
         if (window.confirm("Do you want to sign out?")) {
             this.props.signOut();
+        }
+    };
+
+    navLinkClickedHandler = key => {
+        if (this._isMounted) {
+            this.setState(prevState => {
+                const oldTabs = [...prevState.mainNavTabs];
+                const newTabs = oldTabs.map(tab => {
+                    const newTab = { ...tab };
+                    if (tab.key === key) {
+                        newTab.isCurrentTab = true;
+                    } else {
+                        newTab.isCurrentTab = false;
+                    }
+                    return newTab;
+                });
+                return { mainNavTabs: newTabs };
+            });
         }
     };
 
@@ -150,9 +174,12 @@ class Primary extends Component {
         if (this.state.isMobile) {
             mainNav = (
                 <MobileNav
-                    tabs={this.mainNavTabs}
+                    tabs={this.state.mainNavTabs}
                     show={this.state.showMobileNav}
-                    linkClicked={this.handleShowHamburgerMenu}
+                    navLinkClicked={key => {
+                        this.handleShowHamburgerMenu();
+                        this.navLinkClickedHandler(key);
+                    }}
                     signOutClicked={this.signOutClickedHandler}
                 />
             );
@@ -160,7 +187,11 @@ class Primary extends Component {
             footer = <Footer />;
         } else {
             mainNav = (
-                <SideNav tabs={this.mainNavTabs} signOutClicked={this.signOutClickedHandler} />
+                <SideNav
+                    tabs={this.state.mainNavTabs}
+                    signOutClicked={this.signOutClickedHandler}
+                    navLinkClicked={this.navLinkClickedHandler}
+                />
             );
         }
 

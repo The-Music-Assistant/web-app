@@ -59,14 +59,13 @@ class MusicSelection extends Component {
                     this.setState({ isLoading: false, music: snapshot.data.sheet_music });
             })
             .catch(error => {
-                // logs.choirSelectionError(
-                //     error.response.status,
-                //     error.response.data,
-                //     "[MusicSelection/getMusicList]"
-                // );
+                logs.choirSelectionError(
+                    error.response.status,
+                    error.response.data,
+                    "[MusicSelection/getMusicList]"
+                );
                 this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
                 if (this._isMounted) this.setState({ isLoading: false });
-                console.log(error);
             });
     };
 

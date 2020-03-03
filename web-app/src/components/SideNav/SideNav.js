@@ -30,10 +30,8 @@ const SideNav = props => {
             </div>
             <div className={styles.sideNavLinks}>
                 {props.tabs.map(tab => {
-                    const isCurrentTab =
-                        props.location.pathname.substring(1).includes(tab.name.toLowerCase());
                     let icon;
-                    if (isCurrentTab) {
+                    if (tab.isCurrentTab) {
                         icon = tab.blueIcon;
                     } else {
                         icon = tab.whiteIcon;
@@ -43,9 +41,10 @@ const SideNav = props => {
                             key={tab.key}
                             name={tab.name}
                             icon={icon}
-                            isCurrentTab={isCurrentTab}
+                            isCurrentTab={tab.isCurrentTab}
                             route={tab.route}
                             isSignOutLink={false}
+                            onClick={() => props.navLinkClicked(tab.key)}
                         />
                     );
                 })}
@@ -77,10 +76,12 @@ SideNav.propTypes = {
             name: PropTypes.string.isRequired,
             route: PropTypes.string.isRequired,
             blueIcon: PropTypes.string.isRequired,
-            whiteIcon: PropTypes.string.isRequired
+            whiteIcon: PropTypes.string.isRequired,
+            isCurrentTab: PropTypes.bool.isRequired
         })
     ).isRequired,
-    signOutClicked: PropTypes.func.isRequired
+    signOutClicked: PropTypes.func.isRequired,
+    navLinkClicked: PropTypes.func.isRequired
 };
 
 export default withRouter(SideNav);

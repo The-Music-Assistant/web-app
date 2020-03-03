@@ -15,7 +15,7 @@ import { MetroSpinner } from "react-spinners-kit";
 import { startupDone } from "../../store/actions";
 
 // Image imports
-import logo from "../../assets/logos/music-assistant-logo.png";
+import logo from "../../assets/logos/tma-logo-white.png";
 
 // Style imports
 import styles from "./Startup.module.scss";
@@ -74,7 +74,6 @@ class Startup extends Component {
                         <MetroSpinner size={75} color='#FFFFFF' loading={true} />
                     </div>
                 </div>
-                <h3 className={styles.startupAppVersion}>Version 0.0.1</h3>
             </div>
         );
     }

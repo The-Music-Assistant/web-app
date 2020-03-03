@@ -145,7 +145,7 @@ class PitchDetection {
 
     static listen(currentSectionIndex, currentCount) {
         let increment = null;
-        if (AlphaTabRunner.texLoaded.lengthsPerSection !== null) {
+        if (AlphaTabRunner.texLoaded !== null && AlphaTabRunner.texLoaded.lengthsPerSection !== null) {
             increment = AlphaTabRunner.texLoaded.lengthsPerSection[currentSectionIndex];
 
             if (AlphaTabRunner.api.timePosition / 1000 > currentCount + increment) {

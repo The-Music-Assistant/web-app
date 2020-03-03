@@ -16,9 +16,10 @@
         $wrap: nowrap
     );
     justify-self: left;
+    transition: transform 0.2s ease-in-out;
 
     &:hover {
-        animation: backButtonAnimation 0.5s ease-in-out;
+        transform: translateX(-5px);
     }
 
     &Arrow {
@@ -32,21 +33,11 @@
     }
 
     &Text {
-        @include text($size: 1rem, $weight: 500, $color: $primary-color, $line-height: null);
+        @include text($size: 1rem, $weight: 300, $color: $gray-color, $line-height: null);
         display: none;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             display: initial;
         }
-    }
-}
-
-@keyframes backButtonAnimation {
-    50% {
-        transform: translateX(-5px);
-    }
-
-    100% {
-        transform: translateX(0px);
     }
 }

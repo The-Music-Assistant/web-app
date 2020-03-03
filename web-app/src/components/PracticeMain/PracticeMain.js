@@ -15,50 +15,8 @@ import PracticeSheetMusic from "./PracticeSheetMusic/PracticeSheetMusic";
 
 // Style imports
 import styles from "./PracticeMain.module.scss";
-import AlphaTabRunner from "./PracticeSheetMusic/AlphaTabRunner";
 
 class PracticeMain extends Component {
-    state = {
-        // trackList: [
-        //     {
-        //         name: "Track 1",
-        //         isSelected: true
-        //     },
-        //     {
-        //         name: "Track 2",
-        //         isSelected: true
-        //     },
-        //     {
-        //         name: "Track 3",
-        //         isSelected: true
-        //     },
-        //     {
-        //         name: "Track 4",
-        //         isSelected: true
-        //     },
-        //     {
-        //         name: "Track 5",
-        //         isSelected: true
-        //     }
-        // ]
-    };
-
-    componentDidMount() {
-        AlphaTabRunner.changeMusic('sheetMusic');
-    }
-
-    // /**
-    //  * Updates track list when a track is selected or deselected
-    //  */
-    // trackListSelectionChangedHandler = index => {
-    //     const updatedTrackList = this.state.trackList;
-    //     updatedTrackList[index].isSelected = !updatedTrackList[index].isSelected;
-    //     this.setState({
-    //         trackList: updatedTrackList
-    //     });
-    //     console.log(this.state.trackList);
-    // }
-
     /**
      * Renders the PracticeMain component
      */
