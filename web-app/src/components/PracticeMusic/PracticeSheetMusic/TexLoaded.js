@@ -6,7 +6,7 @@ class TexLoaded {
         this.mutedTracks = [];
         this.clefs = clefs;
         if (this.clefs) {
-            this.clefs.forEach((track) => {
+            this.clefs.forEach(track => {
                 for (let i = 0; i < track.length; i++) {
                     track[i] = track[i].toLowerCase();
                 }
@@ -22,6 +22,27 @@ class TexLoaded {
         this.measureEnd = measureEnd;
         this.performanceId = null;
         this.sheetMusicId = sheetMusicId;
+    }
+
+    /**
+     * Sets the first measure position based on the cursor bar
+     */
+    setFirstMeasurePosition() {
+        // Tex loaded wrapper tracks the position of the first measure which will now have moved and may have changed size
+        // On a re-render, the bar cursor will go back to the beginning of the music, so use its position to update the first bar position
+        let barCursor = document.querySelector(".at-cursor-bar");
+        this.firstBarMeasurePosition = {
+            left: parseInt(barCursor.style.left.substring(0, barCursor.style.left.length - 2), 10),
+            top: parseInt(barCursor.style.top.substring(0, barCursor.style.left.length - 2), 10),
+            width: parseInt(
+                barCursor.style.width.substring(0, barCursor.style.left.length - 2),
+                10
+            ),
+            height: parseInt(
+                barCursor.style.height.substring(0, barCursor.style.left.length - 2),
+                10
+            )
+        };
     }
 
     setMeasureLengths(measureLengths, barCount) {
@@ -69,7 +90,7 @@ class TexLoaded {
         this.partNames = partNames;
         this.clefs = clefs;
         if (this.clefs) {
-            this.clefs.forEach((track) => {
+            this.clefs.forEach(track => {
                 for (let i = 0; i < track.length; i++) {
                     track[i] = track[i].toLowerCase();
                 }
@@ -90,9 +111,9 @@ class TexLoaded {
         const TREBLE_START = 4;
         const BASS_START = 2;
         let trackIndex = this.currentTrackIndexes[0];
-        if (trackIndex > this.clefs.length || this.clefs[trackIndex][0] === 'treble') {
+        if (trackIndex > this.clefs.length || this.clefs[trackIndex][0] === "treble") {
             return TREBLE_START;
-        } else if (this.clefs[trackIndex][0] === 'f4' || this.clefs[trackIndex][0] === 'bass') {
+        } else if (this.clefs[trackIndex][0] === "f4" || this.clefs[trackIndex][0] === "bass") {
             return BASS_START;
         } else {
             return TREBLE_START;
