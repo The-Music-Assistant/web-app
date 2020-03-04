@@ -19,20 +19,20 @@ import * as musicPlayerStates from "./musicPlayerStates";
 
 // TODO: Small comment for each variable
 let api; // AlphaTab API
-let p5Obj;
-let noteStream;
-let noteStreamIndex;
-let cumulativeTime;
-let texLoaded;
-let renderedOnce;
+let p5Obj; // Handle on the p5 instantiated object that we create
+let noteStream; // Stream of midi/durations for the expected performance for the green/yellow/red highlighting
+let noteStreamIndex; // Index into the note stream
+let cumulativeTime; // Cumulative time passed in song used with the note stream array
+let texLoaded; // Handle on wrapper for information about the alphaTex that is currently loaded
+let renderedOnce; // Boolean to distinguish between the first render and subsequent renders
 let barCount; // Number of bars to display at one time
-let resetDrawPositions;
-let drawer;
-let noteList;
-let highlightMeasures;
-let playerState;
+let resetDrawPositions; // Boolean signaling to p5Obj to reset its draw position after a page turn
+let drawer; // Handle on drawer instance which provides information about the last note heard for drawing
+let noteList; // Handle on wrapper for note list providing an average measurement of the last midi value heard
+let highlightMeasures; // Enum signaling to sketch when it should highlight instead of normally draw feedback, can be removed if we have two different p5 objects
+let playerState; // Enum holding the current state of the player to avoid confusion during re renders
 let getsFeedback; // Boolean indicating whether or not the user gets feedback
-let sheetMusicLength;
+let sheetMusicLength; // Number holding the length of the current sheet music used for re rendering in the performance overview page vs the exercise or sheet music view
 
 /**
  * Initializes the AlphaTab API
@@ -106,10 +106,14 @@ const alphaTabPostRenderFinished = () => {
 };
 
 /**
- * TODO: Comments needed
+ * Run when AlphaTab's player state changes (from playing to stopped or stopped to playing)
  */
 const alphaTabPlayerStateChanged = () => {
-    // TODO: Why is one check != and the other ==
+    // Due to our page turns, the AlphaTex is re rendered and the player state is automatically "stopped" as part of the re rendering
+    // we want the sheet music to keep playing though so the checks are as follows
+    // If the api says that we are no longer playing and the runner says that we were playing then this is a real stop so stop the music
+    // Else if the api says that we are now playing and the runner says that we were currently stopped then this is a real play so play the music
+    // Else if we want to destroy the AlphaTab dom element then stop playing the music
     if (
         api.playerState !== musicPlayerStates.PLAYING &&
         playerState === musicPlayerStates.PLAYING
@@ -124,15 +128,16 @@ const alphaTabPlayerStateChanged = () => {
     } else if (playerState === musicPlayerStates.PAGE_CHANGED) {
         stopPlayingMusic();
     }
-    // TODO: What about an else statement?
 };
 
 /**
- * TODO: Comments needed
+ * Set up static variables to prepare for playing music and start listening and tracking student's performance
  */
 const startPlayingMusic = () => {
-    resetDrawPositions = true;
-    playerState = 1;
+    resetDrawPositions = true; // signals to p5Obj to draw from the beginning
+    playerState = musicPlayerStates.PLAYING; // Note in our runner that our current state is playing
+
+    // Since AlphaTab might have re rendered, try and update the top line and distance between lines in the drawer
     try {
         let topLine = document.getElementById("rect_0");
         let nextLine = document.getElementById("rect_1");
@@ -148,8 +153,9 @@ const startPlayingMusic = () => {
         logs.sheetMusicError(null, error, "[alphaTabControls/alphaTabPlayerStateChanged]");
     }
 
-    api.playbackRange = null;
-    api.timePosition = 0;
+    // TODO: Prevent playback range also during playing
+    api.playbackRange = null; // Stops the default behavior of AlphaTab playing on the selected playback range if present
+    api.timePosition = 0; // Start playing at the beginning of the piece
 
     // Runs the pitch detection model on microphone input and displays it on the screen
     // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
@@ -157,26 +163,26 @@ const startPlayingMusic = () => {
 };
 
 /**
- * TODO: Comments needed
+ * Stops the listener on the student's performance saving their performance to the database and reset the sheet music and state
  */
 const stopPlayingMusic = () => {
     PitchDetection.stopPitchDetection(store.getState().practice.selectedSheetMusicId);
-    playerState = 0;
+    playerState = musicPlayerStates.STOPPED;
 
     resetSheetMusic();
 };
 
 /**
- * TODO: Comments needed
+ * Clears out drawing and resets the sheet music to the beginning
  */
 const resetSheetMusic = () => {
     p5Obj.clear();
     api.settings.display.startBar = 1;
-    api.settings.display.barCount = 20;
+    api.settings.display.barCount = barCount;
     api.updateSettings();
     api.render();
 
-    noteStreamIndex = 0;
+    noteStreamIndex = 0; // performance completed so reset progress through expected performance
     cumulativeTime = 0;
 };
 
@@ -185,7 +191,9 @@ const resetSheetMusic = () => {
  * This is used for user testing
  */
 const checkIfUserGetsFeedback = () => {
-    // TODO: Why do we need to check if the player is playing?
+    // This is called after each render
+    // For efficiency, we only need to check when the music is playing since when the music is playing we will get multiple
+    // re renders for page turns.
     if (playerState !== musicPlayerStates.PLAYING) {
         userGetsFeedback({ sheetMusicId: store.getState().practice.selectedSheetMusicId })
             .then(response => {
@@ -202,9 +210,11 @@ const checkIfUserGetsFeedback = () => {
  * Once commented, we can split the code up more
  */
 const x1 = (topLine, nextLine) => {
+    // During page turns, we only need to update a set of variables so do the part in the if statement
     if (this.renderedOnce) {
-        // Retrieves the height of the staff lines based on a relative offset to their wrapping contanier
-        // Used to set up the canvas so the canvas needs to be directly on top of the alphaTab container where these are stored
+        // Retrieves the height of the staff lines based on a relative offset to their wrapping container
+        // This is used to set up the p5Obj canvas so the canvas needs to be directly on top of the alphaTab container where these are stored
+        // On a re render, update the top line height and distance between lines which might have changed
         const topLineHeight = topLine.y.animVal.value;
         const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
         drawer.setTopLineAndDistanceBetween(
@@ -213,6 +223,8 @@ const x1 = (topLine, nextLine) => {
             texLoaded.getStartOctave()
         );
 
+        // Tex loaded wrapper tracks the position of the first measure which will now have moved and may have changed size
+        // On a re render, the bar cursor will go back to the beginning of the music so use its position to update the first bar position
         let barCursor = document.querySelector(".at-cursor-bar");
         texLoaded.firstBarMeasurePosition = {
             left: parseInt(barCursor.style.left.substring(0, barCursor.style.left.length - 2), 10),
@@ -227,18 +239,22 @@ const x1 = (topLine, nextLine) => {
             )
         };
 
+        // On a re render, the alpha tab surface might have changed size so resize the p5 drawing canvas to overlay it
         let aTS = document.getElementById("aTS");
         p5Obj.resizeCanvas(aTS.clientWidth, aTS.clientHeight);
 
+        // On a re render, we may have gone to the performance overview which changes the behavior of the p5Obj to start highlighting
         if (highlightMeasures === highlightingOptions.HIGHLIGHT_PENDING_START) {
             startHighlighting();
         } else if (highlightMeasures === highlightingOptions.HIGHLIGHT_PENDING_STOP) {
+            // Otherwise, we are either in the exercise view or the sheet music view and need to stop highlighting reverting to normal drawing behavior
             stopHighlighting();
         }
         return;
     } else {
+        // Else, on the first render, renderedOnce will be false and this will signal an initial setup of the variables
         renderedOnce = true;
-        highlightMeasures = highlightingOptions.HIGHLIGHT_OFF;
+        highlightMeasures = highlightingOptions.HIGHLIGHT_OFF; // On the first render, we are on the sheet music view so signal that highlighting is off
     }
 };
 
@@ -255,10 +271,12 @@ const x2 = (topLine, nextLine) => {
             clearInterval(lineReadyID);
 
             // Retrieves the height of the staff lines based on a relative offset to their wrapping contanier
-            // Used to setup the canvas so the canvas needs to be directly on top of the alphaTab container where these are stored
+            // Used to setup the p5Obj canvas so the canvas needs to be directly on top of the alphaTab container where these are stored
             const topLineHeight = topLine.y.animVal.value;
             const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
 
+            // Tex loaded wrapper tracks the position of the first measure which will now have moved and may have changed size
+            // On the intial render, the bar cursor will be at the beginning of the music so use its position to set up the first bar position
             let barCursor = document.getElementsByClassName("at-cursor-bar")[0];
             texLoaded.firstBarMeasurePosition = {
                 left: parseInt(
@@ -279,14 +297,19 @@ const x2 = (topLine, nextLine) => {
                 )
             };
 
-            // Creates a new drawer
+            // Creates a new drawer using the top line height, distance between lines, and start octave of the music to decide
+            // how high to draw the notes for feedback
             drawer = new Drawer(
                 topLineHeight + 1,
                 distanceBetweenLines,
                 texLoaded.getStartOctave()
             );
 
+            // Creates a new p5 instance which we will use for highlighting during performance overview and for real time feedback during performance
             p5Obj = new p5(p5Sketch);
+            // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
+            // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
+            // is now actually rendered to the dom
             p5Obj.setup(drawer);
 
             // Prepares for microphone input sets up the pitch detection model
@@ -294,6 +317,7 @@ const x2 = (topLine, nextLine) => {
                 logs.sheetMusicError(null, error, "[alphaTabControls/alphaTabRenderFinished]");
             });
         } else {
+            // keeps trying to retrieve the top line and next line of the Alpha Tab music until they are loaded in the dom
             topLine = document.getElementById("rect_0");
             nextLine = document.getElementById("rect_1");
         }
@@ -301,7 +325,7 @@ const x2 = (topLine, nextLine) => {
 };
 
 /**
- * Assumes destroys api if initialized, destroys p5Obj if initialized, stops microphone input if on
+ * Destroys api if initialized, destroys p5Obj if initialized, stops microphone input if it is being gathered
  */
 export const destroy = () => {
     if (playerState === musicPlayerStates.PLAYING) {
@@ -350,16 +374,20 @@ const alphaTabPlayerFinished = () => {
 };
 
 /**
- * TODO: Comments needed
- * @param {string} partName - The part name to change to
+ * Change which track Alpha Tab is rendering based on the provided part name
+ * @param {string} partName - The part name to change to. Part names are expected to be "tx" where x is the track number
  */
 export const changePart = partName => {
     let trackNumber = parseInt(partName.substring(1), 10);
+    // If we have the track number that is being asked then switch to that track
     if (!texLoaded.currentTrackIndexes.includes(trackNumber)) {
         texLoaded.updateCurrentTrackIndexes(trackNumber);
 
         api.renderTracks([api.score.tracks[texLoaded.currentTrackIndexes[0]]]);
 
+        // sends out request for the expected performance of the currently rendered track
+        // assumes user wants to sing the selected part and will draw the green/yellow/red line appropriately
+        // TODO: Discuss with client and users, is this correct behavior? Do they want to always see red/yellow/green for their part only
         let data = {
             sheetMusicId: store.getState().practice.selectedSheetMusicId,
             partName: texLoaded.partNames[trackNumber]
@@ -381,7 +409,7 @@ export const changePart = partName => {
 };
 
 /**
- * TODO: Comments needed
+ * Switch p5Obj behavior to highlight measures in performance overview view and start the p5Obj loop which continually calls draw
  */
 const startHighlighting = () => {
     highlightMeasures = highlightingOptions.HIGHLIGHT_ON;
@@ -389,57 +417,69 @@ const startHighlighting = () => {
 };
 
 /**
- * TODO: Comments needed
+ * Switch p5Obj to default drawing behavior with real time feedback stopping highlighting, stops the p5Obj draw loop, and clears the p5Obj canvas
  */
 const stopHighlighting = () => {
     highlightMeasures = highlightingOptions.HIGHLIGHT_OFF;
     p5Obj.noLoop();
-    p5Obj.redraw();
+    p5Obj.clear();
 };
 
 /**
- * TODO: Comments needed
- * @param {*} value
- * @param {*} measureStart
- * @param {*} measureEnd
+ * Switch between different views deciding what for AlphaTab to show and triggers updates
+ * @param {String} value - The value of the selected drop down in drop down list with id texToDisplay
+ * @param {number} measureStart - The start measure number, only needed during exercise generation to specify which measure to start rendering
+ * @param {*} measureEnd - The end measure number, only needed during exercise generation to specify which measure to stop rendering inclusive
  */
 export const changeMusic = async (value, measureStart, measureEnd) => {
     if (this.texLoaded !== null && value === this.texLoaded.typeOfTex) {
         return;
     } else {
+        // sheetMusic is the default view and includes a paged view with normal feedback behavior from the p5Obj
         if (value === "sheetMusic") {
             highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
             api.settings.display.barCount = barCount;
             api.updateSettings();
             await loadTex();
         } else if (value === "myPart") {
+            // myPart is a special version of sheetMusic which indicates that the user wants to hear and see only their part in this sheet music
+            // Therefore, we want the normal feedback behavior from the p5Obj and the normal paged view
             highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
             api.settings.display.barCount = barCount;
             api.updateSettings();
             await this.loadJustMyPart();
         } else if (value === "performance") {
+            // performance is an overview of all the sheet music and changes the p5Obj behavior to highlight all of the measures
+            // based on current performance analysis.
+            // This requires re rendering alpha tab to display the full measures of the sheet music, no paged view
             highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_START;
             api.settings.display.barCount = sheetMusicLength !== null ? sheetMusicLength : barCount;
             api.updateSettings();
             await loadTex();
         } else if (value === "exercise" && measureStart && measureEnd) {
+            // exercise signals that the user wanted to generate an exercise and they must specify what the start and end measure is
+            // it is assumed that the measureStart and measureEnd have already been checked to be within the bounds of the music
+            // Need paged view and normal p5Obj real time feedback behavior
             highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
             api.settings.display.barCount = barCount;
             api.updateSettings();
             await loadExercise(measureStart, measureEnd);
         } else {
+            // This shouldn't run which is why the log signals that the provided value is unknown
+            // The else can be expanded for new options in the drop down
             console.log("not recognized: ", value);
         }
     }
 };
 
 /**
- * TODO: Comments needed
- * @param {*} currentPosition
- * @param {*} currentMeasure
- * @param {*} measureToLength
+ * Converts a time position in seconds to what measure that it occurs in
+ * @param {number} currentPosition - The current time position that we are on
+ * @param {number} currentMeasure - The current measure number that we are on
+ * @param {number[]} measureToLength - Array holding the length of each measure in seconds
  */
 export const timeToMeasureNumber = (currentPosition, currentMeasure, measureToLength) => {
+    // specify how close that we need to get to the target position before we are confident that we are in the correct measure
     const EPSILON = 0.01;
     let tempCurrentPosition = currentPosition;
     let tempCurrentMeasure = currentMeasure;
@@ -451,7 +491,8 @@ export const timeToMeasureNumber = (currentPosition, currentMeasure, measureToLe
 };
 
 /**
- * TODO: Comments needed
+ * Converts the playback range if defined in AlphaTab to the measure numbers that start and end that range
+ * @returns Either an array with the start and end measure numbers or null if there is no playback range
  */
 export const getPlaybackRange = () => {
     const measureToLength = texLoaded.measureLengths;
@@ -459,13 +500,18 @@ export const getPlaybackRange = () => {
     if (measureToLength !== null) {
         if (api.playbackRange !== null) {
             playbackMeasures = [];
-            let currentPosition = api.timePosition / 1000;
+            let currentPosition = api.timePosition / 1000; // timeposition is tied to the bar cursor position in milliseconds so divide by 1000 to get seconds
             let comparePosition = currentPosition;
+            // The time position is used to set up a ratio to figure out where the end measure should be
+            // A special case occurs when the time position is at 0 seconds since the ratio will cause a divide by 0 error
+            // To attempt to fix this, we try and set the api time position to the end of the first measure to get a good ratio
+            // TODO: Fix this for the 1st measure, this solution isn't working
             if (currentPosition === 0) {
                 api.timePosition = measureToLength[0];
                 comparePosition = api.tickPosition;
             }
             let ratio = api.tickPosition / comparePosition;
+            // calculates the end time of the range based on ratio of the start position
             let targetEndTime =
                 api.playbackRange.endTick / ratio - api.playbackRange.startTick / ratio;
             let currentMeasure = 1;
@@ -474,6 +520,7 @@ export const getPlaybackRange = () => {
                 currentMeasure,
                 measureToLength
             );
+            // saves the start measure number of the playback range
             playbackMeasures.push(currentMeasure);
 
             currentPosition = targetEndTime;
@@ -482,6 +529,7 @@ export const getPlaybackRange = () => {
                 currentMeasure,
                 measureToLength
             );
+            // saves the end measure number of the playback range
             playbackMeasures.push(currentMeasure - 1);
         }
     }
@@ -489,9 +537,9 @@ export const getPlaybackRange = () => {
 };
 
 // /**
-//  * TODO: Comments needed
-//  * @param {*} isChecked
-//  * @param {*} name
+//  * Sets the target track to either be muted or not. If checked then the target track will not be muted
+//  * @param {Boolean} isChecked - If true then we want to hear this track, otherwise mute this track
+//  * @param {String} name - Name of the track to be heard or muted
 //  */
 // const changeTrackVolume = (isChecked, name) => {
 //     if (texLoaded) {
@@ -515,9 +563,10 @@ export const getPlaybackRange = () => {
 // }
 
 /**
- * TODO: Comments needed
+ * Loads just the user's part for this sheet music logging it as an exercise and isolates their part for playback
  */
 export const loadJustMyPart = async () => {
+    // Clears the "exercise" option from the texToDisplay drop down if present since that is only generated when viewing an exercise
     let texToDisplay = document.getElementById("texToDisplay");
     texToDisplay.options[3] = null;
 
@@ -525,6 +574,7 @@ export const loadJustMyPart = async () => {
         const singlePartResponse = await getSinglePartSheetMusic({
             sheetMusicId: store.getState().practice.selectedSheetMusicId
         });
+        // update the wrapper for the loaded tex since it has changed
         texLoaded.update(
             "Sheet Music",
             singlePartResponse.data.part_list,
@@ -534,11 +584,14 @@ export const loadJustMyPart = async () => {
             1,
             1
         );
+        // update the current track index and re render the track
         texLoaded.updateCurrentTrackIndexes(0);
         api.tex(singlePartResponse.data.sheet_music, texLoaded.currentTrackIndexes);
 
+        // Update the sheetMusicPart drop down list with the new list of parts
         this.updateDropdown(singlePartResponse.data.part_list);
 
+        // updates the expected performance of the music and several internal variables about the loaded sheet music
         noteStream = singlePartResponse.data.performance_expectation;
         noteList.clear();
         noteList.updateBounds(
@@ -559,12 +612,16 @@ export const loadJustMyPart = async () => {
 };
 
 /**
- * TODO: Comments needed
+ * Loads an exercise based on user provided measure numbers
  */
 const loadExercise = async (measureStart, measureEnd) => {
+    // Adds and auto selects the "exercise" option from the texToDisplay drop down which only lasts as long as we are viewing this exercise
     let texToDisplay = document.getElementById("texToDisplay");
     texToDisplay.options[3] = new Option("Exercise", "exercise", false, true);
 
+    // Assumes currentTrackIndexes[0], measureStart, and measureEnd are valid by this point
+    // Defaults to non duration exercise
+    // TODO: Get duration exercise if measure needs a lot of work, otherwise get normal exercise
     let data = {
         sheetMusicId: store.getState().practice.selectedSheetMusicId,
         trackNumber: texLoaded.currentTrackIndexes[0] + 1,
@@ -574,8 +631,10 @@ const loadExercise = async (measureStart, measureEnd) => {
         isDurationExercise: false
     };
 
+    // TODO: Save responses so that we don't have to ask for them each time. Note: You will still need to save this as an exercise count
     const exerciseResponse = await getExercise(data);
     try {
+        // update wrapper about new sheet music and re render
         texLoaded.update(
             "Exercise",
             exerciseResponse.data.part_list,
@@ -587,8 +646,10 @@ const loadExercise = async (measureStart, measureEnd) => {
         );
         api.tex(exerciseResponse.data.sheet_music, texLoaded.currentTrackIndexes);
 
+        // Update the sheetMusicPart drop down list with the new list of parts
         this.updateDropdown(exerciseResponse.data.part_list);
 
+        // updates the expected performance of the music and several internal variables about the loaded sheet music
         noteStream = exerciseResponse.data.performance_expectation;
         noteList.clear();
         noteList.updateBounds(
@@ -641,9 +702,10 @@ export const updateDropdown = partList => {
 };
 
 /**
- * TODO: Comments needed
+ * Loads the overall sheet music defaulting to showing the user's part for the song
  */
 const loadTex = async () => {
+    // Clears the "exercise" option from the texToDisplay drop down if present since that is only generated when viewing an exercise
     let texToDisplay = document.getElementById("texToDisplay");
     texToDisplay.options[3] = null;
 
@@ -651,9 +713,11 @@ const loadTex = async () => {
         sheetMusicId: store.getState().practice.selectedSheetMusicId
     };
 
+    // TODO: Save this response so that we can switch back to the sheet music without having to re-request the sheet music from the database
     try {
         const sheetMusicResponse = await getSpecificSheetMusic(data);
         let partList = sheetMusicResponse.data.part_list;
+        // Initializes wrapper about the sheet music if first render or updates wrapper if already present
         if (texLoaded === null) {
             texLoaded = new TexLoaded(
                 "Sheet Music",
@@ -677,8 +741,10 @@ const loadTex = async () => {
             );
         }
 
+        // Update the sheetMusicPart drop down list with the new list of parts
         this.updateDropdown(partList);
 
+        // Isolates the user's part from the part list setting it to be the displayed track when alpha tab renders
         for (let i = 0; i < partList.length; i++) {
             if (partList[i] === texLoaded.myPart) {
                 texLoaded.updateCurrentTrackIndexes(i);
@@ -690,14 +756,17 @@ const loadTex = async () => {
             }
         }
 
+        // renders the user's part but plays all the parts together during playback
         api.tex(sheetMusicResponse.data.sheet_music, texLoaded.currentTrackIndexes);
 
         data.partName = sheetMusicResponse.data.part_list[texLoaded.currentTrackIndexes[0]];
 
+        // gets and updates expected performance data for the user's part
         const partResponse = await getPartSheetMusic(data);
         noteStream = partResponse.data.performance_expectation;
         noteList = new NoteList(0);
 
+        // updates several internal variables about the loaded sheet music
         noteList.updateBounds(partResponse.data.lower_upper[0], partResponse.data.lower_upper[1]);
         texLoaded.setMeasureLengths(partResponse.data.measure_lengths, barCount);
         sheetMusicLength = texLoaded.measureLengths.length;
