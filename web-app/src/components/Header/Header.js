@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 // Component imports
 import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
 import UserWidget from "./UserWidget/UserWidget";
+import Dropdown from "../Dropdown/Dropdown";
 
 // Image imports
 import tmaLogo from "../../assets/logos/tma-logo-white.png";
@@ -53,6 +54,14 @@ class Header extends Component {
 
     // Returns JSX to render
     render() {
+        let options = [
+            { value: "alto1", text: "Alto 1" },
+            { value: "alto2", text: "Alto 2" },
+            { value: "soprano", text: "Soprano" },
+            { value: "Tenor", text: "Tenor" },
+            { value: "bass", text: "Bass" }
+        ];
+
         let hamburgerMenu = null;
         let heading = null;
         let logo = null;
@@ -70,6 +79,7 @@ class Header extends Component {
                 {hamburgerMenu}
                 {heading}
                 {logo}
+                <Dropdown id="part-selection" name='Test' options={options} />
                 <UserWidget profilePic={this.state.profilePic} name={this.state.name} />
             </header>
         );

@@ -18,7 +18,7 @@ import BackButton from "../../Buttons/BackButton/BackButton";
 import AlphaTabRunner from "../PracticeSheetMusic/AlphaTabRunner";
 
 // Style imports
-import styles from "./PracticeHeader.module.scss";
+import styles from "./PracticeMusicHeader.module.scss";
 
 const PracticeHeader = props => {
     const backButtonClickedHandler = () => {

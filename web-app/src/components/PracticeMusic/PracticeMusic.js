@@ -10,7 +10,7 @@
 import React, { Component } from "react";
 
 // Component imports
-import PracticeHeader from "./PracticeHeader/PracticeHeader";
+import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
 import PracticeSheetMusic from "./PracticeSheetMusic/PracticeSheetMusic";
 
 // Style imports
@@ -24,7 +24,7 @@ class PracticeMusic extends Component {
         // Returns the JSX to display
         return (
             <main className={styles.practiceMusic}>
-                <PracticeHeader />
+                <PracticeMusicHeader />
                 <PracticeSheetMusic />
             </main>
         );
