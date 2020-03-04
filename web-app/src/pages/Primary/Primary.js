@@ -20,14 +20,13 @@ import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
 import MusicSelection from "../../components/MusicSelection/MusicSelection";
 import AlertBar from "../../components/AlertBar/AlertBar";
 import Home from "../../components/Home/Home";
-import PracticeMain from "../../components/PracticeMain/PracticeMain";
+import PracticeMusic from "../../components/PracticeMusic/PracticeMusic";
 import Progress from "../../components/Progress/Progress";
-import ChoirMembers from "../../components/ChoirMembers/ChoirMembers";
+import Choirs from "../../components/Choirs/Choirs";
 import Footer from "../../components/Footer/Footer";
 
 // File imports
 import { signOut } from "../../store/actions";
-import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/routingOptions";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -214,28 +213,19 @@ class Primary extends Component {
                 {mainNav}
                 <Switch>
                     <Route path='/practice/choirs/:choirId/music/:musicId'>
-                        <PracticeMain />
+                        <PracticeMusic />
                     </Route>
                     <Route path='/practice/choirs/:choirId'>
                         <MusicSelection showAlert={this.showAlertHandler} />
                     </Route>
-                    <Route path='/choirs/:choirId'>
-                        <ChoirMembers showAlert={this.showAlertHandler} />
-                    </Route>
                     <Route path='/practice'>
-                        <ChoirSelection
-                            routing={choirSelectionRoutingOptions.MUSIC_SELECTION}
-                            showAlert={this.showAlertHandler}
-                        />
+                        <ChoirSelection showAlert={this.showAlertHandler} />
                     </Route>
                     <Route path='/progress'>
                         <Progress />
                     </Route>
                     <Route path='/choirs'>
-                        <ChoirSelection
-                            routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
-                            showAlert={this.showAlertHandler}
-                        />
+                        <Choirs />
                     </Route>
                     <Route path='/home'>
                         <Home />
