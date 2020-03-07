@@ -1,12 +1,14 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/PracticeSheetMusic/sketch.js
+// File Path: src/vendors/P5/sketch.js
 // Description: P5 sketch wrapper
-// Author: Daniel Griessler
-// Email: dgriessler20@gmail.com
+// Author: Daniel Griessler & Dan Levy
+// Email: dgriessler20@gmail.com & danlevy124@gmail.com
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
-import AlphaTabRunner from "./AlphaTabRunner";
+// File imports
+import * as atVars from "../AlphaTab/initialization";
+import * as highlightingOptions from "./highlightingOptions";
 
 /**
  * Wrapper for local p5 setup and draw functions
@@ -53,7 +55,7 @@ const p5Sketch = p => {
      * This function is called twice. Once, upon initialization p5 calls it which we use to tell p5 to stop looping
      * Then, AlphaTab will call setup when its done being rendered. Then, the canvas can be setup for drawing since
      * the canvas overlays the AlphaTab container
-     * @param {Drawer} drawerGiven p5 will not provide this but AlphaTabRunner provides a reference to the Drawer being used
+     * @param {Drawer} drawerGiven - p5 will not provide this but atVars provides a reference to the Drawer being used
      */
     p.setup = function(drawerGiven) {
         if (drawerGiven === undefined) {
@@ -81,24 +83,36 @@ const p5Sketch = p => {
      * TODO: Handle sheet music scale
      */
     p.draw = function() {
-        if (!AlphaTabRunner.getsFeedback) {
+        if (!atVars.getsFeedback) {
             return;
         }
         // This does the highlighting of the measures
 
         // TODO Fix the first measure highlighting
-        if (AlphaTabRunner && AlphaTabRunner.highlightMeasures === AlphaTabRunner.HIGHLIGHT_ON) {
-            let firstBarPos = AlphaTabRunner.texLoaded.firstBarMeasurePosition;
+        if (atVars && atVars.highlightMeasures === highlightingOptions.HIGHLIGHT_ON) {
+            let firstBarPos = atVars.texLoaded.firstBarMeasurePosition;
             let compareBarPos = null;
             try {
                 let cursorBarStyle = document.getElementsByClassName("at-cursor-bar")[0].style;
                 compareBarPos = {
-                    left: parseInt(cursorBarStyle.left.substring(0,cursorBarStyle.left.length - 2), 10),
-                    top: parseInt(cursorBarStyle.top.substring(0,cursorBarStyle.left.length - 2), 10),
-                    width: parseInt(cursorBarStyle.width.substring(0,cursorBarStyle.left.length - 2), 10),
-                    height: parseInt(cursorBarStyle.height.substring(0,cursorBarStyle.left.length - 2),10)
+                    left: parseInt(
+                        cursorBarStyle.left.substring(0, cursorBarStyle.left.length - 2),
+                        10
+                    ),
+                    top: parseInt(
+                        cursorBarStyle.top.substring(0, cursorBarStyle.left.length - 2),
+                        10
+                    ),
+                    width: parseInt(
+                        cursorBarStyle.width.substring(0, cursorBarStyle.left.length - 2),
+                        10
+                    ),
+                    height: parseInt(
+                        cursorBarStyle.height.substring(0, cursorBarStyle.left.length - 2),
+                        10
+                    )
                 };
-            } catch(error) {}
+            } catch (error) {}
             if (compareBarPos === null || firstBarPos === null) {
                 return;
             }
@@ -107,12 +121,22 @@ const p5Sketch = p => {
                 p.clear();
             }
 
-            const measurePositions = document.getElementById("aTS").getElementsByClassName("measureSeparator");
+            const measurePositions = document
+                .getElementById("aTS")
+                .getElementsByClassName("measureSeparator");
             p.noStroke();
             p.fill(0, 255, 0);
-            
-            if (!isNaN(compareBarPos.left) && !isNaN(compareBarPos.top) && !isNaN(compareBarPos.width) && !isNaN(compareBarPos.height)
-            && (firstBarPos.left !== compareBarPos.left || firstBarPos.top !== compareBarPos.top || firstBarPos.width !== compareBarPos.width || firstBarPos.height !== compareBarPos.height)) {
+
+            if (
+                !isNaN(compareBarPos.left) &&
+                !isNaN(compareBarPos.top) &&
+                !isNaN(compareBarPos.width) &&
+                !isNaN(compareBarPos.height) &&
+                (firstBarPos.left !== compareBarPos.left ||
+                    firstBarPos.top !== compareBarPos.top ||
+                    firstBarPos.width !== compareBarPos.width ||
+                    firstBarPos.height !== compareBarPos.height)
+            ) {
                 p.fill("#F8F8F8");
 
                 // draws clearing rectangle with total height of alpha tab from previous X position to the end
@@ -120,9 +144,9 @@ const p5Sketch = p => {
                     0,
                     measurePositions[0].y.baseVal.value,
                     measurePositions[0].x.baseVal.value,
-                    drawer.distanceBetweenLines*4
+                    drawer.distanceBetweenLines * 4
                 );
-                AlphaTabRunner.texLoaded.firstBarMeasurePosition = {
+                atVars.texLoaded.firstBarMeasurePosition = {
                     left: compareBarPos.left,
                     top: compareBarPos.top,
                     width: compareBarPos.width,
@@ -130,34 +154,46 @@ const p5Sketch = p => {
                 };
 
                 p.fill(0, 255, 0);
-                let firstBarPos = AlphaTabRunner.texLoaded.firstBarMeasurePosition;
+                let firstBarPos = atVars.texLoaded.firstBarMeasurePosition;
                 let pos1X = firstBarPos.left;
-                let pos1Y = firstBarPos.top + drawer.distanceBetweenLines; 
+                let pos1Y = firstBarPos.top + drawer.distanceBetweenLines;
                 let pos2X = measurePositions[0].x.baseVal.value;
-                p.rect(pos1X, pos1Y, pos2X-pos1X, drawer.distanceBetweenLines*4);
+                p.rect(pos1X, pos1Y, pos2X - pos1X, drawer.distanceBetweenLines * 4);
             }
 
             if (latestDrawnMeasure === -1) {
                 // draws highlight on first measure
-                let firstBarPos = AlphaTabRunner.texLoaded.firstBarMeasurePosition;
+                let firstBarPos = atVars.texLoaded.firstBarMeasurePosition;
                 let pos1X = firstBarPos.left;
-                let pos1Y = firstBarPos.top + drawer.distanceBetweenLines; 
+                let pos1Y = firstBarPos.top + drawer.distanceBetweenLines;
                 let pos2X = measurePositions[0].x.baseVal.value;
-                p.rect(pos1X, pos1Y, pos2X-pos1X, drawer.distanceBetweenLines*4);
+                p.rect(pos1X, pos1Y, pos2X - pos1X, drawer.distanceBetweenLines * 4);
                 if (!isNaN(pos1X)) {
                     latestDrawnMeasure++;
                     currentMusicSection = {
                         startMeasure: 1,
                         endMeasure: 1,
-                        base: 0 
+                        base: 0
                     };
                 } else {
-                    AlphaTabRunner.api.timePosition = 0;
-                    AlphaTabRunner.texLoaded.firstBarMeasurePosition = {
-                        left: parseInt(barCursor.style.left.substring(0,barCursor.style.left.length - 2), 10),
-                        top: parseInt(barCursor.style.top.substring(0,barCursor.style.left.length - 2), 10),
-                        width: parseInt(barCursor.style.width.substring(0,barCursor.style.left.length - 2), 10),
-                        height: parseInt(barCursor.style.height.substring(0,barCursor.style.left.length - 2),10)
+                    atVars.api.timePosition = 0;
+                    atVars.texLoaded.firstBarMeasurePosition = {
+                        left: parseInt(
+                            barCursor.style.left.substring(0, barCursor.style.left.length - 2),
+                            10
+                        ),
+                        top: parseInt(
+                            barCursor.style.top.substring(0, barCursor.style.left.length - 2),
+                            10
+                        ),
+                        width: parseInt(
+                            barCursor.style.width.substring(0, barCursor.style.left.length - 2),
+                            10
+                        ),
+                        height: parseInt(
+                            barCursor.style.height.substring(0, barCursor.style.left.length - 2),
+                            10
+                        )
                     };
                 }
             } else {
@@ -165,25 +201,39 @@ const p5Sketch = p => {
                 while (latestDrawnMeasure < measurePositions.length - 1) {
                     let pos1X = measurePositions[latestDrawnMeasure].x.baseVal.value + latestBase;
                     let pos1Y = measurePositions[latestDrawnMeasure].y.baseVal.value;
-                    if (latestDrawnMeasure === 0 || pos1Y === measurePositions[latestDrawnMeasure-1].y.baseVal.value) {
-                        latestDrawnMeasure++; 
-                        if (!measurePositions[latestDrawnMeasure-1].parentNode.isSameNode(measurePositions[latestDrawnMeasure].parentNode)) {
+                    if (
+                        latestDrawnMeasure === 0 ||
+                        pos1Y === measurePositions[latestDrawnMeasure - 1].y.baseVal.value
+                    ) {
+                        latestDrawnMeasure++;
+                        if (
+                            !measurePositions[latestDrawnMeasure - 1].parentNode.isSameNode(
+                                measurePositions[latestDrawnMeasure].parentNode
+                            )
+                        ) {
                             currentMusicSection.endMeasure = latestDrawnMeasure;
-                            const newSection = JSON.parse(JSON.stringify(currentMusicSection))
+                            const newSection = JSON.parse(JSON.stringify(currentMusicSection));
                             musicSections.push(newSection);
-                            latestBase = latestBase + measurePositions[latestDrawnMeasure-1].x.baseVal.value + 1;
+                            latestBase =
+                                latestBase +
+                                measurePositions[latestDrawnMeasure - 1].x.baseVal.value +
+                                1;
                             currentMusicSection.startMeasure = latestDrawnMeasure;
                             currentMusicSection.base = latestBase;
                         }
-                        let dist = Math.abs(measurePositions[latestDrawnMeasure].x.baseVal.value + latestBase - pos1X);
-                        p.rect(pos1X, pos1Y, dist, drawer.distanceBetweenLines*4);
+                        let dist = Math.abs(
+                            measurePositions[latestDrawnMeasure].x.baseVal.value +
+                                latestBase -
+                                pos1X
+                        );
+                        p.rect(pos1X, pos1Y, dist, drawer.distanceBetweenLines * 4);
                     } else {
                         break;
                     }
                 }
             }
             return;
-        } else if (state === STATE_HIGHLIGHT) {  
+        } else if (state === STATE_HIGHLIGHT) {
             p.clear();
             latestDrawnMeasure = -1;
             latestBase = 0;
@@ -191,16 +241,16 @@ const p5Sketch = p => {
             currentMusicSection = null;
             state = STATE_SHEET_MUSIC;
             return;
-        } else if (AlphaTabRunner.api && AlphaTabRunner.api.playerState !== 1) {
+        } else if (atVars.api && atVars.api.playerState !== 1) {
             return;
         }
 
-        if (AlphaTabRunner && AlphaTabRunner.resetDrawPositions) {
+        if (atVars && atVars.shouldResetDrawPositions) {
             previousPos[0] = -1;
             previousPos[1] = -1;
             previousPos[2] = -1;
             previousPos[3] = -1;
-            AlphaTabRunner.resetDrawPositions = false;
+            atVars.shouldResetDrawPositions = false;
             barCursor = document.getElementById("bC");
             alphaTabSurface = document.getElementById("aTS");
         }
@@ -225,12 +275,12 @@ const p5Sketch = p => {
                 previousPos[2] !== -1 &&
                 previousPos[3] !== -1
             ) {
-                if (AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex] === -1) {
+                if (atVars.noteStream[atVars.noteStreamIndex] === -1) {
                     // singing should be silent
                     p.stroke(255, 0, 0);
                 } else {
                     let diff = Math.abs(
-                        lastPitchAndTime[0] - AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex]
+                        lastPitchAndTime[0] - atVars.noteStream[atVars.noteStreamIndex]
                     );
 
                     // fill with green if really close
@@ -258,15 +308,13 @@ const p5Sketch = p => {
 
         if (drawer) {
             lastPitchAndTime[0] = drawer.note.midiVal;
-            lastPitchAndTime[1] = AlphaTabRunner.api.timePosition / 1000;
+            lastPitchAndTime[1] = atVars.api.timePosition / 1000;
             while (
                 lastPitchAndTime[1] >
-                AlphaTabRunner.cumulativeTime +
-                    AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex + 1]
+                atVars.cumulativeTime + atVars.noteStream[atVars.noteStreamIndex + 1]
             ) {
-                AlphaTabRunner.cumulativeTime +=
-                    AlphaTabRunner.noteStream[AlphaTabRunner.noteStreamIndex + 1];
-                AlphaTabRunner.noteStreamIndex += 2;
+                atVars.cumulativeTime += atVars.noteStream[atVars.noteStreamIndex + 1];
+                atVars.noteStreamIndex += 2;
             }
 
             let currentHeight = drawer.noteHeight;

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMusic/highlightingOptions.js
+// File Path: src/vendors/P5/highlightingOptions.js
 // Description: Options for highlighting sheet music
 // Author: Dan Levy
 // Email: danlevy124@gmail.com

@@ -11,21 +11,38 @@ import React, { Component } from "react";
 
 // Component imports
 import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
-import PracticeSheetMusic from "./PracticeSheetMusic/PracticeSheetMusic";
+
+// File imports
+import initializeAPI from "../../vendors/AlphaTab/initialization";
+import { changeMusic } from "../../vendors/AlphaTab/actions";
 
 // Style imports
-import styles from "./PracticeMusic.module.scss";
+import "./PracticeMusic.scss";
 
 class PracticeMusic extends Component {
     /**
-     * Renders the component
+     * Initializes the AlphaTab API
+     * Displays the piece of music on the screen
+     */
+    componentDidMount() {
+        // Initializes the AlphaTab API and displays the music
+        initializeAPI();
+        changeMusic("sheetMusic");
+    }
+
+    /**
+     * Renders the PracticeSheetMusic component
+     * The sketch and AlphaTex are not displayed via React, but via direct DOM manipulation
      */
     render() {
         // Returns the JSX to display
         return (
-            <main className={styles.practiceMusic}>
+            <main>
                 <PracticeMusicHeader />
-                <PracticeSheetMusic />
+                <section id='alpha-tab-wrapper'>
+                    <div id='sketch-holder'></div>
+                    <div id='alpha-tab-container'></div>
+                </section>
             </main>
         );
     }

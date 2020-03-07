@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMusic/musicPlayerStates.js
+// File Path: src/vendors/AlphaTab/playerStates.js
 // Description: Music player state options
 // Author: Dan Levy
 // Email: danlevy124@gmail.com

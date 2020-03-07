@@ -1,29 +1,36 @@
-import PitchDetection from "./PitchDetection";
+// ----------------------------------------------------------------------------
+// File Path: src/vendors/AlphaTab/actions.js
+// Description: AlphaTab actions
+// Author: Daniel Griessler & Dan Levy
+// Email: dgriessler20@gmail.com & danlevy124@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
+// File imports
+import { startPitchDetection } from "../ML5/PitchDetection/actions";
 import NoteList from "./NoteList";
 import {
     getSpecificSheetMusic,
     getPartSheetMusic,
     getExercise,
     getSinglePartSheetMusic
-} from "../../../App/musicAssistantApi";
+} from "../../App/musicAssistantApi";
 import TexLoaded from "./TexLoaded";
-import * as logs from "../../../vendors/Firebase/logs";
-import { store } from "../../../store/reduxSetup";
-import * as highlightingOptions from "./highlightingOptions";
-import * as musicPlayerStates from "./musicPlayerStates";
-import * as atVars from "./alphaTabInitialization";
+import { sheetMusicError } from "../../vendors/Firebase/logs";
+import { store } from "../../store/reduxSetup";
+import * as highlightingOptions from "../P5/highlightingOptions";
+import * as playerStates from "./playerStates";
+import * as atVars from "./initialization";
 
 /**
  * Starts playing the sheet music and getting pitches from the microphone
- * TODO: Who tells AlphaTab to start playing?
  */
 export const startPlayingMusic = () => {
-    atVars.shouldResetDrawPositions = true; // signals to p5Obj to draw from the beginning
-    atVars.playerState = musicPlayerStates.PLAYING; // Note in our runner that our current state is playing
+    atVars.shouldResetDrawPositions = true; // Signals to p5Obj to draw from the beginning
+    atVars.playerState = playerStates.PLAYING; // Changes current state to playing
 
     // Since AlphaTab might have re rendered, try and update the top line and distance between lines in the drawer
     try {
-        // TODO: Do we need to grab these values every time or can we store them?
         let topLine = document.getElementById("rect_0");
         let nextLine = document.getElementById("rect_1");
         const topLineHeight = topLine.y.animVal.value;
@@ -35,7 +42,7 @@ export const startPlayingMusic = () => {
             atVars.texLoaded.getStartOctave()
         );
     } catch (error) {
-        logs.sheetMusicError(null, error, "[alphaTabControls/alphaTabPlayerStateChanged]");
+        sheetMusicError(null, error, "[alphaTabControls/alphaTabPlayerStateChanged]");
     }
 
     // TODO: Prevent playback range also during playing
@@ -44,11 +51,11 @@ export const startPlayingMusic = () => {
 
     // Runs the pitch detection model on microphone input and displays it on the screen
     // TODO: Don't show player controls (e.g. play and pause buttons) until AlphaTab and ML5 are ready
-    PitchDetection.startPitchDetection();
+    startPitchDetection();
 };
 
 /**
- * Change which track Alpha Tab is rendering based on the provided part name
+ * Change which track Alpha Tab is rendering based on the given part name
  * @param {string} partName - The part name to change to. Part names are expected to be "tx" where x is the track number
  */
 export const changePart = partName => {
@@ -76,7 +83,7 @@ export const changePart = partName => {
                 atVars.texLoaded.typeOfTex = "Sheet Music";
             })
             .catch(error => {
-                logs.sheetMusicError(
+                sheetMusicError(
                     error.response.status,
                     error.response.data,
                     "[alphaTabControls/changePart]"
@@ -264,7 +271,7 @@ export const loadJustMyPart = async () => {
         );
         atVars.texLoaded.typeOfTex = "Sheet Music";
     } catch (error) {
-        logs.sheetMusicError(
+        sheetMusicError(
             error.response.status,
             error.response.data,
             "[alphaTabControls/loadJustMyPart]"
@@ -319,7 +326,7 @@ const loadExercise = async (measureStart, measureEnd) => {
         );
         atVars.texLoaded.setMeasureLengths(exerciseResponse.data.measure_lengths, atVars.barCount);
     } catch (error) {
-        logs.sheetMusicError(
+        sheetMusicError(
             error.response.status,
             error.response.data,
             "[alphaTabControls/loadExercise]"
@@ -441,10 +448,6 @@ const loadTex = async () => {
         );
         atVars.texLoaded.typeOfTex = "Sheet Music";
     } catch (error) {
-        logs.sheetMusicError(
-            error.response.status,
-            error.response.data,
-            "[alphaTabControls/loadTex]"
-        );
+        sheetMusicError(error.response.status, error.response.data, "[alphaTabControls/loadTex]");
     }
 };

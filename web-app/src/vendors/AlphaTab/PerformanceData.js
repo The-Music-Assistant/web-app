@@ -1,11 +1,18 @@
-import Pitch from "./Pitch.js";
-/**
- * Encapsulates performance data
- */
+// ----------------------------------------------------------------------------
+// File Path: src/vendors/AlphaTab/PerformanceData.js
+// Description: Encapsulates performance data
+// Author: Daniel Griessler
+// Email: dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
+// File imports
+import Pitch from "../ML5/PitchDetection/Pitch";
+
 class PerformanceData {
     /**
-    * Creates a PerformanceData
-    */
+     * Creates a PerformanceData object
+     */
     constructor() {
         this.pitches = [];
     }
@@ -32,7 +39,7 @@ class PerformanceData {
                     this.pitches.push(new Pitch(note, time));
                 }
             }
-        } catch(e) {
+        } catch (e) {
             this.pitches.push(new Pitch(note, time));
         }
     }

@@ -1,6 +1,15 @@
+// ----------------------------------------------------------------------------
+// File Path: src/vendors/AlphaTab/initialization.js
+// Description: Initializes AlphaTab (triggers AlphaTab to display sheet music)
+// Author: Daniel Griessler & Dan Levy
+// Email: dgriessler20@gmail.com & danlevy124@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
+// File imports
 import player from "./default.sf2";
-import * as highlightingOptions from "./highlightingOptions";
-import * as atListeners from "./alphaTabListeners";
+import * as highlightingOptions from "../P5/highlightingOptions";
+import * as listeners from "./listeners";
 
 export let api; // AlphaTab API
 export let p5Obj; // Instance of p5 (drawing tool)
@@ -10,7 +19,7 @@ export let cumulativeTime; // Cumulative time passed in song used with the note 
 export let texLoaded; // Information about the alphaTex that is currently loaded
 export let isFirstRender; // Boolean to distinguish between the first render and subsequent renders
 export let barCount; // Number of bars to display at one time
-export let shouldResetDrawPositions; // Boolean signaling to p5Obj to reset its draw position after a page turn
+export let shouldResetDrawPositions; // Boolean signaling to p5Obj to reset its draw position
 export let drawer; // Instance of the p5 drawer which provides information about the last note heard for drawing
 export let noteList; // Instance of note list providing an average measurement of the last midi value heard
 export let highlightMeasures; // Enum signaling to sketch when it should highlight instead of normally draw feedback (TODO: This can be removed if we have two different p5 objects)
@@ -23,7 +32,7 @@ export let sketchBehavior;
  * Initializes the AlphaTab API
  * Displays the piece of music on the screen
  */
-export const initializeAPI = () => {
+const initializeAPI = () => {
     setInitialVariableValues();
 
     // AlphaTab API settings
@@ -32,7 +41,7 @@ export const initializeAPI = () => {
             enablePlayer: true,
             enableCursor: true,
             soundFont: player,
-            scrollElement: "#wrapper"
+            scrollElement: "#alpha-tab-wrapper"
         },
         display: {
             layoutMode: "horizontal",
@@ -48,13 +57,13 @@ export const initializeAPI = () => {
     );
 
     // Listener executed when AlphaTab is rendered on the screen
-    api.addPostRenderFinished(atListeners.alphaTabPostRenderFinished);
+    api.addPostRenderFinished(listeners.alphaTabPostRenderFinished);
 
     // Listener executed when the player state changes (e.g. play, pause, and stop)
-    api.addPlayerStateChanged(atListeners.alphaTabPlayerStateChanged);
+    api.addPlayerStateChanged(listeners.alphaTabPlayerStateChanged);
 
     // Listener executed when the player finishes playing the song
-    api.addPlayerFinished(atListeners.alphaTabPlayerFinished);
+    api.addPlayerFinished(listeners.alphaTabPlayerFinished);
 };
 
 /**
@@ -77,3 +86,5 @@ const setInitialVariableValues = () => {
     getsFeedback = false;
     sheetMusicLength = null;
 };
+
+export default initializeAPI;

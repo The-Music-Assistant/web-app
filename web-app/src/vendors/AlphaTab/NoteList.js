@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/PracticeSheetMusic/NoteList.js
+// File Path: src/vendors/AlphaTab/NoteList.js
 // Description: Keeps a list of midi values to serve as a sample of the MAX_SIZE
 //                    last midi values heard
 // Author: Daniel Griessler
@@ -7,10 +7,12 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
-import PerformanceData from "./PerformanceData.js";
-const MAX_SIZE = 5;
+// File imports
+import PerformanceData from "./PerformanceData";
 
 class NoteList {
+    MAX_SIZE = 5;
+
     /**
      * Creates a NoteList defaulting the lower pitch bound to 21 = A0 and the upper pitch bound to 127 = G9
      * @param {Number} element Initial midi value to be stored in the list of values
@@ -43,12 +45,12 @@ class NoteList {
      */
     addNote(element, time) {
         // Adds element to the list overwriting the oldest value if full
-        if (this.elements.length < MAX_SIZE) {
+        if (this.elements.length < this.MAX_SIZE) {
             this.elements.push(element);
         } else {
             this.total -= this.elements[this.pointer];
             this.elements[this.pointer] = element;
-            this.pointer = (this.pointer + 1) % MAX_SIZE;
+            this.pointer = (this.pointer + 1) % this.MAX_SIZE;
         }
         this.total += element;
         this.average = Math.round(this.total / this.elements.length);

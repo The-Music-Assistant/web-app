@@ -15,14 +15,17 @@ import MusicControls from "./MusicControls/MusicControls";
 import BackButton from "../../Buttons/BackButton/BackButton";
 
 // File imports
-import AlphaTabRunner from "../PracticeSheetMusic/AlphaTabRunner";
+import destroy from "../../../vendors/AlphaTab/destruction";
 
 // Style imports
 import styles from "./PracticeMusicHeader.module.scss";
 
 const PracticeHeader = props => {
+    /**
+     * Destroys the AlphaTab API before going back a page
+     */
     const backButtonClickedHandler = () => {
-        AlphaTabRunner.destroy().then(props.history.goBack);
+        destroy().then(props.history.goBack);
     };
 
     // Returns the JSX to display

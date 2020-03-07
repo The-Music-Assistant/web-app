@@ -1,3 +1,11 @@
+// ----------------------------------------------------------------------------
+// File Path: src/vendors/AlphaTab/TexLoaded.js
+// Description: TODO: Description needed
+// Author: Daniel Griessler
+// Email: dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
 class TexLoaded {
     constructor(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd, sheetMusicId) {
         this.typeOfTex = typeOfTex;

@@ -1,13 +1,13 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/PracticeSheetMusic/Drawer.js
-// Description: Keeps track of current note and where to draw it on the screen
-//                  along with special information such as number of extra ledger lines
+// File Path: src/vendors/P5/Drawer.js
+// Description: Keeps track of current note and where to draw it on the screen along with special information such as number of extra ledger lines
 // Author: Daniel Griessler
 // Email: dgriessler20@gmail.com
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
-import LedgerLines from "./LedgerLines";
+// File imports
+import { getNumberOfLedgerLines, getOctave } from "../AlphaTab/LedgerLines";
 
 class Drawer {
     /**
@@ -124,7 +124,8 @@ class Drawer {
             // LedgerLines loop every 24 notes so if more than 24 then add 7 octaves
             let difference = Math.abs(Math.abs(base) - this.note.midiVal);
             let loopAdd = 7 * Math.floor(difference / 24);
-            this.belowOrAbove = LedgerLines.getNumberOfLedgerLines(this.note.midiVal, direction, start) + loopAdd;
+            this.belowOrAbove =
+                getNumberOfLedgerLines(this.note.midiVal, direction, start) + loopAdd;
 
             // Signals to draw ledger lines below staff
             if (base < 0) {
@@ -182,7 +183,7 @@ class Note {
         } else {
             const letters = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
             charPart = letters[this.midiVal % letters.length];
-            octave = LedgerLines.getOctave(this.midiVal);
+            octave = getOctave(this.midiVal);
         }
         return { charPart, octave };
     }

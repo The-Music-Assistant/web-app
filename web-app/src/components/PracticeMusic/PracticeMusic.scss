@@ -1,14 +1,16 @@
 // ----------------------------------------------------------------------------
-// File Path: src/App/PracticeMain/PracticeSheetMusic/PracticeSheetMusic.scss
-// Description: SCSS styles for the PracticeSheetMusic component
+// File Path: src/components/PracticeMusic/PracticeMusic.scss
+// Description: 
+//      * SCSS styles for the practice music component
+//      * NOTE: This is not a module file beacuse AlphaTab and P5 need access to these styles
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
-// Created Date: 11/15/2019
+// Created Date: 10/23/2019
 // ----------------------------------------------------------------------------
 
-@import "../../../root-styles/utilities.scss";
+@import "../../root-styles/utilities.scss";
 
-#wrapper {
+#alpha-tab-wrapper {
     width: 100vw;
     overflow: scroll;
     margin: auto;

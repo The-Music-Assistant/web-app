@@ -12,10 +12,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 // File imports
-import AlphaTabRunner from "../../PracticeSheetMusic/AlphaTabRunner";
-import PitchDetection from "../../PracticeSheetMusic/PitchDetection";
+import * as atVars from "../../../../vendors/AlphaTab/initialization";
+import * as atActions from "../../../../vendors/AlphaTab/actions";
+import { audioContext } from "../../../../vendors/ML5/PitchDetection/initialization";
 import { userGetsFeedback } from "../../../../App/musicAssistantApi";
-import * as logs from "../../../../vendors/Firebase/logs";
+import { sheetMusicError } from "../../../../vendors/Firebase/logs";
 
 // Image imports
 import playButtonImg from "../../../../assets/icons/play-icon-fa.svg";
@@ -54,7 +55,7 @@ class MusicControls extends Component {
             this.stopButtonHandler();
         }
         this.setState({ trackName: event.target.value });
-        AlphaTabRunner.changePart(event.target.value);
+        atActions.changePart(event.target.value);
     };
 
     musicSelectorHandler = event => {
@@ -74,13 +75,13 @@ class MusicControls extends Component {
                 measureSelectorOpen: false
             });
         }
-        AlphaTabRunner.changeMusic(event.target.value);
+        atActions.changeMusic(event.target.value);
     };
 
     playbackMeasureHandler = () => {
         if (this.state.measureSelectorOpen) {
             setTimeout(() => {
-                let playbackMeasures = AlphaTabRunner.getPlaybackRange();
+                let playbackMeasures = atActions.getPlaybackRange();
                 if (playbackMeasures !== null) {
                     this.setState({
                         startMeasure: playbackMeasures[0],
@@ -107,7 +108,7 @@ class MusicControls extends Component {
 
     generateExerciseHandler = () => {
         if (!this.state.measureSelectorOpen) {
-            let playbackMeasures = AlphaTabRunner.getPlaybackRange();
+            let playbackMeasures = atActions.getPlaybackRange();
             if (playbackMeasures !== null) {
                 this.setState({
                     startMeasure: playbackMeasures[0],
@@ -138,7 +139,7 @@ class MusicControls extends Component {
 
     submitMeasuresHandler = event => {
         event.preventDefault();
-        let maxMeasureNumber = AlphaTabRunner.texLoaded.measureLengths.length;
+        let maxMeasureNumber = atVars.texLoaded.measureLengths.length;
         if (
             typeof this.state.startMeasure !== "number" ||
             typeof this.state.endMeasure !== "number" ||
@@ -150,7 +151,7 @@ class MusicControls extends Component {
         ) {
             alert("Please input valid start and end measures.");
         } else {
-            AlphaTabRunner.changeMusic("exercise", this.state.startMeasure, this.state.endMeasure);
+            atActions.changeMusic("exercise", this.state.startMeasure, this.state.endMeasure);
             this.measureSelectorHandler(false);
             this.setState({ generatingExercises: false });
         }
@@ -160,7 +161,7 @@ class MusicControls extends Component {
      * Plays or pauses the music
      */
     playPauseButtonHandler = () => {
-        if (AlphaTabRunner.texLoaded === null) {
+        if (atVars.texLoaded === null) {
             return;
         }
         // Updates state
@@ -169,17 +170,17 @@ class MusicControls extends Component {
         }));
 
         // AudioContext must be resumed before playing can begin (the first time)
-        if (PitchDetection.audioContext.state !== "running") {
-            PitchDetection.audioContext
+        if (audioContext.state !== "running") {
+            audioContext
                 .resume()
                 .then(() => {
-                    AlphaTabRunner.api.playPause();
+                    atVars.api.playPause();
                 })
                 .catch(error => {
-                    logs.sheetMusicError(null, error, "[MusicControls/playPauseButtonHandler]");
+                    sheetMusicError(null, error, "[MusicControls/playPauseButtonHandler]");
                 });
         } else {
-            AlphaTabRunner.api.playPause();
+            atVars.api.playPause();
         }
     };
 
@@ -187,22 +188,22 @@ class MusicControls extends Component {
      * Stops the music
      */
     stopButtonHandler = () => {
-        if (AlphaTabRunner.texLoaded === null) {
+        if (atVars.texLoaded === null) {
             return;
         }
         this.donePlaying();
 
-        AlphaTabRunner.api.stop();
-        AlphaTabRunner.noteStreamIndex = 0;
-        AlphaTabRunner.cumulativeTime = 0;
+        atVars.api.stop();
+        atVars.noteStreamIndex = 0;
+        atVars.cumulativeTime = 0;
     };
 
     componentDidMount() {
         this.checkFeedback();
         const id = window.setInterval(() => {
-            if (AlphaTabRunner.api != null) {
+            if (atVars.api != null) {
                 clearInterval(id);
-                AlphaTabRunner.api.addPlayerFinished(() => {
+                atVars.api.addPlayerFinished(() => {
                     this.donePlaying();
                 });
             }
@@ -229,7 +230,7 @@ class MusicControls extends Component {
                 }
             })
             .catch(error => {
-                logs.sheetMusicError(
+                sheetMusicError(
                     error.response.status,
                     error.response.data,
                     "[MusicControls/checkFeedback]"

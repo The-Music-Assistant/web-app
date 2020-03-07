@@ -1,13 +1,24 @@
-import * as atVars from "./alphaTabInitialization";
-import { userGetsFeedback } from "../../../App/musicAssistantApi";
-import { store } from "../../../store/reduxSetup";
-import * as logs from "../../../vendors/Firebase/logs";
-import Drawer from "./Drawer";
-import * as sketchBehaviors from "../MusicSelection/sketchBehaviors";
+// ----------------------------------------------------------------------------
+// File Path: src/vendors/AlphaTab/listeners.js
+// Description: Functions called when an AlphaTab listener is triggered
+// Author: Daniel Griessler & Dan Levy
+// Email: dgriessler20@gmail.com & danlevy124@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
+// File imports
+import * as atVars from "./initialization";
+import { startPlayingMusic } from "./actions";
+import { userGetsFeedback } from "../../App/musicAssistantApi";
+import { store } from "../../store/reduxSetup";
+import { sheetMusicError } from "../../vendors/Firebase/logs";
+import Drawer from "../P5/Drawer";
+import * as sketchBehaviors from "../P5/sketchBehaviors";
 import p5 from "p5";
-import p5Sketch from "./PracticeSheetMusic/sketch";
-import PitchDetection from "./PitchDetection";
-import * as musicPlayerStates from "./musicPlayerStates";
+import sketch from "../P5/sketch";
+import setupPitchDetection from "../ML5/PitchDetection/initialization";
+import { stopPitchDetection } from "../ML5/PitchDetection/actions";
+import * as playerStates from "./playerStates";
 
 /**
  * Run when AlphaTab is rendered on the screen
@@ -35,19 +46,19 @@ export const alphaTabPlayerStateChanged = () => {
     // Due to our page turns, the AlphaTex is re rendered and the player state is automatically "stopped" as part of the re rendering
     // We want the sheet music to keep playing though so the checks are as follows
     if (
-        atVars.api.playerState !== musicPlayerStates.PLAYING &&
-        atVars.playerState === musicPlayerStates.PLAYING
+        atVars.api.playerState !== playerStates.PLAYING &&
+        atVars.playerState === playerStates.PLAYING
     ) {
         // Real stop -> stop playing the music
-        atVars.stopPlayingMusic();
-        atVars.resetSheetMusic();
+        stopPlayingMusic();
+        resetSheetMusic();
     } else if (
-        atVars.api.playerState === musicPlayerStates.PLAYING &&
-        atVars.playerState === musicPlayerStates.STOPPED
+        atVars.api.playerState === playerStates.PLAYING &&
+        atVars.playerState === playerStates.STOPPED
     ) {
         // Real play -> play the music
-        atVars.startPlayingMusic();
-    } else if (atVars.playerState === musicPlayerStates.PAGE_CHANGED) {
+        startPlayingMusic();
+    } else if (atVars.playerState === playerStates.PAGE_CHANGED) {
         // Request was made to destroy the api -> so stop playing the music
         stopPlayingMusic();
     }
@@ -67,14 +78,14 @@ export const alphaTabPlayerFinished = () => {
  * This is used for user testing
  */
 const checkIfUserGetsFeedback = () => {
-    if (atVars.playerState !== musicPlayerStates.PLAYING) {
+    if (atVars.playerState !== playerStates.PLAYING) {
         // Only checks for feedback flag when the play button is clicked
         userGetsFeedback({ sheetMusicId: store.getState().practice.selectedSheetMusicId })
             .then(response => {
                 atVars.getsFeedback = response.data.gets_feedback;
             })
             .catch(error => {
-                logs.sheetMusicError(null, error, "[alphaTabActions/alphaTabRenderFinished]");
+                sheetMusicError(null, error, "[alphaTabActions/alphaTabRenderFinished]");
             });
     }
 };
@@ -118,21 +129,21 @@ const onFirstRender = (topLine, nextLine) => {
                 // Sets up drawing for real time feedback
                 initializeFeedbackDrawer(topLine, nextLine);
                 // Creates a new p5 instance which we will use for highlighting during performance overview and for real time feedback during performance
-                atVars.p5Obj = new p5(p5Sketch);
+                atVars.p5Obj = new p5(sketch);
                 // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
                 // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
                 // is now actually rendered to the dom
                 atVars.p5Obj.setup(atVars.drawer);
 
                 // Prepares for microphone input sets up the pitch detection model
-                PitchDetection.setupPitchDetection().catch(error => {
-                    logs.sheetMusicError(null, error, "[alphaTabActions/alphaTabRenderFinished]");
+                setupPitchDetection().catch(error => {
+                    sheetMusicError(null, error, "[alphaTabActions/alphaTabRenderFinished]");
                 });
             } else {
                 // Sets up drawing for performance highlighting
                 // TODO: Change p5Sketch to a new file for highlighting
                 // Creates a new p5 instance which we will use for highlighting during performance overview and for real time feedback during performance
-                atVars.p5Obj = new p5(p5Sketch);
+                atVars.p5Obj = new p5(sketch);
                 // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
                 // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
                 // is now actually rendered to the dom
@@ -169,10 +180,10 @@ const initializeFeedbackDrawer = (topLine, nextLine) => {
  */
 const stopPlayingMusic = () => {
     // Stops the pitch detection
-    PitchDetection.stopPitchDetection(store.getState().practice.selectedSheetMusicId);
+    stopPitchDetection(store.getState().practice.selectedSheetMusicId);
 
     // Changes player state to stopped
-    atVars.playerState = musicPlayerStates.STOPPED;
+    atVars.playerState = playerStates.STOPPED;
 
     // Resets the sheet music back to the beginning
     resetSheetMusic();
