@@ -20,6 +20,7 @@ import { sheetMusicError } from "../../vendors/Firebase/logs";
 import { store } from "../../store/reduxSetup";
 import * as highlightingOptions from "../P5/highlightingOptions";
 import * as playerStates from "./playerStates";
+import * as sketchBehaviors from "../P5/sketchBehaviors";
 import atVars from "./variables";
 
 /**
@@ -105,6 +106,7 @@ export const changeMusic = async (value, measureStart, measureEnd) => {
         // sheetMusic is the default view and includes a paged view with normal feedback behavior from the p5Obj
         if (value === "sheetMusic") {
             atVars.highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
+            atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
             atVars.api.settings.display.barCount = atVars.barCount;
             atVars.api.updateSettings();
             await loadTex();
@@ -112,6 +114,7 @@ export const changeMusic = async (value, measureStart, measureEnd) => {
             // myPart is a special version of sheetMusic which indicates that the user wants to hear and see only their part in this sheet music
             // Therefore, we want the normal feedback behavior from the p5Obj and the normal paged view
             atVars.highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
+            atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
             atVars.api.settings.display.barCount = atVars.barCount;
             atVars.api.updateSettings();
             await loadJustMyPart();
@@ -120,6 +123,7 @@ export const changeMusic = async (value, measureStart, measureEnd) => {
             // based on current performance analysis.
             // This requires re rendering alpha tab to display the full measures of the sheet music, no paged view
             atVars.highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_START;
+            atVars.sketchBehavior = sketchBehaviors.PERFORMANCE_HIGHLIGHTING;
             atVars.api.settings.display.barCount =
                 atVars.sheetMusicLength !== null ? atVars.sheetMusicLength : atVars.barCount;
             atVars.api.updateSettings();
@@ -129,6 +133,7 @@ export const changeMusic = async (value, measureStart, measureEnd) => {
             // it is assumed that the measureStart and measureEnd have already been checked to be within the bounds of the music
             // Need paged view and normal p5Obj real time feedback behavior
             atVars.highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
+            atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
             atVars.api.settings.display.barCount = atVars.barCount;
             atVars.api.updateSettings();
             await loadExercise(measureStart, measureEnd);

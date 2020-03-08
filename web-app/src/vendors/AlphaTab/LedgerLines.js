@@ -126,7 +126,7 @@ const HALF_STEP_CYCLE_DOWN_START_E = [
  */
 export const getNumberOfLedgerLines = (midi, direction, start) => {
     // given the octave, figure out where to start in the list
-    let index = this.getOctave(midi) % 2 === 0 ? 0 : 12;
+    let index = getOctave(midi) % 2 === 0 ? 0 : 12;
     // add to starting index the number of half steps up from C
     index += midi % 12;
     let realDirection = direction.toLowerCase();

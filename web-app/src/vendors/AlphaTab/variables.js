@@ -8,6 +8,7 @@
 
 // File imports
 import * as highlightingOptions from "../P5/highlightingOptions";
+import * as sketchBehaviors from "../P5/sketchBehaviors";
 
 class AlphaTabVariables {
     api; // AlphaTab API
@@ -25,7 +26,7 @@ class AlphaTabVariables {
     playerState; // Enum holding the current state of the player to avoid confusion during re-renders
     getsFeedback; // Boolean indicating whether or not the user gets feedback
     sheetMusicLength; // Number holding the length of the current sheet music (used for re-rendering in the performance overview page vs the exercise or sheet music view)
-    sketchBehavior;
+    sketchBehavior; // Enum indicating which sketch behavior should be followed based on the current page (e.g. real-time feedback or performance)
 
     /**
      * Sets AlphaTab variables to their initial values
@@ -46,6 +47,7 @@ class AlphaTabVariables {
         this.playerState = 0;
         this.getsFeedback = false;
         this.sheetMusicLength = null;
+        this.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
     };
 }
 

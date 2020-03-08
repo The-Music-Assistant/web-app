@@ -68,7 +68,7 @@ const p5Sketch = p => {
         alphaTabSurface = document.getElementById("aTS");
         const sideNavElement = document.querySelector("#side-nav");
         sideNavElementWidth = sideNavElement !== null ? sideNavElement.clientWidth : 0;
-        wrapper = document.getElementById("wrapper");
+        wrapper = document.getElementById("alpha-tab-wrapper");
 
         // creates a canvas that overlaps the alphaTabSurface. Position is absolute for the canvas by default
         canvas = p.createCanvas(alphaTabSurface.clientWidth, alphaTabSurface.clientHeight);
