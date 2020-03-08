@@ -22,7 +22,7 @@ import AlertBar from "../../components/AlertBar/AlertBar";
 import Home from "../../components/Home/Home";
 import PracticeMain from "../../components/PracticeMain/PracticeMain";
 import Progress from "../../components/Progress/Progress";
-import Choirs from "../../components/Choirs/Choirs";
+import Choir from "../../components/Choir/Choir";
 import Footer from "../../components/Footer/Footer";
 
 // File imports
@@ -228,7 +228,7 @@ class Primary extends Component {
                         <Progress />
                     </Route>
                     <Route path='/choirs'>
-                        <Choirs />
+                        <Choir />
                     </Route>
                     <Route path='/home'>
                         <Home />
