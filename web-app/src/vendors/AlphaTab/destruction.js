@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------------
 
 // File imports
-import { api, playerState, p5Obj } from "./initialization";
+import atVars from "./variables";
 import * as playerStates from "./playerStates";
 import destroyPitchDetection from "../ML5/PitchDetection/destruction";
 
@@ -20,31 +20,34 @@ import destroyPitchDetection from "../ML5/PitchDetection/destruction";
  * Stops the microphone input it is being used
  */
 const destroy = () => {
-    if (playerState === playerStates.PLAYING) {
+    if (atVars.playerState === playerStates.PLAYING) {
         // Stops the player
-        playerState = playerStates.PAGE_CHANGED;
-        api.stop();
+        atVars.playerState = playerStates.PAGE_CHANGED;
+        atVars.api.stop();
     }
 
     // Returns a promise that waits for AlphaTab to stop playing
     return new Promise(resolve => {
         // Waits for the player state to change to 0 (stopped) before destroying the api
         const intervalId = setInterval(() => {
-            if (playerState === 0) {
+            if (atVars.playerState === 0) {
                 // Stops the interval
                 clearInterval(intervalId);
 
                 // Ends pitch detection
                 destroyPitchDetection();
 
-                if (api !== null) {
+                if (atVars.api !== null) {
                     // Destroys the AlphaTab api
-                    api.destroy();
+                    atVars.api.destroy();
                 }
-                if (p5Obj !== null) {
+
+                if (atVars.p5Obj !== null) {
                     // Removes the p5 canvas
-                    p5Obj.remove();
+                    atVars.p5Obj.remove();
                 }
+
+                atVars.initialize();
 
                 // Resolves the promise
                 resolve();

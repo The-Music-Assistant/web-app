@@ -6,7 +6,8 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
-import * as ptVars from "./initialization";
+// File imports
+import ptVars from "./variables";
 
 /**
  * Ends pitch detection

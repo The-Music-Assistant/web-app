@@ -7,7 +7,7 @@
 // ----------------------------------------------------------------------------
 
 // File imports
-import * as atVars from "./initialization";
+import atVars from "./variables";
 import { startPlayingMusic } from "./actions";
 import { userGetsFeedback } from "../../App/musicAssistantApi";
 import { store } from "../../store/reduxSetup";

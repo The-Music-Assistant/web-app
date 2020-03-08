@@ -7,8 +7,8 @@
 // ----------------------------------------------------------------------------
 
 // File imports
-import * as atVars from "../../AlphaTab/initialization";
-import * as ptVars from "./initialization";
+import atVars from "../../AlphaTab/variables";
+import ptVars from "./variables";
 import {
     initializeRunningPerformance,
     updateRunningPerformance,

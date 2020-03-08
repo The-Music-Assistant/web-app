@@ -20,7 +20,7 @@ import { sheetMusicError } from "../../vendors/Firebase/logs";
 import { store } from "../../store/reduxSetup";
 import * as highlightingOptions from "../P5/highlightingOptions";
 import * as playerStates from "./playerStates";
-import * as atVars from "./initialization";
+import atVars from "./variables";
 
 /**
  * Starts playing the sheet music and getting pitches from the microphone

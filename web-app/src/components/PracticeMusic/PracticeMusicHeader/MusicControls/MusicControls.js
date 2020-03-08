@@ -12,9 +12,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 // File imports
-import * as atVars from "../../../../vendors/AlphaTab/initialization";
+import atVars from "../../../../vendors/AlphaTab/variables";
 import * as atActions from "../../../../vendors/AlphaTab/actions";
-import { audioContext } from "../../../../vendors/ML5/PitchDetection/initialization";
+import ptVars from "../../../../vendors/ML5/PitchDetection/variables";
 import { userGetsFeedback } from "../../../../App/musicAssistantApi";
 import { sheetMusicError } from "../../../../vendors/Firebase/logs";
 
@@ -170,8 +170,8 @@ class MusicControls extends Component {
         }));
 
         // AudioContext must be resumed before playing can begin (the first time)
-        if (audioContext.state !== "running") {
-            audioContext
+        if (ptVars.audioContext.state !== "running") {
+            ptVars.audioContext
                 .resume()
                 .then(() => {
                     atVars.api.playPause();

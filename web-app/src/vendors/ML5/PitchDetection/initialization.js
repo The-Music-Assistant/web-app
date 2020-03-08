@@ -6,13 +6,8 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
-// NPM module imports
-import ml5 from "ml5";
-
-export let audioContext;
-export let micStream;
-export let pitchDetectionModel;
-// let noteList;            // TODO: Is this needed?
+// File imports
+import ptVars from "./variables";
 
 /**
  * Sets up pitch detection
@@ -20,19 +15,20 @@ export let pitchDetectionModel;
 const setupPitchDetection = () => {
     return new Promise((resolve, reject) => {
         // Creates an AudioContext instance
-        audioContext = new AudioContext();
+        ptVars.audioContext = new AudioContext();
 
         // Starts microphone stream if available
         if (navigator.mediaDevices) {
             navigator.mediaDevices
                 .getUserMedia({ audio: true })
                 .then(stream => {
-                    micStream = stream;
+                    ptVars.micStream = stream;
 
                     // Sets up ML5 pitch detection
-                    initialize()
+                    ptVars
+                        .initialize()
                         .then(model => {
-                            pitchDetectionModel = model;
+                            ptVars.pitchDetectionModel = model;
                             resolve();
                         })
                         .catch(error => {
@@ -46,14 +42,6 @@ const setupPitchDetection = () => {
             reject("Cannot access the microphone.");
         }
     });
-};
-
-/**
- * Sets up ML5 pitch detection
- */
-const initialize = () => {
-    // Creates pitch detection model
-    return ml5.pitchDetection("/Pitch-Detection-Model/", audioContext, micStream).ready;
 };
 
 export default setupPitchDetection;

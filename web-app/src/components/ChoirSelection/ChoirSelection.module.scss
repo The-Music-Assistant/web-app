@@ -48,7 +48,7 @@
         @include media-query($breakpoint: $tablet-breakpoint) {
             row-gap: 50px;
             column-gap: 70px;
-            margin: 40px;
+            margin: 30px;
             justify-content: start;
         }
     }

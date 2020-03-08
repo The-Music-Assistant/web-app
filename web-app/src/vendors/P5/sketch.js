@@ -7,7 +7,7 @@
 // ----------------------------------------------------------------------------
 
 // File imports
-import * as atVars from "../AlphaTab/initialization";
+import atVars from "../AlphaTab/variables";
 import * as highlightingOptions from "./highlightingOptions";
 
 /**
