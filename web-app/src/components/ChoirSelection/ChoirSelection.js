@@ -8,6 +8,7 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import shortid from "shortid";
@@ -24,7 +25,8 @@ import questionIcon from "../../assets/icons/question-icon.svg";
 import * as logs from "../../vendors/Firebase/logs";
 import { getUsersChoirs, joinChoir } from "../../App/musicAssistantApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
-import { choirSelectedForPractice } from "../../store/actions";
+import { choirSelectedForPractice, choirSelectedForChoirs } from "../../store/actions";
+import * as routingOptions from "./routingOptions";
 
 // Style imports
 import styles from "./ChoirSelection.module.scss";
@@ -65,8 +67,8 @@ class ChoirSelection extends Component {
         // Gets the choir list
         getUsersChoirs()
             .then(snapshot => {
-                // if (this._isMounted)
-                this.setState({ choirs: snapshot.data.choirs, isLoading: false });
+                if (this._isMounted)
+                    this.setState({ choirs: snapshot.data.choirs, isLoading: false });
             })
             .catch(error => {
                 logs.choirSelectionError(
@@ -79,8 +81,21 @@ class ChoirSelection extends Component {
             });
     }
 
+    /**
+     * Updates Redux with the selected choir id and choir name
+     * Routes to the new url
+     * @param {string} id - The selected choir id
+     * @param {string} name - The selected choir name
+     */
     choirClickedHandler = (id, name) => {
-        this.props.choirSelected(id, name);
+        // Calls the correct dispatch function depending on the routing prop value
+        if (this.props.routing === routingOptions.MUSIC_SELECTION) {
+            this.props.choirSelectedForPractice(id, name);
+        } else {
+            this.props.choirSelectedForChoirs(id, name);
+        }
+
+        // Routes to the new url
         this.props.history.push(`${this.props.match.url}/choirs/${id}`);
     };
 
@@ -217,13 +232,22 @@ class ChoirSelection extends Component {
     }
 }
 
+// Prop types for the ChoirSelection component
+ChoirSelection.propTypes = {
+    routing: PropTypes.oneOf([routingOptions.MUSIC_SELECTION, routingOptions.CHOIR_MEMBERS])
+        .isRequired,
+    showAlert: PropTypes.func.isRequired,
+    choirSelected: PropTypes.func.isRequired
+};
+
 /**
  * Passes certain redux actions to ChoirSelection
  * @param {function} dispatch - The react-redux dispatch function
  */
 const mapDispatchToProps = dispatch => {
     return {
-        choirSelected: (id, name) => dispatch(choirSelectedForPractice(id, name))
+        choirSelectedForPractice: (id, name) => dispatch(choirSelectedForPractice(id, name)),
+        choirSelectedForChoirs: (id, name) => dispatch(choirSelectedForChoirs(id, name))
     };
 };
 

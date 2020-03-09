@@ -22,11 +22,12 @@ import AlertBar from "../../components/AlertBar/AlertBar";
 import Home from "../../components/Home/Home";
 import PracticeMain from "../../components/PracticeMain/PracticeMain";
 import Progress from "../../components/Progress/Progress";
-import Choir from "../../components/Choir/Choir";
+import ChoirMembers from "../../components/ChoirMembers/ChoirMembers";
 import Footer from "../../components/Footer/Footer";
 
 // File imports
 import { signOut } from "../../store/actions";
+import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/routingOptions";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -218,17 +219,23 @@ class Primary extends Component {
                     <Route path='/practice/choirs/:choirId'>
                         <MusicSelection showAlert={this.showAlertHandler} />
                     </Route>
-                    {/* <Route path='/practice/sheet-music'>
-                        <PracticeMain />
-                    </Route> */}
+                    <Route path='/choirs/:choirId'>
+                        <ChoirMembers showAlert={this.showAlertHandler} />
+                    </Route>
                     <Route path='/practice'>
-                        <ChoirSelection showAlert={this.showAlertHandler} />
+                        <ChoirSelection
+                            routing={choirSelectionRoutingOptions.MUSIC_SELECTION}
+                            showAlert={this.showAlertHandler}
+                        />
                     </Route>
                     <Route path='/progress'>
                         <Progress />
                     </Route>
                     <Route path='/choirs'>
-                        <Choir />
+                        <ChoirSelection
+                            routing={choirSelectionRoutingOptions.MUSIC_SELECTION}
+                            showAlert={this.showAlertHandler}
+                        />
                     </Route>
                     <Route path='/home'>
                         <Home />

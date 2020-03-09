@@ -27,10 +27,12 @@ export const WELCOME_PAGE_COMPLETE = "WELCOME_PAGE_COMPLETE";
 
 export const AUTH_ERROR = "AUTH_ERROR";
 
-
 // Startup action types
 export const STARTUP_DONE = "STARTUP_DONE";
 
 // Practice action types
 export const PRACTICE_CHOIR_SELECTED = "PRACTICE_CHOIR_SELECTED";
 export const PRACTICE_SONG_SELECTED = "PRACTICE_SONG_SELECTED";
+
+// Choirs action types
+export const CHOIRS_CHOIR_SELECTED = "CHOIRS_CHOIR_SELECTED";

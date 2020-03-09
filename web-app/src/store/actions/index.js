@@ -19,3 +19,5 @@ export {
 export { startupDone } from "./startup";
 
 export { choirSelectedForPractice, musicSelectedForPractice } from "./practice";
+
+export { choirSelectedForChoirs } from "./choirs";
