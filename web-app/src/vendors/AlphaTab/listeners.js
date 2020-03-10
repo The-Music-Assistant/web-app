@@ -58,7 +58,7 @@ export const alphaTabPlayerStateChanged = () => {
     ) {
         // Real play -> play the music
         startPlayingMusic();
-    } else if (atVars.playerState === playerStates.PAGE_CHANGED) {
+    } else if (atVars.playerState === playerStates.PENDING_STOP) {
         // Request was made to destroy the api -> so stop playing the music
         stopPlayingMusic();
     }

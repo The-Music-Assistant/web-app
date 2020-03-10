@@ -22,7 +22,7 @@ import destroyPitchDetection from "../ML5/PitchDetection/destruction";
 const destroy = () => {
     if (atVars.playerState === playerStates.PLAYING) {
         // Stops the player
-        atVars.playerState = playerStates.PAGE_CHANGED;
+        atVars.playerState = playerStates.PENDING_STOP;
         atVars.api.stop();
     }
 
