@@ -88,15 +88,19 @@ class ChoirSelection extends Component {
      * @param {string} name - The selected choir name
      */
     choirClickedHandler = (id, name) => {
-        // Calls the correct dispatch function depending on the routing prop value
+        let routeUrl;
+
+        // Calls the correct dispatch function and sets the routeUrl depending on the routing prop value
         if (this.props.routing === routingOptions.MUSIC_SELECTION) {
             this.props.choirSelectedForPractice(id, name);
+            routeUrl = `${this.props.match.url}/choirs/${id}`;
         } else {
             this.props.choirSelectedForChoirs(id, name);
+            routeUrl = `${this.props.match.url}/${id}`;
         }
 
         // Routes to the new url
-        this.props.history.push(`${this.props.match.url}/choirs/${id}`);
+        this.props.history.push(routeUrl);
     };
 
     /**
@@ -237,7 +241,8 @@ ChoirSelection.propTypes = {
     routing: PropTypes.oneOf([routingOptions.MUSIC_SELECTION, routingOptions.CHOIR_MEMBERS])
         .isRequired,
     showAlert: PropTypes.func.isRequired,
-    choirSelected: PropTypes.func.isRequired
+    choirSelectedForPractice: PropTypes.func.isRequired,
+    choirSelectedForChoirs: PropTypes.func.isRequired
 };
 
 /**

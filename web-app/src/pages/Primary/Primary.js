@@ -233,7 +233,7 @@ class Primary extends Component {
                     </Route>
                     <Route path='/choirs'>
                         <ChoirSelection
-                            routing={choirSelectionRoutingOptions.MUSIC_SELECTION}
+                            routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
                             showAlert={this.showAlertHandler}
                         />
                     </Route>

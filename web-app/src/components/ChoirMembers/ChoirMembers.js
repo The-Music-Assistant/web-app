@@ -32,7 +32,7 @@ class ChoirMembers extends Component {
     componentDidMount() {
         this._isMounted = true;
 
-        getChoirMembers(this.props.choirId).then(response => {
+        getChoirMembers({choirId: this.props.choirId}).then(response => {
             console.log(response.data);
             if (this._isMounted) this.setState({ members: response.data });
         });
