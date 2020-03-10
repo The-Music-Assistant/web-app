@@ -9,5 +9,105 @@
 @import "../../../root-styles/utilities.scss";
 
 .memberCard {
-    
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+    box-shadow: $primary-box-shadow;
+    transition: box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+
+    &Img {
+        object-fit: cover;
+        width: 70px;
+        display: block;
+        margin: 20px auto 0;
+        border-radius: 50%;
+
+        &Placeholder {
+            width: 70px;
+            margin: 20px auto 0;
+            border-radius: 50%;
+            background-color: $white-color;
+        }
+    }
+
+    &Name {
+        @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: null);
+    }
+
+    &Roles {
+        @include text($size: 0.875rem, $weight: 300, $color: $white-color, $line-height: null);
+    }
+}
+
+.primaryBlue {
+    background-color: $primary-color;
+
+    &:hover {
+        box-shadow: $primary-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $primary-color, $amount: 10%);
+    }
+}
+
+.secondaryBlue {
+    background-color: $secondary-color;
+
+    &:hover {
+        box-shadow: $secondary-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $secondary-color, $amount: 10%);
+    }
+}
+
+.tertiaryBlue {
+    background-color: $tertiary-color;
+
+    &:hover {
+        box-shadow: $tertiary-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $tertiary-color, $amount: 10%);
+    }
+}
+
+.green {
+    background-color: $green-color;
+
+    &:hover {
+        box-shadow: $green-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $green-color, $amount: 10%);
+    }
+}
+
+.orange {
+    background-color: $orange-color;
+
+    &:hover {
+        box-shadow: $orange-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $orange-color, $amount: 10%);
+    }
+}
+
+.red {
+    background-color: $red-color;
+
+    &:hover {
+        box-shadow: $red-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $red-color, $amount: 10%);
+    }
 }
