@@ -75,7 +75,20 @@ class MusicControls extends Component {
                 measureSelectorOpen: false
             });
         }
-        atActions.changeMusic(event.target.value);
+
+        // TODO: Move these calls as needed to fulfill new behavior with multiple pages
+        if (event.target.value === "sheetMusic") {
+            atActions.changeToSheetMusic();
+        } else if (event.target.value === "myPart") {
+            atActions.changeToMyPart();
+        } else if (event.target.value === "performance") {
+            atActions.changeToPerformance();
+        } else if (event.target.value === "exercise") {
+            console.log('error: invalid exercise selected');
+        } else {
+            // This shouldn't run which is why the log signals that the provided value is unknown
+            console.log("not recognized: ", event.target.value);
+        }
     };
 
     playbackMeasureHandler = () => {
@@ -151,7 +164,7 @@ class MusicControls extends Component {
         ) {
             alert("Please input valid start and end measures.");
         } else {
-            atActions.changeMusic("exercise", this.state.startMeasure, this.state.endMeasure);
+            atActions.changeToExercise(this.state.startMeasure, this.state.endMeasure);
             this.measureSelectorHandler(false);
             this.setState({ generatingExercises: false });
         }

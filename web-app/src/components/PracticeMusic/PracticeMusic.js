@@ -14,7 +14,7 @@ import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
 
 // File imports
 import initializeAPI from "../../vendors/AlphaTab/initialization";
-import { changeMusic } from "../../vendors/AlphaTab/actions";
+import { changeToSheetMusic } from "../../vendors/AlphaTab/actions";
 
 // Style imports
 import "./PracticeMusic.scss";
@@ -27,7 +27,7 @@ class PracticeMusic extends Component {
     componentDidMount() {
         // Initializes the AlphaTab API and displays the music
         initializeAPI();
-        changeMusic("sheetMusic");
+        changeToSheetMusic();
     }
 
     /**

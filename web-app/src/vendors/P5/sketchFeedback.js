@@ -8,13 +8,14 @@
 
 // File imports
 import atVars from "../AlphaTab/variables";
-import * as highlightingOptions from "./highlightingOptions";
+import * as sketchBehaviors from "./sketchBehaviors";
 
 /**
  * Wrapper for local p5 setup and draw functions
  * @param {sketch} p Sketch object that will include all of the functions that will be called by p5
  */
-const p5Sketch = p => {
+const p5FeedbackSketch = p => {
+    p.type = sketchBehaviors.REAL_TIME_FEEDBACK;
     // how much space to add around note for drawing lines, obtained by guess and check
     const EXTRA_BAR_VARIANCE = 7;
 
@@ -41,15 +42,6 @@ const p5Sketch = p => {
 
     // stores the last recorded midi value and its time
     let lastPitchAndTime = [-1, -1];
-
-    const STATE_SHEET_MUSIC = 1;
-    const STATE_HIGHLIGHT = 2;
-    let state = STATE_SHEET_MUSIC;
-
-    let latestDrawnMeasure = -1;
-    let latestBase = 0;
-    let musicSections = [];
-    let currentMusicSection = null;
 
     /**
      * This function is called twice. Once, upon initialization p5 calls it which we use to tell p5 to stop looping
@@ -84,164 +76,6 @@ const p5Sketch = p => {
      */
     p.draw = function() {
         if (!atVars.getsFeedback) {
-            return;
-        }
-        // This does the highlighting of the measures
-
-        // TODO Fix the first measure highlighting
-        if (atVars && atVars.highlightMeasures === highlightingOptions.HIGHLIGHT_ON) {
-            let firstBarPos = atVars.texLoaded.firstBarMeasurePosition;
-            let compareBarPos = null;
-            try {
-                let cursorBarStyle = document.getElementsByClassName("at-cursor-bar")[0].style;
-                compareBarPos = {
-                    left: parseInt(
-                        cursorBarStyle.left.substring(0, cursorBarStyle.left.length - 2),
-                        10
-                    ),
-                    top: parseInt(
-                        cursorBarStyle.top.substring(0, cursorBarStyle.left.length - 2),
-                        10
-                    ),
-                    width: parseInt(
-                        cursorBarStyle.width.substring(0, cursorBarStyle.left.length - 2),
-                        10
-                    ),
-                    height: parseInt(
-                        cursorBarStyle.height.substring(0, cursorBarStyle.left.length - 2),
-                        10
-                    )
-                };
-            } catch (error) {}
-            if (compareBarPos === null || firstBarPos === null) {
-                return;
-            }
-            if (state === STATE_SHEET_MUSIC) {
-                state = STATE_HIGHLIGHT;
-                p.clear();
-            }
-
-            const measurePositions = document
-                .getElementById("aTS")
-                .getElementsByClassName("measureSeparator");
-            p.noStroke();
-            p.fill(0, 255, 0);
-
-            if (
-                !isNaN(compareBarPos.left) &&
-                !isNaN(compareBarPos.top) &&
-                !isNaN(compareBarPos.width) &&
-                !isNaN(compareBarPos.height) &&
-                (firstBarPos.left !== compareBarPos.left ||
-                    firstBarPos.top !== compareBarPos.top ||
-                    firstBarPos.width !== compareBarPos.width ||
-                    firstBarPos.height !== compareBarPos.height)
-            ) {
-                p.fill("#F8F8F8");
-
-                // draws clearing rectangle with total height of alpha tab from previous X position to the end
-                p.rect(
-                    0,
-                    measurePositions[0].y.baseVal.value,
-                    measurePositions[0].x.baseVal.value,
-                    drawer.distanceBetweenLines * 4
-                );
-                atVars.texLoaded.firstBarMeasurePosition = {
-                    left: compareBarPos.left,
-                    top: compareBarPos.top,
-                    width: compareBarPos.width,
-                    height: compareBarPos.height
-                };
-
-                p.fill(0, 255, 0);
-                let firstBarPos = atVars.texLoaded.firstBarMeasurePosition;
-                let pos1X = firstBarPos.left;
-                let pos1Y = firstBarPos.top + drawer.distanceBetweenLines;
-                let pos2X = measurePositions[0].x.baseVal.value;
-                p.rect(pos1X, pos1Y, pos2X - pos1X, drawer.distanceBetweenLines * 4);
-            }
-
-            if (latestDrawnMeasure === -1) {
-                // draws highlight on first measure
-                let firstBarPos = atVars.texLoaded.firstBarMeasurePosition;
-                let pos1X = firstBarPos.left;
-                let pos1Y = firstBarPos.top + drawer.distanceBetweenLines;
-                let pos2X = measurePositions[0].x.baseVal.value;
-                p.rect(pos1X, pos1Y, pos2X - pos1X, drawer.distanceBetweenLines * 4);
-                if (!isNaN(pos1X)) {
-                    latestDrawnMeasure++;
-                    currentMusicSection = {
-                        startMeasure: 1,
-                        endMeasure: 1,
-                        base: 0
-                    };
-                } else {
-                    atVars.api.timePosition = 0;
-                    atVars.texLoaded.firstBarMeasurePosition = {
-                        left: parseInt(
-                            barCursor.style.left.substring(0, barCursor.style.left.length - 2),
-                            10
-                        ),
-                        top: parseInt(
-                            barCursor.style.top.substring(0, barCursor.style.left.length - 2),
-                            10
-                        ),
-                        width: parseInt(
-                            barCursor.style.width.substring(0, barCursor.style.left.length - 2),
-                            10
-                        ),
-                        height: parseInt(
-                            barCursor.style.height.substring(0, barCursor.style.left.length - 2),
-                            10
-                        )
-                    };
-                }
-            } else {
-                // draws height of later measures only drawing new measures
-                while (latestDrawnMeasure < measurePositions.length - 1) {
-                    let pos1X = measurePositions[latestDrawnMeasure].x.baseVal.value + latestBase;
-                    let pos1Y = measurePositions[latestDrawnMeasure].y.baseVal.value;
-                    if (
-                        latestDrawnMeasure === 0 ||
-                        pos1Y === measurePositions[latestDrawnMeasure - 1].y.baseVal.value
-                    ) {
-                        latestDrawnMeasure++;
-                        if (
-                            !measurePositions[latestDrawnMeasure - 1].parentNode.isSameNode(
-                                measurePositions[latestDrawnMeasure].parentNode
-                            )
-                        ) {
-                            currentMusicSection.endMeasure = latestDrawnMeasure;
-                            const newSection = JSON.parse(JSON.stringify(currentMusicSection));
-                            musicSections.push(newSection);
-                            latestBase =
-                                latestBase +
-                                measurePositions[latestDrawnMeasure - 1].x.baseVal.value +
-                                1;
-                            currentMusicSection.startMeasure = latestDrawnMeasure;
-                            currentMusicSection.base = latestBase;
-                        }
-                        let dist = Math.abs(
-                            measurePositions[latestDrawnMeasure].x.baseVal.value +
-                                latestBase -
-                                pos1X
-                        );
-                        p.rect(pos1X, pos1Y, dist, drawer.distanceBetweenLines * 4);
-                    } else {
-                        break;
-                    }
-                }
-            }
-            return;
-        } else if (state === STATE_HIGHLIGHT) {
-            p.clear();
-            latestDrawnMeasure = -1;
-            latestBase = 0;
-            musicSections.length = 0;
-            currentMusicSection = null;
-            state = STATE_SHEET_MUSIC;
-            return;
-        } else if (atVars.api && atVars.api.playerState !== 1) {
             return;
         }
 
@@ -373,4 +207,4 @@ const p5Sketch = p => {
     };
 };
 
-export default p5Sketch;
+export default p5FeedbackSketch;

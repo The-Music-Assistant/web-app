@@ -15,7 +15,8 @@ import { sheetMusicError } from "../../vendors/Firebase/logs";
 import Drawer from "../P5/Drawer";
 import * as sketchBehaviors from "../P5/sketchBehaviors";
 import p5 from "p5";
-import sketch from "../P5/sketch";
+import feedbackSketch from "../P5/sketchFeedback";
+import performanceSketch from "../P5/sketchPerformance";
 import setupPitchDetection from "../ML5/PitchDetection/initialization";
 import { stopPitchDetection } from "../ML5/PitchDetection/actions";
 import * as playerStates from "./playerStates";
@@ -105,9 +106,27 @@ const onSubsequentRender = (topLine, nextLine) => {
 
     atVars.texLoaded.setFirstMeasurePosition();
 
-    // On a re render, the alpha tab surface might have changed size, so resize the p5 drawing canvas to overlay it
-    let aTS = document.getElementById("aTS");
-    atVars.p5Obj.resizeCanvas(aTS.clientWidth, aTS.clientHeight);
+    if (atVars.sketchBehavior === atVars.p5Obj.type) {
+        // On a re render, the alpha tab surface might have changed size, so resize the p5 drawing canvas to overlay it
+        let aTS = document.getElementById("aTS");
+        atVars.p5Obj.resizeCanvas(aTS.clientWidth, aTS.clientHeight);
+        atVars.p5Obj.clear();
+    } else {
+        atVars.p5Obj.remove();
+        atVars.p5Obj = null;
+        if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
+            // Creates a new p5 instance which we will use for real time feedback during performance
+            atVars.p5Obj = new p5(feedbackSketch);
+        } else if (atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING) {
+            // Sets up drawing for performance highlighting
+            // Creates a new p5 instance which we will use for highlighting during performance overview
+            atVars.p5Obj = new p5(performanceSketch); 
+        }
+        // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
+        // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
+        // is now actually rendered to the dom
+        atVars.p5Obj.setup(atVars.drawer);
+    }
 };
 
 /**
@@ -128,8 +147,8 @@ const onFirstRender = (topLine, nextLine) => {
             if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
                 // Sets up drawing for real time feedback
                 initializeFeedbackDrawer(topLine, nextLine);
-                // Creates a new p5 instance which we will use for highlighting during performance overview and for real time feedback during performance
-                atVars.p5Obj = new p5(sketch);
+                // Creates a new p5 instance which we will use for real time feedback during performance
+                atVars.p5Obj = new p5(feedbackSketch);
                 // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
                 // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
                 // is now actually rendered to the dom
@@ -141,9 +160,8 @@ const onFirstRender = (topLine, nextLine) => {
                 });
             } else {
                 // Sets up drawing for performance highlighting
-                // TODO: Change p5Sketch to a new file for highlighting
-                // Creates a new p5 instance which we will use for highlighting during performance overview and for real time feedback during performance
-                atVars.p5Obj = new p5(sketch);
+                // Creates a new p5 instance which we will use for highlighting during performance overview
+                atVars.p5Obj = new p5(performanceSketch);
                 // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
                 // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
                 // is now actually rendered to the dom

@@ -7,7 +7,6 @@
 // ----------------------------------------------------------------------------
 
 // File imports
-import * as highlightingOptions from "../P5/highlightingOptions";
 import * as sketchBehaviors from "../P5/sketchBehaviors";
 
 class AlphaTabVariables {
@@ -22,7 +21,6 @@ class AlphaTabVariables {
     shouldResetDrawPositions; // Boolean signaling to p5Obj to reset its draw position
     drawer; // Instance of the p5 drawer which provides information about the last note heard for drawing
     noteList; // Instance of note list providing an average measurement of the last midi value heard
-    highlightMeasures; // Enum signaling to sketch when it should highlight instead of normally draw feedback (TODO: This can be removed if we have two different p5 objects)
     playerState; // Enum holding the current state of the player to avoid confusion during re-renders
     getsFeedback; // Boolean indicating whether or not the user gets feedback
     sheetMusicLength; // Number holding the length of the current sheet music (used for re-rendering in the performance overview page vs the exercise or sheet music view)
@@ -43,7 +41,6 @@ class AlphaTabVariables {
         this.shouldResetDrawPositions = true;
         this.drawer = null;
         this.noteList = null;
-        this.highlightMeasures = highlightingOptions.HIGHLIGHT_OFF;
         this.playerState = 0;
         this.getsFeedback = false;
         this.sheetMusicLength = null;

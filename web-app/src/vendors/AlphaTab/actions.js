@@ -18,7 +18,6 @@ import {
 import TexLoaded from "./TexLoaded";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
 import { store } from "../../store/reduxSetup";
-import * as highlightingOptions from "../P5/highlightingOptions";
 import * as playerStates from "./playerStates";
 import * as sketchBehaviors from "../P5/sketchBehaviors";
 import atVars from "./variables";
@@ -93,57 +92,43 @@ export const changePart = partName => {
     }
 };
 
+export const changeToSheetMusic = async () => {
+    atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
+    atVars.api.settings.display.barCount = atVars.barCount;
+    atVars.api.updateSettings();
+    await loadTex();
+}
+
+export const changeToMyPart = async () => {
+    atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
+    atVars.api.settings.display.barCount = atVars.barCount;
+    atVars.api.updateSettings();
+    await loadJustMyPart();
+}
+
+export const changeToPerformance = async() => {
+    atVars.sketchBehavior = sketchBehaviors.PERFORMANCE_HIGHLIGHTING;
+    atVars.api.settings.display.barCount =
+        atVars.sheetMusicLength !== null ? atVars.sheetMusicLength : atVars.barCount;
+    atVars.api.updateSettings();
+    await loadTex();
+}
+
 /**
- * Switch between different views deciding what for AlphaTab to show and triggers updates
- * @param {String} value - The value of the selected drop down in drop down list with id texToDisplay
- * @param {number} measureStart - The start measure number, only needed during exercise generation to specify which measure to start rendering
- * @param {*} measureEnd - The end measure number, only needed during exercise generation to specify which measure to stop rendering inclusive
+ * Cause AlphaTab to generate an exercise of the current part from measureStart to measureEnd
+ * @param {number} measureStart - The start measure number. Note: It is assumed that this has already been error checked
+ * @param {number} measureEnd - The end measure number. Note: It is assumed that this has already been error checked
  */
-export const changeMusic = async (value, measureStart, measureEnd) => {
-    if (atVars.texLoaded !== null && value === atVars.texLoaded.typeOfTex) {
+export const changeToExercise = async(measureStart, measureEnd) => {
+    if (!measureStart || !measureEnd) {
         return;
     } else {
-        // sheetMusic is the default view and includes a paged view with normal feedback behavior from the p5Obj
-        if (value === "sheetMusic") {
-            atVars.highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
-            atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
-            atVars.api.settings.display.barCount = atVars.barCount;
-            atVars.api.updateSettings();
-            await loadTex();
-        } else if (value === "myPart") {
-            // myPart is a special version of sheetMusic which indicates that the user wants to hear and see only their part in this sheet music
-            // Therefore, we want the normal feedback behavior from the p5Obj and the normal paged view
-            atVars.highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
-            atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
-            atVars.api.settings.display.barCount = atVars.barCount;
-            atVars.api.updateSettings();
-            await loadJustMyPart();
-        } else if (value === "performance") {
-            // performance is an overview of all the sheet music and changes the p5Obj behavior to highlight all of the measures
-            // based on current performance analysis.
-            // This requires re rendering alpha tab to display the full measures of the sheet music, no paged view
-            atVars.highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_START;
-            atVars.sketchBehavior = sketchBehaviors.PERFORMANCE_HIGHLIGHTING;
-            atVars.api.settings.display.barCount =
-                atVars.sheetMusicLength !== null ? atVars.sheetMusicLength : atVars.barCount;
-            atVars.api.updateSettings();
-            await loadTex();
-        } else if (value === "exercise" && measureStart && measureEnd) {
-            // exercise signals that the user wanted to generate an exercise and they must specify what the start and end measure is
-            // it is assumed that the measureStart and measureEnd have already been checked to be within the bounds of the music
-            // Need paged view and normal p5Obj real time feedback behavior
-            atVars.highlightMeasures = highlightingOptions.HIGHLIGHT_PENDING_STOP;
-            atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
-            atVars.api.settings.display.barCount = atVars.barCount;
-            atVars.api.updateSettings();
-            await loadExercise(measureStart, measureEnd);
-        } else {
-            // This shouldn't run which is why the log signals that the provided value is unknown
-            // The else can be expanded for new options in the drop down
-            console.log("not recognized: ", value);
-        }
+        atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
+        atVars.api.settings.display.barCount = atVars.barCount;
+        atVars.api.updateSettings();
+        await loadExercise(measureStart, measureEnd);
     }
-};
+}
 
 /**
  * Converts a time position in seconds to what measure that it occurs in
@@ -286,6 +271,8 @@ export const loadJustMyPart = async () => {
 
 /**
  * Loads an exercise based on user provided measure numbers
+ * @param {number} measureStart - The start measure number. Note: It is assumed that this has already been error checked
+ * @param {number} measureEnd - The end measure number. Note: It is assumed that this has already been error checked
  */
 const loadExercise = async (measureStart, measureEnd) => {
     // Adds and auto selects the "exercise" option from the texToDisplay drop down which only lasts as long as we are viewing this exercise
