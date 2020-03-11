@@ -156,8 +156,13 @@ class ProfileCard extends Component {
                 await this.uploadProfilePicture(userUid, profilePicture);
             }
 
-            // Modifies user data object to hold first name and last name
+            // Modifies user data object
             const userData = { ...this.state.formData };
+            if (userData.profilePicture) {
+                userData.hasPicture = true;
+            } else {
+                userData.hasPicture = false;
+            }
             delete userData.profilePicture;
 
             // Sends the user data to the AWS server
@@ -208,12 +213,17 @@ class ProfileCard extends Component {
         const imageInput = this.state.formData.profilePicture ? (
             <div className={profileCardStyles.profileCardImageInput}>
                 <div className={profileCardStyles.profileCardImageInputImgContainer}>
-                    <img src={URL.createObjectURL(this.state.formData.profilePicture)} className={profileCardStyles.profileCardImageInputImg} alt='Profile Picture' onError={this.imageInputErrorHandler} /> {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
+                    <img
+                        src={URL.createObjectURL(this.state.formData.profilePicture)}
+                        className={profileCardStyles.profileCardImageInputImg}
+                        alt='User Avatar'
+                        onError={this.imageInputErrorHandler}
+                    />
                     <button
                         className={profileCardStyles.profileCardImageInputRemoveButton}
                         type='button'
                         onClick={this.removeImageHandler}>
-                        <img src={closeIconRed} alt={"Remove Profile Picture"} /> {/* eslint-disable-line jsx-a11y/img-redundant-alt */}
+                        <img src={closeIconRed} alt={"Remove User Avatar"} />
                     </button>
                 </div>
                 <ImageInput

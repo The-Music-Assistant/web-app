@@ -21,7 +21,7 @@ import { MetroSpinner } from "react-spinners-kit";
 // File imports
 import { getSheetMusic } from "../../App/musicAssistantApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
-import * as logs from "../../vendors/Firebase/logs";
+import { musicSelectionError } from "../../vendors/Firebase/logs";
 import { musicSelectedForPractice } from "../../store/actions";
 
 // Style imports
@@ -61,7 +61,7 @@ class MusicSelection extends Component {
                     this.setState({ isLoading: false, music: snapshot.data.sheet_music });
             })
             .catch(error => {
-                logs.choirSelectionError(
+                musicSelectionError(
                     error.response.status,
                     error.response.data,
                     "[MusicSelection/getMusicList]"

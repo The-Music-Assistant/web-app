@@ -9,24 +9,23 @@
 // NPM module imports
 import firebase from "./firebase.js";
 
-export const authError = (code, message, location) => {
-    firebase.analytics().logEvent("auth_error", {
-        errorCode: code,
-        errorMessage: message,
-        errorLocation: location
-    });
-};
+export const authError = (code, message, location) =>
+    logEvent("auth_error", code, message, location);
 
-export const choirSelectionError = (code, message, location) => {
-    firebase.analytics().logEvent("choir_selection_error", {
-        errorCode: code,
-        errorMessage: message,
-        errorLocation: location
-    });
-};
+export const choirSelectionError = (code, message, location) =>
+    logEvent("choir_selection_error", code, message, location);
 
-export const sheetMusicError = (code, message, location) => {
-    firebase.analytics().logEvent("sheet_music_error", {
+export const musicSelectionError = (code, message, location) =>
+    logEvent("music_selection_error", code, message, location);
+
+export const sheetMusicError = (code, message, location) =>
+    logEvent("sheet_music_error", code, message, location);
+
+export const choirMembersError = (code, message, location) =>
+    logEvent("choir_members_error", code, message, location);
+
+const logEvent = (eventType, code, message, location) => {
+    firebase.analytics().logEvent(eventType, {
         errorCode: code,
         errorMessage: message,
         errorLocation: location

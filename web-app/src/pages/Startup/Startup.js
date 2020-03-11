@@ -23,22 +23,18 @@ import styles from "./Startup.module.scss";
 class Startup extends Component {
     // Component state
     state = {
-        windowInnerHeight: window.innerHeight,
-        minTimeElapsed: false
+        windowInnerHeight: window.innerHeight
     };
 
     /**
      * Starts a window resize event listener
      */
     componentDidMount() {
-        setTimeout(() => {
-            this.setState({ minTimeElapsed: true });
-        }, 2000);
         window.addEventListener("resize", this.handleWindowResize);
     }
 
     componentDidUpdate() {
-        if (this.props.isAuthenticated !== null && this.state.minTimeElapsed) {
+        if (this.props.isAuthenticated !== null) {
             this.props.startupDone();
         }
     }

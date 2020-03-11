@@ -9,12 +9,50 @@
 @import "../../root-styles/utilities.scss";
 
 .choirMembers {
-    @include grid-container(
-        $grid-template-rows: null,
-        $grid-template-columns: repeat(auto-fill, 250px),
-        $align-items: null
-    );
-    row-gap: 30px;
-    column-gap: 50px;
-    margin: 20px;
+    margin: 30px;
+
+    &Heading {
+        @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
+        text-align: center;
+        margin-top: 20px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 1.5rem;
+        }
+    }
+
+    &Spinner {
+        @include flex-container(
+            $direction: column,
+            $justify-content: center,
+            $align-items: center,
+            $wrap: nowrap
+        );
+        height: 100%;
+
+        &Message {
+            @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
+            margin-top: 30px;
+        }
+    }
+
+    &MemberGroupHeading {
+        @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
+        margin-top: 60px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    &Cards {
+        @include grid-container(
+            $grid-template-rows: null,
+            $grid-template-columns: repeat(auto-fill, 250px),
+            $align-items: null
+        );
+        row-gap: 30px;
+        column-gap: 50px;
+        margin-top: 20px;
+    }
 }

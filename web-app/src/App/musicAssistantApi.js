@@ -33,6 +33,7 @@ export const getUser = () => {
  * @param {object} data
  * @param {string} data.firstName - The user's first name
  * @param {string} data.lastName - The user's last name
+ * @param {bool} data.hasPicture - Indicates whether or not the user uploaded a picture
  */
 export const addUser = data => {
     return axios.post("/person", data);
@@ -43,6 +44,7 @@ export const addUser = data => {
  * @param {object} data
  * @param {string} data.firstName - The user's first name
  * @param {string} data.lastName - The user's last name
+ * @param {boolean} data.hasPicture - Indicates whether or not the user uploaded a picture
  */
 export const updateUser = data => {
     return axios.put("/person", data);
@@ -122,11 +124,11 @@ export const getPendingMembers = data => {
  */
 export const userGetsFeedback = data => {
     return axios.request({
-        method: 'GET',
+        method: "GET",
         url: `/member/gets-feedback`,
         params: data
     });
-}
+};
 
 /**
  * Adds the user as a pending member of the given choir
@@ -150,11 +152,11 @@ export const joinChoir = data => {
  */
 export const getSheetMusic = data => {
     return axios.request({
-        method: 'GET',
+        method: "GET",
         url: `/sheet-music`,
-        params: data,
-      });
-}
+        params: data
+    });
+};
 
 /**
  * Gets a specific piece of sheet music receiving {
@@ -196,7 +198,7 @@ export const getPartSheetMusic = data => {
  * Initalizes a performance for the current user for the provided sheet music recieves {
  *  performance_id: Performance id of generated performance for updates
  * }
- * @param {Object} data 
+ * @param {Object} data
  * @param {string} data.performanceData - The performance data to be added
  * @param {string} data.sheetMusicId - The sheet music id to add the performance to, also used to authenticate user so this is required
  * @param {string} data.exerciseId - If not null then the performance will be attached to this exercise otherwise attached to sheet music
@@ -210,7 +212,7 @@ export const initializeRunningPerformance = data => {
 
 /**
  * Adds a new performance for the current user for the provided sheet music and analyzes it immediately
- * @param {Object} data 
+ * @param {Object} data
  * @param {string} data.performanceData - The performance data to be added
  * @param {string} data.sheetMusicId - The sheet music id to add the performance to, also used to authenticate user so this is required
  * @param {string} data.exerciseId - If not null then the performance will be attached to this exercise otherwise attached to sheet music
@@ -224,7 +226,7 @@ export const addPerformance = data => {
 
 /**
  * Updates a stored performance with additional values
- * @param {Object} data 
+ * @param {Object} data
  * @param {string} data.performanceData - The performance data to be added
  * @param {string} data.performanceId - The performance id to update
  * @param {string} data.sheetMusicId - The sheet music id for the performance
@@ -235,7 +237,7 @@ export const updateRunningPerformance = data => {
 
 /**
  * Closes out a running performance with the most recent data and asks to analyze it
- * @param {Object} data 
+ * @param {Object} data
  * @param {string} data.performanceData - The performance data to be added
  * @param {string} data.performanceId - The performance id to update
  * @param {string} data.sheetMusicId - The sheet music id for the performance
@@ -292,7 +294,7 @@ export const getUsersPerformancesForSheetMusic = data => {
  *  lower_upper: (2 valued array representing the lower and upper bound for the sheet music)
  *  measure_lengths: (one value per array representing length in seconds)
  * }
- * @param {Object} data 
+ * @param {Object} data
  * @param {string} data.sheetMusicId - The sheet music id from which to generate the exercise
  * @param {number} data.trackNumber - The track number to access (note: this is +1 more than the track index for any array)
  * @param {number} data.staffNumber - The staff number to access (note: this is +1 more than the staff index for any array)
@@ -302,11 +304,11 @@ export const getUsersPerformancesForSheetMusic = data => {
  */
 export const getExercise = data => {
     return axios.request({
-        method: 'GET',
+        method: "GET",
         url: `/exercise`,
         params: data
     });
-}
+};
 
 /**
  * Gets the sheet music and performance data for the user's specific part receiving {
@@ -318,24 +320,24 @@ export const getExercise = data => {
  *  clefs: Updated list of clefs for this sheet music
  *  exerciseId: Since this is treated as exercise, the exercise id for this exercise
  * }
- * @param {Object} data 
+ * @param {Object} data
  * @param {string} data.sheetMusicId - The sheet music id to retrieve the part from
  */
 export const getSinglePartSheetMusic = data => {
     return axios.request({
-        method: 'GET',
+        method: "GET",
         url: `/sheet-music-part`,
         params: data
-    })
-}
+    });
+};
 
 /**
  * Adds selected part to sheet music for given member receiving nothing
- * @param {Object} data 
+ * @param {Object} data
  * @param {string} data.sheetMusicId - The sheet music id to which the part for the member is being added
  * @param {string} data.part - The part from the sheet music that the member is selecting
  * @param {string} data.memberId - The member who is selecting a part
  */
 export const pickPartInSheetMusic = data => {
-    return axios.put('/sheet-music-part', data);
-}
+    return axios.put("/sheet-music-part", data);
+};

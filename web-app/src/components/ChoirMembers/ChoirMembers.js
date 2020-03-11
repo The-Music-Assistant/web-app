@@ -11,13 +11,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import shortid from "shortid";
+import { MetroSpinner } from "react-spinners-kit";
 
 // Component imports
 import MemberCard from "./MemberCard/MemberCard";
 
 // File imports
 import { getChoirMembers } from "../../App/musicAssistantApi";
+import firebase from "../../vendors/Firebase/firebase";
 import * as memberColorOptions from "./MemberCard/colorOptions";
+import * as alertBarTypes from "../AlertBar/alertBarTypes";
+import { choirMembersError } from "../../vendors/Firebase/logs";
 
 // Style imports
 import styles from "./ChoirMembers.module.scss";
@@ -29,59 +33,150 @@ class ChoirMembers extends Component {
         members: null
     };
 
+    // Flag that states whether the component is mounted or not
     _isMounted = false;
 
     componentDidMount() {
         this._isMounted = true;
 
-        getChoirMembers({ choirId: this.props.choirId }).then(response => {
-            console.log(response.data);
-            if (this._isMounted) this.setState({ members: response.data });
-        });
+        // Gets the choir members
+        this.getMembers();
     }
 
     componentWillUnmount() {
         this._isMounted = false;
     }
 
-    // Renders JSX
-    render() {
+    /**
+     * Gets the choir members from the server
+     * Updates state with the members
+     */
+    getMembers = () => {
+        getChoirMembers({ choirId: this.props.choirId })
+            .then(response => {
+                // Updates state
+                if (this._isMounted) this.setState({ isLoading: false, members: response.data });
+                // Gets the members' profile pictures (this is async and will update the correct card when the picture comes in)
+                this.getMembersProfilePictures();
+            })
+            .catch(error => {
+                // Logs an error
+                choirMembersError(
+                    error.response.status,
+                    error.response.data,
+                    "[ChoirMembers/getMembers]"
+                );
+
+                // Shows an error alert
+                this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
+
+                // Updates state
+                if (this._isMounted) this.setState({ isLoading: false });
+            });
+    };
+
+    /**
+     * Gets the members' profile picture urls
+     * Updates state with the url
+     */
+    getMembersProfilePictures = () => {
+        if (this.state.members) {
+            for (let i = 0; i < this.state.members.length; i++) {
+                // Get the member (deep copy)
+                const member = { ...this.state.members[i] };
+                if (member.has_picture) {
+                    // Gets the member's picture url from Firebase storage
+                    firebase
+                        .storage()
+                        .ref()
+                        .child(`users/${member.person_id}/profile_picture_200x200`)
+                        .getDownloadURL()
+                        .then(url => {
+                            // Updates state with the url
+                            member.picture_url = url;
+                            const members = [...this.state.members];
+                            members[i] = member;
+                            this.setState({ members });
+                        });
+                }
+            }
+        }
+    };
+
+    /**
+     * Gets an array of admin member cards and an array of student member cards
+     * @returns - An object containing an array of admins and an array of students
+     */
+    getMemberCards = () => {
         const admins = [];
         const students = [];
 
         if (this.state.members) {
-            for (const member of this.state.members) {
-                console.log(member.member_type);
+            // Creates a member card for each member of the choir
+            for (let i = 0; i < this.state.members.length; i++) {
+                // The current member
+                const member = this.state.members[i];
+
                 if (member.member_type === "admin") {
-                    admins.push(
-                        <MemberCard
-                            key={shortid.generate()}
-                            name={`${member.first_name} ${member.last_name}`}
-                            roles={member.member_role}
-                            profilePictureSrc={null}
-                            color={memberColorOptions.GREEN}
-                        />
-                    );
+                    // Creates an admin member card
+                    admins.push(this.createMemberCard(member, memberColorOptions.GREEN));
                 } else {
-                    students.push(
-                        <MemberCard
-                            key={shortid.generate()}
-                            name={`${member.first_name} ${member.last_name}`}
-                            roles={member.member_role}
-                            profilePictureSrc={null}
-                            color={memberColorOptions.PRIMARY_BLUE}
-                        />
-                    );
+                    // Creates a student member card
+                    students.push(this.createMemberCard(member, memberColorOptions.ORANGE));
                 }
             }
         }
 
+        return { admins, students };
+    };
+
+    /**
+     * Creates a member card component
+     * @param {object} member - The member data used to create the member card
+     * @param {*} color - The color to use for the card
+     * @returns - A member card component
+     */
+    createMemberCard(member, color) {
         return (
-            <div className={styles.choirMembers}>
-                {admins}
-                {students}
-            </div>
+            <MemberCard
+                key={shortid.generate()}
+                name={`${member.first_name} ${member.last_name}`}
+                roles={member.member_role}
+                profilePictureSrc={member.picture_url}
+                color={color}
+            />
         );
+    }
+
+    // Renders the JSX
+    render() {
+        const { admins, students } = this.getMemberCards();
+
+        // The component to display (loading or cards)
+        let component;
+
+        if (this.state.isLoading) {
+            // Display a loading spinner
+            component = (
+                <div className={styles.choirMembersSpinner}>
+                    <MetroSpinner size={75} color='#5F9CD1' loading={true} />
+                    <h1 className={styles.choirMembersSpinnerMessage}>Loading members...</h1>
+                </div>
+            );
+        } else {
+            // Display the choir cards
+            component = (
+                <div className={styles.choirMembers}>
+                    <h1 className={styles.choirMembersMemberGroupHeading}>Administrators</h1>
+                    <div className={styles.choirMembersCards}>{admins}</div>
+                    <h1 className={styles.choirMembersMemberGroupHeading}>Students</h1>
+                    <div className={styles.choirMembersCards}>{students}</div>
+                </div>
+            );
+        }
+
+        // Returns the JSX to render
+        return component;
     }
 }
 

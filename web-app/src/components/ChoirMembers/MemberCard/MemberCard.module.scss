@@ -15,28 +15,45 @@
     box-shadow: $primary-box-shadow;
     transition: box-shadow 0.2s ease-in-out;
     cursor: pointer;
+    padding: 20px;
 
     &Img {
         object-fit: cover;
         width: 70px;
+        height: 70px;
         display: block;
-        margin: 20px auto 0;
+        margin: auto;
         border-radius: 50%;
 
         &Placeholder {
+            @include flex-container(
+                $direction: row,
+                $justify-content: center,
+                $align-items: center,
+                $wrap: nowrap
+            );
             width: 70px;
-            margin: 20px auto 0;
+            height: 70px;
+            margin: auto;
             border-radius: 50%;
             background-color: $white-color;
+
+            &Letter {
+                @include text($size: 1.5rem, $weight: 400, $color: null, $line-height: null);
+            }
         }
     }
 
     &Name {
         @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: null);
+        text-align: center;
+        margin-top: 20px;
     }
 
     &Roles {
         @include text($size: 0.875rem, $weight: 300, $color: $white-color, $line-height: null);
+        text-align: center;
+        margin-top: 20px;
     }
 }
 
@@ -50,6 +67,10 @@
     &Darken {
         background-color: darken($color: $primary-color, $amount: 10%);
     }
+
+    &ImgPlaceholderLetter {
+        color: $primary-color;
+    }
 }
 
 .secondaryBlue {
@@ -61,6 +82,10 @@
 
     &Darken {
         background-color: darken($color: $secondary-color, $amount: 10%);
+    }
+
+    &ImgPlaceholderLetter {
+        color: $secondary-color;
     }
 }
 
@@ -74,6 +99,10 @@
     &Darken {
         background-color: darken($color: $tertiary-color, $amount: 10%);
     }
+
+    &ImgPlaceholderLetter {
+        color: $tertiary-color;
+    }
 }
 
 .green {
@@ -85,6 +114,10 @@
 
     &Darken {
         background-color: darken($color: $green-color, $amount: 10%);
+    }
+
+    &ImgPlaceholderLetter {
+        color: $green-color;
     }
 }
 
@@ -98,6 +131,10 @@
     &Darken {
         background-color: darken($color: $orange-color, $amount: 10%);
     }
+
+    &ImgPlaceholderLetter {
+        color: $orange-color;
+    }
 }
 
 .red {
@@ -109,5 +146,9 @@
 
     &Darken {
         background-color: darken($color: $red-color, $amount: 10%);
+    }
+
+    .MemberCardImgPlaceholderLetter {
+        color: $red-color;
     }
 }
