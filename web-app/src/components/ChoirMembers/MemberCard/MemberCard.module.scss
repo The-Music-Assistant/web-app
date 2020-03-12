@@ -9,13 +9,18 @@
 @import "../../../root-styles/utilities.scss";
 
 .memberCard {
-    width: 250px;
-    height: 250px;
+    width: 280px;
+    height: 200px;
     border-radius: 10px;
     box-shadow: $primary-box-shadow;
     transition: box-shadow 0.2s ease-in-out;
     cursor: pointer;
     padding: 20px;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        width: 250px;
+    height: 250px;
+    }
 
     &Img {
         object-fit: cover;

@@ -37,22 +37,41 @@
     }
 
     &MemberGroupHeading {
-        @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
+        @include text(
+            $size: 1.25rem,
+            $weight: 300,
+            $color: $secondary-color,
+            $line-height: null
+        );
+        text-align: center;
         margin-top: 60px;
 
         &:first-child {
             margin-top: 30px;
+        }
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            text-align: initial;
         }
     }
 
     &Cards {
         @include grid-container(
             $grid-template-rows: null,
-            $grid-template-columns: repeat(auto-fill, 250px),
+            $grid-template-columns: repeat(auto-fill, 280px),
             $align-items: null
         );
         row-gap: 30px;
         column-gap: 50px;
+        justify-content: center;
         margin-top: 20px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            grid-template-columns: repeat(auto-fill, 250px);
+            row-gap: 50px;
+            column-gap: 70px;
+            margin: 40px;
+            justify-content: start;
+        }
     }
 }
