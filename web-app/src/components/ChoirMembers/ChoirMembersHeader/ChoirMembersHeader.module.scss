@@ -1,0 +1,26 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/MusicSelection/ChoirMembersHeader/ChoirMembersHeader.js
+// Description: SCSS styles for the choir members header component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 3/12/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.choirMembersHeader {
+    @include grid-container(
+        $grid-template-rows: null,
+        $grid-template-columns: 1fr 2fr 1fr,
+        $align-items: center
+    );
+
+    &Heading {
+        @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
+        text-align: center;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 1.5rem;
+        }
+    }
+}

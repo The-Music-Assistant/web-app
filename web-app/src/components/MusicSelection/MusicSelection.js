@@ -76,6 +76,10 @@ class MusicSelection extends Component {
         this.props.history.push(`${this.props.match.url}/music/${id}`);
     };
 
+    backButtonClickedHandler = () => {
+        this.props.history.goBack();
+    };
+
     createSheetMusicComponents = () => {
         // Card color options
         const colors = ["secondaryBlue", "green", "primaryBlue", "orange", "tertiaryBlue", "red"];
@@ -102,10 +106,6 @@ class MusicSelection extends Component {
                 />
             );
         });
-    };
-
-    backButtonClickedHandler = () => {
-        this.props.history.goBack();
     };
 
     render() {

@@ -12,9 +12,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import shortid from "shortid";
 import { MetroSpinner } from "react-spinners-kit";
+import {withRouter} from "react-router-dom";
 
 // Component imports
 import MemberCard from "./MemberCard/MemberCard";
+import ChoirMembersHeader from "./ChoirMembersHeader/ChoirMembersHeader";
 
 // File imports
 import { getChoirMembers } from "../../App/musicAssistantApi";
@@ -103,6 +105,10 @@ class ChoirMembers extends Component {
         }
     };
 
+    backButtonClickedHandler = () => {
+        this.props.history.goBack();
+    };
+
     /**
      * Gets an array of admin member cards and an array of student member cards
      * @returns - An object containing an array of admins and an array of students
@@ -166,7 +172,7 @@ class ChoirMembers extends Component {
         } else {
             // Display the choir cards
             component = (
-                <div className={styles.choirMembers}>
+                <div>
                     <h1 className={styles.choirMembersMemberGroupHeading}>Administrators</h1>
                     <div className={styles.choirMembersCards}>{admins}</div>
                     <h1 className={styles.choirMembersMemberGroupHeading}>Students</h1>
@@ -176,7 +182,15 @@ class ChoirMembers extends Component {
         }
 
         // Returns the JSX to render
-        return component;
+        return (
+            <div className={styles.choirMembers}>
+                <ChoirMembersHeader
+                    heading={`${this.props.choirName} Members`}
+                    backButtonClickedHandler={this.backButtonClickedHandler}
+                />
+                {component}
+            </div>
+        );
     }
 }
 
@@ -192,8 +206,9 @@ ChoirMembers.propTypes = {
  */
 const mapStateToProps = state => {
     return {
-        choirId: state.choirs.selectedChoirId
+        choirId: state.choirs.selectedChoirId,
+        choirName: state.choirs.selectedChoirName
     };
 };
 
-export default connect(mapStateToProps)(ChoirMembers);
+export default withRouter(connect(mapStateToProps)(ChoirMembers));
