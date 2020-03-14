@@ -16,10 +16,13 @@
         $grid-template-columns: null,
         $align-items: null
     );
-    margin-left: 175px;
 
     grid-template-areas:
         "head"
         "practice-main"
         "foot";
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        margin-left: 175px;
+    }
 }
