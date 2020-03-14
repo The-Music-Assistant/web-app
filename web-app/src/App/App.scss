@@ -7,6 +7,11 @@
 // ----------------------------------------------------------------------------
 
 @import "../root-styles/utilities.scss";
+
+.app {
+    position: relative;
+}
+
 body,
 pre {
     font-family: "Roboto", sans-serif;

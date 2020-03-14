@@ -9,7 +9,11 @@
 @import "../../root-styles/utilities.scss";
 
 .sideNav {
-    grid-area: side-nav;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow: scroll;
     @include grid-container(
         $grid-template-rows: 50px 3fr 1fr,
         $grid-template-columns: 1fr,
