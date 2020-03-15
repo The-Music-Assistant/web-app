@@ -50,6 +50,15 @@
             margin-left: 30px;
             // If width is changed to height, the ref in componentDidMount() will give an inaccurate width (not sure why)
             width: 18px;
+            transition: transform 0.3s ease-in-out;
+
+            &Show {
+                transform: rotate(180deg);
+            }
+
+            &Hide {
+                transform: rotate(0deg);
+            }
         }
     }
 

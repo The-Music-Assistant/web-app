@@ -19,24 +19,39 @@ import downArrowWhite from "../../../assets/icons/down-arrow-white.svg";
 import styles from "./SelectInput.module.scss";
 
 class SelectInput extends Component {
-    // Component state
-    state = {
-        showDropdown: false,
-        dropdownValue: this.props.placeholder,
-        width: null,
-        height: null
-    };
+    constructor(props) {
+        super(props);
+
+        // Component state
+        this.state = {
+            showDropdown: false,
+            dropdownValue: this.getMaxLengthString(),
+            width: null,
+            height: null
+        };
+    }
 
     _componentRef = React.createRef();
 
     componentDidMount() {
+        console.log(this.state.dropdownValue);
         this.setState({
             width: parseFloat(getComputedStyle(this._componentRef.current).width),
-            height: parseFloat(getComputedStyle(this._componentRef.current).height)
+            height: parseFloat(getComputedStyle(this._componentRef.current).height),
+            dropdownValue: this.props.placeholder
         });
 
         console.log(getComputedStyle(this._componentRef.current).height);
     }
+
+    getMaxLengthString = () => {
+        let maxLength = this.props.options.reduce(
+            (maxLength, optionStr) => Math.max(maxLength, optionStr.length),
+            0
+        );
+        maxLength = Math.max(maxLength, this.props.placeholder.length);
+        return "".padStart(maxLength, "0");
+    };
 
     selectorButtonClickedHandler = () => {
         this.setState(prevState => {
@@ -47,7 +62,7 @@ class SelectInput extends Component {
     };
 
     optionButtonClickedHandler = event => {
-        this.setState({ dropdownValue: event.target.value });
+        this.setState({ dropdownValue: event.target.value, showDropdown: false });
     };
 
     getOptions = () => {
@@ -75,6 +90,17 @@ class SelectInput extends Component {
         return classList;
     };
 
+    getArrowClassList = () => {
+        let classList = `${styles.selectInputSelectorArrowImg}`;
+        if (this.state.showDropdown) {
+            classList += ` ${styles.selectInputSelectorArrowImgShow}`;
+        } else {
+            classList += ` ${styles.selectInputSelectorArrowImgHide}`;
+        }
+
+        return classList;
+    };
+
     render() {
         // Returns the JSX to display
         return (
@@ -95,7 +121,7 @@ class SelectInput extends Component {
                     onClick={this.selectorButtonClickedHandler}>
                     <h2 className={styles.selectInputSelectorTitle}>{this.state.dropdownValue}</h2>
                     <img
-                        className={styles.selectInputSelectorArrowImg}
+                        className={this.getArrowClassList()}
                         src={
                             this.props.color === colorOptions.WHITE ? downArrowBlue : downArrowWhite
                         }
