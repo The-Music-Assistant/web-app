@@ -15,7 +15,7 @@
     &Bar {
         width: 20px;
         height: 2px;
-        background-color: #fff;
+        background-color: $white-color;
         border-radius: 10px;
 
         &:nth-child(2),

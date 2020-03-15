@@ -15,6 +15,7 @@
     padding: 20px 0 4px;
     border: none;
     outline: none;
+    background-color: $white-color;
 
     &:focus + .label .content,
     &Valid + .label .content {

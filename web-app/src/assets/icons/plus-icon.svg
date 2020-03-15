@@ -7,8 +7,8 @@
         <g id="Home-(Desktop)" transform="translate(-860.000000, -207.000000)">
             <g id="Group-3" transform="translate(812.000000, 159.000000)">
                 <g id="Group-2" transform="translate(48.000000, 48.000000)">
-                    <circle id="Oval" stroke="#FFFFFF" stroke-width="4" cx="29" cy="29" r="27"></circle>
-                    <g id="Group" transform="translate(14.000000, 14.000000)" fill="#FFFFFF">
+                    <circle id="Oval" stroke="#F8F8F8" stroke-width="4" cx="29" cy="29" r="27"></circle>
+                    <g id="Group" transform="translate(14.000000, 14.000000)" fill="#F8F8F8">
                         <rect id="Rectangle" x="13" y="0" width="4" height="30"></rect>
                         <rect id="Rectangle-Copy" transform="translate(15.000000, 15.000000) rotate(90.000000) translate(-15.000000, -15.000000) " x="13" y="0" width="4" height="30"></rect>
                     </g>

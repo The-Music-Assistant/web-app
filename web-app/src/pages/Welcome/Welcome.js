@@ -173,7 +173,7 @@ class Welcome extends Component {
             mainContent = (
                 <div className={styles.welcomeMain}>
                     <div className={styles.welcomeMainSpinner}>
-                        <MetroSpinner size={75} color='#FFFFFF' loading={true} />
+                        <MetroSpinner size={75} color='#F8F8F8' loading={true} />
                     </div>
                 </div>
             );

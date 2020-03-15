@@ -67,7 +67,7 @@ class Startup extends Component {
                     <h1 className={styles.startupHeading}>The Music Assistant</h1>
                     <h2 className={styles.startupSubheading}>Just a moment...</h2>
                     <div className={styles.startupSpinner}>
-                        <MetroSpinner size={75} color='#FFFFFF' loading={true} />
+                        <MetroSpinner size={75} color='#F8F8F8' loading={true} />
                     </div>
                 </div>
             </div>
