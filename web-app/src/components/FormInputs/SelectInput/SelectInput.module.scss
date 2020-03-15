@@ -1,0 +1,108 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/FormInputs/SelectInput/SelectInput.js
+// Description: SCSS styles for the SelectInput component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 3/14/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.selectInput {
+    position: relative;
+
+    &InputElement {
+        display: none;
+    }
+
+    &Selector {
+        border-radius: 10px;
+        box-shadow: $primary-box-shadow;
+        transition: transform 0.2s ease-in-out;
+        cursor: pointer;
+        @include flex-container(
+            $direction: row,
+            $justify-content: space-between,
+            $align-items: center,
+            $wrap: nowrap
+        );
+        width: 250px;
+        height: 40px;
+        padding: 10px 30px;
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            padding: 10px 20px;
+        }
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+
+        &Title {
+            @include text($size: 1rem, $weight: 400, $color: null, $line-height: null);
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                font-size: 1.2rem;
+            }
+        }
+
+        &ArrowImg {
+            height: 10px;
+        }
+    }
+
+    &Options {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 250px;
+        border-radius: 10px;
+        box-shadow: $primary-box-shadow;
+    }
+
+    &Option {
+        @include text($size: 1.25rem, $weight: 400, $color: null, $line-height: null);
+        text-align: center;
+        margin: 10px 0;
+
+        &::after {
+            display: block;
+            content: "";
+            width: 100%;
+            height: 1px;
+            background-color: $white-color;
+            margin-top: 10px;
+        }
+
+        &:last-child {
+            &::after {
+                display: none;
+            }
+        }
+    }
+}
+
+.white {
+    background-color: $white-color;
+    color: $primary-color;
+}
+
+.blue {
+    background-color: $primary-color;
+    color: $white-color;
+}
+
+.green {
+    background-color: $green-color;
+    color: $white-color;
+}
+
+.orange {
+    background-color: $orange-color;
+    color: $white-color;
+}
+
+.red {
+    background-color: $red-color;
+    color: $white-color;
+}

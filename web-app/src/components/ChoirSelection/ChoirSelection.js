@@ -16,6 +16,7 @@ import { MetroSpinner } from "react-spinners-kit";
 
 // Component imports
 import ChoirCard from "./ChoirCard/ChoirCard";
+import SelectInput from "../FormInputs/SelectInput/SelectInput";
 
 // Image imports
 import plusIcon from "../../assets/icons/plus-icon.svg";
@@ -27,6 +28,7 @@ import { getUsersChoirs, joinChoir } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { choirSelectedForPractice, choirSelectedForChoirs } from "../../store/actions";
 import * as routingOptions from "./routingOptions";
+import * as selectInputColorOptions from "../FormInputs/SelectInput/colorOptions";
 
 // Style imports
 import styles from "./ChoirSelection.module.scss";
@@ -230,6 +232,12 @@ class ChoirSelection extends Component {
         return (
             <div className={styles.choirSelection}>
                 <h1 className={styles.choirSelectionHeading}>Choir Selection</h1>
+                <SelectInput
+                    placeholder='Choose a Part'
+                    name='choose-part'
+                    color={selectInputColorOptions.ORANGE}
+                    options={["Alto", "Soprano", "Tenor", "Base"]}
+                />
                 {component}
             </div>
         );
