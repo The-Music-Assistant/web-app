@@ -22,8 +22,21 @@ class SelectInput extends Component {
     // Component state
     state = {
         showDropdown: false,
-        dropdownValue: this.props.placeholder
+        dropdownValue: this.props.placeholder,
+        width: null,
+        height: null
     };
+
+    _componentRef = React.createRef();
+
+    componentDidMount() {
+        this.setState({
+            width: parseFloat(getComputedStyle(this._componentRef.current).width),
+            height: parseFloat(getComputedStyle(this._componentRef.current).height)
+        });
+
+        console.log(getComputedStyle(this._componentRef.current).height);
+    }
 
     selectorButtonClickedHandler = () => {
         this.setState(prevState => {
@@ -65,16 +78,20 @@ class SelectInput extends Component {
     render() {
         // Returns the JSX to display
         return (
-            <div className={styles.selectInput}>
+            <div
+                className={styles.selectInput}
+                ref={this._componentRef}
+                style={{ width: this.state.width, height: this.state.height }}>
                 <input
                     className={styles.selectInputInputElement}
                     type='text'
                     name={this.props.name}
-                    value={this.state.dropdownValue}
+                    defaultValue={this.state.dropdownValue}
                 />
                 <button
                     className={`${styles.selectInputSelector} ${styles[this.props.color]}`}
                     type='button'
+                    style={{ width: this.state.width, height: this.state.height }}
                     onClick={this.selectorButtonClickedHandler}>
                     <h2 className={styles.selectInputSelectorTitle}>{this.state.dropdownValue}</h2>
                     <img
@@ -85,7 +102,9 @@ class SelectInput extends Component {
                         alt={"Arrow"}
                     />
                 </button>
-                <div className={this.getOptionsClassList()}>{this.getOptions()}</div>
+                <div className={this.getOptionsClassList()} style={{ top: this.state.height + 10 }}>
+                    {this.getOptions()}
+                </div>
             </div>
         );
     }

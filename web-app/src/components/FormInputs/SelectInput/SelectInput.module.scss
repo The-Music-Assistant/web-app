@@ -25,7 +25,7 @@
             $align-items: center,
             $wrap: nowrap
         );
-        width: 100%;
+        max-width: 300px;
         height: 100%;
         padding: 10px 30px;
         border-radius: 10px;
@@ -48,13 +48,13 @@
 
         &ArrowImg {
             margin-left: 30px;
-            height: 10px;
+            // If width is changed to height, the ref in componentDidMount() will give an inaccurate width (not sure why)
+            width: 18px;
         }
     }
 
     &Options {
         position: absolute;
-        top: 50px;
         left: 0;
         width: 100%;
         border-radius: 10px;
