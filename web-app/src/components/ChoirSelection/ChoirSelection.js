@@ -23,7 +23,7 @@ import questionIcon from "../../assets/icons/question-icon.svg";
 
 // File imports
 import * as logs from "../../vendors/Firebase/logs";
-import { getUsersChoirs, joinChoir } from "../../App/musicAssistantApi";
+import { getUsersChoirs, joinChoir } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { choirSelectedForPractice, choirSelectedForChoirs } from "../../store/actions";
 import * as routingOptions from "./routingOptions";

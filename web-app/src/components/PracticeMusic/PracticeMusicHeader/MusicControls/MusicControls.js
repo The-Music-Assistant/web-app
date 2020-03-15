@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import atVars from "../../../../vendors/AlphaTab/variables";
 import * as atActions from "../../../../vendors/AlphaTab/actions";
 import ptVars from "../../../../vendors/ML5/PitchDetection/variables";
-import { userGetsFeedback } from "../../../../App/musicAssistantApi";
+import { userGetsFeedback } from "../../../../vendors/AWS/tmaApi";
 import { sheetMusicError } from "../../../../vendors/Firebase/logs";
 
 // Image imports

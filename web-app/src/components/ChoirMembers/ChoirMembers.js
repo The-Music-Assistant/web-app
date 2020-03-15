@@ -19,7 +19,7 @@ import MemberCard from "./MemberCard/MemberCard";
 import ChoirMembersHeader from "./ChoirMembersHeader/ChoirMembersHeader";
 
 // File imports
-import { getChoirMembers } from "../../App/musicAssistantApi";
+import { getChoirMembers } from "../../vendors/AWS/tmaApi";
 import firebase from "../../vendors/Firebase/firebase";
 import * as memberColorOptions from "./MemberCard/colorOptions";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";

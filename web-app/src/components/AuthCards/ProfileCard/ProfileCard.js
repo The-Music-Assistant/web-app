@@ -18,7 +18,7 @@ import ImageInput from "../../FormInputs/ImageInput/ImageInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 
 // File imports
-import { addUser } from "../../../App/musicAssistantApi";
+import { addUser } from "../../../vendors/AWS/tmaApi";
 import { getUserInfo } from "../../../store/actions";
 import firebase from "../../../vendors/Firebase/firebase";
 import * as logs from "../../../vendors/Firebase/logs";

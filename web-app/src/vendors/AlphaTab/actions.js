@@ -14,7 +14,7 @@ import {
     getPartSheetMusic,
     getExercise,
     getSinglePartSheetMusic
-} from "../../App/musicAssistantApi";
+} from "../../vendors/AWS/tmaApi";
 import TexLoaded from "./TexLoaded";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
 import { store } from "../../store/reduxSetup";

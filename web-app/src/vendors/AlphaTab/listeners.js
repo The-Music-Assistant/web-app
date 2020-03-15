@@ -9,7 +9,7 @@
 // File imports
 import atVars from "./variables";
 import { startPlayingMusic } from "./actions";
-import { userGetsFeedback } from "../../App/musicAssistantApi";
+import { userGetsFeedback } from "../../vendors/AWS/tmaApi";
 import { store } from "../../store/reduxSetup";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
 import Drawer from "../P5/Drawer";

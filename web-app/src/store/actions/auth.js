@@ -13,7 +13,7 @@ import "firebase/storage";
 import * as actionTypes from "./actionTypes";
 import firebase from "../../vendors/Firebase/firebase";
 import * as logs from "../../vendors/Firebase/logs";
-import { setAxiosAuthToken, getUser } from "../../App/musicAssistantApi";
+import { setAxiosAuthToken, getUser } from "../../vendors/AWS/tmaApi";
 
 /**
  * Signs the current user out

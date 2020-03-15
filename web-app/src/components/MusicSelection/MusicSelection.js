@@ -19,7 +19,7 @@ import MusicCard from "./MusicCard/MusicCard";
 import { MetroSpinner } from "react-spinners-kit";
 
 // File imports
-import { getSheetMusic } from "../../App/musicAssistantApi";
+import { getSheetMusic } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { musicSelectionError } from "../../vendors/Firebase/logs";
 import { musicSelectedForPractice } from "../../store/actions";

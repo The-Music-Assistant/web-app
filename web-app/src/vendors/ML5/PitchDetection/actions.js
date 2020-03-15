@@ -14,7 +14,7 @@ import {
     updateRunningPerformance,
     addPerformance,
     closeRunningPerformance
-} from "../../../App/musicAssistantApi";
+} from "../../../vendors/AWS/tmaApi";
 import { sheetMusicError } from "../../Firebase/logs";
 
 /**
