@@ -236,7 +236,7 @@ class ChoirSelection extends Component {
                     placeholder='Choose a Part'
                     name='choose-part'
                     color={selectInputColorOptions.ORANGE}
-                    options={["Alto", "Soprano", "Tenor", "Base"]}
+                    options={["Alto Alto Alto Alto", "Soprano", "Tenor", "Base"]}
                 />
                 {component}
             </div>

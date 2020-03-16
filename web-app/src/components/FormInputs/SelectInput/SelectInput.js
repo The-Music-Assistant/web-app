@@ -45,12 +45,17 @@ class SelectInput extends Component {
     }
 
     getMaxLengthString = () => {
-        let maxLength = this.props.options.reduce(
-            (maxLength, optionStr) => Math.max(maxLength, optionStr.length),
-            0
+        let maxLengthStr = this.props.options.reduce(
+            (maxLengthStr, optionStr) =>
+                maxLengthStr.length > optionStr.length ? maxLengthStr : optionStr,
+            ""
         );
-        maxLength = Math.max(maxLength, this.props.placeholder.length);
-        return "".padStart(maxLength, "0");
+        maxLengthStr =
+            maxLengthStr.length > this.props.placeholder.length
+                ? maxLengthStr
+                : this.props.placeholder;
+
+        return maxLengthStr;
     };
 
     selectorButtonClickedHandler = () => {
