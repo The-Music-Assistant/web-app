@@ -6,6 +6,8 @@
 // Created Date: 3/14/2020
 // ----------------------------------------------------------------------------
 
+// NOTE: Style changes may affect the JS code for this component - see comments in the JS file
+
 @import "../../../root-styles/utilities.scss";
 
 .selectInput {
@@ -25,14 +27,9 @@
             $align-items: center,
             $wrap: nowrap
         );
-        max-width: 300px;
         height: 100%;
-        padding: 10px 30px;
+        padding: 10px 20px;
         border-radius: 10px;
-
-        @include media-query($breakpoint: $tablet-breakpoint) {
-            padding: 10px 20px;
-        }
 
         &:hover {
             transform: translateY(-2px);
@@ -42,22 +39,27 @@
             @include text($size: 1rem, $weight: 400, $color: null, $line-height: null);
 
             @include media-query($breakpoint: $tablet-breakpoint) {
-                font-size: 1.2rem;
+                font-size: 1.25rem;
             }
         }
 
         &ArrowImg {
-            margin-left: 30px;
+            margin-left: 15px;
             // If width is changed to height, the ref in componentDidMount() will give an inaccurate width (not sure why)
-            width: 18px;
+            width: 14px;
             transition: transform 0.3s ease-in-out;
 
-            &Show {
+            &Up {
                 transform: rotate(180deg);
             }
 
-            &Hide {
+            &Down {
                 transform: rotate(0deg);
+            }
+
+            @include media-query($breakpoint: $tablet-breakpoint) {
+                margin-left: 30px;
+                width: 18px;
             }
         }
     }
@@ -83,7 +85,12 @@
 
     &Option {
         display: block;
-        @include text($size: 1.25rem, $weight: 300, $color: null, $line-height: null);
+        @include text($size: 1rem, $weight: 300, $color: null, $line-height: null);
+
+        @include media-query($breakpoint: $tablet-breakpoint) {
+            font-size: 1.25rem;
+        }
+
         text-align: center;
         margin: 10px 0;
         width: 100%;
