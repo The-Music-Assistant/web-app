@@ -23,10 +23,10 @@ class SelectInput extends Component {
         super(props);
 
         this._maxLengthString = this.getMaxLengthString(); // The maximum-length string of all options
-        this._actualValue = this._maxLengthString; // The actual value to display (used to test the max-length string)
 
         // Component state
         this.state = {
+            value: this._maxLengthString,
             showDropdown: false,
             width: null, // Component width
             height: null, // Component height
@@ -39,7 +39,7 @@ class SelectInput extends Component {
     }
 
     // A reference to the outermost div for this component
-    _componentRef = React.createRef();
+    _selectorRef = React.createRef();
 
     /**
      * Adds a window resize listener
@@ -50,14 +50,12 @@ class SelectInput extends Component {
         // Adds a window resize listener
         window.addEventListener("resize", this.windowSizeChangedHandler);
 
-        // Updates the actual select value to the provided value
-        this._actualValue = this.props.value;
-
         // Updates state with the current width and height
         // This is the largest width and height needed by any of the options
         this.setState({
-            width: parseFloat(getComputedStyle(this._componentRef.current).width),
-            height: parseFloat(getComputedStyle(this._componentRef.current).height)
+            width: parseFloat(getComputedStyle(this._selectorRef.current).width),
+            height: parseFloat(getComputedStyle(this._selectorRef.current).height),
+            value: this.props.value
         });
     }
 
@@ -65,18 +63,21 @@ class SelectInput extends Component {
      * Updates the actual value of the select
      * Updates state with the largest needed width and height if needed
      */
-    componentDidUpdate() {
-        // Updates the actual select value to the provided value
-        this._actualValue = this.props.value;
-
-        // Updates state with the current width and height
-        // Flips screenSizeChanged to false to alert the next call to componentDidUpdate that no state updates are needed
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.screenSizeChanged) {
+            // Updates state with the current width and height, and flips screenSizeChanged to false
             this.setState({
                 screenSizeChanged: false,
-                width: parseFloat(getComputedStyle(this._componentRef.current).width),
-                height: parseFloat(getComputedStyle(this._componentRef.current).height)
+                width: parseFloat(getComputedStyle(this._selectorRef.current).width),
+                height: parseFloat(getComputedStyle(this._selectorRef.current).height),
+                value: this.props.value
             });
+        } else if (prevProps.value !== this.props.value) {
+            // This check ensures that the state value property is not updated unless the new prop value property has changed
+            // For a width and height update, the prop value property never changes
+
+            // Updates state with the new value from props
+            this.setState({ value: this.props.value });
         }
     }
 
@@ -95,16 +96,13 @@ class SelectInput extends Component {
         const newScreenWidth = parseFloat(window.innerWidth) < 768 ? "small" : "large";
 
         if (newScreenWidth !== oldScreenWidth) {
-            // Updates the actual select value to the max-length option
-            // This corrects the width and height to accomodate the max-length option
-            this._actualValue = this._maxLengthString;
-
             // Updates state to trigger a component resize
             this.setState({
                 screenSizeChanged: true,
                 screenWidth: newScreenWidth,
                 width: "auto",
-                height: "auto"
+                height: "auto",
+                value: this._maxLengthString
             });
         }
     };
@@ -206,7 +204,6 @@ class SelectInput extends Component {
         return (
             <div
                 className={styles.selectInput}
-                ref={this._componentRef}
                 style={{ width: this.state.width, height: this.state.height }}>
                 <input
                     className={styles.selectInputInputElement}
@@ -216,10 +213,11 @@ class SelectInput extends Component {
                 />
                 <button
                     className={`${styles.selectInputSelector} ${styles[this.props.color]}`}
+                    ref={this._selectorRef}
                     type='button'
                     style={{ width: this.state.width, height: this.state.height }}
                     onClick={this.selectorButtonClickedHandler}>
-                    <h2 className={styles.selectInputSelectorTitle}>{this._actualValue}</h2>
+                    <h2 className={styles.selectInputSelectorTitle}>{this.state.value}</h2>
                     <img
                         className={this.getArrowClassList()}
                         src={

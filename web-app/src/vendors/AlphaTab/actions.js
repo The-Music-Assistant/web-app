@@ -366,8 +366,8 @@ export const updateDropdown = partList => {
  */
 const loadTex = async () => {
     // Clears the "exercise" option from the texToDisplay drop down if present since that is only generated when viewing an exercise
-    let texToDisplay = document.getElementById("texToDisplay");
-    texToDisplay.options[3] = null;
+    // let texToDisplay = document.getElementById("texToDisplay");
+    // texToDisplay.options[3] = null;
 
     let data = {
         sheetMusicId: store.getState().practice.selectedSheetMusicId
@@ -443,3 +443,19 @@ const loadTex = async () => {
         sheetMusicError(error.response.status, error.response.data, "[alphaTabControls/loadTex]");
     }
 };
+
+/**
+ * Gets the member's part for the sheet music (e.g. Soprano)
+ * @returns - The member's part
+ */
+export const getMyPart = () => {
+    return atVars.texLoaded ? atVars.texLoaded.myPart : null;
+}
+
+/**
+ * Gets all parts of the sheet music (e.g. alto, soprano, etc.)
+ * @returns - An array of parts
+ */
+export const getPartList = () => {
+    return atVars.texLoaded ? atVars.texLoaded.partNames : null;
+}

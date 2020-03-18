@@ -14,12 +14,20 @@ import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
 
 // File imports
 import initializeAPI from "../../vendors/AlphaTab/initialization";
-import { changeToSheetMusic } from "../../vendors/AlphaTab/actions";
+import { changeToSheetMusic, changePart } from "../../vendors/AlphaTab/actions";
+import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 
 // Style imports
 import "./PracticeMusic.scss";
 
 class PracticeMusic extends Component {
+    // Component state
+    state = {
+        isLoading: true,
+        currentPart: null,
+        partList: null
+    };
+
     /**
      * Initializes the AlphaTab API
      * Displays the piece of music on the screen
@@ -27,8 +35,23 @@ class PracticeMusic extends Component {
     componentDidMount() {
         // Initializes the AlphaTab API and displays the music
         initializeAPI();
-        changeToSheetMusic();
+        changeToSheetMusic()
+            .then(() => {
+                this.setState({
+                    isLoading: false,
+                    currentPart: getMyPart(),
+                    partList: getPartList()
+                });
+            })
+            .then(error => {
+                console.log(error);
+            });
     }
+
+    onPartChangeHandler = newPart => {
+        changePart(newPart);
+        this.setState({ currentPart: newPart });
+    };
 
     /**
      * Renders the PracticeSheetMusic component
@@ -38,7 +61,13 @@ class PracticeMusic extends Component {
         // Returns the JSX to display
         return (
             <main>
-                <PracticeMusicHeader />
+                {!this.state.isLoading ? (
+                    <PracticeMusicHeader
+                        currentPart={this.state.currentPart}
+                        partList={this.state.partList}
+                        onPartChange={this.onPartChangeHandler}
+                    />
+                ) : null}
                 <section id='alpha-tab-wrapper'>
                     <div id='sketch-holder'></div>
                     <div id='alpha-tab-container'></div>
