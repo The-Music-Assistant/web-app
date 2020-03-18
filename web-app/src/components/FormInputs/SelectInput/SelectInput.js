@@ -138,11 +138,12 @@ class SelectInput extends Component {
     };
 
     /**
-     * Sends value update to the parent component
+     * Sends the selected index to the parent component
      * Closes the options dropdown
+     * @param - The index of the button clicked
      */
-    optionButtonClickedHandler = event => {
-        this.props.onChange(event.target.value);
+    optionButtonClickedHandler = index => {
+        this.props.onChange(index, this.props.options[index]);
 
         this.setState({ showDropdown: false });
     };
@@ -156,10 +157,11 @@ class SelectInput extends Component {
             return (
                 <button
                     key={index}
+                    index={index}
                     className={`${styles.selectInputOption} ${styles[this.props.color]}`}
                     type='button'
                     value={optionName}
-                    onClick={this.optionButtonClickedHandler}>
+                    onClick={() => this.optionButtonClickedHandler(index)}>
                     {optionName}
                 </button>
             );

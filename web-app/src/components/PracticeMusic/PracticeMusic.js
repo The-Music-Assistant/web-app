@@ -43,14 +43,20 @@ class PracticeMusic extends Component {
                     partList: getPartList()
                 });
             })
-            .then(error => {
+            .catch(error => {
                 console.log(error);
             });
     }
 
-    onPartChangeHandler = newPart => {
-        changePart(newPart);
-        this.setState({ currentPart: newPart });
+    /**
+     * Changes the track number on AlphaTab to the new partIndex
+     * Updates state to reflect the new part value
+     * @param index - The index of the selected part based on the original array
+     * @param value - The value (name) of the selected part
+     */
+    onPartChangeHandler = (index, value) => {
+        changePart(`t${index}`);
+        this.setState({ currentPart: value });
     };
 
     /**

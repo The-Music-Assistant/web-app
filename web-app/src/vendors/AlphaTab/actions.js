@@ -56,13 +56,15 @@ export const startPlayingMusic = () => {
 
 /**
  * Change which track Alpha Tab is rendering based on the given part name
- * @param {string} partName - The part name to change to. Part names are expected to be "tx" where x is the track number
+ * @param {string} partName - The part name to change to. Part names are expected to be "tx" where x is the track index
  */
 export const changePart = partName => {
-    let trackNumber = parseInt(partName.substring(1), 10);
-    // If we have the track number that is being asked then switch to that track
-    if (!atVars.texLoaded.currentTrackIndexes.includes(trackNumber)) {
-        atVars.texLoaded.updateCurrentTrackIndexes(trackNumber);
+    let trackIndex = parseInt(partName.substring(1), 10);
+    // If we have the track index that is being asked then switch to that track
+    if (!atVars.texLoaded.currentTrackIndexes.includes(trackIndex)) {
+        atVars.texLoaded.updateCurrentTrackIndexes(trackIndex);
+        
+        console.log(atVars.api.score);
 
         atVars.api.renderTracks([atVars.api.score.tracks[atVars.texLoaded.currentTrackIndexes[0]]]);
 
@@ -71,7 +73,7 @@ export const changePart = partName => {
         // TODO: Discuss with client and users, is this correct behavior? Do they want to always see red/yellow/green for their part only
         let data = {
             sheetMusicId: store.getState().practice.selectedSheetMusicId,
-            partName: atVars.texLoaded.partNames[trackNumber]
+            partName: atVars.texLoaded.partNames[trackIndex]
         };
         getPartSheetMusic(data)
             .then(response => {
