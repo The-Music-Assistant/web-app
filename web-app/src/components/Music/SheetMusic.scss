@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMusic/PracticeMusic.scss
+// File Path: src/components/Music/SheetMusic.scss
 // Description: 
-//      * SCSS styles for the practice music component
+//      * SCSS styles for AlphaTab and P5
 //      * NOTE: This is not a module file beacuse AlphaTab and P5 need access to these styles
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
@@ -16,7 +16,7 @@
     margin: auto;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
-        width: calc(100vw - 175px);
+        width: calc(100vw - 175px - 30px - 30px);
     }
 }
 

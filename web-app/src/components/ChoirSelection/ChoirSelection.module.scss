@@ -9,6 +9,8 @@
 @import "../../root-styles/utilities.scss";
 
 .choirSelection {
+    margin: 30px;
+
     &Heading {
         @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
         text-align: center;
@@ -43,12 +45,12 @@
         row-gap: 30px;
         column-gap: 50px;
         justify-content: center;
-        margin: 20px;
+        margin-top: 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             row-gap: 50px;
             column-gap: 70px;
-            margin: 30px;
+            margin-top: 30px;
             justify-content: start;
         }
     }

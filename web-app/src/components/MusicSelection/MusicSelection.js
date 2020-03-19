@@ -14,7 +14,7 @@ import { withRouter } from "react-router-dom";
 import shortid from "shortid";
 
 // Component imports
-import MusicSelectionHeader from "./MusicSelectionHeader/MusicSelectionHeader";
+import PageHeader from "../PageHeader/PageHeader";
 import MusicCard from "./MusicCard/MusicCard";
 import { MetroSpinner } from "react-spinners-kit";
 
@@ -76,6 +76,9 @@ class MusicSelection extends Component {
         this.props.history.push(`${this.props.match.url}/music/${id}`);
     };
 
+    /**
+     * Goes back to the previous page
+     */
     backButtonClickedHandler = () => {
         this.props.history.goBack();
     };
@@ -130,8 +133,10 @@ class MusicSelection extends Component {
         }
         return (
             <div className={styles.musicSelection}>
-                <MusicSelectionHeader
+                <PageHeader
                     heading={`${this.props.choirName} - Music`}
+                    shouldDisplayBackButton={true}
+                    backButtonTitle={"Choir Selection"}
                     backButtonClickedHandler={this.backButtonClickedHandler}
                 />
                 {component}

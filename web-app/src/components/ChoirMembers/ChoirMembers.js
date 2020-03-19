@@ -12,11 +12,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import shortid from "shortid";
 import { MetroSpinner } from "react-spinners-kit";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 // Component imports
 import MemberCard from "./MemberCard/MemberCard";
-import ChoirMembersHeader from "./ChoirMembersHeader/ChoirMembersHeader";
+import PageHeader from "../PageHeader/PageHeader";
 
 // File imports
 import { getChoirMembers } from "../../vendors/AWS/tmaApi";
@@ -184,8 +184,10 @@ class ChoirMembers extends Component {
         // Returns the JSX to render
         return (
             <div className={styles.choirMembers}>
-                <ChoirMembersHeader
+                <PageHeader
                     heading={`${this.props.choirName} Members`}
+                    shouldDisplayBackButton={true}
+                    backButtonTitle={"Choir Selection"}
                     backButtonClickedHandler={this.backButtonClickedHandler}
                 />
                 {component}

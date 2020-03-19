@@ -20,7 +20,7 @@ import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
 import MusicSelection from "../../components/MusicSelection/MusicSelection";
 import AlertBar from "../../components/AlertBar/AlertBar";
 import Home from "../../components/Home/Home";
-import PracticeMusic from "../../components/PracticeMusic/PracticeMusic";
+import Music from "../../components/Music/Music";
 import Progress from "../../components/Progress/Progress";
 import ChoirMembers from "../../components/ChoirMembers/ChoirMembers";
 import Footer from "../../components/Footer/Footer";
@@ -214,7 +214,7 @@ class Primary extends Component {
                 {mainNav}
                 <Switch>
                     <Route path='/practice/choirs/:choirId/music/:musicId'>
-                        <PracticeMusic />
+                        <Music />
                     </Route>
                     <Route path='/practice/choirs/:choirId'>
                         <MusicSelection showAlert={this.showAlertHandler} />

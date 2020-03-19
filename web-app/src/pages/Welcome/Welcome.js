@@ -20,7 +20,7 @@ import * as logs from "../../vendors/Firebase/logs";
 
 // Image imports
 import logo from "../../assets/logos/tma-logo-white.png";
-import downArrow from "../../assets/icons/down-arrow-white-fa.svg";
+import downArrow from "../../assets/icons/down-arrow-white.svg";
 
 // Component  imports
 import RectangularButton from "../../components/Buttons/RectangularButton/RectangularButton";

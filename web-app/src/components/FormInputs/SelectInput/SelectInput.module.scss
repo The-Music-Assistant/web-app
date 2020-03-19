@@ -72,6 +72,7 @@
         border-radius: 10px;
         box-shadow: $primary-box-shadow;
         transition: transform 0.3s ease-in-out;
+        overflow: scroll;
 
         &Show {
             transform: scaleY(1);

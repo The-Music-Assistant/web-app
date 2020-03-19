@@ -13,32 +13,19 @@ import { withRouter } from "react-router-dom";
 
 // Component imports
 import MusicControls from "./MusicControls/MusicControls";
-import BackButton from "../../Buttons/BackButton/BackButton";
 import SelectInput from "../../FormInputs/SelectInput/SelectInput";
 
 // File imports
-import destroyAlphaTabApi from "../../../vendors/AlphaTab/destruction";
 import * as selectInputColorOptions from "../../FormInputs/SelectInput/colorOptions";
 
 // Style imports
 import styles from "./PracticeMusicHeader.module.scss";
 
 const PracticeHeader = props => {
-    /**
-     * Destroys the AlphaTab API before going back a page
-     */
-    const backButtonClickedHandler = () => {
-        destroyAlphaTabApi().then(props.history.goBack);
-    };
 
     // Returns the JSX to display
     return (
         <div className={styles.practiceHeader}>
-            <BackButton
-                value='music-selection-back'
-                text='Music Selection'
-                onClick={backButtonClickedHandler}
-            />
             <SelectInput
                 value={props.currentPart}
                 name='part-selection'

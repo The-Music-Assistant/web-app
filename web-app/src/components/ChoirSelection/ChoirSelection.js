@@ -16,6 +16,7 @@ import { MetroSpinner } from "react-spinners-kit";
 
 // Component imports
 import ChoirCard from "./ChoirCard/ChoirCard";
+import PageHeader from "../PageHeader/PageHeader"
 
 // Image imports
 import plusIcon from "../../assets/icons/plus-icon.svg";
@@ -229,7 +230,11 @@ class ChoirSelection extends Component {
         // Returns the JSX to display
         return (
             <div className={styles.choirSelection}>
-                <h1 className={styles.choirSelectionHeading}>Choir Selection</h1>
+                <PageHeader
+                    heading="Choir Selection"
+                    shouldDisplayBackButton={false}
+                    backButtonClickedHandler={this.backButtonClickedHandler}
+                />
                 {component}
             </div>
         );

@@ -1,0 +1,32 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/PracticeHeader/MusicControls/MusicControls.module.scss
+// Description: SCSS styles for the music controls component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/24/2019
+// ----------------------------------------------------------------------------
+
+@import "../../../../root-styles/utilities.scss";
+
+.musicControls {
+    margin: auto;
+
+    &Button {
+        width: 45px;
+        height: 45px;
+        transition: transform 0.2s ease-in-out;
+
+        &:hover {
+            cursor: pointer;
+            transform:  scale(1.2);
+        }
+
+        &:last-child {
+            margin-left: 30px;
+        }
+
+        &Img {
+            width: 45px;
+        }
+    }
+}

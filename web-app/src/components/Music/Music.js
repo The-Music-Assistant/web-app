@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMusic/PracticeMusic.js
-// Description: Renders the practice music component
+// File Path: src/components/Music/Music.js
+// Description: Renders the Music component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -8,19 +8,23 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import {withRouter} from "react-router-dom";
 
 // Component imports
-import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
+import MusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
+import PageHeader from "../PageHeader/PageHeader";
 
 // File imports
 import initializeAPI from "../../vendors/AlphaTab/initialization";
+import destroyAlphaTabApi from "../../vendors/AlphaTab/destruction";
 import { changeToSheetMusic, changePart } from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 
 // Style imports
-import "./PracticeMusic.scss";
+import "./SheetMusic.scss";
+import styles from "./Music.module.scss";
 
-class PracticeMusic extends Component {
+class Music extends Component {
     // Component state
     state = {
         isLoading: true,
@@ -48,6 +52,18 @@ class PracticeMusic extends Component {
             });
     }
 
+    componentWillUnmount() {
+        // TODO: Use Redux to wait for api to be destroyed
+        destroyAlphaTabApi(); // This is a promise
+    }
+
+    /**
+     * Destroys the AlphaTab API before going back a page
+     */
+    backButtonClickedHandler = () => {
+        this.props.history.goBack();
+    };
+
     /**
      * Changes the track number on AlphaTab to the new partIndex
      * Updates state to reflect the new part value
@@ -66,9 +82,15 @@ class PracticeMusic extends Component {
     render() {
         // Returns the JSX to display
         return (
-            <main>
+            <main className={styles.music}>
+                <PageHeader
+                    heading="Practice"
+                    shouldDisplayBackButton={true}
+                    backButtonTitle={"Music Selection"}
+                    backButtonClickedHandler={this.backButtonClickedHandler}
+                />
                 {!this.state.isLoading ? (
-                    <PracticeMusicHeader
+                    <MusicHeader
                         currentPart={this.state.currentPart}
                         partList={this.state.partList}
                         onPartChange={this.onPartChangeHandler}
@@ -83,4 +105,4 @@ class PracticeMusic extends Component {
     }
 }
 
-export default PracticeMusic;
+export default withRouter(Music);

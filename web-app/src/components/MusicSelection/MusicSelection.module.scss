@@ -9,6 +9,8 @@
 @import "../../root-styles/utilities.scss";
 
 .musicSelection {
+    margin: 30px;
+
     &Spinner {
         @include flex-container(
             $direction: column,
@@ -33,13 +35,13 @@
         row-gap: 30px;
         column-gap: 50px;
         justify-content: center;
-        margin: 20px;
+        margin-top: 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             grid-template-columns: repeat(auto-fill, 375px);
             row-gap: 50px;
             column-gap: 70px;
-            margin: 30px;
+            margin-top: 30px;
             justify-content: start;
         }
     }
