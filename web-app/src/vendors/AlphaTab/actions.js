@@ -63,8 +63,6 @@ export const changePart = partName => {
     // If we have the track index that is being asked then switch to that track
     if (!atVars.texLoaded.currentTrackIndexes.includes(trackIndex)) {
         atVars.texLoaded.updateCurrentTrackIndexes(trackIndex);
-        
-        console.log(atVars.api.score);
 
         atVars.api.renderTracks([atVars.api.score.tracks[atVars.texLoaded.currentTrackIndexes[0]]]);
 
@@ -99,29 +97,29 @@ export const changeToSheetMusic = async () => {
     atVars.api.settings.display.barCount = atVars.barCount;
     atVars.api.updateSettings();
     await loadTex();
-}
+};
 
 export const changeToMyPart = async () => {
     atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
     atVars.api.settings.display.barCount = atVars.barCount;
     atVars.api.updateSettings();
     await loadJustMyPart();
-}
+};
 
-export const changeToPerformance = async() => {
+export const changeToPerformance = async () => {
     atVars.sketchBehavior = sketchBehaviors.PERFORMANCE_HIGHLIGHTING;
     atVars.api.settings.display.barCount =
         atVars.sheetMusicLength !== null ? atVars.sheetMusicLength : atVars.barCount;
     atVars.api.updateSettings();
     await loadTex();
-}
+};
 
 /**
  * Cause AlphaTab to generate an exercise of the current part from measureStart to measureEnd
  * @param {number} measureStart - The start measure number. Note: It is assumed that this has already been error checked
  * @param {number} measureEnd - The end measure number. Note: It is assumed that this has already been error checked
  */
-export const changeToExercise = async(measureStart, measureEnd) => {
+export const changeToExercise = async (measureStart, measureEnd) => {
     if (!measureStart || !measureEnd) {
         return;
     } else {
@@ -130,7 +128,7 @@ export const changeToExercise = async(measureStart, measureEnd) => {
         atVars.api.updateSettings();
         await loadExercise(measureStart, measureEnd);
     }
-}
+};
 
 /**
  * Converts a time position in seconds to what measure that it occurs in
@@ -452,7 +450,7 @@ const loadTex = async () => {
  */
 export const getMyPart = () => {
     return atVars.texLoaded ? atVars.texLoaded.myPart : null;
-}
+};
 
 /**
  * Gets all parts of the sheet music (e.g. alto, soprano, etc.)
@@ -460,4 +458,4 @@ export const getMyPart = () => {
  */
 export const getPartList = () => {
     return atVars.texLoaded ? atVars.texLoaded.partNames : null;
-}
+};
