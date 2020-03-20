@@ -11,7 +11,7 @@
 @import "../../root-styles/utilities.scss";
 
 #alpha-tab-wrapper {
-    width: 100vw;
+    width: calc(100vw - 20px - 20px);
     overflow: scroll;
     margin: auto;
 

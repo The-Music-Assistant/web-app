@@ -9,5 +9,9 @@
 @import "../../root-styles/utilities.scss";
 
 .music {
-    margin: 30px;
+    margin: 20px;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        margin: 30px;
+    }
 }

@@ -15,7 +15,7 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 
 // File imports
 import * as buttonTypes from "../../Buttons/buttonTypes";
-import * as rectButtonBgColors from "../../Buttons/RectangularButton/rectangularButtonBackgroundColors";
+import * as rectButtonBgColors from "../../Buttons/RectangularButton/rectangularButtonColorOptions";
 
 // Style imports
 import styles from "./MusicCard.module.scss";

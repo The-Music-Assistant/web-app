@@ -30,6 +30,10 @@ class MusicControls extends Component {
         isPlaying: false
     };
 
+    componentDidMount() {
+        alphaTabVars.api.addPlayerFinished(this.donePlaying);
+    }
+
     /**
      * Plays or pauses the music
      */
@@ -70,17 +74,6 @@ class MusicControls extends Component {
         alphaTabVars.noteStreamIndex = 0;
         alphaTabVars.cumulativeTime = 0;
     };
-
-    componentDidMount() {
-        const id = window.setInterval(() => {
-            if (alphaTabVars.api != null) {
-                clearInterval(id);
-                alphaTabVars.api.addPlayerFinished(() => {
-                    this.donePlaying();
-                });
-            }
-        }, 500);
-    }
 
     /**
      * Sets isPlaying to false in state

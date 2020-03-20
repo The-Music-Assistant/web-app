@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/Buttons/RectangularButton/rectangularButtonBackgroundColors.js
+// File Path: src/components/Buttons/RectangularButton/rectangularButtonColorOptions.js
 // Description: Rectangular button background color options
 // Author: Dan Levy
 // Email: danlevy124@gmail.com

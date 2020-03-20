@@ -9,20 +9,29 @@
 @import "../../../../root-styles/utilities.scss";
 
 .musicControls {
-    margin: auto;
+    @include flex-container(
+        $direction: row,
+        $justify-content: center,
+        $align-items: center,
+        $wrap: nowrap
+    );
+
+    // Left margin helps to center buttons vertically (not sure why they appear off-center)
+    margin-left: 5px;
 
     &Button {
+        margin-top: 3px; // Top margin helps to horizontally center button (extra bottom padding is automatically added)
         width: 45px;
         height: 45px;
         transition: transform 0.2s ease-in-out;
 
         &:hover {
             cursor: pointer;
-            transform:  scale(1.2);
+            transform: scale(1.2);
         }
 
         &:last-child {
-            margin-left: 30px;
+            margin-left: 50px;
         }
 
         &Img {

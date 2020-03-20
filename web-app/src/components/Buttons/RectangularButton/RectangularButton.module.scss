@@ -9,12 +9,12 @@
 @import "../../../root-styles/utilities.scss";
 
 .rectButton {
-    @include text($size: 1rem, $weight: 300, $color: null, $line-height: null);
+    @include text($size: 1rem, $weight: 400, $color: null, $line-height: null);
     padding: 10px 20px;
     border-radius: 10px;
     box-shadow: $primary-box-shadow;
-    display: block;
     transition: transform 0.2s ease-in-out;
+    width: fit-content;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         font-size: 1.25rem;

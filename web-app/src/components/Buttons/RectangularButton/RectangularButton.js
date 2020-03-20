@@ -11,7 +11,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // File imports
-import * as rectButtonBgColors from "./rectangularButtonBackgroundColors";
+import * as rectButtonColors from "./rectangularButtonColorOptions";
 import * as buttonTypes from "../buttonTypes";
 
 // Style imports
@@ -36,16 +36,16 @@ const RectangularButton = props => {
 
 // RectangularButton prop types
 RectangularButton.propTypes = {
-    backgroundColor: PropTypes.oneOf([
-        rectButtonBgColors.WHITE,
-        rectButtonBgColors.BLUE,
-        rectButtonBgColors.GREEN,
-        rectButtonBgColors.ORANGE,
-        rectButtonBgColors.RED
-    ]).isRequired,
     type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
     value: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.oneOf([
+        rectButtonColors.WHITE,
+        rectButtonColors.BLUE,
+        rectButtonColors.GREEN,
+        rectButtonColors.ORANGE,
+        rectButtonColors.RED
+    ]).isRequired,
     onClick: PropTypes.func
 };
 

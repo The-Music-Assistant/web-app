@@ -9,7 +9,11 @@
 @import "../../root-styles/utilities.scss";
 
 .choirSelection {
-    margin: 30px;
+    margin: 20px;
+
+    @include media-query($breakpoint: $tablet-breakpoint) {
+        margin: 30px;
+    }
 
     &Heading {
         @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
