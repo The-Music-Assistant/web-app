@@ -74,7 +74,6 @@ class Music extends Component {
     };
 
     componentWillUnmount() {
-        // TODO: Use Redux to wait for api to be destroyed
         destroyAlphaTabApi(); // This is a promise
     }
 
