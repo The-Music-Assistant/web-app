@@ -16,7 +16,7 @@ import shortid from "shortid";
 // Component imports
 import PageHeader from "../PageHeader/PageHeader";
 import MusicCard from "./MusicCard/MusicCard";
-import { MetroSpinner } from "react-spinners-kit";
+import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
 // File imports
 import { getSheetMusic } from "../../vendors/AWS/tmaApi";
@@ -31,8 +31,7 @@ class MusicSelection extends Component {
     // Component state
     state = {
         isLoading: true,
-        music: null,
-        minLoadingTimeElapsed: false
+        music: null
     };
 
     // Indicates whether the component is mounted or not
@@ -49,10 +48,7 @@ class MusicSelection extends Component {
 
     getMusicList = () => {
         // Starts loading
-        if (this._isMounted) this.setState({ isLoading: true, minLoadingTimeElapsed: false });
-        setTimeout(() => {
-            if (this._isMounted) this.setState({ minLoadingTimeElapsed: true });
-        }, 500);
+        if (this._isMounted) this.setState({ isLoading: true });
 
         // Gets music
         getSheetMusic({ choirId: this.props.choirId })
@@ -115,14 +111,9 @@ class MusicSelection extends Component {
         // The component to display
         let component;
 
-        if (this.state.isLoading || !this.state.minLoadingTimeElapsed) {
+        if (this.state.isLoading) {
             // Display a loading spinner
-            component = (
-                <div className={styles.musicSelectionSpinner}>
-                    <MetroSpinner size={75} color='#5F9CD1' loading={true} />
-                    <h1 className={styles.musicSelectionSpinnerMessage}>Loading music...</h1>
-                </div>
-            );
+            component = <LoadingContainer message='Loading music...' />;
         } else {
             // Display the music cards
             component = (

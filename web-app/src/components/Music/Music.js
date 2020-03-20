@@ -8,15 +8,17 @@
 
 // NPM module imports
 import React, { Component } from "react";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 // Component imports
 import MusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
 import PageHeader from "../PageHeader/PageHeader";
+import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
 // File imports
-import initializeAPI from "../../vendors/AlphaTab/initialization";
+import initializeAlphaTabApi from "../../vendors/AlphaTab/initialization";
 import destroyAlphaTabApi from "../../vendors/AlphaTab/destruction";
+import alphaTabVars from "../../vendors/AlphaTab/variables";
 import { changeToSheetMusic, changePart } from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 
@@ -38,8 +40,7 @@ class Music extends Component {
      */
     componentDidMount() {
         // Initializes the AlphaTab API and displays the music
-        initializeAPI();
-        changeToSheetMusic()
+        this.loadSheetMusic()
             .then(() => {
                 this.setState({
                     isLoading: false,
@@ -51,6 +52,26 @@ class Music extends Component {
                 console.log(error);
             });
     }
+
+    /**
+     * Initializes AlphaTab
+     * Gets the piece of sheet music
+     * Renders AlphaTab
+     * @returns - A promise
+     */
+    loadSheetMusic = async () => {
+        initializeAlphaTabApi();
+        return Promise.all([changeToSheetMusic(), this.waitForAlphaTabToRender(),]);
+    };
+
+    /**
+     * Waits for AlphaTab to render
+     */
+    waitForAlphaTabToRender = () => {
+        return new Promise(resolve => {
+            alphaTabVars.api.addPostRenderFinished(resolve);
+        });
+    };
 
     componentWillUnmount() {
         // TODO: Use Redux to wait for api to be destroyed
@@ -80,23 +101,34 @@ class Music extends Component {
      * The sketch and AlphaTex are not displayed via React, but via direct DOM manipulation
      */
     render() {
+        let component;
+        let atWrapperClassName;
+
+        if (this.state.isLoading) {
+            component = <LoadingContainer message='Loading music...' />;
+            atWrapperClassName = styles.hide;
+        } else {
+            component = (
+                <MusicHeader
+                    currentPart={this.state.currentPart}
+                    partList={this.state.partList}
+                    onPartChange={this.onPartChangeHandler}
+                />
+            );
+            atWrapperClassName = styles.show;
+        }
+
         // Returns the JSX to display
         return (
             <main className={styles.music}>
                 <PageHeader
-                    heading="Practice"
+                    heading='Practice'
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Music Selection"}
                     backButtonClickedHandler={this.backButtonClickedHandler}
                 />
-                {!this.state.isLoading ? (
-                    <MusicHeader
-                        currentPart={this.state.currentPart}
-                        partList={this.state.partList}
-                        onPartChange={this.onPartChangeHandler}
-                    />
-                ) : null}
-                <section id='alpha-tab-wrapper'>
+                {component}
+                <section className={atWrapperClassName} id='alpha-tab-wrapper'>
                     <div id='sketch-holder'></div>
                     <div id='alpha-tab-container'></div>
                 </section>

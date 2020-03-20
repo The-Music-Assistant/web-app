@@ -1,0 +1,24 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/Spinners/LoadingContainer/LoadingContainer.module.scss
+// Description: SCSS styles for the LoadingContainer component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 3/19/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.loadingContainer {
+    @include flex-container(
+        $direction: column,
+        $justify-content: center,
+        $align-items: center,
+        $wrap: nowrap
+    );
+    height: 100%;
+
+    &Message {
+        @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
+        margin-top: 30px;
+    }
+}

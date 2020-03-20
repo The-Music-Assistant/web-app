@@ -12,11 +12,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import shortid from "shortid";
-import { MetroSpinner } from "react-spinners-kit";
 
 // Component imports
 import ChoirCard from "./ChoirCard/ChoirCard";
-import PageHeader from "../PageHeader/PageHeader"
+import PageHeader from "../PageHeader/PageHeader";
+import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
 // Image imports
 import plusIcon from "../../assets/icons/plus-icon.svg";
@@ -36,8 +36,7 @@ class ChoirSelection extends Component {
     // Component state
     state = {
         isLoading: true,
-        choirs: null,
-        minLoadingTimeElapsed: false
+        choirs: null
     };
 
     // Indicates whether the component is mounted or not
@@ -60,10 +59,7 @@ class ChoirSelection extends Component {
      */
     getChoirList() {
         // Starts loading
-        if (this._isMounted) this.setState({ isLoading: true, minLoadingTimeElapsed: false });
-        setTimeout(() => {
-            if (this._isMounted) this.setState({ minLoadingTimeElapsed: true });
-        }, 500);
+        if (this._isMounted) this.setState({ isLoading: true });
 
         // Gets the choir list
         getUsersChoirs()
@@ -212,14 +208,9 @@ class ChoirSelection extends Component {
         // The component to display (loading or cards)
         let component;
 
-        if (this.state.isLoading || !this.state.minLoadingTimeElapsed) {
+        if (this.state.isLoading) {
             // Display a loading spinner
-            component = (
-                <div className={styles.choirSelectionSpinner}>
-                    <MetroSpinner size={75} color='#5F9CD1' loading={true} />
-                    <h1 className={styles.choirSelectionSpinnerMessage}>Loading choirs...</h1>
-                </div>
-            );
+            component = <LoadingContainer message='Loading choirs...' />;
         } else {
             // Display the choir cards
             component = (
@@ -231,7 +222,7 @@ class ChoirSelection extends Component {
         return (
             <div className={styles.choirSelection}>
                 <PageHeader
-                    heading="Choir Selection"
+                    heading='Choir Selection'
                     shouldDisplayBackButton={false}
                     backButtonClickedHandler={this.backButtonClickedHandler}
                 />

@@ -11,12 +11,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import shortid from "shortid";
-import { MetroSpinner } from "react-spinners-kit";
 import { withRouter } from "react-router-dom";
 
 // Component imports
 import MemberCard from "./MemberCard/MemberCard";
 import PageHeader from "../PageHeader/PageHeader";
+import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
 // File imports
 import { getChoirMembers } from "../../vendors/AWS/tmaApi";
@@ -163,12 +163,7 @@ class ChoirMembers extends Component {
 
         if (this.state.isLoading) {
             // Display a loading spinner
-            component = (
-                <div className={styles.choirMembersSpinner}>
-                    <MetroSpinner size={75} color='#5F9CD1' loading={true} />
-                    <h1 className={styles.choirMembersSpinnerMessage}>Loading members...</h1>
-                </div>
-            );
+            component = <LoadingContainer message="Loading members..." />
         } else {
             // Display the choir cards
             component = (

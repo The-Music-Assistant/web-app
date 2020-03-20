@@ -24,7 +24,7 @@ import downArrow from "../../assets/icons/down-arrow-white.svg";
 
 // Component  imports
 import RectangularButton from "../../components/Buttons/RectangularButton/RectangularButton";
-import LoadingHUD from "../../components/LoadingHUD/LoadingHUD";
+import LoadingHUD from "../../components/Spinners/LoadingHUD/LoadingHUD";
 import AlertBar from "../../components/AlertBar/AlertBar";
 
 // Style imports

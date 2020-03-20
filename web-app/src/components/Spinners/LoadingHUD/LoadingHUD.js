@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/LoadingHUD/LoadingHUD.js
+// File Path: src/components/Spinners/LoadingHUD/LoadingHUD.js
 // Description: Renders the loading HUD component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com

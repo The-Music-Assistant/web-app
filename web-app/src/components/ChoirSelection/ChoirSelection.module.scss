@@ -25,21 +25,6 @@
         }
     }
 
-    &Spinner {
-        @include flex-container(
-            $direction: column,
-            $justify-content: center,
-            $align-items: center,
-            $wrap: nowrap
-        );
-        height: 100%;
-
-        &Message {
-            @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
-            margin-top: 30px;
-        }
-    }
-
     &Cards {
         @include grid-container(
             $grid-template-rows: null,
