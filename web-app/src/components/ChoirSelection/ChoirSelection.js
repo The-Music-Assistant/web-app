@@ -23,7 +23,7 @@ import plusIcon from "../../assets/icons/plus-icon.svg";
 import questionIcon from "../../assets/icons/question-icon.svg";
 
 // File imports
-import * as logs from "../../vendors/Firebase/logs";
+import { choirSelectionError } from "../../vendors/Firebase/logs";
 import { getUsersChoirs, joinChoir } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { choirSelectedForPractice, choirSelectedForChoirs } from "../../store/actions";
@@ -68,7 +68,7 @@ class ChoirSelection extends Component {
                     this.setState({ choirs: snapshot.data.choirs, isLoading: false });
             })
             .catch(error => {
-                logs.choirSelectionError(
+                choirSelectionError(
                     error.response.status,
                     error.response.data,
                     "[ChoirSelection/getChoirList]"
@@ -119,7 +119,7 @@ class ChoirSelection extends Component {
                     );
                 })
                 .catch(error => {
-                    logs.choirSelectionError(
+                    choirSelectionError(
                         error.response.status,
                         error.response.data,
                         "[ChoirSelection/newChoirClickHandler]"

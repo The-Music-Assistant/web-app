@@ -42,7 +42,7 @@ export const startPlayingMusic = () => {
             atVars.texLoaded.getStartOctave()
         );
     } catch (error) {
-        sheetMusicError(null, error, "[alphaTabControls/alphaTabPlayerStateChanged]");
+        sheetMusicError(null, error, "[vendors/AlphaTab/actions/startPlayingMusic]");
     }
 
     // TODO: Prevent playback range also during playing
@@ -86,7 +86,7 @@ export const changePart = partName => {
                 sheetMusicError(
                     error.response.status,
                     error.response.data,
-                    "[alphaTabControls/changePart]"
+                    "[vendors/AlphaTab/actions/changePart]"
                 );
             });
     }
@@ -264,7 +264,7 @@ export const loadJustMyPart = async () => {
         sheetMusicError(
             error.response.status,
             error.response.data,
-            "[alphaTabControls/loadJustMyPart]"
+            "[vendors/AlphaTab/actions/loadJustMyPart]"
         );
     }
 };
@@ -291,9 +291,10 @@ const loadExercise = async (measureStart, measureEnd) => {
         isDurationExercise: false
     };
 
-    // TODO: Save responses so that we don't have to ask for them each time. Note: You will still need to save this as an exercise count
-    const exerciseResponse = await getExercise(data);
     try {
+        // TODO: Save responses so that we don't have to ask for them each time. Note: You will still need to save this as an exercise count
+        const exerciseResponse = await getExercise(data);
+
         // update wrapper about new sheet music and re render
         atVars.texLoaded.update(
             "Exercise",
@@ -321,7 +322,7 @@ const loadExercise = async (measureStart, measureEnd) => {
         sheetMusicError(
             error.response.status,
             error.response.data,
-            "[alphaTabControls/loadExercise]"
+            "[vendors/AlphaTab/actions/loadExercise]"
         );
     }
 };
@@ -440,7 +441,11 @@ const loadTex = async () => {
         );
         atVars.texLoaded.typeOfTex = "Sheet Music";
     } catch (error) {
-        sheetMusicError(error.response.status, error.response.data, "[alphaTabControls/loadTex]");
+        sheetMusicError(
+            error.response.status,
+            error.response.data,
+            "[vendors/AlphaTab/actions/loadTex]"
+        );
     }
 };
 

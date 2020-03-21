@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 
 // Image imports
 import cameraImg from "../../../assets/icons/camera-white-fa.svg";
-import * as logs from "../../../vendors/Firebase/logs";
+import { choirSelectionError } from "../../../vendors/Firebase/logs";
 
 // Style imports
 import styles from "./ChoirCard.module.scss";
@@ -27,7 +27,7 @@ class ChoirCard extends Component {
      * Updates state if there was an error loading the choir image
      */
     imageLoadingErrorHandler = () => {
-        logs.choirSelectionError(
+        choirSelectionError(
             null,
             "Choir image failed to load.",
             "[ChoirCard/imageLoadingErrorHandler]"

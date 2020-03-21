@@ -21,7 +21,7 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import { addUser } from "../../../vendors/AWS/tmaApi";
 import { getUserInfo } from "../../../store/actions";
 import firebase from "../../../vendors/Firebase/firebase";
-import * as logs from "../../../vendors/Firebase/logs";
+import { authError } from "../../../vendors/Firebase/logs";
 import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
 import * as authStages from "../../../pages/Auth/authStages";
@@ -64,7 +64,7 @@ class ProfileCard extends Component {
      * Shows an alert with the error details and removes the image from state
      */
     imageInputErrorHandler = () => {
-        logs.authError(
+        authError(
             null,
             "We couldn't load your profile picture. Please select a new one.",
             "[ProfileCard/imageInputErrorHandler]"
@@ -129,16 +129,12 @@ class ProfileCard extends Component {
                     this.props.done(authStages.PROFILE);
                 })
                 .catch(error => {
-                    logs.authError(error.code, error.message, "[ProfileCard/submitHandler]");
+                    authError(error.code, error.message, "[ProfileCard/submitHandler]");
                     this.props.setLoading(false);
                     this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
                 });
         } else {
-            logs.authError(
-                null,
-                "Not authenticated. Can't submit form.",
-                "[ProfileCard/submitHandler]"
-            );
+            authError(null, "Not authenticated. Can't submit form.", "[ProfileCard/submitHandler]");
         }
     };
 

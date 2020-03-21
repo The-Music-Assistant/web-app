@@ -57,7 +57,7 @@ export const pageTurn = async () => {
                 sheetMusicError(
                     error.response.status,
                     error.response.data,
-                    "[PitchDetection/pageTurn]"
+                    "[vendors/ML5/PitchDetection/actions/pageTurn]"
                 );
             });
     } else {
@@ -74,7 +74,7 @@ export const pageTurn = async () => {
             sheetMusicError(
                 error.response.status,
                 error.response.data,
-                "[PitchDetection/pageTurn]"
+                "[vendors/ML5/PitchDetection/actions/pageTurn]"
             );
         });
     }
@@ -106,7 +106,7 @@ export const listen = (currentSectionIndex, currentCount) => {
                 listen(currentSectionIndex, currentCount);
             })
             .catch(error => {
-                sheetMusicError(null, error, "[PitchDetection/listen]");
+                sheetMusicError(null, error, "[vendors/ML5/PitchDetection/actions/listen]");
                 displayMidi(0);
                 listen(currentSectionIndex, currentCount);
             });
@@ -127,7 +127,7 @@ export const listen = (currentSectionIndex, currentCount) => {
                 );
             }
         } catch (error) {
-            sheetMusicError(null, error, "[PitchDetection/listen]");
+            sheetMusicError(null, error, "[vendors/ML5/PitchDetection/actions/listen]");
         }
     }
 };
@@ -197,10 +197,18 @@ export const stopPitchDetection = async sheetMusicId => {
                 sheetMusicError(
                     error.response.status,
                     error.response.data,
-                    "[PitchDetection/stopPitchDetection]"
+                    "[vendors/ML5/PitchDetection/actions/stopPitchDetection]"
                 );
             });
     } else {
-        await addPerformance(performanceData);
+        try {
+            await addPerformance(performanceData);
+        } catch (error) {
+            sheetMusicError(
+                error.response.status,
+                error.response.data,
+                "[vendors/ML5/PitchDetection/actions/stopPitchDetection]"
+            );
+        }
     }
 };

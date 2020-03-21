@@ -20,7 +20,7 @@ import TextButton from "../../Buttons/TextButton/TextButton";
 
 // File imports
 import firebase from "../../../vendors/Firebase/firebase";
-import * as logs from "../../../vendors/Firebase/logs";
+import { authError } from "../../../vendors/Firebase/logs";
 import * as authStages from "../../../pages/Auth/authStages";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
 import * as textInputTypes from "../../FormInputs/TextInput/textInputTypes";
@@ -114,11 +114,7 @@ class AuthCard extends Component {
 
         if (trimmedEmail !== email) {
             // If email has whitespace, show an alert and return false (not valid)
-            logs.authError(
-                null,
-                "Please remove whitespace from your email",
-                "[AuthCard/isEmailValid]"
-            );
+            authError(null, "Please remove whitespace from your email", "[AuthCard/isEmailValid]");
             this.props.showAlert(
                 alertBarTypes.ERROR,
                 "Email Error",
@@ -142,7 +138,7 @@ class AuthCard extends Component {
 
         if (trimmedPassword !== password) {
             // If password has whitespace, show an alert and return false (not valid)
-            logs.authError(
+            authError(
                 null,
                 "Please remove whitespace from your password",
                 "[AuthCard/isPasswordValid]"
@@ -167,7 +163,7 @@ class AuthCard extends Component {
             )
         ) {
             // If the password doesn't meet security requirements, show and alert and return false (not valid)
-            logs.authError(null, "Invalid password", "[AuthCard/isPasswordValid]");
+            authError(null, "Invalid password", "[AuthCard/isPasswordValid]");
             this.props.showAlert(
                 alertBarTypes.ERROR,
                 "Password Error",
@@ -193,7 +189,7 @@ class AuthCard extends Component {
             .auth()
             .signInWithEmailAndPassword(email, password)
             .catch(error => {
-                logs.authError(error.code, error.message, "[AuthCard/signInWithEmailPassword]");
+                authError(error.code, error.message, "[AuthCard/signInWithEmailPassword]");
                 this.props.setLoading(false);
                 this.props.showAlert(alertBarTypes.ERROR, "Authentication Error", error.message);
             });
@@ -211,7 +207,7 @@ class AuthCard extends Component {
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .catch(error => {
-                logs.authError(error.code, error.message, "[AuthCard/signUpWithEmailPassword]");
+                authError(error.code, error.message, "[AuthCard/signUpWithEmailPassword]");
                 this.props.setLoading(false);
                 this.props.showAlert(alertBarTypes.ERROR, "Sign Up Error", error.message);
             });
@@ -230,7 +226,7 @@ class AuthCard extends Component {
                 this.props.done(authStages.SIGN_UP);
             })
             .catch(error => {
-                logs.authError(error.code, error.message, "[AuthCard/sendEmailVerification]");
+                authError(error.code, error.message, "[AuthCard/sendEmailVerification]");
                 this.props.setLoading(false);
                 this.props.showAlert(alertBarTypes.ERROR, "Authentication Error", error.message);
             });

@@ -86,7 +86,11 @@ const checkIfUserGetsFeedback = () => {
                 atVars.getsFeedback = response.data.gets_feedback;
             })
             .catch(error => {
-                sheetMusicError(null, error, "[alphaTabActions/alphaTabRenderFinished]");
+                sheetMusicError(
+                    null,
+                    error,
+                    "[vendors/AlphaTab/listeners/checkIfUserGetsFeedback]"
+                );
             });
     }
 };
@@ -120,7 +124,7 @@ const onSubsequentRender = (topLine, nextLine) => {
         } else if (atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING) {
             // Sets up drawing for performance highlighting
             // Creates a new p5 instance which we will use for highlighting during performance overview
-            atVars.p5Obj = new p5(performanceSketch); 
+            atVars.p5Obj = new p5(performanceSketch);
         }
         // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
         // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
@@ -156,7 +160,7 @@ const onFirstRender = (topLine, nextLine) => {
 
                 // Prepares for microphone input sets up the pitch detection model
                 setupPitchDetection().catch(error => {
-                    sheetMusicError(null, error, "[alphaTabActions/alphaTabRenderFinished]");
+                    sheetMusicError(null, error, "[vendors/AlphaTab/listeners/onFirstRender]");
                 });
             } else {
                 // Sets up drawing for performance highlighting

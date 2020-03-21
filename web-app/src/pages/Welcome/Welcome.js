@@ -16,7 +16,7 @@ import { MetroSpinner } from "react-spinners-kit";
 import { signOut, welcomePageComplete } from "../../store/actions";
 import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
 import firebase from "../../vendors/Firebase/firebase";
-import * as logs from "../../vendors/Firebase/logs";
+import { authError } from "../../vendors/Firebase/logs";
 
 // Image imports
 import logo from "../../assets/logos/tma-logo-white.png";
@@ -62,7 +62,7 @@ class Welcome extends Component {
                 });
             })
             .catch(error => {
-                logs.authError(
+                authError(
                     error.code,
                     error.message,
                     "[Welcome/resendEmailVerificationButtonClickedHandler]"
