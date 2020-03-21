@@ -235,9 +235,6 @@ export const loadJustMyPart = async () => {
         atVars.texLoaded.updateCurrentTrackIndexes(0);
         atVars.api.tex(singlePartResponse.data.sheet_music, atVars.texLoaded.currentTrackIndexes);
 
-        // Update the sheetMusicPart drop down list with the new list of parts
-        updateDropdown(singlePartResponse.data.part_list);
-
         // updates the expected performance of the music and several internal variables about the loaded sheet music
         atVars.noteStream = singlePartResponse.data.performance_expectation;
         atVars.noteList.clear();
@@ -303,9 +300,6 @@ const loadExercise = async (measureStart, measureEnd) => {
         );
         atVars.api.tex(exerciseResponse.data.sheet_music, atVars.texLoaded.currentTrackIndexes);
 
-        // Update the sheetMusicPart drop down list with the new list of parts
-        updateDropdown(exerciseResponse.data.part_list);
-
         // updates the expected performance of the music and several internal variables about the loaded sheet music
         atVars.noteStream = exerciseResponse.data.performance_expectation;
         atVars.noteList.clear();
@@ -320,41 +314,6 @@ const loadExercise = async (measureStart, measureEnd) => {
             error.response.data,
             "[vendors/AlphaTab/actions/loadExercise]"
         );
-    }
-};
-
-/**
- * TODO: This function likely will be removed when UI updates are made
- */
-export const updateDropdown = partList => {
-    // TODO: Once track muting is fixed, uncomment to re add it
-    // let trackVolume = document.getElementById("volumeTracks");
-    // const numberOfChildren = trackVolume.children.length;
-    // for (let i = 0; i < numberOfChildren; i++) {
-    //     trackVolume.removeChild(trackVolume.lastElementChild);
-    // }
-    let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
-    if (sheetMusicPartDropdown) {
-        let i = 0;
-        for (; i < partList.length; i++) {
-            sheetMusicPartDropdown.options[i] = new Option(partList[i], "t" + i, false, false);
-
-            // const newTrackVolume = document.createElement('li');
-            // const x = document.createElement("INPUT");
-            // x.setAttribute("type", "checkbox");
-            // x.checked = true;
-            // newTrackVolume.appendChild(x);
-            // newTrackVolume.appendChild(document.createTextNode(partList[i]));
-            // newTrackVolume.onclick = function() {
-            //     changeTrackVolume(children[0].checked, innerText);
-            // };
-            // trackVolume.appendChild(newTrackVolume);
-        }
-        let optionsLength = sheetMusicPartDropdown.options.length;
-        let lastIndex = i;
-        for (; i < optionsLength; i++) {
-            sheetMusicPartDropdown.options[lastIndex] = null;
-        }
     }
 };
 
@@ -397,9 +356,6 @@ const loadTex = async () => {
                 1
             );
         }
-
-        // Update the sheetMusicPart drop down list with the new list of parts
-        updateDropdown(partList);
 
         // Isolates the user's part from the part list setting it to be the displayed track when alpha tab renders
         for (let i = 0; i < partList.length; i++) {
