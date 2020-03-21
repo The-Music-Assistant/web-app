@@ -12,7 +12,7 @@ import "firebase/storage";
 // File imports
 import * as actionTypes from "./actionTypes";
 import firebase from "../../vendors/Firebase/firebase";
-import { authError } from "../../vendors/Firebase/logs";
+import { authError as logAuthError } from "../../vendors/Firebase/logs";
 import { setAxiosAuthToken, getUser } from "../../vendors/AWS/tmaApi";
 
 /**
@@ -49,7 +49,7 @@ export const handleAuthStateChanges = () => {
                         // Clears the old Axios auth header token if there is one
                         setAxiosAuthToken("");
                         dispatch(authError(error));
-                        authError(
+                        logAuthError(
                             error.code,
                             error.message,
                             "[store/actions/auth/handleAuthStateChanges]"
@@ -88,7 +88,7 @@ export const getUserInfo = () => {
                 .catch(error => {
                     dispatch(authError(error));
                     dispatch(usersNameRetrievalFailed());
-                    authError(
+                    logAuthError(
                         error.response.status,
                         error.response.data,
                         "[store/actions/auth/getUserInfo]"

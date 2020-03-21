@@ -21,6 +21,8 @@ import destroyAlphaTabApi from "../../vendors/AlphaTab/destruction";
 import alphaTabVars from "../../vendors/AlphaTab/variables";
 import { changeToSheetMusic, changePart } from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
+import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
+import { sheetMusicError } from "../../vendors/Firebase/logs";
 
 // Style imports
 import "./SheetMusic.scss";
@@ -40,7 +42,7 @@ class Music extends Component {
      */
     componentDidMount() {
         // Initializes the AlphaTab API and displays the music
-        this.loadSheetMusic()
+        this.prepareMusic()
             .then(() => {
                 this.setState({
                     isLoading: false,
@@ -55,13 +57,31 @@ class Music extends Component {
 
     /**
      * Initializes AlphaTab
+     * Initializes pitch detection
      * Gets the piece of sheet music
      * Renders AlphaTab
      * @returns - A promise
      */
-    loadSheetMusic = async () => {
+    prepareMusic = async () => {
         initializeAlphaTabApi();
-        return Promise.all([changeToSheetMusic(), this.waitForAlphaTabToRender(),]);
+        return Promise.all([
+            this.initializePitchDetection(),
+            changeToSheetMusic(),
+            this.waitForAlphaTabToRender()
+        ]);
+    };
+
+    /**
+     * Sets up ML5 pitch detection
+     */
+    initializePitchDetection = async () => {
+        // Prepares for microphone input sets up the pitch detection model
+        try {
+            await setupPitchDetection();
+        } catch (error) {
+            // TODO: Add overlay that notifies user that the microphone is not available
+            sheetMusicError(null, error, "[vendors/AlphaTab/listeners/onFirstRender]");
+        }
     };
 
     /**
@@ -73,8 +93,13 @@ class Music extends Component {
         });
     };
 
+    /**
+     * Destroys the AlphaTab API
+     * Removes the P5 drawer
+     * Stops pitch detection
+     */
     componentWillUnmount() {
-        destroyAlphaTabApi(); // This is a promise
+        destroyAlphaTabApi();
     }
 
     /**
