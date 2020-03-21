@@ -217,10 +217,6 @@ export const getPlaybackRange = () => {
  * Loads just the user's part for this sheet music logging it as an exercise and isolates their part for playback
  */
 export const loadJustMyPart = async () => {
-    // Clears the "exercise" option from the texToDisplay drop down if present since that is only generated when viewing an exercise
-    let texToDisplay = document.getElementById("texToDisplay");
-    texToDisplay.options[3] = null;
-
     try {
         const singlePartResponse = await getSinglePartSheetMusic({
             sheetMusicId: store.getState().practice.selectedSheetMusicId

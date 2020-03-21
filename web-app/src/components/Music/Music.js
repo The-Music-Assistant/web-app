@@ -11,7 +11,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 // Component imports
-import MusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
+import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
 import PageHeader from "../PageHeader/PageHeader";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
@@ -19,7 +19,7 @@ import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 import initializeAlphaTabApi from "../../vendors/AlphaTab/initialization";
 import destroyAlphaTabApi from "../../vendors/AlphaTab/destruction";
 import alphaTabVars from "../../vendors/AlphaTab/variables";
-import { changeToSheetMusic, changePart } from "../../vendors/AlphaTab/actions";
+import { changeToSheetMusic, changePart, loadJustMyPart } from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
@@ -44,11 +44,15 @@ class Music extends Component {
         // Initializes the AlphaTab API and displays the music
         this.prepareMusic()
             .then(() => {
-                this.setState({
-                    isLoading: false,
-                    currentPart: getMyPart(),
-                    partList: getPartList()
-                });
+                // Timeout gives extra time for the microphone and pitch detection to set up
+                // There appears to be UI-blocking code even though the async code waits
+                setTimeout(() => {
+                    this.setState({
+                        isLoading: false,
+                        currentPart: getMyPart(),
+                        partList: ["Just My Part"].concat(getPartList())
+                    });
+                }, 3000);
             })
             .catch(error => {
                 console.log(error);
@@ -116,7 +120,12 @@ class Music extends Component {
      * @param value - The value (name) of the selected part
      */
     onPartChangeHandler = (index, value) => {
-        changePart(`t${index}`);
+        if (index === 0) {
+            loadJustMyPart();
+        } else {
+            // "Just My Part" option is not directly included in the track list, but is the first option (index 0), so we need index - 1
+            changePart(`t${index - 1}`);
+        }
         this.setState({ currentPart: value });
     };
 
@@ -133,7 +142,7 @@ class Music extends Component {
             atWrapperClassName = styles.hide;
         } else {
             component = (
-                <MusicHeader
+                <PracticeMusicHeader
                     currentPart={this.state.currentPart}
                     partList={this.state.partList}
                     onPartChange={this.onPartChangeHandler}
