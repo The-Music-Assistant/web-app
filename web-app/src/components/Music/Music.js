@@ -19,7 +19,12 @@ import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 import initializeAlphaTabApi from "../../vendors/AlphaTab/initialization";
 import destroyAlphaTabApi from "../../vendors/AlphaTab/destruction";
 import alphaTabVars from "../../vendors/AlphaTab/variables";
-import { changeToSheetMusic, changePart, loadJustMyPart } from "../../vendors/AlphaTab/actions";
+import {
+    changeToSheetMusic,
+    changePart,
+    loadJustMyPart,
+    loadTex
+} from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
@@ -120,12 +125,22 @@ class Music extends Component {
      * @param value - The value (name) of the selected part
      */
     onPartChangeHandler = (index, value) => {
-        if (index === 0) {
+        if (this.state.currentPart === "Just My Part") {
+            if (index === 0) {
+                // Clicked on current value (no need to change)
+                return;
+            } else {
+                // Switches back to all sheet music
+                loadTex(value);
+            }
+        } else if (index === 0) {
+            // Loads just my part
             loadJustMyPart();
         } else {
             // "Just My Part" option is not directly included in the track list, but is the first option (index 0), so we need index - 1
             changePart(`t${index - 1}`);
         }
+
         this.setState({ currentPart: value });
     };
 

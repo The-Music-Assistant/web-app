@@ -96,7 +96,7 @@ export const changeToSheetMusic = async () => {
     atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
     atVars.api.settings.display.barCount = atVars.barCount;
     atVars.api.updateSettings();
-    await loadTex();
+    await loadTex(null);
 };
 
 export const changeToMyPart = async () => {
@@ -111,7 +111,7 @@ export const changeToPerformance = async () => {
     atVars.api.settings.display.barCount =
         atVars.sheetMusicLength !== null ? atVars.sheetMusicLength : atVars.barCount;
     atVars.api.updateSettings();
-    await loadTex();
+    await loadTex(null);
 };
 
 /**
@@ -317,10 +317,7 @@ const loadExercise = async (measureStart, measureEnd) => {
     }
 };
 
-/**
- * Loads the overall sheet music defaulting to showing the user's part for the song
- */
-const loadTex = async () => {
+export const loadTex = async (partName) => {
     // Clears the "exercise" option from the texToDisplay drop down if present since that is only generated when viewing an exercise
     // let texToDisplay = document.getElementById("texToDisplay");
     // texToDisplay.options[3] = null;
@@ -332,6 +329,9 @@ const loadTex = async () => {
     // TODO: Save this response so that we can switch back to the sheet music without having to re-request the sheet music from the database
     try {
         const sheetMusicResponse = await getSpecificSheetMusic(data);
+
+        let actualPartName = partName === null ? sheetMusicResponse.data.part : partName;
+
         let partList = sheetMusicResponse.data.part_list;
         // Initializes wrapper about the sheet music if first render or updates wrapper if already present
         if (atVars.texLoaded === null) {
@@ -339,7 +339,7 @@ const loadTex = async () => {
                 "Sheet Music",
                 partList,
                 sheetMusicResponse.data.clefs,
-                sheetMusicResponse.data.part,
+                actualPartName,
                 null,
                 1,
                 1,
@@ -350,7 +350,7 @@ const loadTex = async () => {
                 "Sheet Music",
                 partList,
                 sheetMusicResponse.data.clefs,
-                sheetMusicResponse.data.part,
+                actualPartName,
                 null,
                 1,
                 1
@@ -361,10 +361,6 @@ const loadTex = async () => {
         for (let i = 0; i < partList.length; i++) {
             if (partList[i] === atVars.texLoaded.myPart) {
                 atVars.texLoaded.updateCurrentTrackIndexes(i);
-                let sheetMusicPartDropdown = document.getElementById("sheetMusicPart");
-                if (sheetMusicPartDropdown) {
-                    sheetMusicPartDropdown[i].selected = true;
-                }
                 break;
             }
         }
@@ -374,7 +370,7 @@ const loadTex = async () => {
 
         data.partName = sheetMusicResponse.data.part_list[atVars.texLoaded.currentTrackIndexes[0]];
 
-        // gets and updates expected performance data for the user's part
+        // gets and updates expected performance data for the provided part
         const partResponse = await getPartSheetMusic(data);
         atVars.noteStream = partResponse.data.performance_expectation;
         atVars.noteList = new NoteList(0);
@@ -391,7 +387,6 @@ const loadTex = async () => {
             atVars.texLoaded.measureLengths.length + 1,
             atVars.barCount
         );
-        atVars.texLoaded.typeOfTex = "Sheet Music";
     } catch (error) {
         sheetMusicError(
             error.response.status,
@@ -399,7 +394,7 @@ const loadTex = async () => {
             "[vendors/AlphaTab/actions/loadTex]"
         );
     }
-};
+}
 
 /**
  * Gets the member's part for the sheet music (e.g. Soprano)
