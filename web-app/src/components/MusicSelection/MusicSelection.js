@@ -68,8 +68,16 @@ class MusicSelection extends Component {
     };
 
     viewSongClickedHandler = id => {
-        this.props.musicSelected(id);
-        this.props.history.push(`${this.props.match.url}/music/${id}`);
+        if (this.props.isMobileBrowser) {
+            this.props.showAlert(
+                alertBarTypes.WARNING,
+                "We're Sorry",
+                "You can't view or play music on this mobile device due to performance problems"
+            );
+        } else {
+            this.props.musicSelected(id);
+            this.props.history.push(`${this.props.match.url}/music/${id}`);
+        }
     };
 
     /**
@@ -151,7 +159,8 @@ MusicSelection.propTypes = {
 const mapStateToProps = state => {
     return {
         choirId: state.practice.selectedChoirId,
-        choirName: state.practice.selectedChoirName
+        choirName: state.practice.selectedChoirName,
+        isMobileBrowser: state.app.isMobileBrowser
     };
 };
 

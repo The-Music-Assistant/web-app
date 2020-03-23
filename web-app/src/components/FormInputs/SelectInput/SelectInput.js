@@ -92,19 +92,15 @@ class SelectInput extends Component {
      * Updates state to trigger a component resize if needed
      */
     windowSizeChangedHandler = () => {
-        const oldScreenWidth = this.state.screenWidth;
         const newScreenWidth = parseFloat(window.innerWidth) < 768 ? "small" : "large";
 
-        if (newScreenWidth !== oldScreenWidth) {
-            // Updates state to trigger a component resize
-            this.setState({
-                screenSizeChanged: true,
-                screenWidth: newScreenWidth,
-                width: "auto",
-                height: "auto",
-                value: this._maxLengthString
-            });
-        }
+        this.setState({
+            screenSizeChanged: true,
+            screenWidth: newScreenWidth,
+            width: "auto",
+            height: "auto",
+            value: this._maxLengthString
+        });
     };
 
     /**

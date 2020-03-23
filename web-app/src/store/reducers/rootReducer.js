@@ -11,6 +11,7 @@
 import { combineReducers } from "redux";
 
 // File imports
+import appReducer from "./app";
 import authReducer from "./auth";
 import startupReducer from "./startup";
 import practiceReducer from "./practice";
@@ -18,6 +19,7 @@ import choirsReducer from "./choirs";
 
 // Creates the root reducer by combining all reducers
 const rootReducer = combineReducers({
+    app: appReducer,
     auth: authReducer,
     startup: startupReducer,
     practice: practiceReducer,

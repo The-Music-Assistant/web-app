@@ -6,6 +6,8 @@
 // Created Date: 12/31/2019
 ---------------------------------------------------------------------------- */
 
+export { setBrowserType } from "./app";
+
 export {
     handleAuthStateChanges,
     getUserInfo,

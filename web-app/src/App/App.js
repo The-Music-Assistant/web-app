@@ -20,11 +20,50 @@ import Auth from "../pages/Auth/Auth";
 import Welcome from "../pages/Welcome/Welcome";
 import Primary from "../pages/Primary/Primary";
 
+// File imports
+import { setBrowserType } from "../store/actions";
+
 // Style imports
 import "normalize.css";
 import "./App.scss";
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+
+        // Sets the browser type (mobile or not mobile)
+        this.props.setBrowserType(this.isMobileBrowser());
+    }
+
+    /**
+     * Determines if the browser is mobile or not
+     * Mobile device check includes:
+     * iPhone
+     * iPod
+     * iPad (pre-iPad OS)
+     * Android
+     * WebOS (Palm phone)
+     * BlackBerry
+     * Windows Phone
+     * @returns - True is the browser is a mobile browser; false otherwise
+     */
+    isMobileBrowser = () => {
+        const userAgent = navigator.userAgent;
+        if (
+            userAgent.match(/iPhone/i) ||
+            userAgent.match(/iPod/i) ||
+            userAgent.match(/iPad/i) ||
+            userAgent.match(/Android/i) ||
+            userAgent.match(/webOS/i) ||
+            userAgent.match(/BlackBerry/i) ||
+            userAgent.match(/Windows Phone/i)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     /**
      * Gets the page to render
      */
@@ -68,6 +107,15 @@ class App extends Component {
     }
 }
 
+// Prop types for the App component
+App.propTypes = {
+    isStartupDone: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool,
+    isAuthFlowComplete: PropTypes.bool,
+    showWelcomePage: PropTypes.bool.isRequired,
+    setBrowserType: PropTypes.func.isRequired
+};
+
 /**
  * Gets the current state from Redux and passes it to the App component as props
  * @param {object} state - The Redux state
@@ -81,12 +129,14 @@ const mapStateToProps = state => {
     };
 };
 
-// Prop types for the App component
-App.propTypes = {
-    isStartupDone: PropTypes.bool.isRequired,
-    isAuthenticated: PropTypes.bool,
-    isAuthFlowComplete: PropTypes.bool,
-    showWelcomePage: PropTypes.bool.isRequired
+/**
+ * Passes certain redux actions to the App component
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        setBrowserType: isMobileBrowser => dispatch(setBrowserType(isMobileBrowser))
+    };
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

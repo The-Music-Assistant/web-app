@@ -6,6 +6,9 @@
 // Created Date: 12/31/2019
 ---------------------------------------------------------------------------- */
 
+// App action types
+export const IS_MOBILE_BROWSER = "IS_MOBILE_BROWSER";
+
 // Auth action types
 export const USER_AUTHENTICATED = "USER_AUTHENTICATED";
 export const USER_NOT_AUTHENTICATED = "USER_NOT_AUTHENTICATED";
