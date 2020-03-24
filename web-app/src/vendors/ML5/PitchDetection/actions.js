@@ -18,6 +18,21 @@ import {
 import { sheetMusicError } from "../../Firebase/logs";
 
 /**
+ * Checks if pitch detection is available
+ * As part of the check, also checks if the microphone is available
+ * @returns - True if pitch detection is available; false otherwise
+ */
+export const isPitchDetectionAvailable = () => {
+    if (!ptVars.audioContext || !ptVars.pitchDetectionModel || !ptVars.micStream) {
+        // If any of the ptVars are undefined or null, pitch detection is not available (nor is the microphone)
+        return false;
+    }
+
+    // Pitch detection is available
+    return true;
+};
+
+/**
  * Continuously detects pitch and displays it on the screen
  * @returns The id of the current setInterval process (this can be used to stop the current setInterval process)
  */
@@ -99,17 +114,22 @@ export const listen = (currentSectionIndex, currentCount) => {
     }
 
     if (atVars.playerState === 1) {
-        ptVars.pitchDetectionModel
-            .getPitch()
-            .then(frequency => {
-                displayMidi(frequency);
-                listen(currentSectionIndex, currentCount);
-            })
-            .catch(error => {
-                sheetMusicError(null, error, "[vendors/ML5/PitchDetection/actions/listen]");
-                displayMidi(0);
-                listen(currentSectionIndex, currentCount);
-            });
+        // Player is playing
+
+        if (isPitchDetectionAvailable()) {
+            // Start pitch detection
+            ptVars.pitchDetectionModel
+                .getPitch()
+                .then(frequency => {
+                    displayMidi(frequency);
+                    listen(currentSectionIndex, currentCount);
+                })
+                .catch(error => {
+                    sheetMusicError(null, error, "[vendors/ML5/PitchDetection/actions/listen]");
+                    displayMidi(0);
+                    listen(currentSectionIndex, currentCount);
+                });
+        }
 
         try {
             const topLine = document.getElementById("rect_0");

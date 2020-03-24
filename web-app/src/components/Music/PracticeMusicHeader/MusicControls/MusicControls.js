@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 // File imports
 import alphaTabVars from "../../../../vendors/AlphaTab/variables";
 import pitchDetectionVars from "../../../../vendors/ML5/PitchDetection/variables";
+import {isPitchDetectionAvailable} from "../../../../vendors/ML5/PitchDetection/actions";
 import { sheetMusicError } from "../../../../vendors/Firebase/logs";
 
 // Image imports
@@ -47,7 +48,7 @@ class MusicControls extends Component {
         }));
 
         // AudioContext must be resumed before playing can begin (the first time)
-        if (pitchDetectionVars.audioContext.state !== "running") {
+        if (isPitchDetectionAvailable() && pitchDetectionVars.audioContext.state !== "running") {
             pitchDetectionVars.audioContext
                 .resume()
                 .then(() => {

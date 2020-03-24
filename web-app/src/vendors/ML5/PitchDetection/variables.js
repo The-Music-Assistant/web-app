@@ -13,7 +13,6 @@ class PitchDetectionVariables {
     audioContext;
     micStream;
     pitchDetectionModel;
-    // noteList; // TODO: Is this needed?
 
     /**
      * Sets up ML5 pitch detection

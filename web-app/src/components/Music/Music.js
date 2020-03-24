@@ -9,6 +9,7 @@
 // NPM module imports
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // Component imports
 import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
@@ -28,6 +29,7 @@ import {
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
+import * as alertBarTypes from "../AlertBar/alertBarTypes";
 
 // Style imports
 import "./SheetMusic.scss";
@@ -38,7 +40,8 @@ class Music extends Component {
     state = {
         isLoading: true,
         currentPart: null,
-        partList: null
+        partList: null,
+        isMicrophoneAvailable: true
     };
 
     /**
@@ -57,10 +60,10 @@ class Music extends Component {
                         currentPart: getMyPart(),
                         partList: ["Just My Part"].concat(getPartList())
                     });
-                }, 3000);
+                }, 2000);
             })
             .catch(error => {
-                console.log(error);
+                sheetMusicError(null, error, "[components/Music/componentDidMount]");
             });
     }
 
@@ -88,8 +91,13 @@ class Music extends Component {
         try {
             await setupPitchDetection();
         } catch (error) {
-            // TODO: Add overlay that notifies user that the microphone is not available
-            sheetMusicError(null, error, "[vendors/AlphaTab/listeners/onFirstRender]");
+            this.props.showAlert(
+                alertBarTypes.WARNING,
+                "No Microphone",
+                "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
+            );
+            this.setState({ isMicrophoneAvailable: false });
+            sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
         }
     };
 
@@ -170,7 +178,11 @@ class Music extends Component {
         return (
             <main className={styles.music}>
                 <PageHeader
-                    heading='Practice'
+                    heading={
+                        this.state.isMicrophoneAvailable
+                            ? "Practice"
+                            : "Playback - No Microphone Available"
+                    }
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Music Selection"}
                     backButtonClickedHandler={this.backButtonClickedHandler}
@@ -184,5 +196,10 @@ class Music extends Component {
         );
     }
 }
+
+// Prop types for the Music component
+Music.propTypes = {
+    showAlert: PropTypes.func.isRequired
+};
 
 export default withRouter(Music);
