@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 
 // Component imports
 import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
+import MusicPerformancesHeader from "./MusicPerformancesHeader/MusicPerformancesHeader";
 import PageHeader from "../PageHeader/PageHeader";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
@@ -30,6 +31,7 @@ import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
+import * as musicPageOptions from "../Music/musicPageOptions";
 
 // Style imports
 import "./SheetMusic.scss";
@@ -165,7 +167,7 @@ class Music extends Component {
                     <LoadingContainer message='Loading music...' />
                 </div>
             );
-        } else {
+        } else if (this.props.pageType === musicPageOptions.PRACTICE) {
             component = (
                 <PracticeMusicHeader
                     currentPart={this.state.currentPart}
@@ -173,6 +175,8 @@ class Music extends Component {
                     onPartChange={this.onPartChangeHandler}
                 />
             );
+        } else if (this.props.pageType === musicPageOptions.PERFORMANCES) {
+            component = <MusicPerformancesHeader />;
         }
 
         // Returns the JSX to display
@@ -200,7 +204,12 @@ class Music extends Component {
 
 // Prop types for the Music component
 Music.propTypes = {
-    showAlert: PropTypes.func.isRequired
+    showAlert: PropTypes.func.isRequired,
+    pageType: PropTypes.oneOf([
+        musicPageOptions.PRACTICE,
+        musicPageOptions.PERFORMANCES,
+        musicPageOptions.EXERCISE
+    ])
 };
 
 export default withRouter(Music);

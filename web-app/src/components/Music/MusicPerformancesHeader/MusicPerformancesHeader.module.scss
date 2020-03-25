@@ -1,0 +1,19 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/PracticeMain/MusicPerformancesHeader/MusicPerformancesHeader.js
+// Description: SCSS styles for the MusicPerformancesHeader component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 3/25/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.musicPerformancesHeader {
+    @include flex-container(
+        $direction: row,
+        $justify-content: space-between,
+        $align-items: center,
+        $wrap: nowrap
+    );
+    margin: 30px 0 0;
+}

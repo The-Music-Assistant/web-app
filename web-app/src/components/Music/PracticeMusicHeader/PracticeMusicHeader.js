@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/PracticeHeader/PracticeHeader.scss
-// Description: Renders the practice header component
+// File Path: src/components/PracticeMain/PracticeMusicHeader/PracticeMusicHeader.js
+// Description: Renders the PracticeMusicHeader component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/28/2019
@@ -25,7 +25,7 @@ import * as rectButtonColorOptions from "../../Buttons/RectangularButton/rectang
 import styles from "./PracticeMusicHeader.module.scss";
 
 const PracticeHeader = props => {
-    // TODO: Move to performance view
+    // TODO: Route to performance view
     const viewPerformancesButtonClickedHandler = () => {};
 
     // Returns the JSX to display
