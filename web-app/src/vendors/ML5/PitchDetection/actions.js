@@ -16,6 +16,7 @@ import {
     closeRunningPerformance
 } from "../../../vendors/AWS/tmaApi";
 import { sheetMusicError } from "../../Firebase/logs";
+import * as playerStates from "../../AlphaTab/playerStates";
 
 /**
  * Checks if pitch detection is available
@@ -39,10 +40,11 @@ export const isPitchDetectionAvailable = () => {
 export const startPitchDetection = () => {
     atVars.texLoaded.performanceId = null;
     atVars.noteList.clear();
-    if (atVars.getsFeedback) {
+    if (atVars.getsFeedback && isPitchDetectionAvailable()) {
         atVars.p5Obj.loop();
     }
-    listen(0, 0);
+    pageWatch(0, 0);
+    listen();
 };
 
 export const pageTurn = async () => {
@@ -95,59 +97,48 @@ export const pageTurn = async () => {
     }
 };
 
-export const listen = (currentSectionIndex, currentCount) => {
-    let increment = null;
-    if (atVars.texLoaded !== null && atVars.texLoaded.lengthsPerSection !== null) {
-        increment = atVars.texLoaded.lengthsPerSection[currentSectionIndex];
+const pageWatch = (currentSectionIndex, currentCount) => {
+    let intervalId = setInterval(() => {
+        if (atVars.texLoaded !== null && atVars.texLoaded.lengthsPerSection !== null) {
+            let increment = atVars.texLoaded.lengthsPerSection[currentSectionIndex];
+    
+            if (atVars.api.timePosition / 1000 > currentCount + increment) {
+                if (isPitchDetectionAvailable()) {
+                    pageTurn();
+                }
+    
+                atVars.shouldResetDrawPositions = true;
+                atVars.p5Obj.clear();
+                atVars.api.settings.display.startBar =
+                    atVars.api.settings.display.startBar + atVars.barCount - 1;
+                atVars.api.updateSettings();
+                atVars.api.render();
+                currentCount += increment;
+            }
 
-        if (atVars.api.timePosition / 1000 > currentCount + increment) {
-            pageTurn();
-
-            atVars.shouldResetDrawPositions = true;
-            atVars.p5Obj.clear();
-            atVars.api.settings.display.startBar =
-                atVars.api.settings.display.startBar + atVars.barCount - 1;
-            atVars.api.updateSettings();
-            atVars.api.render();
-            currentCount += increment;
+            if (atVars.playerState !== playerStates.PLAYING) {
+                clearInterval(intervalId);
+            }
         }
-    }
+    }, 100);
+}
 
+export const listen = () => {
     if (atVars.playerState === 1) {
         // Player is playing
-
         if (isPitchDetectionAvailable()) {
             // Start pitch detection
             ptVars.pitchDetectionModel
                 .getPitch()
                 .then(frequency => {
                     displayMidi(frequency);
-                    listen(currentSectionIndex, currentCount);
+                    listen();
                 })
                 .catch(error => {
                     sheetMusicError(null, error, "[vendors/ML5/PitchDetection/actions/listen]");
                     displayMidi(0);
-                    listen(currentSectionIndex, currentCount);
+                    listen();
                 });
-        }
-
-        try {
-            const topLine = document.getElementById("rect_0");
-            const nextLine = document.getElementById("rect_1");
-            const topLineHeight = topLine.y.animVal.value;
-            const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
-            if (
-                topLineHeight !== atVars.drawer.topLine ||
-                distanceBetweenLines !== atVars.drawer.distanceBetweenLines
-            ) {
-                atVars.drawer.setTopLineAndDistanceBetween(
-                    topLineHeight,
-                    distanceBetweenLines,
-                    atVars.drawer.baseOctave
-                );
-            }
-        } catch (error) {
-            sheetMusicError(null, error, "[vendors/ML5/PitchDetection/actions/listen]");
         }
     }
 };
@@ -182,53 +173,55 @@ export const displayMidi = frequency => {
  * @param {string} sheetMusicId The id of the sheet music to submit the performance
  */
 export const stopPitchDetection = async sheetMusicId => {
-    if (atVars.getsFeedback) {
-        atVars.p5Obj.noLoop();
-    }
+    if (isPitchDetectionAvailable()) {
+        if (atVars.getsFeedback) {
+            atVars.p5Obj.noLoop();
+        }
 
-    let performanceData = {
-        performanceData: JSON.stringify(
-            JSON.parse(JSON.stringify(atVars.noteList.performanceData))
-        ),
-        sheetMusicId,
-        exerciseId: null,
-        measureStart: atVars.texLoaded.measureStart,
-        measureEnd: atVars.texLoaded.measureEnd,
-        isDurationExercise: false
-    };
-    if (atVars.texLoaded.typeOfTex === "Exercise" && atVars.texLoaded.id !== null) {
-        performanceData.exerciseId = atVars.texLoaded.id;
-    }
+        let performanceData = {
+            performanceData: JSON.stringify(
+                JSON.parse(JSON.stringify(atVars.noteList.performanceData))
+            ),
+            sheetMusicId,
+            exerciseId: null,
+            measureStart: atVars.texLoaded.measureStart,
+            measureEnd: atVars.texLoaded.measureEnd,
+            isDurationExercise: false
+        };
+        if (atVars.texLoaded.typeOfTex === "Exercise" && atVars.texLoaded.id !== null) {
+            performanceData.exerciseId = atVars.texLoaded.id;
+        }
 
-    atVars.noteList.clear();
+        atVars.noteList.clear();
 
-    if (atVars.texLoaded.performanceId !== null) {
-        performanceData.performanceId = atVars.texLoaded.performanceId;
+        if (atVars.texLoaded.performanceId !== null) {
+            performanceData.performanceId = atVars.texLoaded.performanceId;
 
-        const currentPerformanceId = atVars.texLoaded.performanceId;
+            const currentPerformanceId = atVars.texLoaded.performanceId;
 
-        closeRunningPerformance(performanceData)
-            .then(response => {
-                if (atVars.texLoaded.performanceId === currentPerformanceId) {
-                    atVars.texLoaded.performanceId = null;
-                }
-            })
-            .catch(error => {
+            closeRunningPerformance(performanceData)
+                .then(response => {
+                    if (atVars.texLoaded.performanceId === currentPerformanceId) {
+                        atVars.texLoaded.performanceId = null;
+                    }
+                })
+                .catch(error => {
+                    sheetMusicError(
+                        error.response.status,
+                        error.response.data,
+                        "[vendors/ML5/PitchDetection/actions/stopPitchDetection]"
+                    );
+                });
+        } else {
+            try {
+                await addPerformance(performanceData);
+            } catch (error) {
                 sheetMusicError(
                     error.response.status,
                     error.response.data,
                     "[vendors/ML5/PitchDetection/actions/stopPitchDetection]"
                 );
-            });
-    } else {
-        try {
-            await addPerformance(performanceData);
-        } catch (error) {
-            sheetMusicError(
-                error.response.status,
-                error.response.data,
-                "[vendors/ML5/PitchDetection/actions/stopPitchDetection]"
-            );
+            }
         }
     }
 };
