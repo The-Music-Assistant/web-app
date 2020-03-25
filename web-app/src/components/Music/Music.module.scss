@@ -9,17 +9,20 @@
 @import "../../root-styles/utilities.scss";
 
 .music {
+    position: relative;
     margin: 20px;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         margin: 30px;
     }
-}
 
-.show {
-    opacity: 1;
-}
-
-.hide {
-    opacity: 0;
+    &LoadingContainer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $background-color;
+        z-index: 9999;
+    }
 }

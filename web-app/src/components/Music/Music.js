@@ -158,11 +158,13 @@ class Music extends Component {
      */
     render() {
         let component;
-        let atWrapperClassName;
 
         if (this.state.isLoading) {
-            component = <LoadingContainer message='Loading music...' />;
-            atWrapperClassName = styles.hide;
+            component = (
+                <div className={styles.musicLoadingContainer}>
+                    <LoadingContainer message='Loading music...' />
+                </div>
+            );
         } else {
             component = (
                 <PracticeMusicHeader
@@ -171,7 +173,6 @@ class Music extends Component {
                     onPartChange={this.onPartChangeHandler}
                 />
             );
-            atWrapperClassName = styles.show;
         }
 
         // Returns the JSX to display
@@ -188,7 +189,7 @@ class Music extends Component {
                     backButtonClickedHandler={this.backButtonClickedHandler}
                 />
                 {component}
-                <section className={atWrapperClassName} id='alpha-tab-wrapper'>
+                <section id='alpha-tab-wrapper'>
                     <div id='sketch-holder'></div>
                     <div id='alpha-tab-container'></div>
                 </section>

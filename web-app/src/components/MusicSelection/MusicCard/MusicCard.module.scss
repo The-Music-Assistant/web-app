@@ -16,7 +16,7 @@
     transition: box-shadow 0.2s ease-in-out;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
-        width: 375px;
+        width: 410px;
         height: 200px;
     }
 
@@ -49,7 +49,7 @@
     &Buttons {
         @include flex-container(
             $direction: column,
-            $justify-content: center,
+            $justify-content: space-between,
             $align-items: center,
             $wrap: nowrap
         );

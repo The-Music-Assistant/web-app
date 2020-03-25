@@ -76,8 +76,13 @@ class MusicSelection extends Component {
             );
         } else {
             this.props.musicSelected(id);
-            this.props.history.push(`${this.props.match.url}/music/${id}`);
+            this.props.history.push(`${this.props.match.url}/music/${id}/practice`);
         }
+    };
+
+    viewPerformancesClickedHandler = id => {
+        this.props.musicSelected(id);
+        this.props.history.push(`${this.props.match.url}/music/${id}/performances`);
     };
 
     /**
@@ -109,7 +114,9 @@ class MusicSelection extends Component {
                     composers={musicPiece.composer_names}
                     cardColor={colors[colorIndex]}
                     viewSongClicked={() => this.viewSongClickedHandler(musicPiece.sheet_music_id)}
-                    viewExercisesClicked={() => {}}
+                    viewExercisesClicked={() =>
+                        this.viewPerformancesClickedHandler(musicPiece.sheet_music_id)
+                    }
                 />
             );
         });

@@ -213,7 +213,10 @@ class Primary extends Component {
                 />
                 {mainNav}
                 <Switch>
-                    <Route path='/practice/choirs/:choirId/music/:musicId'>
+                    <Route path='/practice/choirs/:choirId/music/:musicId/practice'>
+                        <Music showAlert={this.showAlertHandler} />
+                    </Route>
+                    <Route path='/practice/choirs/:choirId/music/:musicId/performances'>
                         <Music showAlert={this.showAlertHandler} />
                     </Route>
                     <Route path='/practice/choirs/:choirId'>

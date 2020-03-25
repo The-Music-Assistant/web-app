@@ -12,7 +12,7 @@
 
 #alpha-tab-wrapper {
     width: calc(100vw - 20px - 20px);
-    overflow: scroll;
+    overflow-x: scroll;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         width: calc(100vw - 175px - 30px - 30px);
