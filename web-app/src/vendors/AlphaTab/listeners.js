@@ -115,26 +115,39 @@ const onSubsequentRender = (topLine, nextLine) => {
 const onFirstRender = async (topLine, nextLine) => {
     atVars.isFirstRender = false;
 
-    atVars.texLoaded.setFirstMeasurePosition();
+    // We were getting an error where rect_0 or rect_1 were null even though AlphaTab said they were rendered
+    // This sets up an interval to keep waiting for them to not be null before moving on with the render process
+    const lineReadyID = setInterval(() => {
+        if (topLine !== null && nextLine !== null) {
+            // stop interval from running
+            clearInterval(lineReadyID);
 
-    if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
-        // Sets up drawing for real time feedback
-        initializeFeedbackDrawer(topLine, nextLine);
-        // Creates a new p5 instance which we will use for real time feedback during performance
-        atVars.p5Obj = new p5(feedbackSketch);
-        // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
-        // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
-        // is now actually rendered to the dom
-        atVars.p5Obj.setup(atVars.drawer);
-    } else {
-        // Sets up drawing for performance highlighting
-        // Creates a new p5 instance which we will use for highlighting during performance overview
-        atVars.p5Obj = new p5(performanceSketch);
-        // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
-        // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
-        // is now actually rendered to the dom
-        atVars.p5Obj.setup(atVars.drawer);
-    }
+            atVars.texLoaded.setFirstMeasurePosition();
+
+            if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
+                // Sets up drawing for real time feedback
+                initializeFeedbackDrawer(topLine, nextLine);
+                // Creates a new p5 instance which we will use for real time feedback during performance
+                atVars.p5Obj = new p5(feedbackSketch);
+                // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
+                // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
+                // is now actually rendered to the dom
+                atVars.p5Obj.setup(atVars.drawer);
+            } else {
+                // Sets up drawing for performance highlighting
+                // Creates a new p5 instance which we will use for highlighting during performance overview
+                atVars.p5Obj = new p5(performanceSketch);
+                // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
+                // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
+                // is now actually rendered to the dom
+                atVars.p5Obj.setup(atVars.drawer);
+            }
+        } else {
+            // keeps trying to retrieve the top line and next line of the Alpha Tab music until they are loaded in the dom
+            topLine = document.getElementById("rect_0");
+            nextLine = document.getElementById("rect_1");
+        }
+    }, 500);
 };
 
 /**
