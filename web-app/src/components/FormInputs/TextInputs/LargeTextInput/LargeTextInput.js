@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/FormInputs/TextInput/TextInput.js
-// Description: Renders the text input component
+// File Path: src/components/FormInputs/TextInputs/LargeTextInput/LargeTextInput.js
+// Description: Renders the LargeTextInput component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/5/2020
@@ -11,12 +11,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // File inputs
-import * as textInputTypes from "./textInputTypes";
+import * as textInputTypes from "../textInputTypes";
 
 // Style imports
-import styles from "./TextInput.module.scss";
+import styles from "./LargeTextInput.module.scss";
 
-const TextInput = props => {
+const LargeTextInput = props => {
     // List of class names to attact to the text input
     const inputClassNames = [styles.input];
     if (props.value.length > 0) {
@@ -41,8 +41,8 @@ const TextInput = props => {
     );
 };
 
-// TextInput prop types
-TextInput.propTypes = {
+// LargeTextInput prop types
+LargeTextInput.propTypes = {
     inputType: PropTypes.oneOf([
         textInputTypes.TEXT,
         textInputTypes.EMAIL,
@@ -58,4 +58,4 @@ TextInput.propTypes = {
     onChange: PropTypes.func
 };
 
-export default TextInput;
+export default LargeTextInput;

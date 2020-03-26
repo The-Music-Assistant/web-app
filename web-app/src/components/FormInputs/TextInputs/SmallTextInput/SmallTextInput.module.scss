@@ -1,0 +1,31 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/FormInputs/TextInputs/SmallTextInput/SmallTextInput.module.scss
+// Description: SCSS styles for the SmallTextInput component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 3/25/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../../root-styles/utilities.scss";
+
+.smallTextInput {
+    @include flex-container(
+        $direction: row,
+        $justify-content: space-between,
+        $align-items: center,
+        $wrap: nowrap
+    );
+
+    &Label {
+        @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
+    }
+
+    &Input {
+        @include text($size: 1rem, $weight: 400, $color: $white-color, $line-height: null);
+        width: 100%;
+        border: 1px solid $white-color;
+        border-radius: 2px;
+        outline: none;
+        background-color: $secondary-color;
+    }
+}

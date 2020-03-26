@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import "firebase/storage";
 
 // Component imports
-import TextInput from "../../FormInputs/TextInput/TextInput";
+import LargeTextInput from "../../FormInputs/TextInputs/LargeTextInput/LargeTextInput";
 import ImageInput from "../../FormInputs/ImageInput/ImageInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 
@@ -25,7 +25,7 @@ import { authError } from "../../../vendors/Firebase/logs";
 import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
 import * as authStages from "../../../pages/Auth/authStages";
-import * as textInputTypes from "../../FormInputs/TextInput/textInputTypes";
+import * as textInputTypes from "../../FormInputs/TextInputs/textInputTypes";
 
 // Style imports
 import profileCardStyles from "./ProfileCard.module.scss";
@@ -250,7 +250,7 @@ class ProfileCard extends Component {
                     {imageInput}
                     <div className={profileCardStyles.profileCardTextInputs}>
                         <div className={profileCardStyles.profileCardTextInput}>
-                            <TextInput
+                            <LargeTextInput
                                 inputType={textInputTypes.TEXT}
                                 inputName='firstName'
                                 labelText='First Name'
@@ -260,7 +260,7 @@ class ProfileCard extends Component {
                             />
                         </div>
                         <div className={profileCardStyles.profileCardTextInput}>
-                            <TextInput
+                            <LargeTextInput
                                 inputType={textInputTypes.TEXT}
                                 inputName='lastName'
                                 labelText='Last Name'

@@ -40,7 +40,8 @@ import styles from "./Music.module.scss";
 class Music extends Component {
     // Component state
     state = {
-        isLoading: true,
+        // TODO: Change to true
+        isLoading: false,
         currentPart: null,
         partList: null,
         isMicrophoneAvailable: true

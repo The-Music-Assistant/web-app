@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 // Component imports
-import TextInput from "../../FormInputs/TextInput/TextInput";
+import LargeTextInput from "../../FormInputs/TextInputs/LargeTextInput/LargeTextInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 import TextButton from "../../Buttons/TextButton/TextButton";
 
@@ -23,7 +23,7 @@ import firebase from "../../../vendors/Firebase/firebase";
 import { authError } from "../../../vendors/Firebase/logs";
 import * as authStages from "../../../pages/Auth/authStages";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
-import * as textInputTypes from "../../FormInputs/TextInput/textInputTypes";
+import * as textInputTypes from "../../FormInputs/TextInputs/textInputTypes";
 
 // Style imports
 import authCardStyles from "./AuthCard.module.scss";
@@ -261,7 +261,7 @@ class AuthCard extends Component {
                 <h3 className={authStyles.authCardHeading}>{heading}</h3>
                 <form className={authStyles.authCardForm} onSubmit={this.submitHandler}>
                     <div className={authCardStyles.authCardTextInput}>
-                        <TextInput
+                        <LargeTextInput
                             inputType={textInputTypes.EMAIL}
                             inputName='email'
                             labelText='Email'
@@ -271,7 +271,7 @@ class AuthCard extends Component {
                         />
                     </div>
                     <div className={authCardStyles.authCardTextInput}>
-                        <TextInput
+                        <LargeTextInput
                             inputType={textInputTypes.PASSWORD}
                             inputName='password'
                             labelText='Password'

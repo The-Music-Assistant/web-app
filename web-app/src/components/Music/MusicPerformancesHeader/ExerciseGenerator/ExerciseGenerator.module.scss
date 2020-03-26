@@ -6,6 +6,21 @@
 // Created Date: 3/25/2020
 // ----------------------------------------------------------------------------
 
+@import "../../../../root-styles/utilities.scss";
+
 .exerciseGenerator {
-    
+    background-color: $primary-color;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 300px;
+
+    &Heading {
+        @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: null);
+        text-align: center;
+    }
+
+    &Instructions {
+        @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
+        text-align: center;
+    }
 }

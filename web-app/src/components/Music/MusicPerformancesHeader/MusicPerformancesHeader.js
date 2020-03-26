@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 
 // Component imports
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
+import ExerciseGenerator from "./ExerciseGenerator/ExerciseGenerator";
 
 // File imports
 import * as rectButtonColorOptions from "../../Buttons/RectangularButton/rectangularButtonColorOptions";
@@ -23,7 +24,8 @@ import styles from "./MusicPerformancesHeader.module.scss";
 class MusicPerformancesHeader extends Component {
     // Component state
     state = {
-        shouldDisplayExerciseGeneration: false
+        // TODO: Change to false
+        shouldDisplayExerciseGeneration: true
     };
 
     /**
@@ -38,6 +40,7 @@ class MusicPerformancesHeader extends Component {
     render() {
         let exerciseGenerationComponent;
         if (this.state.shouldDisplayExerciseGeneration) {
+            exerciseGenerationComponent = <ExerciseGenerator />
         } else {
             exerciseGenerationComponent = (
                 <RectangularButton
