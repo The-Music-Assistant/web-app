@@ -25,6 +25,7 @@ const SmallTextInput = props => {
             </label>
             <input
                 className={styles.smallTextInputInput}
+                style={{ width: props.inputWidth }}
                 type={props.inputType}
                 name={props.inputName}
                 value={props.value}
@@ -45,10 +46,11 @@ SmallTextInput.propTypes = {
         textInputTypes.TEL,
         textInputTypes.URL
     ]),
-    inputName: PropTypes.string,
-    value: PropTypes.string,
-    labelText: PropTypes.string,
-    isRequired: PropTypes.bool,
+    inputWidth: PropTypes.string.isRequired,
+    inputName: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    labelText: PropTypes.string.isRequired,
+    isRequired: PropTypes.bool.isRequired,
     onChange: PropTypes.func
 };
 

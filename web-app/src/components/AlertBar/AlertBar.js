@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import * as alertBarTypes from "./alertBarTypes";
 
 // Image imports
-import closeIconWhite from "../../assets/icons/close-icon-white-fa.svg";
+import closeIconWhite from "../../assets/icons/close-icon-white.svg";
 
 // Style imports
 import styles from "./AlertBar.module.scss";

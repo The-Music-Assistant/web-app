@@ -11,7 +11,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // Image imports
-import leftArrowBlue from "../../../assets/icons/left-arrow-gray-fa.svg";
+import leftArrowBlue from "../../../assets/icons/left-arrow-gray.svg";
 
 // Style imports
 import styles from "./BackButton.module.scss";

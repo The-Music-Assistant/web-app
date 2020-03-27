@@ -22,7 +22,7 @@ import { addUser } from "../../../vendors/AWS/tmaApi";
 import { getUserInfo } from "../../../store/actions";
 import firebase from "../../../vendors/Firebase/firebase";
 import { authError } from "../../../vendors/Firebase/logs";
-import closeIconRed from "../../../assets/icons/close-icon-red-fa.svg";
+import closeIconRed from "../../../assets/icons/close-icon-red.svg";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
 import * as authStages from "../../../pages/Auth/authStages";
 import * as textInputTypes from "../../FormInputs/TextInputs/textInputTypes";

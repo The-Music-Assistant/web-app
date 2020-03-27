@@ -19,6 +19,9 @@ import * as rectButtonColorOptions from "../../../Buttons/RectangularButton/rect
 import * as buttonTypes from "../../../Buttons/buttonTypes";
 import * as textInputTypes from "../../../FormInputs/TextInputs/textInputTypes";
 
+// Image imports
+import closeIconWhite from "../../../../assets/icons/close-icon-white.svg";
+
 // Style imports
 import styles from "./ExerciseGenerator.module.scss";
 
@@ -39,10 +42,9 @@ class ExerciseGenerator extends Component {
         if (event.target.name === "start-measure") {
             this.setState({
                 startMeasureValue:
-                    (!event.target.value || Number(event.target.value) >= 0) &&
-                    event.target.value !== "-0"
+                    Number(event.target.value) >= 0 && event.target.value !== "-0"
                         ? event.target.value
-                        : ""
+                        : "0"
             });
         } else if (event.target.name === "end-measure") {
             this.setState({
@@ -62,7 +64,20 @@ class ExerciseGenerator extends Component {
         // Returns the JSX to render
         return (
             <div className={styles.exerciseGenerator}>
-                <h1 className={styles.exerciseGeneratorHeading}>Generate an Exercise</h1>
+                <div className={styles.exerciseGeneratorHeader}>
+                    <div></div>
+                    <h1 className={styles.exerciseGeneratorHeaderHeading}>Generate an Exercise</h1>
+                    <button
+                        className={styles.exerciseGeneratorHeaderCloseButton}
+                        type='button'
+                        onClick={this.props.onGenerateExerciseClose}>
+                        <img
+                            className={styles.exerciseGeneratorHeaderCloseButtonImg}
+                            src={closeIconWhite}
+                            alt='Close Button'
+                        />
+                    </button>
+                </div>
                 <p className={styles.exerciseGeneratorInstructions}>
                     Enter measure numbers or highlight the measures by clicking and dragging on the
                     sheet music.
@@ -70,22 +85,30 @@ class ExerciseGenerator extends Component {
                 <form
                     className={styles.exerciseGeneratorForm}
                     onSubmit={this.generateExerciseSubmitHandler}>
-                    <SmallTextInput
-                        inputType={textInputTypes.NUMBER}
-                        inputName='start-measure'
-                        value={this.state.startMeasureValue}
-                        labelText='Start Measure'
-                        isRequired={true}
-                        onChange={this.measureValueChangedHandler}
-                    />
-                    <SmallTextInput
-                        inputType={textInputTypes.NUMBER}
-                        inputName='end-measure'
-                        value={this.state.endMeasureValue}
-                        labelText='End Measure'
-                        isRequired={true}
-                        onChange={this.measureValueChangedHandler}
-                    />
+                    <div className={styles.exerciseGeneratorFormMeasureInputs}>
+                        <div className={styles.exerciseGeneratorFormMeasureInput}>
+                            <SmallTextInput
+                                inputType={textInputTypes.NUMBER}
+                                inputWidth='50px'
+                                inputName='start-measure'
+                                value={this.state.startMeasureValue}
+                                labelText='Start Measure'
+                                isRequired={true}
+                                onChange={this.measureValueChangedHandler}
+                            />
+                        </div>
+                        <div className={styles.exerciseGeneratorFormMeasureInput}>
+                            <SmallTextInput
+                                inputType={textInputTypes.NUMBER}
+                                inputWidth='50px'
+                                inputName='end-measure'
+                                value={this.state.endMeasureValue}
+                                labelText='End Measure'
+                                isRequired={true}
+                                onChange={this.measureValueChangedHandler}
+                            />
+                        </div>
+                    </div>
                     <RectangularButton
                         type={buttonTypes.SUBMIT}
                         value='generate-exercise'
@@ -99,6 +122,8 @@ class ExerciseGenerator extends Component {
 }
 
 // Prop types for the ExerciseGenerator component
-ExerciseGenerator.propTyes = {};
+ExerciseGenerator.propTyes = {
+    onGenerateExerciseClose: PropTypes.func.isRequired
+};
 
 export default ExerciseGenerator;

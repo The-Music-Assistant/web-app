@@ -12,15 +12,50 @@
     background-color: $primary-color;
     border-radius: 10px;
     padding: 20px;
-    max-width: 300px;
+    max-width: 325px;
 
-    &Heading {
-        @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: null);
-        text-align: center;
+    &Header {
+        @include grid-container(
+            $grid-template-rows: auto,
+            $grid-template-columns: 15px 1fr 15px,
+            $align-items: center
+        );
+
+        &Heading {
+            @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: null);
+            text-align: center;
+        }
+
+        &CloseButton {
+            width: 15px;
+            height: 15px;
+            transition: transform 0.2s ease-in-out;
+
+            &:hover {
+                transform: scale(1.3);
+            }
+
+            &Img {
+                width: 15px;
+            }
+        }
     }
 
     &Instructions {
         @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
         text-align: center;
+    }
+
+    &Form {
+        @include grid-container(
+            $grid-template-rows: auto,
+            $grid-template-columns: 3fr 1fr,
+            $align-items: center
+        );
+        gap: 50px;
+
+        &MeasureInput:first-child {
+            margin-bottom: 10px;
+        }
     }
 }

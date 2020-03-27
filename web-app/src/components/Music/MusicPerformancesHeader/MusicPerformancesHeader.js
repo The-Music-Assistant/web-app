@@ -8,7 +8,7 @@
 
 // NPM module imports
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 // Component imports
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
@@ -35,12 +35,21 @@ class MusicPerformancesHeader extends Component {
         this.setState({ shouldDisplayExerciseGeneration: true });
     };
 
+    /**
+     * Updates state to trigger the exercise generation component to hide
+     */
+    hideExerciseGenerationHandler = () => {
+        this.setState({ shouldDisplayExerciseGeneration: false });
+    };
+
     practiceMusicButtonClickedHandler = () => {};
 
     render() {
         let exerciseGenerationComponent;
         if (this.state.shouldDisplayExerciseGeneration) {
-            exerciseGenerationComponent = <ExerciseGenerator />
+            exerciseGenerationComponent = (
+                <ExerciseGenerator onGenerateExerciseClose={this.hideExerciseGenerationHandler} />
+            );
         } else {
             exerciseGenerationComponent = (
                 <RectangularButton
@@ -69,6 +78,6 @@ class MusicPerformancesHeader extends Component {
 }
 
 // Prop types for the MusicPerformancesHeader component
-MusicPerformancesHeader.propTypes = {};
+// MusicPerformancesHeader.propTypes = {};
 
 export default MusicPerformancesHeader;
