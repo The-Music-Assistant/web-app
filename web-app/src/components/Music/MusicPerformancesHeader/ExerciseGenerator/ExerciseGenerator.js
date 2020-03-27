@@ -18,6 +18,8 @@ import SmallTextInput from "../../../FormInputs/TextInputs/SmallTextInput/SmallT
 import * as rectButtonColorOptions from "../../../Buttons/RectangularButton/rectangularButtonColorOptions";
 import * as buttonTypes from "../../../Buttons/buttonTypes";
 import * as textInputTypes from "../../../FormInputs/TextInputs/textInputTypes";
+import { getPlaybackRange } from "../../../../vendors/AlphaTab/actions";
+import * as measureValueSourceOptions from "./measureValueSourceOptions";
 
 // Image imports
 import closeIconWhite from "../../../../assets/icons/close-icon-white.svg";
@@ -32,28 +34,65 @@ class ExerciseGenerator extends Component {
         endMeasureValue: "0"
     };
 
+    componentDidMount() {
+        this.props.alphaTabContainerElement.addEventListener(
+            "mouseup",
+            this.measuresSelectedHandler
+        );
+    }
+
+    componentWillUnmount() {
+        this.props.alphaTabContainerElement.removeEventListener(
+            "mouseup",
+            this.measuresSelectedHandler
+        );
+    }
+
     generateExerciseSubmitHandler = event => {
         event.preventDefault();
         console.log(this.state.startMeasureValue, this.state.endMeasureValue);
     };
 
-    measureValueChangedHandler = event => {
-        console.log(event.target.value);
-        if (event.target.name === "start-measure") {
-            this.setState({
-                startMeasureValue:
-                    Number(event.target.value) >= 0 && event.target.value !== "-0"
-                        ? event.target.value
-                        : "0"
-            });
-        } else if (event.target.name === "end-measure") {
-            this.setState({
-                endMeasureValue:
-                    (!event.target.value || Number(event.target.value) >= 0) &&
-                    event.target.value !== "-0"
-                        ? event.target.value
-                        : ""
-            });
+    measuresSelectedHandler = () => {
+        this.measureValueChangedHandler(measureValueSourceOptions.MUSIC_HIGHLIGHT);
+    };
+
+    measureValueChangedHandler = (source, event = null) => {
+        if (source === measureValueSourceOptions.TEXT_INPUT) {
+            // Get text input value
+            if (event.target.name === "start-measure") {
+                // Update start measure in state
+                this.setState({
+                    startMeasureValue:
+                        Number(event.target.value) >= 0 && event.target.value !== "-0"
+                            ? event.target.value
+                            : "0"
+                });
+            } else if (event.target.name === "end-measure") {
+                // Update end measure in state
+                this.setState({
+                    endMeasureValue:
+                        (!event.target.value || Number(event.target.value) >= 0) &&
+                        event.target.value !== "-0"
+                            ? event.target.value
+                            : ""
+                });
+            }
+        } else if (source === measureValueSourceOptions.MUSIC_HIGHLIGHT) {
+            // Get start and end measures based on the highlighted selection in the sheet music
+            const playbackMeasures = getPlaybackRange();
+            if (playbackMeasures) {
+                // Update start and end measures in state
+                this.setState({
+                    startMeasureValue: playbackMeasures[0].toString(),
+                    endMeasureValue: playbackMeasures[1].toString()
+                });
+            }
+        } else {
+            // Invalid source value provided
+            console.log(
+                `${source} is not a valid measure value source. See measureValueSourceOptions.js for options.`
+            );
         }
     };
 
@@ -95,6 +134,8 @@ class ExerciseGenerator extends Component {
                                 labelText='Start Measure'
                                 isRequired={true}
                                 onChange={this.measureValueChangedHandler}
+                                // minVal={1}
+                                // maxVal={}
                             />
                         </div>
                         <div className={styles.exerciseGeneratorFormMeasureInput}>
@@ -106,6 +147,8 @@ class ExerciseGenerator extends Component {
                                 labelText='End Measure'
                                 isRequired={true}
                                 onChange={this.measureValueChangedHandler}
+                                // minVal={}
+                                // maxVal={}
                             />
                         </div>
                     </div>
@@ -123,6 +166,7 @@ class ExerciseGenerator extends Component {
 
 // Prop types for the ExerciseGenerator component
 ExerciseGenerator.propTyes = {
+    alphaTabContainerElement: PropTypes.object,
     onGenerateExerciseClose: PropTypes.func.isRequired
 };
 

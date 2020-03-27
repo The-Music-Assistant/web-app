@@ -7,7 +7,7 @@
 // ----------------------------------------------------------------------------
 
 // NPM module imports
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -25,7 +25,9 @@ import {
     changeToSheetMusic,
     changePart,
     loadJustMyPart,
-    loadTex
+    loadTex,
+    changeToPerformance,
+    changeToExercise
 } from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
@@ -41,11 +43,14 @@ class Music extends Component {
     // Component state
     state = {
         // TODO: Change to true
-        isLoading: false,
+        isLoading: true,
         currentPart: null,
         partList: null,
         isMicrophoneAvailable: true
     };
+
+    // A reference to the AlphaTab container DOM element
+    _alphaTabContainerRef = createRef();
 
     /**
      * Initializes the AlphaTab API
@@ -73,15 +78,35 @@ class Music extends Component {
     /**
      * Initializes AlphaTab
      * Initializes pitch detection
+     * Initializes the drawer
      * Gets the piece of sheet music
      * Renders AlphaTab
      * @returns - A promise
      */
     prepareMusic = async () => {
+        let loadSheetMusic;
+        // Chooses the correct sheet music and drawing based on the given pageType prop
+        switch (this.props.pageType) {
+            case musicPageOptions.PRACTICE:
+                loadSheetMusic = changeToSheetMusic;
+                break;
+            case musicPageOptions.PERFORMANCES:
+                loadSheetMusic = changeToPerformance;
+                break;
+            case musicPageOptions.EXERCISE:
+                loadSheetMusic = changeToExercise;
+                break;
+            default:
+                console.log(
+                    `${this.props.pageType} is not valid. See musicPageOptions.js for options. No music was loaded.`
+                );
+        }
+
+        // Initializes the sheet music, pitch detection, and drawer
         initializeAlphaTabApi();
         return Promise.all([
             this.initializePitchDetection(),
-            changeToSheetMusic(),
+            loadSheetMusic(),
             this.waitForAlphaTabToRender()
         ]);
     };
@@ -177,7 +202,11 @@ class Music extends Component {
                 />
             );
         } else if (this.props.pageType === musicPageOptions.PERFORMANCES) {
-            component = <MusicPerformancesHeader />;
+            component = (
+                <MusicPerformancesHeader
+                    alphaTabContainerElement={this._alphaTabContainerRef.current}
+                />
+            );
         }
 
         // Returns the JSX to display
@@ -196,7 +225,7 @@ class Music extends Component {
                 {component}
                 <section id='alpha-tab-wrapper'>
                     <div id='sketch-holder'></div>
-                    <div id='alpha-tab-container'></div>
+                    <div id='alpha-tab-container' ref={this._alphaTabContainerRef}></div>
                 </section>
             </main>
         );

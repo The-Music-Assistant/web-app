@@ -8,7 +8,7 @@
 
 // NPM module imports
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 // Component imports
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
@@ -48,7 +48,10 @@ class MusicPerformancesHeader extends Component {
         let exerciseGenerationComponent;
         if (this.state.shouldDisplayExerciseGeneration) {
             exerciseGenerationComponent = (
-                <ExerciseGenerator onGenerateExerciseClose={this.hideExerciseGenerationHandler} />
+                <ExerciseGenerator
+                    alphaTabContainerElement={this.props.alphaTabContainerElement}
+                    onGenerateExerciseClose={this.hideExerciseGenerationHandler}
+                />
             );
         } else {
             exerciseGenerationComponent = (
@@ -78,6 +81,8 @@ class MusicPerformancesHeader extends Component {
 }
 
 // Prop types for the MusicPerformancesHeader component
-// MusicPerformancesHeader.propTypes = {};
+MusicPerformancesHeader.propTypes = {
+    alphaTabContainerElement: PropTypes.object.isRequired
+};
 
 export default MusicPerformancesHeader;

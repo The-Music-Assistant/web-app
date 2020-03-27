@@ -31,6 +31,8 @@ const SmallTextInput = props => {
                 value={props.value}
                 onChange={props.onChange}
                 required={props.isRequired}
+                min={props.minVal}
+                max={props.maxVal}
             />
         </div>
     );
@@ -47,6 +49,8 @@ SmallTextInput.propTypes = {
         textInputTypes.URL
     ]),
     inputWidth: PropTypes.string.isRequired,
+    minVal: PropTypes.number,
+    maxVal: PropTypes.number,
     inputName: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,

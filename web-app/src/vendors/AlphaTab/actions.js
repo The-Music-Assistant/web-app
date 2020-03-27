@@ -94,8 +94,6 @@ export const changePart = partName => {
 
 export const changeToSheetMusic = async () => {
     atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
-    atVars.api.settings.display.barCount = atVars.barCount;
-    atVars.api.updateSettings();
     await loadTex(null);
 };
 
@@ -108,9 +106,6 @@ export const changeToMyPart = async () => {
 
 export const changeToPerformance = async () => {
     atVars.sketchBehavior = sketchBehaviors.PERFORMANCE_HIGHLIGHTING;
-    atVars.api.settings.display.barCount =
-        atVars.sheetMusicLength !== null ? atVars.sheetMusicLength : atVars.barCount;
-    atVars.api.updateSettings();
     await loadTex(null);
 };
 
@@ -317,7 +312,7 @@ const loadExercise = async (measureStart, measureEnd) => {
     }
 };
 
-export const loadTex = async (partName) => {
+export const loadTex = async partName => {
     // Clears the "exercise" option from the texToDisplay drop down if present since that is only generated when viewing an exercise
     // let texToDisplay = document.getElementById("texToDisplay");
     // texToDisplay.options[3] = null;
@@ -365,9 +360,6 @@ export const loadTex = async (partName) => {
             }
         }
 
-        // renders the user's part but plays all the parts together during playback
-        atVars.api.tex(sheetMusicResponse.data.sheet_music, atVars.texLoaded.currentTrackIndexes);
-
         data.partName = sheetMusicResponse.data.part_list[atVars.texLoaded.currentTrackIndexes[0]];
 
         // gets and updates expected performance data for the provided part
@@ -387,6 +379,18 @@ export const loadTex = async (partName) => {
             atVars.texLoaded.measureLengths.length + 1,
             atVars.barCount
         );
+
+        if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
+            atVars.api.settings.display.barCount = atVars.barCount;
+        } else {
+            atVars.api.settings.display.barCount =
+                atVars.sheetMusicLength !== null ? atVars.sheetMusicLength : atVars.barCount;
+        }
+
+        atVars.api.updateSettings();
+
+        // renders the user's part but plays all the parts together during playback
+        atVars.api.tex(sheetMusicResponse.data.sheet_music, atVars.texLoaded.currentTrackIndexes);
     } catch (error) {
         sheetMusicError(
             error.response.status,
@@ -394,7 +398,7 @@ export const loadTex = async (partName) => {
             "[vendors/AlphaTab/actions/loadTex]"
         );
     }
-}
+};
 
 /**
  * Gets the member's part for the sheet music (e.g. Soprano)

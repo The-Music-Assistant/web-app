@@ -124,9 +124,10 @@ const onFirstRender = async (topLine, nextLine) => {
 
             atVars.texLoaded.setFirstMeasurePosition();
 
+            // Sets up drawing
+            initializeFeedbackDrawer(topLine, nextLine);
+
             if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
-                // Sets up drawing for real time feedback
-                initializeFeedbackDrawer(topLine, nextLine);
                 // Creates a new p5 instance which we will use for real time feedback during performance
                 atVars.p5Obj = new p5(feedbackSketch);
                 // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
