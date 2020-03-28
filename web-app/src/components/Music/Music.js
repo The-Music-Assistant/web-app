@@ -69,16 +69,13 @@ class Music extends Component {
         // Initializes the AlphaTab API and displays the music
         this.prepareMusic()
             .then(() => {
-                // Timeout gives extra time for the microphone and pitch detection to set up
-                // There appears to be UI-blocking code even though the async code waits
-                setTimeout(() => {
-                    this.setState({
-                        isLoading: false,
-                        currentPart: getMyPart(),
-                        partList: ["Just My Part"].concat(getPartList()),
-                        numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
-                    });
-                }, 2000);
+                this.setState({
+                    isLoading: false,
+                    currentPart: getMyPart(),
+                    partList: ["Just My Part"].concat(getPartList()),
+                    numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString(),
+                    hasAlreadyRenderedOnce: true
+                });
             })
             .catch(error => {
                 sheetMusicError(null, error, "[components/Music/componentDidMount]");
@@ -136,6 +133,12 @@ class Music extends Component {
             // Prepares for microphone input sets up the pitch detection model
             try {
                 await setupPitchDetection();
+                // Timeout gives extra time for the microphone and pitch detection to set up
+                // There appears to be UI-blocking code even though the async code waits
+                return new Promise(resolve => {
+                    console.log("CALL 1");
+                    setTimeout(resolve, 2000);
+                });
             } catch (error) {
                 this.props.showAlert(
                     alertBarTypes.WARNING,
@@ -145,10 +148,6 @@ class Music extends Component {
                 this.setState({ isMicrophoneAvailable: false });
                 sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
             }
-
-            this.setState({ hasAlreadyRenderedOnce: true });
-        } else {
-            return;
         }
     };
 
@@ -157,7 +156,10 @@ class Music extends Component {
      */
     waitForAlphaTabToRender = () => {
         return new Promise(resolve => {
-            alphaTabVars.api.addPostRenderFinished(resolve);
+            alphaTabVars.api.addPostRenderFinished(() => {
+                console.log("CALL 2");
+                resolve();
+            });
         });
     };
 
