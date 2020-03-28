@@ -118,7 +118,9 @@ class Music extends Component {
         }
 
         // Initializes the sheet music, pitch detection, and drawer
-        initializeAlphaTabApi();
+        if (!this.state.hasAlreadyRenderedOnce) {
+            initializeAlphaTabApi();
+        }
         return Promise.all([
             this.initializePitchDetection(),
             loadSheetMusic(),
@@ -143,6 +145,8 @@ class Music extends Component {
                 this.setState({ isMicrophoneAvailable: false });
                 sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
             }
+
+            this.setState({ hasAlreadyRenderedOnce: true });
         } else {
             return;
         }
