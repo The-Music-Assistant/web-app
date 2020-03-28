@@ -220,10 +220,10 @@ class Primary extends Component {
                             pageType={musicPageOptions.PRACTICE}
                         />
                     </Route>
-                    <Route path='/practice/choirs/:choirId/music/:musicId/performances'>
+                    <Route path='/practice/choirs/:choirId/music/:musicId/performance'>
                         <Music
                             showAlert={this.showAlertHandler}
-                            pageType={musicPageOptions.PERFORMANCES}
+                            pageType={musicPageOptions.PERFORMANCE}
                         />
                     </Route>
                     <Route path='/practice/choirs/:choirId'>

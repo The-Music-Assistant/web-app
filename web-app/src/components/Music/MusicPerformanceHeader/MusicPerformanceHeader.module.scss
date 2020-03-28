@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/MusicPerformancesHeader/MusicPerformancesHeader.js
-// Description: SCSS styles for the MusicPerformancesHeader component
+// File Path: src/components/PracticeMain/MusicPerformanceHeader/MusicPerformanceHeader.js
+// Description: SCSS styles for the MusicPerformanceHeader component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 3/25/2020
@@ -8,7 +8,7 @@
 
 @import "../../../root-styles/utilities.scss";
 
-.musicPerformancesHeader {
+.MusicPerformanceHeader {
     @include flex-container(
         $direction: row,
         $justify-content: space-between,

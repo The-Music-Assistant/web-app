@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/MusicPerformancesHeader/ExerciseGenerator/ExerciseGenerator.module.scss
+// File Path: src/components/PracticeMain/MusicPerformanceHeader/ExerciseGenerator/ExerciseGenerator.module.scss
 // Description: SCSS styles for the ExerciseGenerator component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
@@ -41,11 +41,6 @@
         }
     }
 
-    &Instructions {
-        @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
-        text-align: center;
-    }
-
     &Form {
         @include grid-container(
             $grid-template-rows: auto,
@@ -53,6 +48,7 @@
             $align-items: center
         );
         gap: 50px;
+        margin-top: 20px;
 
         &MeasureInput:first-child {
             margin-bottom: 10px;

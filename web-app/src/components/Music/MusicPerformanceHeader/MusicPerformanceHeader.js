@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/MusicPerformancesHeader/MusicPerformancesHeader.js
-// Description: Renders the MusicPerformancesHeader component
+// File Path: src/components/PracticeMain/MusicPerformanceHeader/MusicPerformanceHeader.js
+// Description: Renders the MusicPerformanceHeader component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 3/25/2020
@@ -9,6 +9,7 @@
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 // Component imports
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
@@ -19,13 +20,12 @@ import * as rectButtonColorOptions from "../../Buttons/RectangularButton/rectang
 import * as buttonTypes from "../../Buttons/buttonTypes";
 
 // Style imports
-import styles from "./MusicPerformancesHeader.module.scss";
+import styles from "./MusicPerformanceHeader.module.scss";
 
-class MusicPerformancesHeader extends Component {
+class MusicPerformanceHeader extends Component {
     // Component state
     state = {
-        // TODO: Change to false
-        shouldDisplayExerciseGeneration: true
+        shouldDisplayExerciseGeneration: false
     };
 
     /**
@@ -42,14 +42,21 @@ class MusicPerformancesHeader extends Component {
         this.setState({ shouldDisplayExerciseGeneration: false });
     };
 
-    practiceMusicButtonClickedHandler = () => {};
+    practiceMusicButtonClickedHandler = () => {
+        const routeUrl = `${this.props.match.url.substring(
+            0,
+            this.props.match.url.lastIndexOf("/")
+        )}/practice`;
+
+        this.props.history.replace(routeUrl);
+    };
 
     render() {
         let exerciseGenerationComponent;
         if (this.state.shouldDisplayExerciseGeneration) {
             exerciseGenerationComponent = (
                 <ExerciseGenerator
-                    alphaTabContainerElement={this.props.alphaTabContainerElement}
+                    numberOfMeasures={this.props.numberOfMeasures}
                     onGenerateExerciseClose={this.hideExerciseGenerationHandler}
                 />
             );
@@ -66,23 +73,23 @@ class MusicPerformancesHeader extends Component {
         }
 
         return (
-            <div className={styles.musicPerformancesHeader}>
+            <div className={styles.MusicPerformanceHeader}>
                 {exerciseGenerationComponent}
                 <RectangularButton
                     type={buttonTypes.BUTTON}
                     value='practice'
                     text='Practice Music'
                     backgroundColor={rectButtonColorOptions.GREEN}
-                    onClick={this.showExerciseGenerationButtonClickedHandler}
+                    onClick={this.practiceMusicButtonClickedHandler}
                 />
             </div>
         );
     }
 }
 
-// Prop types for the MusicPerformancesHeader component
-MusicPerformancesHeader.propTypes = {
-    alphaTabContainerElement: PropTypes.object.isRequired
+// Prop types for the MusicPerformanceHeader component
+MusicPerformanceHeader.propTypes = {
+    numberOfMeasures: PropTypes.string.isRequired
 };
 
-export default MusicPerformancesHeader;
+export default withRouter(MusicPerformanceHeader);

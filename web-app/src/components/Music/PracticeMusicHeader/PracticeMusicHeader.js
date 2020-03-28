@@ -25,8 +25,14 @@ import * as rectButtonColorOptions from "../../Buttons/RectangularButton/rectang
 import styles from "./PracticeMusicHeader.module.scss";
 
 const PracticeHeader = props => {
-    // TODO: Route to performance view
-    const viewPerformancesButtonClickedHandler = () => {};
+    const viewPerformanceButtonClickedHandler = () => {
+        const routeUrl = `${props.match.url.substring(
+            0,
+            props.match.url.lastIndexOf("/")
+        )}/performance`;
+
+        props.history.replace(routeUrl);
+    };
 
     // Returns the JSX to display
     return (
@@ -39,13 +45,13 @@ const PracticeHeader = props => {
                 onChange={props.onPartChange}
             />
             <MusicControls />
-            <div className={styles.practiceHeaderViewPerformancesButton}>
+            <div className={styles.practiceHeaderViewPerformanceButton}>
                 <RectangularButton
                     type={buttonTypes.BUTTON}
-                    value='performances'
-                    text='View Performances'
+                    value='performance'
+                    text='View Performance'
                     backgroundColor={rectButtonColorOptions.GREEN}
-                    onClick={viewPerformancesButtonClickedHandler}
+                    onClick={viewPerformanceButtonClickedHandler}
                 />
             </div>
         </div>

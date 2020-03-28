@@ -263,10 +263,6 @@ export const loadJustMyPart = async () => {
  * @param {number} measureEnd - The end measure number. Note: It is assumed that this has already been error checked
  */
 const loadExercise = async (measureStart, measureEnd) => {
-    // Adds and auto selects the "exercise" option from the texToDisplay drop down which only lasts as long as we are viewing this exercise
-    let texToDisplay = document.getElementById("texToDisplay");
-    texToDisplay.options[3] = new Option("Exercise", "exercise", false, true);
-
     // Assumes currentTrackIndexes[0], measureStart, and measureEnd are valid by this point
     // Defaults to non duration exercise
     // TODO: Get duration exercise if measure needs a lot of work, otherwise get normal exercise
@@ -313,9 +309,6 @@ const loadExercise = async (measureStart, measureEnd) => {
 };
 
 export const loadTex = async partName => {
-    // Clears the "exercise" option from the texToDisplay drop down if present since that is only generated when viewing an exercise
-    // let texToDisplay = document.getElementById("texToDisplay");
-    // texToDisplay.options[3] = null;
 
     let data = {
         sheetMusicId: store.getState().practice.selectedSheetMusicId

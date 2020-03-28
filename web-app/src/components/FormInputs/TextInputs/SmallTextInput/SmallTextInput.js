@@ -17,12 +17,9 @@ import * as textInputTypes from "../textInputTypes";
 import styles from "./SmallTextInput.module.scss";
 
 const SmallTextInput = props => {
-    // Returns JSX to display
-    return (
-        <div className={styles.smallTextInput}>
-            <label className={styles.smallTextInputLabel} htmlFor={props.inputName}>
-                {`${props.labelText}:`}
-            </label>
+    let inputElement = null;
+    if (props.inputType === textInputTypes.NUMBER) {
+        inputElement = (
             <input
                 className={styles.smallTextInputInput}
                 style={{ width: props.inputWidth }}
@@ -34,6 +31,28 @@ const SmallTextInput = props => {
                 min={props.minVal}
                 max={props.maxVal}
             />
+        );
+    } else {
+        inputElement = (
+            <input
+                className={styles.smallTextInputInput}
+                style={{ width: props.inputWidth }}
+                type={props.inputType}
+                name={props.inputName}
+                value={props.value}
+                onChange={props.onChange}
+                required={props.isRequired}
+            />
+        );
+    }
+
+    // Returns JSX to display
+    return (
+        <div className={styles.smallTextInput}>
+            <label className={styles.smallTextInputLabel} htmlFor={props.inputName}>
+                {`${props.labelText}:`}
+            </label>
+            {inputElement}
         </div>
     );
 };
@@ -49,8 +68,8 @@ SmallTextInput.propTypes = {
         textInputTypes.URL
     ]),
     inputWidth: PropTypes.string.isRequired,
-    minVal: PropTypes.number,
-    maxVal: PropTypes.number,
+    minVal: PropTypes.string,
+    maxVal: PropTypes.string,
     inputName: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,

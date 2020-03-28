@@ -7,13 +7,13 @@
 // ----------------------------------------------------------------------------
 
 // NPM module imports
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Component imports
 import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
-import MusicPerformancesHeader from "./MusicPerformancesHeader/MusicPerformancesHeader";
+import MusicPerformanceHeader from "./MusicPerformanceHeader/MusicPerformanceHeader";
 import PageHeader from "../PageHeader/PageHeader";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
@@ -42,21 +42,30 @@ import styles from "./Music.module.scss";
 class Music extends Component {
     // Component state
     state = {
-        // TODO: Change to true
         isLoading: true,
         currentPart: null,
         partList: null,
-        isMicrophoneAvailable: true
+        isMicrophoneAvailable: true,
+        numberOfMeasures: "0",
+        hasAlreadyRenderedOnce: false
     };
-
-    // A reference to the AlphaTab container DOM element
-    _alphaTabContainerRef = createRef();
 
     /**
      * Initializes the AlphaTab API
      * Displays the piece of music on the screen
      */
     componentDidMount() {
+        this.getMusic();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.pageType !== this.props.pageType) {
+            this.setState({ isLoading: true });
+            this.getMusic();
+        }
+    }
+
+    getMusic = () => {
         // Initializes the AlphaTab API and displays the music
         this.prepareMusic()
             .then(() => {
@@ -66,14 +75,15 @@ class Music extends Component {
                     this.setState({
                         isLoading: false,
                         currentPart: getMyPart(),
-                        partList: ["Just My Part"].concat(getPartList())
+                        partList: ["Just My Part"].concat(getPartList()),
+                        numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
                     });
                 }, 2000);
             })
             .catch(error => {
                 sheetMusicError(null, error, "[components/Music/componentDidMount]");
             });
-    }
+    };
 
     /**
      * Initializes AlphaTab
@@ -85,16 +95,21 @@ class Music extends Component {
      */
     prepareMusic = async () => {
         let loadSheetMusic;
+
         // Chooses the correct sheet music and drawing based on the given pageType prop
         switch (this.props.pageType) {
             case musicPageOptions.PRACTICE:
                 loadSheetMusic = changeToSheetMusic;
                 break;
-            case musicPageOptions.PERFORMANCES:
+            case musicPageOptions.PERFORMANCE:
                 loadSheetMusic = changeToPerformance;
                 break;
             case musicPageOptions.EXERCISE:
-                loadSheetMusic = changeToExercise;
+                loadSheetMusic = changeToExercise.bind(
+                    this,
+                    this.props.exerciseStartMeasure,
+                    this.props.exerciseEndMeasure
+                );
                 break;
             default:
                 console.log(
@@ -115,17 +130,21 @@ class Music extends Component {
      * Sets up ML5 pitch detection
      */
     initializePitchDetection = async () => {
-        // Prepares for microphone input sets up the pitch detection model
-        try {
-            await setupPitchDetection();
-        } catch (error) {
-            this.props.showAlert(
-                alertBarTypes.WARNING,
-                "No Microphone",
-                "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
-            );
-            this.setState({ isMicrophoneAvailable: false });
-            sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
+        if (!this.state.hasAlreadyRenderedOnce) {
+            // Prepares for microphone input sets up the pitch detection model
+            try {
+                await setupPitchDetection();
+            } catch (error) {
+                this.props.showAlert(
+                    alertBarTypes.WARNING,
+                    "No Microphone",
+                    "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
+                );
+                this.setState({ isMicrophoneAvailable: false });
+                sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
+            }
+        } else {
+            return;
         }
     };
 
@@ -186,13 +205,31 @@ class Music extends Component {
      */
     render() {
         let component;
+        let pageHeading;
 
         if (this.state.isLoading) {
+            let message;
+            switch (this.props.pageType) {
+                case musicPageOptions.PRACTICE:
+                    message = "Loading music...";
+                    break;
+                case musicPageOptions.PERFORMANCE:
+                    message = "Loading performance...";
+                    break;
+                case musicPageOptions.EXERCISE:
+                    message = "Loading exercise...";
+                    break;
+                default:
+                    message = "Loading music...";
+            }
+
             component = (
                 <div className={styles.musicLoadingContainer}>
-                    <LoadingContainer message='Loading music...' />
+                    <LoadingContainer message={message} />
                 </div>
             );
+
+            pageHeading = "Practice";
         } else if (this.props.pageType === musicPageOptions.PRACTICE) {
             component = (
                 <PracticeMusicHeader
@@ -201,23 +238,21 @@ class Music extends Component {
                     onPartChange={this.onPartChangeHandler}
                 />
             );
-        } else if (this.props.pageType === musicPageOptions.PERFORMANCES) {
-            component = (
-                <MusicPerformancesHeader
-                    alphaTabContainerElement={this._alphaTabContainerRef.current}
-                />
-            );
+
+            pageHeading = this.state.isMicrophoneAvailable
+                ? "Practice"
+                : "Playback - No Microphone Available";
+        } else if (this.props.pageType === musicPageOptions.PERFORMANCE) {
+            component = <MusicPerformanceHeader numberOfMeasures={this.state.numberOfMeasures} />;
+
+            pageHeading = "Performance";
         }
 
         // Returns the JSX to display
         return (
             <main className={styles.music}>
                 <PageHeader
-                    heading={
-                        this.state.isMicrophoneAvailable
-                            ? "Practice"
-                            : "Playback - No Microphone Available"
-                    }
+                    heading={pageHeading}
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Music Selection"}
                     backButtonClickedHandler={this.backButtonClickedHandler}
@@ -225,7 +260,7 @@ class Music extends Component {
                 {component}
                 <section id='alpha-tab-wrapper'>
                     <div id='sketch-holder'></div>
-                    <div id='alpha-tab-container' ref={this._alphaTabContainerRef}></div>
+                    <div id='alpha-tab-container'></div>
                 </section>
             </main>
         );
@@ -237,9 +272,11 @@ Music.propTypes = {
     showAlert: PropTypes.func.isRequired,
     pageType: PropTypes.oneOf([
         musicPageOptions.PRACTICE,
-        musicPageOptions.PERFORMANCES,
+        musicPageOptions.PERFORMANCE,
         musicPageOptions.EXERCISE
-    ])
+    ]),
+    exerciseStartMeasure: PropTypes.number,
+    exerciseEndMeasure: PropTypes.number
 };
 
 export default withRouter(Music);

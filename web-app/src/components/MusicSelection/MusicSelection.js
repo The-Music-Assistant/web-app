@@ -69,20 +69,28 @@ class MusicSelection extends Component {
 
     viewSongClickedHandler = id => {
         if (this.props.isMobileBrowser) {
-            this.props.showAlert(
-                alertBarTypes.WARNING,
-                "We're Sorry",
-                "You can't view or play music on this mobile device due to performance problems"
-            );
+            this.showMobileBrowserAlert();
         } else {
             this.props.musicSelected(id);
             this.props.history.push(`${this.props.match.url}/music/${id}/practice`);
         }
     };
 
-    viewPerformancesClickedHandler = id => {
-        this.props.musicSelected(id);
-        this.props.history.push(`${this.props.match.url}/music/${id}/performances`);
+    viewPerformanceClickedHandler = id => {
+        if (this.props.isMobileBrowser) {
+            this.showMobileBrowserAlert();
+        } else {
+            this.props.musicSelected(id);
+            this.props.history.push(`${this.props.match.url}/music/${id}/performance`);
+        }
+    };
+
+    showMobileBrowserAlert = () => {
+        this.props.showAlert(
+            alertBarTypes.WARNING,
+            "We're Sorry",
+            "You can't view or play music on this mobile device due to processing limitations"
+        );
     };
 
     /**
@@ -115,7 +123,7 @@ class MusicSelection extends Component {
                     cardColor={colors[colorIndex]}
                     viewSongClicked={() => this.viewSongClickedHandler(musicPiece.sheet_music_id)}
                     viewExercisesClicked={() =>
-                        this.viewPerformancesClickedHandler(musicPiece.sheet_music_id)
+                        this.viewPerformanceClickedHandler(musicPiece.sheet_music_id)
                     }
                 />
             );

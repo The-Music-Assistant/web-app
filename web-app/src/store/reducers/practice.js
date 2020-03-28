@@ -14,7 +14,11 @@ import { updateObject } from "../utility";
 const initialState = {
     selectedChoirId: null,
     selectedChoirName: null,
-    selectedSheetMusicId: null
+    selectedSheetMusicId: null,
+    exercise: {
+        startMeasure: null,
+        endMeasure: null
+    }
 };
 
 /**
@@ -31,6 +35,13 @@ const practiceReducer = (state = initialState, action) => {
             });
         case actionTypes.PRACTICE_SONG_SELECTED:
             return updateObject(state, { selectedSheetMusicId: action.id });
+        case actionTypes.EXERCISE_REQUESTED:
+            return updateObject(state, {
+                exercise: {
+                    startMeasure: action.startMeasure,
+                    endMeasure: action.endMeasure
+                }
+            });
         default:
             return state;
     }

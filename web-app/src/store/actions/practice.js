@@ -32,3 +32,16 @@ export const musicSelectedForPractice = id => {
         id
     };
 };
+
+/**
+ * Returns the EXERCISE_REQUESTED action type, start measure, and end measure
+ * @param {string} startMeasure - The start measure selected
+ * @param {string} endMeasure - The end measure selected
+ */
+export const exerciseRequested = (startMeasure, endMeasure) => {
+    return {
+        type: actionTypes.EXERCISE_REQUESTED,
+        startMeasure,
+        endMeasure
+    };
+};

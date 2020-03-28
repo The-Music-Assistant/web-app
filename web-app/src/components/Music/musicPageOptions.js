@@ -7,5 +7,5 @@
 // ----------------------------------------------------------------------------
 
 export const PRACTICE = "PRACTICE";
-export const PERFORMANCES = "PERFORMANCES";
+export const PERFORMANCE = "PERFORMANCE";
 export const EXERCISE = "EXERCISE";
