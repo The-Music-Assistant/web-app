@@ -74,7 +74,7 @@ class App extends Component {
             redirect = <Redirect to='/startup' />;
         } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
             redirect = <Redirect to='/auth' />;
-        } else if (this.props.showWelcomePage) {
+        } else if (this.props.shouldShowWelcomePage) {
             redirect = <Redirect to='/welcome' />;
         } else {
             redirect = <Redirect to='/practice' />;
@@ -112,7 +112,7 @@ App.propTypes = {
     isStartupDone: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool,
     isAuthFlowComplete: PropTypes.bool,
-    showWelcomePage: PropTypes.bool.isRequired,
+    shouldShowWelcomePage: PropTypes.bool.isRequired,
     setBrowserType: PropTypes.func.isRequired
 };
 
@@ -125,7 +125,7 @@ const mapStateToProps = state => {
         isStartupDone: state.startup.isDone,
         isAuthenticated: state.auth.isAuthenticated,
         isAuthFlowComplete: state.auth.isAuthFlowComplete,
-        showWelcomePage: state.auth.showWelcomePage
+        shouldShowWelcomePage: state.auth.shouldShowWelcomePage
     };
 };
 

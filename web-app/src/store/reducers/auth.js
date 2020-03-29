@@ -15,7 +15,7 @@ const initialState = {
     isAuthenticated: null, // null value means that auth handler has not yet run
     isAuthFlowComplete: null, // null value means that auth flow was never started
     error: null,
-    showWelcomePage: false,
+    shouldShowWelcomePage: false,
     usersName: null,
     usersPictureUrl: null
 };
@@ -30,11 +30,14 @@ const authReducer = (state = initialState, action) => {
         case actionTypes.START_AUTH_FLOW:
             return updateObject(state, { isAuthFlowComplete: false });
         case actionTypes.AUTH_FLOW_COMPLETE:
-            if (action.showWelcomePage) {
+            if (action.shouldShowWelcomePage) {
                 // Immediately show the welcome page
-                return updateObject(state, { isAuthFlowComplete: true, showWelcomePage: true });
+                return updateObject(state, {
+                    isAuthFlowComplete: true,
+                    shouldShowWelcomePage: true
+                });
             } else {
-                // Doesn't set showWelcomePage to false in case the user has not verified their email (in that case we still want to show the welcome page)
+                // Doesn't set shouldShowWelcomePage to false in case the user has not verified their email (in that case we still want to show the welcome page)
                 return updateObject(state, { isAuthFlowComplete: true });
             }
         case actionTypes.RETRIEVED_USERS_NAME:
@@ -61,11 +64,11 @@ const authReducer = (state = initialState, action) => {
         case actionTypes.AUTH_ERROR:
             return updateObject(state, { error: action.error });
         case actionTypes.SHOW_WELCOME_PAGE:
-            return updateObject(state, { showWelcomePage: true });
+            return updateObject(state, { shouldShowWelcomePage: true });
         case actionTypes.DO_NOT_SHOW_WELCOME_PAGE:
-            return updateObject(state, { showWelcomePage: false });
+            return updateObject(state, { shouldShowWelcomePage: false });
         case actionTypes.WELCOME_PAGE_COMPLETE:
-            return updateObject(state, { showWelcomePage: false });
+            return updateObject(state, { shouldShowWelcomePage: false });
         case actionTypes.SIGN_OUT:
             return state;
         default:

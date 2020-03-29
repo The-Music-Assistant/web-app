@@ -123,12 +123,12 @@ export const startAuthFlow = () => {
 
 /**
  * Returns AUTH_FLOW_COMPLETE action type and a boolean indicating whether or not to show the welcome page
- * @param {boolean} showWelcomePage - Whether to show the welcome page or not
+ * @param {boolean} shouldShowWelcomePage - Whether to show the welcome page or not
  */
-export const authFlowComplete = showWelcomePage => {
+export const authFlowComplete = shouldShowWelcomePage => {
     return {
         type: actionTypes.AUTH_FLOW_COMPLETE,
-        showWelcomePage
+        shouldShowWelcomePage: shouldShowWelcomePage
     };
 };
 

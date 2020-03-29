@@ -45,3 +45,12 @@ export const exerciseRequested = (startMeasure, endMeasure) => {
         endMeasure
     };
 };
+
+/**
+ * Returns the EXERCISE_GENERATED action type
+ */
+export const exerciseGenerated = () => {
+    return {
+        type: actionTypes.EXERCISE_GENERATED
+    };
+};

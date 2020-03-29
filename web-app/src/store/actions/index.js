@@ -20,6 +20,11 @@ export {
 
 export { startupDone } from "./startup";
 
-export { choirSelectedForPractice, musicSelectedForPractice, exerciseRequested } from "./practice";
+export {
+    choirSelectedForPractice,
+    musicSelectedForPractice,
+    exerciseRequested,
+    exerciseGenerated
+} from "./practice";
 
 export { choirSelectedForChoirs } from "./choirs";

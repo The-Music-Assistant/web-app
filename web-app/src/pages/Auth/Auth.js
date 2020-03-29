@@ -205,7 +205,7 @@ class Auth extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         startAuthFlow: () => dispatch(startAuthFlow()),
-        authFlowComplete: showWelcomePage => dispatch(authFlowComplete(showWelcomePage))
+        authFlowComplete: shouldShowWelcomePage => dispatch(authFlowComplete(shouldShowWelcomePage))
     };
 };
 

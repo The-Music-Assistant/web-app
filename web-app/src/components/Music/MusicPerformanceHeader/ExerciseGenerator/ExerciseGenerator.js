@@ -10,6 +10,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 // Component Imports
 import RectangularButton from "../../../Buttons/RectangularButton/RectangularButton";
@@ -37,6 +38,13 @@ class ExerciseGenerator extends Component {
     generateExerciseSubmitHandler = event => {
         event.preventDefault();
         this.props.generateExercise(this.state.startMeasureValue, this.state.endMeasureValue);
+
+        const routeUrl = `${this.props.match.url.substring(
+            0,
+            this.props.match.url.lastIndexOf("/")
+        )}/exercise`;
+
+        this.props.history.replace(routeUrl);
     };
 
     measureValueChangedHandler = event => {
@@ -136,4 +144,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(ExerciseGenerator);
+export default withRouter(connect(null, mapDispatchToProps)(ExerciseGenerator));

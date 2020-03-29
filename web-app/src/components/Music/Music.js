@@ -10,6 +10,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 // Component imports
 import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
@@ -34,6 +35,7 @@ import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization
 import { sheetMusicError } from "../../vendors/Firebase/logs";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import * as musicPageOptions from "../Music/musicPageOptions";
+import { exerciseGenerated } from "../../store/actions";
 
 // Style imports
 import "./SheetMusic.scss";
@@ -106,8 +108,8 @@ class Music extends Component {
             case musicPageOptions.EXERCISE:
                 loadSheetMusic = changeToExercise.bind(
                     this,
-                    this.props.exerciseStartMeasure,
-                    this.props.exerciseEndMeasure
+                    this.props.exercise.startMeasure,
+                    this.props.exercise.endMeasure
                 );
                 break;
             default:
@@ -117,6 +119,11 @@ class Music extends Component {
         }
 
         await loadSheetMusic();
+
+        if (this.props.pageType === musicPageOptions.EXERCISE) {
+            this.props.exerciseGenerated();
+        }
+
         this.setState({
             isDataLoading: false,
             currentPart: getMyPart(),
@@ -224,6 +231,7 @@ class Music extends Component {
         } else if (this.props.pageType === musicPageOptions.PRACTICE) {
             component = (
                 <PracticeMusicHeader
+                    pageType={this.props.pageType}
                     currentPart={this.state.currentPart}
                     partList={this.state.partList}
                     onPartChange={this.onPartChangeHandler}
@@ -237,6 +245,12 @@ class Music extends Component {
             component = <MusicPerformanceHeader numberOfMeasures={this.state.numberOfMeasures} />;
 
             pageHeading = "Performance";
+        } else if (this.props.pageType === musicPageOptions.EXERCISE) {
+            component = <PracticeMusicHeader pageType={this.props.pageType} />;
+
+            pageHeading = this.state.isMicrophoneAvailable
+                ? `Exercise (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure})`
+                : `Exercise Playback (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure}) - No Microphone Available`;
         }
 
         // Returns the JSX to display
@@ -272,4 +286,24 @@ Music.propTypes = {
     exerciseEndMeasure: PropTypes.number
 };
 
-export default withRouter(Music);
+/**
+ * Gets the current state from Redux and passes it to the Music component as props
+ * @param {object} state - The Redux state
+ */
+const mapStateToProps = state => {
+    return {
+        exercise: state.practice.exercise
+    };
+};
+
+/**
+ * Passes certain redux actions to the Music component
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        exerciseGenerated: () => dispatch(exerciseGenerated())
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Music));

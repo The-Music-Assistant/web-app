@@ -20,23 +20,28 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import * as selectInputColorOptions from "../../FormInputs/SelectInput/colorOptions";
 import * as buttonTypes from "../../Buttons/buttonTypes";
 import * as rectButtonColorOptions from "../../Buttons/RectangularButton/rectangularButtonColorOptions";
+import * as musicPageOptions from "../../Music/musicPageOptions";
 
 // Style imports
 import styles from "./PracticeMusicHeader.module.scss";
 
 const PracticeHeader = props => {
     const viewPerformanceButtonClickedHandler = () => {
-        const routeUrl = `${props.match.url.substring(
-            0,
-            props.match.url.lastIndexOf("/")
-        )}/performance`;
-
+        const routeUrl = getNewUrl("performance");
         props.history.replace(routeUrl);
     };
 
-    // Returns the JSX to display
-    return (
-        <div className={styles.practiceHeader}>
+    const practiceMusicButtonClickedHandler = () => {
+        const routeUrl = getNewUrl("practice");
+        props.history.replace(routeUrl);
+    };
+
+    const getNewUrl = endString => {
+        return `${props.match.url.substring(0, props.match.url.lastIndexOf("/"))}/${endString}`;
+    };
+
+    const getPartSelectionDropdownOrPracticeMusicButton = () => {
+        return props.pageType === musicPageOptions.PRACTICE ? (
             <SelectInput
                 value={props.currentPart}
                 name='part-selection'
@@ -44,6 +49,21 @@ const PracticeHeader = props => {
                 options={props.partList}
                 onChange={props.onPartChange}
             />
+        ) : (
+            <RectangularButton
+                type={buttonTypes.BUTTON}
+                value='practice'
+                text='Practice Music'
+                backgroundColor={rectButtonColorOptions.ORANGE}
+                onClick={practiceMusicButtonClickedHandler}
+            />
+        );
+    };
+
+    // Returns the JSX to display
+    return (
+        <div className={styles.practiceHeader}>
+            {getPartSelectionDropdownOrPracticeMusicButton()}
             <MusicControls />
             <div className={styles.practiceHeaderViewPerformanceButton}>
                 <RectangularButton
@@ -60,9 +80,14 @@ const PracticeHeader = props => {
 
 // Prop types for the PracticeHeader component
 PracticeHeader.propTypes = {
-    currentPart: PropTypes.string.isRequired,
-    partList: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onPartChange: PropTypes.func.isRequired
+    pageType: PropTypes.oneOf([
+        musicPageOptions.PRACTICE,
+        musicPageOptions.PERFORMANCE,
+        musicPageOptions.EXERCISE
+    ]),
+    currentPart: PropTypes.string,
+    partList: PropTypes.arrayOf(PropTypes.string),
+    onPartChange: PropTypes.func
 };
 
 export default withRouter(PracticeHeader);

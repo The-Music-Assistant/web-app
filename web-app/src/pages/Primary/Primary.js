@@ -226,6 +226,12 @@ class Primary extends Component {
                             pageType={musicPageOptions.PERFORMANCE}
                         />
                     </Route>
+                    <Route path='/practice/choirs/:choirId/music/:musicId/exercise'>
+                        <Music
+                            showAlert={this.showAlertHandler}
+                            pageType={musicPageOptions.EXERCISE}
+                        />
+                    </Route>
                     <Route path='/practice/choirs/:choirId'>
                         <MusicSelection showAlert={this.showAlertHandler} />
                     </Route>
@@ -258,6 +264,18 @@ class Primary extends Component {
 }
 
 /**
+ * Gets the current state from Redux and passes it to the Primary component as props
+ * @param {object} state - The Redux state
+ */
+const mapStateToProps = state => {
+    return {
+        isStartupDone: state.startup.isDone,
+        isAuthenticated: state.auth.isAuthenticated,
+        isAuthFlowComplete: state.auth.isAuthFlowComplete
+    };
+};
+
+/**
  * Passes certain redux actions to Primary
  * @param {function} dispatch - The react-redux dispatch function
  */
@@ -267,4 +285,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Primary);
+export default connect(mapStateToProps, mapDispatchToProps)(Primary);

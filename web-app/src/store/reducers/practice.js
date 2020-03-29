@@ -15,10 +15,7 @@ const initialState = {
     selectedChoirId: null,
     selectedChoirName: null,
     selectedSheetMusicId: null,
-    exercise: {
-        startMeasure: null,
-        endMeasure: null
-    }
+    exercise: null
 };
 
 /**
@@ -42,6 +39,8 @@ const practiceReducer = (state = initialState, action) => {
                     endMeasure: action.endMeasure
                 }
             });
+        case actionTypes.EXERCISE_GENERATED:
+            return state;
         default:
             return state;
     }
