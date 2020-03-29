@@ -58,7 +58,7 @@ export const startPlayingMusic = () => {
  * Change which track Alpha Tab is rendering based on the given part name
  * @param {string} partName - The part name to change to. Part names are expected to be "tx" where x is the track index
  */
-export const changePart = partName => {
+export const changePart = async partName => {
     let trackIndex = parseInt(partName.substring(1), 10);
     // If we have the track index that is being asked then switch to that track
     if (!atVars.texLoaded.currentTrackIndexes.includes(trackIndex)) {
@@ -73,22 +73,22 @@ export const changePart = partName => {
             sheetMusicId: store.getState().practice.selectedSheetMusicId,
             partName: atVars.texLoaded.partNames[trackIndex]
         };
-        getPartSheetMusic(data)
-            .then(response => {
-                atVars.noteStream = response.data.performance_expectation;
-                atVars.noteList.updateBounds(
-                    response.data.lower_upper[0],
-                    response.data.lower_upper[1]
-                );
-                atVars.texLoaded.typeOfTex = "Sheet Music";
-            })
-            .catch(error => {
-                sheetMusicError(
-                    error.response.status,
-                    error.response.data,
-                    "[vendors/AlphaTab/actions/changePart]"
-                );
-            });
+
+        try {
+            const response = await getPartSheetMusic(data);
+            atVars.noteStream = response.data.performance_expectation;
+            atVars.noteList.updateBounds(
+                response.data.lower_upper[0],
+                response.data.lower_upper[1]
+            );
+            atVars.texLoaded.typeOfTex = "Sheet Music";
+        } catch (error) {
+            sheetMusicError(
+                error.response.status,
+                error.response.data,
+                "[vendors/AlphaTab/actions/changePart]"
+            );
+        }
     }
 };
 
@@ -309,7 +309,6 @@ const loadExercise = async (measureStart, measureEnd) => {
 };
 
 export const loadTex = async partName => {
-
     let data = {
         sheetMusicId: store.getState().practice.selectedSheetMusicId
     };

@@ -42,7 +42,9 @@ import styles from "./Music.module.scss";
 class Music extends Component {
     // Component state
     state = {
-        isLoading: true,
+        isAlphaTabLoading: true,
+        isPitchDetectionLoading: true,
+        isDataLoading: true,
         currentPart: null,
         partList: null,
         isMicrophoneAvailable: true,
@@ -52,34 +54,33 @@ class Music extends Component {
 
     /**
      * Initializes the AlphaTab API
+     * Initializes pitch detection
      * Displays the piece of music on the screen
      */
     componentDidMount() {
-        this.getMusic();
+        initializeAlphaTabApi();
+        alphaTabVars.api.addPostRenderFinished(this.alphaTabRendered);
+        this.initializePitchDetection();
+        this.prepareMusic();
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.pageType !== this.props.pageType) {
-            this.setState({ isLoading: true });
-            this.getMusic();
+            this.prepareMusic();
         }
     }
+    /**
+     * Destroys the AlphaTab API
+     * Removes the P5 drawer
+     * Stops pitch detection
+     */
+    componentWillUnmount() {
+        destroyAlphaTabApi();
+        alphaTabVars.api.removePostRenderFinished(this.alphaTabRendered);
+    }
 
-    getMusic = () => {
-        // Initializes the AlphaTab API and displays the music
-        this.prepareMusic()
-            .then(() => {
-                this.setState({
-                    isLoading: false,
-                    currentPart: getMyPart(),
-                    partList: ["Just My Part"].concat(getPartList()),
-                    numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString(),
-                    hasAlreadyRenderedOnce: true
-                });
-            })
-            .catch(error => {
-                sheetMusicError(null, error, "[components/Music/componentDidMount]");
-            });
+    alphaTabRendered = () => {
+        this.setState({ isAlphaTabLoading: false });
     };
 
     /**
@@ -91,6 +92,7 @@ class Music extends Component {
      * @returns - A promise
      */
     prepareMusic = async () => {
+        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
         let loadSheetMusic;
 
         // Chooses the correct sheet music and drawing based on the given pageType prop
@@ -114,63 +116,42 @@ class Music extends Component {
                 );
         }
 
-        // Initializes the sheet music, pitch detection, and drawer
-        if (!this.state.hasAlreadyRenderedOnce) {
-            initializeAlphaTabApi();
-        }
-        return Promise.all([
-            this.initializePitchDetection(),
-            loadSheetMusic(),
-            this.waitForAlphaTabToRender()
-        ]);
+        await loadSheetMusic();
+        this.setState({
+            isDataLoading: false,
+            currentPart: getMyPart(),
+            partList: ["Just My Part"].concat(getPartList()),
+            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
+        });
     };
 
     /**
      * Sets up ML5 pitch detection
      */
     initializePitchDetection = async () => {
-        if (!this.state.hasAlreadyRenderedOnce) {
-            // Prepares for microphone input sets up the pitch detection model
-            try {
-                await setupPitchDetection();
-                // Timeout gives extra time for the microphone and pitch detection to set up
-                // There appears to be UI-blocking code even though the async code waits
-                return new Promise(resolve => {
-                    console.log("CALL 1");
-                    setTimeout(resolve, 2000);
-                });
-            } catch (error) {
-                this.props.showAlert(
-                    alertBarTypes.WARNING,
-                    "No Microphone",
-                    "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
-                );
-                this.setState({ isMicrophoneAvailable: false });
-                sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
-            }
+        // Prepares for microphone input sets up the pitch detection model
+        try {
+            await setupPitchDetection();
+            // Timeout gives extra time for the microphone and pitch detection to set up
+            // There appears to be UI-blocking code even though the async code waits
+            setTimeout(
+                () =>
+                    this.setState({
+                        isPitchDetectionLoading: false,
+                        isMicrophoneAvailable: true
+                    }),
+                2000
+            );
+        } catch (error) {
+            this.props.showAlert(
+                alertBarTypes.WARNING,
+                "No Microphone",
+                "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
+            );
+            this.setState({ isMicrophoneAvailable: false });
+            sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
         }
     };
-
-    /**
-     * Waits for AlphaTab to render
-     */
-    waitForAlphaTabToRender = () => {
-        return new Promise(resolve => {
-            alphaTabVars.api.addPostRenderFinished(() => {
-                console.log("CALL 2");
-                resolve();
-            });
-        });
-    };
-
-    /**
-     * Destroys the AlphaTab API
-     * Removes the P5 drawer
-     * Stops pitch detection
-     */
-    componentWillUnmount() {
-        destroyAlphaTabApi();
-    }
 
     /**
      * Destroys the AlphaTab API before going back a page
@@ -185,24 +166,24 @@ class Music extends Component {
      * @param index - The index of the selected part based on the original array
      * @param value - The value (name) of the selected part
      */
-    onPartChangeHandler = (index, value) => {
+    onPartChangeHandler = async (index, value) => {
+        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
         if (this.state.currentPart === "Just My Part") {
-            if (index === 0) {
-                // Clicked on current value (no need to change)
-                return;
-            } else {
-                // Switches back to all sheet music
-                loadTex(value);
-            }
+            // Switches back to all sheet music
+            await loadTex(value);
         } else if (index === 0) {
             // Loads just my part
-            loadJustMyPart();
+            await loadJustMyPart();
         } else {
             // "Just My Part" option is not directly included in the track list, but is the first option (index 0), so we need index - 1
-            changePart(`t${index - 1}`);
+            await changePart(`t${index - 1}`);
         }
 
-        this.setState({ currentPart: value });
+        this.setState({
+            isDataLoading: false,
+            currentPart: value,
+            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
+        });
     };
 
     /**
@@ -212,8 +193,12 @@ class Music extends Component {
     render() {
         let component;
         let pageHeading;
+        const isLoading =
+            this.state.isAlphaTabLoading ||
+            this.state.isPitchDetectionLoading ||
+            this.state.isDataLoading;
 
-        if (this.state.isLoading) {
+        if (isLoading) {
             let message;
             switch (this.props.pageType) {
                 case musicPageOptions.PRACTICE:
@@ -263,11 +248,13 @@ class Music extends Component {
                     backButtonTitle={"Music Selection"}
                     backButtonClickedHandler={this.backButtonClickedHandler}
                 />
-                {component}
-                <section id='alpha-tab-wrapper'>
-                    <div id='sketch-holder'></div>
-                    <div id='alpha-tab-container'></div>
-                </section>
+                <div className={styles.musicMain}>
+                    {component}
+                    <section id='alpha-tab-wrapper'>
+                        <div id='sketch-holder'></div>
+                        <div id='alpha-tab-container'></div>
+                    </section>
+                </div>
             </main>
         );
     }
