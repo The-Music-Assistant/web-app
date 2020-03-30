@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 // File imports
 import alphaTabVars from "../../../../vendors/AlphaTab/variables";
 import pitchDetectionVars from "../../../../vendors/ML5/PitchDetection/variables";
-import {isPitchDetectionAvailable} from "../../../../vendors/ML5/PitchDetection/actions";
+import { isPitchDetectionAvailable } from "../../../../vendors/ML5/PitchDetection/actions";
 import { sheetMusicError } from "../../../../vendors/Firebase/logs";
 
 // Image imports
@@ -33,6 +33,10 @@ class MusicControls extends Component {
 
     componentDidMount() {
         alphaTabVars.api.addPlayerFinished(this.donePlaying);
+    }
+
+    componentWillUnmount() {
+        alphaTabVars.api.removePlayerFinished(this.donePlaying);
     }
 
     /**

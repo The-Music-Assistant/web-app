@@ -8,7 +8,7 @@
 
 @import "../../../root-styles/utilities.scss";
 
-.practiceHeader {
+.PracticeMusicHeader {
     @include grid-container(
         $grid-template-rows: auto,
         $grid-template-columns: 1fr 1fr 1fr,

@@ -58,7 +58,7 @@ class TexLoaded {
         this.lengthsPerSection = [];
         let count = 0;
         let total = 0;
-        for (let i = this.measureStart; i < this.measureEnd; i++) {
+        for (let i = this.measureStart; i <= this.measureEnd; i++) {
             total += measureLengths[i - this.measureStart];
             count++;
             if (count === barCount - 1) {
@@ -79,7 +79,7 @@ class TexLoaded {
         let count = 0;
         let total = 0;
 
-        for (let i = this.measureStart; i < this.measureEnd; i++) {
+        for (let i = this.measureStart; i <= this.measureEnd; i++) {
             total += this.measureLengths[i - this.measureStart];
             count++;
             if (count === barCount - 1) {

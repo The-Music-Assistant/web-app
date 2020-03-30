@@ -101,12 +101,15 @@ const pageWatch = (currentSectionIndex, currentCount) => {
     let intervalId = setInterval(() => {
         if (atVars.texLoaded !== null && atVars.texLoaded.lengthsPerSection !== null) {
             let increment = atVars.texLoaded.lengthsPerSection[currentSectionIndex];
-    
-            if (atVars.api.timePosition / 1000 > currentCount + increment) {
+
+            if (
+                atVars.api.timePosition / 1000 > currentCount + increment &&
+                currentSectionIndex < atVars.texLoaded.lengthsPerSection.length - 1
+            ) {
                 if (isPitchDetectionAvailable()) {
                     pageTurn();
                 }
-    
+
                 atVars.shouldResetDrawPositions = true;
                 atVars.p5Obj.clear();
                 atVars.api.settings.display.startBar =
@@ -121,7 +124,7 @@ const pageWatch = (currentSectionIndex, currentCount) => {
             }
         }
     }, 100);
-}
+};
 
 export const listen = () => {
     if (atVars.playerState === 1) {

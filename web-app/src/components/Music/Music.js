@@ -108,8 +108,8 @@ class Music extends Component {
             case musicPageOptions.EXERCISE:
                 loadSheetMusic = changeToExercise.bind(
                     this,
-                    this.props.exercise.startMeasure,
-                    this.props.exercise.endMeasure
+                    parseInt(this.props.exercise.startMeasure, 10),
+                    parseInt(this.props.exercise.endMeasure, 10)
                 );
                 break;
             default:

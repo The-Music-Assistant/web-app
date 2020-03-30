@@ -25,7 +25,7 @@ import * as musicPageOptions from "../../Music/musicPageOptions";
 // Style imports
 import styles from "./PracticeMusicHeader.module.scss";
 
-const PracticeHeader = props => {
+const PracticeMusicHeader = props => {
     const viewPerformanceButtonClickedHandler = () => {
         const routeUrl = getNewUrl("performance");
         props.history.replace(routeUrl);
@@ -62,10 +62,10 @@ const PracticeHeader = props => {
 
     // Returns the JSX to display
     return (
-        <div className={styles.practiceHeader}>
+        <div className={styles.PracticeMusicHeader}>
             {getPartSelectionDropdownOrPracticeMusicButton()}
             <MusicControls />
-            <div className={styles.practiceHeaderViewPerformanceButton}>
+            <div className={styles.PracticeMusicHeaderViewPerformanceButton}>
                 <RectangularButton
                     type={buttonTypes.BUTTON}
                     value='performance'
@@ -78,8 +78,8 @@ const PracticeHeader = props => {
     );
 };
 
-// Prop types for the PracticeHeader component
-PracticeHeader.propTypes = {
+// Prop types for the PracticeMusicHeader component
+PracticeMusicHeader.propTypes = {
     pageType: PropTypes.oneOf([
         musicPageOptions.PRACTICE,
         musicPageOptions.PERFORMANCE,
@@ -90,4 +90,4 @@ PracticeHeader.propTypes = {
     onPartChange: PropTypes.func
 };
 
-export default withRouter(PracticeHeader);
+export default withRouter(PracticeMusicHeader);
