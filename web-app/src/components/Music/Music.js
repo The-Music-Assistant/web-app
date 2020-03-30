@@ -7,7 +7,7 @@
 // ----------------------------------------------------------------------------
 
 // NPM module imports
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -55,6 +55,8 @@ class Music extends Component {
         hasAlreadyRenderedOnce: false,
         pageType: null
     };
+
+    _alphaTabWrapperRef = createRef(); // A reference to the AlphaTab wrapper element
 
     /**
      * Initializes the AlphaTab API
@@ -178,32 +180,23 @@ class Music extends Component {
         this.props.history.goBack();
     };
 
-    switchToPractice = () => {
-        stopPlayingMusic();
-        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
-        const routeUrl = this.getNewUrl("practice");
+    switchToNewMusicPage = pageType => {
+        this.updateMusicPage();
+        const routeUrl = this.getNewUrl(pageType);
         this.props.history.replace(routeUrl);
     };
 
-    switchToPerformance = () => {
+    updateMusicPage = () => {
         stopPlayingMusic();
+        this._alphaTabWrapperRef.current.scrollLeft = 0;
         this.setState({ isAlphaTabLoading: true, isDataLoading: true });
-        const routeUrl = this.getNewUrl("performance");
-        this.props.history.replace(routeUrl);
-    };
+    }
 
-    switchToExercise = () => {
-        stopPlayingMusic();
-        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
-        const routeUrl = this.getNewUrl("exercise");
-        this.props.history.replace(routeUrl);
-    };
-
-    getNewUrl = endString => {
+    getNewUrl = pageType => {
         return `${this.props.location.pathname.substring(
             0,
             this.props.location.pathname.lastIndexOf("/")
-        )}/${endString}`;
+        )}/${pageType}`;
     };
 
     /**
@@ -213,8 +206,7 @@ class Music extends Component {
      * @param value - The value (name) of the selected part
      */
     onPartChangeHandler = async (index, value) => {
-        stopPlayingMusic();
-        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
+        this.updateMusicPage();
         if (this.state.currentPart === "Just My Part") {
             // Switches back to all sheet music
             await loadTex(value);
@@ -266,21 +258,31 @@ class Music extends Component {
                         currentPart={this.state.currentPart}
                         partList={this.state.partList}
                         onPartChange={this.onPartChangeHandler}
-                        switchToPerformance={this.switchToPerformance}
+                        switchToPerformance={() =>
+                            this.switchToNewMusicPage(musicPageOptions.PERFORMANCE)
+                        }
                     />
                 </Route>
                 <Route path={`${matchUrl}/performance`}>
                     <MusicPerformanceHeader
                         numberOfMeasures={this.state.numberOfMeasures}
-                        switchToPractice={this.switchToPractice}
-                        switchToExercise={this.switchToExercise}
+                        switchToPractice={() =>
+                            this.switchToNewMusicPage(musicPageOptions.PRACTICE)
+                        }
+                        switchToExercise={() =>
+                            this.switchToNewMusicPage(musicPageOptions.EXERCISE)
+                        }
                     />
                 </Route>
                 <Route path={`${matchUrl}/exercise`}>
                     <PracticeMusicHeader
                         pageType={this.state.pageType}
-                        switchToPractice={this.switchToPractice}
-                        switchToPerformance={this.switchToPerformance}
+                        switchToPractice={() =>
+                            this.switchToNewMusicPage(musicPageOptions.PRACTICE)
+                        }
+                        switchToPerformance={() =>
+                            this.switchToNewMusicPage(musicPageOptions.PERFORMANCE)
+                        }
                     />
                 </Route>
             </Switch>
@@ -326,7 +328,7 @@ class Music extends Component {
                 />
                 <div className={styles.musicMain}>
                     {component}
-                    <section id='alpha-tab-wrapper'>
+                    <section id='alpha-tab-wrapper' ref={this._alphaTabWrapperRef}>
                         <div id='sketch-holder'></div>
                         <div id='alpha-tab-container'></div>
                     </section>
