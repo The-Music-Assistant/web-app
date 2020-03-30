@@ -17,7 +17,7 @@ const Footer = () => {
     return (
         <footer className={styles.footer}>
             <small className={styles.footerText}>&copy; 2020 The Music Assistant</small>
-            <small className={styles.footerText}>Version 0.0.2</small>
+            <small className={styles.footerText}>Version 0.0.10</small>
         </footer>
     );
 };

@@ -61,7 +61,7 @@ const SideNav = props => {
                     <br />
                     The Music Assistant
                     <br />
-                    Version 0.0.2
+                    Version 0.0.10
                 </small>
             </div>
         </section>
