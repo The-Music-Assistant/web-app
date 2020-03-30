@@ -28,7 +28,8 @@ import {
     loadJustMyPart,
     loadTex,
     changeToPerformance,
-    changeToExercise
+    changeToExercise,
+    stopPlayingMusic
 } from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
@@ -178,18 +179,21 @@ class Music extends Component {
     };
 
     switchToPractice = () => {
+        stopPlayingMusic();
         this.setState({ isAlphaTabLoading: true, isDataLoading: true });
         const routeUrl = this.getNewUrl("practice");
         this.props.history.replace(routeUrl);
     };
 
     switchToPerformance = () => {
+        stopPlayingMusic();
         this.setState({ isAlphaTabLoading: true, isDataLoading: true });
         const routeUrl = this.getNewUrl("performance");
         this.props.history.replace(routeUrl);
     };
 
     switchToExercise = () => {
+        stopPlayingMusic();
         this.setState({ isAlphaTabLoading: true, isDataLoading: true });
         const routeUrl = this.getNewUrl("exercise");
         this.props.history.replace(routeUrl);
@@ -209,6 +213,7 @@ class Music extends Component {
      * @param value - The value (name) of the selected part
      */
     onPartChangeHandler = async (index, value) => {
+        stopPlayingMusic();
         this.setState({ isAlphaTabLoading: true, isDataLoading: true });
         if (this.state.currentPart === "Just My Part") {
             // Switches back to all sheet music

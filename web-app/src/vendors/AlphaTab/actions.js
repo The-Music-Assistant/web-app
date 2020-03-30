@@ -55,6 +55,28 @@ export const startPlayingMusic = () => {
 };
 
 /**
+ * Stops playing the music
+ * Resets the noteStreamIndex and the cumulativeTime
+ */
+export const stopPlayingMusic = () => {
+    if (atVars.api !== null) {
+        if (atVars.playerState === playerStates.PLAYING) {
+            // Stops the player
+            atVars.playerState = playerStates.PENDING_STOP;
+            atVars.api.stop();
+        }
+    }
+
+    // if (atVars.p5Obj !== null) {
+    //     // Removes the p5 canvas
+    //     atVars.p5Obj.remove();
+    // }
+
+    atVars.noteStreamIndex = 0;
+    atVars.cumulativeTime = 0;
+};
+
+/**
  * Change which track Alpha Tab is rendering based on the given part name
  * @param {string} partName - The part name to change to. Part names are expected to be "tx" where x is the track index
  */

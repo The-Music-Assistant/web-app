@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 
 // File imports
 import alphaTabVars from "../../../../vendors/AlphaTab/variables";
+import { stopPlayingMusic } from "../../../../vendors/AlphaTab/actions";
 import pitchDetectionVars from "../../../../vendors/ML5/PitchDetection/variables";
 import { isPitchDetectionAvailable } from "../../../../vendors/ML5/PitchDetection/actions";
 import { sheetMusicError } from "../../../../vendors/Firebase/logs";
@@ -70,14 +71,8 @@ class MusicControls extends Component {
      * Stops the music
      */
     stopButtonHandler = () => {
-        if (alphaTabVars.texLoaded === null) {
-            return;
-        }
         this.donePlaying();
-
-        alphaTabVars.api.stop();
-        alphaTabVars.noteStreamIndex = 0;
-        alphaTabVars.cumulativeTime = 0;
+        stopPlayingMusic();
     };
 
     /**
