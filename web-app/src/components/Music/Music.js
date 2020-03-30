@@ -8,7 +8,7 @@
 
 // NPM module imports
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -34,7 +34,7 @@ import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
-import * as musicPageOptions from "../Music/musicPageOptions";
+import * as musicPageOptions from "./musicPageOptions";
 import { exerciseGenerated } from "../../store/actions";
 
 // Style imports
@@ -51,7 +51,8 @@ class Music extends Component {
         partList: null,
         isMicrophoneAvailable: true,
         numberOfMeasures: "0",
-        hasAlreadyRenderedOnce: false
+        hasAlreadyRenderedOnce: false,
+        pageType: null
     };
 
     /**
@@ -66,11 +67,20 @@ class Music extends Component {
         this.prepareMusic();
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.pageType !== this.props.pageType) {
+    static getDerivedStateFromProps(newProps) {
+        return {
+            pageType: newProps.location.pathname.substring(
+                newProps.location.pathname.lastIndexOf("/") + 1
+            )
+        };
+    }
+
+    componentDidUpdate(_, prevState) {
+        if (prevState.pageType !== this.state.pageType) {
             this.prepareMusic();
         }
     }
+
     /**
      * Destroys the AlphaTab API
      * Removes the P5 drawer
@@ -98,7 +108,7 @@ class Music extends Component {
         let loadSheetMusic;
 
         // Chooses the correct sheet music and drawing based on the given pageType prop
-        switch (this.props.pageType) {
+        switch (this.state.pageType) {
             case musicPageOptions.PRACTICE:
                 loadSheetMusic = changeToSheetMusic;
                 break;
@@ -114,13 +124,13 @@ class Music extends Component {
                 break;
             default:
                 console.log(
-                    `${this.props.pageType} is not valid. See musicPageOptions.js for options. No music was loaded.`
+                    `${this.state.pageType} is not valid. See musicPageOptions.js for options. No music was loaded.`
                 );
         }
 
         await loadSheetMusic();
 
-        if (this.props.pageType === musicPageOptions.EXERCISE) {
+        if (this.state.pageType === musicPageOptions.EXERCISE) {
             this.props.exerciseGenerated();
         }
 
@@ -167,6 +177,31 @@ class Music extends Component {
         this.props.history.goBack();
     };
 
+    switchToPractice = () => {
+        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
+        const routeUrl = this.getNewUrl("practice");
+        this.props.history.replace(routeUrl);
+    };
+
+    switchToPerformance = () => {
+        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
+        const routeUrl = this.getNewUrl("performance");
+        this.props.history.replace(routeUrl);
+    };
+
+    switchToExercise = () => {
+        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
+        const routeUrl = this.getNewUrl("exercise");
+        this.props.history.replace(routeUrl);
+    };
+
+    getNewUrl = endString => {
+        return `${this.props.location.pathname.substring(
+            0,
+            this.props.location.pathname.lastIndexOf("/")
+        )}/${endString}`;
+    };
+
     /**
      * Changes the track number on AlphaTab to the new partIndex
      * Updates state to reflect the new part value
@@ -193,71 +228,93 @@ class Music extends Component {
         });
     };
 
+    getLoadingComponent = () => {
+        let message;
+        switch (this.state.pageType) {
+            case musicPageOptions.PRACTICE:
+                message = "Loading music...";
+                break;
+            case musicPageOptions.PERFORMANCE:
+                message = "Loading performance...";
+                break;
+            case musicPageOptions.EXERCISE:
+                message = "Loading exercise...";
+                break;
+            default:
+                message = "Loading music...";
+        }
+
+        return (
+            <div className={styles.musicLoadingContainer}>
+                <LoadingContainer message={message} />
+            </div>
+        );
+    };
+
+    getPageHeaderComponent = () => {
+        const matchUrl = this.props.match.url;
+        return (
+            <Switch>
+                <Route path={`${matchUrl}/practice`}>
+                    <PracticeMusicHeader
+                        pageType={this.state.pageType}
+                        currentPart={this.state.currentPart}
+                        partList={this.state.partList}
+                        onPartChange={this.onPartChangeHandler}
+                        switchToPerformance={this.switchToPerformance}
+                    />
+                </Route>
+                <Route path={`${matchUrl}/performance`}>
+                    <MusicPerformanceHeader
+                        numberOfMeasures={this.state.numberOfMeasures}
+                        switchToPractice={this.switchToPractice}
+                        switchToExercise={this.switchToExercise}
+                    />
+                </Route>
+                <Route path={`${matchUrl}/exercise`}>
+                    <PracticeMusicHeader
+                        pageType={this.state.pageType}
+                        switchToPractice={this.switchToPractice}
+                        switchToPerformance={this.switchToPerformance}
+                    />
+                </Route>
+            </Switch>
+        );
+    };
+
+    getPageHeading = () => {
+        switch (this.state.pageType) {
+            case musicPageOptions.PRACTICE:
+                return this.state.isMicrophoneAvailable
+                    ? "Practice"
+                    : "Playback - No Microphone Available";
+            case musicPageOptions.PERFORMANCE:
+                return "Performance";
+            case musicPageOptions.EXERCISE:
+                return this.state.isMicrophoneAvailable
+                    ? `Exercise (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure})`
+                    : `Exercise Playback (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure}) - No Microphone Available`;
+            default:
+                return "Practice";
+        }
+    };
+
     /**
      * Renders the PracticeSheetMusic component
      * The sketch and AlphaTex are not displayed via React, but via direct DOM manipulation
      */
     render() {
-        let component;
-        let pageHeading;
         const isLoading =
             this.state.isAlphaTabLoading ||
             this.state.isPitchDetectionLoading ||
             this.state.isDataLoading;
-
-        if (isLoading) {
-            let message;
-            switch (this.props.pageType) {
-                case musicPageOptions.PRACTICE:
-                    message = "Loading music...";
-                    break;
-                case musicPageOptions.PERFORMANCE:
-                    message = "Loading performance...";
-                    break;
-                case musicPageOptions.EXERCISE:
-                    message = "Loading exercise...";
-                    break;
-                default:
-                    message = "Loading music...";
-            }
-
-            component = (
-                <div className={styles.musicLoadingContainer}>
-                    <LoadingContainer message={message} />
-                </div>
-            );
-
-            pageHeading = "Practice";
-        } else if (this.props.pageType === musicPageOptions.PRACTICE) {
-            component = (
-                <PracticeMusicHeader
-                    pageType={this.props.pageType}
-                    currentPart={this.state.currentPart}
-                    partList={this.state.partList}
-                    onPartChange={this.onPartChangeHandler}
-                />
-            );
-
-            pageHeading = this.state.isMicrophoneAvailable
-                ? "Practice"
-                : "Playback - No Microphone Available";
-        } else if (this.props.pageType === musicPageOptions.PERFORMANCE) {
-            component = <MusicPerformanceHeader numberOfMeasures={this.state.numberOfMeasures} />;
-
-            pageHeading = "Performance";
-        } else if (this.props.pageType === musicPageOptions.EXERCISE) {
-            component = <PracticeMusicHeader pageType={this.props.pageType} />;
-
-            pageHeading = this.state.isMicrophoneAvailable
-                ? `Exercise (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure})`
-                : `Exercise Playback (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure}) - No Microphone Available`;
-        }
+        let component = isLoading ? this.getLoadingComponent() : this.getPageHeaderComponent();
 
         // Returns the JSX to display
         return (
             <main className={styles.music}>
                 <PageHeader
-                    heading={pageHeading}
+                    heading={this.getPageHeading()}
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Music Selection"}
                     backButtonClickedHandler={this.backButtonClickedHandler}
@@ -277,13 +334,10 @@ class Music extends Component {
 // Prop types for the Music component
 Music.propTypes = {
     showAlert: PropTypes.func.isRequired,
-    pageType: PropTypes.oneOf([
-        musicPageOptions.PRACTICE,
-        musicPageOptions.PERFORMANCE,
-        musicPageOptions.EXERCISE
-    ]),
-    exerciseStartMeasure: PropTypes.number,
-    exerciseEndMeasure: PropTypes.number
+    exercise: PropTypes.shape({
+        startMeasure: PropTypes.string,
+        endMeasure: PropTypes.string
+    })
 };
 
 /**

@@ -26,20 +26,6 @@ import * as musicPageOptions from "../../Music/musicPageOptions";
 import styles from "./PracticeMusicHeader.module.scss";
 
 const PracticeMusicHeader = props => {
-    const viewPerformanceButtonClickedHandler = () => {
-        const routeUrl = getNewUrl("performance");
-        props.history.replace(routeUrl);
-    };
-
-    const practiceMusicButtonClickedHandler = () => {
-        const routeUrl = getNewUrl("practice");
-        props.history.replace(routeUrl);
-    };
-
-    const getNewUrl = endString => {
-        return `${props.match.url.substring(0, props.match.url.lastIndexOf("/"))}/${endString}`;
-    };
-
     const getPartSelectionDropdownOrPracticeMusicButton = () => {
         return props.pageType === musicPageOptions.PRACTICE ? (
             <SelectInput
@@ -55,7 +41,7 @@ const PracticeMusicHeader = props => {
                 value='practice'
                 text='Practice Music'
                 backgroundColor={rectButtonColorOptions.ORANGE}
-                onClick={practiceMusicButtonClickedHandler}
+                onClick={props.switchToPractice}
             />
         );
     };
@@ -71,7 +57,7 @@ const PracticeMusicHeader = props => {
                     value='performance'
                     text='View Performance'
                     backgroundColor={rectButtonColorOptions.GREEN}
-                    onClick={viewPerformanceButtonClickedHandler}
+                    onClick={props.switchToPerformance}
                 />
             </div>
         </div>
@@ -87,7 +73,9 @@ PracticeMusicHeader.propTypes = {
     ]),
     currentPart: PropTypes.string,
     partList: PropTypes.arrayOf(PropTypes.string),
-    onPartChange: PropTypes.func
+    onPartChange: PropTypes.func,
+    switchToPractice: PropTypes.func,
+    switchToPerformance: PropTypes.func.isRequired
 };
 
 export default withRouter(PracticeMusicHeader);

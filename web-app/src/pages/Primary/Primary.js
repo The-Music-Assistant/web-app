@@ -28,7 +28,6 @@ import Footer from "../../components/Footer/Footer";
 // File imports
 import { signOut } from "../../store/actions";
 import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/routingOptions";
-import * as musicPageOptions from "../../components/Music/musicPageOptions";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -214,23 +213,8 @@ class Primary extends Component {
                 />
                 {mainNav}
                 <Switch>
-                    <Route path='/practice/choirs/:choirId/music/:musicId/practice'>
-                        <Music
-                            showAlert={this.showAlertHandler}
-                            pageType={musicPageOptions.PRACTICE}
-                        />
-                    </Route>
-                    <Route path='/practice/choirs/:choirId/music/:musicId/performance'>
-                        <Music
-                            showAlert={this.showAlertHandler}
-                            pageType={musicPageOptions.PERFORMANCE}
-                        />
-                    </Route>
-                    <Route path='/practice/choirs/:choirId/music/:musicId/exercise'>
-                        <Music
-                            showAlert={this.showAlertHandler}
-                            pageType={musicPageOptions.EXERCISE}
-                        />
+                    <Route path='/practice/choirs/:choirId/music/:musicId'>
+                        <Music showAlert={this.showAlertHandler} />
                     </Route>
                     <Route path='/practice/choirs/:choirId'>
                         <MusicSelection showAlert={this.showAlertHandler} />

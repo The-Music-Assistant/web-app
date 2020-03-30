@@ -38,13 +38,7 @@ class ExerciseGenerator extends Component {
     generateExerciseSubmitHandler = event => {
         event.preventDefault();
         this.props.generateExercise(this.state.startMeasureValue, this.state.endMeasureValue);
-
-        const routeUrl = `${this.props.match.url.substring(
-            0,
-            this.props.match.url.lastIndexOf("/")
-        )}/exercise`;
-
-        this.props.history.replace(routeUrl);
+        this.props.showExercise();
     };
 
     measureValueChangedHandler = event => {
@@ -130,7 +124,8 @@ class ExerciseGenerator extends Component {
 ExerciseGenerator.propTyes = {
     numberOfMeasures: PropTypes.string.isRequired,
     onGenerateExerciseClose: PropTypes.func.isRequired,
-    generateExercise: PropTypes.func.isRequired
+    generateExercise: PropTypes.func.isRequired,
+    showExercise: PropTypes.func.isRequired
 };
 
 /**

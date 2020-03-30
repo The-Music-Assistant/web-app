@@ -6,6 +6,6 @@
 // Created Date: 3/25/2020
 // ----------------------------------------------------------------------------
 
-export const PRACTICE = "PRACTICE";
-export const PERFORMANCE = "PERFORMANCE";
-export const EXERCISE = "EXERCISE";
+export const PRACTICE = "practice";
+export const PERFORMANCE = "performance";
+export const EXERCISE = "exercise";

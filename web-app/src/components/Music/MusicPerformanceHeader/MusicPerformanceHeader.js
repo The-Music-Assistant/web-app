@@ -42,15 +42,6 @@ class MusicPerformanceHeader extends Component {
         this.setState({ shouldDisplayExerciseGeneration: false });
     };
 
-    practiceMusicButtonClickedHandler = () => {
-        const routeUrl = `${this.props.match.url.substring(
-            0,
-            this.props.match.url.lastIndexOf("/")
-        )}/practice`;
-
-        this.props.history.replace(routeUrl);
-    };
-
     render() {
         let exerciseGenerationComponent;
         if (this.state.shouldDisplayExerciseGeneration) {
@@ -58,6 +49,7 @@ class MusicPerformanceHeader extends Component {
                 <ExerciseGenerator
                     numberOfMeasures={this.props.numberOfMeasures}
                     onGenerateExerciseClose={this.hideExerciseGenerationHandler}
+                    showExercise={this.props.switchToExercise}
                 />
             );
         } else {
@@ -80,7 +72,7 @@ class MusicPerformanceHeader extends Component {
                     value='practice'
                     text='Practice Music'
                     backgroundColor={rectButtonColorOptions.GREEN}
-                    onClick={this.practiceMusicButtonClickedHandler}
+                    onClick={this.props.switchToPractice}
                 />
             </div>
         );
@@ -89,7 +81,9 @@ class MusicPerformanceHeader extends Component {
 
 // Prop types for the MusicPerformanceHeader component
 MusicPerformanceHeader.propTypes = {
-    numberOfMeasures: PropTypes.string.isRequired
+    numberOfMeasures: PropTypes.string.isRequired,
+    switchToPractice: PropTypes.func.isRequired,
+    switchToExercise: PropTypes.func.isRequired
 };
 
 export default withRouter(MusicPerformanceHeader);
