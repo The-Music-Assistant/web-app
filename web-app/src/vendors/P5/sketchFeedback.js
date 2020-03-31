@@ -109,6 +109,7 @@ const p5FeedbackSketch = p => {
                 previousPos[2] !== -1 &&
                 previousPos[3] !== -1
             ) {
+                // If there is any confusion in the player then this will help keep the drawing at the right height
                 if (previousPos[0] < previousPos[2]) {
                     let topLine = document.getElementById("rect_0");
                     let nextLine = document.getElementById("rect_1");
