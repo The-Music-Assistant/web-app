@@ -219,7 +219,11 @@ class ProfileCard extends Component {
                         className={profileCardStyles.profileCardImageInputRemoveButton}
                         type='button'
                         onClick={this.removeImageHandler}>
-                        <img src={closeIconRed} alt={"Remove User Avatar"} />
+                        <img
+                            className={profileCardStyles.profileCardImageInputRemoveButtonImg}
+                            src={closeIconRed}
+                            alt={"Remove User Avatar"}
+                        />
                     </button>
                 </div>
                 <ImageInput

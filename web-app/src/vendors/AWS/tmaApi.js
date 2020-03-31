@@ -22,7 +22,7 @@ export const setAxiosAuthToken = authToken => {
 };
 
 /**
- * Gets the current user's first and last name
+ * Gets the current user's first name, last name, and has picture boolean
  */
 export const getUser = () => {
     return axios.get("/person");

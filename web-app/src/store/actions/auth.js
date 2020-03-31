@@ -84,6 +84,8 @@ export const getUserInfo = () => {
                         retrievedUsersName(snapshot.data.first_name + " " + snapshot.data.last_name)
                     );
                     dispatch(userAuthenticated());
+
+                    return snapshot.data.has_picture;
                 })
                 .catch(error => {
                     dispatch(authError(error));
@@ -94,12 +96,14 @@ export const getUserInfo = () => {
                         "[store/actions/auth/getUserInfo]"
                     );
                 })
-                .then(() => {
-                    return firebase
-                        .storage()
-                        .ref()
-                        .child(`users/${user.uid}/profile_picture_200x200`)
-                        .getDownloadURL();
+                .then(userHasProfilePicture => {
+                    if (userHasProfilePicture) {
+                        return firebase
+                            .storage()
+                            .ref()
+                            .child(`users/${user.uid}/profile_picture_200x200`)
+                            .getDownloadURL();
+                    }
                 })
                 .then(url => {
                     dispatch(retrievedUsersPictureUrl(url));
