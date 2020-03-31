@@ -33,7 +33,7 @@ class Drawer {
     }
 
     setTopLineAndDistanceBetween(topLine, distanceBetweenLines, baseOctave) {
-        this.topLine = topLine;
+        this.topLine = topLine + 1;
         this.distanceBetweenLines = distanceBetweenLines;
         // stores the height of the lowest line of the staff being sung
         this.firstLine = this.topLine + this.distanceBetweenLines * (baseOctave === 4 ? 5 : 6);

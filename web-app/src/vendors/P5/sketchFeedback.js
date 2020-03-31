@@ -109,6 +109,15 @@ const p5FeedbackSketch = p => {
                 previousPos[2] !== -1 &&
                 previousPos[3] !== -1
             ) {
+                if (previousPos[0] < previousPos[2]) {
+                    let topLine = document.getElementById("rect_0");
+                    let nextLine = document.getElementById("rect_1");
+                    if (topLine && topLine.y && topLine.y.animVal && topLine.y.animVal.value && nextLine && nextLine.y && nextLine.y.animVal && nextLine.y.animVal.value) {
+                        const topLineHeight = topLine.y.animVal.value;
+                        const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
+                        drawer.setTopLineAndDistanceBetween(topLineHeight, distanceBetweenLines, drawer.baseOctave);
+                    }
+                }
                 if (atVars.noteStream[atVars.noteStreamIndex] === -1) {
                     // singing should be silent
                     p.stroke(255, 0, 0);
@@ -161,7 +170,7 @@ const p5FeedbackSketch = p => {
             let posX =
                 barCursor.getClientRects()[0].left.valueOf() -
                 sideNavElementWidth +
-                wrapper.scrollLeft;
+                wrapper.scrollLeft - 27;
 
             // TODO: Handle resizing scale
             // places sharp if present beside the note. These magic values were calculated via trial and error

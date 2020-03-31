@@ -37,7 +37,7 @@ export const startPlayingMusic = () => {
 
         const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
         atVars.drawer.setTopLineAndDistanceBetween(
-            topLineHeight + 1,
+            topLineHeight,
             distanceBetweenLines,
             atVars.texLoaded.getStartOctave()
         );

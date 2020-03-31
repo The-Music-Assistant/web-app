@@ -79,7 +79,7 @@ const onSubsequentRender = (topLine, nextLine) => {
     const { topLineHeight, distanceBetweenLines } = getSheetMusicLedgerHeights(topLine, nextLine);
 
     atVars.drawer.setTopLineAndDistanceBetween(
-        topLineHeight + 1,
+        topLineHeight,
         distanceBetweenLines,
         atVars.texLoaded.getStartOctave()
     );
