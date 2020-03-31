@@ -209,6 +209,13 @@ const p5PerformanceSketch = p => {
             state = STATE_DEFAULT;
         }
     };
+
+    p.clear = function() {
+        latestDrawnMeasure = -1;
+        latestBase = 0;
+        musicSections.length = 0;
+        currentMusicSection = null;
+    }
 };
 
 export default p5PerformanceSketch;

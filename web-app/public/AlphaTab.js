@@ -1,5 +1,5 @@
 /*
- * alphaTab v0.9.6.294 (develop)
+ * alphaTab v0.9.7.302 (develop)
  *
  * Copyright © 2020, Daniel Kuschny and Contributors, All rights reserved.
  * 
@@ -290,7 +290,7 @@
         this._previousStateForCursor = 0;
         this._previousCursorCache = null;
         this._lastScroll = 0;
-        this._selecting = false;
+        this._beatMouseDown = false;
         this._selectionStart = null;
         this._selectionEnd = null;
         this.uiFacade = uiFacade;
@@ -854,7 +854,7 @@
                         beatCursor.transitionToX(duration, nextBeatX);
                     });
                 }
-                if (!this._selecting && this.settings.player.scrollMode != 0) {
+                if (!this._beatMouseDown && this.settings.player.scrollMode != 0) {
                     var scrollElement = this.uiFacade.getScrollContainer();
                     var isVertical = alphaTab.Environment.getLayoutEngineFactory(this.settings).vertical;
                     var mode = this.settings.player.scrollMode;
@@ -917,72 +917,139 @@
             if (handler != null) {
                 handler(beat);
             }
-            this.uiFacade.triggerEvent(this.container, "playedBeatChanged", beat);
+            this.uiFacade.triggerEvent(this.container, "playedBeatChanged", beat, null);
+        }
+        , addBeatMouseDown: function (value) {
+            this.beatMouseDown = system._EventAction1.EventAction1_Impl_.add(this.beatMouseDown, value);
+        }
+        , removeBeatMouseDown: function (value) {
+            this.beatMouseDown = system._EventAction1.EventAction1_Impl_.sub(this.beatMouseDown, value);
+        }
+        , addBeatMouseMove: function (value) {
+            this.beatMouseMove = system._EventAction1.EventAction1_Impl_.add(this.beatMouseMove, value);
+        }
+        , removeBeatMouseMove: function (value) {
+            this.beatMouseMove = system._EventAction1.EventAction1_Impl_.sub(this.beatMouseMove, value);
+        }
+        , addBeatMouseUp: function (value) {
+            this.beatMouseUp = system._EventAction1.EventAction1_Impl_.add(this.beatMouseUp, value);
+        }
+        , removeBeatMouseUp: function (value) {
+            this.beatMouseUp = system._EventAction1.EventAction1_Impl_.sub(this.beatMouseUp, value);
+        }
+        , onBeatMouseDown: function (originalEvent, beat) {
+            if (this.settings.player.enablePlayer && this.settings.player.enableCursor && this.settings.player.enableUserInteraction) {
+                this._selectionStart = new alphaTab.SelectionInfo(beat);
+                this._selectionEnd = null;
+            }
+            this._beatMouseDown = true;
+            var _e = this.beatMouseDown;
+            var handler = function (p) {
+                system._EventAction1.EventAction1_Impl_.invoke(_e, p);
+            };
+            if (handler != null) {
+                handler(beat);
+            }
+            this.uiFacade.triggerEvent(this.container, "beatMouseDown", beat, originalEvent);
+        }
+        , onBeatMouseMove: function (originalEvent, beat) {
+            if (this.settings.player.enableUserInteraction) {
+                if (this._selectionEnd == null || this._selectionEnd.beat != beat) {
+                    this._selectionEnd = new alphaTab.SelectionInfo(beat);
+                    this.cursorSelectRange(this._selectionStart, this._selectionEnd);
+                }
+            }
+            var _e = this.beatMouseMove;
+            var handler = function (p) {
+                system._EventAction1.EventAction1_Impl_.invoke(_e, p);
+            };
+            if (handler != null) {
+                handler(beat);
+            }
+            this.uiFacade.triggerEvent(this.container, "beatMouseMove", beat, originalEvent);
+        }
+        , onBeatMouseUp: function (originalEvent, beat) {
+            var _gthis = this;
+            if (this.settings.player.enableUserInteraction) {
+                if (this._selectionEnd != null) {
+                    var startTick = this._selectionStart.beat.get_absoluteDisplayStart();
+                    var endTick = this._selectionStart.beat.get_absoluteDisplayStart();
+                    if (endTick < startTick) {
+                        var t = this._selectionStart;
+                        this._selectionStart = this._selectionEnd;
+                        this._selectionEnd = t;
+                    }
+                }
+                if (this._selectionStart != null) {
+                    var tickCache = this._tickCache;
+                    var realMasterBarStart = tickCache.getMasterBarStart(this._selectionStart.beat.voice.bar.get_masterBar());
+                    this.cursorUpdateBeat(this._selectionStart.beat, null, 0, false, null);
+                    this.player.set_tickPosition(realMasterBarStart + this._selectionStart.beat.playbackStart);
+                    if (this._selectionEnd != null && this._selectionStart.beat != this._selectionEnd.beat) {
+                        var realMasterBarEnd = tickCache.getMasterBarStart(this._selectionEnd.beat.voice.bar.get_masterBar());
+                        var tmp = this.player;
+                        var _tmp = new alphaTab.audio.synth.PlaybackRange();
+                        _tmp.startTick = realMasterBarStart + _gthis._selectionStart.beat.playbackStart;
+                        _tmp.endTick = realMasterBarEnd + _gthis._selectionEnd.beat.playbackStart + _gthis._selectionEnd.beat.playbackDuration - 50;
+                        tmp.set_playbackRange(_tmp);
+                    } else {
+                        this._selectionStart = null;
+                        this.player.set_playbackRange(null);
+                        this.cursorSelectRange(this._selectionStart, this._selectionEnd);
+                    }
+                }
+            }
+            var _e = this.beatMouseUp;
+            var handler = function (p) {
+                system._EventAction1.EventAction1_Impl_.invoke(_e, p);
+            };
+            if (handler != null) {
+                handler(beat);
+            }
+            this.uiFacade.triggerEvent(this.container, "beatMouseUp", beat, originalEvent);
+            this._beatMouseDown = false;
         }
         , setupClickHandling: function () {
             var _gthis = this;
             this.canvasElement.addMouseDown(function (e) {
-                if (!e.get_isLeftMouseButton() || !_gthis.settings.player.enablePlayer || !_gthis.settings.player.enableCursor) {
+                if (!e.get_isLeftMouseButton()) {
                     return;
                 }
-                e.preventDefault();
+                if (_gthis.settings.player.enableUserInteraction) {
+                    e.preventDefault();
+                }
                 var relX = e.getX(_gthis.canvasElement);
                 var relY = e.getY(_gthis.canvasElement);
                 var beat = _gthis.renderer.get_boundsLookup().getBeatAtPos(relX, relY);
                 if (beat != null) {
-                    _gthis._selectionStart = new alphaTab.SelectionInfo(beat);
-                    _gthis._selectionEnd = null;
-                    _gthis._selecting = true;
+                    _gthis.onBeatMouseDown(e, beat);
                 }
             });
             this.canvasElement.addMouseMove(function (e1) {
-                if (!_gthis._selecting || !_gthis.settings.player.enablePlayer || !_gthis.settings.player.enableCursor) {
+                if (!_gthis._beatMouseDown) {
                     return;
                 }
                 var relX1 = e1.getX(_gthis.canvasElement);
                 var relY1 = e1.getY(_gthis.canvasElement);
                 var beat1 = _gthis.renderer.get_boundsLookup().getBeatAtPos(relX1, relY1);
-                if (beat1 != null && (_gthis._selectionEnd == null || _gthis._selectionEnd.beat != beat1)) {
-                    _gthis._selectionEnd = new alphaTab.SelectionInfo(beat1);
-                    _gthis.cursorSelectRange(_gthis._selectionStart, _gthis._selectionEnd);
+                if (beat1 != null) {
+                    _gthis.onBeatMouseMove(e1, beat1);
                 }
             });
             this.canvasElement.addMouseUp(function (e2) {
-                if (!_gthis._selecting || !_gthis.settings.player.enablePlayer || !_gthis.settings.player.enableCursor) {
+                if (!_gthis._beatMouseDown) {
                     return;
                 }
-                e2.preventDefault();
-                if (_gthis._selectionEnd != null) {
-                    var startTick = _gthis._selectionStart.beat.get_absoluteDisplayStart();
-                    var endTick = _gthis._selectionStart.beat.get_absoluteDisplayStart();
-                    if (endTick < startTick) {
-                        var t = _gthis._selectionStart;
-                        _gthis._selectionStart = _gthis._selectionEnd;
-                        _gthis._selectionEnd = t;
-                    }
+                if (_gthis.settings.player.enableUserInteraction) {
+                    e2.preventDefault();
                 }
-                if (_gthis._selectionStart != null) {
-                    var tickCache = _gthis._tickCache;
-                    var realMasterBarStart = tickCache.getMasterBarStart(_gthis._selectionStart.beat.voice.bar.get_masterBar());
-                    _gthis.cursorUpdateBeat(_gthis._selectionStart.beat, null, 0, false, null);
-                    _gthis.player.set_tickPosition(realMasterBarStart + _gthis._selectionStart.beat.playbackStart);
-                    if (_gthis._selectionEnd != null && _gthis._selectionStart.beat != _gthis._selectionEnd.beat) {
-                        var realMasterBarEnd = tickCache.getMasterBarStart(_gthis._selectionEnd.beat.voice.bar.get_masterBar());
-                        var _gthis1 = _gthis.player;
-                        var _tmp = new alphaTab.audio.synth.PlaybackRange();
-                        _tmp.startTick = realMasterBarStart + _gthis._selectionStart.beat.playbackStart;
-                        _tmp.endTick = realMasterBarEnd + _gthis._selectionEnd.beat.playbackStart + _gthis._selectionEnd.beat.playbackDuration - 50;
-                        _gthis1.set_playbackRange(_tmp);
-                    } else {
-                        _gthis._selectionStart = null;
-                        _gthis.player.set_playbackRange(null);
-                        _gthis.cursorSelectRange(_gthis._selectionStart, _gthis._selectionEnd);
-                    }
-                }
-                _gthis._selecting = false;
+                var relX2 = e2.getX(_gthis.canvasElement);
+                var relY2 = e2.getY(_gthis.canvasElement);
+                var beat2 = _gthis.renderer.get_boundsLookup().getBeatAtPos(relX2, relY2);
+                _gthis.onBeatMouseUp(e2, beat2);
             });
             this.renderer.addPostRenderFinished(function () {
-                if (_gthis._selectionStart == null || !_gthis.settings.player.enablePlayer || !_gthis.settings.player.enableCursor) {
+                if (_gthis._selectionStart == null || !_gthis.settings.player.enablePlayer || !_gthis.settings.player.enableCursor || !_gthis.settings.player.enableUserInteraction) {
                     return;
                 }
                 _gthis.cursorSelectRange(_gthis._selectionStart, _gthis._selectionEnd);
@@ -1067,7 +1134,7 @@
             if (handler != null) {
                 handler(obj);
             }
-            this.uiFacade.triggerEvent(this.container, "loaded", obj);
+            this.uiFacade.triggerEvent(this.container, "loaded", obj, null);
         }
         , addResize: function (value) {
             this.resize = system._EventAction1.EventAction1_Impl_.add(this.resize, value);
@@ -1083,7 +1150,7 @@
             if (handler != null) {
                 handler(obj);
             }
-            this.uiFacade.triggerEvent(this.container, "resize", obj);
+            this.uiFacade.triggerEvent(this.container, "resize", obj, null);
         }
         , addRenderStarted: function (value) {
             this.renderStarted = system._EventAction1.EventAction1_Impl_.add(this.renderStarted, value);
@@ -1099,7 +1166,7 @@
             if (handler != null) {
                 handler(resize);
             }
-            this.uiFacade.triggerEvent(this.container, "render", resize);
+            this.uiFacade.triggerEvent(this.container, "render", resize, null);
         }
         , addRenderFinished: function (value) {
             this.renderFinished = system._EventAction.EventAction_Impl_.add(this.renderFinished, value);
@@ -1115,7 +1182,7 @@
             if (handler != null) {
                 handler();
             }
-            this.uiFacade.triggerEvent(this.container, "rendered", null);
+            this.uiFacade.triggerEvent(this.container, "rendered", null, null);
         }
         , addPostRenderFinished: function (value) {
             this.postRenderFinished = system._EventAction.EventAction_Impl_.add(this.postRenderFinished, value);
@@ -1131,7 +1198,7 @@
             if (handler != null) {
                 handler();
             }
-            this.uiFacade.triggerEvent(this.container, "postRendered", null);
+            this.uiFacade.triggerEvent(this.container, "postRendered", null, null);
         }
         , addError: function (value) {
             this.error = system._EventAction2.EventAction2_Impl_.add(this.error, value);
@@ -1148,7 +1215,7 @@
             if (handler != null) {
                 handler(type, details);
             }
-            this.uiFacade.triggerEvent(this.container, "error", {type: type, details: details});
+            this.uiFacade.triggerEvent(this.container, "error", {type: type, details: details}, null);
         }
         , addReadyForPlayback: function (value) {
             this.readyForPlayback = system._EventAction.EventAction_Impl_.add(this.readyForPlayback, value);
@@ -1164,7 +1231,7 @@
             if (handler != null) {
                 handler();
             }
-            this.uiFacade.triggerEvent(this.container, "playerReady", null);
+            this.uiFacade.triggerEvent(this.container, "playerReady", null, null);
         }
         , addPlayerFinished: function (value) {
             this.playerFinished = system._EventAction.EventAction_Impl_.add(this.playerFinished, value);
@@ -1180,7 +1247,7 @@
             if (handler != null) {
                 handler();
             }
-            this.uiFacade.triggerEvent(this.container, "finished", null);
+            this.uiFacade.triggerEvent(this.container, "finished", null, null);
         }
         , addSoundFontLoaded: function (value) {
             this.soundFontLoaded = system._EventAction.EventAction_Impl_.add(this.soundFontLoaded, value);
@@ -1196,7 +1263,7 @@
             if (handler != null) {
                 handler();
             }
-            this.uiFacade.triggerEvent(this.container, "soundFontLoaded", null);
+            this.uiFacade.triggerEvent(this.container, "soundFontLoaded", null, null);
         }
         , addMidiLoaded: function (value) {
             this.midiLoaded = system._EventAction.EventAction_Impl_.add(this.midiLoaded, value);
@@ -1212,7 +1279,7 @@
             if (handler != null) {
                 handler();
             }
-            this.uiFacade.triggerEvent(this.container, "midiFileLoaded", null);
+            this.uiFacade.triggerEvent(this.container, "midiFileLoaded", null, null);
         }
         , addPlayerStateChanged: function (value) {
             this.playerStateChanged = system._EventAction1.EventAction1_Impl_.add(this.playerStateChanged, value);
@@ -1228,7 +1295,7 @@
             if (handler != null) {
                 handler(e);
             }
-            this.uiFacade.triggerEvent(this.container, "playerStateChanged", e);
+            this.uiFacade.triggerEvent(this.container, "playerStateChanged", e, null);
         }
         , addPlayerPositionChanged: function (value) {
             this.playerPositionChanged = system._EventAction1.EventAction1_Impl_.add(this.playerPositionChanged, value);
@@ -1244,7 +1311,7 @@
             if (handler != null) {
                 handler(e);
             }
-            this.uiFacade.triggerEvent(this.container, "positionChanged", e);
+            this.uiFacade.triggerEvent(this.container, "positionChanged", e, null);
         }
         , __class__: alphaTab.AlphaTabApi
     };
@@ -7565,6 +7632,7 @@
         this.scrollMode = 1;
         this.scrollOffsetY = 0;
         this.scrollOffsetX = 0;
+        this.enableUserInteraction = true;
         this.enableCursor = true;
         this.enablePlayer = false;
         this.scrollElement = "html,body";
@@ -7590,6 +7658,7 @@
             json.scrollElement = this.scrollElement;
             json.enablePlayer = this.enablePlayer;
             json.enableCursor = this.enableCursor;
+            json.enableUserInteraction = this.enableUserInteraction;
             json.scrollOffsetX = this.scrollOffsetX;
             json.scrollOffsetY = this.scrollOffsetY;
             json.scrollMode = alphaTab._ScrollMode.ScrollMode_Impl_.toJson(this.scrollMode);
@@ -7616,6 +7685,9 @@
                     return true;
                 case "enableplayer":
                     this.enablePlayer = value;
+                    return true;
+                case "enableuserinteraction":
+                    this.enableUserInteraction = value;
                     return true;
                 case "scrollelement":
                     this.scrollElement = value;
@@ -13347,6 +13419,7 @@
             var index = this._currentTrack.index;
             var this2 = [];
             this1[index] = this2;
+            this._currentDynamics = 5;
         }
         , parseClefFromString: function (str) {
             var _g = str.toLowerCase();
@@ -13950,6 +14023,7 @@
                     if (this._currentTrack.staves[0].bars.length > 0) {
                         this._currentTrack.ensureStaveCount(this._currentTrack.staves.length + 1);
                         this._currentStaff = this._currentTrack.staves[this._currentTrack.staves.length - 1];
+                        this._currentDynamics = 5;
                     }
                     this.staffProperties();
                 }
@@ -25969,7 +26043,7 @@
             if (handler != null) {
                 handler(e);
             }
-            this.uiFacade.triggerEvent(this.container, "soundFontLoad", e);
+            this.uiFacade.triggerEvent(this.container, "soundFontLoad", e, null);
         }
         , loadSoundFontFromUrl: function (url) {
             if (this.player == null) {
@@ -36822,29 +36896,29 @@
         __class__: alphaTab.ui.IMouseEventArgs
     };
     alphaTab.ui.BrowserMouseEventArgs = function (e) {
-        this._e = null;
-        this._e = e;
+        this.mouseEvent = null;
+        this.mouseEvent = e;
     };
     alphaTab.ui.BrowserMouseEventArgs.__name__ = ["alphaTab", "ui", "BrowserMouseEventArgs"];
     alphaTab.ui.BrowserMouseEventArgs.__interfaces__ = [alphaTab.ui.IMouseEventArgs];
     alphaTab.ui.BrowserMouseEventArgs.prototype = {
         get_isLeftMouseButton: function () {
-            return this._e.button == 0;
+            return this.mouseEvent.button == 0;
         }
         , getX: function (relativeTo) {
             var relativeToElement = (js.Boot.__cast(relativeTo, alphaTab.ui.HtmlElementContainer)).element;
             var bounds = relativeToElement.getBoundingClientRect();
             var left = bounds.left + relativeToElement.ownerDocument.defaultView.pageXOffset;
-            return this._e.pageX - left;
+            return this.mouseEvent.pageX - left;
         }
         , getY: function (relativeTo) {
             var relativeToElement = (js.Boot.__cast(relativeTo, alphaTab.ui.HtmlElementContainer)).element;
             var bounds = relativeToElement.getBoundingClientRect();
             var top = bounds.top + relativeToElement.ownerDocument.defaultView.pageYOffset;
-            return this._e.pageY - top;
+            return this.mouseEvent.pageY - top;
         }
         , preventDefault: function () {
-            this._e.preventDefault();
+            this.mouseEvent.preventDefault();
         }
         , __class__: alphaTab.ui.BrowserMouseEventArgs
     };
@@ -37030,16 +37104,26 @@
             canvasElement.style.lineHeight = "0";
             return new alphaTab.ui.HtmlElementContainer(canvasElement);
         }
-        , triggerEvent: function (container, name, details) {
+        , triggerEvent: function (container, name, details, originalEvent) {
             var element = (js.Boot.__cast(container, alphaTab.ui.HtmlElementContainer)).element;
             name = "alphaTab." + name;
             var e = window.document.createEvent("CustomEvent");
+            var originalMouseEvent = originalEvent != null ? (js.Boot.__cast(originalEvent, alphaTab.ui.BrowserMouseEventArgs)).mouseEvent : null;
             e.initCustomEvent(name, false, false, details);
+            if (originalMouseEvent != null) {
+                e.originalEvent = originalMouseEvent;
+            }
             element.dispatchEvent(e);
             var json = window;
             if ((json && "jQuery" in json)) {
                 var jquery = window["jQuery"];
-                jquery(element).trigger(name, details);
+                var this1 = [];
+                var args = this1;
+                args.push(details);
+                if (originalMouseEvent != null) {
+                    args.push(originalMouseEvent);
+                }
+                jquery(element).trigger(name, args);
             }
         }
         , load: function (data, success, error) {
@@ -40146,6 +40230,7 @@
             scrollElement: {json: ["scrollElement"]},
             enablePlayer: {json: ["enablePlayer"]},
             enableCursor: {json: ["enableCursor"]},
+            enableUserInteraction: {json: ["enableUserInteraction"]},
             scrollOffsetX: {json: ["scrollOffsetX"]},
             scrollOffsetY: {json: ["scrollOffsetY"]},
             scrollMode: {json: ["scrollMode"]},
