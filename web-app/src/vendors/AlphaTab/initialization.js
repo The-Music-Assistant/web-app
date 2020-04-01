@@ -25,7 +25,7 @@ const initializeAPI = () => {
             enableCursor: true,
             soundFont: player,
             scrollElement: "#alpha-tab-wrapper",
-            enableUserInteraction: false
+            //enableUserInteraction: false
         },
         display: {
             layoutMode: "horizontal",

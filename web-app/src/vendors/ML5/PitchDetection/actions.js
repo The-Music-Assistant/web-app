@@ -117,6 +117,7 @@ const pageWatch = (currentSectionIndex, currentCount) => {
                 atVars.api.updateSettings();
                 atVars.api.render();
                 currentCount += increment;
+                currentSectionIndex++;
             }
 
             if (atVars.playerState !== playerStates.PLAYING) {

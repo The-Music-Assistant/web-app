@@ -59,8 +59,11 @@ class TexLoaded {
         let count = 0;
         let total = 0;
         for (let i = this.measureStart; i <= this.measureEnd; i++) {
-            total += measureLengths[i - this.measureStart];
-            count++;
+            let nextLength = this.measureLengths[i - this.measureStart]; 
+            if (isNaN(nextLength)) {
+                break;
+            }
+            total += nextLength;
             if (count === barCount - 1) {
                 this.lengthsPerSection.push(total);
                 total = 0;
@@ -78,9 +81,12 @@ class TexLoaded {
         this.lengthsPerSection = [];
         let count = 0;
         let total = 0;
-
         for (let i = this.measureStart; i <= this.measureEnd; i++) {
-            total += this.measureLengths[i - this.measureStart];
+            let nextLength = this.measureLengths[i - this.measureStart]; 
+            if (isNaN(nextLength)) {
+                break;
+            }
+            total += nextLength;
             count++;
             if (count === barCount - 1) {
                 this.lengthsPerSection.push(total);
