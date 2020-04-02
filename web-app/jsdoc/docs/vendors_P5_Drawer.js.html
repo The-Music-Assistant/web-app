@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: vendors/P5/Drawer.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="Pitch.html">Pitch</a></li></ul><h3>Components</h3><ul><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#acceptChoirMember">acceptChoirMember</a></li><li><a href="global.html#addChoir">addChoir</a></li><li><a href="global.html#addPerformance">addPerformance</a></li><li><a href="global.html#addUser">addUser</a></li><li><a href="global.html#alphaTabPlayerFinished">alphaTabPlayerFinished</a></li><li><a href="global.html#alphaTabPlayerStateChanged">alphaTabPlayerStateChanged</a></li><li><a href="global.html#alphaTabPostRenderFinished">alphaTabPostRenderFinished</a></li><li><a href="global.html#appReducer">appReducer</a></li><li><a href="global.html#authError">authError</a></li><li><a href="global.html#authFlowComplete">authFlowComplete</a></li><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#changePart">changePart</a></li><li><a href="global.html#changeToExercise">changeToExercise</a></li><li><a href="global.html#choirSelectedForChoirs">choirSelectedForChoirs</a></li><li><a href="global.html#choirSelectedForPractice">choirSelectedForPractice</a></li><li><a href="global.html#choirsReducer">choirsReducer</a></li><li><a href="global.html#closeRunningPerformance">closeRunningPerformance</a></li><li><a href="global.html#constUpdateMember">constUpdateMember</a></li><li><a href="global.html#deleteMember">deleteMember</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#displayMidi">displayMidi</a></li><li><a href="global.html#doNotShowWelcomePage">doNotShowWelcomePage</a></li><li><a href="global.html#exerciseGenerated">exerciseGenerated</a></li><li><a href="global.html#exerciseRequested">exerciseRequested</a></li><li><a href="global.html#getChoirMembers">getChoirMembers</a></li><li><a href="global.html#getExercise">getExercise</a></li><li><a href="global.html#getMyPart">getMyPart</a></li><li><a href="global.html#getNumberOfLedgerLines">getNumberOfLedgerLines</a></li><li><a href="global.html#getOctave">getOctave</a></li><li><a href="global.html#getPartList">getPartList</a></li><li><a href="global.html#getPartSheetMusic">getPartSheetMusic</a></li><li><a href="global.html#getPendingMembers">getPendingMembers</a></li><li><a href="global.html#getPlaybackRange">getPlaybackRange</a></li><li><a href="global.html#getSheetMusic">getSheetMusic</a></li><li><a href="global.html#getSheetMusicLedgerHeights">getSheetMusicLedgerHeights</a></li><li><a href="global.html#getSinglePartSheetMusic">getSinglePartSheetMusic</a></li><li><a href="global.html#getSpecificSheetMusic">getSpecificSheetMusic</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getUsersChoirs">getUsersChoirs</a></li><li><a href="global.html#getUsersPerformancesForSheetMusic">getUsersPerformancesForSheetMusic</a></li><li><a href="global.html#handleAuthStateChanges">handleAuthStateChanges</a></li><li><a href="global.html#initializeAPI">initializeAPI</a></li><li><a href="global.html#initializeFeedbackDrawer">initializeFeedbackDrawer</a></li><li><a href="global.html#initializeRunningPerformance">initializeRunningPerformance</a></li><li><a href="global.html#isPitchDetectionAvailable">isPitchDetectionAvailable</a></li><li><a href="global.html#joinChoir">joinChoir</a></li><li><a href="global.html#loadExercise">loadExercise</a></li><li><a href="global.html#loadJustMyPart">loadJustMyPart</a></li><li><a href="global.html#mapDispatchToProps">mapDispatchToProps</a></li><li><a href="global.html#mapStateToProps">mapStateToProps</a></li><li><a href="global.html#musicSelectedForPractice">musicSelectedForPractice</a></li><li><a href="global.html#onFirstRender">onFirstRender</a></li><li><a href="global.html#onSubsequentRender">onSubsequentRender</a></li><li><a href="global.html#p5FeedbackSketch">p5FeedbackSketch</a></li><li><a href="global.html#p5PerformanceSketch">p5PerformanceSketch</a></li><li><a href="global.html#pickPartInSheetMusic">pickPartInSheetMusic</a></li><li><a href="global.html#practiceReducer">practiceReducer</a></li><li><a href="global.html#rejectChoirMember">rejectChoirMember</a></li><li><a href="global.html#resetSheetMusic">resetSheetMusic</a></li><li><a href="global.html#retrievedUsersName">retrievedUsersName</a></li><li><a href="global.html#retrievedUsersPictureUrl">retrievedUsersPictureUrl</a></li><li><a href="global.html#setAxiosAuthToken">setAxiosAuthToken</a></li><li><a href="global.html#setupPitchDetection">setupPitchDetection</a></li><li><a href="global.html#showWelcomePage">showWelcomePage</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#signOutSuccess">signOutSuccess</a></li><li><a href="global.html#startAuthFlow">startAuthFlow</a></li><li><a href="global.html#startPitchDetection">startPitchDetection</a></li><li><a href="global.html#startPlayingMusic">startPlayingMusic</a></li><li><a href="global.html#startupDone">startupDone</a></li><li><a href="global.html#startupReducer">startupReducer</a></li><li><a href="global.html#stopPitchDetection">stopPitchDetection</a></li><li><a href="global.html#stopPlayingMusic">stopPlayingMusic</a></li><li><a href="global.html#timeToMeasureNumber">timeToMeasureNumber</a></li><li><a href="global.html#updateObject">updateObject</a></li><li><a href="global.html#updateRunningPerformance">updateRunningPerformance</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#userAuthenticated">userAuthenticated</a></li><li><a href="global.html#userGetsFeedback">userGetsFeedback</a></li><li><a href="global.html#userNotAuthenticated">userNotAuthenticated</a></li><li><a href="global.html#usersNameRetrievalFailed">usersNameRetrievalFailed</a></li><li><a href="global.html#usersPictureUrlRetrievalFailed">usersPictureUrlRetrievalFailed</a></li><li><a href="global.html#welcomePageComplete">welcomePageComplete</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>vendors/P5/Drawer.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// ----------------------------------------------------------------------------
+// File Path: src/vendors/P5/Drawer.js
+// Description: Keeps track of current note and where to draw it on the screen along with special information such as number of extra ledger lines
+// Author: Daniel Griessler
+// Email: dgriessler20@gmail.com
+// Created Date: 11/15/2019
+// ----------------------------------------------------------------------------
+
+// File imports
+import { getNumberOfLedgerLines, getOctave } from "../AlphaTab/LedgerLines";
+
+class Drawer {
+    /**
+     * Creates a new Drawer setting up storage of the most recent midi note and information about how to draw it on the screen
+     * @param {Number} topLine Height of the top line of the selected part to sing
+     * @param {Number} distanceBetweenLines Distance between lines in the staff
+     */
+    constructor(topLine, distanceBetweenLines, baseOctave) {
+        this.topLine = topLine;
+        this.distanceBetweenLines = distanceBetweenLines;
+        // stores the height of the lowest line of the staff being sung
+        this.firstLine = this.topLine + this.distanceBetweenLines * 5;
+        // Values >= selected lower limit and &lt;= selected upper limit don't need extra ledger lines
+        this.lowerLimit = 61; // 61 = C4#
+        this.upperLimit = 81; // 81 = A5
+        this.lowerLimit2 = 40; // 40 = E2
+        this.upperLimit2 = 60; // 60 = C4
+        this.note = new Note(60);
+        this.belowOrAbove = 0;
+        this.noteHeight = 0;
+        this.baseOctave = baseOctave;
+        this.updateNote(this.note.midiVal);
+    }
+
+    setTopLineAndDistanceBetween(topLine, distanceBetweenLines, baseOctave) {
+        this.topLine = topLine + 1;
+        this.distanceBetweenLines = distanceBetweenLines;
+        // stores the height of the lowest line of the staff being sung
+        this.firstLine = this.topLine + this.distanceBetweenLines * (baseOctave === 4 ? 5 : 6);
+        this.baseOctave = baseOctave;
+    }
+
+    setBaseOctave(baseOctave) {
+        this.baseOctave = baseOctave;
+    }
+
+    /**
+     * Updates the Drawer to the new provided note
+     * @param {Number} note New midi value to store. Provide a -1 as a sentinel value for silence
+     */
+    updateNote(note) {
+        this.note.updateNote(note);
+        this.getHeightOfNote();
+        this.getExtraFeatures();
+    }
+
+    /**
+     * Updates the height of the note based on its midi value
+     */
+    getHeightOfNote() {
+        // -1 is a sentinel value for silence which is assigned a default height
+        if (this.note.midiVal === -1) {
+            this.noteHeight = this.firstLine;
+            return;
+        }
+        // Calculating the height of a note relies on the cycle in musical notes that occurs between octaves
+        // This calculates what the height of the note should be based on the first line
+        const heightMod = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
+
+        // based on the starting note subtract the base octave since the start note is in that given octave
+        let octaveMod = this.note.octave - this.baseOctave;
+        let value = heightMod[this.note.midiVal % heightMod.length];
+
+        // Includes bump to jump between octaves
+        let totalMod = value + octaveMod * 7;
+
+        // final height includes division by 2 because each value in the totalMod is distanceBetweenLines/2
+        this.noteHeight = this.firstLine - (totalMod * this.distanceBetweenLines) / 2;
+    }
+
+    /**
+     * Gets the extra features of a note including how many ledger lines to add
+     */
+    getExtraFeatures() {
+        // -1 is a sentinel value for silence which has no ledger lines
+        if (this.note.midiVal === -1) {
+            this.belowOrAbove = 0;
+            return;
+        }
+
+        // // similar to note height, there's a cycle between octaves for ledger lines
+        // const aboveBelowMod = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4];
+
+        // sets up base if ledger lines are even needed. base == 0 means no ledger lines
+        // base &lt; 0 means they go below the staff, base > 0 means they go above the staff
+        let base = 0;
+        let actualUpperLimit;
+        let actualLowerLimit;
+        if (this.baseOctave === 4) {
+            actualUpperLimit = this.upperLimit;
+            actualLowerLimit = this.lowerLimit;
+        } else {
+            actualUpperLimit = this.upperLimit2;
+            actualLowerLimit = this.lowerLimit2;
+        }
+        if (this.note.midiVal >= actualUpperLimit) {
+            base = actualUpperLimit;
+        } else if (this.note.midiVal &lt;= actualLowerLimit) {
+            base = -1 * actualLowerLimit;
+        }
+
+        // If need ledger lines, then calculate how many are required
+        if (base !== 0) {
+            let direction;
+            let start;
+            if (base > 0) {
+                direction = "up";
+                start = this.baseOctave === 4 ? "a" : "c";
+            } else {
+                direction = "down";
+                start = this.baseOctave === 4 ? "c" : "e";
+            }
+
+            // LedgerLines loop every 24 notes so if more than 24 then add 7 octaves
+            let difference = Math.abs(Math.abs(base) - this.note.midiVal);
+            let loopAdd = 7 * Math.floor(difference / 24);
+            this.belowOrAbove =
+                getNumberOfLedgerLines(this.note.midiVal, direction, start) + loopAdd;
+
+            // Signals to draw ledger lines below staff
+            if (base &lt; 0) {
+                this.belowOrAbove *= -1;
+            }
+        } else {
+            this.belowOrAbove = 0;
+        }
+    }
+}
+
+/**
+ * Stores midi value as its character representation including its octave and if it is sharp
+ */
+class Note {
+    /**
+     * Constructs a Note from a provided a given midiVal and converts it to a string which can be accessed
+     * @param {Number} midiVal Midi value of note to store
+     */
+    constructor(midiVal) {
+        this.updateNote(midiVal);
+    }
+
+    /**
+     * Updates the note stored to the new note
+     * @param {Number} note New midi value to store
+     */
+    updateNote(note) {
+        // No point in updating if the midi value matches the current one
+        if (this.midiVal &amp;&amp; note === this.midiVal) {
+            return;
+        }
+
+        this.midiVal = note;
+        const noteText = this.numToNote();
+        this.charPart = noteText.charPart;
+        this.octave = noteText.octave;
+
+        // relies on the char part with being a single letter like G or two letters which is the note and # for sharp
+        this.isSharp = this.charPart.length === 2;
+    }
+
+    /**
+     * Converts the stored midi value to its character representation
+     * @returns A tuple with the character part and the octave
+     */
+    numToNote() {
+        let charPart;
+        let octave;
+
+        // -1 is a sentinel value for silence which has no char part or octave
+        if (this.midiVal === -1) {
+            charPart = "-";
+            octave = "";
+        } else {
+            const letters = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+            charPart = letters[this.midiVal % letters.length];
+            octave = getOctave(this.midiVal);
+        }
+        return { charPart, octave };
+    }
+}
+
+export default Drawer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 01 2020 20:54:15 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

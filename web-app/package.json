@@ -1,48 +1,51 @@
 {
-  "name": "music-assistant-web-app",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "axios": "^0.19.2",
-    "firebase": "^7.13.1",
-    "ml5": "^0.4.3",
-    "node-sass": "^4.13.1",
-    "normalize.css": "^8.0.1",
-    "p5": "^0.10.2",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
-    "react-spinners-kit": "^1.9.1",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "shortid": "^2.2.15"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "better-docs": "^1.4.7",
-    "jsdoc": "^3.6.3"
-  }
+    "name": "music-assistant-web-app",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "axios": "^0.19.2",
+        "firebase": "^7.13.1",
+        "ml5": "^0.4.3",
+        "node-sass": "^4.13.1",
+        "normalize.css": "^8.0.1",
+        "p5": "^0.10.2",
+        "prop-types": "^15.7.2",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-redux": "^7.2.0",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "^3.4.1",
+        "react-spinners-kit": "^1.9.1",
+        "redux": "^4.0.5",
+        "redux-thunk": "^2.3.0",
+        "shortid": "^2.2.15"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "generate-docs": "jsdoc -c ./jsdoc/jsdoc.config.json"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@babel/core": "^7.9.0",
+        "better-docs": "^1.4.7",
+        "jsdoc": "^3.6.3",
+        "parcel-bundler": "^1.12.4"
+    }
 }

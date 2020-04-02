@@ -1,0 +1,11 @@
+{
+    "source": {
+        "include": ["src"]
+    },
+    "opts": {
+        "destination": "./jsdoc/docs/",
+        "recurse": true,
+        "template": "node_modules/better-docs"
+    },
+    "plugins": ["node_modules/better-docs/component"]
+}

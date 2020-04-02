@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: App</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="Pitch.html">Pitch</a></li></ul><h3>Components</h3><ul><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#acceptChoirMember">acceptChoirMember</a></li><li><a href="global.html#addChoir">addChoir</a></li><li><a href="global.html#addPerformance">addPerformance</a></li><li><a href="global.html#addUser">addUser</a></li><li><a href="global.html#alphaTabPlayerFinished">alphaTabPlayerFinished</a></li><li><a href="global.html#alphaTabPlayerStateChanged">alphaTabPlayerStateChanged</a></li><li><a href="global.html#alphaTabPostRenderFinished">alphaTabPostRenderFinished</a></li><li><a href="global.html#appReducer">appReducer</a></li><li><a href="global.html#authError">authError</a></li><li><a href="global.html#authFlowComplete">authFlowComplete</a></li><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#changePart">changePart</a></li><li><a href="global.html#changeToExercise">changeToExercise</a></li><li><a href="global.html#choirSelectedForChoirs">choirSelectedForChoirs</a></li><li><a href="global.html#choirSelectedForPractice">choirSelectedForPractice</a></li><li><a href="global.html#choirsReducer">choirsReducer</a></li><li><a href="global.html#closeRunningPerformance">closeRunningPerformance</a></li><li><a href="global.html#constUpdateMember">constUpdateMember</a></li><li><a href="global.html#deleteMember">deleteMember</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#displayMidi">displayMidi</a></li><li><a href="global.html#doNotShowWelcomePage">doNotShowWelcomePage</a></li><li><a href="global.html#exerciseGenerated">exerciseGenerated</a></li><li><a href="global.html#exerciseRequested">exerciseRequested</a></li><li><a href="global.html#getChoirMembers">getChoirMembers</a></li><li><a href="global.html#getExercise">getExercise</a></li><li><a href="global.html#getMyPart">getMyPart</a></li><li><a href="global.html#getNumberOfLedgerLines">getNumberOfLedgerLines</a></li><li><a href="global.html#getOctave">getOctave</a></li><li><a href="global.html#getPartList">getPartList</a></li><li><a href="global.html#getPartSheetMusic">getPartSheetMusic</a></li><li><a href="global.html#getPendingMembers">getPendingMembers</a></li><li><a href="global.html#getPlaybackRange">getPlaybackRange</a></li><li><a href="global.html#getSheetMusic">getSheetMusic</a></li><li><a href="global.html#getSheetMusicLedgerHeights">getSheetMusicLedgerHeights</a></li><li><a href="global.html#getSinglePartSheetMusic">getSinglePartSheetMusic</a></li><li><a href="global.html#getSpecificSheetMusic">getSpecificSheetMusic</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getUsersChoirs">getUsersChoirs</a></li><li><a href="global.html#getUsersPerformancesForSheetMusic">getUsersPerformancesForSheetMusic</a></li><li><a href="global.html#handleAuthStateChanges">handleAuthStateChanges</a></li><li><a href="global.html#initializeAPI">initializeAPI</a></li><li><a href="global.html#initializeFeedbackDrawer">initializeFeedbackDrawer</a></li><li><a href="global.html#initializeRunningPerformance">initializeRunningPerformance</a></li><li><a href="global.html#isPitchDetectionAvailable">isPitchDetectionAvailable</a></li><li><a href="global.html#joinChoir">joinChoir</a></li><li><a href="global.html#loadExercise">loadExercise</a></li><li><a href="global.html#loadJustMyPart">loadJustMyPart</a></li><li><a href="global.html#mapDispatchToProps">mapDispatchToProps</a></li><li><a href="global.html#mapStateToProps">mapStateToProps</a></li><li><a href="global.html#musicSelectedForPractice">musicSelectedForPractice</a></li><li><a href="global.html#onFirstRender">onFirstRender</a></li><li><a href="global.html#onSubsequentRender">onSubsequentRender</a></li><li><a href="global.html#p5FeedbackSketch">p5FeedbackSketch</a></li><li><a href="global.html#p5PerformanceSketch">p5PerformanceSketch</a></li><li><a href="global.html#pickPartInSheetMusic">pickPartInSheetMusic</a></li><li><a href="global.html#practiceReducer">practiceReducer</a></li><li><a href="global.html#rejectChoirMember">rejectChoirMember</a></li><li><a href="global.html#resetSheetMusic">resetSheetMusic</a></li><li><a href="global.html#retrievedUsersName">retrievedUsersName</a></li><li><a href="global.html#retrievedUsersPictureUrl">retrievedUsersPictureUrl</a></li><li><a href="global.html#setAxiosAuthToken">setAxiosAuthToken</a></li><li><a href="global.html#setupPitchDetection">setupPitchDetection</a></li><li><a href="global.html#showWelcomePage">showWelcomePage</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#signOutSuccess">signOutSuccess</a></li><li><a href="global.html#startAuthFlow">startAuthFlow</a></li><li><a href="global.html#startPitchDetection">startPitchDetection</a></li><li><a href="global.html#startPlayingMusic">startPlayingMusic</a></li><li><a href="global.html#startupDone">startupDone</a></li><li><a href="global.html#startupReducer">startupReducer</a></li><li><a href="global.html#stopPitchDetection">stopPitchDetection</a></li><li><a href="global.html#stopPlayingMusic">stopPlayingMusic</a></li><li><a href="global.html#timeToMeasureNumber">timeToMeasureNumber</a></li><li><a href="global.html#updateObject">updateObject</a></li><li><a href="global.html#updateRunningPerformance">updateRunningPerformance</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#userAuthenticated">userAuthenticated</a></li><li><a href="global.html#userGetsFeedback">userGetsFeedback</a></li><li><a href="global.html#userNotAuthenticated">userNotAuthenticated</a></li><li><a href="global.html#usersNameRetrievalFailed">usersNameRetrievalFailed</a></li><li><a href="global.html#usersPictureUrlRetrievalFailed">usersPictureUrlRetrievalFailed</a></li><li><a href="global.html#welcomePageComplete">welcomePageComplete</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Components</p>
+                        <h1>App</h1>
+                    </header>
+                    
+                    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            &ltApp <i>isStartupDone</i> <i>isAuthenticated</i> <i>isAuthFlowComplete</i> <i>shouldShowWelcomePage</i> <i>setBrowserType</i> /&gt
+        </h2>
+        
+            <div class="class-description">Renders the top level of the app</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <h3 class="title"><span>Constructor</span></h3>
+                <div class="members">
+                    <div class="member">
+
+
+    
+    <h4 class="name" id="App">
+        <a class="href-link" href="#App">#</a>
+        
+        <span class="code-name">
+            
+                &ltApp <i>isStartupDone</i> <i>isAuthenticated</i> <i>isAuthFlowComplete</i> <i>shouldShowWelcomePage</i> <i>setBrowserType</i> /&gt
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+    
+        <h5>PropTypes:</h5>
+        
+
+<table class="params">
+  <thead>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+      <th class="last">Default</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>isStartupDone</code></td>
+          <td>
+            bool
+          </td>
+          <td>Yes</td>
+          <td></td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>isAuthenticated</code></td>
+          <td>
+            bool
+          </td>
+          <td>No</td>
+          <td></td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>isAuthFlowComplete</code></td>
+          <td>
+            bool
+          </td>
+          <td>No</td>
+          <td></td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>shouldShowWelcomePage</code></td>
+          <td>
+            bool
+          </td>
+          <td>Yes</td>
+          <td></td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>setBrowserType</code></td>
+          <td>
+            func
+          </td>
+          <td>Yes</td>
+          <td></td>
+          <td></td>
+        </tr>
+        
+  
+  </tbody>
+</table>
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:danlevy124@gmail.com">Dan Levy</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="App_App.js.html" class="button">View Source</a>
+            <span>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line31">line 31</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        
+
+<div id='91nv3e4gxbak8i1qo03'></div>
+
+<script>
+  ReactDOM.render(ReactWrapper({
+    example: "return (\n <App>\n)",
+    uniqId: "91nv3e4gxbak8i1qo03",
+  }), document.getElementById('91nv3e4gxbak8i1qo03'));
+</script>
+    
+
+
+</div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+        
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Members</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+<h4 class="name" id="getRedirect">
+    <a class="href-link" href="#getRedirect">#</a>
+    
+    <span class="code-name">
+        getRedirect
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets the page to render
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="App_App.js.html" class="button">View Source</a>
+            <span>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line70">line 70</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="isMobileBrowser">
+    <a class="href-link" href="#isMobileBrowser">#</a>
+    
+    <span class="code-name">
+        isMobileBrowser
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Determines if the browser is mobile or not
+Mobile device check includes:
+iPhone
+iPod
+iPad (pre-iPad OS)
+Android
+WebOS (Palm phone)
+BlackBerry
+Windows Phone
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="App_App.js.html" class="button">View Source</a>
+            <span>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line50">line 50</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Methods</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="render">
+        <a class="href-link" href="#render">#</a>
+        
+        <span class="code-name">
+            
+                render<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Renders the App component (this is the root component)
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="App_App.js.html" class="button">View Source</a>
+            <span>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line89">line 89</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 01 2020 20:54:15 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+{
+    // NOTE: This file is used for JSDocs better-docs/component plugin ONLY
+    "plugins": ["@babel/plugin-proposal-class-properties"]
+}

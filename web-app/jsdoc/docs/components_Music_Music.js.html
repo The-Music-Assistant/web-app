@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: components/Music/Music.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="Pitch.html">Pitch</a></li></ul><h3>Components</h3><ul><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#acceptChoirMember">acceptChoirMember</a></li><li><a href="global.html#addChoir">addChoir</a></li><li><a href="global.html#addPerformance">addPerformance</a></li><li><a href="global.html#addUser">addUser</a></li><li><a href="global.html#alphaTabPlayerFinished">alphaTabPlayerFinished</a></li><li><a href="global.html#alphaTabPlayerStateChanged">alphaTabPlayerStateChanged</a></li><li><a href="global.html#alphaTabPostRenderFinished">alphaTabPostRenderFinished</a></li><li><a href="global.html#appReducer">appReducer</a></li><li><a href="global.html#authError">authError</a></li><li><a href="global.html#authFlowComplete">authFlowComplete</a></li><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#changePart">changePart</a></li><li><a href="global.html#changeToExercise">changeToExercise</a></li><li><a href="global.html#choirSelectedForChoirs">choirSelectedForChoirs</a></li><li><a href="global.html#choirSelectedForPractice">choirSelectedForPractice</a></li><li><a href="global.html#choirsReducer">choirsReducer</a></li><li><a href="global.html#closeRunningPerformance">closeRunningPerformance</a></li><li><a href="global.html#constUpdateMember">constUpdateMember</a></li><li><a href="global.html#deleteMember">deleteMember</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#displayMidi">displayMidi</a></li><li><a href="global.html#doNotShowWelcomePage">doNotShowWelcomePage</a></li><li><a href="global.html#exerciseGenerated">exerciseGenerated</a></li><li><a href="global.html#exerciseRequested">exerciseRequested</a></li><li><a href="global.html#getChoirMembers">getChoirMembers</a></li><li><a href="global.html#getExercise">getExercise</a></li><li><a href="global.html#getMyPart">getMyPart</a></li><li><a href="global.html#getNumberOfLedgerLines">getNumberOfLedgerLines</a></li><li><a href="global.html#getOctave">getOctave</a></li><li><a href="global.html#getPartList">getPartList</a></li><li><a href="global.html#getPartSheetMusic">getPartSheetMusic</a></li><li><a href="global.html#getPendingMembers">getPendingMembers</a></li><li><a href="global.html#getPlaybackRange">getPlaybackRange</a></li><li><a href="global.html#getSheetMusic">getSheetMusic</a></li><li><a href="global.html#getSheetMusicLedgerHeights">getSheetMusicLedgerHeights</a></li><li><a href="global.html#getSinglePartSheetMusic">getSinglePartSheetMusic</a></li><li><a href="global.html#getSpecificSheetMusic">getSpecificSheetMusic</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getUsersChoirs">getUsersChoirs</a></li><li><a href="global.html#getUsersPerformancesForSheetMusic">getUsersPerformancesForSheetMusic</a></li><li><a href="global.html#handleAuthStateChanges">handleAuthStateChanges</a></li><li><a href="global.html#initializeAPI">initializeAPI</a></li><li><a href="global.html#initializeFeedbackDrawer">initializeFeedbackDrawer</a></li><li><a href="global.html#initializeRunningPerformance">initializeRunningPerformance</a></li><li><a href="global.html#isPitchDetectionAvailable">isPitchDetectionAvailable</a></li><li><a href="global.html#joinChoir">joinChoir</a></li><li><a href="global.html#loadExercise">loadExercise</a></li><li><a href="global.html#loadJustMyPart">loadJustMyPart</a></li><li><a href="global.html#mapDispatchToProps">mapDispatchToProps</a></li><li><a href="global.html#mapStateToProps">mapStateToProps</a></li><li><a href="global.html#musicSelectedForPractice">musicSelectedForPractice</a></li><li><a href="global.html#onFirstRender">onFirstRender</a></li><li><a href="global.html#onSubsequentRender">onSubsequentRender</a></li><li><a href="global.html#p5FeedbackSketch">p5FeedbackSketch</a></li><li><a href="global.html#p5PerformanceSketch">p5PerformanceSketch</a></li><li><a href="global.html#pickPartInSheetMusic">pickPartInSheetMusic</a></li><li><a href="global.html#practiceReducer">practiceReducer</a></li><li><a href="global.html#rejectChoirMember">rejectChoirMember</a></li><li><a href="global.html#resetSheetMusic">resetSheetMusic</a></li><li><a href="global.html#retrievedUsersName">retrievedUsersName</a></li><li><a href="global.html#retrievedUsersPictureUrl">retrievedUsersPictureUrl</a></li><li><a href="global.html#setAxiosAuthToken">setAxiosAuthToken</a></li><li><a href="global.html#setupPitchDetection">setupPitchDetection</a></li><li><a href="global.html#showWelcomePage">showWelcomePage</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#signOutSuccess">signOutSuccess</a></li><li><a href="global.html#startAuthFlow">startAuthFlow</a></li><li><a href="global.html#startPitchDetection">startPitchDetection</a></li><li><a href="global.html#startPlayingMusic">startPlayingMusic</a></li><li><a href="global.html#startupDone">startupDone</a></li><li><a href="global.html#startupReducer">startupReducer</a></li><li><a href="global.html#stopPitchDetection">stopPitchDetection</a></li><li><a href="global.html#stopPlayingMusic">stopPlayingMusic</a></li><li><a href="global.html#timeToMeasureNumber">timeToMeasureNumber</a></li><li><a href="global.html#updateObject">updateObject</a></li><li><a href="global.html#updateRunningPerformance">updateRunningPerformance</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#userAuthenticated">userAuthenticated</a></li><li><a href="global.html#userGetsFeedback">userGetsFeedback</a></li><li><a href="global.html#userNotAuthenticated">userNotAuthenticated</a></li><li><a href="global.html#usersNameRetrievalFailed">usersNameRetrievalFailed</a></li><li><a href="global.html#usersPictureUrlRetrievalFailed">usersPictureUrlRetrievalFailed</a></li><li><a href="global.html#welcomePageComplete">welcomePageComplete</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>components/Music/Music.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// ----------------------------------------------------------------------------
+// File Path: src/components/Music/Music.js
+// Description: Renders the Music component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 10/23/2019
+// ----------------------------------------------------------------------------
+
+// NPM module imports
+import React, { Component, createRef } from "react";
+import { Switch, Route, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
+// Component imports
+import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
+import MusicPerformanceHeader from "./MusicPerformanceHeader/MusicPerformanceHeader";
+import PageHeader from "../PageHeader/PageHeader";
+import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
+
+// File imports
+import initializeAlphaTabApi from "../../vendors/AlphaTab/initialization";
+import destroyAlphaTabApi from "../../vendors/AlphaTab/destruction";
+import alphaTabVars from "../../vendors/AlphaTab/variables";
+import {
+    changeToSheetMusic,
+    changePart,
+    loadJustMyPart,
+    loadTex,
+    changeToPerformance,
+    changeToExercise,
+    stopPlayingMusic
+} from "../../vendors/AlphaTab/actions";
+import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
+import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
+import { sheetMusicError } from "../../vendors/Firebase/logs";
+import * as alertBarTypes from "../AlertBar/alertBarTypes";
+import * as musicPageOptions from "./musicPageOptions";
+import { exerciseGenerated } from "../../store/actions";
+
+// Style imports
+import "./SheetMusic.scss";
+import styles from "./Music.module.scss";
+
+class Music extends Component {
+    // Component state
+    state = {
+        isAlphaTabLoading: true,
+        isPitchDetectionLoading: true,
+        isDataLoading: true,
+        currentPart: null,
+        partList: null,
+        isMicrophoneAvailable: true,
+        numberOfMeasures: "0",
+        hasAlreadyRenderedOnce: false,
+        pageType: null
+    };
+
+    _alphaTabWrapperRef = createRef(); // A reference to the AlphaTab wrapper element
+
+    /**
+     * Initializes the AlphaTab API
+     * Initializes pitch detection
+     * Displays the piece of music on the screen
+     */
+    componentDidMount() {
+        initializeAlphaTabApi();
+        alphaTabVars.api.addPostRenderFinished(this.alphaTabRendered);
+        this.initializePitchDetection();
+        this.prepareMusic();
+    }
+
+    static getDerivedStateFromProps(newProps) {
+        return {
+            pageType: newProps.location.pathname.substring(
+                newProps.location.pathname.lastIndexOf("/") + 1
+            )
+        };
+    }
+
+    componentDidUpdate(_, prevState) {
+        if (prevState.pageType !== this.state.pageType) {
+            this.prepareMusic();
+        }
+    }
+
+    /**
+     * Destroys the AlphaTab API
+     * Removes the P5 drawer
+     * Stops pitch detection
+     */
+    componentWillUnmount() {
+        destroyAlphaTabApi();
+        alphaTabVars.api.removePostRenderFinished(this.alphaTabRendered);
+    }
+
+    alphaTabRendered = () => {
+        this.setState({ isAlphaTabLoading: false });
+    };
+
+    /**
+     * Initializes AlphaTab
+     * Initializes pitch detection
+     * Initializes the drawer
+     * Gets the piece of sheet music
+     * Renders AlphaTab
+     * @returns - A promise
+     */
+    prepareMusic = async () => {
+        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
+        let loadSheetMusic;
+
+        // Chooses the correct sheet music and drawing based on the given pageType prop
+        switch (this.state.pageType) {
+            case musicPageOptions.PRACTICE:
+                loadSheetMusic = changeToSheetMusic;
+                break;
+            case musicPageOptions.PERFORMANCE:
+                loadSheetMusic = changeToPerformance;
+                break;
+            case musicPageOptions.EXERCISE:
+                loadSheetMusic = changeToExercise.bind(
+                    this,
+                    parseInt(this.props.exercise.startMeasure, 10),
+                    parseInt(this.props.exercise.endMeasure, 10)
+                );
+                break;
+            default:
+                console.log(
+                    `${this.state.pageType} is not valid. See musicPageOptions.js for options. No music was loaded.`
+                );
+        }
+
+        await loadSheetMusic();
+
+        if (this.state.pageType === musicPageOptions.EXERCISE) {
+            this.props.exerciseGenerated();
+        }
+
+        this.setState({
+            isDataLoading: false,
+            currentPart: getMyPart(),
+            partList: ["Just My Part"].concat(getPartList()),
+            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
+        });
+    };
+
+    /**
+     * Sets up ML5 pitch detection
+     */
+    initializePitchDetection = async () => {
+        // Prepares for microphone input sets up the pitch detection model
+        try {
+            await setupPitchDetection();
+            // Timeout gives extra time for the microphone and pitch detection to set up
+            // There appears to be UI-blocking code even though the async code waits
+            setTimeout(
+                () =>
+                    this.setState({
+                        isPitchDetectionLoading: false,
+                        isMicrophoneAvailable: true
+                    }),
+                2000
+            );
+        } catch (error) {
+            this.props.showAlert(
+                alertBarTypes.WARNING,
+                "No Microphone",
+                "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
+            );
+            this.setState({ isMicrophoneAvailable: false });
+            sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
+        }
+    };
+
+    /**
+     * Destroys the AlphaTab API before going back a page
+     */
+    backButtonClickedHandler = () => {
+        this.props.history.goBack();
+    };
+
+    switchToNewMusicPage = pageType => {
+        this.updateMusicPage();
+        const routeUrl = this.getNewUrl(pageType);
+        this.props.history.replace(routeUrl);
+    };
+
+    updateMusicPage = () => {
+        stopPlayingMusic();
+        this._alphaTabWrapperRef.current.scrollLeft = 0;
+        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
+    }
+
+    getNewUrl = pageType => {
+        return `${this.props.location.pathname.substring(
+            0,
+            this.props.location.pathname.lastIndexOf("/")
+        )}/${pageType}`;
+    };
+
+    /**
+     * Changes the track number on AlphaTab to the new partIndex
+     * Updates state to reflect the new part value
+     * @param index - The index of the selected part based on the original array
+     * @param value - The value (name) of the selected part
+     */
+    onPartChangeHandler = async (index, value) => {
+        this.updateMusicPage();
+        if (this.state.currentPart === "Just My Part") {
+            // Switches back to all sheet music
+            await loadTex(value);
+        } else if (index === 0) {
+            // Loads just my part
+            await loadJustMyPart();
+        } else {
+            // "Just My Part" option is not directly included in the track list, but is the first option (index 0), so we need index - 1
+            await changePart(`t${index - 1}`);
+        }
+
+        this.setState({
+            isDataLoading: false,
+            currentPart: value,
+            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
+        });
+    };
+
+    getLoadingComponent = () => {
+        let message;
+        switch (this.state.pageType) {
+            case musicPageOptions.PRACTICE:
+                message = "Loading music...";
+                break;
+            case musicPageOptions.PERFORMANCE:
+                message = "Loading performance...";
+                break;
+            case musicPageOptions.EXERCISE:
+                message = "Loading exercise...";
+                break;
+            default:
+                message = "Loading music...";
+        }
+
+        return (
+            &lt;div className={styles.musicLoadingContainer}>
+                &lt;LoadingContainer message={message} />
+            &lt;/div>
+        );
+    };
+
+    getPageHeaderComponent = () => {
+        const matchUrl = this.props.match.url;
+        return (
+            &lt;Switch>
+                &lt;Route path={`${matchUrl}/practice`}>
+                    &lt;PracticeMusicHeader
+                        pageType={this.state.pageType}
+                        currentPart={this.state.currentPart}
+                        partList={this.state.partList}
+                        onPartChange={this.onPartChangeHandler}
+                        switchToPerformance={() =>
+                            this.switchToNewMusicPage(musicPageOptions.PERFORMANCE)
+                        }
+                    />
+                &lt;/Route>
+                &lt;Route path={`${matchUrl}/performance`}>
+                    &lt;MusicPerformanceHeader
+                        numberOfMeasures={this.state.numberOfMeasures}
+                        switchToPractice={() =>
+                            this.switchToNewMusicPage(musicPageOptions.PRACTICE)
+                        }
+                        switchToExercise={() =>
+                            this.switchToNewMusicPage(musicPageOptions.EXERCISE)
+                        }
+                    />
+                &lt;/Route>
+                &lt;Route path={`${matchUrl}/exercise`}>
+                    &lt;PracticeMusicHeader
+                        pageType={this.state.pageType}
+                        switchToPractice={() =>
+                            this.switchToNewMusicPage(musicPageOptions.PRACTICE)
+                        }
+                        switchToPerformance={() =>
+                            this.switchToNewMusicPage(musicPageOptions.PERFORMANCE)
+                        }
+                    />
+                &lt;/Route>
+            &lt;/Switch>
+        );
+    };
+
+    getPageHeading = () => {
+        switch (this.state.pageType) {
+            case musicPageOptions.PRACTICE:
+                return this.state.isMicrophoneAvailable
+                    ? "Practice"
+                    : "Playback - No Microphone Available";
+            case musicPageOptions.PERFORMANCE:
+                return "Performance";
+            case musicPageOptions.EXERCISE:
+                return this.state.isMicrophoneAvailable
+                    ? `Exercise (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure})`
+                    : `Exercise Playback (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure}) - No Microphone Available`;
+            default:
+                return "Practice";
+        }
+    };
+
+    /**
+     * Renders the PracticeSheetMusic component
+     * The sketch and AlphaTex are not displayed via React, but via direct DOM manipulation
+     */
+    render() {
+        const isLoading =
+            this.state.isAlphaTabLoading ||
+            this.state.isPitchDetectionLoading ||
+            this.state.isDataLoading;
+        let component = isLoading ? this.getLoadingComponent() : this.getPageHeaderComponent();
+
+        // Returns the JSX to display
+        return (
+            &lt;main className={styles.music}>
+                &lt;PageHeader
+                    heading={this.getPageHeading()}
+                    shouldDisplayBackButton={true}
+                    backButtonTitle={"Music Selection"}
+                    backButtonClickedHandler={this.backButtonClickedHandler}
+                />
+                &lt;div className={styles.musicMain}>
+                    {component}
+                    &lt;section id='alpha-tab-wrapper' ref={this._alphaTabWrapperRef}>
+                        &lt;div id='sketch-holder'>&lt;/div>
+                        &lt;div id='alpha-tab-container'>&lt;/div>
+                    &lt;/section>
+                &lt;/div>
+            &lt;/main>
+        );
+    }
+}
+
+// Prop types for the Music component
+Music.propTypes = {
+    showAlert: PropTypes.func.isRequired,
+    exercise: PropTypes.shape({
+        startMeasure: PropTypes.string,
+        endMeasure: PropTypes.string
+    })
+};
+
+/**
+ * Gets the current state from Redux and passes it to the Music component as props
+ * @param {object} state - The Redux state
+ */
+const mapStateToProps = state => {
+    return {
+        exercise: state.practice.exercise
+    };
+};
+
+/**
+ * Passes certain redux actions to the Music component
+ * @param {function} dispatch - The react-redux dispatch function
+ */
+const mapDispatchToProps = dispatch => {
+    return {
+        exerciseGenerated: () => dispatch(exerciseGenerated())
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Music));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 01 2020 20:54:15 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

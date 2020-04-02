@@ -1,13 +1,3 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/App/App.js
-// Description:
-    * Renders the App
-    * Handles routing to main pages
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 12/31/2019
----------------------------------------------------------------------------- */
-
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -21,12 +11,22 @@ import Welcome from "../pages/Welcome/Welcome";
 import Primary from "../pages/Primary/Primary";
 
 // File imports
-import { setBrowserType } from "../store/actions";
+import { setBrowserType } from "../store/actions/index";
 
 // Style imports
 import "normalize.css";
 import "./App.scss";
 
+/**
+ * Renders the top level of the app
+ *
+ * @author Dan Levy <danlevy124@gmail.com>
+ * @component
+ * @example
+ * return (
+ *  <App>
+ * )
+ */
 class App extends Component {
     constructor(props) {
         super(props);
