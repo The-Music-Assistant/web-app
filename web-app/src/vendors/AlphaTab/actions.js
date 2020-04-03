@@ -13,7 +13,8 @@ import {
     getSpecificSheetMusic,
     getPartSheetMusic,
     getExercise,
-    getSinglePartSheetMusic
+    getSinglePartSheetMusic,
+    getPerformanceProgress
 } from "../../vendors/AWS/tmaApi";
 import TexLoaded from "./TexLoaded";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
@@ -301,8 +302,6 @@ const loadExercise = async (measureStart, measureEnd) => {
         // TODO: Save responses so that we don't have to ask for them each time. Note: You will still need to save this as an exercise count
         const exerciseResponse = await getExercise(data);
 
-        console.log(exerciseResponse.data.lower_upper);
-
         // update wrapper about new sheet music and re render
         atVars.texLoaded.update(
             "Exercise",
@@ -366,6 +365,14 @@ export const loadTex = async partName => {
                 1,
                 1
             );
+        }
+
+        if (atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING) {
+            let data = {
+                sheetMusicId: store.getState().practice.selectedSheetMusicId
+            }
+            let performanceProgress = await getPerformanceProgress(data);
+            atVars.texLoaded.setPerformanceProgress(performanceProgress.data.averagePerformance);
         }
 
         // Isolates the user's part from the part list setting it to be the displayed track when alpha tab renders

@@ -30,6 +30,7 @@ class TexLoaded {
         this.measureEnd = measureEnd;
         this.performanceId = null;
         this.sheetMusicId = sheetMusicId;
+        this.performanceProgress = [];
     }
 
     /**
@@ -119,6 +120,11 @@ class TexLoaded {
         this.id = id;
         this.measureStart = measureStart;
         this.measureEnd = measureEnd;
+        this.performanceProgress.length = 0;
+    }
+
+    setPerformanceProgress(progress) {
+        this.performanceProgress.push(...progress);
     }
 
     getStartOctave() {

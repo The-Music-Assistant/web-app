@@ -8,9 +8,9 @@
 
 import axios from "axios";
 
-// axios.defaults.baseURL = "http://localhost:2765";
+axios.defaults.baseURL = "http://localhost:2765";
 
-axios.defaults.baseURL = "https://server.music-assistant.com/";
+// axios.defaults.baseURL = "https://server.music-assistant.com/";
 // axios.defaults.timeout = 3000;
 
 /**
@@ -341,3 +341,16 @@ export const getSinglePartSheetMusic = data => {
 export const pickPartInSheetMusic = data => {
     return axios.put("/sheet-music-part", data);
 };
+
+/**
+ * Gets performance progress of member for the given piece of sheet music
+ * @param {Object} data
+ * @param {string} data.sheetMusicId - The sheet music id to which the part for the member is being added
+ */
+export const getPerformanceProgress = data => {
+    return axios.request({
+        method: "GET",
+        url: `/performance-progress`,
+        params: data
+    });
+}
