@@ -100,8 +100,6 @@ const p5FeedbackSketch = p => {
             atVars.shouldResetDrawPositions = false;
             barCursor = document.getElementById("bC");
             alphaTabSurface = document.getElementById("aTS");
-            
-            updateDrawerLines();
         }
 
         // handles clearing ahead and drawing line behind the note head
@@ -116,6 +114,13 @@ const p5FeedbackSketch = p => {
                 alphaTabSurface.clientWidth - previousPos[0],
                 alphaTabSurface.clientHeight
             );
+    
+            if (previousPos[2] !== -1) {
+                // If there is any confusion in the player then this will help keep the drawing at the right height
+                if (previousPos[0] < previousPos[2]) {
+                    updateDrawerLines();
+                }
+            }
 
             // don't draw silence which has special value -1 or if we don't have a previous point
             if (
@@ -124,10 +129,6 @@ const p5FeedbackSketch = p => {
                 previousPos[2] !== -1 &&
                 previousPos[3] !== -1
             ) {
-                // If there is any confusion in the player then this will help keep the drawing at the right height
-                if (previousPos[0] < previousPos[2]) {
-                    updateDrawerLines();
-                }
                 if (atVars.noteStream[atVars.noteStreamIndex] === -1) {
                     // singing should be silent
                     p.stroke(255, 0, 0);
