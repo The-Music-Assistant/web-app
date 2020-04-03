@@ -11,7 +11,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 // Image imports
-import cameraImg from "../../../assets/icons/camera-white-fa.svg";
+import cameraImg from "../../../assets/icons/camera-icon-white.svg";
 import { choirSelectionError } from "../../../vendors/Firebase/logs";
 
 // Style imports
@@ -20,7 +20,7 @@ import styles from "./ChoirCard.module.scss";
 class ChoirCard extends Component {
     // Component state
     state = {
-        imgLoadingError: false
+        imgLoadingError: false,
     };
 
     /**
@@ -114,7 +114,7 @@ ChoirCard.propTypes = {
     description: PropTypes.string,
     noDescription: PropTypes.bool.isRequired, // Is true for the "New Choir" and "View Pending Choir Requests" cards
     cardColor: PropTypes.string.isRequired,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
 };
 
 export default ChoirCard;
