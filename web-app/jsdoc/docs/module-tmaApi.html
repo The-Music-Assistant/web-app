@@ -1,0 +1,2483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: tmaApi</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-tmaApi.html">tmaApi</a></li></ul><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="Pitch.html">Pitch</a></li></ul><h3>Components</h3><ul><li><a href="App.html">App</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphaTabPlayerFinished">alphaTabPlayerFinished</a></li><li><a href="global.html#alphaTabPlayerStateChanged">alphaTabPlayerStateChanged</a></li><li><a href="global.html#alphaTabPostRenderFinished">alphaTabPostRenderFinished</a></li><li><a href="global.html#appReducer">appReducer</a></li><li><a href="global.html#authError">authError</a></li><li><a href="global.html#authFlowComplete">authFlowComplete</a></li><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#changePart">changePart</a></li><li><a href="global.html#changeToExercise">changeToExercise</a></li><li><a href="global.html#choirSelectedForChoirs">choirSelectedForChoirs</a></li><li><a href="global.html#choirSelectedForPractice">choirSelectedForPractice</a></li><li><a href="global.html#choirsReducer">choirsReducer</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#displayMidi">displayMidi</a></li><li><a href="global.html#doNotShowWelcomePage">doNotShowWelcomePage</a></li><li><a href="global.html#exerciseGenerated">exerciseGenerated</a></li><li><a href="global.html#exerciseRequested">exerciseRequested</a></li><li><a href="global.html#getMyPart">getMyPart</a></li><li><a href="global.html#getNumberOfLedgerLines">getNumberOfLedgerLines</a></li><li><a href="global.html#getOctave">getOctave</a></li><li><a href="global.html#getPartList">getPartList</a></li><li><a href="global.html#getPlaybackRange">getPlaybackRange</a></li><li><a href="global.html#getSheetMusicLedgerHeights">getSheetMusicLedgerHeights</a></li><li><a href="global.html#handleAuthStateChanges">handleAuthStateChanges</a></li><li><a href="global.html#initializeAPI">initializeAPI</a></li><li><a href="global.html#initializeFeedbackDrawer">initializeFeedbackDrawer</a></li><li><a href="global.html#isPitchDetectionAvailable">isPitchDetectionAvailable</a></li><li><a href="global.html#loadExercise">loadExercise</a></li><li><a href="global.html#loadJustMyPart">loadJustMyPart</a></li><li><a href="global.html#mapDispatchToProps">mapDispatchToProps</a></li><li><a href="global.html#mapStateToProps">mapStateToProps</a></li><li><a href="global.html#musicSelectedForPractice">musicSelectedForPractice</a></li><li><a href="global.html#onFirstRender">onFirstRender</a></li><li><a href="global.html#onSubsequentRender">onSubsequentRender</a></li><li><a href="global.html#p5FeedbackSketch">p5FeedbackSketch</a></li><li><a href="global.html#p5PerformanceSketch">p5PerformanceSketch</a></li><li><a href="global.html#practiceReducer">practiceReducer</a></li><li><a href="global.html#resetSheetMusic">resetSheetMusic</a></li><li><a href="global.html#retrievedUsersName">retrievedUsersName</a></li><li><a href="global.html#retrievedUsersPictureUrl">retrievedUsersPictureUrl</a></li><li><a href="global.html#setupPitchDetection">setupPitchDetection</a></li><li><a href="global.html#showWelcomePage">showWelcomePage</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#signOutSuccess">signOutSuccess</a></li><li><a href="global.html#startAuthFlow">startAuthFlow</a></li><li><a href="global.html#startPitchDetection">startPitchDetection</a></li><li><a href="global.html#startPlayingMusic">startPlayingMusic</a></li><li><a href="global.html#startupDone">startupDone</a></li><li><a href="global.html#startupReducer">startupReducer</a></li><li><a href="global.html#stopPitchDetection">stopPitchDetection</a></li><li><a href="global.html#stopPlayingMusic">stopPlayingMusic</a></li><li><a href="global.html#timeToMeasureNumber">timeToMeasureNumber</a></li><li><a href="global.html#updateObject">updateObject</a></li><li><a href="global.html#userAuthenticated">userAuthenticated</a></li><li><a href="global.html#userNotAuthenticated">userNotAuthenticated</a></li><li><a href="global.html#usersNameRetrievalFailed">usersNameRetrievalFailed</a></li><li><a href="global.html#usersPictureUrlRetrievalFailed">usersPictureUrlRetrievalFailed</a></li><li><a href="global.html#welcomePageComplete">welcomePageComplete</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Module</p>
+                        <h1>tmaApi</h1>
+                    </header>
+                    
+                    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Ther server API for this app</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:danlevy124@gmail.com">Dan Levy</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line9">line 9</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Members</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+<h4 class="name" id=".acceptChoirMember">
+    <a class="href-link" href="#.acceptChoirMember">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        acceptChoirMember
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Accepts a given choir member into the given choir
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line111">line 111</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".addChoir">
+    <a class="href-link" href="#.addChoir">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        addChoir
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Adds a choir to the database
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line81">line 81</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".addPerformance">
+    <a class="href-link" href="#.addPerformance">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        addPerformance
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Adds a new performance for the current user for the provided sheet music and analyzes it immediately
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line243">line 243</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".addUser">
+    <a class="href-link" href="#.addUser">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        addUser
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Adds a user to the database
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line58">line 58</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".closeRunningPerformance">
+    <a class="href-link" href="#.closeRunningPerformance">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        closeRunningPerformance
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Closes out a running performance with the most recent data and asks to analyze it
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line269">line 269</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".constUpdateMember">
+    <a class="href-link" href="#.constUpdateMember">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        constUpdateMember
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Updates a choir member
+Must be an admin of the choir to update a member
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line281">line 281</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".deleteMember">
+    <a class="href-link" href="#.deleteMember">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        deleteMember
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Deletes a choir member
+Must be an admin of the choir to update a member
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line291">line 291</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getChoirMembers">
+    <a class="href-link" href="#.getChoirMembers">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getChoirMembers
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets the given choir members
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line97">line 97</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getExercise">
+    <a class="href-link" href="#.getExercise">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getExercise
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets the alphaTex for an exercise receiving {
+ sheet_music: (alphaTex for the generated exercise or null if not possible)
+ part_list: (Parts that a person can perform)
+ clefs: (Array with value for each track. Each track value is an array with clefs for each staff)
+ performance_expectation: (Array of pairs of numbers: midi_value, duration)
+ lower_upper: (2 valued array representing the lower and upper bound for the sheet music)
+ measure_lengths: (one value per array representing length in seconds)
+}
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line325">line 325</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getPartSheetMusic">
+    <a class="href-link" href="#.getPartSheetMusic">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getPartSheetMusic
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets a specific part from a specific piece of sheet music receiving {
+ performance_expectation: (Array of pairs of numbers: midi_value, duration)
+ lower_upper: (2 valued array representing the lower and upper bound for the sheet music)
+ measure_lengths: (one value per array representing length in seconds)
+}
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line209">line 209</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getPendingMembers">
+    <a class="href-link" href="#.getPendingMembers">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getPendingMembers
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets pending members of the given choir
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line130">line 130</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getSheetMusic">
+    <a class="href-link" href="#.getSheetMusic">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getSheetMusic
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets all sheet music for a choir receiving {
+  hex(sheet_music_id) - Hexed sheet music id for specific sheet music retrieval later
+  title - title of sheet music
+  composer_names - composer names
+}
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line173">line 173</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getSinglePartSheetMusic">
+    <a class="href-link" href="#.getSinglePartSheetMusic">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getSinglePartSheetMusic
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets the sheet music and performance data for the user's specific part receiving {
+ sheet_music: (AlphaTex for the part),
+ performance_expectation: The expected performance from the user,
+ lower_upper: The lower and upper notes to expect during the performance
+ measure_lengths: The lengths of each of the measures
+ part_names: Updated list of part names for this sheet music
+ clefs: Updated list of clefs for this sheet music
+ exerciseId: Since this is treated as exercise, the exercise id for this exercise
+}
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line346">line 346</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getSpecificSheetMusic">
+    <a class="href-link" href="#.getSpecificSheetMusic">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getSpecificSheetMusic
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets a specific piece of sheet music receiving {
+ sheet_music: (Alpha-Tex-Encoding),
+ part_list: (Parts that a person can perform)
+ clefs: (Array with value for each track. Each track value is an array with clefs for each staff)
+ part: (The part that the person sings in the choir)
+}
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line191">line 191</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getUser">
+    <a class="href-link" href="#.getUser">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getUser
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets the current user's first name, last name, and has picture boolean
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line47">line 47</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getUsersChoirs">
+    <a class="href-link" href="#.getUsersChoirs">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getUsersChoirs
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets the choirs that this user is a part of
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line88">line 88</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".getUsersPerformancesForSheetMusic">
+    <a class="href-link" href="#.getUsersPerformancesForSheetMusic">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        getUsersPerformancesForSheetMusic
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets all performances for the user for a given piece of sheet music
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line300">line 300</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".initializeRunningPerformance">
+    <a class="href-link" href="#.initializeRunningPerformance">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        initializeRunningPerformance
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Initalizes a performance for the current user for the provided sheet music recieves {
+ performance_id: Performance id of generated performance for updates
+}
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line229">line 229</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".joinChoir">
+    <a class="href-link" href="#.joinChoir">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        joinChoir
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Adds the user as a pending member of the given choir
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line160">line 160</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".pickPartInSheetMusic">
+    <a class="href-link" href="#.pickPartInSheetMusic">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        pickPartInSheetMusic
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Adds selected part to sheet music for given member receiving nothing
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line361">line 361</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".rejectChoirMember">
+    <a class="href-link" href="#.rejectChoirMember">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        rejectChoirMember
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Rejects a given choir member from entering the given choir
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line121">line 121</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".setAxiosAuthToken">
+    <a class="href-link" href="#.setAxiosAuthToken">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        setAxiosAuthToken
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Sets the Axios auth token
+The auth token only needs to be set when auth changes
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line32">line 32</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".updateRunningPerformance">
+    <a class="href-link" href="#.updateRunningPerformance">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        updateRunningPerformance
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Updates a stored performance with additional values
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line254">line 254</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".updateUser">
+    <a class="href-link" href="#.updateUser">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        updateUser
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Updates a user in the database
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line69">line 69</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id=".userGetsFeedback">
+    <a class="href-link" href="#.userGetsFeedback">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
+            <span class='tag'>constant</span>
+        
+    
+    <span class="code-name">
+        userGetsFeedback
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets if the user recieves feedback and recieves {
+ gets_feedback: (boolean true or false)
+}
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line145">line 145</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Type Definitions</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">object</span>
+
+
+    </span>
+
+<h4 class="name" id="~ServerError">
+    <a class="href-link" href="#~ServerError">#</a>
+    
+    <span class="code-name">
+        ServerError
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>response</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">object</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">The error response</td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>status</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">string</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">The error status code</td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>data</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">object</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">The error data (usually just a string)</td>
+</tr>
+
+  
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line20">line 20</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">object</span>
+
+
+    </span>
+
+<h4 class="name" id="~User">
+    <a class="href-link" href="#~User">#</a>
+    
+    <span class="code-name">
+        User
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>firstName</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">string</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">The user's first name</td>
+</tr>
+
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>lastName</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">string</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">The user's last name</td>
+</tr>
+
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>hasPicture</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">boolean</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Indicates whether the user has a profile picture</td>
+</tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line36">line 36</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Fri Apr 03 2020 10:40:29 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

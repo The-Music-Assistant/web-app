@@ -6,23 +6,43 @@
 // Created Date: 2/8/2020
 ---------------------------------------------------------------------------- */
 
+/**
+ * Ther server API for this app
+ *
+ * @module tmaApi
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
 import axios from "axios";
 
-// axios.defaults.baseURL = "http://localhost:2765";
-
 axios.defaults.baseURL = "https://server.music-assistant.com/";
-// axios.defaults.timeout = 3000;
+
+/**
+ * @typedef {object} ServerError
+ * @property {object} response - The error response
+ * @property {string} response.status - The error status code
+ * @property {object} response.data - The error data (usually just a string)
+ */
 
 /**
  * Sets the Axios auth token
+ * The auth token only needs to be set when auth changes
  * @param {string} authToken - The auth token to use for API requests
  */
-export const setAxiosAuthToken = authToken => {
+export const setAxiosAuthToken = (authToken) => {
     axios.defaults.headers.common["Authorization"] = authToken;
 };
 
 /**
+ * @typedef {object} User
+ * @property {string} firstName - The user's first name
+ * @property {string} lastName - The user's last name
+ * @property {boolean} hasPicture - Indicates whether the user has a profile picture
+ */
+
+/**
  * Gets the current user's first name, last name, and has picture boolean
+ * @returns {Promise<User|ServerError>} - A promise containing the user or an error
  */
 export const getUser = () => {
     return axios.get("/person");
@@ -35,7 +55,7 @@ export const getUser = () => {
  * @param {string} data.lastName - The user's last name
  * @param {bool} data.hasPicture - Indicates whether or not the user uploaded a picture
  */
-export const addUser = data => {
+export const addUser = (data) => {
     return axios.post("/person", data);
 };
 
@@ -46,7 +66,7 @@ export const addUser = data => {
  * @param {string} data.lastName - The user's last name
  * @param {boolean} data.hasPicture - Indicates whether or not the user uploaded a picture
  */
-export const updateUser = data => {
+export const updateUser = (data) => {
     return axios.put("/person", data);
 };
 
@@ -58,7 +78,7 @@ export const updateUser = data => {
  * @param {string} data.memberType - The member type of the member creating the choir
  * @param {string} memberRole - The member role of the member creating the choir
  */
-export const addChoir = data => {
+export const addChoir = (data) => {
     return axios.post("/choir", data);
 };
 
@@ -74,11 +94,11 @@ export const getUsersChoirs = () => {
  * @param {object} data
  * @param {string} data.choirId - The choir ID retrieve
  */
-export const getChoirMembers = data => {
+export const getChoirMembers = (data) => {
     return axios.request({
         method: "GET",
         url: "/choir/members",
-        params: data
+        params: data,
     });
 };
 
@@ -88,7 +108,7 @@ export const getChoirMembers = data => {
  * @param {object} data.memberId - The member ID of the member to accept
  * @param {string} data.choirId - The choir ID retrieve
  */
-export const acceptChoirMember = data => {
+export const acceptChoirMember = (data) => {
     return axios.put("/member/accept", data);
 };
 
@@ -98,7 +118,7 @@ export const acceptChoirMember = data => {
  * @param {object} data.memberId - The member ID of the member to reject
  * @param {string} data.choirId - The choir ID retrieve
  */
-export const rejectChoirMember = data => {
+export const rejectChoirMember = (data) => {
     return axios.put("/member/reject", data);
 };
 
@@ -107,11 +127,11 @@ export const rejectChoirMember = data => {
  * @param {object} data
  * @param {string} data.choirId - The choir ID of the choir to get pending members from
  */
-export const getPendingMembers = data => {
+export const getPendingMembers = (data) => {
     return axios.request({
         method: "GET",
         url: "/member/pending",
-        params: data
+        params: data,
     });
 };
 
@@ -122,11 +142,11 @@ export const getPendingMembers = data => {
  * @param {Object} data
  * @param {string} data.sheetMusicId - The sheet music the user is singing
  */
-export const userGetsFeedback = data => {
+export const userGetsFeedback = (data) => {
     return axios.request({
         method: "GET",
         url: `/member/gets-feedback`,
-        params: data
+        params: data,
     });
 };
 
@@ -137,7 +157,7 @@ export const userGetsFeedback = data => {
  * @param {string} data.memberRole - The member role that you are attempting to join as
  * @param {string} data.accessCode - The access code for the choir you are attempting to join
  */
-export const joinChoir = data => {
+export const joinChoir = (data) => {
     return axios.post("/member", data);
 };
 
@@ -150,11 +170,11 @@ export const joinChoir = data => {
  * @param data
  * @param {string} data.choirId - Will get all sheet music with this choir id which the user has access to
  */
-export const getSheetMusic = data => {
+export const getSheetMusic = (data) => {
     return axios.request({
         method: "GET",
         url: `/sheet-music`,
-        params: data
+        params: data,
     });
 };
 
@@ -168,11 +188,11 @@ export const getSheetMusic = data => {
  * @param {object} data
  * @param {string} data.sheetMusicId - The sheet music id to retrieve
  */
-export const getSpecificSheetMusic = data => {
+export const getSpecificSheetMusic = (data) => {
     return axios.request({
         method: "GET",
         url: "/sheet-music/specific",
-        params: data
+        params: data,
     });
 };
 
@@ -186,11 +206,11 @@ export const getSpecificSheetMusic = data => {
  * @param {string} data.sheetMusicId - The sheet music id to retrieve
  * @param {string} data.partName - The name of the part to be retrieved
  */
-export const getPartSheetMusic = data => {
+export const getPartSheetMusic = (data) => {
     return axios.request({
         method: "GET",
         url: "/sheet-music/part",
-        params: data
+        params: data,
     });
 };
 
@@ -206,7 +226,7 @@ export const getPartSheetMusic = data => {
  * @param {number} data.measureStart - Start of performance
  * @param {number} data.measureEnd - End of performance
  */
-export const initializeRunningPerformance = data => {
+export const initializeRunningPerformance = (data) => {
     return axios.post("/performance/new/no-analysis", data);
 };
 
@@ -220,7 +240,7 @@ export const initializeRunningPerformance = data => {
  * @param {number} data.measureStart - Start of performance
  * @param {number} data.measureEnd - End of performance
  */
-export const addPerformance = data => {
+export const addPerformance = (data) => {
     return axios.post("/performance/new/analysis", data);
 };
 
@@ -231,7 +251,7 @@ export const addPerformance = data => {
  * @param {string} data.performanceId - The performance id to update
  * @param {string} data.sheetMusicId - The sheet music id for the performance
  */
-export const updateRunningPerformance = data => {
+export const updateRunningPerformance = (data) => {
     return axios.put("/performance/no-analysis", data);
 };
 
@@ -246,7 +266,7 @@ export const updateRunningPerformance = data => {
  * @param {number} data.measureStart - Start of performance
  * @param {number} data.measureEnd - End of performance
  */
-export const closeRunningPerformance = data => {
+export const closeRunningPerformance = (data) => {
     return axios.put("/performance/analysis", data);
 };
 
@@ -258,7 +278,7 @@ export const closeRunningPerformance = data => {
  * @param {string} data.memberType
  * @param {string} data.memberRole
  */
-export const constUpdateMember = data => {
+export const constUpdateMember = (data) => {
     return axios.put("/member/update", data);
 };
 
@@ -268,7 +288,7 @@ export const constUpdateMember = data => {
  * @param {object} data
  * @param {string} data.memberId
  */
-export const deleteMember = data => {
+export const deleteMember = (data) => {
     return axios.delete("/member", data);
 };
 
@@ -277,11 +297,11 @@ export const deleteMember = data => {
  * @param {object} data
  * @param {string} data.sheetMusicId
  */
-export const getUsersPerformancesForSheetMusic = data => {
+export const getUsersPerformancesForSheetMusic = (data) => {
     return axios.request({
         method: "GET",
         url: "/performance/all",
-        params: data
+        params: data,
     });
 };
 
@@ -302,11 +322,11 @@ export const getUsersPerformancesForSheetMusic = data => {
  * @param {number} data.measureEnd - The measure number to end with
  * @param {Boolean} data.isDurationExercise - If true, generates a duration exercise otherwise just a normal exercise
  */
-export const getExercise = data => {
+export const getExercise = (data) => {
     return axios.request({
         method: "GET",
         url: `/exercise`,
-        params: data
+        params: data,
     });
 };
 
@@ -323,11 +343,11 @@ export const getExercise = data => {
  * @param {Object} data
  * @param {string} data.sheetMusicId - The sheet music id to retrieve the part from
  */
-export const getSinglePartSheetMusic = data => {
+export const getSinglePartSheetMusic = (data) => {
     return axios.request({
         method: "GET",
         url: `/sheet-music-part`,
-        params: data
+        params: data,
     });
 };
 
@@ -338,6 +358,6 @@ export const getSinglePartSheetMusic = data => {
  * @param {string} data.part - The part from the sheet music that the member is selecting
  * @param {string} data.memberId - The member who is selecting a part
  */
-export const pickPartInSheetMusic = data => {
+export const pickPartInSheetMusic = (data) => {
     return axios.put("/sheet-music-part", data);
 };
