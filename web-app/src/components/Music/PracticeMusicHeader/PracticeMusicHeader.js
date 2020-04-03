@@ -25,7 +25,7 @@ import * as musicPageOptions from "../../Music/musicPageOptions";
 // Style imports
 import styles from "./PracticeMusicHeader.module.scss";
 
-const PracticeMusicHeader = props => {
+const PracticeMusicHeader = (props) => {
     const getPartSelectionDropdownOrPracticeMusicButton = () => {
         return props.pageType === musicPageOptions.PRACTICE ? (
             <SelectInput
@@ -51,15 +51,17 @@ const PracticeMusicHeader = props => {
         <div className={styles.PracticeMusicHeader}>
             {getPartSelectionDropdownOrPracticeMusicButton()}
             <MusicControls />
-            <div className={styles.PracticeMusicHeaderViewPerformanceButton}>
-                <RectangularButton
-                    type={buttonTypes.BUTTON}
-                    value='performance'
-                    text='View Performance'
-                    backgroundColor={rectButtonColorOptions.GREEN}
-                    onClick={props.switchToPerformance}
-                />
-            </div>
+            {props.doesUserGetFeedback ? (
+                <div className={styles.PracticeMusicHeaderViewPerformanceButton}>
+                    <RectangularButton
+                        type={buttonTypes.BUTTON}
+                        value='performance'
+                        text='View Performance'
+                        backgroundColor={rectButtonColorOptions.GREEN}
+                        onClick={props.switchToPerformance}
+                    />
+                </div>
+            ) : null}
         </div>
     );
 };
@@ -69,13 +71,14 @@ PracticeMusicHeader.propTypes = {
     pageType: PropTypes.oneOf([
         musicPageOptions.PRACTICE,
         musicPageOptions.PERFORMANCE,
-        musicPageOptions.EXERCISE
+        musicPageOptions.EXERCISE,
     ]),
     currentPart: PropTypes.string,
     partList: PropTypes.arrayOf(PropTypes.string),
     onPartChange: PropTypes.func,
     switchToPractice: PropTypes.func,
-    switchToPerformance: PropTypes.func.isRequired
+    switchToPerformance: PropTypes.func.isRequired,
+    doesUserGetFeedback: PropTypes.bool.isRequired,
 };
 
 export default withRouter(PracticeMusicHeader);

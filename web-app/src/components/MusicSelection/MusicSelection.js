@@ -19,10 +19,10 @@ import MusicCard from "./MusicCard/MusicCard";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
 // File imports
-import { getSheetMusic } from "../../vendors/AWS/tmaApi";
+import { getSheetMusic, doesUserGetFeedback } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { musicSelectionError } from "../../vendors/Firebase/logs";
-import { musicSelectedForPractice } from "../../store/actions";
+import { musicSelectedForPractice, setUserGetsFeedback } from "../../store/actions/index";
 
 // Style imports
 import styles from "./MusicSelection.module.scss";
@@ -31,7 +31,7 @@ class MusicSelection extends Component {
     // Component state
     state = {
         isLoading: true,
-        music: null
+        music: null,
     };
 
     // Indicates whether the component is mounted or not
@@ -52,11 +52,15 @@ class MusicSelection extends Component {
 
         // Gets music
         getSheetMusic({ choirId: this.props.choirId })
-            .then(snapshot => {
-                if (this._isMounted)
-                    this.setState({ isLoading: false, music: snapshot.data.sheet_music });
+            .then((snapshot) => {
+                if (this._isMounted) this.setState({ music: snapshot.data.sheet_music });
             })
-            .catch(error => {
+            .then(doesUserGetFeedback.bind(this, { choirId: this.props.choirId }))
+            .then((snapshot) => {
+                this.props.setUserGetsFeedback(snapshot.data.gets_feedback);
+                if (this._isMounted) this.setState({ isLoading: false });
+            })
+            .catch((error) => {
                 musicSelectionError(
                     error.response.status,
                     error.response.data,
@@ -67,7 +71,7 @@ class MusicSelection extends Component {
             });
     };
 
-    viewSongClickedHandler = id => {
+    viewSongClickedHandler = (id) => {
         if (this.props.isMobileBrowser) {
             this.showMobileBrowserAlert();
         } else {
@@ -76,7 +80,7 @@ class MusicSelection extends Component {
         }
     };
 
-    viewPerformanceClickedHandler = id => {
+    viewPerformanceClickedHandler = (id) => {
         if (this.props.isMobileBrowser) {
             this.showMobileBrowserAlert();
         } else {
@@ -108,7 +112,7 @@ class MusicSelection extends Component {
         let colorIndex = -1;
 
         // The cards to return
-        return this.state.music.map(musicPiece => {
+        return this.state.music.map((musicPiece) => {
             // Gets the next color
             colorIndex++;
             if (colorIndex >= colors.length) {
@@ -122,9 +126,10 @@ class MusicSelection extends Component {
                     composers={musicPiece.composer_names}
                     cardColor={colors[colorIndex]}
                     viewSongClicked={() => this.viewSongClickedHandler(musicPiece.sheet_music_id)}
-                    viewExercisesClicked={() =>
+                    viewPerformanceClicked={() =>
                         this.viewPerformanceClickedHandler(musicPiece.sheet_music_id)
                     }
+                    shouldShowViewPerformancesButton={this.props.doesUserGetFeedback}
                 />
             );
         });
@@ -164,18 +169,19 @@ MusicSelection.propTypes = {
     choirId: PropTypes.string.isRequired,
     choirName: PropTypes.string.isRequired,
     showAlert: PropTypes.func.isRequired,
-    musicSelected: PropTypes.func.isRequired
+    musicSelected: PropTypes.func.isRequired,
 };
 
 /**
  * Gets the current state from Redux and passes it to the MusicSelection component as props
  * @param {object} state - The Redux state
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         choirId: state.practice.selectedChoirId,
         choirName: state.practice.selectedChoirName,
-        isMobileBrowser: state.app.isMobileBrowser
+        isMobileBrowser: state.app.isMobileBrowser,
+        doesUserGetFeedback: state.practice.doesUserGetFeedback,
     };
 };
 
@@ -183,9 +189,11 @@ const mapStateToProps = state => {
  * Passes certain redux actions to MusicSelection
  * @param {function} dispatch - The react-redux dispatch function
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        musicSelected: id => dispatch(musicSelectedForPractice(id))
+        musicSelected: (id) => dispatch(musicSelectedForPractice(id)),
+        setUserGetsFeedback: (doesUserGetFeedback) =>
+            dispatch(setUserGetsFeedback(doesUserGetFeedback)),
     };
 };
 

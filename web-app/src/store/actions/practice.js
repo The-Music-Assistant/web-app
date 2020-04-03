@@ -18,7 +18,7 @@ export const choirSelectedForPractice = (id, name) => {
     return {
         type: actionTypes.PRACTICE_CHOIR_SELECTED,
         id,
-        name
+        name,
     };
 };
 
@@ -26,10 +26,10 @@ export const choirSelectedForPractice = (id, name) => {
  * Returns the PRACTICE_SONG_SELECTED action type and sheet_music id
  * @param {string} id - The sheet music id
  */
-export const musicSelectedForPractice = id => {
+export const musicSelectedForPractice = (id) => {
     return {
         type: actionTypes.PRACTICE_SONG_SELECTED,
-        id
+        id,
     };
 };
 
@@ -42,7 +42,7 @@ export const exerciseRequested = (startMeasure, endMeasure) => {
     return {
         type: actionTypes.EXERCISE_REQUESTED,
         startMeasure,
-        endMeasure
+        endMeasure,
     };
 };
 
@@ -51,6 +51,17 @@ export const exerciseRequested = (startMeasure, endMeasure) => {
  */
 export const exerciseGenerated = () => {
     return {
-        type: actionTypes.EXERCISE_GENERATED
+        type: actionTypes.EXERCISE_GENERATED,
+    };
+};
+
+/**
+ * Returns the USER_GETS_FEEDBACK or USER_DOES_NOT_GET_FEEDBACK action type
+ */
+export const setUserGetsFeedback = (doesUserGetFeedback) => {
+    return {
+        type: doesUserGetFeedback
+            ? actionTypes.USER_GETS_FEEDBACK
+            : actionTypes.USER_DOES_NOT_GET_FEEDBACK,
     };
 };

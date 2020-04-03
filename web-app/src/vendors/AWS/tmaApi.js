@@ -122,7 +122,7 @@ export const getPendingMembers = data => {
  * @param {Object} data
  * @param {string} data.sheetMusicId - The sheet music the user is singing
  */
-export const userGetsFeedback = data => {
+export const doesUserGetFeedback = data => {
     return axios.request({
         method: "GET",
         url: `/member/gets-feedback`,

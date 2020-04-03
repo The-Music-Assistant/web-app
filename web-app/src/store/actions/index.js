@@ -15,7 +15,7 @@ export {
     doNotShowWelcomePage,
     welcomePageComplete,
     startAuthFlow,
-    signOut
+    signOut,
 } from "./auth";
 
 export { startupDone } from "./startup";
@@ -24,7 +24,8 @@ export {
     choirSelectedForPractice,
     musicSelectedForPractice,
     exerciseRequested,
-    exerciseGenerated
+    exerciseGenerated,
+    setUserGetsFeedback,
 } from "./practice";
 
 export { choirSelectedForChoirs } from "./choirs";

@@ -301,6 +301,8 @@ const loadExercise = async (measureStart, measureEnd) => {
         // TODO: Save responses so that we don't have to ask for them each time. Note: You will still need to save this as an exercise count
         const exerciseResponse = await getExercise(data);
 
+        console.log(exerciseResponse.data.lower_upper);
+
         // update wrapper about new sheet music and re render
         atVars.texLoaded.update(
             "Exercise",

@@ -15,7 +15,8 @@ const initialState = {
     selectedChoirId: null,
     selectedChoirName: null,
     selectedSheetMusicId: null,
-    exercise: null
+    exercise: null,
+    doesUserGetFeedback: null,
 };
 
 /**
@@ -28,7 +29,7 @@ const practiceReducer = (state = initialState, action) => {
         case actionTypes.PRACTICE_CHOIR_SELECTED:
             return updateObject(state, {
                 selectedChoirId: action.id,
-                selectedChoirName: action.name
+                selectedChoirName: action.name,
             });
         case actionTypes.PRACTICE_SONG_SELECTED:
             return updateObject(state, { selectedSheetMusicId: action.id });
@@ -36,11 +37,15 @@ const practiceReducer = (state = initialState, action) => {
             return updateObject(state, {
                 exercise: {
                     startMeasure: action.startMeasure,
-                    endMeasure: action.endMeasure
-                }
+                    endMeasure: action.endMeasure,
+                },
             });
         case actionTypes.EXERCISE_GENERATED:
             return state;
+        case actionTypes.USER_GETS_FEEDBACK:
+            return updateObject(state, { doesUserGetFeedback: true });
+        case actionTypes.USER_DOES_NOT_GET_FEEDBACK:
+            return updateObject(state, { doesUserGetFeedback: false });
         default:
             return state;
     }

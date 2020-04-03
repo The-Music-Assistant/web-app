@@ -29,7 +29,7 @@ import {
     loadTex,
     changeToPerformance,
     changeToExercise,
-    stopPlayingMusic
+    stopPlayingMusic,
 } from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
@@ -53,9 +53,10 @@ class Music extends Component {
         isMicrophoneAvailable: true,
         numberOfMeasures: "0",
         hasAlreadyRenderedOnce: false,
-        pageType: null
+        pageType: null,
     };
 
+    _isMounted = false; // Indicates whether the component is mounted
     _alphaTabWrapperRef = createRef(); // A reference to the AlphaTab wrapper element
 
     /**
@@ -64,9 +65,18 @@ class Music extends Component {
      * Displays the piece of music on the screen
      */
     componentDidMount() {
+        this._isMounted = true;
         initializeAlphaTabApi();
+        alphaTabVars.getsFeedback = this.props.doesUserGetFeedback;
         alphaTabVars.api.addPostRenderFinished(this.alphaTabRendered);
-        this.initializePitchDetection();
+        if (this.props.doesUserGetFeedback) {
+            this.initializePitchDetection();
+        } else {
+            this.setState({
+                isPitchDetectionLoading: false,
+                isMicrophoneAvailable: false,
+            });
+        }
         this.prepareMusic();
     }
 
@@ -74,7 +84,7 @@ class Music extends Component {
         return {
             pageType: newProps.location.pathname.substring(
                 newProps.location.pathname.lastIndexOf("/") + 1
-            )
+            ),
         };
     }
 
@@ -90,12 +100,13 @@ class Music extends Component {
      * Stops pitch detection
      */
     componentWillUnmount() {
+        this._isMounted = false;
         destroyAlphaTabApi();
         alphaTabVars.api.removePostRenderFinished(this.alphaTabRendered);
     }
 
     alphaTabRendered = () => {
-        this.setState({ isAlphaTabLoading: false });
+        if (this._isMounted) this.setState({ isAlphaTabLoading: false });
     };
 
     /**
@@ -107,7 +118,7 @@ class Music extends Component {
      * @returns - A promise
      */
     prepareMusic = async () => {
-        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
+        if (this._isMounted) this.setState({ isAlphaTabLoading: true, isDataLoading: true });
         let loadSheetMusic;
 
         // Chooses the correct sheet music and drawing based on the given pageType prop
@@ -131,18 +142,23 @@ class Music extends Component {
                 );
         }
 
-        await loadSheetMusic();
+        try {
+            await loadSheetMusic();
 
-        if (this.state.pageType === musicPageOptions.EXERCISE) {
-            this.props.exerciseGenerated();
+            if (this.state.pageType === musicPageOptions.EXERCISE) {
+                this.props.exerciseGenerated();
+            }
+
+            if (this._isMounted)
+                this.setState({
+                    isDataLoading: false,
+                    currentPart: getMyPart(),
+                    partList: ["Just My Part"].concat(getPartList()),
+                    numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString(),
+                });
+        } catch (error) {
+            sheetMusicError(error.response.status, error.response.data, ["Music/prepareMusic"]);
         }
-
-        this.setState({
-            isDataLoading: false,
-            currentPart: getMyPart(),
-            partList: ["Just My Part"].concat(getPartList()),
-            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
-        });
     };
 
     /**
@@ -154,21 +170,24 @@ class Music extends Component {
             await setupPitchDetection();
             // Timeout gives extra time for the microphone and pitch detection to set up
             // There appears to be UI-blocking code even though the async code waits
-            setTimeout(
-                () =>
+            setTimeout(() => {
+                if (this._isMounted)
                     this.setState({
                         isPitchDetectionLoading: false,
-                        isMicrophoneAvailable: true
-                    }),
-                2000
-            );
+                        isMicrophoneAvailable: true,
+                    });
+            }, 2000);
         } catch (error) {
             this.props.showAlert(
                 alertBarTypes.WARNING,
                 "No Microphone",
                 "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
             );
-            this.setState({ isMicrophoneAvailable: false });
+            if (this._isMounted)
+                this.setState({
+                    isPitchDetectionLoading: false,
+                    isMicrophoneAvailable: false,
+                });
             sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
         }
     };
@@ -180,7 +199,7 @@ class Music extends Component {
         this.props.history.goBack();
     };
 
-    switchToNewMusicPage = pageType => {
+    switchToNewMusicPage = (pageType) => {
         this.updateMusicPage();
         const routeUrl = this.getNewUrl(pageType);
         this.props.history.replace(routeUrl);
@@ -189,10 +208,10 @@ class Music extends Component {
     updateMusicPage = () => {
         stopPlayingMusic();
         this._alphaTabWrapperRef.current.scrollLeft = 0;
-        this.setState({ isAlphaTabLoading: true, isDataLoading: true });
-    }
+        if (this._isMounted) this.setState({ isAlphaTabLoading: true, isDataLoading: true });
+    };
 
-    getNewUrl = pageType => {
+    getNewUrl = (pageType) => {
         return `${this.props.location.pathname.substring(
             0,
             this.props.location.pathname.lastIndexOf("/")
@@ -218,11 +237,12 @@ class Music extends Component {
             await changePart(`t${index - 1}`);
         }
 
-        this.setState({
-            isDataLoading: false,
-            currentPart: value,
-            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
-        });
+        if (this._isMounted)
+            this.setState({
+                isDataLoading: false,
+                currentPart: value,
+                numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString(),
+            });
     };
 
     getLoadingComponent = () => {
@@ -261,6 +281,7 @@ class Music extends Component {
                         switchToPerformance={() =>
                             this.switchToNewMusicPage(musicPageOptions.PERFORMANCE)
                         }
+                        doesUserGetFeedback={this.props.doesUserGetFeedback}
                     />
                 </Route>
                 <Route path={`${matchUrl}/performance`}>
@@ -283,6 +304,7 @@ class Music extends Component {
                         switchToPerformance={() =>
                             this.switchToNewMusicPage(musicPageOptions.PERFORMANCE)
                         }
+                        doesUserGetFeedback={true}
                     />
                 </Route>
             </Switch>
@@ -292,9 +314,14 @@ class Music extends Component {
     getPageHeading = () => {
         switch (this.state.pageType) {
             case musicPageOptions.PRACTICE:
-                return this.state.isMicrophoneAvailable
-                    ? "Practice"
-                    : "Playback - No Microphone Available";
+                if (this.props.doesUserGetFeedback) {
+                    return this.state.isMicrophoneAvailable
+                        ? "Practice"
+                        : "Playback - No Microphone Available";
+                } else {
+                    return "Practice - No Feedback";
+                }
+
             case musicPageOptions.PERFORMANCE:
                 return "Performance";
             case musicPageOptions.EXERCISE:
@@ -343,17 +370,18 @@ Music.propTypes = {
     showAlert: PropTypes.func.isRequired,
     exercise: PropTypes.shape({
         startMeasure: PropTypes.string,
-        endMeasure: PropTypes.string
-    })
+        endMeasure: PropTypes.string,
+    }),
 };
 
 /**
  * Gets the current state from Redux and passes it to the Music component as props
  * @param {object} state - The Redux state
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        exercise: state.practice.exercise
+        exercise: state.practice.exercise,
+        doesUserGetFeedback: state.practice.doesUserGetFeedback,
     };
 };
 
@@ -361,9 +389,9 @@ const mapStateToProps = state => {
  * Passes certain redux actions to the Music component
  * @param {function} dispatch - The react-redux dispatch function
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        exerciseGenerated: () => dispatch(exerciseGenerated())
+        exerciseGenerated: () => dispatch(exerciseGenerated()),
     };
 };
 
