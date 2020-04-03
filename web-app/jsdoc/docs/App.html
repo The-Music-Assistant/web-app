@@ -97,6 +97,10 @@
 
     
     
+    <div class="description">
+        Sets up props
+    </div>
+    
 
 
 
@@ -127,7 +131,7 @@
             bool
           </td>
           <td>Yes</td>
-          <td></td>
+          <td>Indicates whether app startup is done</td>
           <td></td>
         </tr>
         
@@ -138,7 +142,7 @@
             bool
           </td>
           <td>No</td>
-          <td></td>
+          <td>Indicates whether there exists an authenticated user</td>
           <td></td>
         </tr>
         
@@ -149,7 +153,7 @@
             bool
           </td>
           <td>No</td>
-          <td></td>
+          <td>Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)</td>
           <td></td>
         </tr>
         
@@ -160,7 +164,7 @@
             bool
           </td>
           <td>Yes</td>
-          <td></td>
+          <td>Indicates whether this component should display the Welcome component</td>
           <td></td>
         </tr>
         
@@ -171,7 +175,7 @@
             func
           </td>
           <td>Yes</td>
-          <td></td>
+          <td>Sets the browser type (mobile or desktop) in Redux</td>
           <td></td>
         </tr>
         
@@ -181,6 +185,56 @@
     
 
 
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>props</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">See PropTypes</td>
+</tr>
+
+
+    
+    </tbody>
+</table>
 
 
 
@@ -228,7 +282,7 @@
         <p class="tag-source">
             <a href="App_App.js.html" class="button">View Source</a>
             <span>
-                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line31">line 31</a>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line40">line 40</a>
             </span>
         </p>
     
@@ -252,22 +306,6 @@
 
 
 
-
-
-    <h5>Example</h5>
-    
-    
-        
-
-<div id='91nv3e4gxbak8i1qo03'></div>
-
-<script>
-  ReactDOM.render(ReactWrapper({
-    example: "return (\n <App>\n)",
-    uniqId: "91nv3e4gxbak8i1qo03",
-  }), document.getElementById('91nv3e4gxbak8i1qo03'));
-</script>
-    
 
 
 </div>
@@ -298,11 +336,15 @@
             
                 <div class="member">
 
-<h4 class="name" id="getRedirect">
-    <a class="href-link" href="#getRedirect">#</a>
+<h4 class="name" id=".propTypes">
+    <a class="href-link" href="#.propTypes">#</a>
+    
+        
+            <span class='tag'>static</span>
+        
     
     <span class="code-name">
-        getRedirect
+        propTypes
     </span>
     
 </h4>
@@ -311,7 +353,7 @@
 
 
 <div class="description">
-    Gets the page to render
+    Prop types for the App component
 </div>
 
 
@@ -353,7 +395,77 @@
         <p class="tag-source">
             <a href="App_App.js.html" class="button">View Source</a>
             <span>
-                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line70">line 70</a>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line131">line 131</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="getRedirect">
+    <a class="href-link" href="#getRedirect">#</a>
+    
+    <span class="code-name">
+        getRedirect
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Determines which url to redirect to.
+Uses React Router's Redirect component.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="App_App.js.html" class="button">View Source</a>
+            <span>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line77">line 77</a>
             </span>
         </p>
     
@@ -380,15 +492,15 @@
 
 
 <div class="description">
-    Determines if the browser is mobile or not
+    Determines if the browser is mobile or not.
 Mobile device check includes:
-iPhone
-iPod
-iPad (pre-iPad OS)
-Android
-WebOS (Palm phone)
-BlackBerry
-Windows Phone
+iPhone,
+iPod,
+iPad (pre-iPad OS),
+Android,
+WebOS (Palm phone),
+BlackBerry, and
+Windows Phone.
 </div>
 
 
@@ -430,7 +542,7 @@ Windows Phone
         <p class="tag-source">
             <a href="App_App.js.html" class="button">View Source</a>
             <span>
-                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line50">line 50</a>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line59">line 59</a>
             </span>
         </p>
     
@@ -520,7 +632,7 @@ Windows Phone
         <p class="tag-source">
             <a href="App_App.js.html" class="button">View Source</a>
             <span>
-                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line89">line 89</a>
+                <a href="App_App.js.html">App/App.js</a>, <a href="App_App.js.html#line96">line 96</a>
             </span>
         </p>
     
@@ -570,7 +682,7 @@ Windows Phone
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 01 2020 20:54:15 GMT-0400 (Eastern Daylight Time)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Thu Apr 02 2020 12:43:08 GMT-0400 (Eastern Daylight Time)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

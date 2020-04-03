@@ -1,7 +1,16 @@
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import {
+    BrowserRouter,
+    Route,
+    /**
+     * The Redirect component offered by react-router
+     * @typedef {object} Redirect
+     */
+    Redirect,
+    Switch
+} from "react-router-dom";
 import { connect } from "react-redux";
 
 // Component imports
@@ -22,12 +31,12 @@ import "./App.scss";
  *
  * @author Dan Levy <danlevy124@gmail.com>
  * @component
- * @example
- * return (
- *  <App>
- * )
  */
 class App extends Component {
+    /**
+     * Sets up props
+     * @param {object} props - See PropTypes
+     */
     constructor(props) {
         super(props);
 
@@ -36,20 +45,20 @@ class App extends Component {
     }
 
     /**
-     * Determines if the browser is mobile or not
+     * Determines if the browser is mobile or not.
      * Mobile device check includes:
-     * iPhone
-     * iPod
-     * iPad (pre-iPad OS)
-     * Android
-     * WebOS (Palm phone)
-     * BlackBerry
-     * Windows Phone
+     * iPhone,
+     * iPod,
+     * iPad (pre-iPad OS),
+     * Android,
+     * WebOS (Palm phone),
+     * BlackBerry, and
+     * Windows Phone.
      * @returns - True is the browser is a mobile browser; false otherwise
      */
     isMobileBrowser = () => {
         const userAgent = navigator.userAgent;
-        if (
+        return (
             userAgent.match(/iPhone/i) ||
             userAgent.match(/iPod/i) ||
             userAgent.match(/iPad/i) ||
@@ -57,15 +66,13 @@ class App extends Component {
             userAgent.match(/webOS/i) ||
             userAgent.match(/BlackBerry/i) ||
             userAgent.match(/Windows Phone/i)
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+        );
     };
 
     /**
-     * Gets the page to render
+     * Determines which url to redirect to.
+     * Uses React Router's Redirect component.
+     * @returns {Redirect} - A Redirect component
      */
     getRedirect = () => {
         let redirect;
@@ -90,16 +97,27 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <div className='app'>
+                    {/* Redirects to the correct url */}
                     {this.getRedirect()}
                     <Switch>
-                        <Route path='/startup'>
-                            <Startup />
-                        </Route>
-                        {this.props.isStartupDone ? <Route component={Auth} path='/auth' /> : null}
                         {this.props.isStartupDone ? (
-                            <Route component={Welcome} path='/welcome' />
-                        ) : null}
-                        {this.props.isStartupDone ? <Route component={Primary} path='/' /> : null}
+                            {/* Protected routes */},
+                            [
+                                <Route key={1} path='/auth'>
+                                    <Auth />
+                                </Route>,
+                                <Route key={2} path='/welcome'>
+                                    <Welcome />
+                                </Route>,
+                                <Route key={3} path='/'>
+                                    <Primary />
+                                </Route>
+                            ]
+                        ) : (
+                            <Route>
+                                <Startup />
+                            </Route>
+                        )}
                     </Switch>
                 </div>
             </BrowserRouter>
@@ -107,18 +125,36 @@ class App extends Component {
     }
 }
 
-// Prop types for the App component
+/**
+ * Prop types for the App component
+ */
 App.propTypes = {
+    /**
+     * Indicates whether app startup is done
+     */
     isStartupDone: PropTypes.bool.isRequired,
+    /**
+     * Indicates whether there exists an authenticated user
+     */
     isAuthenticated: PropTypes.bool,
+    /**
+     * Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)
+     */
     isAuthFlowComplete: PropTypes.bool,
+    /**
+     * Indicates whether this component should display the Welcome component
+     */
     shouldShowWelcomePage: PropTypes.bool.isRequired,
+    /**
+     * Sets the browser type (mobile or desktop) in Redux
+     */
     setBrowserType: PropTypes.func.isRequired
 };
 
 /**
- * Gets the current state from Redux and passes it to the App component as props
+ * Gets the current state from Redux and passes parts of it to the App component as props
  * @param {object} state - The Redux state
+ * @returns {object} - Parts of the Redux state that are needed for the App component
  */
 const mapStateToProps = state => {
     return {
@@ -130,8 +166,9 @@ const mapStateToProps = state => {
 };
 
 /**
- * Passes certain redux actions to the App component
+ * Passes certain Redux actions to the App component as props
  * @param {function} dispatch - The react-redux dispatch function
+ * @returns {object} - Redux actions that are needed for the App component
  */
 const mapDispatchToProps = dispatch => {
     return {
