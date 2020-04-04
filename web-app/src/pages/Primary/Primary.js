@@ -28,6 +28,7 @@ import Footer from "../../components/Footer/Footer";
 // File imports
 import { signOut } from "../../store/actions";
 import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/routingOptions";
+import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -51,7 +52,7 @@ class Primary extends Component {
             isMobile: window.innerWidth < 768,
             showMobileNav: false,
             alertData: null,
-            mainNavTabs: this.getMainNavTabs()
+            mainNavTabs: this.getMainNavTabs(),
         };
     }
 
@@ -62,7 +63,11 @@ class Primary extends Component {
      * Creates an event listener for window resize
      */
     componentDidMount() {
-        // this.props.history.push("/practice-sheet-music");
+        this.showAlert(
+            alertBarTypes.INFO,
+            "A Reminder",
+            "Please use HEADPHONES when practicing! The piano interferes with your analysis."
+        );
         this._isMounted = true;
         window.addEventListener("resize", this.handleWindowResize);
     }
@@ -103,7 +108,7 @@ class Primary extends Component {
             route,
             blueIcon,
             whiteIcon,
-            isCurrentTab
+            isCurrentTab,
         };
     };
 
@@ -118,8 +123,8 @@ class Primary extends Component {
      * Shows or hides the hamburger menu based on window size
      */
     handleShowHamburgerMenu = () => {
-        this.setState(prevState => ({
-            showMobileNav: !prevState.showMobileNav
+        this.setState((prevState) => ({
+            showMobileNav: !prevState.showMobileNav,
         }));
     };
 
@@ -132,11 +137,11 @@ class Primary extends Component {
         }
     };
 
-    navLinkClickedHandler = key => {
+    navLinkClickedHandler = (key) => {
         if (this._isMounted) {
-            this.setState(prevState => {
+            this.setState((prevState) => {
                 const oldTabs = [...prevState.mainNavTabs];
-                const newTabs = oldTabs.map(tab => {
+                const newTabs = oldTabs.map((tab) => {
                     const newTab = { ...tab };
                     if (tab.key === key) {
                         newTab.isCurrentTab = true;
@@ -153,9 +158,9 @@ class Primary extends Component {
     /**
      * Sets alertData in state when a new alert is triggered
      */
-    showAlertHandler = (type, heading, message) => {
+    showAlert = (type, heading, message) => {
         this.setState({
-            alertData: { type, heading, message }
+            alertData: { type, heading, message },
         });
     };
 
@@ -177,7 +182,7 @@ class Primary extends Component {
                 <MobileNav
                     tabs={this.state.mainNavTabs}
                     show={this.state.showMobileNav}
-                    navLinkClicked={key => {
+                    navLinkClicked={(key) => {
                         this.handleShowHamburgerMenu();
                         this.navLinkClickedHandler(key);
                     }}
@@ -214,18 +219,18 @@ class Primary extends Component {
                 {mainNav}
                 <Switch>
                     <Route path='/practice/choirs/:choirId/music/:musicId'>
-                        <Music showAlert={this.showAlertHandler} />
+                        <Music showAlert={this.showAlert} />
                     </Route>
                     <Route path='/practice/choirs/:choirId'>
-                        <MusicSelection showAlert={this.showAlertHandler} />
+                        <MusicSelection showAlert={this.showAlert} />
                     </Route>
                     <Route path='/choirs/:choirId'>
-                        <ChoirMembers showAlert={this.showAlertHandler} />
+                        <ChoirMembers showAlert={this.showAlert} />
                     </Route>
                     <Route path='/practice'>
                         <ChoirSelection
                             routing={choirSelectionRoutingOptions.MUSIC_SELECTION}
-                            showAlert={this.showAlertHandler}
+                            showAlert={this.showAlert}
                         />
                     </Route>
                     <Route path='/progress'>
@@ -234,7 +239,7 @@ class Primary extends Component {
                     <Route path='/choirs'>
                         <ChoirSelection
                             routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
-                            showAlert={this.showAlertHandler}
+                            showAlert={this.showAlert}
                         />
                     </Route>
                     <Route path='/home'>
@@ -251,11 +256,11 @@ class Primary extends Component {
  * Gets the current state from Redux and passes it to the Primary component as props
  * @param {object} state - The Redux state
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         isStartupDone: state.startup.isDone,
         isAuthenticated: state.auth.isAuthenticated,
-        isAuthFlowComplete: state.auth.isAuthFlowComplete
+        isAuthFlowComplete: state.auth.isAuthFlowComplete,
     };
 };
 
@@ -263,9 +268,9 @@ const mapStateToProps = state => {
  * Passes certain redux actions to Primary
  * @param {function} dispatch - The react-redux dispatch function
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        signOut: () => dispatch(signOut())
+        signOut: () => dispatch(signOut()),
     };
 };
 
