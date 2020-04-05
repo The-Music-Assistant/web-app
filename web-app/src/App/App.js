@@ -27,8 +27,7 @@ import "normalize.css";
 import "./App.scss";
 
 /**
- * Renders the top level of the app
- *
+ * Renders the top level of the React app
  * @author Dan Levy <danlevy124@gmail.com>
  * @component
  */
@@ -54,7 +53,8 @@ class App extends Component {
      * WebOS (Palm phone),
      * BlackBerry, and
      * Windows Phone.
-     * @returns - True is the browser is a mobile browser; false otherwise
+     * @function
+     * @returns {boolean} - True is the browser is a mobile browser; false otherwise
      */
     isMobileBrowser = () => {
         const userAgent = navigator.userAgent;
@@ -72,7 +72,8 @@ class App extends Component {
     /**
      * Determines which url to redirect to.
      * Uses React Router's Redirect component.
-     * @returns {Redirect} - A Redirect component
+     * @function
+     * @returns {Redirect} A Redirect component
      */
     getRedirect = () => {
         let redirect;
@@ -91,7 +92,8 @@ class App extends Component {
     };
 
     /**
-     * Renders the App component (this is the root component)
+     * Renders the App component
+     * @returns {object} The JSX to render
      */
     render() {
         return (
@@ -99,6 +101,8 @@ class App extends Component {
                 <div className='app'>
                     {/* Redirects to the correct url */}
                     {this.getRedirect()}
+
+                    {/* Determines which component to display */}
                     <Switch>
                         {this.props.isStartupDone ? (
                             {/* Protected routes */},
@@ -114,6 +118,7 @@ class App extends Component {
                                 </Route>
                             ]
                         ) : (
+                            {/* Public route */},
                             <Route>
                                 <Startup />
                             </Route>
@@ -125,9 +130,7 @@ class App extends Component {
     }
 }
 
-/**
- * Prop types for the App component
- */
+// Prop types for the App component
 App.propTypes = {
     /**
      * Indicates whether app startup is done
@@ -152,9 +155,11 @@ App.propTypes = {
 };
 
 /**
- * Gets the current state from Redux and passes parts of it to the App component as props
+ * Gets the current state from Redux and passes parts of it to the App component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof App
  * @param {object} state - The Redux state
- * @returns {object} - Parts of the Redux state that are needed for the App component
+ * @returns {object} Redux state properties used in the App component
  */
 const mapStateToProps = state => {
     return {
@@ -166,9 +171,11 @@ const mapStateToProps = state => {
 };
 
 /**
- * Passes certain Redux actions to the App component as props
+ * Passes certain Redux actions to the App component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof App
  * @param {function} dispatch - The react-redux dispatch function
- * @returns {object} - Redux actions that are needed for the App component
+ * @returns {object} Redux actions used in the App component
  */
 const mapDispatchToProps = dispatch => {
     return {
