@@ -4,10 +4,6 @@ import PropTypes from "prop-types";
 import {
     BrowserRouter,
     Route,
-    /**
-     * The Redirect component offered by react-router
-     * @typedef {object} Redirect
-     */
     Redirect,
     Switch
 } from "react-router-dom";
@@ -33,7 +29,7 @@ import "./App.scss";
  */
 class App extends Component {
     /**
-     * Sets up props
+     * Sets up setBrowserType prop
      * @param {object} props - See PropTypes
      */
     constructor(props) {

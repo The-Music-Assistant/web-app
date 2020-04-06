@@ -27,3 +27,6 @@ reactComponents['App'] = Component0;
 
 import Component1 from '../../src/pages/Auth/Auth.js';
 reactComponents['Auth'] = Component1;
+
+import Component2 from '../../src/pages/Primary/Primary.js';
+reactComponents['Primary'] = Component2;

@@ -29,11 +29,11 @@ import styles from "./Auth.module.scss";
 class Auth extends Component {
     /**
      * Auth component state
-     * @property {authStages} authStage - The current auth stage (see authStages enum)
+     * @property {module:authStages} authStage - The current auth stage (see authStages enum)
      * @property {number} innerHeight - The inner height of the window (used to resize the component)
      * @property {boolean} isLoading - Indicates whether the component is in a loading state
      * @property {object} alertData - Data used to display an alert
-     * @property {alertBarTypes} alertData.type - The type of alert bar to show
+     * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
      * @property {string} alertData.heading - The alert heading
      * @property {string} alertData.message - The alert message
      */
@@ -101,7 +101,7 @@ class Auth extends Component {
      * Moves to the next auth stage when the current stage is complete.
      * If the flow is done, signals to Redux that the flow is done (sign in or sign up).
      * @function
-     * @param {authStages} - The auth stage that is complete (see authStages enum)
+     * @param {module:authStages} - The auth stage that is complete
      */
     authFlowStageDoneHandler = (stage) => {
         switch (stage) {

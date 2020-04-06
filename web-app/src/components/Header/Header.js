@@ -25,7 +25,7 @@ class Header extends Component {
     state = {
         profilePic: null,
         name: "Dan Levy",
-        timeOfDay: null
+        timeOfDay: null,
     };
 
     componentDidMount() {
@@ -56,7 +56,7 @@ class Header extends Component {
         let hamburgerMenu = null;
         let heading = null;
         let logo = null;
-        if (this.props.isMobile) {
+        if (this.props.isMobileScreenSize) {
             hamburgerMenu = <HamburgerMenu handleClick={this.props.hamburgerMenuClicked} />;
             logo = (
                 <img className={styles.headerLogo} src={tmaLogo} alt={"The Music Assistant Logo"} />
@@ -79,7 +79,7 @@ class Header extends Component {
 // Header prop types
 Header.propTypes = {
     isMobile: PropTypes.bool.isRequired,
-    hamburgerMenuClicked: PropTypes.func
+    hamburgerMenuClicked: PropTypes.func,
 };
 
 export default Header;

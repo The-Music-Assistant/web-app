@@ -8,6 +8,7 @@
 
 // NPM module imports
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import shortid from "shortid";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -42,27 +43,41 @@ import choirIconWhite from "../../assets/icons/choir-icon-white.svg";
 // Style imports
 import styles from "./Primary.module.scss";
 
+/**
+ * Renders the primary component.
+ * This is the container component for all of the components that should include a header, sidebar, and footer.
+ * @extends {Component}
+ * @author Dan Levy <danlevy124@gmail.com>
+ * @component
+ */
 class Primary extends Component {
+    /**
+     * Sets up state
+     * @param {object} props - See PropTypes
+     */
     constructor(props) {
         super(props);
 
         // Component state
         this.state = {
-            isMobile: window.innerWidth < 768,
+            isMobileScreenSize: window.innerWidth < 768,
             showMobileNav: false,
             alertData: null,
-            mainNavTabs: this.getMainNavTabs()
+            mainNavTabs: this.getMainNavTabs(),
         };
     }
 
-    // Indicates whether the component is mounted or not
+    /**
+     * Indicates whether the component is mounted or not.
+     * Used for asynchronous tasks.
+     * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+     */
     _isMounted = false;
 
     /**
      * Creates an event listener for window resize
      */
     componentDidMount() {
-        // this.props.history.push("/practice-sheet-music");
         this._isMounted = true;
         window.addEventListener("resize", this.handleWindowResize);
     }
@@ -75,8 +90,14 @@ class Primary extends Component {
         window.removeEventListener("resize", this.handleWindowResize);
     }
 
+    /**
+     * Generates the main navigation tabs
+     * @function
+     * @returns {array} An array of navigation tabs (data only, not JSX)
+     */
     getMainNavTabs = () => {
         const tabs = [];
+
         tabs.push(this.getMainNavTab("Home", "/home", homeIconBlue, homeIconWhite, false));
         tabs.push(
             this.getMainNavTab("Practice", "/practice", practiceIconBlue, practiceIconWhite, true)
@@ -85,16 +106,18 @@ class Primary extends Component {
             this.getMainNavTab("Progress", "/progress", progressIconBlue, progressIconWhite, false)
         );
         tabs.push(this.getMainNavTab("Choirs", "/choirs", choirIconBlue, choirIconWhite, false));
+
         return tabs;
     };
 
     /**
-     * Creates a main nav tab
+     * Creates a main navigation tab
+     * @function
      * @param {string} name - The tab name
      * @param {string} blueIcon - A blue version of the icon
      * @param {string} whiteIcon - A white version of the icon
-     * @param {boolean} isCurrent - Whether or not the tab is the current tab
-     * @returns - A tab object
+     * @param {boolean} isCurrent - Indicates whether the tab is the current tab
+     * @returns {object} A tab (data only, not JSX)
      */
     getMainNavTab = (name, route, blueIcon, whiteIcon, isCurrentTab) => {
         return {
@@ -103,28 +126,31 @@ class Primary extends Component {
             route,
             blueIcon,
             whiteIcon,
-            isCurrentTab
+            isCurrentTab,
         };
     };
 
     /**
      * Updates state when the window resizes
+     * @function
      */
     handleWindowResize = () => {
-        this.setState({ isMobile: window.innerWidth < 768 });
+        this.setState({ isMobileScreenSize: window.innerWidth < 768 });
     };
 
     /**
      * Shows or hides the hamburger menu based on window size
+     * @function
      */
     handleShowHamburgerMenu = () => {
-        this.setState(prevState => ({
-            showMobileNav: !prevState.showMobileNav
+        this.setState((prevState) => ({
+            showMobileNav: !prevState.showMobileNav,
         }));
     };
 
     /**
      * Gets confirmation from user and then signs the user out
+     * @function
      */
     signOutClickedHandler = () => {
         if (window.confirm("Do you want to sign out?")) {
@@ -132,19 +158,34 @@ class Primary extends Component {
         }
     };
 
-    navLinkClickedHandler = key => {
+    /**
+     * Updates the isCurrentTab boolean for all main navigation tabs based on the tab that was clicked on.
+     * Updates state with the new tabs (data only, not JSX)
+     * @function
+     * @param {string} key - The key of the tab that was clicked on (uses the same key prop that React uses)
+     */
+    navLinkClickedHandler = (key) => {
         if (this._isMounted) {
-            this.setState(prevState => {
+            this.setState((prevState) => {
+                // Makes a deep copy of the old main nav tabs
                 const oldTabs = [...prevState.mainNavTabs];
-                const newTabs = oldTabs.map(tab => {
+
+                // Generates the new main nav tabs
+                const newTabs = oldTabs.map((tab) => {
+                    // Makes a deep copy of the tab
                     const newTab = { ...tab };
+
+                    // Updates isCurrentTab boolean
                     if (tab.key === key) {
                         newTab.isCurrentTab = true;
                     } else {
                         newTab.isCurrentTab = false;
                     }
+
                     return newTab;
                 });
+
+                // Updates state with the new tabs
                 return { mainNavTabs: newTabs };
             });
         }
@@ -152,42 +193,47 @@ class Primary extends Component {
 
     /**
      * Sets alertData in state when a new alert is triggered
+     * @function
+     * @param {alertBarTypes} - The type of alert bar to show
+     * @param {string} - The alert heading
+     * @param {string} - The alert message
      */
     showAlertHandler = (type, heading, message) => {
         this.setState({
-            alertData: { type, heading, message }
+            alertData: { type, heading, message },
         });
     };
 
     /**
-     * Sets alertData to null in state when the alert is done
+     * Sets alertData in state to null in state when the alert disappears
+     * @function
      */
     alertIsDoneHandler = () => {
         this.setState({ alertData: null });
     };
 
     /**
-     * Renders the Primary component
+     * Gets the main navigation based on the screen size
+     * @function
+     * @returns {object} - A JSX element representing the main navigation
      */
-    render() {
-        let mainNav = null;
-        let footer = null;
-        if (this.state.isMobile) {
-            mainNav = (
+    getMainNav = () => {
+        if (this.state.isMobileScreenSize) {
+            // Returns the mobile navigation component
+            return (
                 <MobileNav
                     tabs={this.state.mainNavTabs}
                     show={this.state.showMobileNav}
-                    navLinkClicked={key => {
+                    navLinkClicked={(key) => {
                         this.handleShowHamburgerMenu();
                         this.navLinkClickedHandler(key);
                     }}
                     signOutClicked={this.signOutClickedHandler}
                 />
             );
-
-            footer = <Footer />;
         } else {
-            mainNav = (
+            // Returns the side navigation component
+            return (
                 <SideNav
                     tabs={this.state.mainNavTabs}
                     signOutClicked={this.signOutClickedHandler}
@@ -195,10 +241,17 @@ class Primary extends Component {
                 />
             );
         }
+    };
 
+    /**
+     * Renders the Primary component
+     * @returns {object} The JSX to render
+     */
+    render() {
         // Returns the JSX to display
         return (
             <div className={styles.primary}>
+                {/* Shows an alert if one exists */}
                 {this.state.alertData ? (
                     <AlertBar
                         type={this.state.alertData.type}
@@ -207,66 +260,78 @@ class Primary extends Component {
                         done={this.alertIsDoneHandler}
                     />
                 ) : null}
+
                 <Header
                     hamburgerMenuClicked={this.handleShowHamburgerMenu}
-                    isMobile={this.state.isMobile}
+                    isMobileScreenSize={this.state.isMobileScreenSize}
                 />
-                {mainNav}
+
+                {/* The main navigation */}
+                {this.getMainNav()}
+
+                {/* Determines which component to display */}
                 <Switch>
                     <Route path='/practice/choirs/:choirId/music/:musicId'>
                         <Music showAlert={this.showAlertHandler} />
                     </Route>
+
                     <Route path='/practice/choirs/:choirId'>
                         <MusicSelection showAlert={this.showAlertHandler} />
                     </Route>
+
                     <Route path='/choirs/:choirId'>
                         <ChoirMembers showAlert={this.showAlertHandler} />
                     </Route>
+
                     <Route path='/practice'>
                         <ChoirSelection
                             routing={choirSelectionRoutingOptions.MUSIC_SELECTION}
                             showAlert={this.showAlertHandler}
                         />
                     </Route>
+
                     <Route path='/progress'>
                         <Progress />
                     </Route>
+
                     <Route path='/choirs'>
                         <ChoirSelection
                             routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
                             showAlert={this.showAlertHandler}
                         />
                     </Route>
+
                     <Route path='/home'>
                         <Home />
                     </Route>
                 </Switch>
-                {footer}
+
+                {/* Displays a footer on mobile screen sizes */}
+                {this.state.isMobileScreenSize ? <Footer /> : null}
             </div>
         );
     }
 }
 
-/**
- * Gets the current state from Redux and passes it to the Primary component as props
- * @param {object} state - The Redux state
- */
-const mapStateToProps = state => {
-    return {
-        isStartupDone: state.startup.isDone,
-        isAuthenticated: state.auth.isAuthenticated,
-        isAuthFlowComplete: state.auth.isAuthFlowComplete
-    };
+// Prop types for the Primary component
+Primary.propTypes = {
+    /**
+     * Signs the user out
+     */
+    signOut: PropTypes.func.isRequired,
 };
 
 /**
- * Passes certain redux actions to Primary
+ * Passes certain Redux actions to the Primary component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof Primary
  * @param {function} dispatch - The react-redux dispatch function
+ * @returns {object} Redux actions used in the Primary component
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        signOut: () => dispatch(signOut())
+        signOut: () => dispatch(signOut()),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Primary);
+export default connect(null, mapDispatchToProps)(Primary);

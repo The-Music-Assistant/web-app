@@ -1,14 +1,5 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/App/App.js
-// Description: Server API for The Music Assistant
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/8/2020
----------------------------------------------------------------------------- */
-
 /**
- * Ther server API for this app
- *
+ * The server API for this app
  * @module tmaApi
  * @author Dan Levy <danlevy124@gmail.com>
  */
