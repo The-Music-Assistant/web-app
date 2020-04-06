@@ -1,12 +1,7 @@
 // NPM module imports
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import {
-    BrowserRouter,
-    Route,
-    Redirect,
-    Switch
-} from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 // Component imports
@@ -27,18 +22,7 @@ import "./App.scss";
  * @author Dan Levy <danlevy124@gmail.com>
  * @component
  */
-class App extends Component {
-    /**
-     * Sets up setBrowserType prop
-     * @param {object} props - See PropTypes
-     */
-    constructor(props) {
-        super(props);
-
-        // Sets the browser type (mobile or not mobile)
-        this.props.setBrowserType(this.isMobileBrowser());
-    }
-
+const App = (props) => {
     /**
      * Determines if the browser is mobile or not.
      * Mobile device check includes:
@@ -49,10 +33,9 @@ class App extends Component {
      * WebOS (Palm phone),
      * BlackBerry, and
      * Windows Phone.
-     * @function
      * @returns {boolean} - True is the browser is a mobile browser; false otherwise
      */
-    isMobileBrowser = () => {
+    const isMobileBrowser = () => {
         const userAgent = navigator.userAgent;
         return (
             userAgent.match(/iPhone/i) ||
@@ -65,20 +48,22 @@ class App extends Component {
         );
     };
 
+    // Sets the browser type (mobile or not mobile)
+    props.setBrowserType(isMobileBrowser());
+
     /**
      * Determines which url to redirect to.
      * Uses React Router's Redirect component.
-     * @function
      * @returns {Redirect} A Redirect component
      */
-    getRedirect = () => {
+    const getRedirect = () => {
         let redirect;
 
-        if (!this.props.isStartupDone) {
+        if (!props.isStartupDone) {
             redirect = <Redirect to='/startup' />;
-        } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
+        } else if (!props.isAuthenticated || !props.isAuthFlowComplete) {
             redirect = <Redirect to='/auth' />;
-        } else if (this.props.shouldShowWelcomePage) {
+        } else if (props.shouldShowWelcomePage) {
             redirect = <Redirect to='/welcome' />;
         } else {
             redirect = <Redirect to='/practice' />;
@@ -87,44 +72,43 @@ class App extends Component {
         return redirect;
     };
 
-    /**
-     * Renders the App component
-     * @returns {object} The JSX to render
-     */
-    render() {
-        return (
-            <BrowserRouter>
-                <div className='app'>
-                    {/* Redirects to the correct url */}
-                    {this.getRedirect()}
+    // Returns the JSX to render
+    return (
+        <BrowserRouter>
+            <div className='app'>
+                {/* Redirects to the correct url */}
+                {getRedirect()}
 
-                    {/* Determines which component to display */}
-                    <Switch>
-                        {this.props.isStartupDone ? (
-                            {/* Protected routes */},
-                            [
-                                <Route key={1} path='/auth'>
-                                    <Auth />
-                                </Route>,
-                                <Route key={2} path='/welcome'>
-                                    <Welcome />
-                                </Route>,
-                                <Route key={3} path='/'>
-                                    <Primary />
-                                </Route>
-                            ]
-                        ) : (
-                            {/* Public route */},
-                            <Route>
-                                <Startup />
-                            </Route>
-                        )}
-                    </Switch>
-                </div>
-            </BrowserRouter>
-        );
-    }
-}
+                {/* Determines which component to display */}
+                <Switch>
+                    {props.isStartupDone
+                        ? ({
+                              /* Protected routes */
+                          },
+                          [
+                              <Route key={1} path='/auth'>
+                                  <Auth />
+                              </Route>,
+                              <Route key={2} path='/welcome'>
+                                  <Welcome />
+                              </Route>,
+                              <Route key={3} path='/'>
+                                  <Primary />
+                              </Route>,
+                          ])
+                        : ({
+                              /* Public route */
+                          },
+                          (
+                              <Route>
+                                  <Startup />
+                              </Route>
+                          ))}
+                </Switch>
+            </div>
+        </BrowserRouter>
+    );
+};
 
 // Prop types for the App component
 App.propTypes = {
@@ -147,7 +131,7 @@ App.propTypes = {
     /**
      * Sets the browser type (mobile or desktop) in Redux
      */
-    setBrowserType: PropTypes.func.isRequired
+    setBrowserType: PropTypes.func.isRequired,
 };
 
 /**
@@ -157,12 +141,12 @@ App.propTypes = {
  * @param {object} state - The Redux state
  * @returns {object} Redux state properties used in the App component
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         isStartupDone: state.startup.isDone,
         isAuthenticated: state.auth.isAuthenticated,
         isAuthFlowComplete: state.auth.isAuthFlowComplete,
-        shouldShowWelcomePage: state.auth.shouldShowWelcomePage
+        shouldShowWelcomePage: state.auth.shouldShowWelcomePage,
     };
 };
 
@@ -173,9 +157,9 @@ const mapStateToProps = state => {
  * @param {function} dispatch - The react-redux dispatch function
  * @returns {object} Redux actions used in the App component
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        setBrowserType: isMobileBrowser => dispatch(setBrowserType(isMobileBrowser))
+        setBrowserType: (isMobileBrowser) => dispatch(setBrowserType(isMobileBrowser)),
     };
 };
 

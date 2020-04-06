@@ -1,13 +1,6 @@
-// ----------------------------------------------------------------------------
-// File Path: src/pages/Startup/Startup.js
-// Description: Renders the startup page
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 1/4/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { MetroSpinner } from "react-spinners-kit";
 
@@ -20,44 +13,37 @@ import logo from "../../assets/logos/tma-logo-white.png";
 // Style imports
 import styles from "./Startup.module.scss";
 
+/**
+ * Renders the Startup component.
+ * Shows when the app is starting up (i.e. getting auth data).
+ * @extends {Component}
+ * @author Dan Levy <danlevy124@gmail.com>
+ * @component
+ */
 class Startup extends Component {
-    // Component state
+    /**
+     * Startup component state
+     * @property {number} windowInnerHeight - The inner height of the window (used to resize the component)
+     */
     state = {
-        windowInnerHeight: window.innerHeight
+        windowInnerHeight: window.innerHeight,
     };
 
     /**
-     * Starts a window resize event listener
+     * Tells Redux when app startup is done
      */
-    componentDidMount() {
-        window.addEventListener("resize", this.handleWindowResize);
-    }
-
     componentDidUpdate() {
         if (this.props.isAuthenticated !== null) {
+            // Startup is considered done when isAuthenticated is true or false
             this.props.startupDone();
         }
     }
 
     /**
-     * Removes the window resize event listener
-     */
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.handleWindowResize);
-    }
-
-    /**
-     * Updates state based on the window's innerwidth
-     */
-    handleWindowResize = () => {
-        this.setState({ isMobile: window.innerWidth < 768 });
-    };
-
-    /**
      * Renders the Startup component
+     * @returns {object} The JSX to render
      */
     render() {
-        // Returns the JSX to display
         return (
             <div
                 className={styles.startup}
@@ -75,23 +61,41 @@ class Startup extends Component {
     }
 }
 
+// Prop types for the Startup component
+Startup.propTypes = {
+    /**
+     * Indicates if there is an authenticated user
+     */
+    isAuthenticated: PropTypes.bool,
+    /**
+     * Indicates if the app startup is done
+     */
+    startupDone: PropTypes.func.isRequired,
+};
+
 /**
- * Gets the current state from Redux and passes it to the Startup component as props
+ * Gets the current state from Redux and passes parts of it to the Startup component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof Startup
  * @param {object} state - The Redux state
+ * @returns {object} Redux state properties used in the Startup component
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
     };
 };
 
 /**
- * Passes certain redux actions to the Startup component
+ * Passes certain Redux actions to the Startup component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof Startup
  * @param {function} dispatch - The react-redux dispatch function
+ * @returns {object} Redux actions used in the Startup component
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        startupDone: () => dispatch(startupDone())
+        startupDone: () => dispatch(startupDone()),
     };
 };
 

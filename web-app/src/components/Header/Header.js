@@ -78,7 +78,7 @@ class Header extends Component {
 
 // Header prop types
 Header.propTypes = {
-    isMobile: PropTypes.bool.isRequired,
+    isMobileScreenSize: PropTypes.bool.isRequired,
     hamburgerMenuClicked: PropTypes.func,
 };
 

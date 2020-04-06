@@ -30,7 +30,7 @@ class Auth extends Component {
     /**
      * Auth component state
      * @property {module:authStages} authStage - The current auth stage (see authStages enum)
-     * @property {number} innerHeight - The inner height of the window (used to resize the component)
+     * @property {number} windowInnerHeight - The inner height of the window (used to resize the component)
      * @property {boolean} isLoading - Indicates whether the component is in a loading state
      * @property {object} alertData - Data used to display an alert
      * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
@@ -39,7 +39,7 @@ class Auth extends Component {
      */
     state = {
         authStage: authStages.SIGN_IN,
-        innerHeight: window.innerHeight,
+        windowInnerHeight: window.innerHeight,
         isLoading: false,
         alertData: null,
     };
@@ -65,7 +65,7 @@ class Auth extends Component {
      * @function
      */
     resizeWindow = () => {
-        this.setState({ innerHeight: window.innerHeight });
+        this.setState({ windowInnerHeight: window.innerHeight });
     };
 
     /**
@@ -174,7 +174,7 @@ class Auth extends Component {
      */
     render() {
         return (
-            <div className={styles.auth} style={{ minHeight: `${this.state.innerHeight}px` }}>
+            <div className={styles.auth} style={{ minHeight: `${this.state.windowInnerHeight}px` }}>
                 {this.state.isLoading ? <LoadingHUD text='Loading...' /> : null}
                 {this.state.alertData ? (
                     <AlertBar

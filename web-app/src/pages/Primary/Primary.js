@@ -1,11 +1,3 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/pages/Primary/Primary.js
-// Description: Renders the primary page
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 12/30/2019
----------------------------------------------------------------------------- */
-
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -44,7 +36,7 @@ import choirIconWhite from "../../assets/icons/choir-icon-white.svg";
 import styles from "./Primary.module.scss";
 
 /**
- * Renders the primary component.
+ * Renders the Primary component.
  * This is the container component for all of the components that should include a header, sidebar, and footer.
  * @extends {Component}
  * @author Dan Levy <danlevy124@gmail.com>
@@ -58,7 +50,15 @@ class Primary extends Component {
     constructor(props) {
         super(props);
 
-        // Component state
+        /**
+         * Primary component state
+         * @property {boolean} isMobileScreenSize - Indicates if the screen width is mobile (i.e. < 768px)
+         * @property {boolean} showMobileNav - Indicates if the mobile navigation should be shown
+         * @property {object|null} alertData - Data used to display an alert
+         * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
+         * @property {string} alertData.heading - The alert heading
+         * @property {string} alertData.message - The alert message
+         */
         this.state = {
             isMobileScreenSize: window.innerWidth < 768,
             showMobileNav: false,
@@ -248,7 +248,6 @@ class Primary extends Component {
      * @returns {object} The JSX to render
      */
     render() {
-        // Returns the JSX to display
         return (
             <div className={styles.primary}>
                 {/* Shows an alert if one exists */}
