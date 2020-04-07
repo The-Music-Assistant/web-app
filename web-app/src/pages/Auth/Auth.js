@@ -202,7 +202,7 @@ class Auth extends Component {
 }
 
 /**
- * Passes certain Redux actions to the App component as props.
+ * Passes certain Redux actions to the Auth component as props.
  * This function is used only by the react-redux connect function.
  * @memberof Auth
  * @param {function} dispatch - The react-redux dispatch function

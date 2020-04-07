@@ -30,3 +30,9 @@ reactComponents['Auth'] = Component1;
 
 import Component2 from '../../src/pages/Primary/Primary.js';
 reactComponents['Primary'] = Component2;
+
+import Component3 from '../../src/pages/Startup/Startup.js';
+reactComponents['Startup'] = Component3;
+
+import Component4 from '../../src/pages/Welcome/Welcome.js';
+reactComponents['Welcome'] = Component4;

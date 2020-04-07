@@ -1,13 +1,5 @@
-// ----------------------------------------------------------------------------
-// File Path: src/pages/Welcome/Welcome.js
-// Description: Renders the welcome page
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/9/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { MetroSpinner } from "react-spinners-kit";
@@ -24,69 +16,49 @@ import downArrow from "../../assets/icons/down-arrow-white.svg";
 
 // Component  imports
 import RectangularButton from "../../components/Buttons/RectangularButton/RectangularButton";
-import LoadingHUD from "../../components/Spinners/LoadingHUD/LoadingHUD";
 import AlertBar from "../../components/AlertBar/AlertBar";
 
 // Style imports
 import styles from "./Welcome.module.scss";
 
+/**
+ * Renders the Welcome component.
+ * This component displays when a user needs to confirm their email.
+ * @extends {Component}
+ * @author Dan Levy <danlevy124@gmail.com>
+ * @component
+ */
 class Welcome extends Component {
-    // Component state
+    /**
+     * Welcome component state
+     * @property {boolean} isLoading - Indicates if the component is in a loading state
+     * @property {boolean} isUserEmailVerified - Indicates if the user's email is verified
+     */
     state = {
-        isDoingInitialLoad: true,
+        isLoading: false,
         isUserEmailVerified: false,
-        isLoading: false
-    };
-
-    componentDidMount() {
-        this.checkIfUserEmailIsVerified(true);
-    }
-
-    doneButtonClickedHandler = () => {
-        this.props.done();
-    };
-
-    resendEmailVerificationButtonClickedHandler = () => {
-        this.setState({ isLoading: true });
-        firebase
-            .auth()
-            .currentUser.sendEmailVerification()
-            .then(() => {
-                this.setState({
-                    isLoading: false,
-                    alert: {
-                        type: alertBarTypes.INFO,
-                        heading: "Email Sent",
-                        message: "We have sent a new verification email"
-                    }
-                });
-            })
-            .catch(error => {
-                authError(
-                    error.code,
-                    error.message,
-                    "[Welcome/resendEmailVerificationButtonClickedHandler]"
-                );
-                this.setState({
-                    isLoading: false,
-                    alert: {
-                        type: alertBarTypes.ERROR,
-                        heading: "Authentication Error",
-                        message: error.message
-                    }
-                });
-            });
     };
 
     /**
-     * Checks if the user's email is verified
-     * Updates UI depending on result
-     * @param {bool} isCallerInitialLoad - Is the caller of this function calling during the initial load of the page
+     * Indicates if the user's email was checked for verification at least once
      */
-    checkIfUserEmailIsVerified = isCallerInitialLoad => {
-        // Flips boolean flag for correct state loading key
-        let stateLoadingKey = isCallerInitialLoad ? "isDoingInitialLoad" : "isLoading";
-        this.setState({ [stateLoadingKey]: true });
+    _wasEmailVerificationCheckedAlready = false;
+
+    /**
+     * Checks if the user's email is verified
+     */
+    componentDidMount() {
+        this.checkIfUserEmailIsVerified();
+    }
+
+    /**
+     * Checks if the user's email is verified.
+     * Updates state depending on result.
+     * @function
+     */
+    checkIfUserEmailIsVerified = () => {
+        // Sets loading to true in state
+        this.setState({ isLoading: true });
 
         // Reloads the user and checks if the user's email is verified
         const currentUser = firebase.auth().currentUser;
@@ -94,152 +66,112 @@ class Welcome extends Component {
             .reload()
             .then(() => {
                 if (currentUser.emailVerified) {
-                    this.userEmailIsVerified(stateLoadingKey);
+                    this.userEmailIsVerified();
                 } else {
-                    this.userEmailNotVerified(isCallerInitialLoad, stateLoadingKey);
+                    this.userEmailNotVerified();
                 }
+                this._wasEmailVerificationCheckedAlready = true;
             })
-            .catch(error => {
-                this.userEmailFetchError(isCallerInitialLoad, stateLoadingKey, error);
-            });
+            .catch(this.userEmailFetchError);
     };
 
     /**
      * Updates state to indicate that the email is verified
-     * @param {string} stateLoadingKey - The state loading key to use
+     * @function
      */
-    userEmailIsVerified = stateLoadingKey => {
-        this.setState({ [stateLoadingKey]: false, isUserEmailVerified: true });
+    userEmailIsVerified = () => {
+        this.setState({ isLoading: false, isUserEmailVerified: true });
     };
 
     /**
-     * Updates the state to indicate that the email is not verified
+     * Updates state to indicate that the email is not verified
      * Alerts the user that the email is not verified
-     * @param {bool} isCallerInitialLoad - Is the caller of this function calling during the initial load of the page
-     * @param {string} stateLoadingKey - The state loading key to use
+     * @function
      */
-    userEmailNotVerified = (isCallerInitialLoad, stateLoadingKey) => {
+    userEmailNotVerified = () => {
         // Updates state
         this.setState({
-            [stateLoadingKey]: false,
-            isUserEmailVerified: false
+            isLoading: false,
+            isUserEmailVerified: false,
         });
 
-        // Alerts the user only if this is not the first email check
-        if (!isCallerInitialLoad) {
+        // Alerts the user only if this is not the first check
+        if (this._wasEmailVerificationCheckedAlready) {
             this.setState({
                 alert: {
                     type: alertBarTypes.WARNING,
                     heading: "Not Verified",
-                    message: `Your email is not verified. If you can't find the verification email, please click "Resend Email."`
-                }
+                    message: `Your email is not verified. If you can't find the verification email, please click "Resend Email."`,
+                },
             });
         }
     };
 
     /**
-     * Updates the state to indicate that the email is not verified
-     * Alerts the user that there was an error reloading the user
-     * @param {bool} isCallerInitialLoad - Is the caller of this function calling during the initial load of the page
-     * @param {string} stateLoadingKey - The state loading key to use
+     * Updates the state to indicate that the email is not verified.
+     * Alerts the user that there was an error.
+     * @function
      * @param {object} error - The error received
      */
-    userEmailFetchError = (isCallerInitialLoad, stateLoadingKey, error) => {
-        // Updates state
+    userEmailFetchError = (error) => {
+        authError(error.code, error.message, "[Welcome/userEmailFetchError]");
         this.setState({
-            [stateLoadingKey]: false,
-            isUserEmailVerified: false
+            isLoading: false,
+            alert: {
+                type: alertBarTypes.ERROR,
+                heading: "Error",
+                message: error.message,
+            },
         });
-
-        // Alerts the user only if this is not the first email check
-        if (!isCallerInitialLoad) {
-            this.setState({
-                alert: {
-                    type: alertBarTypes.ERROR,
-                    heading: "Error",
-                    message: error.message
-                }
-            });
-        }
     };
 
     /**
-     * Renders the Welcome component
+     * Tells Redux that this component is no longer needed (i.e. done)
+     * @function
      */
-    render() {
-        // Determines what to display as the main content (loading spinner, email verified info, or email not verified info)
-        let mainContent;
-        if (this.state.isDoingInitialLoad) {
-            mainContent = (
-                <div className={styles.welcomeMain}>
-                    <div className={styles.welcomeMainSpinner}>
-                        <MetroSpinner size={75} color='#F8F8F8' loading={true} />
-                    </div>
-                </div>
-            );
-        } else if (this.state.isUserEmailVerified) {
-            mainContent = (
-                <div className={styles.welcomeMain}>
-                    <p className={styles.welcomeMainMessage}>
-                        Your account has been created and a new experience awaits! Click "Let's Go!"
-                        to add your first choir.
-                    </p>
-                    <img className={styles.welcomeMainDownArrow} src={downArrow} alt='Down Arrow' />
-                    <div className={styles.welcomeMainButton}>
-                        <RectangularButton
-                            backgroundColor='orange'
-                            type='button'
-                            value=''
-                            text="Let's Go!"
-                            onClick={this.doneButtonClickedHandler}
-                        />
-                    </div>
-                </div>
-            );
-        } else {
-            mainContent = (
-                <div className={styles.welcomeMain}>
-                    <p className={styles.welcomeMainMessage}>
-                        {`Please check your email (${
-                            firebase.auth().currentUser.email
-                        }) for a message from "The Music Assistant." Click the link to verify your email address and then come back here!`}
-                    </p>
-                    <img className={styles.welcomeMainDownArrow} src={downArrow} alt='Down Arrow' />
-                    <div className={styles.welcomeMainButtons}>
-                        <div className={styles.welcomeMainButton}>
-                            <RectangularButton
-                                backgroundColor='orange'
-                                type='button'
-                                value=''
-                                text='I Verified My Email'
-                                onClick={() => this.checkIfUserEmailIsVerified(false)}
-                            />
-                        </div>
-                        <div className={styles.welcomeMainButton}>
-                            <RectangularButton
-                                backgroundColor='blue'
-                                type='button'
-                                value=''
-                                text='Resend Email'
-                                onClick={this.resendEmailVerificationButtonClickedHandler}
-                            />
-                        </div>
-                        <div className={styles.welcomeMainButton}>
-                            <RectangularButton
-                                backgroundColor='red'
-                                type='button'
-                                value=''
-                                text='Sign Out'
-                                onClick={this.props.signOut}
-                            />
-                        </div>
-                    </div>
-                </div>
-            );
-        }
+    doneButtonClickedHandler = () => {
+        this.props.done();
+    };
 
-        // Adds an alert bar is one is requested
-        const alertBar = this.state.alert ? (
+    /**
+     * Resends an email verification
+     * @function
+     */
+    resendEmailVerificationButtonClickedHandler = () => {
+        // Sets loading to true in state
+        this.setState({ isLoading: true });
+
+        // Sends an email verification
+        firebase
+            .auth()
+            .currentUser.sendEmailVerification()
+            .then(this.emailWasSentHandler)
+            .catch(this.userEmailFetchError);
+    };
+
+    /**
+     * Updates state to indicate that a verification email was sent.
+     * Alerts the user that a verification email was sent.
+     * @function
+     */
+    emailWasSentHandler = () => {
+        this.setState({
+            isLoading: false,
+            alert: {
+                type: alertBarTypes.INFO,
+                heading: "Email Sent",
+                message: "We have sent a new verification email",
+            },
+        });
+    };
+
+    /**
+     * Creates an alert bar if one was requested
+     * @function
+     * @returns {object} An alert bar (JSX)
+     */
+    getAlertBar = () => {
+        return this.state.alert ? (
             <AlertBar
                 type={this.state.alert.type}
                 heading={this.state.alert.heading}
@@ -247,15 +179,132 @@ class Welcome extends Component {
                 done={() => this.setState({ alert: null })}
             />
         ) : null;
+    };
 
-        // Adds the loading HUD if one is requested
-        const loadingHUD = this.state.isLoading ? <LoadingHUD text='Loading...' /> : null;
+    /**
+     * Gets the main component (loading spinner, success, or check email)
+     * @function
+     * @returns {object} The main component (JSX)
+     */
+    getMainComponent = () => {
+        if (this.state.isLoading) {
+            return this.getSpinner();
+        } else if (this.state.isUserEmailVerified) {
+            return this.getSuccessComponent();
+        } else {
+            return this.getCheckEmailComponent();
+        }
+    };
 
+    /**
+     * Creates a spinner
+     * @function
+     * @returns {object} A spinner (JSX)
+     */
+    getSpinner = () => {
+        return (
+            <div className={styles.welcomeMainSpinner}>
+                <MetroSpinner size={75} color='#F8F8F8' loading={true} />
+            </div>
+        );
+    };
+
+    /**
+     * Creates the success component
+     * @function
+     * @returns {object} A success component (JSX)
+     */
+    getSuccessComponent = () => {
+        return (
+            <Fragment>
+                {/* Heading */}
+                <p className={styles.welcomeMainMessage}>
+                    Your account has been created and a new experience awaits! Click "Let's Go!" to
+                    add your first choir.
+                </p>
+
+                {/* Down arrow */}
+                <img className={styles.welcomeMainDownArrow} src={downArrow} alt='Down Arrow' />
+
+                {/* Done Button */}
+                <div className={styles.welcomeMainButton}>
+                    <RectangularButton
+                        backgroundColor='orange'
+                        type='button'
+                        value=''
+                        text="Let's Go!"
+                        onClick={this.doneButtonClickedHandler}
+                    />
+                </div>
+            </Fragment>
+        );
+    };
+
+    /**
+     * Creates a check email component
+     * @function
+     * @returns {object} A check email component (JSX)
+     */
+    getCheckEmailComponent = () => {
+        return (
+            <Fragment>
+                {/* Heading */}
+                <p className={styles.welcomeMainMessage}>
+                    {`Please check your email (${
+                        firebase.auth().currentUser.email
+                    }) for a message from "The Music Assistant." Click the link to verify your email address and then come back here!`}
+                </p>
+
+                {/* Down arrow */}
+                <img className={styles.welcomeMainDownArrow} src={downArrow} alt='Down Arrow' />
+
+                {/* Options */}
+                <div className={styles.welcomeMainButtons}>
+                    <div className={styles.welcomeMainButton}>
+                        <RectangularButton
+                            backgroundColor='orange'
+                            type='button'
+                            value=''
+                            text='I Verified My Email'
+                            onClick={() => this.checkIfUserEmailIsVerified()}
+                        />
+                    </div>
+
+                    <div className={styles.welcomeMainButton}>
+                        <RectangularButton
+                            backgroundColor='blue'
+                            type='button'
+                            value=''
+                            text='Resend Email'
+                            onClick={this.resendEmailVerificationButtonClickedHandler}
+                        />
+                    </div>
+
+                    <div className={styles.welcomeMainButton}>
+                        <RectangularButton
+                            backgroundColor='red'
+                            type='button'
+                            value=''
+                            text='Sign Out'
+                            onClick={this.props.signOut}
+                        />
+                    </div>
+                </div>
+            </Fragment>
+        );
+    };
+
+    /**
+     * Renders the Welcome component
+     * @returns {object} The JSX to render
+     */
+    render() {
         // Returns the JSX to render
         return (
             <div className={styles.welcome}>
-                {alertBar}
-                {loadingHUD}
+                {this.getAlertBar()}
+
+                {/* Page header */}
                 <div className={styles.welcomeHeader}>
                     <img
                         className={styles.welcomeHeaderLogo}
@@ -266,27 +315,37 @@ class Welcome extends Component {
                         Welcome to <br /> The Music Assistant
                     </h1>
                 </div>
-                {mainContent}
+
+                <div className={styles.welcomeMain}>{this.getMainComponent()}</div>
             </div>
         );
     }
 }
 
-/**
- * Passes certain redux actions to Welcome
- * @param {function} dispatch - The react-redux dispatch function
- */
-const mapDispatchToProps = dispatch => {
-    return {
-        done: () => dispatch(welcomePageComplete()),
-        signOut: () => dispatch(signOut())
-    };
-};
-
 // Prop types for the Welcome component
 Welcome.propTypes = {
+    /**
+     * Tells Redux that this component is no longer needed (i.e. done)
+     */
     done: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired
+    /**
+     * Tells Redux that the user has requested to sign out
+     */
+    signOut: PropTypes.func.isRequired,
+};
+
+/**
+ * Passes certain Redux actions to the Welcome component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof Welcome
+ * @param {function} dispatch - The react-redux dispatch function
+ * @returns {object} Redux actions used in the Welcome component
+ */
+const mapDispatchToProps = (dispatch) => {
+    return {
+        done: () => dispatch(welcomePageComplete()),
+        signOut: () => dispatch(signOut()),
+    };
 };
 
 export default connect(null, mapDispatchToProps)(Welcome);
