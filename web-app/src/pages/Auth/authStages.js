@@ -1,5 +1,5 @@
 /**
- * Auth stage options.
+ * Auth component auth stage options.
  * Treat this file as an enum.
  * @module authStages
  * @author Dan Levy <danlevy124@gmail.com>

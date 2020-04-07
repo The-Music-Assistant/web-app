@@ -57,19 +57,15 @@ const App = (props) => {
      * @returns {Redirect} A Redirect component
      */
     const getRedirect = () => {
-        let redirect;
-
         if (!props.isStartupDone) {
-            redirect = <Redirect to='/startup' />;
+            return <Redirect to='/startup' />;
         } else if (!props.isAuthenticated || !props.isAuthFlowComplete) {
-            redirect = <Redirect to='/auth' />;
+            return <Redirect to='/auth' />;
         } else if (props.shouldShowWelcomePage) {
-            redirect = <Redirect to='/welcome' />;
+            return <Redirect to='/welcome' />;
         } else {
-            redirect = <Redirect to='/practice' />;
+            return <Redirect to='/practice' />;
         }
-
-        return redirect;
     };
 
     // Returns the JSX to render
@@ -116,18 +112,22 @@ App.propTypes = {
      * Indicates whether app startup is done
      */
     isStartupDone: PropTypes.bool.isRequired,
+
     /**
      * Indicates whether there exists an authenticated user
      */
     isAuthenticated: PropTypes.bool,
+
     /**
      * Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)
      */
     isAuthFlowComplete: PropTypes.bool,
+
     /**
      * Indicates whether this component should display the Welcome component
      */
     shouldShowWelcomePage: PropTypes.bool.isRequired,
+
     /**
      * Sets the browser type (mobile or desktop) in Redux
      */

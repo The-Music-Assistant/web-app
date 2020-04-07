@@ -328,8 +328,9 @@ Welcome.propTypes = {
      * Tells Redux that this component is no longer needed (i.e. done)
      */
     done: PropTypes.func.isRequired,
+
     /**
-     * Tells Redux that the user has requested to sign out
+     * Tells Redux to sign the user out
      */
     signOut: PropTypes.func.isRequired,
 };

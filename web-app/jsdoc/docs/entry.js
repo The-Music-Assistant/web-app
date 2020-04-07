@@ -22,17 +22,20 @@
 
     import './styles/iframe.css';
 
-  import Component0 from '../../src/App/App.js';
-reactComponents['App'] = Component0;
+  import Component0 from '../../src/components/AlertBar/AlertBar.js';
+reactComponents['AlertBar'] = Component0;
 
-import Component1 from '../../src/pages/Auth/Auth.js';
-reactComponents['Auth'] = Component1;
+import Component1 from '../../src/App/App.js';
+reactComponents['App'] = Component1;
 
-import Component2 from '../../src/pages/Primary/Primary.js';
-reactComponents['Primary'] = Component2;
+import Component2 from '../../src/pages/Auth/Auth.js';
+reactComponents['Auth'] = Component2;
 
-import Component3 from '../../src/pages/Startup/Startup.js';
-reactComponents['Startup'] = Component3;
+import Component3 from '../../src/pages/Primary/Primary.js';
+reactComponents['Primary'] = Component3;
 
-import Component4 from '../../src/pages/Welcome/Welcome.js';
-reactComponents['Welcome'] = Component4;
+import Component4 from '../../src/pages/Startup/Startup.js';
+reactComponents['Startup'] = Component4;
+
+import Component5 from '../../src/pages/Welcome/Welcome.js';
+reactComponents['Welcome'] = Component5;

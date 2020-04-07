@@ -315,7 +315,7 @@ class Primary extends Component {
 // Prop types for the Primary component
 Primary.propTypes = {
     /**
-     * Signs the user out
+     * Tells Redux to sign the user out
      */
     signOut: PropTypes.func.isRequired,
 };

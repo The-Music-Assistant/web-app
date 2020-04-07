@@ -201,6 +201,18 @@ class Auth extends Component {
     }
 }
 
+// Prop types for the Auth component
+Auth.propTypes = {
+    /**
+     * Tells Redux to start the auth flow
+     */
+    startAuthFlow: PropTypes.func.isRequired,
+    /**
+     * Tells Redux that the auth flow is complete
+     */
+    authFlowComplete: PropTypes.func.isRequired,
+};
+
 /**
  * Passes certain Redux actions to the Auth component as props.
  * This function is used only by the react-redux connect function.
@@ -214,18 +226,6 @@ const mapDispatchToProps = (dispatch) => {
         authFlowComplete: (shouldShowWelcomePage) =>
             dispatch(authFlowComplete(shouldShowWelcomePage)),
     };
-};
-
-// Prop types for the Auth component
-Auth.propTypes = {
-    /**
-     * Tells Redux to start the auth flow
-     */
-    startAuthFlow: PropTypes.func.isRequired,
-    /**
-     * Tells Redux that the auth flow is complete
-     */
-    authFlowComplete: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Auth);

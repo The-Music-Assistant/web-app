@@ -67,6 +67,7 @@ Startup.propTypes = {
      * Indicates if there is an authenticated user
      */
     isAuthenticated: PropTypes.bool,
+    
     /**
      * Indicates if the app startup is done
      */
