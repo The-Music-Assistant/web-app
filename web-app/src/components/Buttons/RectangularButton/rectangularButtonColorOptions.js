@@ -1,13 +1,36 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/Buttons/RectangularButton/rectangularButtonColorOptions.js
-// Description: Rectangular button background color options
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/13/2020
-// ----------------------------------------------------------------------------
+/**
+ * RectangularButton component background color options.
+ * Treat this file as an enum.
+ * @module rectangularButtonColorOptions
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
 
+/**
+ * White color
+ * @type {string}
+ */
 export const WHITE = "white";
+
+/**
+ * Blue color
+ * @type {string}
+ */
 export const BLUE = "blue";
+
+/**
+ * Green color
+ * @type {string}
+ */
 export const GREEN = "green";
+
+/**
+ * Orange color
+ * @type {string}
+ */
 export const ORANGE = "orange";
+
+/**
+ * Red color
+ * @type {string}
+ */
 export const RED = "red";

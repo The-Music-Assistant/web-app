@@ -11,7 +11,7 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 
 // File imports
 import { addUser } from "../../../vendors/AWS/tmaApi";
-import { getUserInfo } from "../../../store/actions/index";
+import { getUserInfo, showWelcomePage } from "../../../store/actions/index";
 import firebase from "../../../vendors/Firebase/firebase";
 import { authError } from "../../../vendors/Firebase/logs";
 import closeIconRed from "../../../assets/icons/close-icon-red.svg";
@@ -130,6 +130,7 @@ class ProfileCard extends Component {
             this.uploadData()
                 .then(() => {
                     // Profile stage is done
+                    this.props.showWelcomePage(true);
                     this.props.setLoading(false);
                     this.props.done(authStages.PROFILE);
                 })
@@ -337,6 +338,16 @@ ProfileCard.propTypes = {
     showAlert: PropTypes.func.isRequired,
 
     /**
+     * Tells Redux to get updated user data from the server
+     */
+    updateUserInfo: PropTypes.func.isRequired,
+
+    /**
+     * Tells Redux to show the welcome page
+     */
+    showWelcomePage: PropTypes.func.isRequired,
+
+    /**
      * Tells Redux that this component is no longer needed (i.e. done)
      */
     done: PropTypes.func.isRequired,
@@ -365,6 +376,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         updateUserInfo: () => dispatch(getUserInfo()),
+        showWelcomePage: (isAuthFlowComplete) => dispatch(showWelcomePage(isAuthFlowComplete)),
     };
 };
 

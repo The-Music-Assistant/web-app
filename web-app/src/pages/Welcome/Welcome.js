@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { MetroSpinner } from "react-spinners-kit";
 
 // File imports
-import { signOut, welcomePageComplete } from "../../store/actions";
+import { signOut, welcomePageComplete } from "../../store/actions/index";
 import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
 import firebase from "../../vendors/Firebase/firebase";
 import { authError } from "../../vendors/Firebase/logs";

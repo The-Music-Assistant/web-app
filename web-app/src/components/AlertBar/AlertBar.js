@@ -168,9 +168,9 @@ class AlertBar extends Component {
     render() {
         return (
             <div
-                className={`${styles.alertBar} ${this.getBackgroundColorStyle()} ${
-                    this.getTransitionStyle
-                }`}>
+                className={`${
+                    styles.alertBar
+                } ${this.getBackgroundColorStyle()} ${this.getTransitionStyle()}`}>
                 <div className={styles.alertBarTopGrid}>
                     {/* Empty container div for the left-hand side of the top grid */}
                     <div></div>

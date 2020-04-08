@@ -1,10 +1,7 @@
 // NPM module imports
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 // File imports
-import { authFlowComplete, startAuthFlow } from "../../store/actions/index";
 import * as authStages from "./authStages";
 
 // Image imports
@@ -45,11 +42,18 @@ class Auth extends Component {
     };
 
     /**
+     * Indicates whether the component is mounted or not.
+     * Used for asynchronous tasks.
+     * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+     */
+    _isMounted = false;
+
+    /**
      * Starts the auth flow.
      * Starts a window resize listener.
      */
     componentDidMount() {
-        this.props.startAuthFlow();
+        this._isMounted = true;
         window.addEventListener("resize", this.resizeWindow);
     }
 
@@ -57,6 +61,7 @@ class Auth extends Component {
      * Removes the window resize listener
      */
     componentWillUnmount() {
+        this._isMounted = false;
         window.removeEventListener("resize", this.resizeWindow);
     }
 
@@ -65,7 +70,7 @@ class Auth extends Component {
      * @function
      */
     resizeWindow = () => {
-        this.setState({ windowInnerHeight: window.innerHeight });
+        if (this._isMounted) this.setState({ windowInnerHeight: window.innerHeight });
     };
 
     /**
@@ -73,7 +78,7 @@ class Auth extends Component {
      * @function
      */
     setLoadingHandler = (isLoading) => {
-        this.setState({ isLoading });
+        if (this._isMounted) this.setState({ isLoading });
     };
 
     /**
@@ -84,9 +89,10 @@ class Auth extends Component {
      * @param {string} - The alert message
      */
     showAlertHandler = (type, heading, message) => {
-        this.setState({
-            alertData: { type, heading, message },
-        });
+        if (this._isMounted)
+            this.setState({
+                alertData: { type, heading, message },
+            });
     };
 
     /**
@@ -94,7 +100,7 @@ class Auth extends Component {
      * @function
      */
     alertIsDoneHandler = () => {
-        this.setState({ alertData: null });
+        if (this._isMounted) this.setState({ alertData: null });
     };
 
     /**
@@ -104,20 +110,8 @@ class Auth extends Component {
      * @param {module:authStages} - The auth stage that is complete
      */
     authFlowStageDoneHandler = (stage) => {
-        switch (stage) {
-            case authStages.SIGN_IN:
-                // The sign in auth flow is complete
-                this.props.authFlowComplete(false);
-                break;
-            case authStages.SIGN_UP:
-                // Moves to the profile auth stage
-                this.setState({ authStage: authStages.PROFILE });
-                break;
-            case authStages.PROFILE:
-                // The sign up auth flow is complete
-                this.props.authFlowComplete(true);
-                break;
-            default:
+        if (this._isMounted && stage === authStages.SIGN_UP) {
+            this.setState({ authStage: authStages.PROFILE });
         }
     };
 
@@ -127,10 +121,12 @@ class Auth extends Component {
      * @function
      */
     switchAuthFlowHandler = () => {
-        if (this.state.authStage === authStages.SIGN_IN) {
-            this.setState({ authStage: authStages.SIGN_UP });
-        } else {
-            this.setState({ authStage: authStages.SIGN_IN });
+        if (this._isMounted) {
+            if (this.state.authStage === authStages.SIGN_IN) {
+                this.setState({ authStage: authStages.SIGN_UP });
+            } else {
+                this.setState({ authStage: authStages.SIGN_IN });
+            }
         }
     };
 
@@ -152,7 +148,6 @@ class Auth extends Component {
                         done={this.authFlowStageDoneHandler}
                         authStage={this.state.authStage}
                         switchAuthFlow={this.switchAuthFlowHandler}
-                        authStageDone={this.authFlowStageDoneHandler}
                     />
                 );
             case authStages.PROFILE:
@@ -201,31 +196,4 @@ class Auth extends Component {
     }
 }
 
-// Prop types for the Auth component
-Auth.propTypes = {
-    /**
-     * Tells Redux to start the auth flow
-     */
-    startAuthFlow: PropTypes.func.isRequired,
-    /**
-     * Tells Redux that the auth flow is complete
-     */
-    authFlowComplete: PropTypes.func.isRequired,
-};
-
-/**
- * Passes certain Redux actions to the Auth component as props.
- * This function is used only by the react-redux connect function.
- * @memberof Auth
- * @param {function} dispatch - The react-redux dispatch function
- * @returns {object} Redux actions used in the Auth component
- */
-const mapDispatchToProps = (dispatch) => {
-    return {
-        startAuthFlow: () => dispatch(startAuthFlow()),
-        authFlowComplete: (shouldShowWelcomePage) =>
-            dispatch(authFlowComplete(shouldShowWelcomePage)),
-    };
-};
-
-export default connect(null, mapDispatchToProps)(Auth);
+export default Auth;

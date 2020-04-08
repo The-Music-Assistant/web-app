@@ -1,14 +1,13 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/Buttons/BackButton/BackButton.js
-// Description: Renders the back button component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/27/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+
+// Component imports
+import ButtonContainer from "../ButtonContainer/ButtonContainer";
+
+// File imports
+import * as buttonTypes from "../buttonTypes";
 
 // Image imports
 import leftArrowBlue from "../../../assets/icons/left-arrow-gray.svg";
@@ -16,25 +15,44 @@ import leftArrowBlue from "../../../assets/icons/left-arrow-gray.svg";
 // Style imports
 import styles from "./BackButton.module.scss";
 
-const BackButton = props => {
+/**
+ * Renders the BackButton component.
+ * This button simulates a browser's back button.
+ * @author Dan Levy <danlevy124@gmail.com>
+ * @component
+ */
+const BackButton = (props) => {
+    /**
+     * Tells React Router to go back one page
+     */
+    const buttonClickedHandler = () => {
+        props.history.goBack();
+    };
+
     // Returns the JSX to render
     return (
-        <button
+        <ButtonContainer
             className={styles.backButton}
-            type='button'
+            type={buttonTypes.BUTTON}
             value={props.value}
-            onClick={props.onClick}>
+            onClick={buttonClickedHandler}>
             <img className={styles.backButtonArrow} src={leftArrowBlue} alt='Back Button' />
             <span className={styles.backButtonText}>{props.text}</span>
-        </button>
+        </ButtonContainer>
     );
 };
 
-// BackButton prop types
+// Prop types for the BackButton component
 BackButton.propTypes = {
+    /**
+     * The button's value (HTML value)
+     */
     value: PropTypes.string.isRequired,
+
+    /**
+     * The text to display in the button
+     */
     text: PropTypes.string.isRequired,
-    onClick: PropTypes.func
 };
 
-export default BackButton;
+export default withRouter(BackButton);

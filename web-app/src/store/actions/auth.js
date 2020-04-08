@@ -19,7 +19,7 @@ import { setAxiosAuthToken, getUser } from "../../vendors/AWS/tmaApi";
  * Signs the current user out
  */
 export const signOut = () => {
-    return dispatch => {
+    return (dispatch) => {
         dispatch(doNotShowWelcomePage());
         firebase
             .auth()
@@ -27,7 +27,7 @@ export const signOut = () => {
             .then(() => {
                 dispatch(signOutSuccess());
             })
-            .catch(error => {
+            .catch((error) => {
                 dispatch(authError(error));
             });
     };
@@ -37,15 +37,15 @@ export const signOut = () => {
  * Updates redux state whenever Firebase Auth state changes
  */
 export const handleAuthStateChanges = () => {
-    return dispatch => {
-        firebase.auth().onAuthStateChanged(user => {
+    return (dispatch) => {
+        firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // Sets the Axios auth header with the user's id token
                 firebase
                     .auth()
                     .currentUser.getIdToken()
                     .then(setAxiosAuthToken)
-                    .catch(error => {
+                    .catch((error) => {
                         // Clears the old Axios auth header token if there is one
                         setAxiosAuthToken("");
                         dispatch(authError(error));
@@ -75,11 +75,11 @@ export const handleAuthStateChanges = () => {
 };
 
 export const getUserInfo = () => {
-    return dispatch => {
+    return (dispatch) => {
         let user = firebase.auth().currentUser;
         if (user) {
             getUser()
-                .then(snapshot => {
+                .then((snapshot) => {
                     dispatch(
                         retrievedUsersName(snapshot.data.first_name + " " + snapshot.data.last_name)
                     );
@@ -87,7 +87,7 @@ export const getUserInfo = () => {
 
                     return snapshot.data.has_picture;
                 })
-                .catch(error => {
+                .catch((error) => {
                     dispatch(authError(error));
                     dispatch(usersNameRetrievalFailed());
                     logAuthError(
@@ -96,7 +96,7 @@ export const getUserInfo = () => {
                         "[store/actions/auth/getUserInfo]"
                     );
                 })
-                .then(userHasProfilePicture => {
+                .then((userHasProfilePicture) => {
                     if (userHasProfilePicture) {
                         return firebase
                             .storage()
@@ -105,10 +105,10 @@ export const getUserInfo = () => {
                             .getDownloadURL();
                     }
                 })
-                .then(url => {
+                .then((url) => {
                     dispatch(retrievedUsersPictureUrl(url));
                 })
-                .catch(error => {
+                .catch((error) => {
                     dispatch(authError(error));
                     dispatch(usersPictureUrlRetrievalFailed());
                 });
@@ -117,31 +117,32 @@ export const getUserInfo = () => {
 };
 
 /**
- * Returns START_AUTH_FLOW action type
+ * Returns START_AUTH_FLOW action type and the type of flow that was started
  */
-export const startAuthFlow = () => {
+export const startAuthFlow = (flow) => {
     return {
-        type: actionTypes.START_AUTH_FLOW
+        type: actionTypes.START_AUTH_FLOW,
+        flow,
     };
 };
 
 /**
- * Returns AUTH_FLOW_COMPLETE action type and a boolean indicating whether or not to show the welcome page
- * @param {boolean} shouldShowWelcomePage - Whether to show the welcome page or not
+ * Returns CHANGE_AUTH_FLOW action type and the type of flow that was started
  */
-export const authFlowComplete = shouldShowWelcomePage => {
+export const changeAuthFlow = (flow) => {
     return {
-        type: actionTypes.AUTH_FLOW_COMPLETE,
-        shouldShowWelcomePage: shouldShowWelcomePage
+        type: actionTypes.CHANGE_AUTH_FLOW,
+        flow,
     };
 };
 
 /**
- * Returns WELCOME_PAGE_START action type
+ * Returns WELCOME_PAGE_START action type and a boolean indicating if the auth flow is complete
  */
-export const showWelcomePage = () => {
+export const showWelcomePage = (isAuthFlowComplete) => {
     return {
-        type: actionTypes.SHOW_WELCOME_PAGE
+        type: actionTypes.SHOW_WELCOME_PAGE,
+        isAuthFlowComplete,
     };
 };
 
@@ -150,7 +151,7 @@ export const showWelcomePage = () => {
  */
 export const doNotShowWelcomePage = () => {
     return {
-        type: actionTypes.DO_NOT_SHOW_WELCOME_PAGE
+        type: actionTypes.DO_NOT_SHOW_WELCOME_PAGE,
     };
 };
 
@@ -159,17 +160,16 @@ export const doNotShowWelcomePage = () => {
  */
 export const welcomePageComplete = () => {
     return {
-        type: actionTypes.WELCOME_PAGE_COMPLETE
+        type: actionTypes.WELCOME_PAGE_COMPLETE,
     };
 };
 
 /**
- * Returns USER_AUTHENTICATED action type and a boolean indicating whether or not the auth flow is complete
+ * Returns USER_AUTHENTICATED action type
  */
-const userAuthenticated = isAuthFlowComplete => {
+const userAuthenticated = () => {
     return {
         type: actionTypes.USER_AUTHENTICATED,
-        isAuthFlowComplete
     };
 };
 
@@ -178,7 +178,7 @@ const userAuthenticated = isAuthFlowComplete => {
  */
 const userNotAuthenticated = () => {
     return {
-        type: actionTypes.USER_NOT_AUTHENTICATED
+        type: actionTypes.USER_NOT_AUTHENTICATED,
     };
 };
 
@@ -186,10 +186,10 @@ const userNotAuthenticated = () => {
  * Returns AUTH_ERROR action type and the error
  * @param {string} error
  */
-const authError = error => {
+const authError = (error) => {
     return {
         type: actionTypes.AUTH_ERROR,
-        error
+        error,
     };
 };
 
@@ -198,17 +198,17 @@ const authError = error => {
  */
 const signOutSuccess = () => {
     return {
-        type: actionTypes.SIGN_OUT
+        type: actionTypes.SIGN_OUT,
     };
 };
 
 /**
  * Returns RETRIEVED_USERS_NAME action type and the user's full name
  */
-const retrievedUsersName = name => {
+const retrievedUsersName = (name) => {
     return {
         type: actionTypes.RETRIEVED_USERS_NAME,
-        name
+        name,
     };
 };
 
@@ -217,17 +217,17 @@ const retrievedUsersName = name => {
  */
 const usersNameRetrievalFailed = () => {
     return {
-        type: actionTypes.USERS_NAME_RETRIEVAL_FAILED
+        type: actionTypes.USERS_NAME_RETRIEVAL_FAILED,
     };
 };
 
 /**
  * Returns RETRIEVED_USERS_PICTURE_URL action type and the user's picture url
  */
-const retrievedUsersPictureUrl = url => {
+const retrievedUsersPictureUrl = (url) => {
     return {
         type: actionTypes.RETRIEVED_USERS_PICTURE_URL,
-        url
+        url,
     };
 };
 
@@ -236,6 +236,6 @@ const retrievedUsersPictureUrl = url => {
  */
 const usersPictureUrlRetrievalFailed = () => {
     return {
-        type: actionTypes.USERS_PICTURE_URL_RETRIEVAL_FAILED
+        type: actionTypes.USERS_PICTURE_URL_RETRIEVAL_FAILED,
     };
 };

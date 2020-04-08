@@ -12,8 +12,10 @@ import TextButton from "../../Buttons/TextButton/TextButton";
 import firebase from "../../../vendors/Firebase/firebase";
 import { authError } from "../../../vendors/Firebase/logs";
 import * as authStages from "../../../pages/Auth/authStages";
+import * as authFlows from "../../../pages/Auth/authFlows";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
 import * as textInputTypes from "../../FormInputs/TextInputs/textInputTypes";
+import { startAuthFlow, changeAuthFlow } from "../../../store/actions/index";
 
 // Style imports
 import authCardStyles from "./AuthCard.module.scss";
@@ -40,12 +42,48 @@ class AuthCard extends Component {
         },
     };
 
+    _isMounted = false;
+
     /**
-     * Checks if a user is authenticated
+     * Starts the auth flow
      */
-    componentDidUpdate() {
+    componentDidMount() {
+        this._isMounted = true;
+        this.props.startAuthFlow(
+            this.props.authStage === authStages.SIGN_IN ? authFlows.SIGN_IN : authFlows.SIGN_UP
+        );
+    }
+
+    /**
+     * Checks if a user is authenticated.
+     * Changes the auth flow if needed.
+     */
+    componentDidUpdate(prevProps) {
+        this.changeAuthFlowIfNeeded(prevProps);
         this.checkIfUserIsAuthenticated();
     }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    /**
+     * Changes the auth flow if needed
+     * @function
+     * @param {object} prevProps - The previous props object
+     */
+    changeAuthFlowIfNeeded = (prevProps) => {
+        if (
+            (prevProps.authStage === authStages.SIGN_IN &&
+                this.props.authStage === authStages.SIGN_UP) ||
+            (prevProps.authStage === authStages.SIGN_UP &&
+                this.props.authStage === authStages.SIGN_IN)
+        ) {
+            this.props.changeAuthFlow(
+                this.props.authStage === authStages.SIGN_IN ? authFlows.SIGN_IN : authFlows.SIGN_UP
+            );
+        }
+    };
 
     /**
      * Checks if a user is authenticated
@@ -135,9 +173,9 @@ class AuthCard extends Component {
      * @returns {boolean} Indicates if the email is valid
      */
     isEmailValid = () => {
-        const trimmedEmail = this.removeWhitespace(this.state.email);
+        const trimmedEmail = this.removeWhitespace(this.state.formData.email);
 
-        if (this.state.email !== trimmedEmail) {
+        if (this.state.formData.email !== trimmedEmail) {
             // Shows an alert and returns false (email is not valid)
             this.props.showAlert(
                 alertBarTypes.ERROR,
@@ -157,9 +195,9 @@ class AuthCard extends Component {
      * @returns {boolean} Indicates if the password is valid
      */
     isPasswordValid = () => {
-        const trimmedPassword = this.removeWhitespace(this.state.password);
+        const trimmedPassword = this.removeWhitespace(this.state.formData.password);
 
-        if (this.state.password !== trimmedPassword) {
+        if (this.state.formData.password !== trimmedPassword) {
             // Shows an alert and returns false (password is not valid)
             this.props.showAlert(
                 alertBarTypes.ERROR,
@@ -212,7 +250,7 @@ class AuthCard extends Component {
         // The Redux state property "isAuthenticated" will cause this component to update
         firebase
             .auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
+            .signInWithEmailAndPassword(this.state.formData.email, this.state.formData.password)
             .catch((error) => {
                 authError(error.code, error.message, "[AuthCard/signInWithEmailPassword]");
                 this.props.setLoading(false);
@@ -231,7 +269,7 @@ class AuthCard extends Component {
         // The Redux state property "isAuthenticated" will cause this component to update
         firebase
             .auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .createUserWithEmailAndPassword(this.state.formData.email, this.state.formData.password)
             .catch((error) => {
                 authError(error.code, error.message, "[AuthCard/signUpWithEmailPassword]");
                 this.props.setLoading(false);
@@ -355,6 +393,16 @@ AuthCard.propTypes = {
     showAlert: PropTypes.func.isRequired,
 
     /**
+     * Tells Redux to start the auth flow
+     */
+    startAuthFlow: PropTypes.func.isRequired,
+
+    /**
+     * Tells Redux to change the auth flow
+     */
+    changeAuthFlow: PropTypes.func.isRequired,
+
+    /**
      * Tells Redux that this component is no longer needed (i.e. done)
      */
     done: PropTypes.func.isRequired,
@@ -373,4 +421,18 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(AuthCard);
+/**
+ * Passes certain Redux actions to the AuthCard component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof AuthCard
+ * @param {function} dispatch - The react-redux dispatch function
+ * @returns {object} Redux actions used in the AuthCard component
+ */
+const mapDispatchToProps = (dispatch) => {
+    return {
+        startAuthFlow: (flow) => dispatch(startAuthFlow(flow)),
+        changeAuthFlow: (flow) => dispatch(changeAuthFlow(flow)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthCard);

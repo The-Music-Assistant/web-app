@@ -9,15 +9,17 @@
 // File imports
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
+import * as authFlows from "../../pages/Auth/authFlows";
 
 // Initial Redux auth state
 const initialState = {
     isAuthenticated: null, // null value means that auth handler has not yet run
+    authFlow: null, // null value means that auth flow was never started
     isAuthFlowComplete: null, // null value means that auth flow was never started
     error: null,
     shouldShowWelcomePage: false,
     usersName: null,
-    usersPictureUrl: null
+    usersPictureUrl: null,
 };
 
 /**
@@ -28,18 +30,9 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.START_AUTH_FLOW:
-            return updateObject(state, { isAuthFlowComplete: false });
-        case actionTypes.AUTH_FLOW_COMPLETE:
-            if (action.shouldShowWelcomePage) {
-                // Immediately show the welcome page
-                return updateObject(state, {
-                    isAuthFlowComplete: true,
-                    shouldShowWelcomePage: true
-                });
-            } else {
-                // Doesn't set shouldShowWelcomePage to false in case the user has not verified their email (in that case we still want to show the welcome page)
-                return updateObject(state, { isAuthFlowComplete: true });
-            }
+            return updateObject(state, { authFlow: action.flow, isAuthFlowComplete: false });
+        case actionTypes.CHANGE_AUTH_FLOW:
+            return updateObject(state, { authFlow: action.flow });
         case actionTypes.RETRIEVED_USERS_NAME:
             return updateObject(state, { usersName: action.name });
         case actionTypes.USERS_NAME_RETRIEVAL_FAILED:
@@ -49,12 +42,12 @@ const authReducer = (state = initialState, action) => {
         case actionTypes.USERS_PICTURE_URL_RETRIEVAL_FAILED:
             return updateObject(state, { usersPictureUrl: null });
         case actionTypes.USER_AUTHENTICATED:
-            if (state.isAuthFlowComplete === null) {
-                // Auth flow is not needed (user is already signed in)
+            if (state.isAuthFlowComplete === null || state.authFlow === authFlows.SIGN_IN) {
                 return updateObject(state, {
                     isAuthenticated: true,
                     error: null,
-                    isAuthFlowComplete: true
+                    isAuthFlowComplete: true,
+                    authFlow: null,
                 });
             } else {
                 return updateObject(state, { isAuthenticated: true, error: null });
@@ -64,7 +57,18 @@ const authReducer = (state = initialState, action) => {
         case actionTypes.AUTH_ERROR:
             return updateObject(state, { error: action.error });
         case actionTypes.SHOW_WELCOME_PAGE:
-            return updateObject(state, { shouldShowWelcomePage: true });
+            if (action.isAuthFlowComplete) {
+                return updateObject(state, {
+                    shouldShowWelcomePage: true,
+                    isAuthFlowComplete: true,
+                    authFlow: null,
+                });
+            } else {
+                return updateObject(state, {
+                    shouldShowWelcomePage: true,
+                });
+            }
+
         case actionTypes.DO_NOT_SHOW_WELCOME_PAGE:
             return updateObject(state, { shouldShowWelcomePage: false });
         case actionTypes.WELCOME_PAGE_COMPLETE:

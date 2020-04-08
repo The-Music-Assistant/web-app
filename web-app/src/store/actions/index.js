@@ -11,11 +11,12 @@ export { setBrowserType } from "./app";
 export {
     handleAuthStateChanges,
     getUserInfo,
-    authFlowComplete,
+    showWelcomePage,
     doNotShowWelcomePage,
     welcomePageComplete,
     startAuthFlow,
-    signOut
+    changeAuthFlow,
+    signOut,
 } from "./auth";
 
 export { startupDone } from "./startup";
@@ -24,7 +25,7 @@ export {
     choirSelectedForPractice,
     musicSelectedForPractice,
     exerciseRequested,
-    exerciseGenerated
+    exerciseGenerated,
 } from "./practice";
 
 export { choirSelectedForChoirs } from "./choirs";

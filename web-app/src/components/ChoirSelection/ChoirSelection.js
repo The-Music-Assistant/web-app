@@ -224,7 +224,6 @@ class ChoirSelection extends Component {
                 <PageHeader
                     heading='Choir Selection'
                     shouldDisplayBackButton={false}
-                    backButtonClickedHandler={this.backButtonClickedHandler}
                 />
                 {component}
             </div>

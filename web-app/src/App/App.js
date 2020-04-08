@@ -1,7 +1,7 @@
 // NPM module imports
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 // Component imports
@@ -20,9 +20,17 @@ import "./App.scss";
 /**
  * Renders the top level of the React app
  * @author Dan Levy <danlevy124@gmail.com>
+ * @extends {Component}
  * @component
  */
-const App = (props) => {
+class App extends Component {
+    /**
+     * Sets the browser type (mobile or not mobile)
+     */
+    componentDidMount() {
+        this.props.setBrowserType(this.isMobileBrowser());
+    }
+
     /**
      * Determines if the browser is mobile or not.
      * Mobile device check includes:
@@ -33,9 +41,10 @@ const App = (props) => {
      * WebOS (Palm phone),
      * BlackBerry, and
      * Windows Phone.
+     * @function
      * @returns {boolean} - True is the browser is a mobile browser; false otherwise
      */
-    const isMobileBrowser = () => {
+    isMobileBrowser = () => {
         const userAgent = navigator.userAgent;
         return (
             userAgent.match(/iPhone/i) ||
@@ -48,63 +57,76 @@ const App = (props) => {
         );
     };
 
-    // Sets the browser type (mobile or not mobile)
-    props.setBrowserType(isMobileBrowser());
-
     /**
      * Determines which url to redirect to.
      * Uses React Router's Redirect component.
+     * @function
      * @returns {Redirect} A Redirect component
      */
-    const getRedirect = () => {
-        if (!props.isStartupDone) {
+    getRedirect = () => {
+        if (!this.props.isStartupDone) {
             return <Redirect to='/startup' />;
-        } else if (!props.isAuthenticated || !props.isAuthFlowComplete) {
+        } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
             return <Redirect to='/auth' />;
-        } else if (props.shouldShowWelcomePage) {
+        } else if (this.props.shouldShowWelcomePage) {
             return <Redirect to='/welcome' />;
         } else {
             return <Redirect to='/practice' />;
         }
     };
 
-    // Returns the JSX to render
-    return (
-        <BrowserRouter>
-            <div className='app'>
-                {/* Redirects to the correct url */}
-                {getRedirect()}
+    /**
+     * Determines which component to route to.
+     * Uses React Router's Route component.
+     * @function
+     * @returns {Route} A Route component
+     */
+    getRoute = () => {
+        if (!this.props.isStartupDone) {
+            return (
+                <Route>
+                    <Startup />
+                </Route>
+            );
+        } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
+            return (
+                <Route>
+                    <Auth />
+                </Route>
+            );
+        } else if (this.props.shouldShowWelcomePage) {
+            return (
+                <Route>
+                    <Welcome />
+                </Route>
+            );
+        } else {
+            return (
+                <Route>
+                    <Primary />
+                </Route>
+            );
+        }
+    };
 
-                {/* Determines which component to display */}
-                <Switch>
-                    {props.isStartupDone
-                        ? ({
-                              /* Protected routes */
-                          },
-                          [
-                              <Route key={1} path='/auth'>
-                                  <Auth />
-                              </Route>,
-                              <Route key={2} path='/welcome'>
-                                  <Welcome />
-                              </Route>,
-                              <Route key={3} path='/'>
-                                  <Primary />
-                              </Route>,
-                          ])
-                        : ({
-                              /* Public route */
-                          },
-                          (
-                              <Route>
-                                  <Startup />
-                              </Route>
-                          ))}
-                </Switch>
-            </div>
-        </BrowserRouter>
-    );
-};
+    /**
+     * Renders the App component
+     * @returns {object} The JSX to render
+     */
+    render() {
+        return (
+            <BrowserRouter>
+                <div className='app'>
+                    {/* Redirects to the correct url */}
+                    {this.getRedirect()}
+
+                    {/* Determines which component to route to */}
+                    {this.getRoute()}
+                </div>
+            </BrowserRouter>
+        );
+    }
+}
 
 // Prop types for the App component
 App.propTypes = {

@@ -34,14 +34,26 @@ reactComponents['Auth'] = Component2;
 import Component3 from '../../src/components/AuthCards/AuthCard/AuthCard.js';
 reactComponents['AuthCard'] = Component3;
 
-import Component4 from '../../src/pages/Primary/Primary.js';
-reactComponents['Primary'] = Component4;
+import Component4 from '../../src/components/Buttons/BackButton/BackButton.js';
+reactComponents['BackButton'] = Component4;
 
-import Component5 from '../../src/components/AuthCards/ProfileCard/ProfileCard.js';
-reactComponents['ProfileCard'] = Component5;
+import Component5 from '../../src/components/Buttons/ButtonContainer/ButtonContainer.js';
+reactComponents['ButtonContainer'] = Component5;
 
-import Component6 from '../../src/pages/Startup/Startup.js';
-reactComponents['Startup'] = Component6;
+import Component6 from '../../src/pages/Primary/Primary.js';
+reactComponents['Primary'] = Component6;
 
-import Component7 from '../../src/pages/Welcome/Welcome.js';
-reactComponents['Welcome'] = Component7;
+import Component7 from '../../src/components/AuthCards/ProfileCard/ProfileCard.js';
+reactComponents['ProfileCard'] = Component7;
+
+import Component8 from '../../src/components/Buttons/RectangularButton/RectangularButton.js';
+reactComponents['RectangularButton'] = Component8;
+
+import Component9 from '../../src/pages/Startup/Startup.js';
+reactComponents['Startup'] = Component9;
+
+import Component10 from '../../src/components/Buttons/TextButton/TextButton.js';
+reactComponents['TextButton'] = Component10;
+
+import Component11 from '../../src/pages/Welcome/Welcome.js';
+reactComponents['Welcome'] = Component11;

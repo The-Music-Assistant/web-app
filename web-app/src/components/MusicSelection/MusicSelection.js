@@ -93,13 +93,6 @@ class MusicSelection extends Component {
         );
     };
 
-    /**
-     * Goes back to the previous page
-     */
-    backButtonClickedHandler = () => {
-        this.props.history.goBack();
-    };
-
     createSheetMusicComponents = () => {
         // Card color options
         const colors = ["secondaryBlue", "green", "primaryBlue", "orange", "tertiaryBlue", "red"];
@@ -151,7 +144,6 @@ class MusicSelection extends Component {
                     heading={`${this.props.choirName} - Music`}
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Choir Selection"}
-                    backButtonClickedHandler={this.backButtonClickedHandler}
                 />
                 {component}
             </div>

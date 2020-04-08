@@ -1,14 +1,9 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/Buttons/TextButton/TextButton.js
-// Description: Renders the text button component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 1/5/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
+
+// Component Imports
+import ButtonContainer from "../ButtonContainer/ButtonContainer";
 
 // File imports
 import * as textButtonColors from "./textButtonColors";
@@ -17,30 +12,50 @@ import * as buttonTypes from "../buttonTypes";
 // Style imports
 import styles from "./TextButton.module.scss";
 
-const TextButton = props => {
-    // List of class names to attach to the button
-    const classNames = [styles.textButton];
-    classNames.push(styles[`${props.textColor}TextButton`]);
-
-    // Returns JSX to display
+/**
+ * Renders the TextButton component
+ * @author Dan Levy <danlevy124@gmail.com>
+ * @component
+ */
+const TextButton = (props) => {
+    // Returns the JSX to render
     return (
-        <button
-            className={classNames.join(" ")}
+        <ButtonContainer
+            className={`${styles.textButton} ${styles[`${props.textColor}TextButton`]}`}
             type={props.type}
             value={props.value}
             onClick={props.onClick}>
             {props.text}
-        </button>
+        </ButtonContainer>
     );
 };
 
-// TextButton prop types
+// Prop types for the TextButton component
 TextButton.propTypes = {
-    textColor: PropTypes.oneOf([textButtonColors.BLUE, textButtonColors.RED]).isRequired,
+    /**
+     * The button's type (HTML type)
+     */
     type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
+
+    /**
+     * The button's value (HTML value)
+     */
     value: PropTypes.string.isRequired,
+
+    /**
+     * The text to display in the button
+     */
     text: PropTypes.string.isRequired,
-    onClick: PropTypes.func
+
+    /**
+     * The button's text color
+     */
+    textColor: PropTypes.oneOf([textButtonColors.BLUE, textButtonColors.RED]).isRequired,
+
+    /**
+     * Button click handler
+     */
+    onClick: PropTypes.func,
 };
 
 export default TextButton;

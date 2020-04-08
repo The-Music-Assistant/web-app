@@ -173,13 +173,6 @@ class Music extends Component {
         }
     };
 
-    /**
-     * Destroys the AlphaTab API before going back a page
-     */
-    backButtonClickedHandler = () => {
-        this.props.history.goBack();
-    };
-
     switchToNewMusicPage = pageType => {
         this.updateMusicPage();
         const routeUrl = this.getNewUrl(pageType);
@@ -324,7 +317,6 @@ class Music extends Component {
                     heading={this.getPageHeading()}
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Music Selection"}
-                    backButtonClickedHandler={this.backButtonClickedHandler}
                 />
                 <div className={styles.musicMain}>
                     {component}

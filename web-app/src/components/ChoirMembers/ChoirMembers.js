@@ -11,7 +11,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import shortid from "shortid";
-import { withRouter } from "react-router-dom";
 
 // Component imports
 import MemberCard from "./MemberCard/MemberCard";
@@ -105,10 +104,6 @@ class ChoirMembers extends Component {
         }
     };
 
-    backButtonClickedHandler = () => {
-        this.props.history.goBack();
-    };
-
     /**
      * Gets an array of admin member cards and an array of student member cards
      * @returns - An object containing an array of admins and an array of students
@@ -183,7 +178,6 @@ class ChoirMembers extends Component {
                     heading={`${this.props.choirName} Members`}
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Choir Selection"}
-                    backButtonClickedHandler={this.backButtonClickedHandler}
                 />
                 {component}
             </div>
@@ -208,4 +202,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(ChoirMembers));
+export default connect(mapStateToProps)(ChoirMembers);
