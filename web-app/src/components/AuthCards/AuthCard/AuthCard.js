@@ -42,6 +42,11 @@ class AuthCard extends Component {
         },
     };
 
+    /**
+     * Indicates whether the component is mounted or not.
+     * Used for asynchronous tasks.
+     * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+     */
     _isMounted = false;
 
     /**
@@ -307,7 +312,7 @@ class AuthCard extends Component {
     };
 
     /**
-     * Renders the auth card component
+     * Renders the AuthCard component
      * @returns {object} The JSX to render
      */
     render() {
@@ -374,11 +379,11 @@ AuthCard.propTypes = {
     /**
      * Indicates if a user is authenticated
      */
-    isAuthenticated: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
 
     /**
-     * The current auth stage
-     * The PROFILE auth stage is not allowed here because this component is not concerned with that stage
+     * The current auth stage.
+     * See {@link module:authStages}.
      */
     authStage: PropTypes.oneOf([authStages.SIGN_IN, authStages.SIGN_UP]).isRequired,
 

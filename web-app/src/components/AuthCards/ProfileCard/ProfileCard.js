@@ -325,7 +325,7 @@ ProfileCard.propTypes = {
     /**
      * Indicates if a user is authenticated
      */
-    isAuthenticated: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
 
     /**
      * Tells Redux to show/hide the loading HUD (true for show and false for hide (i.e. remove))

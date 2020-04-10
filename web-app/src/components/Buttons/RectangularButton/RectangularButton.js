@@ -33,7 +33,8 @@ const RectangularButton = (props) => {
 // Prop types for the RectangularButton component
 RectangularButton.propTypes = {
     /**
-     * The button's type (HTML type)
+     * The button's type (HTML type).
+     * See {@link module:buttonTypes}.
      */
     type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
 
@@ -48,7 +49,8 @@ RectangularButton.propTypes = {
     text: PropTypes.string.isRequired,
 
     /**
-     * The button's background color
+     * The button's background color.
+     * See {@link module:rectangularButtonColorOptions}.
      */
     backgroundColor: PropTypes.oneOf([
         rectButtonColors.WHITE,

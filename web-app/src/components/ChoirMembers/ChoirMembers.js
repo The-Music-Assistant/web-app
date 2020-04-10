@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/ChoirMembers/ChoirMembers.js
-// Description: Renders the choir members component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 3/8/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -20,23 +12,41 @@ import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 // File imports
 import { getChoirMembers } from "../../vendors/AWS/tmaApi";
 import firebase from "../../vendors/Firebase/firebase";
-import * as memberColorOptions from "./MemberCard/colorOptions";
+import * as memberColorOptions from "./MemberCard/memberCardColorOptions";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { choirMembersError } from "../../vendors/Firebase/logs";
 
 // Style imports
 import styles from "./ChoirMembers.module.scss";
 
+/**
+ * Renders the ChoirMembers component.
+ * Shows all choir member profiles.
+ * @author Dan Levy <danlevy124@gmail.com>
+ * @component
+ */
 class ChoirMembers extends Component {
-    // Component state
+    /**
+     * ChoirMembers component state
+     * @property {boolean} isLoading - Indicates if the component is in a loading state
+     * @property {array} members - A list of choir members
+     */
     state = {
         isLoading: true,
-        members: null
+        members: null,
     };
 
-    // Flag that states whether the component is mounted or not
+    /**
+     * Indicates whether the component is mounted or not.
+     * Used for asynchronous tasks.
+     * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+     */
     _isMounted = false;
 
+    /**
+     * Sets _isMounted to true
+     * Gets the choir members
+     */
     componentDidMount() {
         this._isMounted = true;
 
@@ -44,23 +54,27 @@ class ChoirMembers extends Component {
         this.getMembers();
     }
 
+    /**
+     * Sets _isMounted to false
+     */
     componentWillUnmount() {
         this._isMounted = false;
     }
 
     /**
-     * Gets the choir members from the server
-     * Updates state with the members
+     * Gets the choir members from the server.
+     * Updates state with the members.
+     * @function
      */
     getMembers = () => {
         getChoirMembers({ choirId: this.props.choirId })
-            .then(response => {
+            .then((response) => {
                 // Updates state
                 if (this._isMounted) this.setState({ isLoading: false, members: response.data });
-                // Gets the members' profile pictures (this is async and will update the correct card when the picture comes in)
+                // Gets each member's profile picture (this is async and will update the correct card when the picture comes in)
                 this.getMembersProfilePictures();
             })
-            .catch(error => {
+            .catch((error) => {
                 // Logs an error
                 choirMembersError(
                     error.response.status,
@@ -77,14 +91,16 @@ class ChoirMembers extends Component {
     };
 
     /**
-     * Gets the members' profile picture urls
-     * Updates state with the url
+     * Gets each member's profile picture url.
+     * Updates state with the url.
+     * @function
      */
     getMembersProfilePictures = () => {
         if (this.state.members) {
             for (let i = 0; i < this.state.members.length; i++) {
                 // Get the member (deep copy)
                 const member = { ...this.state.members[i] };
+
                 if (member.has_picture) {
                     // Gets the member's picture url from Firebase storage
                     firebase
@@ -92,7 +108,7 @@ class ChoirMembers extends Component {
                         .ref()
                         .child(`users/${member.person_id}/profile_picture_200x200`)
                         .getDownloadURL()
-                        .then(url => {
+                        .then((url) => {
                             // Updates state with the url
                             member.picture_url = url;
                             const members = [...this.state.members];
@@ -106,7 +122,8 @@ class ChoirMembers extends Component {
 
     /**
      * Gets an array of admin member cards and an array of student member cards
-     * @returns - An object containing an array of admins and an array of students
+     * @function
+     * @returns {object} An object containing an array of admin MemberCard components and an array of student MemberCard components
      */
     getMemberCards = () => {
         const admins = [];
@@ -115,7 +132,7 @@ class ChoirMembers extends Component {
         if (this.state.members) {
             // Creates a member card for each member of the choir
             for (let i = 0; i < this.state.members.length; i++) {
-                // The current member
+                // Gets the current member
                 const member = this.state.members[i];
 
                 if (member.member_type === "admin") {
@@ -133,9 +150,10 @@ class ChoirMembers extends Component {
 
     /**
      * Creates a member card component
+     * @function
      * @param {object} member - The member data used to create the member card
-     * @param {*} color - The color to use for the card
-     * @returns - A member card component
+     * @param {string} color - The color to use for the card
+     * @returns {object} A MemberCard component
      */
     createMemberCard(member, color) {
         return (
@@ -149,7 +167,10 @@ class ChoirMembers extends Component {
         );
     }
 
-    // Renders the JSX
+    /**
+     * Renders the ChoirMembers component
+     * @returns {object} The JSX to render
+     */
     render() {
         const { admins, students } = this.getMemberCards();
 
@@ -158,7 +179,7 @@ class ChoirMembers extends Component {
 
         if (this.state.isLoading) {
             // Display a loading spinner
-            component = <LoadingContainer message="Loading members..." />
+            component = <LoadingContainer message='Loading members...' />;
         } else {
             // Display the choir cards
             component = (
@@ -187,18 +208,33 @@ class ChoirMembers extends Component {
 
 // Prop types for the ChoirMembers component
 ChoirMembers.propTypes = {
+    /**
+     * The id of the selected choir
+     */
     choirId: PropTypes.string.isRequired,
-    showAlert: PropTypes.func.isRequired
+
+    /**
+     * The name of the selected choir
+     */
+    choirName: PropTypes.string.isRequired,
+
+    /**
+     * Shows an alert
+     */
+    showAlert: PropTypes.func.isRequired,
 };
 
 /**
- * Gets the current state from Redux and passes it to the App component as props
+ * Gets the current state from Redux and passes parts of it to the ChoirMembers component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof ChoirMembers
  * @param {object} state - The Redux state
+ * @returns {object} Redux state properties used in the ChoirMembers component
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         choirId: state.choirs.selectedChoirId,
-        choirName: state.choirs.selectedChoirName
+        choirName: state.choirs.selectedChoirName,
     };
 };
 

@@ -33,7 +33,8 @@ const TextButton = (props) => {
 // Prop types for the TextButton component
 TextButton.propTypes = {
     /**
-     * The button's type (HTML type)
+     * The button's type (HTML type).
+     * See {@link module:buttonTypes}.
      */
     type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
 
@@ -48,7 +49,8 @@ TextButton.propTypes = {
     text: PropTypes.string.isRequired,
 
     /**
-     * The button's text color
+     * The button's text color.
+     * See {@link module:textButtonColors}.
      */
     textColor: PropTypes.oneOf([textButtonColors.BLUE, textButtonColors.RED]).isRequired,
 
