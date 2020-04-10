@@ -199,7 +199,7 @@ class AlertBar extends Component {
 AlertBar.propTypes = {
     /**
      * The type of AlertBar to display (determines the color).
-     * See {@link module:alertBarTypes}.
+     * See [types]{@link module:alertBarTypes}.
      */
     type: PropTypes.oneOf([
         alertBarTypes.SUCCESS,

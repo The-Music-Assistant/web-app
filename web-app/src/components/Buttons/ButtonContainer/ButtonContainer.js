@@ -37,7 +37,7 @@ ButtonContainer.propTypes = {
 
     /**
      * The button's type (HTML type).
-     * See {@link module:buttonTypes}.
+     * See [types]{@link module:buttonTypes}.
      */
     type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
 

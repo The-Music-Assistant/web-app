@@ -7,5 +7,10 @@
         "recurse": true,
         "template": "node_modules/better-docs"
     },
-    "plugins": ["node_modules/better-docs/component"]
+    "plugins": ["node_modules/better-docs/component"],
+    "templates": {
+        "better-docs": {
+            "name": "The Music Assistant Web App Documentation"
+        }
+    }
 }

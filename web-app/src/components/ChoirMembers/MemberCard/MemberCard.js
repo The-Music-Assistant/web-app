@@ -97,7 +97,7 @@ MemberCard.propTypes = {
 
     /**
      * The background color of the component.
-     * See {@link module:memberCardColorOptions}.
+     * See [options]{@link module:memberCardColorOptions}.
      */
     color: PropTypes.oneOf([
         colorOptions.PRIMARY_BLUE,

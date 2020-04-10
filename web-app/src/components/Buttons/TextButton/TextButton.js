@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import ButtonContainer from "../ButtonContainer/ButtonContainer";
 
 // File imports
-import * as textButtonColors from "./textButtonColors";
+import * as colors from "./textButtonColorOptions";
 import * as buttonTypes from "../buttonTypes";
 
 // Style imports
@@ -34,7 +34,7 @@ const TextButton = (props) => {
 TextButton.propTypes = {
     /**
      * The button's type (HTML type).
-     * See {@link module:buttonTypes}.
+     * See [types]{@link module:buttonTypes}.
      */
     type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
 
@@ -50,9 +50,9 @@ TextButton.propTypes = {
 
     /**
      * The button's text color.
-     * See {@link module:textButtonColors}.
+     * See [options]{@link module:textButtonColorOptions}.
      */
-    textColor: PropTypes.oneOf([textButtonColors.BLUE, textButtonColors.RED]).isRequired,
+    textColor: PropTypes.oneOf([colors.BLUE, colors.RED]).isRequired,
 
     /**
      * Button click handler

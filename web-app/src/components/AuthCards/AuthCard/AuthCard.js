@@ -383,7 +383,7 @@ AuthCard.propTypes = {
 
     /**
      * The current auth stage.
-     * See {@link module:authStages}.
+     * See [stages]{@link module:authStages}.
      */
     authStage: PropTypes.oneOf([authStages.SIGN_IN, authStages.SIGN_UP]).isRequired,
 
