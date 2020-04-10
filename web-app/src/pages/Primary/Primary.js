@@ -20,7 +20,7 @@ import Footer from "../../components/Footer/Footer";
 
 // File imports
 import { signOut } from "../../store/actions";
-import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/routingOptions";
+import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/choirSelectionRoutingOptions";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";

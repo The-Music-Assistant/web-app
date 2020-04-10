@@ -49,7 +49,7 @@ class ProfileCard extends Component {
     /**
      * Updates state with new file input image
      * @function
-     * @param {object} event - The event that called this function
+     * @param event - The event that called this function
      */
     imageInputValueChangedHandler = (event) => {
         // Gets the profile picture if it exists
@@ -100,7 +100,7 @@ class ProfileCard extends Component {
     /**
      * Updates state with new text input value
      * @function
-     * @param {object} event - The event that called this function
+     * @param event - The event that called this function
      */
     textInputValueChangedHandler = (event) => {
         const inputName = event.target.name;
@@ -202,9 +202,9 @@ class ProfileCard extends Component {
     };
 
     /**
-     * Gets the image card input element
+     * Gets the image input element
      * @function
-     * @returns {object} JSX
+     * @returns The image input element (JSX)
      */
     getImageInputElement = () => {
         return this.state.formData.profilePicture ? (
@@ -259,7 +259,6 @@ class ProfileCard extends Component {
 
     /**
      * Renders the ProfileCard component
-     * @returns {object} The JSX to render
      */
     render() {
         // If there is an image to show, display it in an image tag, along with a remove button

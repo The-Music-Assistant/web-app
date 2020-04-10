@@ -50,6 +50,7 @@ class AuthCard extends Component {
     _isMounted = false;
 
     /**
+     * Sets _isMounted to true
      * Starts the auth flow
      */
     componentDidMount() {
@@ -68,6 +69,9 @@ class AuthCard extends Component {
         this.checkIfUserIsAuthenticated();
     }
 
+    /**
+     * Sets _isMounted to false
+     */
     componentWillUnmount() {
         this._isMounted = false;
     }
@@ -132,7 +136,7 @@ class AuthCard extends Component {
     /**
      * Updates state with new text input value
      * @function
-     * @param {object} event - The event that called this function
+     * @param event - The event that called this function
      */
     textInputValueChangedHandler = (event) => {
         const inputName = event.target.name;
@@ -151,7 +155,7 @@ class AuthCard extends Component {
     /**
      * Submits the authentication form (sign in or sign up)
      * @function
-     * @param {object} event - The event that called this function
+     * @param event - The event that called this function
      */
     submitHandler = (event) => {
         // Prevents a page reload
@@ -313,7 +317,6 @@ class AuthCard extends Component {
 
     /**
      * Renders the AuthCard component
-     * @returns {object} The JSX to render
      */
     render() {
         return (

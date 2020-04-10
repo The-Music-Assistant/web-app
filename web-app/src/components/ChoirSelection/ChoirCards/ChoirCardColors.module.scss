@@ -1,0 +1,81 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/ChoirSelection/ChoirCards/ChoirCardColors.module.scss
+// Description: SCSS styles for a choir card component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 4/10/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.primaryBlue {
+    background-color: $primary-color;
+
+    &:hover {
+        box-shadow: $primary-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $primary-color, $amount: 10%);
+    }
+}
+
+.secondaryBlue {
+    background-color: $secondary-color;
+
+    &:hover {
+        box-shadow: $secondary-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $secondary-color, $amount: 10%);
+    }
+}
+
+.tertiaryBlue {
+    background-color: $tertiary-color;
+
+    &:hover {
+        box-shadow: $tertiary-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $tertiary-color, $amount: 10%);
+    }
+}
+
+.green {
+    background-color: $green-color;
+
+    &:hover {
+        box-shadow: $green-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $green-color, $amount: 10%);
+    }
+}
+
+.orange {
+    background-color: $orange-color;
+
+    &:hover {
+        box-shadow: $orange-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $orange-color, $amount: 10%);
+    }
+}
+
+.red {
+    background-color: $red-color;
+
+    &:hover {
+        box-shadow: $red-color-box-shadow;
+    }
+
+    &Darken {
+        background-color: darken($color: $red-color, $amount: 10%);
+    }
+}

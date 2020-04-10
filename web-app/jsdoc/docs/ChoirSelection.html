@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: ChoirSelection</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                     
+                        <h1 class="navbar-item">The Music Assistant Web App Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-alertBarTransitionOptions.html">alertBarTransitionOptions</a></li><li><a href="module-alertBarTypes.html">alertBarTypes</a></li><li><a href="module-authFlows.html">authFlows</a></li><li><a href="module-authStages.html">authStages</a></li><li><a href="module-buttonTypes.html">buttonTypes</a></li><li><a href="module-choirCardColorOptions.html">choirCardColorOptions</a></li><li><a href="module-choirSelectionRoutingOptions.html">choirSelectionRoutingOptions</a></li><li><a href="module-memberCardColorOptions.html">memberCardColorOptions</a></li><li><a href="module-rectangularButtonColorOptions.html">rectangularButtonColorOptions</a></li><li><a href="module-textButtonColorOptions.html">textButtonColorOptions</a></li><li><a href="module-tmaApi.html">tmaApi</a></li></ul><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="Pitch.html">Pitch</a></li></ul><h3>Components</h3><ul><li><a href="AlertBar.html">AlertBar</a></li><li><a href="App.html">App</a></li><li><a href="Auth.html">Auth</a></li><li><a href="AuthCard.html">AuthCard</a></li><li><a href="BackButton.html">BackButton</a></li><li><a href="ButtonContainer.html">ButtonContainer</a></li><li><a href="ChoirCard.html">ChoirCard</a></li><li><a href="ChoirMembers.html">ChoirMembers</a></li><li><a href="ChoirOptionCard.html">ChoirOptionCard</a></li><li><a href="ChoirSelection.html">ChoirSelection</a></li><li><a href="MemberCard.html">MemberCard</a></li><li><a href="Primary.html">Primary</a></li><li><a href="ProfileCard.html">ProfileCard</a></li><li><a href="RectangularButton.html">RectangularButton</a></li><li><a href="Startup.html">Startup</a></li><li><a href="TextButton.html">TextButton</a></li><li><a href="Welcome.html">Welcome</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphaTabPlayerFinished">alphaTabPlayerFinished</a></li><li><a href="global.html#alphaTabPlayerStateChanged">alphaTabPlayerStateChanged</a></li><li><a href="global.html#alphaTabPostRenderFinished">alphaTabPostRenderFinished</a></li><li><a href="global.html#appReducer">appReducer</a></li><li><a href="global.html#authError">authError</a></li><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#changeAuthFlow">changeAuthFlow</a></li><li><a href="global.html#changePart">changePart</a></li><li><a href="global.html#changeToExercise">changeToExercise</a></li><li><a href="global.html#choirSelectedForChoirs">choirSelectedForChoirs</a></li><li><a href="global.html#choirSelectedForPractice">choirSelectedForPractice</a></li><li><a href="global.html#choirsReducer">choirsReducer</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#displayMidi">displayMidi</a></li><li><a href="global.html#doNotShowWelcomePage">doNotShowWelcomePage</a></li><li><a href="global.html#exerciseGenerated">exerciseGenerated</a></li><li><a href="global.html#exerciseRequested">exerciseRequested</a></li><li><a href="global.html#getMyPart">getMyPart</a></li><li><a href="global.html#getNumberOfLedgerLines">getNumberOfLedgerLines</a></li><li><a href="global.html#getOctave">getOctave</a></li><li><a href="global.html#getPartList">getPartList</a></li><li><a href="global.html#getPlaybackRange">getPlaybackRange</a></li><li><a href="global.html#getSheetMusicLedgerHeights">getSheetMusicLedgerHeights</a></li><li><a href="global.html#handleAuthStateChanges">handleAuthStateChanges</a></li><li><a href="global.html#initializeAPI">initializeAPI</a></li><li><a href="global.html#initializeFeedbackDrawer">initializeFeedbackDrawer</a></li><li><a href="global.html#isPitchDetectionAvailable">isPitchDetectionAvailable</a></li><li><a href="global.html#loadExercise">loadExercise</a></li><li><a href="global.html#loadJustMyPart">loadJustMyPart</a></li><li><a href="global.html#mapDispatchToProps">mapDispatchToProps</a></li><li><a href="global.html#mapStateToProps">mapStateToProps</a></li><li><a href="global.html#musicSelectedForPractice">musicSelectedForPractice</a></li><li><a href="global.html#onFirstRender">onFirstRender</a></li><li><a href="global.html#onSubsequentRender">onSubsequentRender</a></li><li><a href="global.html#p5FeedbackSketch">p5FeedbackSketch</a></li><li><a href="global.html#p5PerformanceSketch">p5PerformanceSketch</a></li><li><a href="global.html#practiceReducer">practiceReducer</a></li><li><a href="global.html#resetSheetMusic">resetSheetMusic</a></li><li><a href="global.html#retrievedUsersName">retrievedUsersName</a></li><li><a href="global.html#retrievedUsersPictureUrl">retrievedUsersPictureUrl</a></li><li><a href="global.html#setupPitchDetection">setupPitchDetection</a></li><li><a href="global.html#showWelcomePage">showWelcomePage</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#signOutSuccess">signOutSuccess</a></li><li><a href="global.html#startAuthFlow">startAuthFlow</a></li><li><a href="global.html#startPitchDetection">startPitchDetection</a></li><li><a href="global.html#startPlayingMusic">startPlayingMusic</a></li><li><a href="global.html#startupDone">startupDone</a></li><li><a href="global.html#startupReducer">startupReducer</a></li><li><a href="global.html#stopPitchDetection">stopPitchDetection</a></li><li><a href="global.html#stopPlayingMusic">stopPlayingMusic</a></li><li><a href="global.html#timeToMeasureNumber">timeToMeasureNumber</a></li><li><a href="global.html#updateObject">updateObject</a></li><li><a href="global.html#userAuthenticated">userAuthenticated</a></li><li><a href="global.html#userNotAuthenticated">userNotAuthenticated</a></li><li><a href="global.html#usersNameRetrievalFailed">usersNameRetrievalFailed</a></li><li><a href="global.html#usersPictureUrlRetrievalFailed">usersPictureUrlRetrievalFailed</a></li><li><a href="global.html#welcomePageComplete">welcomePageComplete</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Components</p>
+                        <h1>ChoirSelection</h1>
+                    </header>
+                    
+                    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            &ltChoirSelection <i>routing</i> <i>history</i> <i>showAlert</i> <i>choirSelectedForPractice</i> <i>choirSelectedForChoirs</i> /&gt
+        </h2>
+        
+            <div class="class-description">Renders the choir selection component
+Shows a card for each choir, as well as card(s) for choir option(s).</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <h3 class="title"><span>Constructor</span></h3>
+                <div class="members">
+                    <div class="member">
+
+
+    
+    <h4 class="name" id="ChoirSelection">
+        <a class="href-link" href="#ChoirSelection">#</a>
+        
+        <span class="code-name">
+            
+                &ltChoirSelection <i>routing</i> <i>history</i> <i>showAlert</i> <i>choirSelectedForPractice</i> <i>choirSelectedForChoirs</i> /&gt
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+    
+        <h5>PropTypes:</h5>
+        
+
+<table class="params">
+  <thead>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+      <th class="last">Default</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>routing</code></td>
+          <td>
+            enum
+          </td>
+          <td>Yes</td>
+          <td>Where to route when a choir card is clicked on.
+see <a href="module-choirSelectionRoutingOptions.html">options</a>.</td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>history</code></td>
+          <td>
+            object
+          </td>
+          <td>Yes</td>
+          <td>React Router history object.
+This is provided by the withRouter function.</td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>showAlert</code></td>
+          <td>
+            func
+          </td>
+          <td>Yes</td>
+          <td>Shows an alert</td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>choirSelectedForPractice</code></td>
+          <td>
+            func
+          </td>
+          <td>Yes</td>
+          <td>Updates Redux with choir data.
+Used when selecting a choir to practice for.</td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>choirSelectedForChoirs</code></td>
+          <td>
+            func
+          </td>
+          <td>Yes</td>
+          <td>Updates Redux with choir data.
+Used when selecting a choir to view members of.</td>
+          <td></td>
+        </tr>
+        
+  
+  </tbody>
+</table>
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:danlevy124@gmail.com">Dan Levy</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line36">line 36</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+        
+    
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li>Component</li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Members</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+<h4 class="name" id="_isMounted">
+    <a class="href-link" href="#_isMounted">#</a>
+    
+    <span class="code-name">
+        _isMounted
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates whether the component is mounted or not.
+Used for asynchronous tasks.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html">https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line52">line 52</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="choirClickedHandler">
+    <a class="href-link" href="#choirClickedHandler">#</a>
+    
+    <span class="code-name">
+        choirClickedHandler
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Updates Redux with the selected choir id and choir name
+Routes to the new url
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line107">line 107</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="getChoirComponents">
+    <a class="href-link" href="#getChoirComponents">#</a>
+    
+    <span class="code-name">
+        getChoirComponents
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Creates a ChoirCard component for each choir.
+Also creates a ChoirOptionCard for each choir option.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line172">line 172</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="state">
+    <a class="href-link" href="#state">#</a>
+    
+    <span class="code-name">
+        state
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    ChoirSelection component state
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>isLoading</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">boolean</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Indicates if the component is in a loading state</td>
+</tr>
+
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>choirs</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">array</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">An array of choirs that the user is a member of</td>
+</tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line42">line 42</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Methods</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="componentDidMount">
+        <a class="href-link" href="#componentDidMount">#</a>
+        
+        <span class="code-name">
+            
+                componentDidMount<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Sets _isMounted to true.
+Gets the list of choirs.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line58">line 58</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="componentWillUnmount">
+        <a class="href-link" href="#componentWillUnmount">#</a>
+        
+        <span class="code-name">
+            
+                componentWillUnmount<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Sets _isMounted to false
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line66">line 66</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getChoirCards">
+        <a class="href-link" href="#getChoirCards">#</a>
+        
+        <span class="code-name">
+            
+                getChoirCards<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Gets an array of ChoirCard components
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line206">line 206</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>An array of ChoirCard components</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">array</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getChoirList">
+        <a class="href-link" href="#getChoirList">#</a>
+        
+        <span class="code-name">
+            
+                getChoirList<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Gets the list of choirs that the user is a member of
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line74">line 74</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="newChoirClickHandler">
+        <a class="href-link" href="#newChoirClickHandler">#</a>
+        
+        <span class="code-name">
+            
+                newChoirClickHandler<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Attempts to join a new choir
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line134">line 134</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="render">
+        <a class="href-link" href="#render">#</a>
+        
+        <span class="code-name">
+            
+                render<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Renders the ChoirSelection component
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_ChoirSelection_ChoirSelection.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_ChoirSelection_ChoirSelection.js.html">components/ChoirSelection/ChoirSelection.js</a>, <a href="components_ChoirSelection_ChoirSelection.js.html#line248">line 248</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Fri Apr 10 2020 16:17:19 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

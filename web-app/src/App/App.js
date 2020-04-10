@@ -111,7 +111,7 @@ class App extends Component {
 
     /**
      * Renders the App component
-     * @returns {object} The JSX to render
+     * @returns The JSX to render
      */
     render() {
         return (

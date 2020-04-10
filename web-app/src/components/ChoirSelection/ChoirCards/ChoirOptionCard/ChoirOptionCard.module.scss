@@ -1,0 +1,36 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/ChoirSelection/ChoirCards/ChoirOptionCard/ChoirOptionCard.module.scss
+// Description: SCSS styles for the ChoirOptionCard component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 4/10/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../../root-styles/utilities.scss";
+
+.choirOptionCard {
+    width: 280px;
+    height: 280px;
+    border-radius: 10px;
+    box-shadow: $primary-box-shadow;
+    transition: box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    @include grid-container(
+        $grid-template-rows: 80px auto,
+        $grid-template-columns: 1fr,
+        $align-items: center
+    );
+
+    &Icon {
+        display: block;
+        margin: 30px auto 0;
+        width: 60px;
+    }
+
+    &Name {
+        @include text($size: 1.6rem, $weight: 400, $color: $white-color, $line-height: 2rem);
+        text-align: center;
+        max-height: 50px;
+        margin: 0 20px;
+    }
+}

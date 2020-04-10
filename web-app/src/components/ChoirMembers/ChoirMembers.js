@@ -22,6 +22,7 @@ import styles from "./ChoirMembers.module.scss";
 /**
  * Renders the ChoirMembers component.
  * Shows all choir member profiles.
+ * @extends {Component}
  * @author Dan Levy <danlevy124@gmail.com>
  * @component
  */
@@ -169,7 +170,6 @@ class ChoirMembers extends Component {
 
     /**
      * Renders the ChoirMembers component
-     * @returns {object} The JSX to render
      */
     render() {
         const { admins, students } = this.getMemberCards();

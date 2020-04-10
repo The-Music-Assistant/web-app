@@ -53,6 +53,12 @@ BackButton.propTypes = {
      * The text to display in the button
      */
     text: PropTypes.string.isRequired,
+
+    /**
+     * React Router history object.
+     * This is provided by the withRouter function.
+     */
+    history: PropTypes.object.isRequired,
 };
 
 export default withRouter(BackButton);

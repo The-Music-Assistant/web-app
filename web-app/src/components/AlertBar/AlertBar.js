@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 // File imports
 import * as alertBarTypes from "./alertBarTypes";
-import * as transitionOptions from "./transitionOptions";
+import * as transitionOptions from "./alertBarTransitionOptions";
 
 // Image imports
 import closeIconWhite from "../../assets/icons/close-icon-white.svg";
@@ -22,7 +22,7 @@ import styles from "./AlertBar.module.scss";
 class AlertBar extends Component {
     /**
      * AlertBar component state
-     * @property {module:transitionOptions} transition - The current CSS transition
+     * @property {module:alertBarTransitionOptions} transition - The current CSS transition
      */
     state = {
         transition: null,
@@ -163,7 +163,6 @@ class AlertBar extends Component {
 
     /**
      * Renders the AlertBar component
-     * @returns {object} The JSX to render
      */
     render() {
         return (

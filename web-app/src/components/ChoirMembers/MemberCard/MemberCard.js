@@ -65,7 +65,6 @@ class MemberCard extends Component {
 
     /**
      * Renders the MemberCard component
-     * @returns {object} The JSX to render
      */
     render() {
         return (

@@ -1,7 +1,7 @@
 /**
  * AlertBar component transition options.
  * Treat this file as an enum.
- * @module transitionOptions
+ * @module alertBarTransitionOptions
  * @author Dan Levy <danlevy124@gmail.com>
  */
 
