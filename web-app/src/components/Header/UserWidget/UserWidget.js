@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/Header/UserWidget/UserWidget.js
-// Description: Renders the user widget component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 10/23/2019
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -14,24 +6,37 @@ import { connect } from "react-redux";
 // Style imports
 import styles from "./UserWidget.module.scss";
 
+/**
+ * Renders the UserWidget component
+ * @extends {Component}
+ * @component
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
 class UserWidget extends Component {
-    // Component state
+    /**
+     * UserWidget component state
+     * @property {boolean} isProfilePictureError - Indicates if there was an error displaying the user's profile picture
+     */
     state = {
-        profilePictureError: false
-    };
-
-    profilePictureErrorHandler = () => {
-        this.setState({ profilePictureError: true });
+        isProfilePictureError: false,
     };
 
     /**
-     * Renders the User Widget component
+     * Updates state indicating that there was a profile picture error
+     * @function
+     */
+    profilePictureErrorHandler = () => {
+        this.setState({ isProfilePictureError: true });
+    };
+
+    /**
+     * Renders the UserWidget component
      */
     render() {
-        // Returns the JSX to display
         return (
             <div className={styles.userWidget}>
-                {this.props.profilePictureUrl && !this.state.profilePictureError ? (
+                {/* User's profile picture */}
+                {this.props.profilePictureUrl && !this.state.isProfilePictureError ? (
                     <img
                         className={styles.userWidgetImg}
                         src={this.props.profilePictureUrl}
@@ -39,6 +44,8 @@ class UserWidget extends Component {
                         onError={this.profilePictureErrorHandler}
                     />
                 ) : null}
+
+                {/* User's name */}
                 <h2 className={styles.userWidgetName}>{this.props.name}</h2>
             </div>
         );
@@ -46,20 +53,30 @@ class UserWidget extends Component {
 }
 
 /**
- * Gets the current state from Redux and passes it to the UserWidget component as props
+ * Gets the current state from Redux and passes parts of it to the UserWidget component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof UserWidget
  * @param {object} state - The Redux state
+ * @returns {object} Redux state properties used in the UserWidget component
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         name: state.auth.usersName,
-        profilePictureUrl: state.auth.usersPictureUrl
+        profilePictureUrl: state.auth.usersPictureUrl,
     };
 };
 
 // Prop types for the UserWidget component
 UserWidget.propTypes = {
-    profilePic: PropTypes.string,
-    name: PropTypes.string.isRequired
+    /**
+     * The user's name
+     */
+    name: PropTypes.string.isRequired,
+
+    /**
+     * The user's profile picture url
+     */
+    profilePictureUrl: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(UserWidget);

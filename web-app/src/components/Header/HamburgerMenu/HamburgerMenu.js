@@ -13,10 +13,16 @@ import PropTypes from "prop-types";
 // Style imports
 import styles from "./HamburgerMenu.module.scss";
 
-const HamburgerMenu = props => {
-    // Returns the JSX to display
+/**
+ * Renders the HamburgerMenu component.
+ * NOTE: This component contains just the hamburger menu icon, and not the mobile navigation.
+ * @component
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+const HamburgerMenu = (props) => {
+    // Returns the JSX to render
     return (
-        <button className={styles.hamburgerMenu} onClick={props.handleClick}>
+        <button className={styles.hamburgerMenu} onClick={props.onClick}>
             <div className={styles.hamburgerMenuBar}></div>
             <div className={styles.hamburgerMenuBar}></div>
             <div className={styles.hamburgerMenuBar}></div>
@@ -24,9 +30,12 @@ const HamburgerMenu = props => {
     );
 };
 
-// HamburgerMenu prop types
+// Prop types for the HamburgerMenu component
 HamburgerMenu.propTypes = {
-    handleClick: PropTypes.func.isRequired
-}
+    /**
+     * Click handler
+     */
+    onClick: PropTypes.func.isRequired,
+};
 
 export default HamburgerMenu;

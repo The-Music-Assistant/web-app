@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/Progress/Progress.js
-// Description: Renders the progress component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/29/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 
@@ -15,7 +7,15 @@ import underConstruction from "../../assets/images/under-construction-hero.png";
 // Style imports
 import styles from "./Progress.module.scss";
 
+/**
+ * Renders the Progress component
+ * @component
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
 const Progress = () => {
+    // TODO: Set this component up
+
+    // Returns the JSX to render
     return (
         <div className={styles.progress}>
             <img

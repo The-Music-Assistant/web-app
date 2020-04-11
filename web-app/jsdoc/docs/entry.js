@@ -52,23 +52,56 @@ reactComponents['ChoirOptionCard'] = Component8;
 import Component9 from '../../src/components/ChoirSelection/ChoirSelection.js';
 reactComponents['ChoirSelection'] = Component9;
 
-import Component10 from '../../src/components/ChoirMembers/MemberCard/MemberCard.js';
-reactComponents['MemberCard'] = Component10;
+import Component10 from '../../src/components/Footer/Footer.js';
+reactComponents['Footer'] = Component10;
 
-import Component11 from '../../src/pages/Primary/Primary.js';
-reactComponents['Primary'] = Component11;
+import Component11 from '../../src/components/Header/HamburgerMenu/HamburgerMenu.js';
+reactComponents['HamburgerMenu'] = Component11;
 
-import Component12 from '../../src/components/AuthCards/ProfileCard/ProfileCard.js';
-reactComponents['ProfileCard'] = Component12;
+import Component12 from '../../src/components/Header/Header.js';
+reactComponents['Header'] = Component12;
 
-import Component13 from '../../src/components/Buttons/RectangularButton/RectangularButton.js';
-reactComponents['RectangularButton'] = Component13;
+import Component13 from '../../src/components/Home/Home.js';
+reactComponents['Home'] = Component13;
 
-import Component14 from '../../src/pages/Startup/Startup.js';
-reactComponents['Startup'] = Component14;
+import Component14 from '../../src/components/FormInputs/ImageInput/ImageInput.js';
+reactComponents['ImageInput'] = Component14;
 
-import Component15 from '../../src/components/Buttons/TextButton/TextButton.js';
-reactComponents['TextButton'] = Component15;
+import Component15 from '../../src/components/FormInputs/TextInputs/LargeTextInput/LargeTextInput.js';
+reactComponents['LargeTextInput'] = Component15;
 
-import Component16 from '../../src/pages/Welcome/Welcome.js';
-reactComponents['Welcome'] = Component16;
+import Component16 from '../../src/components/ChoirMembers/MemberCard/MemberCard.js';
+reactComponents['MemberCard'] = Component16;
+
+import Component17 from '../../src/components/PageHeader/PageHeader.js';
+reactComponents['PageHeader'] = Component17;
+
+import Component18 from '../../src/pages/Primary/Primary.js';
+reactComponents['Primary'] = Component18;
+
+import Component19 from '../../src/components/AuthCards/ProfileCard/ProfileCard.js';
+reactComponents['ProfileCard'] = Component19;
+
+import Component20 from '../../src/components/Progress/Progress.js';
+reactComponents['Progress'] = Component20;
+
+import Component21 from '../../src/components/Buttons/RectangularButton/RectangularButton.js';
+reactComponents['RectangularButton'] = Component21;
+
+import Component22 from '../../src/components/FormInputs/SelectInput/SelectInput.js';
+reactComponents['SelectInput'] = Component22;
+
+import Component23 from '../../src/components/FormInputs/TextInputs/SmallTextInput/SmallTextInput.js';
+reactComponents['SmallTextInput'] = Component23;
+
+import Component24 from '../../src/pages/Startup/Startup.js';
+reactComponents['Startup'] = Component24;
+
+import Component25 from '../../src/components/Buttons/TextButton/TextButton.js';
+reactComponents['TextButton'] = Component25;
+
+import Component26 from '../../src/components/Header/UserWidget/UserWidget.js';
+reactComponents['UserWidget'] = Component26;
+
+import Component27 from '../../src/pages/Welcome/Welcome.js';
+reactComponents['Welcome'] = Component27;

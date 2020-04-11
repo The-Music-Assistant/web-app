@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/FormInputs/ImageInput/ImageInput.js
-// Description: Renders the image input component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/6/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
@@ -13,8 +5,13 @@ import PropTypes from "prop-types";
 // Style imports
 import styles from "./ImageInput.module.scss";
 
-const ImageInput = props => {
-    // Returns JSX to display
+/**
+ * Renders the ImageInput component.
+ * Allows the user to select an image from their file system.
+ * @component
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+const ImageInput = (props) => {
     return (
         <div>
             <input
@@ -35,13 +32,32 @@ const ImageInput = props => {
     );
 };
 
-// ImageInput prop types
+// Prop types for the ImageInput component
 ImageInput.propTypes = {
-    inputName: PropTypes.string,
-    buttonName: PropTypes.string,
+    /**
+     * The name for the input
+     */
+    inputName: PropTypes.string.isRequired,
+
+    /**
+     * The button title
+     */
+    buttonTitle: PropTypes.string.isRequired,
+
+    /**
+     * The file that is associated with this input
+     */
     file: PropTypes.object,
-    isRequired: PropTypes.bool,
-    onChange: PropTypes.func
+
+    /**
+     * Indicates if this input is required as part of its associated form
+     */
+    isRequired: PropTypes.bool.isRequired,
+
+    /**
+     * On input change handler
+     */
+    onChange: PropTypes.func.isRequired,
 };
 
 export default ImageInput;

@@ -52,7 +52,7 @@ class Primary extends Component {
 
         /**
          * Primary component state
-         * @property {boolean} isMobileScreenSize - Indicates if the screen width is mobile (i.e. < 768px)
+         * @property {boolean} isMobileScreenWidth - Indicates if the screen width is mobile (i.e. < 768px)
          * @property {boolean} showMobileNav - Indicates if the mobile navigation should be shown
          * @property {object|null} alertData - Data used to display an alert
          * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
@@ -60,12 +60,24 @@ class Primary extends Component {
          * @property {string} alertData.message - The alert message
          */
         this.state = {
-            isMobileScreenSize: window.innerWidth < 768,
+            isMobileScreenWidth: window.innerWidth < 768,
             showMobileNav: false,
             alertData: null,
             mainNavTabs: this.getMainNavTabs(),
         };
     }
+
+    /**
+     * The copyright year for the app
+     * @type {string}
+     */
+    _COPYRIGHT_YEAR = "2020";
+
+    /**
+     * The current app version number
+     * @type {string}
+     */
+    _VERSION_NUMBER = "0.0.10";
 
     /**
      * Indicates whether the component is mounted or not.
@@ -135,14 +147,14 @@ class Primary extends Component {
      * @function
      */
     handleWindowResize = () => {
-        this.setState({ isMobileScreenSize: window.innerWidth < 768 });
+        this.setState({ isMobileScreenWidth: window.innerWidth < 768 });
     };
 
     /**
-     * Shows or hides the hamburger menu based on window size
+     * Shows or hides the hamburger menu
      * @function
      */
-    handleShowHamburgerMenu = () => {
+    hamburgerMenuClickedHandler = () => {
         this.setState((prevState) => ({
             showMobileNav: !prevState.showMobileNav,
         }));
@@ -218,14 +230,14 @@ class Primary extends Component {
      * @returns {object} - A JSX element representing the main navigation
      */
     getMainNav = () => {
-        if (this.state.isMobileScreenSize) {
+        if (this.state.isMobileScreenWidth) {
             // Returns the mobile navigation component
             return (
                 <MobileNav
                     tabs={this.state.mainNavTabs}
                     show={this.state.showMobileNav}
                     navLinkClicked={(key) => {
-                        this.handleShowHamburgerMenu();
+                        this.hamburgerMenuClickedHandler();
                         this.navLinkClickedHandler(key);
                     }}
                     signOutClicked={this.signOutClickedHandler}
@@ -238,6 +250,8 @@ class Primary extends Component {
                     tabs={this.state.mainNavTabs}
                     signOutClicked={this.signOutClickedHandler}
                     navLinkClicked={this.navLinkClickedHandler}
+                    copyrightYear={this._COPYRIGHT_YEAR}
+                    versionNumber={this._VERSION_NUMBER}
                 />
             );
         }
@@ -261,8 +275,8 @@ class Primary extends Component {
                 ) : null}
 
                 <Header
-                    hamburgerMenuClicked={this.handleShowHamburgerMenu}
-                    isMobileScreenSize={this.state.isMobileScreenSize}
+                    hamburgerMenuClicked={this.hamburgerMenuClickedHandler}
+                    isMobileScreenWidth={this.state.isMobileScreenWidth}
                 />
 
                 {/* The main navigation */}
@@ -306,7 +320,12 @@ class Primary extends Component {
                 </Switch>
 
                 {/* Displays a footer on mobile screen sizes */}
-                {this.state.isMobileScreenSize ? <Footer /> : null}
+                {this.state.isMobileScreenWidth ? (
+                    <Footer
+                        copyrightYear={this._COPYRIGHT_YEAR}
+                        versionNumber={this._VERSION_NUMBER}
+                    />
+                ) : null}
             </div>
         );
     }

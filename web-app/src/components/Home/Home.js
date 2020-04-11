@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/Home/Home.js
-// Description: Renders the home component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/29/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 
@@ -15,7 +7,15 @@ import underConstruction from "../../assets/images/under-construction-hero.png";
 // Style imports
 import styles from "./Home.module.scss";
 
+/**
+ * Renders the Home component
+ * @component
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
 const Home = () => {
+    // TODO: Set this component up
+
+    // Returns the JSX to render
     return (
         <div className={styles.home}>
             <img className={styles.homeHeroImg} src={underConstruction} alt='Under Construction' />

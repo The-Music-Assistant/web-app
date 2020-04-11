@@ -235,7 +235,7 @@ class ProfileCard extends Component {
                 {/* Image file input */}
                 <ImageInput
                     inputName='profilePictureInput'
-                    buttonName={"Select a profile picture"}
+                    buttonTitle={"Select a profile picture"}
                     onChange={this.imageInputValueChangedHandler}
                     file={this.state.formData.profilePicture}
                     isRequired={false}
@@ -249,7 +249,7 @@ class ProfileCard extends Component {
                 {/* Image file input */}
                 <ImageInput
                     inputName='profilePictureInput'
-                    buttonName={"Select a profile picture"}
+                    buttonTitle={"Select a profile picture"}
                     onChange={this.imageInputValueChangedHandler}
                     isRequired={false}
                 />

@@ -21,7 +21,7 @@ import signOutIconWhite from "../../assets/icons/sign-out-icon-white.svg";
 // Style imports
 import styles from "./SideNav.module.scss";
 
-const SideNav = props => {
+const SideNav = (props) => {
     // Returns the JSX to render
     return (
         <section id='side-nav' className={styles.sideNav}>
@@ -29,7 +29,7 @@ const SideNav = props => {
                 <img className={styles.sideNavLogo} src={tmaLogo} alt='The Music Assistant Logo' />
             </div>
             <div className={styles.sideNavLinks}>
-                {props.tabs.map(tab => {
+                {props.tabs.map((tab) => {
                     let icon;
                     if (tab.isCurrentTab) {
                         icon = tab.blueIcon;
@@ -57,11 +57,11 @@ const SideNav = props => {
                     isSignOutLink={true}
                 />
                 <small className={styles.sideNavFooterText}>
-                    &copy; 2020
+                    &copy; {props.copyrightYear}
                     <br />
                     The Music Assistant
                     <br />
-                    Version 0.0.10
+                    Version {props.versionNumber}
                 </small>
             </div>
         </section>
@@ -77,11 +77,20 @@ SideNav.propTypes = {
             route: PropTypes.string.isRequired,
             blueIcon: PropTypes.string.isRequired,
             whiteIcon: PropTypes.string.isRequired,
-            isCurrentTab: PropTypes.bool.isRequired
+            isCurrentTab: PropTypes.bool.isRequired,
         })
     ).isRequired,
     signOutClicked: PropTypes.func.isRequired,
-    navLinkClicked: PropTypes.func.isRequired
+    navLinkClicked: PropTypes.func.isRequired,
+    /**
+     * The copyright year for the app
+     */
+    copyrightYear: PropTypes.string.isRequired,
+
+    /**
+     * The current app version number
+     */
+    versionNumber: PropTypes.string.isRequired,
 };
 
 export default withRouter(SideNav);

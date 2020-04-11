@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/FormInputs/TextInputs/LargeTextInput/LargeTextInput.js
-// Description: Renders the LargeTextInput component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 1/5/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
@@ -16,24 +8,32 @@ import * as textInputTypes from "../textInputTypes";
 // Style imports
 import styles from "./LargeTextInput.module.scss";
 
-const LargeTextInput = props => {
-    // List of class names to attact to the text input
-    const inputClassNames = [styles.input];
+/**
+ * Renders the LargeTextInput component
+ * @component
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+const LargeTextInput = (props) => {
+    // Gets the list of class names for the input element
+    let inputClassNames = `${styles.input}`;
     if (props.value.length > 0) {
-        inputClassNames.push(styles.inputValid);
+        inputClassNames += ` ${styles.inputValid}`;
     }
 
-    // Returns JSX to display
+    // Returns the JSX to render
     return (
         <div className={styles.inputContainer}>
+            {/* Input element */}
             <input
-                className={inputClassNames.join(" ")}
+                className={inputClassNames}
                 type={props.inputType}
                 name={props.inputName}
                 value={props.value}
                 onChange={props.onChange}
                 required={props.isRequired}
             />
+
+            {/* Input label element */}
             <label className={styles.label} htmlFor={props.inputName}>
                 <span className={styles.content}>{props.labelText}</span>
             </label>
@@ -43,19 +43,44 @@ const LargeTextInput = props => {
 
 // LargeTextInput prop types
 LargeTextInput.propTypes = {
+    /**
+     * The input type to use.
+     * Based on the HTML input type attribute.
+     * See [types]{@link textInputTypes}
+     */
     inputType: PropTypes.oneOf([
         textInputTypes.TEXT,
         textInputTypes.EMAIL,
         textInputTypes.PASSWORD,
         textInputTypes.NUMBER,
         textInputTypes.TEL,
-        textInputTypes.URL
+        textInputTypes.URL,
     ]),
+
+    /**
+     * The name of the input
+     */
     inputName: PropTypes.string,
+
+    /**
+     * The value of the input
+     */
     value: PropTypes.string,
+
+    /**
+     * The input label's text
+     */
     labelText: PropTypes.string,
+
+    /**
+     * Indicates of the input is required as part of the corresponding form
+     */
     isRequired: PropTypes.bool,
-    onChange: PropTypes.func
+
+    /**
+     * Input change handler
+     */
+    onChange: PropTypes.func,
 };
 
 export default LargeTextInput;

@@ -17,7 +17,7 @@ import SelectInput from "../../FormInputs/SelectInput/SelectInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 
 // File imports
-import * as selectInputColorOptions from "../../FormInputs/SelectInput/colorOptions";
+import * as selectInputColorOptions from "../../FormInputs/SelectInput/selectInputColorOptions";
 import * as buttonTypes from "../../Buttons/buttonTypes";
 import * as rectButtonColorOptions from "../../Buttons/RectangularButton/rectangularButtonColorOptions";
 import * as musicPageOptions from "../../Music/musicPageOptions";
@@ -25,7 +25,7 @@ import * as musicPageOptions from "../../Music/musicPageOptions";
 // Style imports
 import styles from "./PracticeMusicHeader.module.scss";
 
-const PracticeMusicHeader = props => {
+const PracticeMusicHeader = (props) => {
     const getPartSelectionDropdownOrPracticeMusicButton = () => {
         return props.pageType === musicPageOptions.PRACTICE ? (
             <SelectInput
@@ -69,13 +69,13 @@ PracticeMusicHeader.propTypes = {
     pageType: PropTypes.oneOf([
         musicPageOptions.PRACTICE,
         musicPageOptions.PERFORMANCE,
-        musicPageOptions.EXERCISE
+        musicPageOptions.EXERCISE,
     ]),
     currentPart: PropTypes.string,
     partList: PropTypes.arrayOf(PropTypes.string),
     onPartChange: PropTypes.func,
     switchToPractice: PropTypes.func,
-    switchToPerformance: PropTypes.func.isRequired
+    switchToPerformance: PropTypes.func.isRequired,
 };
 
 export default withRouter(PracticeMusicHeader);
