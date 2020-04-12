@@ -25,7 +25,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "generate-docs": "jsdoc -c ./jsdoc/jsdoc.config.json"
+        "generate-docs": "jsdoc -c ./jsdoc/jsdoc.config.json",
+        "format": "prettier --write \"src/**/*.{js,json,css,scss,md}\""
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -46,6 +47,7 @@
         "@babel/core": "^7.9.0",
         "better-docs": "^1.4.7",
         "jsdoc": "^3.6.3",
-        "parcel-bundler": "^1.12.4"
+        "parcel-bundler": "^1.12.4",
+        "prettier": "^2.0.4"
     }
 }

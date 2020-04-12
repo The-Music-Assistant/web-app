@@ -70,7 +70,8 @@ class Auth extends Component {
      * @function
      */
     resizeWindow = () => {
-        if (this._isMounted) this.setState({ windowInnerHeight: window.innerHeight });
+        if (this._isMounted)
+            this.setState({ windowInnerHeight: window.innerHeight });
     };
 
     /**
@@ -169,8 +170,11 @@ class Auth extends Component {
      */
     render() {
         return (
-            <div className={styles.auth} style={{ minHeight: `${this.state.windowInnerHeight}px` }}>
-                {this.state.isLoading ? <LoadingHUD text='Loading...' /> : null}
+            <div
+                className={styles.auth}
+                style={{ minHeight: `${this.state.windowInnerHeight}px` }}
+            >
+                {this.state.isLoading ? <LoadingHUD text="Loading..." /> : null}
                 {this.state.alertData ? (
                     <AlertBar
                         type={this.state.alertData.type}
@@ -184,10 +188,14 @@ class Auth extends Component {
                         <img
                             className={styles.authInfoLogo}
                             src={logo}
-                            alt='Music Assistant Logo'
+                            alt="Music Assistant Logo"
                         />
-                        <h1 className={styles.authInfoHeading}>The Music Assistant</h1>
-                        <h2 className={styles.authInfoSubheading}>A smarter way to sing</h2>
+                        <h1 className={styles.authInfoHeading}>
+                            The Music Assistant
+                        </h1>
+                        <h2 className={styles.authInfoSubheading}>
+                            A smarter way to sing
+                        </h2>
                     </div>
                     {this.getAuthCard()}
                 </div>

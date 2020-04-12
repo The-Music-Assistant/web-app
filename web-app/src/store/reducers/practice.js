@@ -15,7 +15,7 @@ const initialState = {
     selectedChoirId: null,
     selectedChoirName: null,
     selectedSheetMusicId: null,
-    exercise: null
+    exercise: null,
 };
 
 /**
@@ -28,7 +28,7 @@ const practiceReducer = (state = initialState, action) => {
         case actionTypes.PRACTICE_CHOIR_SELECTED:
             return updateObject(state, {
                 selectedChoirId: action.id,
-                selectedChoirName: action.name
+                selectedChoirName: action.name,
             });
         case actionTypes.PRACTICE_SONG_SELECTED:
             return updateObject(state, { selectedSheetMusicId: action.id });
@@ -36,8 +36,8 @@ const practiceReducer = (state = initialState, action) => {
             return updateObject(state, {
                 exercise: {
                     startMeasure: action.startMeasure,
-                    endMeasure: action.endMeasure
-                }
+                    endMeasure: action.endMeasure,
+                },
             });
         case actionTypes.EXERCISE_GENERATED:
             return state;

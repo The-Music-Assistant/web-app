@@ -204,7 +204,7 @@ class Welcome extends Component {
     getSpinner = () => {
         return (
             <div className={styles.welcomeMainSpinner}>
-                <MetroSpinner size={75} color='#F8F8F8' loading={true} />
+                <MetroSpinner size={75} color="#F8F8F8" loading={true} />
             </div>
         );
     };
@@ -219,19 +219,23 @@ class Welcome extends Component {
             <Fragment>
                 {/* Heading */}
                 <p className={styles.welcomeMainMessage}>
-                    Your account has been created and a new experience awaits! Click "Let's Go!" to
-                    add your first choir.
+                    Your account has been created and a new experience awaits!
+                    Click "Let's Go!" to add your first choir.
                 </p>
 
                 {/* Down arrow */}
-                <img className={styles.welcomeMainDownArrow} src={downArrow} alt='Down Arrow' />
+                <img
+                    className={styles.welcomeMainDownArrow}
+                    src={downArrow}
+                    alt="Down Arrow"
+                />
 
                 {/* Done Button */}
                 <div className={styles.welcomeMainButton}>
                     <RectangularButton
-                        backgroundColor='orange'
-                        type='button'
-                        value=''
+                        backgroundColor="orange"
+                        type="button"
+                        value=""
                         text="Let's Go!"
                         onClick={this.doneButtonClickedHandler}
                     />
@@ -256,36 +260,42 @@ class Welcome extends Component {
                 </p>
 
                 {/* Down arrow */}
-                <img className={styles.welcomeMainDownArrow} src={downArrow} alt='Down Arrow' />
+                <img
+                    className={styles.welcomeMainDownArrow}
+                    src={downArrow}
+                    alt="Down Arrow"
+                />
 
                 {/* Options */}
                 <div className={styles.welcomeMainButtons}>
                     <div className={styles.welcomeMainButton}>
                         <RectangularButton
-                            backgroundColor='orange'
-                            type='button'
-                            value=''
-                            text='I Verified My Email'
+                            backgroundColor="orange"
+                            type="button"
+                            value=""
+                            text="I Verified My Email"
                             onClick={() => this.checkIfUserEmailIsVerified()}
                         />
                     </div>
 
                     <div className={styles.welcomeMainButton}>
                         <RectangularButton
-                            backgroundColor='blue'
-                            type='button'
-                            value=''
-                            text='Resend Email'
-                            onClick={this.resendEmailVerificationButtonClickedHandler}
+                            backgroundColor="blue"
+                            type="button"
+                            value=""
+                            text="Resend Email"
+                            onClick={
+                                this.resendEmailVerificationButtonClickedHandler
+                            }
                         />
                     </div>
 
                     <div className={styles.welcomeMainButton}>
                         <RectangularButton
-                            backgroundColor='red'
-                            type='button'
-                            value=''
-                            text='Sign Out'
+                            backgroundColor="red"
+                            type="button"
+                            value=""
+                            text="Sign Out"
                             onClick={this.props.signOut}
                         />
                     </div>
@@ -309,14 +319,16 @@ class Welcome extends Component {
                     <img
                         className={styles.welcomeHeaderLogo}
                         src={logo}
-                        alt='Music Assistant Logo'
+                        alt="Music Assistant Logo"
                     />
                     <h1 className={styles.welcomeHeaderMessage}>
                         Welcome to <br /> The Music Assistant
                     </h1>
                 </div>
 
-                <div className={styles.welcomeMain}>{this.getMainComponent()}</div>
+                <div className={styles.welcomeMain}>
+                    {this.getMainComponent()}
+                </div>
             </div>
         );
     }

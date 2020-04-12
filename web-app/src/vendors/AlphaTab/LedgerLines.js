@@ -32,7 +32,7 @@ const HALF_STEP_CYCLE_UP_START_C = [
     6,
     7,
     7,
-    7
+    7,
 ];
 // Starting at A on line, walk up by half steps and this is how many ledger lines are needed
 const HALF_STEP_CYCLE_UP_START_A = [
@@ -59,7 +59,7 @@ const HALF_STEP_CYCLE_UP_START_A = [
     7,
     1,
     1,
-    1
+    1,
 ];
 // Starting at C on line, walk down by half steps and this is how many ledger lines are needed
 const HALF_STEP_CYCLE_DOWN_START_C = [
@@ -86,7 +86,7 @@ const HALF_STEP_CYCLE_DOWN_START_C = [
     2,
     2,
     2,
-    1
+    1,
 ];
 // Starting at E on line, walk down by half steps and this is how many ledger lines are needed
 const HALF_STEP_CYCLE_DOWN_START_E = [
@@ -113,7 +113,7 @@ const HALF_STEP_CYCLE_DOWN_START_E = [
     3,
     3,
     3,
-    2
+    2,
 ];
 
 /**
@@ -161,6 +161,6 @@ export const getNumberOfLedgerLines = (midi, direction, start) => {
  * Gets the octave of the current note
  * @returns The octave of the current note
  */
-export const getOctave = midi => {
+export const getOctave = (midi) => {
     return Math.floor(midi / 12) - 1;
 };

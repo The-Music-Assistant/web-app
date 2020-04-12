@@ -19,7 +19,10 @@ import questionIcon from "../../assets/icons/question-icon.svg";
 import { choirSelectionError } from "../../vendors/Firebase/logs";
 import { getUsersChoirs, joinChoir } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
-import { choirSelectedForPractice, choirSelectedForChoirs } from "../../store/actions/index";
+import {
+    choirSelectedForPractice,
+    choirSelectedForChoirs,
+} from "../../store/actions/index";
 import * as routingOptions from "./choirSelectionRoutingOptions";
 import * as cardColorOptions from "./ChoirCards/choirCardColorOptions";
 
@@ -80,7 +83,10 @@ class ChoirSelection extends Component {
             .then((snapshot) => {
                 // Updates state
                 if (this._isMounted)
-                    this.setState({ choirs: snapshot.data.choirs, isLoading: false });
+                    this.setState({
+                        choirs: snapshot.data.choirs,
+                        isLoading: false,
+                    });
             })
             .catch((error) => {
                 // Logs an error
@@ -91,7 +97,11 @@ class ChoirSelection extends Component {
                 );
 
                 // Shows an alert
-                this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
+                this.props.showAlert(
+                    alertBarTypes.ERROR,
+                    "Error",
+                    error.response.data
+                );
 
                 // Updates state
                 if (this._isMounted) this.setState({ isLoading: false });
@@ -156,7 +166,11 @@ class ChoirSelection extends Component {
                     );
 
                     // Shows an alert
-                    this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
+                    this.props.showAlert(
+                        alertBarTypes.ERROR,
+                        "Error",
+                        error.response.data
+                    );
                 });
         }
     };
@@ -177,7 +191,7 @@ class ChoirSelection extends Component {
             <ChoirOptionCard
                 key={shortid.generate()}
                 iconSrc={plusIcon}
-                name='New Choir'
+                name="New Choir"
                 cardColor={cardColorOptions.ORANGE}
                 onClick={this.newChoirClickHandler}
             />
@@ -188,7 +202,7 @@ class ChoirSelection extends Component {
             <ChoirOptionCard
                 key={shortid.generate()}
                 iconSrc={questionIcon}
-                name='View Pending Choir Requests'
+                name="View Pending Choir Requests"
                 cardColor={cardColorOptions.TERTIARY_BLUE}
                 onClick={this.viewPendingRequestsClickHandler}
             />
@@ -233,7 +247,12 @@ class ChoirSelection extends Component {
                         name={choir.choir_name}
                         description={choir.description}
                         cardColor={colorOptions[colorIndex]}
-                        onClick={() => this.choirClickedHandler(choir.choir_id, choir.choir_name)}
+                        onClick={() =>
+                            this.choirClickedHandler(
+                                choir.choir_id,
+                                choir.choir_name
+                            )
+                        }
                     />
                 );
             });
@@ -251,18 +270,23 @@ class ChoirSelection extends Component {
 
         if (this.state.isLoading) {
             // Display a loading spinner
-            component = <LoadingContainer message='Loading choirs...' />;
+            component = <LoadingContainer message="Loading choirs..." />;
         } else {
             // Display the choir cards
             component = (
-                <div className={styles.choirSelectionCards}>{this.getChoirComponents()}</div>
+                <div className={styles.choirSelectionCards}>
+                    {this.getChoirComponents()}
+                </div>
             );
         }
 
         // Returns the JSX to display
         return (
             <div className={styles.choirSelection}>
-                <PageHeader heading='Choir Selection' shouldDisplayBackButton={false} />
+                <PageHeader
+                    heading="Choir Selection"
+                    shouldDisplayBackButton={false}
+                />
                 {component}
             </div>
         );
@@ -275,8 +299,10 @@ ChoirSelection.propTypes = {
      * Where to route when a choir card is clicked on.
      * see [options]{@link module:choirSelectionRoutingOptions}.
      */
-    routing: PropTypes.oneOf([routingOptions.MUSIC_SELECTION, routingOptions.CHOIR_MEMBERS])
-        .isRequired,
+    routing: PropTypes.oneOf([
+        routingOptions.MUSIC_SELECTION,
+        routingOptions.CHOIR_MEMBERS,
+    ]).isRequired,
 
     /**
      * React Router history object.
@@ -308,8 +334,10 @@ ChoirSelection.propTypes = {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        choirSelectedForPractice: (id, name) => dispatch(choirSelectedForPractice(id, name)),
-        choirSelectedForChoirs: (id, name) => dispatch(choirSelectedForChoirs(id, name)),
+        choirSelectedForPractice: (id, name) =>
+            dispatch(choirSelectedForPractice(id, name)),
+        choirSelectedForChoirs: (id, name) =>
+            dispatch(choirSelectedForChoirs(id, name)),
     };
 };
 

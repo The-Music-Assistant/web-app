@@ -20,7 +20,7 @@ import * as rectButtonBgColors from "../../Buttons/RectangularButton/rectangular
 // Style imports
 import styles from "./MusicCard.module.scss";
 
-const MusicCard = props => {
+const MusicCard = (props) => {
     return (
         <div className={`${styles.musicCard} ${styles[props.cardColor]}`}>
             <h1 className={styles.musicCardName}>{props.title}</h1>
@@ -30,15 +30,15 @@ const MusicCard = props => {
                 <RectangularButton
                     backgroundColor={rectButtonBgColors.WHITE}
                     type={buttonTypes.BUTTON}
-                    value='view-song'
-                    text='View Song'
+                    value="view-song"
+                    text="View Song"
                     onClick={props.viewSongClicked}
                 />
                 <RectangularButton
                     backgroundColor={rectButtonBgColors.WHITE}
                     type={buttonTypes.BUTTON}
-                    value='view-performance'
-                    text='View Performance'
+                    value="view-performance"
+                    text="View Performance"
                     onClick={props.viewExercisesClicked}
                 />
             </div>
@@ -51,7 +51,7 @@ MusicCard.propTypes = {
     composers: PropTypes.string.isRequired,
     cardColor: PropTypes.string.isRequired,
     viewSongClicked: PropTypes.func.isRequired,
-    viewExercisesClicked: PropTypes.func.isRequired
+    viewExercisesClicked: PropTypes.func.isRequired,
 };
 
 export default MusicCard;

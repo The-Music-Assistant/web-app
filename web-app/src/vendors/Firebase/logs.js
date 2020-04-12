@@ -28,6 +28,6 @@ const logEvent = (eventType, code, message, location) => {
     firebase.analytics().logEvent(eventType, {
         errorCode: code,
         errorMessage: message,
-        errorLocation: location
+        errorLocation: location,
     });
 };

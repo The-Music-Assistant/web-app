@@ -18,12 +18,22 @@
 
     &Label {
         display: inline-block;
-        @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
+        @include text(
+            $size: 1rem,
+            $weight: 300,
+            $color: $white-color,
+            $line-height: null
+        );
     }
 
     &Input {
         display: inline-block;
-        @include text($size: 1rem, $weight: 400, $color: $white-color, $line-height: null);
+        @include text(
+            $size: 1rem,
+            $weight: 400,
+            $color: $white-color,
+            $line-height: null
+        );
         border: 1px solid $white-color;
         border-radius: 2px;
         outline: none;

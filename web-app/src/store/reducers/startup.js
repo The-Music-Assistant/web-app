@@ -12,7 +12,7 @@ import { updateObject } from "../utility";
 
 // Initial Redux auth state
 const initialState = {
-    isDone: false
+    isDone: false,
 };
 
 /**

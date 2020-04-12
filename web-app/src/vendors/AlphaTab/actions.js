@@ -13,7 +13,7 @@ import {
     getSpecificSheetMusic,
     getPartSheetMusic,
     getExercise,
-    getSinglePartSheetMusic
+    getSinglePartSheetMusic,
 } from "../../vendors/AWS/tmaApi";
 import TexLoaded from "./TexLoaded";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
@@ -42,7 +42,11 @@ export const startPlayingMusic = () => {
             atVars.texLoaded.getStartOctave()
         );
     } catch (error) {
-        sheetMusicError(null, error, "[vendors/AlphaTab/actions/startPlayingMusic]");
+        sheetMusicError(
+            null,
+            error,
+            "[vendors/AlphaTab/actions/startPlayingMusic]"
+        );
     }
 
     // TODO: Prevent playback range also during playing
@@ -80,20 +84,22 @@ export const stopPlayingMusic = () => {
  * Change which track Alpha Tab is rendering based on the given part name
  * @param {string} partName - The part name to change to. Part names are expected to be "tx" where x is the track index
  */
-export const changePart = async partName => {
+export const changePart = async (partName) => {
     let trackIndex = parseInt(partName.substring(1), 10);
     // If we have the track index that is being asked then switch to that track
     if (!atVars.texLoaded.currentTrackIndexes.includes(trackIndex)) {
         atVars.texLoaded.updateCurrentTrackIndexes(trackIndex);
 
-        atVars.api.renderTracks([atVars.api.score.tracks[atVars.texLoaded.currentTrackIndexes[0]]]);
+        atVars.api.renderTracks([
+            atVars.api.score.tracks[atVars.texLoaded.currentTrackIndexes[0]],
+        ]);
 
         // sends out request for the expected performance of the currently rendered track
         // assumes user wants to sing the selected part and will draw the green/yellow/red line appropriately
         // TODO: Discuss with client and users, is this correct behavior? Do they want to always see red/yellow/green for their part only
         let data = {
             sheetMusicId: store.getState().practice.selectedSheetMusicId,
-            partName: atVars.texLoaded.partNames[trackIndex]
+            partName: atVars.texLoaded.partNames[trackIndex],
         };
 
         try {
@@ -153,7 +159,11 @@ export const changeToExercise = async (measureStart, measureEnd) => {
  * @param {number} currentMeasure - The current measure number that we are on
  * @param {number[]} measureToLength - Array holding the length of each measure in seconds
  */
-export const timeToMeasureNumber = (currentPosition, currentMeasure, measureToLength) => {
+export const timeToMeasureNumber = (
+    currentPosition,
+    currentMeasure,
+    measureToLength
+) => {
     // specify how close that we need to get to the target position before we are confident that we are in the correct measure
     const EPSILON = 0.01;
     let tempCurrentPosition = currentPosition;
@@ -191,12 +201,20 @@ export const getPlaybackRange = () => {
                 atVars.api.playbackRange.endTick / ratio -
                 atVars.api.playbackRange.startTick / ratio;
             let currentMeasure = 1;
-            currentMeasure = timeToMeasureNumber(currentPosition, currentMeasure, measureToLength);
+            currentMeasure = timeToMeasureNumber(
+                currentPosition,
+                currentMeasure,
+                measureToLength
+            );
             // saves the start measure number of the playback range
             playbackMeasures.push(currentMeasure);
 
             currentPosition = targetEndTime;
-            currentMeasure = timeToMeasureNumber(currentPosition, currentMeasure, measureToLength);
+            currentMeasure = timeToMeasureNumber(
+                currentPosition,
+                currentMeasure,
+                measureToLength
+            );
             // saves the end measure number of the playback range
             playbackMeasures.push(currentMeasure - 1);
         }
@@ -236,7 +254,7 @@ export const getPlaybackRange = () => {
 export const loadJustMyPart = async () => {
     try {
         const singlePartResponse = await getSinglePartSheetMusic({
-            sheetMusicId: store.getState().practice.selectedSheetMusicId
+            sheetMusicId: store.getState().practice.selectedSheetMusicId,
         });
         // update the wrapper for the loaded tex since it has changed
         atVars.texLoaded.update(
@@ -250,7 +268,10 @@ export const loadJustMyPart = async () => {
         );
         // update the current track index and re render the track
         atVars.texLoaded.updateCurrentTrackIndexes(0);
-        atVars.api.tex(singlePartResponse.data.sheet_music, atVars.texLoaded.currentTrackIndexes);
+        atVars.api.tex(
+            singlePartResponse.data.sheet_music,
+            atVars.texLoaded.currentTrackIndexes
+        );
 
         // updates the expected performance of the music and several internal variables about the loaded sheet music
         atVars.noteStream = singlePartResponse.data.performance_expectation;
@@ -294,7 +315,7 @@ const loadExercise = async (measureStart, measureEnd) => {
         staffNumber: 1,
         measureStart,
         measureEnd,
-        isDurationExercise: false
+        isDurationExercise: false,
     };
 
     try {
@@ -311,7 +332,10 @@ const loadExercise = async (measureStart, measureEnd) => {
             measureStart,
             measureEnd
         );
-        atVars.api.tex(exerciseResponse.data.sheet_music, atVars.texLoaded.currentTrackIndexes);
+        atVars.api.tex(
+            exerciseResponse.data.sheet_music,
+            atVars.texLoaded.currentTrackIndexes
+        );
 
         // updates the expected performance of the music and several internal variables about the loaded sheet music
         atVars.noteStream = exerciseResponse.data.performance_expectation;
@@ -320,7 +344,10 @@ const loadExercise = async (measureStart, measureEnd) => {
             exerciseResponse.data.lower_upper[0],
             exerciseResponse.data.lower_upper[1]
         );
-        atVars.texLoaded.setMeasureLengths(exerciseResponse.data.measure_lengths, atVars.barCount);
+        atVars.texLoaded.setMeasureLengths(
+            exerciseResponse.data.measure_lengths,
+            atVars.barCount
+        );
     } catch (error) {
         sheetMusicError(
             error.response.status,
@@ -330,16 +357,17 @@ const loadExercise = async (measureStart, measureEnd) => {
     }
 };
 
-export const loadTex = async partName => {
+export const loadTex = async (partName) => {
     let data = {
-        sheetMusicId: store.getState().practice.selectedSheetMusicId
+        sheetMusicId: store.getState().practice.selectedSheetMusicId,
     };
 
     // TODO: Save this response so that we can switch back to the sheet music without having to re-request the sheet music from the database
     try {
         const sheetMusicResponse = await getSpecificSheetMusic(data);
 
-        let actualPartName = partName === null ? sheetMusicResponse.data.part : partName;
+        let actualPartName =
+            partName === null ? sheetMusicResponse.data.part : partName;
 
         let partList = sheetMusicResponse.data.part_list;
         // Initializes wrapper about the sheet music if first render or updates wrapper if already present
@@ -374,7 +402,10 @@ export const loadTex = async partName => {
             }
         }
 
-        data.partName = sheetMusicResponse.data.part_list[atVars.texLoaded.currentTrackIndexes[0]];
+        data.partName =
+            sheetMusicResponse.data.part_list[
+                atVars.texLoaded.currentTrackIndexes[0]
+            ];
 
         // gets and updates expected performance data for the provided part
         const partResponse = await getPartSheetMusic(data);
@@ -386,7 +417,10 @@ export const loadTex = async partName => {
             partResponse.data.lower_upper[0],
             partResponse.data.lower_upper[1]
         );
-        atVars.texLoaded.setMeasureLengths(partResponse.data.measure_lengths, atVars.barCount);
+        atVars.texLoaded.setMeasureLengths(
+            partResponse.data.measure_lengths,
+            atVars.barCount
+        );
         atVars.sheetMusicLength = atVars.texLoaded.measureLengths.length;
         atVars.texLoaded.updateLengthsPerSection(
             1,
@@ -398,13 +432,18 @@ export const loadTex = async partName => {
             atVars.api.settings.display.barCount = atVars.barCount;
         } else {
             atVars.api.settings.display.barCount =
-                atVars.sheetMusicLength !== null ? atVars.sheetMusicLength : atVars.barCount;
+                atVars.sheetMusicLength !== null
+                    ? atVars.sheetMusicLength
+                    : atVars.barCount;
         }
 
         atVars.api.updateSettings();
 
         // renders the user's part but plays all the parts together during playback
-        atVars.api.tex(sheetMusicResponse.data.sheet_music, atVars.texLoaded.currentTrackIndexes);
+        atVars.api.tex(
+            sheetMusicResponse.data.sheet_music,
+            atVars.texLoaded.currentTrackIndexes
+        );
     } catch (error) {
         sheetMusicError(
             error.response.status,

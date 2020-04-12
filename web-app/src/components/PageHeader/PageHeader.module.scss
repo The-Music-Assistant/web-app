@@ -16,7 +16,12 @@
     );
 
     &Heading {
-        @include text($size: 1.25rem, $weight: 300, $color: $gray-color, $line-height: null);
+        @include text(
+            $size: 1.25rem,
+            $weight: 300,
+            $color: $gray-color,
+            $line-height: null
+        );
         text-align: center;
 
         @include media-query($breakpoint: $tablet-breakpoint) {

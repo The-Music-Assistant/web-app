@@ -14,11 +14,13 @@ import { Link } from "react-router-dom";
 // Style imports
 import styles from "./MobileNavLink.module.scss";
 
-const MobileNavLink = props => {
+const MobileNavLink = (props) => {
     // Adds a line to the tab if it is the current tab
     let currentTabLine = null;
     if (props.isCurrentTab) {
-        currentTabLine = <div className={styles.mobileNavLinkCurrentTabLine}></div>;
+        currentTabLine = (
+            <div className={styles.mobileNavLinkCurrentTabLine}></div>
+        );
     }
 
     // The component to render
@@ -56,7 +58,7 @@ MobileNavLink.propTypes = {
     icon: PropTypes.string.isRequired,
     route: PropTypes.string,
     onClick: PropTypes.func.isRequired,
-    isSignOut: PropTypes.bool.isRequired
+    isSignOut: PropTypes.bool.isRequired,
 };
 
 export default MobileNavLink;

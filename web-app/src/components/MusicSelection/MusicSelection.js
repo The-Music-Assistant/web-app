@@ -31,7 +31,7 @@ class MusicSelection extends Component {
     // Component state
     state = {
         isLoading: true,
-        music: null
+        music: null,
     };
 
     // Indicates whether the component is mounted or not
@@ -52,36 +52,47 @@ class MusicSelection extends Component {
 
         // Gets music
         getSheetMusic({ choirId: this.props.choirId })
-            .then(snapshot => {
+            .then((snapshot) => {
                 if (this._isMounted)
-                    this.setState({ isLoading: false, music: snapshot.data.sheet_music });
+                    this.setState({
+                        isLoading: false,
+                        music: snapshot.data.sheet_music,
+                    });
             })
-            .catch(error => {
+            .catch((error) => {
                 musicSelectionError(
                     error.response.status,
                     error.response.data,
                     "[MusicSelection/getMusicList]"
                 );
-                this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
+                this.props.showAlert(
+                    alertBarTypes.ERROR,
+                    "Error",
+                    error.response.data
+                );
                 if (this._isMounted) this.setState({ isLoading: false });
             });
     };
 
-    viewSongClickedHandler = id => {
+    viewSongClickedHandler = (id) => {
         if (this.props.isMobileBrowser) {
             this.showMobileBrowserAlert();
         } else {
             this.props.musicSelected(id);
-            this.props.history.push(`${this.props.match.url}/music/${id}/practice`);
+            this.props.history.push(
+                `${this.props.match.url}/music/${id}/practice`
+            );
         }
     };
 
-    viewPerformanceClickedHandler = id => {
+    viewPerformanceClickedHandler = (id) => {
         if (this.props.isMobileBrowser) {
             this.showMobileBrowserAlert();
         } else {
             this.props.musicSelected(id);
-            this.props.history.push(`${this.props.match.url}/music/${id}/performance`);
+            this.props.history.push(
+                `${this.props.match.url}/music/${id}/performance`
+            );
         }
     };
 
@@ -95,13 +106,20 @@ class MusicSelection extends Component {
 
     createSheetMusicComponents = () => {
         // Card color options
-        const colors = ["secondaryBlue", "green", "primaryBlue", "orange", "tertiaryBlue", "red"];
+        const colors = [
+            "secondaryBlue",
+            "green",
+            "primaryBlue",
+            "orange",
+            "tertiaryBlue",
+            "red",
+        ];
 
         // Index starts at -1 because it is incremented before its first use
         let colorIndex = -1;
 
         // The cards to return
-        return this.state.music.map(musicPiece => {
+        return this.state.music.map((musicPiece) => {
             // Gets the next color
             colorIndex++;
             if (colorIndex >= colors.length) {
@@ -114,9 +132,13 @@ class MusicSelection extends Component {
                     title={musicPiece.title}
                     composers={musicPiece.composer_names}
                     cardColor={colors[colorIndex]}
-                    viewSongClicked={() => this.viewSongClickedHandler(musicPiece.sheet_music_id)}
+                    viewSongClicked={() =>
+                        this.viewSongClickedHandler(musicPiece.sheet_music_id)
+                    }
                     viewExercisesClicked={() =>
-                        this.viewPerformanceClickedHandler(musicPiece.sheet_music_id)
+                        this.viewPerformanceClickedHandler(
+                            musicPiece.sheet_music_id
+                        )
                     }
                 />
             );
@@ -129,7 +151,7 @@ class MusicSelection extends Component {
 
         if (this.state.isLoading) {
             // Display a loading spinner
-            component = <LoadingContainer message='Loading music...' />;
+            component = <LoadingContainer message="Loading music..." />;
         } else {
             // Display the music cards
             component = (
@@ -156,18 +178,18 @@ MusicSelection.propTypes = {
     choirId: PropTypes.string.isRequired,
     choirName: PropTypes.string.isRequired,
     showAlert: PropTypes.func.isRequired,
-    musicSelected: PropTypes.func.isRequired
+    musicSelected: PropTypes.func.isRequired,
 };
 
 /**
  * Gets the current state from Redux and passes it to the MusicSelection component as props
  * @param {object} state - The Redux state
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         choirId: state.practice.selectedChoirId,
         choirName: state.practice.selectedChoirName,
-        isMobileBrowser: state.app.isMobileBrowser
+        isMobileBrowser: state.app.isMobileBrowser,
     };
 };
 
@@ -175,10 +197,12 @@ const mapStateToProps = state => {
  * Passes certain redux actions to MusicSelection
  * @param {function} dispatch - The react-redux dispatch function
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        musicSelected: id => dispatch(musicSelectedForPractice(id))
+        musicSelected: (id) => dispatch(musicSelectedForPractice(id)),
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicSelection));
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(MusicSelection)
+);

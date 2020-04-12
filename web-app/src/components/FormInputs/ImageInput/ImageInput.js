@@ -17,9 +17,9 @@ const ImageInput = (props) => {
             <input
                 id={props.inputName}
                 className={styles.imageInput}
-                type='file'
+                type="file"
                 name={props.inputName}
-                accept='image/*'
+                accept="image/*"
                 hidden
                 onChange={props.onChange}
                 files={props.file}

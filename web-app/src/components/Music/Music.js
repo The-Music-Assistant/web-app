@@ -29,7 +29,7 @@ import {
     loadTex,
     changeToPerformance,
     changeToExercise,
-    stopPlayingMusic
+    stopPlayingMusic,
 } from "../../vendors/AlphaTab/actions";
 import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
@@ -53,7 +53,7 @@ class Music extends Component {
         isMicrophoneAvailable: true,
         numberOfMeasures: "0",
         hasAlreadyRenderedOnce: false,
-        pageType: null
+        pageType: null,
     };
 
     _alphaTabWrapperRef = createRef(); // A reference to the AlphaTab wrapper element
@@ -74,7 +74,7 @@ class Music extends Component {
         return {
             pageType: newProps.location.pathname.substring(
                 newProps.location.pathname.lastIndexOf("/") + 1
-            )
+            ),
         };
     }
 
@@ -141,7 +141,7 @@ class Music extends Component {
             isDataLoading: false,
             currentPart: getMyPart(),
             partList: ["Just My Part"].concat(getPartList()),
-            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
+            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString(),
         });
     };
 
@@ -158,7 +158,7 @@ class Music extends Component {
                 () =>
                     this.setState({
                         isPitchDetectionLoading: false,
-                        isMicrophoneAvailable: true
+                        isMicrophoneAvailable: true,
                     }),
                 2000
             );
@@ -169,11 +169,15 @@ class Music extends Component {
                 "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
             );
             this.setState({ isMicrophoneAvailable: false });
-            sheetMusicError(null, error, "[components/Music/initializePitchDetection]");
+            sheetMusicError(
+                null,
+                error,
+                "[components/Music/initializePitchDetection]"
+            );
         }
     };
 
-    switchToNewMusicPage = pageType => {
+    switchToNewMusicPage = (pageType) => {
         this.updateMusicPage();
         const routeUrl = this.getNewUrl(pageType);
         this.props.history.replace(routeUrl);
@@ -183,9 +187,9 @@ class Music extends Component {
         stopPlayingMusic();
         this._alphaTabWrapperRef.current.scrollLeft = 0;
         this.setState({ isAlphaTabLoading: true, isDataLoading: true });
-    }
+    };
 
-    getNewUrl = pageType => {
+    getNewUrl = (pageType) => {
         return `${this.props.location.pathname.substring(
             0,
             this.props.location.pathname.lastIndexOf("/")
@@ -214,7 +218,7 @@ class Music extends Component {
         this.setState({
             isDataLoading: false,
             currentPart: value,
-            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString()
+            numberOfMeasures: alphaTabVars.texLoaded.measureLengths.length.toString(),
         });
     };
 
@@ -252,7 +256,9 @@ class Music extends Component {
                         partList={this.state.partList}
                         onPartChange={this.onPartChangeHandler}
                         switchToPerformance={() =>
-                            this.switchToNewMusicPage(musicPageOptions.PERFORMANCE)
+                            this.switchToNewMusicPage(
+                                musicPageOptions.PERFORMANCE
+                            )
                         }
                     />
                 </Route>
@@ -274,7 +280,9 @@ class Music extends Component {
                             this.switchToNewMusicPage(musicPageOptions.PRACTICE)
                         }
                         switchToPerformance={() =>
-                            this.switchToNewMusicPage(musicPageOptions.PERFORMANCE)
+                            this.switchToNewMusicPage(
+                                musicPageOptions.PERFORMANCE
+                            )
                         }
                     />
                 </Route>
@@ -308,7 +316,9 @@ class Music extends Component {
             this.state.isAlphaTabLoading ||
             this.state.isPitchDetectionLoading ||
             this.state.isDataLoading;
-        let component = isLoading ? this.getLoadingComponent() : this.getPageHeaderComponent();
+        let component = isLoading
+            ? this.getLoadingComponent()
+            : this.getPageHeaderComponent();
 
         // Returns the JSX to display
         return (
@@ -320,9 +330,12 @@ class Music extends Component {
                 />
                 <div className={styles.musicMain}>
                     {component}
-                    <section id='alpha-tab-wrapper' ref={this._alphaTabWrapperRef}>
-                        <div id='sketch-holder'></div>
-                        <div id='alpha-tab-container'></div>
+                    <section
+                        id="alpha-tab-wrapper"
+                        ref={this._alphaTabWrapperRef}
+                    >
+                        <div id="sketch-holder"></div>
+                        <div id="alpha-tab-container"></div>
                     </section>
                 </div>
             </main>
@@ -335,17 +348,17 @@ Music.propTypes = {
     showAlert: PropTypes.func.isRequired,
     exercise: PropTypes.shape({
         startMeasure: PropTypes.string,
-        endMeasure: PropTypes.string
-    })
+        endMeasure: PropTypes.string,
+    }),
 };
 
 /**
  * Gets the current state from Redux and passes it to the Music component as props
  * @param {object} state - The Redux state
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        exercise: state.practice.exercise
+        exercise: state.practice.exercise,
     };
 };
 
@@ -353,9 +366,9 @@ const mapStateToProps = state => {
  * Passes certain redux actions to the Music component
  * @param {function} dispatch - The react-redux dispatch function
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        exerciseGenerated: () => dispatch(exerciseGenerated())
+        exerciseGenerated: () => dispatch(exerciseGenerated()),
     };
 };
 

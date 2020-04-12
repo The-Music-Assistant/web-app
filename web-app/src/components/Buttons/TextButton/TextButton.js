@@ -21,10 +21,13 @@ const TextButton = (props) => {
     // Returns the JSX to render
     return (
         <ButtonContainer
-            className={`${styles.textButton} ${styles[`${props.textColor}TextButton`]}`}
+            className={`${styles.textButton} ${
+                styles[`${props.textColor}TextButton`]
+            }`}
             type={props.type}
             value={props.value}
-            onClick={props.onClick}>
+            onClick={props.onClick}
+        >
             {props.text}
         </ButtonContainer>
     );
@@ -36,7 +39,11 @@ TextButton.propTypes = {
      * The button's type (HTML type).
      * See [types]{@link module:buttonTypes}.
      */
-    type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
+    type: PropTypes.oneOf([
+        buttonTypes.BUTTON,
+        buttonTypes.RESET,
+        buttonTypes.SUBMIT,
+    ]).isRequired,
 
     /**
      * The button's value (HTML value)

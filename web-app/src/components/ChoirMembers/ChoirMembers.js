@@ -71,7 +71,8 @@ class ChoirMembers extends Component {
         getChoirMembers({ choirId: this.props.choirId })
             .then((response) => {
                 // Updates state
-                if (this._isMounted) this.setState({ isLoading: false, members: response.data });
+                if (this._isMounted)
+                    this.setState({ isLoading: false, members: response.data });
                 // Gets each member's profile picture (this is async and will update the correct card when the picture comes in)
                 this.getMembersProfilePictures();
             })
@@ -84,7 +85,11 @@ class ChoirMembers extends Component {
                 );
 
                 // Shows an error alert
-                this.props.showAlert(alertBarTypes.ERROR, "Error", error.response.data);
+                this.props.showAlert(
+                    alertBarTypes.ERROR,
+                    "Error",
+                    error.response.data
+                );
 
                 // Updates state
                 if (this._isMounted) this.setState({ isLoading: false });
@@ -107,7 +112,9 @@ class ChoirMembers extends Component {
                     firebase
                         .storage()
                         .ref()
-                        .child(`users/${member.person_id}/profile_picture_200x200`)
+                        .child(
+                            `users/${member.person_id}/profile_picture_200x200`
+                        )
                         .getDownloadURL()
                         .then((url) => {
                             // Updates state with the url
@@ -138,10 +145,14 @@ class ChoirMembers extends Component {
 
                 if (member.member_type === "admin") {
                     // Creates an admin member card
-                    admins.push(this.createMemberCard(member, memberColorOptions.GREEN));
+                    admins.push(
+                        this.createMemberCard(member, memberColorOptions.GREEN)
+                    );
                 } else {
                     // Creates a student member card
-                    students.push(this.createMemberCard(member, memberColorOptions.ORANGE));
+                    students.push(
+                        this.createMemberCard(member, memberColorOptions.ORANGE)
+                    );
                 }
             }
         }
@@ -179,14 +190,18 @@ class ChoirMembers extends Component {
 
         if (this.state.isLoading) {
             // Display a loading spinner
-            component = <LoadingContainer message='Loading members...' />;
+            component = <LoadingContainer message="Loading members..." />;
         } else {
             // Display the choir cards
             component = (
                 <div>
-                    <h1 className={styles.choirMembersMemberGroupHeading}>Administrators</h1>
+                    <h1 className={styles.choirMembersMemberGroupHeading}>
+                        Administrators
+                    </h1>
                     <div className={styles.choirMembersCards}>{admins}</div>
-                    <h1 className={styles.choirMembersMemberGroupHeading}>Students</h1>
+                    <h1 className={styles.choirMembersMemberGroupHeading}>
+                        Students
+                    </h1>
                     <div className={styles.choirMembersCards}>{students}</div>
                 </div>
             );

@@ -35,8 +35,13 @@ const BackButton = (props) => {
             className={styles.backButton}
             type={buttonTypes.BUTTON}
             value={props.value}
-            onClick={buttonClickedHandler}>
-            <img className={styles.backButtonArrow} src={leftArrowBlue} alt='Back Button' />
+            onClick={buttonClickedHandler}
+        >
+            <img
+                className={styles.backButtonArrow}
+                src={leftArrowBlue}
+                alt="Back Button"
+            />
             <span className={styles.backButtonText}>{props.text}</span>
         </ButtonContainer>
     );

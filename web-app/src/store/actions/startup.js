@@ -14,6 +14,6 @@ import * as actionTypes from "./actionTypes";
  */
 export const startupDone = () => {
     return {
-        type: actionTypes.STARTUP_DONE
-    }
-}
+        type: actionTypes.STARTUP_DONE,
+    };
+};

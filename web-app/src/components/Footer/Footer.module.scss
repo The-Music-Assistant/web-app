@@ -22,7 +22,12 @@
 
     &Text {
         display: block;
-        @include text($size: 0.75rem, $weight: 300, $color: $white-color, $line-height: null);
+        @include text(
+            $size: 0.75rem,
+            $weight: 300,
+            $color: $white-color,
+            $line-height: null
+        );
 
         &:last-child {
             margin-top: 5px;

@@ -169,21 +169,25 @@ class AlertBar extends Component {
             <div
                 className={`${
                     styles.alertBar
-                } ${this.getBackgroundColorStyle()} ${this.getTransitionStyle()}`}>
+                } ${this.getBackgroundColorStyle()} ${this.getTransitionStyle()}`}
+            >
                 <div className={styles.alertBarTopGrid}>
                     {/* Empty container div for the left-hand side of the top grid */}
                     <div></div>
 
-                    <h1 className={styles.alertBarHeading}>{this.props.heading}</h1>
+                    <h1 className={styles.alertBarHeading}>
+                        {this.props.heading}
+                    </h1>
 
                     <button
                         className={styles.alertBarCloseButton}
                         onClick={this.closeButttonClickedHandler}
-                        type='button'>
+                        type="button"
+                    >
                         <img
                             className={styles.alertBarCloseButtonImg}
                             src={closeIconWhite}
-                            alt='Close Alert'
+                            alt="Close Alert"
                         />
                     </button>
                 </div>

@@ -56,7 +56,9 @@ class AuthCard extends Component {
     componentDidMount() {
         this._isMounted = true;
         this.props.startAuthFlow(
-            this.props.authStage === authStages.SIGN_IN ? authFlows.SIGN_IN : authFlows.SIGN_UP
+            this.props.authStage === authStages.SIGN_IN
+                ? authFlows.SIGN_IN
+                : authFlows.SIGN_UP
         );
     }
 
@@ -89,7 +91,9 @@ class AuthCard extends Component {
                 this.props.authStage === authStages.SIGN_IN)
         ) {
             this.props.changeAuthFlow(
-                this.props.authStage === authStages.SIGN_IN ? authFlows.SIGN_IN : authFlows.SIGN_UP
+                this.props.authStage === authStages.SIGN_IN
+                    ? authFlows.SIGN_IN
+                    : authFlows.SIGN_UP
             );
         }
     };
@@ -127,9 +131,17 @@ class AuthCard extends Component {
                 this.props.done(authStages.SIGN_UP);
             })
             .catch((error) => {
-                authError(error.code, error.message, "[AuthCard/sendEmailVerification]");
+                authError(
+                    error.code,
+                    error.message,
+                    "[AuthCard/sendEmailVerification]"
+                );
                 this.props.setLoading(false);
-                this.props.showAlert(alertBarTypes.ERROR, "Authentication Error", error.message);
+                this.props.showAlert(
+                    alertBarTypes.ERROR,
+                    "Authentication Error",
+                    error.message
+                );
             });
     };
 
@@ -204,7 +216,9 @@ class AuthCard extends Component {
      * @returns {boolean} Indicates if the password is valid
      */
     isPasswordValid = () => {
-        const trimmedPassword = this.removeWhitespace(this.state.formData.password);
+        const trimmedPassword = this.removeWhitespace(
+            this.state.formData.password
+        );
 
         if (this.state.formData.password !== trimmedPassword) {
             // Shows an alert and returns false (password is not valid)
@@ -259,11 +273,22 @@ class AuthCard extends Component {
         // The Redux state property "isAuthenticated" will cause this component to update
         firebase
             .auth()
-            .signInWithEmailAndPassword(this.state.formData.email, this.state.formData.password)
+            .signInWithEmailAndPassword(
+                this.state.formData.email,
+                this.state.formData.password
+            )
             .catch((error) => {
-                authError(error.code, error.message, "[AuthCard/signInWithEmailPassword]");
+                authError(
+                    error.code,
+                    error.message,
+                    "[AuthCard/signInWithEmailPassword]"
+                );
                 this.props.setLoading(false);
-                this.props.showAlert(alertBarTypes.ERROR, "Authentication Error", error.message);
+                this.props.showAlert(
+                    alertBarTypes.ERROR,
+                    "Authentication Error",
+                    error.message
+                );
             });
     };
 
@@ -278,11 +303,22 @@ class AuthCard extends Component {
         // The Redux state property "isAuthenticated" will cause this component to update
         firebase
             .auth()
-            .createUserWithEmailAndPassword(this.state.formData.email, this.state.formData.password)
+            .createUserWithEmailAndPassword(
+                this.state.formData.email,
+                this.state.formData.password
+            )
             .catch((error) => {
-                authError(error.code, error.message, "[AuthCard/signUpWithEmailPassword]");
+                authError(
+                    error.code,
+                    error.message,
+                    "[AuthCard/signUpWithEmailPassword]"
+                );
                 this.props.setLoading(false);
-                this.props.showAlert(alertBarTypes.ERROR, "Sign Up Error", error.message);
+                this.props.showAlert(
+                    alertBarTypes.ERROR,
+                    "Sign Up Error",
+                    error.message
+                );
             });
     };
 
@@ -292,7 +328,9 @@ class AuthCard extends Component {
      * @returns {string} A heading
      */
     getHeading = () => {
-        return this.props.authStage === authStages.SIGN_IN ? "Sign In" : "Sign Up";
+        return this.props.authStage === authStages.SIGN_IN
+            ? "Sign In"
+            : "Sign Up";
     };
 
     /**
@@ -301,7 +339,9 @@ class AuthCard extends Component {
      * @returns {string} A title
      */
     getSubmitButtonTitle = () => {
-        return this.props.authStage === authStages.SIGN_IN ? "Sign In" : "Sign Up";
+        return this.props.authStage === authStages.SIGN_IN
+            ? "Sign In"
+            : "Sign Up";
     };
 
     /**
@@ -322,16 +362,21 @@ class AuthCard extends Component {
         return (
             <div className={authStyles.authCard}>
                 {/* Heading */}
-                <h3 className={authStyles.authCardHeading}>{this.getHeading()}</h3>
+                <h3 className={authStyles.authCardHeading}>
+                    {this.getHeading()}
+                </h3>
 
                 {/* Auth form */}
-                <form className={authStyles.authCardForm} onSubmit={this.submitHandler}>
+                <form
+                    className={authStyles.authCardForm}
+                    onSubmit={this.submitHandler}
+                >
                     {/* Email input */}
                     <div className={authCardStyles.authCardTextInput}>
                         <LargeTextInput
                             inputType={textInputTypes.EMAIL}
-                            inputName='email'
-                            labelText='Email'
+                            inputName="email"
+                            labelText="Email"
                             value={this.state.formData.email}
                             isRequired={true}
                             onChange={this.textInputValueChangedHandler}
@@ -342,8 +387,8 @@ class AuthCard extends Component {
                     <div className={authCardStyles.authCardTextInput}>
                         <LargeTextInput
                             inputType={textInputTypes.PASSWORD}
-                            inputName='password'
-                            labelText='Password'
+                            inputName="password"
+                            labelText="Password"
                             value={this.state.formData.password}
                             isRequired={true}
                             onChange={this.textInputValueChangedHandler}
@@ -353,10 +398,10 @@ class AuthCard extends Component {
                     {/* Submit button */}
                     <div className={authStyles.authCardSubmitButtonContainer}>
                         <RectangularButton
-                            type='submit'
-                            value='submit'
+                            type="submit"
+                            value="submit"
                             text={this.getSubmitButtonTitle()}
-                            backgroundColor='green'
+                            backgroundColor="green"
                         />
                     </div>
                 </form>
@@ -364,11 +409,11 @@ class AuthCard extends Component {
                 {/* A button for switching between auth flows (sign in and sign up) */}
                 <div className={authCardStyles.authCardChangeAuth}>
                     <TextButton
-                        type='button'
-                        value='change-auth'
+                        type="button"
+                        value="change-auth"
                         text={this.getChangeAuthButtonTitle()}
-                        textColor='blue'
-                        center='false'
+                        textColor="blue"
+                        center="false"
                         onClick={this.props.switchAuthFlow}
                     />
                 </div>
@@ -388,7 +433,8 @@ AuthCard.propTypes = {
      * The current auth stage.
      * See [stages]{@link module:authStages}.
      */
-    authStage: PropTypes.oneOf([authStages.SIGN_IN, authStages.SIGN_UP]).isRequired,
+    authStage: PropTypes.oneOf([authStages.SIGN_IN, authStages.SIGN_UP])
+        .isRequired,
 
     /**
      * Tells Redux to show/hide the loading HUD (true for show and false for hide (i.e. remove))

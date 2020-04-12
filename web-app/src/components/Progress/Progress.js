@@ -21,7 +21,7 @@ const Progress = () => {
             <img
                 className={styles.progressHeroImg}
                 src={underConstruction}
-                alt='Under Construction'
+                alt="Under Construction"
             />
             <h1 className={styles.progressText}>
                 This page is currently under construction.

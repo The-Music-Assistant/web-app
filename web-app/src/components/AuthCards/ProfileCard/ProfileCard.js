@@ -53,7 +53,8 @@ class ProfileCard extends Component {
      */
     imageInputValueChangedHandler = (event) => {
         // Gets the profile picture if it exists
-        const profilePicture = event.target.files.length === 1 ? event.target.files[0] : null;
+        const profilePicture =
+            event.target.files.length === 1 ? event.target.files[0] : null;
 
         // Sets state with new image
         this.setState((prevState) => {
@@ -135,12 +136,24 @@ class ProfileCard extends Component {
                     this.props.done(authStages.PROFILE);
                 })
                 .catch((error) => {
-                    authError(error.code, error.message, "[ProfileCard/submitHandler]");
+                    authError(
+                        error.code,
+                        error.message,
+                        "[ProfileCard/submitHandler]"
+                    );
                     this.props.setLoading(false);
-                    this.props.showAlert(alertBarTypes.ERROR, "Error", error.message);
+                    this.props.showAlert(
+                        alertBarTypes.ERROR,
+                        "Error",
+                        error.message
+                    );
                 });
         } else {
-            authError(null, "Not authenticated. Can't submit form.", "[ProfileCard/submitHandler]");
+            authError(
+                null,
+                "Not authenticated. Can't submit form.",
+                "[ProfileCard/submitHandler]"
+            );
         }
     };
 
@@ -198,7 +211,11 @@ class ProfileCard extends Component {
     uploadProfilePicture = () => {
         const userUid = firebase.auth().currentUser.uid;
         const path = `users/${userUid}/profile_picture`;
-        return firebase.storage().ref().child(path).put(this.state.formData.profilePicture);
+        return firebase
+            .storage()
+            .ref()
+            .child(path)
+            .put(this.state.formData.profilePicture);
     };
 
     /**
@@ -210,22 +227,33 @@ class ProfileCard extends Component {
         return this.state.formData.profilePicture ? (
             <Fragment>
                 {/* Image container */}
-                <div className={profileCardStyles.profileCardImageInputImgContainer}>
+                <div
+                    className={
+                        profileCardStyles.profileCardImageInputImgContainer
+                    }
+                >
                     {/* Image preview */}
                     <img
-                        src={URL.createObjectURL(this.state.formData.profilePicture)}
+                        src={URL.createObjectURL(
+                            this.state.formData.profilePicture
+                        )}
                         className={profileCardStyles.profileCardImageInputImg}
-                        alt='User Avatar'
+                        alt="User Avatar"
                         onError={this.imageInputErrorHandler}
                     />
 
                     {/* Remove image button */}
                     <button
-                        className={profileCardStyles.profileCardImageInputRemoveButton}
-                        type='button'
-                        onClick={this.removeImageHandler}>
+                        className={
+                            profileCardStyles.profileCardImageInputRemoveButton
+                        }
+                        type="button"
+                        onClick={this.removeImageHandler}
+                    >
                         <img
-                            className={profileCardStyles.profileCardImageInputRemoveButtonImg}
+                            className={
+                                profileCardStyles.profileCardImageInputRemoveButtonImg
+                            }
                             src={closeIconRed}
                             alt={"Remove User Avatar"}
                         />
@@ -234,7 +262,7 @@ class ProfileCard extends Component {
 
                 {/* Image file input */}
                 <ImageInput
-                    inputName='profilePictureInput'
+                    inputName="profilePictureInput"
                     buttonTitle={"Select a profile picture"}
                     onChange={this.imageInputValueChangedHandler}
                     file={this.state.formData.profilePicture}
@@ -244,11 +272,15 @@ class ProfileCard extends Component {
         ) : (
             <Fragment>
                 {/* Image placeholder */}
-                <div className={profileCardStyles.profileCardImageInputImgPlaceholder}></div>
+                <div
+                    className={
+                        profileCardStyles.profileCardImageInputImgPlaceholder
+                    }
+                ></div>
 
                 {/* Image file input */}
                 <ImageInput
-                    inputName='profilePictureInput'
+                    inputName="profilePictureInput"
                     buttonTitle={"Select a profile picture"}
                     onChange={this.imageInputValueChangedHandler}
                     isRequired={false}
@@ -271,7 +303,10 @@ class ProfileCard extends Component {
                 <h3 className={authStyles.authCardHeading}>Your Profile</h3>
 
                 {/* Profile form */}
-                <form className={authStyles.authCardForm} onSubmit={this.submitHandler}>
+                <form
+                    className={authStyles.authCardForm}
+                    onSubmit={this.submitHandler}
+                >
                     {/* Profile image input */}
                     <div className={profileCardStyles.profileCardImageInput}>
                         {this.getImageInputElement()}
@@ -283,8 +318,8 @@ class ProfileCard extends Component {
                         <div className={profileCardStyles.profileCardTextInput}>
                             <LargeTextInput
                                 inputType={textInputTypes.TEXT}
-                                inputName='firstName'
-                                labelText='First Name'
+                                inputName="firstName"
+                                labelText="First Name"
                                 value={this.state.formData.firstName}
                                 isRequired={true}
                                 onChange={this.textInputValueChangedHandler}
@@ -295,8 +330,8 @@ class ProfileCard extends Component {
                         <div className={profileCardStyles.profileCardTextInput}>
                             <LargeTextInput
                                 inputType={textInputTypes.TEXT}
-                                inputName='lastName'
-                                labelText='Last Name'
+                                inputName="lastName"
+                                labelText="Last Name"
                                 value={this.state.formData.lastName}
                                 isRequired={true}
                                 onChange={this.textInputValueChangedHandler}
@@ -307,10 +342,10 @@ class ProfileCard extends Component {
                     {/* Submit button */}
                     <div className={authStyles.authCardSubmitButtonContainer}>
                         <RectangularButton
-                            type='submit'
-                            value='submit'
-                            text='Next'
-                            backgroundColor='green'
+                            type="submit"
+                            value="submit"
+                            text="Next"
+                            backgroundColor="green"
                         />
                     </div>
                 </form>
@@ -375,7 +410,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         updateUserInfo: () => dispatch(getUserInfo()),
-        showWelcomePage: (isAuthFlowComplete) => dispatch(showWelcomePage(isAuthFlowComplete)),
+        showWelcomePage: (isAuthFlowComplete) =>
+            dispatch(showWelcomePage(isAuthFlowComplete)),
     };
 };
 

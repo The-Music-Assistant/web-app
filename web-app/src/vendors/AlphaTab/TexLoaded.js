@@ -7,14 +7,23 @@
 // ----------------------------------------------------------------------------
 
 class TexLoaded {
-    constructor(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd, sheetMusicId) {
+    constructor(
+        typeOfTex,
+        partNames,
+        clefs,
+        myPart,
+        id,
+        measureStart,
+        measureEnd,
+        sheetMusicId
+    ) {
         this.typeOfTex = typeOfTex;
         this.partNames = partNames;
         this.myPart = myPart;
         this.mutedTracks = [];
         this.clefs = clefs;
         if (this.clefs) {
-            this.clefs.forEach(track => {
+            this.clefs.forEach((track) => {
                 for (let i = 0; i < track.length; i++) {
                     track[i] = track[i].toLowerCase();
                 }
@@ -40,16 +49,34 @@ class TexLoaded {
         // On a re-render, the bar cursor will go back to the beginning of the music, so use its position to update the first bar position
         let barCursor = document.querySelector(".at-cursor-bar");
         this.firstBarMeasurePosition = {
-            left: parseInt(barCursor.style.left.substring(0, barCursor.style.left.length - 2), 10),
-            top: parseInt(barCursor.style.top.substring(0, barCursor.style.left.length - 2), 10),
+            left: parseInt(
+                barCursor.style.left.substring(
+                    0,
+                    barCursor.style.left.length - 2
+                ),
+                10
+            ),
+            top: parseInt(
+                barCursor.style.top.substring(
+                    0,
+                    barCursor.style.left.length - 2
+                ),
+                10
+            ),
             width: parseInt(
-                barCursor.style.width.substring(0, barCursor.style.left.length - 2),
+                barCursor.style.width.substring(
+                    0,
+                    barCursor.style.left.length - 2
+                ),
                 10
             ),
             height: parseInt(
-                barCursor.style.height.substring(0, barCursor.style.left.length - 2),
+                barCursor.style.height.substring(
+                    0,
+                    barCursor.style.left.length - 2
+                ),
                 10
-            )
+            ),
         };
     }
 
@@ -59,7 +86,7 @@ class TexLoaded {
         let count = 0;
         let total = 0;
         for (let i = this.measureStart; i <= this.measureEnd; i++) {
-            let nextLength = this.measureLengths[i - this.measureStart]; 
+            let nextLength = this.measureLengths[i - this.measureStart];
             if (isNaN(nextLength)) {
                 break;
             }
@@ -82,7 +109,7 @@ class TexLoaded {
         let count = 0;
         let total = 0;
         for (let i = this.measureStart; i <= this.measureEnd; i++) {
-            let nextLength = this.measureLengths[i - this.measureStart]; 
+            let nextLength = this.measureLengths[i - this.measureStart];
             if (isNaN(nextLength)) {
                 break;
             }
@@ -104,7 +131,7 @@ class TexLoaded {
         this.partNames = partNames;
         this.clefs = clefs;
         if (this.clefs) {
-            this.clefs.forEach(track => {
+            this.clefs.forEach((track) => {
                 for (let i = 0; i < track.length; i++) {
                     track[i] = track[i].toLowerCase();
                 }
@@ -125,9 +152,15 @@ class TexLoaded {
         const TREBLE_START = 4;
         const BASS_START = 2;
         let trackIndex = this.currentTrackIndexes[0];
-        if (trackIndex > this.clefs.length || this.clefs[trackIndex][0] === "treble") {
+        if (
+            trackIndex > this.clefs.length ||
+            this.clefs[trackIndex][0] === "treble"
+        ) {
             return TREBLE_START;
-        } else if (this.clefs[trackIndex][0] === "f4" || this.clefs[trackIndex][0] === "bass") {
+        } else if (
+            this.clefs[trackIndex][0] === "f4" ||
+            this.clefs[trackIndex][0] === "bass"
+        ) {
             return BASS_START;
         } else {
             return TREBLE_START;

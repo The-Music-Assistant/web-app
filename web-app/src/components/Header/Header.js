@@ -94,7 +94,9 @@ class Header extends Component {
      */
     getHeading = () => {
         return !this.props.isMobileScreenWidth ? (
-            <h1 className={styles.headerHeading}>{`Good ${this.state.timeOfDay}`}</h1>
+            <h1
+                className={styles.headerHeading}
+            >{`Good ${this.state.timeOfDay}`}</h1>
         ) : null;
     };
 
@@ -105,7 +107,11 @@ class Header extends Component {
      */
     getLogo = () => {
         return this.props.isMobileScreenWidth ? (
-            <img className={styles.headerLogo} src={tmaLogo} alt={"The Music Assistant Logo"} />
+            <img
+                className={styles.headerLogo}
+                src={tmaLogo}
+                alt={"The Music Assistant Logo"}
+            />
         ) : null;
     };
 

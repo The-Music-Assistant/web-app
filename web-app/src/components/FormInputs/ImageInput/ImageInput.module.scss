@@ -10,7 +10,12 @@
 
 .imageInput {
     &Label {
-        @include text($size: 1rem, $weight: 400, $color: $primary-color, $line-height: null);
+        @include text(
+            $size: 1rem,
+            $weight: 400,
+            $color: $primary-color,
+            $line-height: null
+        );
         cursor: pointer;
     }
 }

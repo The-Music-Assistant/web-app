@@ -20,7 +20,8 @@ const ButtonContainer = (props) => {
             className={props.className}
             type={props.type}
             value={props.value}
-            onClick={props.onClick}>
+            onClick={props.onClick}
+        >
             {/* Children elements that customize the button */}
             {props.children}
         </button>
@@ -39,7 +40,11 @@ ButtonContainer.propTypes = {
      * The button's type (HTML type).
      * See [types]{@link module:buttonTypes}.
      */
-    type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
+    type: PropTypes.oneOf([
+        buttonTypes.BUTTON,
+        buttonTypes.RESET,
+        buttonTypes.SUBMIT,
+    ]).isRequired,
 
     /**
      * The button's value (HTML value)

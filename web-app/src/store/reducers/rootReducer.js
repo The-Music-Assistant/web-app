@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     startup: startupReducer,
     practice: practiceReducer,
-    choirs: choirsReducer
+    choirs: choirsReducer,
 });
 
 export default rootReducer;

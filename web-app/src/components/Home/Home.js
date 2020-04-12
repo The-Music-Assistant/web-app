@@ -18,7 +18,11 @@ const Home = () => {
     // Returns the JSX to render
     return (
         <div className={styles.home}>
-            <img className={styles.homeHeroImg} src={underConstruction} alt='Under Construction' />
+            <img
+                className={styles.homeHeroImg}
+                src={underConstruction}
+                alt="Under Construction"
+            />
             <h1 className={styles.homeText}>
                 This page is currently under construction.
                 <br />

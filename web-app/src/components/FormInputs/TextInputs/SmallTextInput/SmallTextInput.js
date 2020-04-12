@@ -54,7 +54,10 @@ const SmallTextInput = (props) => {
     return (
         <div className={styles.smallTextInput}>
             {/* Input label */}
-            <label className={styles.smallTextInputLabel} htmlFor={props.inputName}>
+            <label
+                className={styles.smallTextInputLabel}
+                htmlFor={props.inputName}
+            >
                 {`${props.labelText}:`}
             </label>
 

@@ -7,27 +7,55 @@
 // ----------------------------------------------------------------------------
 
 $primary-color: #5f9cd1;
-$secondary-color: #507CA1;
-$tertiary-color: #7E9FA6;
-$white-color: #F8F8F8;
+$secondary-color: #507ca1;
+$tertiary-color: #7e9fa6;
+$white-color: #f8f8f8;
 $light-gray-color: #d4d4d4;
 $gray-color: #4e4e4e;
 $dark-gray-color: #212121;
-$green-color: #47A65C;
-$yellow-color: #E2964D;
-$orange-color: #F09033;
-$red-color: #DF5656;
-$background-color: #F8F8F8;
+$green-color: #47a65c;
+$yellow-color: #e2964d;
+$orange-color: #f09033;
+$red-color: #df5656;
+$background-color: #f8f8f8;
 $modal-background-color: rgba($primary-color, 0.5);
 
 $tablet-breakpoint: 768px;
 $desktop-breakpoint: 1024px;
 $large-desktop-breakpoint: 1400px;
 
-$primary-box-shadow: 10px 10px 20px rgba($color: #898989, $alpha: 0.7);
-$primary-color-box-shadow: 10px 10px 20px rgba($color: $primary-color, $alpha: 1);
-$secondary-color-box-shadow: 10px 10px 20px rgba($color: $secondary-color, $alpha: 1);
-$tertiary-color-box-shadow: 10px 10px 20px rgba($color: $tertiary-color, $alpha: 1);
-$green-color-box-shadow: 10px 10px 20px rgba($color: $green-color, $alpha: 1);
-$orange-color-box-shadow: 10px 10px 20px rgba($color: $orange-color, $alpha: 1);
-$red-color-box-shadow: 10px 10px 20px rgba($color: $red-color, $alpha: 1);
+$primary-box-shadow: 10px 10px 20px
+    rgba(
+        $color: #898989,
+        $alpha: 0.7,
+    );
+$primary-color-box-shadow: 10px 10px 20px
+    rgba(
+        $color: $primary-color,
+        $alpha: 1,
+    );
+$secondary-color-box-shadow: 10px 10px 20px
+    rgba(
+        $color: $secondary-color,
+        $alpha: 1,
+    );
+$tertiary-color-box-shadow: 10px 10px 20px
+    rgba(
+        $color: $tertiary-color,
+        $alpha: 1,
+    );
+$green-color-box-shadow: 10px 10px 20px
+    rgba(
+        $color: $green-color,
+        $alpha: 1,
+    );
+$orange-color-box-shadow: 10px 10px 20px
+    rgba(
+        $color: $orange-color,
+        $alpha: 1,
+    );
+$red-color-box-shadow: 10px 10px 20px
+    rgba(
+        $color: $red-color,
+        $alpha: 1,
+    );

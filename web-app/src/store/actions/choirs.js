@@ -18,6 +18,6 @@ export const choirSelectedForChoirs = (id, name) => {
     return {
         type: actionTypes.CHOIRS_CHOIR_SELECTED,
         id,
-        name
+        name,
     };
 };

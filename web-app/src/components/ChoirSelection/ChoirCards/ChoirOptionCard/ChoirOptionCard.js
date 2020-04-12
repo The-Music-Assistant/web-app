@@ -19,8 +19,11 @@ const ChoirOptionCard = (props) => {
     // Returns the JSX to render
     return (
         <div
-            className={`${optionCardStyles.choirOptionCard} ${cardColorStyles[props.cardColor]}`}
-            onClick={props.onClick}>
+            className={`${optionCardStyles.choirOptionCard} ${
+                cardColorStyles[props.cardColor]
+            }`}
+            onClick={props.onClick}
+        >
             {/* An icon */}
             <img
                 className={optionCardStyles.choirOptionCardIcon}
@@ -29,7 +32,9 @@ const ChoirOptionCard = (props) => {
             />
 
             {/* The option name */}
-            <h1 className={optionCardStyles.choirOptionCardName}>{props.name}</h1>
+            <h1 className={optionCardStyles.choirOptionCardName}>
+                {props.name}
+            </h1>
         </div>
     );
 };

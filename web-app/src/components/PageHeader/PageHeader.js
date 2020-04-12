@@ -27,7 +27,7 @@ const PageHeader = (props) => {
         <div className={styles.pageHeader}>
             {/* Back button */}
             {props.shouldDisplayBackButton ? (
-                <BackButton value='back' text={props.backButtonTitle} />
+                <BackButton value="back" text={props.backButtonTitle} />
             ) : (
                 <div></div>
             )}

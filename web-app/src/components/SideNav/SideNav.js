@@ -24,9 +24,13 @@ import styles from "./SideNav.module.scss";
 const SideNav = (props) => {
     // Returns the JSX to render
     return (
-        <section id='side-nav' className={styles.sideNav}>
+        <section id="side-nav" className={styles.sideNav}>
             <div className={styles.sideNavLogoContainer}>
-                <img className={styles.sideNavLogo} src={tmaLogo} alt='The Music Assistant Logo' />
+                <img
+                    className={styles.sideNavLogo}
+                    src={tmaLogo}
+                    alt="The Music Assistant Logo"
+                />
             </div>
             <div className={styles.sideNavLinks}>
                 {props.tabs.map((tab) => {
@@ -51,7 +55,7 @@ const SideNav = (props) => {
             </div>
             <div className={styles.sideNavFooter}>
                 <SideNavLink
-                    name='Sign Out'
+                    name="Sign Out"
                     icon={signOutIconWhite}
                     onClick={props.signOutClicked}
                     isSignOutLink={true}

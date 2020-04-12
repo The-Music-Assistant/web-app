@@ -14,7 +14,7 @@ import * as sketchBehaviors from "./sketchBehaviors";
  * Wrapper for local p5 setup and draw functions
  * @param {sketch} p Sketch object that will include all of the functions that will be called by p5
  */
-const p5FeedbackSketch = p => {
+const p5FeedbackSketch = (p) => {
     p.type = sketchBehaviors.REAL_TIME_FEEDBACK;
     // how much space to add around note for drawing lines, obtained by guess and check
     const EXTRA_BAR_VARIANCE = 7;
@@ -49,7 +49,7 @@ const p5FeedbackSketch = p => {
      * the canvas overlays the AlphaTab container
      * @param {Drawer} drawerGiven - p5 will not provide this but atVars provides a reference to the Drawer being used
      */
-    p.setup = function(drawerGiven) {
+    p.setup = function (drawerGiven) {
         if (drawerGiven === undefined) {
             p.noLoop();
             return;
@@ -59,11 +59,15 @@ const p5FeedbackSketch = p => {
         barCursor = document.getElementById("bC");
         alphaTabSurface = document.getElementById("aTS");
         const sideNavElement = document.querySelector("#side-nav");
-        sideNavElementWidth = sideNavElement !== null ? sideNavElement.clientWidth : 0;
+        sideNavElementWidth =
+            sideNavElement !== null ? sideNavElement.clientWidth : 0;
         wrapper = document.getElementById("alpha-tab-wrapper");
 
         // creates a canvas that overlaps the alphaTabSurface. Position is absolute for the canvas by default
-        canvas = p.createCanvas(alphaTabSurface.clientWidth, alphaTabSurface.clientHeight);
+        canvas = p.createCanvas(
+            alphaTabSurface.clientWidth,
+            alphaTabSurface.clientHeight
+        );
         const x = 0;
         const y = 0;
         canvas.position(x, y);
@@ -74,7 +78,7 @@ const p5FeedbackSketch = p => {
      * Draws the canvas on the screen. Requires that the canvas is not undefined ie setup has run
      * TODO: Handle sheet music scale
      */
-    p.draw = function() {
+    p.draw = function () {
         if (!atVars.getsFeedback) {
             return;
         }
@@ -113,10 +117,24 @@ const p5FeedbackSketch = p => {
                 if (previousPos[0] < previousPos[2]) {
                     let topLine = document.getElementById("rect_0");
                     let nextLine = document.getElementById("rect_1");
-                    if (topLine && topLine.y && topLine.y.animVal && topLine.y.animVal.value && nextLine && nextLine.y && nextLine.y.animVal && nextLine.y.animVal.value) {
+                    if (
+                        topLine &&
+                        topLine.y &&
+                        topLine.y.animVal &&
+                        topLine.y.animVal.value &&
+                        nextLine &&
+                        nextLine.y &&
+                        nextLine.y.animVal &&
+                        nextLine.y.animVal.value
+                    ) {
                         const topLineHeight = topLine.y.animVal.value;
-                        const distanceBetweenLines = nextLine.y.animVal.value - topLineHeight;
-                        drawer.setTopLineAndDistanceBetween(topLineHeight, distanceBetweenLines, drawer.baseOctave);
+                        const distanceBetweenLines =
+                            nextLine.y.animVal.value - topLineHeight;
+                        drawer.setTopLineAndDistanceBetween(
+                            topLineHeight,
+                            distanceBetweenLines,
+                            drawer.baseOctave
+                        );
                     }
                 }
                 if (atVars.noteStream[atVars.noteStreamIndex] === -1) {
@@ -124,7 +142,8 @@ const p5FeedbackSketch = p => {
                     p.stroke(255, 0, 0);
                 } else {
                     let diff = Math.abs(
-                        lastPitchAndTime[0] - atVars.noteStream[atVars.noteStreamIndex]
+                        lastPitchAndTime[0] -
+                            atVars.noteStream[atVars.noteStreamIndex]
                     );
 
                     // fill with green if really close
@@ -140,7 +159,12 @@ const p5FeedbackSketch = p => {
                 }
 
                 p.strokeWeight(3);
-                p.line(previousPos[0], previousPos[1], previousPos[2], previousPos[3]);
+                p.line(
+                    previousPos[0],
+                    previousPos[1],
+                    previousPos[2],
+                    previousPos[3]
+                );
                 p.noStroke();
             }
             previousPos[2] = previousPos[0];
@@ -155,9 +179,11 @@ const p5FeedbackSketch = p => {
             lastPitchAndTime[1] = atVars.api.timePosition / 1000;
             while (
                 lastPitchAndTime[1] >
-                atVars.cumulativeTime + atVars.noteStream[atVars.noteStreamIndex + 1]
+                atVars.cumulativeTime +
+                    atVars.noteStream[atVars.noteStreamIndex + 1]
             ) {
-                atVars.cumulativeTime += atVars.noteStream[atVars.noteStreamIndex + 1];
+                atVars.cumulativeTime +=
+                    atVars.noteStream[atVars.noteStreamIndex + 1];
                 atVars.noteStreamIndex += 2;
             }
 
@@ -171,7 +197,8 @@ const p5FeedbackSketch = p => {
             let posX =
                 barCursor.getClientRects()[0].left.valueOf() -
                 sideNavElementWidth +
-                wrapper.scrollLeft - 27;
+                wrapper.scrollLeft -
+                27;
 
             // TODO: Handle resizing scale
             // places sharp if present beside the note. These magic values were calculated via trial and error

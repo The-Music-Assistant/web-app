@@ -29,7 +29,7 @@ import styles from "./MusicControls.module.scss";
 class MusicControls extends Component {
     // Component state
     state = {
-        isPlaying: false
+        isPlaying: false,
     };
 
     componentDidMount() {
@@ -48,19 +48,26 @@ class MusicControls extends Component {
             return;
         }
         // Updates state
-        this.setState(prevState => ({
-            isPlaying: !prevState.isPlaying
+        this.setState((prevState) => ({
+            isPlaying: !prevState.isPlaying,
         }));
 
         // AudioContext must be resumed before playing can begin (the first time)
-        if (isPitchDetectionAvailable() && pitchDetectionVars.audioContext.state !== "running") {
+        if (
+            isPitchDetectionAvailable() &&
+            pitchDetectionVars.audioContext.state !== "running"
+        ) {
             pitchDetectionVars.audioContext
                 .resume()
                 .then(() => {
                     alphaTabVars.api.playPause();
                 })
-                .catch(error => {
-                    sheetMusicError(null, error, "[MusicControls/playPauseButtonHandler]");
+                .catch((error) => {
+                    sheetMusicError(
+                        null,
+                        error,
+                        "[MusicControls/playPauseButtonHandler]"
+                    );
                 });
         } else {
             alphaTabVars.api.playPause();
@@ -80,7 +87,7 @@ class MusicControls extends Component {
      */
     donePlaying = () => {
         this.setState({
-            isPlaying: false
+            isPlaying: false,
         });
     };
 
@@ -101,8 +108,9 @@ class MusicControls extends Component {
             <div className={styles.musicControls}>
                 <button
                     className={styles.musicControlsButton}
-                    type='button'
-                    onClick={this.playPauseButtonHandler}>
+                    type="button"
+                    onClick={this.playPauseButtonHandler}
+                >
                     <img
                         className={styles.musicControlsButtonImg}
                         src={playPauseButton}
@@ -112,12 +120,13 @@ class MusicControls extends Component {
 
                 <button
                     className={styles.musicControlsButton}
-                    type='button'
-                    onClick={this.stopButtonHandler}>
+                    type="button"
+                    onClick={this.stopButtonHandler}
+                >
                     <img
                         className={styles.musicControlsButtonImg}
                         src={stopButtonImg}
-                        alt='Stop Button'
+                        alt="Stop Button"
                     />
                 </button>
             </div>
@@ -127,16 +136,16 @@ class MusicControls extends Component {
 
 // Prop types for the MusicControls component
 MusicControls.propTypes = {
-    sheetMusicId: PropTypes.string.isRequired
+    sheetMusicId: PropTypes.string.isRequired,
 };
 
 /**
  * Gets the current state from Redux and passes it to the MusicControls component as props
  * @param {object} state - The Redux state
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        sheetMusicId: state.practice.selectedSheetMusicId
+        sheetMusicId: state.practice.selectedSheetMusicId,
     };
 };
 

@@ -14,11 +14,11 @@ import { MetroSpinner } from "react-spinners-kit";
 // Style imports
 import styles from "./LoadingContainer.module.scss";
 
-const LoadingContainer = props => {
+const LoadingContainer = (props) => {
     // Returns the JSX to display
     return (
         <div className={styles.loadingContainer}>
-            <MetroSpinner size={75} color='#5F9CD1' loading={true} />
+            <MetroSpinner size={75} color="#5F9CD1" loading={true} />
             <h1 className={styles.loadingContainerMessage}>{props.message}</h1>
         </div>
     );
@@ -26,7 +26,7 @@ const LoadingContainer = props => {
 
 // LoadingContainer prop types
 LoadingContainer.propTypes = {
-    message: PropTypes.string.isRequired
+    message: PropTypes.string.isRequired,
 };
 
 export default LoadingContainer;

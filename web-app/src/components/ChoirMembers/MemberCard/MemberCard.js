@@ -43,9 +43,14 @@ class MemberCard extends Component {
                 <div className={styles.memberCardImgPlaceholder}>
                     {this.props.name.length > 0 ? (
                         <h1
-                            className={`${styles.memberCardImgPlaceholderLetter} ${
-                                styles[this.props.color + "ImgPlaceholderLetter"]
-                            }`}>
+                            className={`${
+                                styles.memberCardImgPlaceholderLetter
+                            } ${
+                                styles[
+                                    this.props.color + "ImgPlaceholderLetter"
+                                ]
+                            }`}
+                        >
                             {this.props.name.substring(0, 1)}
                         </h1>
                     ) : null}
@@ -57,7 +62,7 @@ class MemberCard extends Component {
                 <img
                     className={styles.memberCardImg}
                     src={this.props.profilePictureSrc}
-                    alt='User Avatar'
+                    alt="User Avatar"
                 />
             );
         }

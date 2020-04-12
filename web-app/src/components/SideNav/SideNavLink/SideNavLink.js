@@ -14,7 +14,7 @@ import { withRouter, Link } from "react-router-dom";
 // Style imports
 import styles from "./SideNavLink.module.scss";
 
-const SideNavLink = props => {
+const SideNavLink = (props) => {
     // The component to render
     let component;
 
@@ -23,20 +23,25 @@ const SideNavLink = props => {
         component = (
             <button
                 className={`${styles.sideNavLink} ${styles.sideNavLinkSignOut}`}
-                type='button'
-                onClick={props.onClick}>
+                type="button"
+                onClick={props.onClick}
+            >
                 <img
                     className={styles.sideNavLinkIcon}
                     src={props.icon}
                     alt={props.name + " Icon"}
                 />
-                <h3 className={`${styles.sideNavLinkName} ${styles.sideNavLinkNameWhiteText}`}>
+                <h3
+                    className={`${styles.sideNavLinkName} ${styles.sideNavLinkNameWhiteText}`}
+                >
                     {props.name}
                 </h3>
             </button>
         );
     } else {
-        const currentTabStyle = props.isCurrentTab ? styles.sideNavLinkCurrentTab : "";
+        const currentTabStyle = props.isCurrentTab
+            ? styles.sideNavLinkCurrentTab
+            : "";
         const textColorStyle = props.isCurrentTab
             ? styles.sideNavLinkNameBlueText
             : styles.sideNavLinkNameWhiteText;
@@ -46,13 +51,16 @@ const SideNavLink = props => {
             <Link
                 className={`${styles.sideNavLink} ${currentTabStyle}`}
                 to={props.route}
-                onClick={props.onClick}>
+                onClick={props.onClick}
+            >
                 <img
                     className={styles.sideNavLinkIcon}
                     src={props.icon}
                     alt={props.name + " Icon"}
                 />
-                <h3 className={`${styles.sideNavLinkName} ${textColorStyle}`}>{props.name}</h3>
+                <h3 className={`${styles.sideNavLinkName} ${textColorStyle}`}>
+                    {props.name}
+                </h3>
             </Link>
         );
     }
@@ -67,7 +75,7 @@ SideNavLink.propTypes = {
     name: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     route: PropTypes.string,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
 };
 
 export default withRouter(SideNavLink);

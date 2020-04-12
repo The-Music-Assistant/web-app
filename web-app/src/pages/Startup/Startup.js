@@ -47,13 +47,26 @@ class Startup extends Component {
         return (
             <div
                 className={styles.startup}
-                style={{ minHeight: `${this.state.windowInnerHeight}px` }}>
+                style={{ minHeight: `${this.state.windowInnerHeight}px` }}
+            >
                 <div>
-                    <img className={styles.startupLogo} src={logo} alt='The Music Assistant Logo' />
-                    <h1 className={styles.startupHeading}>The Music Assistant</h1>
-                    <h2 className={styles.startupSubheading}>Just a moment...</h2>
+                    <img
+                        className={styles.startupLogo}
+                        src={logo}
+                        alt="The Music Assistant Logo"
+                    />
+                    <h1 className={styles.startupHeading}>
+                        The Music Assistant
+                    </h1>
+                    <h2 className={styles.startupSubheading}>
+                        Just a moment...
+                    </h2>
                     <div className={styles.startupSpinner}>
-                        <MetroSpinner size={75} color='#F8F8F8' loading={true} />
+                        <MetroSpinner
+                            size={75}
+                            color="#F8F8F8"
+                            loading={true}
+                        />
                     </div>
                 </div>
             </div>
@@ -67,7 +80,7 @@ Startup.propTypes = {
      * Indicates if there is an authenticated user
      */
     isAuthenticated: PropTypes.bool,
-    
+
     /**
      * Indicates if the app startup is done
      */

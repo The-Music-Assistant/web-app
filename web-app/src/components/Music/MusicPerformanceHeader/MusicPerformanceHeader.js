@@ -25,7 +25,7 @@ import styles from "./MusicPerformanceHeader.module.scss";
 class MusicPerformanceHeader extends Component {
     // Component state
     state = {
-        shouldDisplayExerciseGeneration: false
+        shouldDisplayExerciseGeneration: false,
     };
 
     /**
@@ -56,8 +56,8 @@ class MusicPerformanceHeader extends Component {
             exerciseGenerationComponent = (
                 <RectangularButton
                     type={buttonTypes.BUTTON}
-                    value='create-exercise-generation'
-                    text='Create an Exercise'
+                    value="create-exercise-generation"
+                    text="Create an Exercise"
                     backgroundColor={rectButtonColorOptions.ORANGE}
                     onClick={this.showExerciseGenerationButtonClickedHandler}
                 />
@@ -69,8 +69,8 @@ class MusicPerformanceHeader extends Component {
                 {exerciseGenerationComponent}
                 <RectangularButton
                     type={buttonTypes.BUTTON}
-                    value='practice'
-                    text='Practice Music'
+                    value="practice"
+                    text="Practice Music"
                     backgroundColor={rectButtonColorOptions.GREEN}
                     onClick={this.props.switchToPractice}
                 />
@@ -83,7 +83,7 @@ class MusicPerformanceHeader extends Component {
 MusicPerformanceHeader.propTypes = {
     numberOfMeasures: PropTypes.string.isRequired,
     switchToPractice: PropTypes.func.isRequired,
-    switchToExercise: PropTypes.func.isRequired
+    switchToExercise: PropTypes.func.isRequired,
 };
 
 export default withRouter(MusicPerformanceHeader);

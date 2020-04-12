@@ -14,12 +14,12 @@ import { MetroSpinner } from "react-spinners-kit";
 // Style imports
 import styles from "./LoadingHUD.module.scss";
 
-const LoadingHUD = props => {
+const LoadingHUD = (props) => {
     // Returns JSX to display
     return (
         <div className={styles.background}>
             <div className={styles.modal}>
-                <MetroSpinner size={50} color='#5f9cd1' loading={true} />
+                <MetroSpinner size={50} color="#5f9cd1" loading={true} />
                 <h3 className={styles.modalText}>{props.text}</h3>
             </div>
         </div>
@@ -28,7 +28,7 @@ const LoadingHUD = props => {
 
 // Loading HUD prop types
 LoadingHUD.propTypes = {
-    text: PropTypes.string
+    text: PropTypes.string,
 };
 
 export default LoadingHUD;

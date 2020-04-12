@@ -33,7 +33,11 @@ class PerformanceData {
         const EPSILON = 0.00001;
         try {
             if (this.pitches[this.pitches.length - 1].midival !== note) {
-                if (Math.abs(this.pitches[this.pitches.length - 1].time - time) < EPSILON) {
+                if (
+                    Math.abs(
+                        this.pitches[this.pitches.length - 1].time - time
+                    ) < EPSILON
+                ) {
                     this.pitches[this.pitches.length - 1].midival = note;
                 } else {
                     this.pitches.push(new Pitch(note, time));

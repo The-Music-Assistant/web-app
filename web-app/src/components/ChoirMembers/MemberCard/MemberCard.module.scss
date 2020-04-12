@@ -19,7 +19,7 @@
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         width: 250px;
-    height: 250px;
+        height: 250px;
     }
 
     &Img {
@@ -44,19 +44,34 @@
             background-color: $white-color;
 
             &Letter {
-                @include text($size: 1.5rem, $weight: 400, $color: null, $line-height: null);
+                @include text(
+                    $size: 1.5rem,
+                    $weight: 400,
+                    $color: null,
+                    $line-height: null
+                );
             }
         }
     }
 
     &Name {
-        @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: null);
+        @include text(
+            $size: 1.25rem,
+            $weight: 400,
+            $color: $white-color,
+            $line-height: null
+        );
         text-align: center;
         margin-top: 20px;
     }
 
     &Roles {
-        @include text($size: 0.875rem, $weight: 300, $color: $white-color, $line-height: null);
+        @include text(
+            $size: 0.875rem,
+            $weight: 300,
+            $color: $white-color,
+            $line-height: null
+        );
         text-align: center;
         margin-top: 20px;
     }

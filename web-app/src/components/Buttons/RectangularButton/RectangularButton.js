@@ -21,10 +21,13 @@ const RectangularButton = (props) => {
     // Returns the JSX to render
     return (
         <ButtonContainer
-            className={`${styles.rectButton} ${styles[`${props.backgroundColor}RectButton`]}`}
+            className={`${styles.rectButton} ${
+                styles[`${props.backgroundColor}RectButton`]
+            }`}
             type={props.type}
             value={props.value}
-            onClick={props.onClick}>
+            onClick={props.onClick}
+        >
             {props.text}
         </ButtonContainer>
     );
@@ -36,7 +39,11 @@ RectangularButton.propTypes = {
      * The button's type (HTML type).
      * See [types]{@link module:buttonTypes}.
      */
-    type: PropTypes.oneOf([buttonTypes.BUTTON, buttonTypes.RESET, buttonTypes.SUBMIT]).isRequired,
+    type: PropTypes.oneOf([
+        buttonTypes.BUTTON,
+        buttonTypes.RESET,
+        buttonTypes.SUBMIT,
+    ]).isRequired,
 
     /**
      * The button's value (HTML value)

@@ -29,7 +29,12 @@
     }
 
     &Heading {
-        @include text($size: 1.56rem, $weight: 400, $color: $green-color, $line-height: null);
+        @include text(
+            $size: 1.56rem,
+            $weight: 400,
+            $color: $green-color,
+            $line-height: null
+        );
         text-align: center;
         margin: 20px 0 30px;
 

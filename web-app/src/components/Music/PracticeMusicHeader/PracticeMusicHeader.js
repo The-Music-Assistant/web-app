@@ -30,7 +30,7 @@ const PracticeMusicHeader = (props) => {
         return props.pageType === musicPageOptions.PRACTICE ? (
             <SelectInput
                 value={props.currentPart}
-                name='part-selection'
+                name="part-selection"
                 color={selectInputColorOptions.ORANGE}
                 options={props.partList}
                 onChange={props.onPartChange}
@@ -38,8 +38,8 @@ const PracticeMusicHeader = (props) => {
         ) : (
             <RectangularButton
                 type={buttonTypes.BUTTON}
-                value='practice'
-                text='Practice Music'
+                value="practice"
+                text="Practice Music"
                 backgroundColor={rectButtonColorOptions.ORANGE}
                 onClick={props.switchToPractice}
             />
@@ -54,8 +54,8 @@ const PracticeMusicHeader = (props) => {
             <div className={styles.PracticeMusicHeaderViewPerformanceButton}>
                 <RectangularButton
                     type={buttonTypes.BUTTON}
-                    value='performance'
-                    text='View Performance'
+                    value="performance"
+                    text="View Performance"
                     backgroundColor={rectButtonColorOptions.GREEN}
                     onClick={props.switchToPerformance}
                 />

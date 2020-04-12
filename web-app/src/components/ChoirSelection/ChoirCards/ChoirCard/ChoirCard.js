@@ -57,8 +57,8 @@ class ChoirCard extends Component {
                 <img
                     className={cardStyles.choirCardHeaderImg}
                     src={this.props.headerImgSrc}
-                    loading='lazy'
-                    alt='Choir'
+                    loading="lazy"
+                    alt="Choir"
                 />
             );
         } else {
@@ -67,11 +67,12 @@ class ChoirCard extends Component {
                 <div
                     className={`${cardStyles.choirCardHeaderImgPlaceholder} ${
                         cardColorStyles[this.props.cardColor + "Darken"]
-                    }`}>
+                    }`}
+                >
                     <img
                         className={cardStyles.choirCardHeaderImgPlaceholderImg}
                         src={cameraImg}
-                        alt='Choir'
+                        alt="Choir"
                         onError={this.choirImgLoadingErrorHandler}
                     />
                 </div>
@@ -86,8 +87,11 @@ class ChoirCard extends Component {
     render() {
         return (
             <div
-                className={`${cardStyles.choirCard} ${cardColorStyles[this.props.cardColor]}`}
-                onClick={this.props.onClick}>
+                className={`${cardStyles.choirCard} ${
+                    cardColorStyles[this.props.cardColor]
+                }`}
+                onClick={this.props.onClick}
+            >
                 {/* Header image */}
                 {this.getHeaderImage()}
 
@@ -96,7 +100,9 @@ class ChoirCard extends Component {
 
                 {/* Choir description (if one exists) */}
                 {this.props.description ? (
-                    <h2 className={cardStyles.choirCardDescription}>{this.props.description}</h2>
+                    <h2 className={cardStyles.choirCardDescription}>
+                        {this.props.description}
+                    </h2>
                 ) : null}
             </div>
         );

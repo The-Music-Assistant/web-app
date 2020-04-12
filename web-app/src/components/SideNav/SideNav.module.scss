@@ -20,7 +20,7 @@
     &::-webkit-scrollbar {
         display: none;
     }
-    
+
     @include grid-container(
         $grid-template-rows: 50px 3fr 1fr,
         $grid-template-columns: 1fr,
@@ -68,7 +68,12 @@
         );
 
         &Text {
-            @include text($size: 0.75rem, $weight: 300, $color: $white-color, $line-height: 1rem);
+            @include text(
+                $size: 0.75rem,
+                $weight: 300,
+                $color: $white-color,
+                $line-height: 1rem
+            );
             text-align: center;
             margin-top: 20px;
         }

@@ -76,8 +76,12 @@ class SelectInput extends Component {
         // Updates state with the component's current width and height
         // The current width and height is the largest width and height needed by any of the options
         this.setState({
-            componentWidth: parseFloat(getComputedStyle(this._selectorRef.current).width),
-            componentHeight: parseFloat(getComputedStyle(this._selectorRef.current).height),
+            componentWidth: parseFloat(
+                getComputedStyle(this._selectorRef.current).width
+            ),
+            componentHeight: parseFloat(
+                getComputedStyle(this._selectorRef.current).height
+            ),
             value: this.props.value,
         });
     }
@@ -91,8 +95,12 @@ class SelectInput extends Component {
             // Updates state with the component's width and height
             this.setState({
                 didScreenSizeChange: false,
-                componentWidth: parseFloat(getComputedStyle(this._selectorRef.current).width),
-                componentHeight: parseFloat(getComputedStyle(this._selectorRef.current).height),
+                componentWidth: parseFloat(
+                    getComputedStyle(this._selectorRef.current).width
+                ),
+                componentHeight: parseFloat(
+                    getComputedStyle(this._selectorRef.current).height
+                ),
                 value: this.props.value,
             });
         } else if (prevProps.value !== this.props.value) {
@@ -135,13 +143,17 @@ class SelectInput extends Component {
         // Gets the maximum length string based on all given options
         let maxLengthStr = this.props.options.reduce(
             (maxLengthStr, optionStr) =>
-                maxLengthStr.length > optionStr.length ? maxLengthStr : optionStr,
+                maxLengthStr.length > optionStr.length
+                    ? maxLengthStr
+                    : optionStr,
             ""
         );
 
         // Updates the maximum length string based on the provided value from props
         maxLengthStr =
-            maxLengthStr.length > this.props.value.length ? maxLengthStr : this.props.value;
+            maxLengthStr.length > this.props.value.length
+                ? maxLengthStr
+                : this.props.value;
 
         return maxLengthStr;
     };
@@ -182,10 +194,13 @@ class SelectInput extends Component {
                 <button
                     key={index}
                     index={index}
-                    className={`${styles.selectInputOption} ${styles[this.props.color]}`}
-                    type='button'
+                    className={`${styles.selectInputOption} ${
+                        styles[this.props.color]
+                    }`}
+                    type="button"
                     value={optionName}
-                    onClick={() => this.optionButtonClickedHandler(index)}>
+                    onClick={() => this.optionButtonClickedHandler(index)}
+                >
                     {optionName}
                 </button>
             );
@@ -198,7 +213,9 @@ class SelectInput extends Component {
      * @returns {string} A string of class names
      */
     getOptionsClassList = () => {
-        let classList = `${styles.selectInputOptions} ${styles[this.props.color]}`;
+        let classList = `${styles.selectInputOptions} ${
+            styles[this.props.color]
+        }`;
 
         classList += this.state.showDropdown
             ? ` ${styles.selectInputOptionsShow}`
@@ -229,30 +246,44 @@ class SelectInput extends Component {
         return (
             <div
                 className={styles.selectInput}
-                style={{ width: this.state.componentWidth, height: this.state.componentHeight }}>
+                style={{
+                    width: this.state.componentWidth,
+                    height: this.state.componentHeight,
+                }}
+            >
                 {/* A text imput that holds the current select value */}
                 <input
                     className={styles.selectInputInputElement}
-                    type='text'
+                    type="text"
                     name={this.props.name}
                     defaultValue={this.props.value}
                 />
 
                 {/* A custom version of the select HTML element */}
                 <button
-                    className={`${styles.selectInputSelector} ${styles[this.props.color]}`}
+                    className={`${styles.selectInputSelector} ${
+                        styles[this.props.color]
+                    }`}
                     ref={this._selectorRef}
-                    type='button'
-                    style={{ width: this.state.componentWidth, height: this.state.componentHeight }}
-                    onClick={this.selectorButtonClickedHandler}>
+                    type="button"
+                    style={{
+                        width: this.state.componentWidth,
+                        height: this.state.componentHeight,
+                    }}
+                    onClick={this.selectorButtonClickedHandler}
+                >
                     {/* The select element's title */}
-                    <h2 className={styles.selectInputSelectorTitle}>{this.state.value}</h2>
+                    <h2 className={styles.selectInputSelectorTitle}>
+                        {this.state.value}
+                    </h2>
 
                     {/* The select element's arrow */}
                     <img
                         className={this.getArrowClassList()}
                         src={
-                            this.props.color === colorOptions.WHITE ? downArrowBlue : downArrowWhite
+                            this.props.color === colorOptions.WHITE
+                                ? downArrowBlue
+                                : downArrowWhite
                         }
                         alt={"Arrow"}
                     />
@@ -261,7 +292,8 @@ class SelectInput extends Component {
                 {/* A list of custom version's of the option HTML element */}
                 <div
                     className={this.getOptionsClassList()}
-                    style={{ top: this.state.componentHeight + 10 }}>
+                    style={{ top: this.state.componentHeight + 10 }}
+                >
                     {this.getOptions()}
                 </div>
             </div>

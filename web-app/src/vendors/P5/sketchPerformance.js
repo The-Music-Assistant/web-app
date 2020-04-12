@@ -14,7 +14,7 @@ import * as sketchBehaviors from "./sketchBehaviors";
  * Wrapper for local p5 setup and draw functions
  * @param {sketch} p Sketch object that will include all of the functions that will be called by p5
  */
-const p5PerformanceSketch = p => {
+const p5PerformanceSketch = (p) => {
     p.type = sketchBehaviors.PERFORMANCE_HIGHLIGHTING;
     // document elements retrieved from the document
     let barCursor;
@@ -41,7 +41,7 @@ const p5PerformanceSketch = p => {
      * the canvas overlays the AlphaTab container
      * @param {Drawer} drawerGiven - p5 will not provide this but atVars provides a reference to the Drawer being used
      */
-    p.setup = function(drawerGiven) {
+    p.setup = function (drawerGiven) {
         if (drawerGiven === undefined) {
             p.noLoop();
             return;
@@ -52,7 +52,10 @@ const p5PerformanceSketch = p => {
         alphaTabSurface = document.getElementById("aTS");
 
         // creates a canvas that overlaps the alphaTabSurface. Position is absolute for the canvas by default
-        canvas = p.createCanvas(alphaTabSurface.clientWidth, alphaTabSurface.clientHeight);
+        canvas = p.createCanvas(
+            alphaTabSurface.clientWidth,
+            alphaTabSurface.clientHeight
+        );
         const x = 0;
         const y = 0;
         canvas.position(x, y);
@@ -60,42 +63,38 @@ const p5PerformanceSketch = p => {
         p.loop();
     };
 
-    const getPositionsObj = function(obj) {
+    const getPositionsObj = function (obj) {
         return {
-            left: parseInt(
-                obj.left.substring(0, obj.left.length - 2),
-                10
-            ),
-            top: parseInt(
-                obj.top.substring(0, obj.top.length - 2),
-                10
-            ),
-            width: parseInt(
-                obj.width.substring(0, obj.width.length - 2),
-                10
-            ),
+            left: parseInt(obj.left.substring(0, obj.left.length - 2), 10),
+            top: parseInt(obj.top.substring(0, obj.top.length - 2), 10),
+            width: parseInt(obj.width.substring(0, obj.width.length - 2), 10),
             height: parseInt(
                 obj.height.substring(0, obj.height.length - 2),
                 10
-            )
+            ),
         };
-    }
+    };
 
     /**
      * Draws the canvas on the screen. Requires that the canvas is not undefined ie setup has run
      * TODO: Handle sheet music scale
      */
-    p.draw = function() {
+    p.draw = function () {
         if (!atVars.getsFeedback || !drawer) {
             return;
         }
 
         // TODO Fix the first measure highlighting
-        if (atVars && atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING) {
+        if (
+            atVars &&
+            atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING
+        ) {
             let firstBarPos = atVars.texLoaded.firstBarMeasurePosition;
             let compareBarPos = null;
             try {
-                let cursorBarStyle = document.getElementsByClassName("at-cursor-bar")[0].style;
+                let cursorBarStyle = document.getElementsByClassName(
+                    "at-cursor-bar"
+                )[0].style;
                 compareBarPos = getPositionsObj(cursorBarStyle);
             } catch (error) {}
             if (compareBarPos === null || firstBarPos === null) {
@@ -135,7 +134,7 @@ const p5PerformanceSketch = p => {
                     left: compareBarPos.left,
                     top: compareBarPos.top,
                     width: compareBarPos.width,
-                    height: compareBarPos.height
+                    height: compareBarPos.height,
                 };
 
                 p.fill(0, 255, 0);
@@ -143,7 +142,12 @@ const p5PerformanceSketch = p => {
                 let pos1X = firstBarPos.left;
                 let pos1Y = firstBarPos.top + drawer.distanceBetweenLines;
                 let pos2X = measurePositions[0].x.baseVal.value;
-                p.rect(pos1X, pos1Y, pos2X - pos1X, drawer.distanceBetweenLines * 4);
+                p.rect(
+                    pos1X,
+                    pos1Y,
+                    pos2X - pos1X,
+                    drawer.distanceBetweenLines * 4
+                );
             }
 
             if (latestDrawnMeasure === -1) {
@@ -152,49 +156,72 @@ const p5PerformanceSketch = p => {
                 let pos1X = firstBarPos.left;
                 let pos1Y = firstBarPos.top + drawer.distanceBetweenLines;
                 let pos2X = measurePositions[0].x.baseVal.value;
-                p.rect(pos1X, pos1Y, pos2X - pos1X, drawer.distanceBetweenLines * 4);
+                p.rect(
+                    pos1X,
+                    pos1Y,
+                    pos2X - pos1X,
+                    drawer.distanceBetweenLines * 4
+                );
                 if (!isNaN(pos1X)) {
                     latestDrawnMeasure++;
                     currentMusicSection = {
                         startMeasure: 1,
                         endMeasure: 1,
-                        base: 0
+                        base: 0,
                     };
                 } else {
                     atVars.api.timePosition = 0;
-                    atVars.texLoaded.firstBarMeasurePosition = getPositionsObj(barCursor.style);
+                    atVars.texLoaded.firstBarMeasurePosition = getPositionsObj(
+                        barCursor.style
+                    );
                 }
             } else {
                 // draws height of later measures only drawing new measures
                 while (latestDrawnMeasure < measurePositions.length - 1) {
-                    let pos1X = measurePositions[latestDrawnMeasure].x.baseVal.value + latestBase;
-                    let pos1Y = measurePositions[latestDrawnMeasure].y.baseVal.value;
+                    let pos1X =
+                        measurePositions[latestDrawnMeasure].x.baseVal.value +
+                        latestBase;
+                    let pos1Y =
+                        measurePositions[latestDrawnMeasure].y.baseVal.value;
                     if (
                         latestDrawnMeasure === 0 ||
-                        pos1Y === measurePositions[latestDrawnMeasure - 1].y.baseVal.value
+                        pos1Y ===
+                            measurePositions[latestDrawnMeasure - 1].y.baseVal
+                                .value
                     ) {
                         latestDrawnMeasure++;
                         if (
-                            !measurePositions[latestDrawnMeasure - 1].parentNode.isSameNode(
+                            !measurePositions[
+                                latestDrawnMeasure - 1
+                            ].parentNode.isSameNode(
                                 measurePositions[latestDrawnMeasure].parentNode
                             )
                         ) {
                             currentMusicSection.endMeasure = latestDrawnMeasure;
-                            const newSection = JSON.parse(JSON.stringify(currentMusicSection));
+                            const newSection = JSON.parse(
+                                JSON.stringify(currentMusicSection)
+                            );
                             musicSections.push(newSection);
                             latestBase =
                                 latestBase +
-                                measurePositions[latestDrawnMeasure - 1].x.baseVal.value +
+                                measurePositions[latestDrawnMeasure - 1].x
+                                    .baseVal.value +
                                 1;
                             currentMusicSection.startMeasure = latestDrawnMeasure;
                             currentMusicSection.base = latestBase;
                         }
                         let dist = Math.abs(
-                            measurePositions[latestDrawnMeasure].x.baseVal.value +
+                            measurePositions[latestDrawnMeasure].x.baseVal
+                                .value +
                                 latestBase -
                                 pos1X
                         );
-                        p.rect(pos1X, pos1Y, dist, drawer.distanceBetweenLines * 4);
+                        p.rect(
+                            pos1X,
+                            pos1Y,
+                            dist,
+                            drawer.distanceBetweenLines * 4
+                        );
                     } else {
                         break;
                     }
@@ -210,12 +237,12 @@ const p5PerformanceSketch = p => {
         }
     };
 
-    p.clear = function() {
+    p.clear = function () {
         latestDrawnMeasure = -1;
         latestBase = 0;
         musicSections.length = 0;
         currentMusicSection = null;
-    }
+    };
 };
 
 export default p5PerformanceSketch;

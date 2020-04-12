@@ -76,7 +76,10 @@ export const alphaTabPlayerFinished = () => {
  */
 const onSubsequentRender = (topLine, nextLine) => {
     // On a re-render, update the top line height and distance between lines which might have changed
-    const { topLineHeight, distanceBetweenLines } = getSheetMusicLedgerHeights(topLine, nextLine);
+    const { topLineHeight, distanceBetweenLines } = getSheetMusicLedgerHeights(
+        topLine,
+        nextLine
+    );
 
     atVars.drawer.setTopLineAndDistanceBetween(
         topLineHeight,
@@ -97,7 +100,9 @@ const onSubsequentRender = (topLine, nextLine) => {
         if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
             // Creates a new p5 instance which we will use for real time feedback during performance
             atVars.p5Obj = new p5(feedbackSketch);
-        } else if (atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING) {
+        } else if (
+            atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING
+        ) {
             // Sets up drawing for performance highlighting
             // Creates a new p5 instance which we will use for highlighting during performance overview
             atVars.p5Obj = new p5(performanceSketch);
@@ -157,7 +162,10 @@ const onFirstRender = async (topLine, nextLine) => {
  * @param {object} nextLine - The next line DOM element
  */
 const initializeFeedbackDrawer = (topLine, nextLine) => {
-    const { topLineHeight, distanceBetweenLines } = getSheetMusicLedgerHeights(topLine, nextLine);
+    const { topLineHeight, distanceBetweenLines } = getSheetMusicLedgerHeights(
+        topLine,
+        nextLine
+    );
     // Creates a new drawer using the top line height, distance between lines, and start octave of the music to decide
     // how high to draw the notes for feedback
     atVars.drawer = new Drawer(
@@ -195,7 +203,7 @@ const getSheetMusicLedgerHeights = (topLine, nextLine) => {
     const topLineHeight = topLine.y.animVal.value;
     return {
         topLineHeight: topLine.y.animVal.value,
-        distanceBetweenLines: nextLine.y.animVal.value - topLineHeight
+        distanceBetweenLines: nextLine.y.animVal.value - topLineHeight,
     };
 };
 

@@ -9,9 +9,9 @@
 // File imports
 import * as actionTypes from "./actionTypes";
 
-export const setBrowserType = isMobileBrowser => {
+export const setBrowserType = (isMobileBrowser) => {
     return {
         type: actionTypes.IS_MOBILE_BROWSER,
-        isMobileBrowser
+        isMobileBrowser,
     };
 };

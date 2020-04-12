@@ -40,7 +40,12 @@
     }
 
     &Name {
-        @include text($size: 1.3rem, $weight: 400, $color: $white-color, $line-height: 1.8rem);
+        @include text(
+            $size: 1.3rem,
+            $weight: 400,
+            $color: $white-color,
+            $line-height: 1.8rem
+        );
         text-align: center;
         max-height: 55px;
         margin: 20px 20px 0;
@@ -51,7 +56,12 @@
     }
 
     &Description {
-        @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: 1.25rem);
+        @include text(
+            $size: 1rem,
+            $weight: 300,
+            $color: $white-color,
+            $line-height: 1.25rem
+        );
         text-align: center;
         max-height: 75px;
         margin: 20px 20px 0;

@@ -30,7 +30,10 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.START_AUTH_FLOW:
-            return updateObject(state, { authFlow: action.flow, isAuthFlowComplete: false });
+            return updateObject(state, {
+                authFlow: action.flow,
+                isAuthFlowComplete: false,
+            });
         case actionTypes.CHANGE_AUTH_FLOW:
             return updateObject(state, { authFlow: action.flow });
         case actionTypes.RETRIEVED_USERS_NAME:
@@ -42,7 +45,10 @@ const authReducer = (state = initialState, action) => {
         case actionTypes.USERS_PICTURE_URL_RETRIEVAL_FAILED:
             return updateObject(state, { usersPictureUrl: null });
         case actionTypes.USER_AUTHENTICATED:
-            if (state.isAuthFlowComplete === null || state.authFlow === authFlows.SIGN_IN) {
+            if (
+                state.isAuthFlowComplete === null ||
+                state.authFlow === authFlows.SIGN_IN
+            ) {
                 return updateObject(state, {
                     isAuthenticated: true,
                     error: null,
@@ -50,7 +56,10 @@ const authReducer = (state = initialState, action) => {
                     authFlow: null,
                 });
             } else {
-                return updateObject(state, { isAuthenticated: true, error: null });
+                return updateObject(state, {
+                    isAuthenticated: true,
+                    error: null,
+                });
             }
         case actionTypes.USER_NOT_AUTHENTICATED:
             return updateObject(state, { isAuthenticated: false, error: null });

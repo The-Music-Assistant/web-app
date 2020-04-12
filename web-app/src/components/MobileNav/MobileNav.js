@@ -20,7 +20,7 @@ import signOutIconBlue from "../../assets/icons/sign-out-icon-blue.svg";
 // Style imports
 import styles from "./MobileNav.module.scss";
 
-const MobileNav = props => {
+const MobileNav = (props) => {
     // Sets the CSS class for the current mobile nav state (shown or hidden)
     let showHideClassName = "mobileNav";
     if (props.show) {
@@ -32,7 +32,7 @@ const MobileNav = props => {
     // Returns the JSX to display
     return (
         <div className={`${styles.mobileNav} ${styles[showHideClassName]}`}>
-            {props.tabs.map(tab => {
+            {props.tabs.map((tab) => {
                 return (
                     <MobileNavLink
                         key={tab.key}
@@ -68,11 +68,11 @@ MobileNav.propTypes = {
             route: PropTypes.string.isRequired,
             blueIcon: PropTypes.string.isRequired,
             whiteIcon: PropTypes.string.isRequired,
-            isCurrentTab: PropTypes.bool.isRequired
+            isCurrentTab: PropTypes.bool.isRequired,
         })
     ).isRequired,
     signOutClicked: PropTypes.func.isRequired,
-    navLinkClicked: PropTypes.func.isRequired
+    navLinkClicked: PropTypes.func.isRequired,
 };
 
 export default withRouter(MobileNav);

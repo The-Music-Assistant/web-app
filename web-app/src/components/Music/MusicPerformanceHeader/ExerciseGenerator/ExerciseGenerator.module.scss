@@ -22,7 +22,12 @@
         );
 
         &Heading {
-            @include text($size: 1.25rem, $weight: 400, $color: $white-color, $line-height: null);
+            @include text(
+                $size: 1.25rem,
+                $weight: 400,
+                $color: $white-color,
+                $line-height: null
+            );
             text-align: center;
         }
 

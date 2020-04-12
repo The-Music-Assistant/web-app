@@ -65,13 +65,16 @@ class App extends Component {
      */
     getRedirect = () => {
         if (!this.props.isStartupDone) {
-            return <Redirect to='/startup' />;
-        } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
-            return <Redirect to='/auth' />;
+            return <Redirect to="/startup" />;
+        } else if (
+            !this.props.isAuthenticated ||
+            !this.props.isAuthFlowComplete
+        ) {
+            return <Redirect to="/auth" />;
         } else if (this.props.shouldShowWelcomePage) {
-            return <Redirect to='/welcome' />;
+            return <Redirect to="/welcome" />;
         } else {
-            return <Redirect to='/practice' />;
+            return <Redirect to="/practice" />;
         }
     };
 
@@ -88,7 +91,10 @@ class App extends Component {
                     <Startup />
                 </Route>
             );
-        } else if (!this.props.isAuthenticated || !this.props.isAuthFlowComplete) {
+        } else if (
+            !this.props.isAuthenticated ||
+            !this.props.isAuthFlowComplete
+        ) {
             return (
                 <Route>
                     <Auth />
@@ -116,7 +122,7 @@ class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <div className='app'>
+                <div className="app">
                     {/* Redirects to the correct url */}
                     {this.getRedirect()}
 
@@ -181,7 +187,8 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        setBrowserType: (isMobileBrowser) => dispatch(setBrowserType(isMobileBrowser)),
+        setBrowserType: (isMobileBrowser) =>
+            dispatch(setBrowserType(isMobileBrowser)),
     };
 };
 

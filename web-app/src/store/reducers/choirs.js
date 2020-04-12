@@ -13,7 +13,7 @@ import { updateObject } from "../utility";
 // Initial Redux choirs state
 const initialState = {
     selectedChoirId: null,
-    selectedChoirName: null
+    selectedChoirName: null,
 };
 
 /**
@@ -26,7 +26,7 @@ const choirsReducer = (state = initialState, action) => {
         case actionTypes.CHOIRS_CHOIR_SELECTED:
             return updateObject(state, {
                 selectedChoirId: action.id,
-                selectedChoirName: action.name
+                selectedChoirName: action.name,
             });
         default:
             return state;

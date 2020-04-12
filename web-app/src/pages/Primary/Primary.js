@@ -110,14 +110,42 @@ class Primary extends Component {
     getMainNavTabs = () => {
         const tabs = [];
 
-        tabs.push(this.getMainNavTab("Home", "/home", homeIconBlue, homeIconWhite, false));
         tabs.push(
-            this.getMainNavTab("Practice", "/practice", practiceIconBlue, practiceIconWhite, true)
+            this.getMainNavTab(
+                "Home",
+                "/home",
+                homeIconBlue,
+                homeIconWhite,
+                false
+            )
         );
         tabs.push(
-            this.getMainNavTab("Progress", "/progress", progressIconBlue, progressIconWhite, false)
+            this.getMainNavTab(
+                "Practice",
+                "/practice",
+                practiceIconBlue,
+                practiceIconWhite,
+                true
+            )
         );
-        tabs.push(this.getMainNavTab("Choirs", "/choirs", choirIconBlue, choirIconWhite, false));
+        tabs.push(
+            this.getMainNavTab(
+                "Progress",
+                "/progress",
+                progressIconBlue,
+                progressIconWhite,
+                false
+            )
+        );
+        tabs.push(
+            this.getMainNavTab(
+                "Choirs",
+                "/choirs",
+                choirIconBlue,
+                choirIconWhite,
+                false
+            )
+        );
 
         return tabs;
     };
@@ -284,37 +312,39 @@ class Primary extends Component {
 
                 {/* Determines which component to display */}
                 <Switch>
-                    <Route path='/practice/choirs/:choirId/music/:musicId'>
+                    <Route path="/practice/choirs/:choirId/music/:musicId">
                         <Music showAlert={this.showAlertHandler} />
                     </Route>
 
-                    <Route path='/practice/choirs/:choirId'>
+                    <Route path="/practice/choirs/:choirId">
                         <MusicSelection showAlert={this.showAlertHandler} />
                     </Route>
 
-                    <Route path='/choirs/:choirId'>
+                    <Route path="/choirs/:choirId">
                         <ChoirMembers showAlert={this.showAlertHandler} />
                     </Route>
 
-                    <Route path='/practice'>
+                    <Route path="/practice">
                         <ChoirSelection
-                            routing={choirSelectionRoutingOptions.MUSIC_SELECTION}
+                            routing={
+                                choirSelectionRoutingOptions.MUSIC_SELECTION
+                            }
                             showAlert={this.showAlertHandler}
                         />
                     </Route>
 
-                    <Route path='/progress'>
+                    <Route path="/progress">
                         <Progress />
                     </Route>
 
-                    <Route path='/choirs'>
+                    <Route path="/choirs">
                         <ChoirSelection
                             routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
                             showAlert={this.showAlertHandler}
                         />
                     </Route>
 
-                    <Route path='/home'>
+                    <Route path="/home">
                         <Home />
                     </Route>
                 </Switch>

@@ -36,7 +36,9 @@ class Drawer {
         this.topLine = topLine + 1;
         this.distanceBetweenLines = distanceBetweenLines;
         // stores the height of the lowest line of the staff being sung
-        this.firstLine = this.topLine + this.distanceBetweenLines * (baseOctave === 4 ? 5 : 6);
+        this.firstLine =
+            this.topLine +
+            this.distanceBetweenLines * (baseOctave === 4 ? 5 : 6);
         this.baseOctave = baseOctave;
     }
 
@@ -75,7 +77,8 @@ class Drawer {
         let totalMod = value + octaveMod * 7;
 
         // final height includes division by 2 because each value in the totalMod is distanceBetweenLines/2
-        this.noteHeight = this.firstLine - (totalMod * this.distanceBetweenLines) / 2;
+        this.noteHeight =
+            this.firstLine - (totalMod * this.distanceBetweenLines) / 2;
     }
 
     /**
@@ -125,7 +128,8 @@ class Drawer {
             let difference = Math.abs(Math.abs(base) - this.note.midiVal);
             let loopAdd = 7 * Math.floor(difference / 24);
             this.belowOrAbove =
-                getNumberOfLedgerLines(this.note.midiVal, direction, start) + loopAdd;
+                getNumberOfLedgerLines(this.note.midiVal, direction, start) +
+                loopAdd;
 
             // Signals to draw ledger lines below staff
             if (base < 0) {
@@ -181,7 +185,20 @@ class Note {
             charPart = "-";
             octave = "";
         } else {
-            const letters = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+            const letters = [
+                "C",
+                "C#",
+                "D",
+                "D#",
+                "E",
+                "F",
+                "F#",
+                "G",
+                "G#",
+                "A",
+                "A#",
+                "B",
+            ];
             charPart = letters[this.midiVal % letters.length];
             octave = getOctave(this.midiVal);
         }

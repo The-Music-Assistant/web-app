@@ -21,7 +21,12 @@
     }
 
     &Text {
-        @include text($size: 1.25rem, $weight: 400, $color: $orange-color, $line-height: 1.7rem);
+        @include text(
+            $size: 1.25rem,
+            $weight: 400,
+            $color: $orange-color,
+            $line-height: 1.7rem
+        );
         text-align: center;
         margin-top: 40px;
     }

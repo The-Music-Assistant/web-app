@@ -35,7 +35,7 @@ const destroy = () => {
     }
 
     // Returns a promise that waits for AlphaTab to stop playing
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         // Waits for the player state to change to 0 (stopped) before destroying the api
         atVars.api.addPlayerStateChanged(() => {
             // Destroys the AlphaTab api

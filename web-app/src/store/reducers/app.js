@@ -12,7 +12,7 @@ import { updateObject } from "../utility";
 
 // Initial Redux app state
 const initialState = {
-    isMobileBrowser: null
+    isMobileBrowser: null,
 };
 
 /**
@@ -23,7 +23,9 @@ const initialState = {
 const appReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.IS_MOBILE_BROWSER:
-            return updateObject(state, { isMobileBrowser: action.isMobileBrowser });
+            return updateObject(state, {
+                isMobileBrowser: action.isMobileBrowser,
+            });
         default:
             return state;
     }

@@ -25,7 +25,12 @@
         height: 100%;
 
         &Message {
-            @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
+            @include text(
+                $size: 1.25rem,
+                $weight: 400,
+                $color: $primary-color,
+                $line-height: null
+            );
             margin-top: 30px;
         }
     }

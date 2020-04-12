@@ -36,7 +36,12 @@
         }
 
         &Title {
-            @include text($size: 1rem, $weight: 400, $color: null, $line-height: null);
+            @include text(
+                $size: 1rem,
+                $weight: 400,
+                $color: null,
+                $line-height: null
+            );
 
             @include media-query($breakpoint: $tablet-breakpoint) {
                 font-size: 1.25rem;
@@ -85,7 +90,12 @@
 
     &Option {
         display: block;
-        @include text($size: 1rem, $weight: 300, $color: null, $line-height: null);
+        @include text(
+            $size: 1rem,
+            $weight: 300,
+            $color: null,
+            $line-height: null
+        );
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             font-size: 1.25rem;

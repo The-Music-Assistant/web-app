@@ -32,26 +32,29 @@ class ExerciseGenerator extends Component {
     // Component state
     state = {
         startMeasureValue: "1",
-        endMeasureValue: "1"
+        endMeasureValue: "1",
     };
 
-    generateExerciseSubmitHandler = event => {
+    generateExerciseSubmitHandler = (event) => {
         event.preventDefault();
-        this.props.generateExercise(this.state.startMeasureValue, this.state.endMeasureValue);
+        this.props.generateExercise(
+            this.state.startMeasureValue,
+            this.state.endMeasureValue
+        );
         this.props.showExercise();
     };
 
-    measureValueChangedHandler = event => {
+    measureValueChangedHandler = (event) => {
         // Get text input value
         if (event.target.name === "start-measure") {
             // Update start measure in state
             this.setState({
-                startMeasureValue: event.target.value
+                startMeasureValue: event.target.value,
             });
         } else if (event.target.name === "end-measure") {
             // Update end measure in state
             this.setState({
-                endMeasureValue: event.target.value
+                endMeasureValue: event.target.value,
             });
         }
     };
@@ -65,42 +68,52 @@ class ExerciseGenerator extends Component {
             <div className={styles.exerciseGenerator}>
                 <div className={styles.exerciseGeneratorHeader}>
                     <div></div>
-                    <h1 className={styles.exerciseGeneratorHeaderHeading}>Generate an Exercise</h1>
+                    <h1 className={styles.exerciseGeneratorHeaderHeading}>
+                        Generate an Exercise
+                    </h1>
                     <button
                         className={styles.exerciseGeneratorHeaderCloseButton}
-                        type='button'
-                        onClick={this.props.onGenerateExerciseClose}>
+                        type="button"
+                        onClick={this.props.onGenerateExerciseClose}
+                    >
                         <img
-                            className={styles.exerciseGeneratorHeaderCloseButtonImg}
+                            className={
+                                styles.exerciseGeneratorHeaderCloseButtonImg
+                            }
                             src={closeIconWhite}
-                            alt='Close Button'
+                            alt="Close Button"
                         />
                     </button>
                 </div>
                 <form
                     className={styles.exerciseGeneratorForm}
-                    onSubmit={this.generateExerciseSubmitHandler}>
+                    onSubmit={this.generateExerciseSubmitHandler}
+                >
                     <div className={styles.exerciseGeneratorFormMeasureInputs}>
-                        <div className={styles.exerciseGeneratorFormMeasureInput}>
+                        <div
+                            className={styles.exerciseGeneratorFormMeasureInput}
+                        >
                             <SmallTextInput
                                 inputType={textInputTypes.NUMBER}
-                                inputWidth='50px'
-                                inputName='start-measure'
+                                inputWidth="50px"
+                                inputName="start-measure"
                                 value={this.state.startMeasureValue}
-                                labelText='Start Measure'
+                                labelText="Start Measure"
                                 isRequired={true}
                                 onChange={this.measureValueChangedHandler}
                                 minVal={"1"}
                                 maxVal={this.state.endMeasureValue}
                             />
                         </div>
-                        <div className={styles.exerciseGeneratorFormMeasureInput}>
+                        <div
+                            className={styles.exerciseGeneratorFormMeasureInput}
+                        >
                             <SmallTextInput
                                 inputType={textInputTypes.NUMBER}
-                                inputWidth='50px'
-                                inputName='end-measure'
+                                inputWidth="50px"
+                                inputName="end-measure"
                                 value={this.state.endMeasureValue}
-                                labelText='End Measure'
+                                labelText="End Measure"
                                 isRequired={true}
                                 onChange={this.measureValueChangedHandler}
                                 minVal={this.state.startMeasureValue}
@@ -110,8 +123,8 @@ class ExerciseGenerator extends Component {
                     </div>
                     <RectangularButton
                         type={buttonTypes.SUBMIT}
-                        value='generate-exercise'
-                        text='Go!'
+                        value="generate-exercise"
+                        text="Go!"
                         backgroundColor={rectButtonColorOptions.ORANGE}
                     />
                 </form>
@@ -125,17 +138,17 @@ ExerciseGenerator.propTyes = {
     numberOfMeasures: PropTypes.string.isRequired,
     onGenerateExerciseClose: PropTypes.func.isRequired,
     generateExercise: PropTypes.func.isRequired,
-    showExercise: PropTypes.func.isRequired
+    showExercise: PropTypes.func.isRequired,
 };
 
 /**
  * Passes certain redux actions to the ExerciseGenerator component
  * @param {function} dispatch - The react-redux dispatch function
  */
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         generateExercise: (startMeasure, endMeasure) =>
-            dispatch(exerciseRequested(startMeasure, endMeasure))
+            dispatch(exerciseRequested(startMeasure, endMeasure)),
     };
 };
 

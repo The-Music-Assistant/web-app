@@ -33,7 +33,12 @@
     }
 
     &Text {
-        @include text($size: 1rem, $weight: 300, $color: $gray-color, $line-height: null);
+        @include text(
+            $size: 1rem,
+            $weight: 300,
+            $color: $gray-color,
+            $line-height: null
+        );
         display: none;
 
         @include media-query($breakpoint: $tablet-breakpoint) {

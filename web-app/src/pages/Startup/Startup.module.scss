@@ -29,7 +29,12 @@
     }
 
     &Heading {
-        @include text($size: 1.56rem, $weight: 300, $color: $white-color, $line-height: null);
+        @include text(
+            $size: 1.56rem,
+            $weight: 300,
+            $color: $white-color,
+            $line-height: null
+        );
         text-align: center;
         margin-bottom: 20px;
 
@@ -39,7 +44,12 @@
     }
 
     &Subheading {
-        @include text($size: 1rem, $weight: 300, $color: $white-color, $line-height: null);
+        @include text(
+            $size: 1rem,
+            $weight: 300,
+            $color: $white-color,
+            $line-height: null
+        );
         text-align: center;
         margin-bottom: 30px;
 

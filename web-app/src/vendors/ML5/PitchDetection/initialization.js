@@ -21,21 +21,21 @@ const setupPitchDetection = () => {
         if (navigator.mediaDevices) {
             navigator.mediaDevices
                 .getUserMedia({ audio: true })
-                .then(stream => {
+                .then((stream) => {
                     ptVars.micStream = stream;
 
                     // Sets up ML5 pitch detection
                     ptVars
                         .initialize()
-                        .then(model => {
+                        .then((model) => {
                             ptVars.pitchDetectionModel = model;
                             resolve();
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             reject(error);
                         });
                 })
-                .catch(error => {
+                .catch((error) => {
                     reject(error);
                 });
         } else {

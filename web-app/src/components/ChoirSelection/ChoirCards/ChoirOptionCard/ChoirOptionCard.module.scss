@@ -28,7 +28,12 @@
     }
 
     &Name {
-        @include text($size: 1.6rem, $weight: 400, $color: $white-color, $line-height: 2rem);
+        @include text(
+            $size: 1.6rem,
+            $weight: 400,
+            $color: $white-color,
+            $line-height: 2rem
+        );
         text-align: center;
         max-height: 50px;
         margin: 0 20px;

@@ -81,7 +81,11 @@ export const getUserInfo = () => {
             getUser()
                 .then((snapshot) => {
                     dispatch(
-                        retrievedUsersName(snapshot.data.first_name + " " + snapshot.data.last_name)
+                        retrievedUsersName(
+                            snapshot.data.first_name +
+                                " " +
+                                snapshot.data.last_name
+                        )
                     );
                     dispatch(userAuthenticated());
 

@@ -11,7 +11,12 @@
 .input {
     width: 100%;
     height: 100%;
-    @include text($size: 1rem, $weight: 400, $color: $dark-gray-color, $line-height: null);
+    @include text(
+        $size: 1rem,
+        $weight: 400,
+        $color: $dark-gray-color,
+        $line-height: null
+    );
     padding: 20px 0 4px;
     border: none;
     outline: none;
@@ -20,7 +25,12 @@
     &:focus + .label .content,
     &Valid + .label .content {
         transform: translateY(-150%);
-        @include text($size: 0.8rem, $weight: 400, $color: $primary-color, $line-height: null);
+        @include text(
+            $size: 0.8rem,
+            $weight: 400,
+            $color: $primary-color,
+            $line-height: null
+        );
     }
 
     &:focus + .label::after,
@@ -60,6 +70,11 @@
     position: absolute;
     bottom: 5px;
     left: 0px;
-    @include text($size: 1rem, $weight: 400, $color: $dark-gray-color, $line-height: null);
+    @include text(
+        $size: 1rem,
+        $weight: 400,
+        $color: $dark-gray-color,
+        $line-height: null
+    );
     transition: all 0.3s ease;
 }

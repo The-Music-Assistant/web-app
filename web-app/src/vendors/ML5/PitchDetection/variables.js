@@ -19,8 +19,11 @@ class PitchDetectionVariables {
      */
     initialize = () => {
         // Creates pitch detection model
-        return ml5.pitchDetection("/Pitch-Detection-Model/", this.audioContext, this.micStream)
-            .ready;
+        return ml5.pitchDetection(
+            "/Pitch-Detection-Model/",
+            this.audioContext,
+            this.micStream
+        ).ready;
     };
 }
 

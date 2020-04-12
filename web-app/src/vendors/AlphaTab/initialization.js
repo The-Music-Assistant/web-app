@@ -25,13 +25,13 @@ const initializeAPI = () => {
             enableCursor: true,
             soundFont: player,
             scrollElement: "#alpha-tab-wrapper",
-            enableUserInteraction: false
+            enableUserInteraction: false,
         },
         display: {
             layoutMode: "horizontal",
             startBar: 1,
-            barCount: atVars.barCount
-        }
+            barCount: atVars.barCount,
+        },
     };
 
     // Creates the AlphaTab API

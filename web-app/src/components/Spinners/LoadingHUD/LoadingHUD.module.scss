@@ -39,6 +39,11 @@
     border-radius: 20px;
 
     &Text {
-        @include text($size: 1.25rem, $weight: 400, $color: $primary-color, $line-height: null);
+        @include text(
+            $size: 1.25rem,
+            $weight: 400,
+            $color: $primary-color,
+            $line-height: null
+        );
     }
 }

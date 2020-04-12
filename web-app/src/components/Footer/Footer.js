@@ -16,7 +16,9 @@ const Footer = (props) => {
             <small className={styles.footerText}>
                 &copy; {props.copyrightYear} The Music Assistant
             </small>
-            <small className={styles.footerText}>Version {props.versionNumber}</small>
+            <small className={styles.footerText}>
+                Version {props.versionNumber}
+            </small>
         </footer>
     );
 };

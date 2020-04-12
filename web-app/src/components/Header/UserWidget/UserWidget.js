@@ -36,11 +36,12 @@ class UserWidget extends Component {
         return (
             <div className={styles.userWidget}>
                 {/* User's profile picture */}
-                {this.props.profilePictureUrl && !this.state.isProfilePictureError ? (
+                {this.props.profilePictureUrl &&
+                !this.state.isProfilePictureError ? (
                     <img
                         className={styles.userWidgetImg}
                         src={this.props.profilePictureUrl}
-                        alt='Profile Pic'
+                        alt="Profile Pic"
                         onError={this.profilePictureErrorHandler}
                     />
                 ) : null}
