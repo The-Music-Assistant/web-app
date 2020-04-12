@@ -48,7 +48,7 @@ class ChoirSelection extends Component {
     };
 
     /**
-     * Indicates whether the component is mounted or not.
+     * Indicates if the component is mounted.
      * Used for asynchronous tasks.
      * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
      */
@@ -280,7 +280,7 @@ class ChoirSelection extends Component {
             );
         }
 
-        // Returns the JSX to display
+        // Returns the JSX to render
         return (
             <div className={styles.choirSelection}>
                 <PageHeader
@@ -329,8 +329,11 @@ ChoirSelection.propTypes = {
 };
 
 /**
- * Passes certain redux actions to ChoirSelection
+ * Passes certain Redux actions to the ChoirSelection component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof ChoirSelection
  * @param {function} dispatch - The react-redux dispatch function
+ * @returns {object} Redux actions used in the ChoirSelection component
  */
 const mapDispatchToProps = (dispatch) => {
     return {

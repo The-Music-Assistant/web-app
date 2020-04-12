@@ -43,7 +43,7 @@ class AuthCard extends Component {
     };
 
     /**
-     * Indicates whether the component is mounted or not.
+     * Indicates if the component is mounted.
      * Used for asynchronous tasks.
      * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
      */

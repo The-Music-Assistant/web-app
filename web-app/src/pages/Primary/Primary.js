@@ -80,7 +80,7 @@ class Primary extends Component {
     _VERSION_NUMBER = "0.0.10";
 
     /**
-     * Indicates whether the component is mounted or not.
+     * Indicates if the component is mounted.
      * Used for asynchronous tasks.
      * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
      */
@@ -182,7 +182,7 @@ class Primary extends Component {
      * Shows or hides the hamburger menu
      * @function
      */
-    hamburgerMenuClickedHandler = () => {
+    showHideHamburgerMenu = () => {
         this.setState((prevState) => ({
             showMobileNav: !prevState.showMobileNav,
         }));
@@ -264,11 +264,11 @@ class Primary extends Component {
                 <MobileNav
                     tabs={this.state.mainNavTabs}
                     show={this.state.showMobileNav}
-                    navLinkClicked={(key) => {
-                        this.hamburgerMenuClickedHandler();
+                    onNavLinkClick={(key) => {
+                        this.showHideHamburgerMenu();
                         this.navLinkClickedHandler(key);
                     }}
-                    signOutClicked={this.signOutClickedHandler}
+                    onSignOutClick={this.signOutClickedHandler}
                 />
             );
         } else {
@@ -303,7 +303,7 @@ class Primary extends Component {
                 ) : null}
 
                 <Header
-                    hamburgerMenuClicked={this.hamburgerMenuClickedHandler}
+                    hamburgerMenuClicked={this.showHideHamburgerMenu}
                     isMobileScreenWidth={this.state.isMobileScreenWidth}
                 />
 

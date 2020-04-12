@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/MobileNav/MobileNav.js
-// Description: Renders the mobile navigation component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 10/23/2019
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
@@ -20,39 +12,50 @@ import signOutIconBlue from "../../assets/icons/sign-out-icon-blue.svg";
 // Style imports
 import styles from "./MobileNav.module.scss";
 
+/**
+ * Renders the MobileNav component
+ * @component
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
 const MobileNav = (props) => {
-    // Sets the CSS class for the current mobile nav state (shown or hidden)
-    let showHideClassName = "mobileNav";
-    if (props.show) {
-        showHideClassName += "Show";
-    } else {
-        showHideClassName += "Hide";
-    }
+    /**
+     * Gets the show/hide class name based on the props show property
+     * @returns {string} The show/hide class name
+     */
+    const getShowOrHideClassName = () => {
+        return props.show ? styles.mobileNavShow : styles.mobileNavHide;
+    };
 
-    // Returns the JSX to display
+    /**
+     * Gets MobileNavLink components
+     * @returns MobileNavLink components (JSX)
+     */
+    const getMobileNavLinks = () => {
+        return props.tabs.map((tab) => {
+            return (
+                <MobileNavLink
+                    key={tab.key}
+                    name={tab.name}
+                    route={tab.route}
+                    icon={tab.blueIcon}
+                    isCurrentTab={tab.isCurrentTab}
+                    onClick={() => props.navLinkClicked(tab.key)}
+                    isSignOutLink={false}
+                />
+            );
+        });
+    };
+
+    // Returns the JSX to render
     return (
-        <div className={`${styles.mobileNav} ${styles[showHideClassName]}`}>
-            {props.tabs.map((tab) => {
-                return (
-                    <MobileNavLink
-                        key={tab.key}
-                        name={tab.name}
-                        route={tab.route}
-                        icon={tab.blueIcon}
-                        isCurrentTab={tab.isCurrentTab}
-                        onClick={() => props.navLinkClicked(tab.key)}
-                        isSignOut={false}
-                    />
-                );
-            })}
+        <div className={`${styles.mobileNav} ${getShowOrHideClassName()}`}>
+            {/* Mobile nav links */}
+            {getMobileNavLinks()}
             <MobileNavLink
                 name="Sign Out"
                 icon={signOutIconBlue}
-                onClick={() => {
-                    props.linkClicked();
-                    props.signOutClicked();
-                }}
-                isSignOut={true}
+                onClick={props.onSignOutClick}
+                isSignOutLink={true}
             />
         </div>
     );
@@ -60,19 +63,34 @@ const MobileNav = (props) => {
 
 // Prop types for MobileNav component
 MobileNav.propTypes = {
+    /**
+     * Indicates if the mobile nav should be displayed
+     */
     show: PropTypes.bool.isRequired,
+
+    /**
+     * Mobile nav links
+     */
     tabs: PropTypes.arrayOf(
         PropTypes.exact({
-            key: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            route: PropTypes.string.isRequired,
-            blueIcon: PropTypes.string.isRequired,
-            whiteIcon: PropTypes.string.isRequired,
-            isCurrentTab: PropTypes.bool.isRequired,
+            key: PropTypes.string,
+            name: PropTypes.string,
+            route: PropTypes.string,
+            blueIcon: PropTypes.string,
+            whiteIcon: PropTypes.string,
+            isCurrentTab: PropTypes.bool,
         })
     ).isRequired,
-    signOutClicked: PropTypes.func.isRequired,
-    navLinkClicked: PropTypes.func.isRequired,
+
+    /**
+     * Sign out click handler
+     */
+    onSignOutClick: PropTypes.func.isRequired,
+
+    /**
+     * Nav link click handler
+     */
+    onNavLinkClick: PropTypes.func.isRequired,
 };
 
 export default withRouter(MobileNav);
