@@ -46,15 +46,15 @@ class App extends Component {
      */
     isMobileBrowser = () => {
         const userAgent = navigator.userAgent;
-        return (
-            userAgent.match(/iPhone/i) ||
+        return userAgent.match(/iPhone/i) ||
             userAgent.match(/iPod/i) ||
             userAgent.match(/iPad/i) ||
             userAgent.match(/Android/i) ||
             userAgent.match(/webOS/i) ||
             userAgent.match(/BlackBerry/i) ||
             userAgent.match(/Windows Phone/i)
-        );
+            ? true
+            : false;
     };
 
     /**
