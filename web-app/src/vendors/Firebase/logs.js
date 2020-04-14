@@ -6,6 +6,12 @@
 // Created Date: 2/26/2020
 // ----------------------------------------------------------------------------
 
+/**
+ * Pre-built logs for Firebase Analytics
+ * @module logs
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
 // NPM module imports
 import firebase from "./firebase.js";
 

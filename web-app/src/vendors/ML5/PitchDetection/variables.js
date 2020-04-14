@@ -9,6 +9,10 @@
 // NPM module imports
 import ml5 from "ml5";
 
+/**
+ * @class
+ * @classdesc Pitch Detection variables
+ */
 class PitchDetectionVariables {
     audioContext;
     micStream;

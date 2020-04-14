@@ -1,12 +1,27 @@
 // ----------------------------------------------------------------------------
 // File Path: src/vendors/AlphaTab/TexLoaded.js
-// Description: TODO: Description needed
+// Description: Encapsulates information about the currently loaded AlphaTex
 // Author: Daniel Griessler
 // Email: dgriessler20@gmail.com
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * @class
+ * @classdesc Encapsulates information about the currently loaded AlphaTex
+ */
 class TexLoaded {
+    /**
+     * Creates a new TexLoaded
+     * @param {string} typeOfTex The type of AlphaTex that is loaded. TODO: Should probably be replaced by an enum
+     * @param {string[]} partNames The parts that can be selected from the sheet music
+     * @param {string[]} clefs Clefs per staff for the sheet music
+     * @param {string} myPart The name of the user's part
+     * @param {string} id Can be null, if not null then the ID of the Exercise that is loaded TODO: Rename property to more useful name
+     * @param {number} measureStart The start measure number of the loaded AlphaTex
+     * @param {number} measureEnd The end measure number of the loaded AlphaTex
+     * @param {string} sheetMusicId The ID of the sheet music that the AlphaTex is tied to. TODO: Get this from state if possible and remove property
+     */
     constructor(
         typeOfTex,
         partNames,
@@ -80,6 +95,11 @@ class TexLoaded {
         };
     }
 
+    /**
+     * Create section lengths of the given size out of the sheet music
+     * @param {number[]} measureLengths The lengths of each measure in seconds
+     * @param {number} barCount The size of each section
+     */
     setMeasureLengths(measureLengths, barCount) {
         this.measureLengths = measureLengths;
         this.lengthsPerSection = [];
@@ -102,6 +122,13 @@ class TexLoaded {
         }
     }
 
+    /**
+     * Updates the section lengths within the provided bounds of the provided size.
+     * TODO: Merge functionality with setMeasureLengths
+     * @param {number} measureStart The starting measure number
+     * @param {number} measureEnd The ending measure number
+     * @param {number} barCount The size of each section
+     */
     updateLengthsPerSection(measureStart, measureEnd, barCount) {
         this.measureStart = measureStart;
         this.measureEnd = measureEnd;
@@ -126,6 +153,16 @@ class TexLoaded {
         }
     }
 
+    /**
+     * Updates information about the loaded AlphaTex
+     * @param {string} typeOfTex The type of AlphaTex that is loaded.
+     * @param {string[]} partNames The parts that can be selected from the sheet music
+     * @param {string[]} clefs Clefs per staff for the sheet music
+     * @param {string} myPart The name of the user's part
+     * @param {string} id Can be null, if not null then the ID of the Exercise that is loaded
+     * @param {number} measureStart The start measure number of the loaded AlphaTex
+     * @param {number} measureEnd The end measure number of the loaded AlphaTex
+     */
     update(typeOfTex, partNames, clefs, myPart, id, measureStart, measureEnd) {
         this.typeOfTex = typeOfTex;
         this.partNames = partNames;
@@ -148,6 +185,10 @@ class TexLoaded {
         this.measureEnd = measureEnd;
     }
 
+    /**
+     * Get the start octave of the loaded part
+     * @returns {number} The start octave of the loaded part
+     */
     getStartOctave() {
         const TREBLE_START = 4;
         const BASS_START = 2;
@@ -167,6 +208,10 @@ class TexLoaded {
         }
     }
 
+    /**
+     * Update the loaded track
+     * @param {number} trackIndex The new loaded track index
+     */
     updateCurrentTrackIndexes(trackIndex) {
         this.currentTrackIndexes[0] = trackIndex;
     }

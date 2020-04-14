@@ -1,10 +1,16 @@
 // ----------------------------------------------------------------------------
-// File Path: src/vendors/P5/sketch.js
-// Description: P5 sketch wrapper
+// File Path: src/vendors/P5/sketchFeedback.js
+// Description: P5 sketch wrapper for real time feedback
 // Author: Daniel Griessler & Dan Levy
 // Email: dgriessler20@gmail.com & danlevy124@gmail.com
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
+
+/**
+ * P5 sketch wrapper for real time feedback
+ * @module sketchFeedback
+ * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ */
 
 // File imports
 import atVars from "../AlphaTab/variables";

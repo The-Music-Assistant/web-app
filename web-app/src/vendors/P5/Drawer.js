@@ -9,6 +9,10 @@
 // File imports
 import { getNumberOfLedgerLines, getOctave } from "../AlphaTab/LedgerLines";
 
+/**
+ * @class
+ * @classdesc Keeps track of current note and where to draw it on the screen along with special information such as number of extra ledger lines
+ */
 class Drawer {
     /**
      * Creates a new Drawer setting up storage of the most recent midi note and information about how to draw it on the screen
@@ -32,6 +36,12 @@ class Drawer {
         this.updateNote(this.note.midiVal);
     }
 
+    /**
+     * Sets the stored height of the top line, the distance between ledger lines, and the base octave
+     * @param {number} topLine The height of the top ledger line
+     * @param {number} distanceBetweenLines The y distance between ledger lines
+     * @param {number} baseOctave The base octave of the current clef
+     */
     setTopLineAndDistanceBetween(topLine, distanceBetweenLines, baseOctave) {
         this.topLine = topLine + 1;
         this.distanceBetweenLines = distanceBetweenLines;
@@ -42,6 +52,10 @@ class Drawer {
         this.baseOctave = baseOctave;
     }
 
+    /**
+     * Sets the base octave
+     * @param {number} baseOctave The base octave of the current clef
+     */
     setBaseOctave(baseOctave) {
         this.baseOctave = baseOctave;
     }
@@ -142,7 +156,8 @@ class Drawer {
 }
 
 /**
- * Stores midi value as its character representation including its octave and if it is sharp
+ * @class
+ * @classdesc Stores midi value as its character representation including its octave and if it is sharp
  */
 class Note {
     /**
@@ -173,8 +188,14 @@ class Note {
     }
 
     /**
+     * @typedef {object} NotePackage
+     * @property {string} charPart The character part of the note
+     * @property {number} octave The octave of the note
+     */
+
+    /**
      * Converts the stored midi value to its character representation
-     * @returns A tuple with the character part and the octave
+     * @returns {NotePackage} A tuple with the character part and the octave
      */
     numToNote() {
         let charPart;

@@ -9,6 +9,10 @@
 // File imports
 import Pitch from "../ML5/PitchDetection/Pitch";
 
+/**
+ * @class
+ * @classdesc Encapsulates performance data
+ */
 class PerformanceData {
     /**
      * Creates a PerformanceData object

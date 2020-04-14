@@ -6,6 +6,12 @@
 // Created Date: 1/1/2020
 ---------------------------------------------------------------------------- */
 
+/**
+ * Initializes Firebase
+ * @module firebase
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
 // NPM module imports
 import firebase from "firebase/app";
 import "firebase/auth";

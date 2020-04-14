@@ -6,6 +6,10 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * @class
+ * @classdesc Encapsulates a recorded pitch
+ */
 class Pitch {
     /**
      * Creates a Pitch

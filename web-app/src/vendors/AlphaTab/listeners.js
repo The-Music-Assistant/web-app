@@ -6,6 +6,12 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * Functions called when an AlphaTab listener is triggered
+ * @module listeners
+ * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ */
+
 // File imports
 import atVars from "./variables";
 import { startPlayingMusic } from "./actions";
@@ -64,7 +70,6 @@ export const alphaTabPlayerStateChanged = () => {
 
 /**
  * Resets the time back to the beginning of the song and our tracker points at the beginning of the piece again
- * TODO: Is this function still needed?
  */
 export const alphaTabPlayerFinished = () => {
     atVars.noteStreamIndex = 0;
@@ -176,9 +181,9 @@ const initializeFeedbackDrawer = (topLine, nextLine) => {
 };
 
 /**
- * Stops playing the music
- * Shuts off pitch detection (this does not turn the microphone off)
- * Resets the sheet music (this is due to pagination)
+ * Stops playing the music.
+ * Shuts off pitch detection (this does not turn the microphone off).
+ * Resets the sheet music (this is due to pagination).
  */
 const stopPlayingMusic = () => {
     // Stops the pitch detection
@@ -192,10 +197,16 @@ const stopPlayingMusic = () => {
 };
 
 /**
+ * @typedef LedgerHeightsPackage
+ * @property {number} topLineHeight The y height of the top ledger line
+ * @property {number} distanceBetweenLines The y distance between ledger lines
+ */
+
+/**
  * Gets the top line height and distance between ledger lines based on the sheet music
  * @param {object} topLine
  * @param {object} nextLine
- * @returns - An object containing the top line height and distance between lines
+ * @returns {LedgerHeightsPackage} An object containing the top line height and distance between lines
  */
 const getSheetMusicLedgerHeights = (topLine, nextLine) => {
     // Retrieves the height of the staff lines based on a relative offset to their wrapping contanier

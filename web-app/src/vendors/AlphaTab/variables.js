@@ -9,6 +9,10 @@
 // File imports
 import * as sketchBehaviors from "../P5/sketchBehaviors";
 
+/**
+ * @class
+ * @classdesc AlphaTab variables
+ */
 class AlphaTabVariables {
     api; // AlphaTab API
     p5Obj; // Instance of p5 (drawing tool)

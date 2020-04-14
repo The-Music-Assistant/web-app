@@ -9,6 +9,14 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * Destroys the AlphaTab api
+ * Ends pitch detection
+ * Removes the P5 drawing object
+ * @module destruction
+ * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ */
+
 // File imports
 import atVars from "./variables";
 import * as playerStates from "./playerStates";
@@ -18,6 +26,7 @@ import destroyPitchDetection from "../ML5/PitchDetection/destruction";
  * Destroys the api if initialized
  * Destroys the p5Obj if initialized
  * Stops the microphone input it is being used
+ * @returns {Promise} Promise that resolves after api is destroyed and cleared
  */
 const destroy = () => {
     if (atVars.playerState === playerStates.PLAYING) {

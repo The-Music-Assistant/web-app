@@ -10,6 +10,10 @@
 // File imports
 import PerformanceData from "./PerformanceData";
 
+/**
+ * @class
+ * @classdesc Keeps a list of midi values to serve as a sample of the MAX_SIZE last midi values heard
+ */
 class NoteList {
     MAX_SIZE = 5;
 

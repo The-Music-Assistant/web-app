@@ -6,6 +6,12 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * Initializes AlphaTab (triggers AlphaTab to display sheet music)
+ * @module initialization
+ * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ */
+
 // File imports
 import atVars from "./variables";
 import player from "./default.sf2";

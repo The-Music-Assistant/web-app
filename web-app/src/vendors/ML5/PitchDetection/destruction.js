@@ -6,6 +6,12 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * Pitch detection initialization
+ * @module destruction
+ * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ */
+
 // File imports
 import ptVars from "./variables";
 

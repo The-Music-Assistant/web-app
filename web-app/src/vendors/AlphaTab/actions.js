@@ -6,6 +6,12 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * AlphaTab variables
+ * @module actions
+ * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ */
+
 // File imports
 import { startPitchDetection } from "../ML5/PitchDetection/actions";
 import NoteList from "./NoteList";
@@ -120,11 +126,17 @@ export const changePart = async (partName) => {
     }
 };
 
+/**
+ * Renders sheet music through AlphaTab with Real Time Feedback from P5
+ */
 export const changeToSheetMusic = async () => {
     atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
     await loadTex(null);
 };
 
+/**
+ * Renders isolated user part from sheet music through AlphaTab with Real Time Feedback from P5
+ */
 export const changeToMyPart = async () => {
     atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
     atVars.api.settings.display.barCount = atVars.barCount;
@@ -132,6 +144,9 @@ export const changeToMyPart = async () => {
     await loadJustMyPart();
 };
 
+/**
+ * Renders performance overview using AlphaTab and Performance Highlighting from P5
+ */
 export const changeToPerformance = async () => {
     atVars.sketchBehavior = sketchBehaviors.PERFORMANCE_HIGHLIGHTING;
     await loadTex(null);
@@ -177,7 +192,7 @@ export const timeToMeasureNumber = (
 
 /**
  * Converts the playback range if defined in AlphaTab to the measure numbers that start and end that range
- * @returns Either an array with the start and end measure numbers or null if there is no playback range
+ * @returns {number[]} Either an array with the start and end measure numbers or null if there is no playback range
  */
 export const getPlaybackRange = () => {
     const measureToLength = atVars.texLoaded.measureLengths;
@@ -357,6 +372,10 @@ const loadExercise = async (measureStart, measureEnd) => {
     }
 };
 
+/**
+ * Loads AlphaTex for the current piece of sheet music rendering the user's part if initialized otherwise the provided part
+ * @param {string} partName Name of the part to render during load
+ */
 export const loadTex = async (partName) => {
     let data = {
         sheetMusicId: store.getState().practice.selectedSheetMusicId,
@@ -455,7 +474,7 @@ export const loadTex = async (partName) => {
 
 /**
  * Gets the member's part for the sheet music (e.g. Soprano)
- * @returns - The member's part
+ * @returns {string} The member's part
  */
 export const getMyPart = () => {
     return atVars.texLoaded ? atVars.texLoaded.myPart : null;
@@ -463,7 +482,7 @@ export const getMyPart = () => {
 
 /**
  * Gets all parts of the sheet music (e.g. alto, soprano, etc.)
- * @returns - An array of parts
+ * @returns {string[]} An array of parts
  */
 export const getPartList = () => {
     return atVars.texLoaded ? atVars.texLoaded.partNames : null;

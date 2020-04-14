@@ -6,6 +6,12 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * Pitch detection actions
+ * @module actions
+ * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ */
+
 // File imports
 import atVars from "../../AlphaTab/variables";
 import ptVars from "./variables";
@@ -21,7 +27,7 @@ import * as playerStates from "../../AlphaTab/playerStates";
 /**
  * Checks if pitch detection is available
  * As part of the check, also checks if the microphone is available
- * @returns - True if pitch detection is available; false otherwise
+ * @returns {boolean} True if pitch detection is available; false otherwise
  */
 export const isPitchDetectionAvailable = () => {
     if (
@@ -39,7 +45,7 @@ export const isPitchDetectionAvailable = () => {
 
 /**
  * Continuously detects pitch and displays it on the screen
- * @returns The id of the current setInterval process (this can be used to stop the current setInterval process)
+ * @returns {string} The id of the current setInterval process (this can be used to stop the current setInterval process)
  */
 export const startPitchDetection = () => {
     atVars.texLoaded.performanceId = null;
@@ -51,6 +57,9 @@ export const startPitchDetection = () => {
     listen();
 };
 
+/**
+ * Sends performance information to the database for the current page
+ */
 export const pageTurn = async () => {
     let sheetMusicId = atVars.texLoaded.sheetMusicId;
     if (atVars.texLoaded.performanceId === null) {
@@ -104,6 +113,11 @@ export const pageTurn = async () => {
     }
 };
 
+/**
+ * Watches the music and turns the page when the performer is close to the end of the current page.
+ * @param {number} currentSectionIndex The starting section index
+ * @param {number} currentCount The starting time position
+ */
 const pageWatch = (currentSectionIndex, currentCount) => {
     let intervalId = setInterval(() => {
         if (
@@ -139,6 +153,9 @@ const pageWatch = (currentSectionIndex, currentCount) => {
     }, 100);
 };
 
+/**
+ * Listens to the singer updating the stored performance information and drawing real time feedback
+ */
 export const listen = () => {
     if (atVars.playerState === 1) {
         // Player is playing

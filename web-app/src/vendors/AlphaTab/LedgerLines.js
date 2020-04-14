@@ -6,6 +6,12 @@
 // Created Date: 11/15/2019
 // ----------------------------------------------------------------------------
 
+/**
+ * Utility for getting the octave of a note and counting how many ledger lines are needed
+ * @module LedgerLines
+ * @author Daniel Griessler <dgriessler20@gmail.com>
+ */
+
 // Cycle always goes C C# D D# E F F# G G# A A# B repeated twice, once for when C is on line first and once when C on space first
 // Starting at C on line, walk up by half steps and this is how many ledger lines are needed
 const HALF_STEP_CYCLE_UP_START_C = [
@@ -122,7 +128,7 @@ const HALF_STEP_CYCLE_DOWN_START_E = [
  * @param {number} midi - Midi value of current note
  * @param {String} direction - Expected to either be "up" or "down" case insensitive
  * @param {String} start - Expected to be either "c" for the bass clef or "a" for the treble clef case insensitive
- * @returns The number of ledger lines or 0 if the direction/start combination is not recognized
+ * @returns {number} The number of ledger lines or 0 if the direction/start combination is not recognized
  */
 export const getNumberOfLedgerLines = (midi, direction, start) => {
     // given the octave, figure out where to start in the list
@@ -159,7 +165,7 @@ export const getNumberOfLedgerLines = (midi, direction, start) => {
 
 /**
  * Gets the octave of the current note
- * @returns The octave of the current note
+ * @returns {number} The octave of the current note
  */
 export const getOctave = (midi) => {
     return Math.floor(midi / 12) - 1;
