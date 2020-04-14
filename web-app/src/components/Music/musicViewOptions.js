@@ -1,23 +1,24 @@
 /**
- * Music component options for displaying sheet music
- * @module musicOptions
+ * Music component view options for displaying sheet music
+ * @module musicViewOptions
+ * @category Music
  * @author Dan Levy <danlevy124@gmail.com>
  */
 
 /**
- * Practice music
+ * Practice view
  * @type {string}
  */
 export const PRACTICE = "practice";
 
 /**
- * View music performance
+ * Performance view
  * @type {string}
  */
 export const PERFORMANCE = "performance";
 
 /**
- * Practice an exercise
+ * Exercise view
  * @type {string}
  */
 export const EXERCISE = "exercise";

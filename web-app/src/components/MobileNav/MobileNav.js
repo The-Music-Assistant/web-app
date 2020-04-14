@@ -15,6 +15,7 @@ import styles from "./MobileNav.module.scss";
 /**
  * Renders the MobileNav component
  * @component
+ * @category MobileNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const MobileNav = (props) => {

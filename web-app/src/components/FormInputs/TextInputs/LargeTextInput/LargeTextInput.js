@@ -11,6 +11,7 @@ import styles from "./LargeTextInput.module.scss";
 /**
  * Renders the LargeTextInput component
  * @component
+ * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const LargeTextInput = (props) => {

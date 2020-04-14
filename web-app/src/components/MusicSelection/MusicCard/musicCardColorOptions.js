@@ -2,6 +2,7 @@
  * Background color options for the MusicCard component.
  * Treat this file as an enum.
  * @module musicCardColorOptions
+ * @category MusicSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

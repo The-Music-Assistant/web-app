@@ -25,8 +25,9 @@ import styles from "./Welcome.module.scss";
  * Renders the Welcome component.
  * This component displays when a user needs to confirm their email.
  * @extends {Component}
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category Welcome
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class Welcome extends Component {
     /**

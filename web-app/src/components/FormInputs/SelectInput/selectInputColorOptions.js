@@ -1,6 +1,7 @@
 /**
  * Background color options for the SelectInput component.
  * @module selectInputColorOptions
+ * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

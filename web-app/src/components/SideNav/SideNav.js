@@ -16,6 +16,7 @@ import styles from "./SideNav.module.scss";
 /**
  * Renders the SideNav component
  * @component
+ * @category SideNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const SideNav = (props) => {

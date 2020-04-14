@@ -24,6 +24,7 @@ import styles from "./MusicSelection.module.scss";
  * Renders the MusicSelection component
  * @extends {Component}
  * @component
+ * @category MusicSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
 class MusicSelection extends Component {

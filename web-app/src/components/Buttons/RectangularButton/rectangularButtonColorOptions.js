@@ -2,6 +2,7 @@
  * RectangularButton component background color options.
  * Treat this file as an enum.
  * @module rectangularButtonColorOptions
+ * @category Buttons
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

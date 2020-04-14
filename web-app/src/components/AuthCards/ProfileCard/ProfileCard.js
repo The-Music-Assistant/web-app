@@ -27,8 +27,9 @@ import authStyles from "../AuthCard.module.scss";
  * Renders the ProfileCard component.
  * Handles the user profile setup.
  * @extends {Component}
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category AuthCards
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class ProfileCard extends Component {
     /**

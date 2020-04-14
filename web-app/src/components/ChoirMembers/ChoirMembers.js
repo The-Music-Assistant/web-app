@@ -23,8 +23,9 @@ import styles from "./ChoirMembers.module.scss";
  * Renders the ChoirMembers component.
  * Shows all choir member profiles.
  * @extends {Component}
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category ChoirMembers
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class ChoirMembers extends Component {
     /**

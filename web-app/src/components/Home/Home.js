@@ -10,6 +10,7 @@ import styles from "./Home.module.scss";
 /**
  * Renders the Home component
  * @component
+ * @category Home
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const Home = () => {

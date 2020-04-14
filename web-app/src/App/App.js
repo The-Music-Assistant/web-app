@@ -18,10 +18,12 @@ import "normalize.css";
 import "./App.scss";
 
 /**
- * Renders the top level of the React app
- * @author Dan Levy <danlevy124@gmail.com>
+ * Renders the top level of the React app.
+ * Sets up React Router.
  * @extends {Component}
  * @component
+ * @category App
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class App extends Component {
     /**

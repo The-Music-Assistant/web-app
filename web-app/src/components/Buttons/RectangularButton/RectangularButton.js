@@ -14,8 +14,9 @@ import styles from "./RectangularButton.module.scss";
 
 /**
  * Renders the RectangularButton component
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category Buttons
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 const RectangularButton = (props) => {
     // Returns the JSX to render

@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/MusicPerformanceHeader/ExerciseGenerator/ExerciseGenerator.js
-// Description: Renders the ExerciseGenerator component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 3/25/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -28,31 +20,56 @@ import closeIconWhite from "../../../../assets/icons/close-icon-white.svg";
 // Style imports
 import styles from "./ExerciseGenerator.module.scss";
 
+/**
+ * Renders the ExerciseGenerator component
+ * @extends {Component}
+ * @component
+ * @category Music
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
 class ExerciseGenerator extends Component {
-    // Component state
+    /**
+     * ExerciseGenerator component state
+     * @property {string} startMeasureValue - The entered start measure
+     * @property {string} endMeasureValue - The entered end measure
+     */
     state = {
         startMeasureValue: "1",
         endMeasureValue: "1",
     };
 
+    /**
+     * Submits the exercise generation request.
+     * Shows the exercise.
+     * @function
+     */
     generateExerciseSubmitHandler = (event) => {
         event.preventDefault();
+
+        // Tells Redux to request the exercise
         this.props.generateExercise(
             this.state.startMeasureValue,
             this.state.endMeasureValue
         );
+
+        // Switches to the exercise view
         this.props.showExercise();
     };
 
+    /**
+     * Updates the measure value in state
+     * @param event - The event that triggered this function to be called
+     * @function
+     */
     measureValueChangedHandler = (event) => {
-        // Get text input value
+        // Gets the text input value
         if (event.target.name === "start-measure") {
-            // Update start measure in state
+            // Updates the start measure in state
             this.setState({
                 startMeasureValue: event.target.value,
             });
         } else if (event.target.name === "end-measure") {
-            // Update end measure in state
+            // Updates the end measure in state
             this.setState({
                 endMeasureValue: event.target.value,
             });
@@ -60,17 +77,22 @@ class ExerciseGenerator extends Component {
     };
 
     /**
-     * Renders the component
+     * Renders the ExerciseGenerator component
      */
     render() {
         // Returns the JSX to render
         return (
             <div className={styles.exerciseGenerator}>
                 <div className={styles.exerciseGeneratorHeader}>
+                    {/* Empty div on the left side (used for centering content) */}
                     <div></div>
+
+                    {/* Heading */}
                     <h1 className={styles.exerciseGeneratorHeaderHeading}>
                         Generate an Exercise
                     </h1>
+
+                    {/* Close button */}
                     <button
                         className={styles.exerciseGeneratorHeaderCloseButton}
                         type="button"
@@ -85,11 +107,14 @@ class ExerciseGenerator extends Component {
                         />
                     </button>
                 </div>
+
+                {/* Exercise generation form */}
                 <form
                     className={styles.exerciseGeneratorForm}
                     onSubmit={this.generateExerciseSubmitHandler}
                 >
                     <div className={styles.exerciseGeneratorFormMeasureInputs}>
+                        {/* Start measure input */}
                         <div
                             className={styles.exerciseGeneratorFormMeasureInput}
                         >
@@ -105,6 +130,8 @@ class ExerciseGenerator extends Component {
                                 maxVal={this.state.endMeasureValue}
                             />
                         </div>
+
+                        {/* End measure input */}
                         <div
                             className={styles.exerciseGeneratorFormMeasureInput}
                         >
@@ -121,6 +148,8 @@ class ExerciseGenerator extends Component {
                             />
                         </div>
                     </div>
+
+                    {/* Generate exercise button */}
                     <RectangularButton
                         type={buttonTypes.SUBMIT}
                         value="generate-exercise"
@@ -135,15 +164,33 @@ class ExerciseGenerator extends Component {
 
 // Prop types for the ExerciseGenerator component
 ExerciseGenerator.propTyes = {
+    /**
+     * The number of measures in the current piece of sheet music
+     */
     numberOfMeasures: PropTypes.string.isRequired,
+
+    /**
+     * Closes the exercise generator
+     */
     onGenerateExerciseClose: PropTypes.func.isRequired,
+
+    /**
+     * Tells Redux to request the exercise
+     */
     generateExercise: PropTypes.func.isRequired,
+
+    /**
+     * Switches to the exercise view
+     */
     showExercise: PropTypes.func.isRequired,
 };
 
 /**
- * Passes certain redux actions to the ExerciseGenerator component
+ * Passes certain Redux actions to the ExerciseGenerator component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof ExerciseGenerator
  * @param {function} dispatch - The react-redux dispatch function
+ * @returns {object} Redux actions used in the ExerciseGenerator component
  */
 const mapDispatchToProps = (dispatch) => {
     return {

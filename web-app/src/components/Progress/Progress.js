@@ -10,6 +10,7 @@ import styles from "./Progress.module.scss";
 /**
  * Renders the Progress component
  * @component
+ * @category Progress
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const Progress = () => {

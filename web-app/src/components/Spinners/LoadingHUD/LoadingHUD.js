@@ -12,6 +12,7 @@ import styles from "./LoadingHUD.module.scss";
  * The spinner itself, however, is a small HUD.
  * This component is typically used when submitting a form or submitting some sort of data (e.g. signing in).
  * @component
+ * @category Spinners
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const LoadingHUD = (props) => {

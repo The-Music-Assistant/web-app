@@ -16,8 +16,9 @@ import styles from "./AlertBar.module.scss";
  * Renders the AlertBar component.
  * This component is an alert that dismisses itself.
  * @extends {Component}
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category AlertBar
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class AlertBar extends Component {
     /**

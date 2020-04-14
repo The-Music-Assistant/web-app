@@ -13,6 +13,7 @@ import cardColorStyles from "../ChoirCardColors.module.scss";
  * Renders the ChoirOptionCard.
  * Used to render a choir card that offers some option (e.g. add a new choir).
  * @component
+ * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const ChoirOptionCard = (props) => {

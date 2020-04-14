@@ -25,8 +25,9 @@ import authStyles from "../AuthCard.module.scss";
  * Renders the AuthCard component.
  * Handles both sign in and sign up authentication (username and password).
  * @extends {Component}
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category AuthCards
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class AuthCard extends Component {
     /**

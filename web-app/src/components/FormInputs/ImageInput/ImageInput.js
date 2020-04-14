@@ -9,6 +9,7 @@ import styles from "./ImageInput.module.scss";
  * Renders the ImageInput component.
  * Allows the user to select an image from their file system.
  * @component
+ * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const ImageInput = (props) => {

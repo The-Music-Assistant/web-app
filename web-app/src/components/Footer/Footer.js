@@ -8,6 +8,7 @@ import styles from "./Footer.module.scss";
 /**
  * Renders the Footer component.
  * @component
+ * @category Footer
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const Footer = (props) => {

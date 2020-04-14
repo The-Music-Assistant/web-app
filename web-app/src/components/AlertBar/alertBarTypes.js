@@ -2,6 +2,7 @@
  * AlertBar component type options.
  * Treat this file as an enum.
  * @module alertBarTypes
+ * @category AlertBar
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

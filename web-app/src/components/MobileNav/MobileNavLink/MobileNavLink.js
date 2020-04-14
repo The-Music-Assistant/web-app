@@ -9,6 +9,7 @@ import styles from "./MobileNavLink.module.scss";
 /**
  * Renders the MobileNavLink component
  * @component
+ * @category MobileNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
 // TODO: This component should be split into a two components: (1) mobile nav link and (2) mobile nav sign out link

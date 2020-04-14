@@ -7,10 +7,27 @@
         "recurse": true,
         "template": "node_modules/better-docs"
     },
-    "plugins": ["node_modules/better-docs/component"],
+    "plugins": [
+        "node_modules/better-docs/component",
+        "node_modules/better-docs/category"
+    ],
     "templates": {
         "better-docs": {
-            "name": "The Music Assistant Web App Documentation"
+            "name": "The Music Assistant Web App Documentation",
+            "navigation": [
+                {
+                    "label": "GitHub",
+                    "href": "https://github.com/dgriessler/The-Music-Assistant"
+                },
+                {
+                    "label": "Example App",
+                    "href": "https://music-assistant.com/"
+                },
+                {
+                    "label": "Info Website",
+                    "href": "https://dgriessler.github.io/The-Music-Assistant/"
+                }
+            ]
         }
     }
 }
