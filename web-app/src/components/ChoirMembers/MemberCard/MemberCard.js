@@ -11,8 +11,9 @@ import styles from "./MemberCard.module.scss";
 /**
  * Renders the MemberCard component.
  * Contains a member's profile.
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category ChoirMembers
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class MemberCard extends Component {
     /**

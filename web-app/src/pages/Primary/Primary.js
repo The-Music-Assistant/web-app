@@ -39,8 +39,9 @@ import styles from "./Primary.module.scss";
  * Renders the Primary component.
  * This is the container component for all of the components that should include a header, sidebar, and footer.
  * @extends {Component}
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category Primary
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class Primary extends Component {
     /**

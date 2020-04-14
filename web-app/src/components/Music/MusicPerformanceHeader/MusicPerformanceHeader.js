@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/MusicPerformanceHeader/MusicPerformanceHeader.js
-// Description: Renders the MusicPerformanceHeader component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 3/25/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -22,51 +14,68 @@ import * as buttonTypes from "../../Buttons/buttonTypes";
 // Style imports
 import styles from "./MusicPerformanceHeader.module.scss";
 
+/**
+ * Renders the MusicPerformanceHeader component.
+ * This component is used when a user is viewing performance.
+ * @extends {Component}
+ * @category Music
+ * @component
+ */
 class MusicPerformanceHeader extends Component {
-    // Component state
+    /**
+     * MusicPerformanceHeader component state
+     * @property {boolean} shouldDisplayExerciseGenerator - Indicates of the exercise generator should be displayed
+     */
     state = {
-        shouldDisplayExerciseGeneration: false,
+        shouldDisplayExerciseGenerator: false,
     };
 
     /**
-     * Updates state to trigger the exercise generation component to display
+     * Flips shouldDisplayExerciseGenerator property in state
+     * @function
      */
-    showExerciseGenerationButtonClickedHandler = () => {
-        this.setState({ shouldDisplayExerciseGeneration: true });
+    showOrHideExerciseGenerator = () => {
+        this.setState((prevState) => {
+            return {
+                shouldDisplayExerciseGenerator: !prevState.shouldDisplayExerciseGenerator,
+            };
+        });
     };
 
-    /**
-     * Updates state to trigger the exercise generation component to hide
-     */
-    hideExerciseGenerationHandler = () => {
-        this.setState({ shouldDisplayExerciseGeneration: false });
-    };
-
-    render() {
-        let exerciseGenerationComponent;
-        if (this.state.shouldDisplayExerciseGeneration) {
-            exerciseGenerationComponent = (
+    getExerciseGeneratorOrButton = () => {
+        if (this.state.shouldDisplayExerciseGenerator) {
+            // Returns the ExerciseGenerator component
+            return (
                 <ExerciseGenerator
                     numberOfMeasures={this.props.numberOfMeasures}
-                    onGenerateExerciseClose={this.hideExerciseGenerationHandler}
+                    onGenerateExerciseClose={this.showOrHideExerciseGenerator}
                     showExercise={this.props.switchToExercise}
                 />
             );
         } else {
-            exerciseGenerationComponent = (
+            // Returns a button that will open the ExerciseGenerator component
+            return (
                 <RectangularButton
                     type={buttonTypes.BUTTON}
                     value="create-exercise-generation"
                     text="Create an Exercise"
                     backgroundColor={rectButtonColorOptions.ORANGE}
-                    onClick={this.showExerciseGenerationButtonClickedHandler}
+                    onClick={this.showOrHideExerciseGenerator}
                 />
             );
         }
+    };
 
+    /**
+     * Renders the MusicPerformanceHeader component
+     */
+    render() {
         return (
             <div className={styles.MusicPerformanceHeader}>
-                {exerciseGenerationComponent}
+                {/* An exercise generator or a button */}
+                {this.getExerciseGeneratorOrButton()}
+
+                {/* A button to switch to the practice view */}
                 <RectangularButton
                     type={buttonTypes.BUTTON}
                     value="practice"
@@ -81,8 +90,19 @@ class MusicPerformanceHeader extends Component {
 
 // Prop types for the MusicPerformanceHeader component
 MusicPerformanceHeader.propTypes = {
+    /**
+     * The number of measures in the current piece of sheet music
+     */
     numberOfMeasures: PropTypes.string.isRequired,
+
+    /**
+     * Switches to the practice view
+     */
     switchToPractice: PropTypes.func.isRequired,
+
+    /**
+     * Switches to the exercise view
+     */
     switchToExercise: PropTypes.func.isRequired,
 };
 

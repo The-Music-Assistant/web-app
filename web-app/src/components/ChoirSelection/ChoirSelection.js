@@ -34,6 +34,7 @@ import styles from "./ChoirSelection.module.scss";
  * Shows a card for each choir, as well as card(s) for choir option(s).
  * @extends {Component}
  * @component
+ * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
 class ChoirSelection extends Component {

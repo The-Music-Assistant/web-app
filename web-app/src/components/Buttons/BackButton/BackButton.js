@@ -18,8 +18,9 @@ import styles from "./BackButton.module.scss";
 /**
  * Renders the BackButton component.
  * This button simulates a browser's back button.
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category Buttons
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 const BackButton = (props) => {
     /**

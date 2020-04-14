@@ -8,8 +8,9 @@ import * as buttonTypes from "../buttonTypes";
 /**
  * Renders the ButtonContainer component.
  * NOTE: This component is only used to compose other buttons in the Buttons folder.
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category Buttons
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 
 const ButtonContainer = (props) => {

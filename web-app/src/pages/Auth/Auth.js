@@ -20,8 +20,9 @@ import styles from "./Auth.module.scss";
  * Renders the Auth component.
  * This component handles both the sign up and sign in auth flows.
  * @extends {Component}
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category Auth
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class Auth extends Component {
     /**

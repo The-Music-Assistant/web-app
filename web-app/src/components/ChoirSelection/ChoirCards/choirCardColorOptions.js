@@ -2,6 +2,7 @@
  * Background color options for a choir card component.
  * Treat this file as an enum.
  * @module choirCardColorOptions
+ * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

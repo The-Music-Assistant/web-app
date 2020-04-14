@@ -2,6 +2,7 @@
  * Auth component auth flow options.
  * Treat this file as an enum.
  * @module authFlows
+ * @category Auth
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

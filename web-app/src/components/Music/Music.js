@@ -27,7 +27,7 @@ import { getMyPart, getPartList } from "../../vendors/AlphaTab/actions";
 import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
-import * as musicOptions from "./musicOptions";
+import * as musicViewOptions from "./musicViewOptions";
 import { exerciseGenerated } from "../../store/actions";
 
 // Style imports
@@ -38,6 +38,7 @@ import styles from "./Music.module.scss";
  * Renders the Music component.
  * This component handles practicing music, viewing performance, and practicing an exercise.
  * @component
+ * @category Music
  * @author Dan Levy <danlevy124@gmail.com>
  */
 class Music extends Component {
@@ -50,7 +51,7 @@ class Music extends Component {
      * @property {array} partList - The list of all available parts (tracks) for the sheet music
      * @property {boolean} isMicrophoneAvailable - Indicates if a microphone is available for use
      * @property {string} numberOfMeasures - The number of measures in the sheet music
-     * @property {module:musicOptions} pageType - The current state of the page as it relates to the music options (e.g. viewing performance)
+     * @property {module:musicViewOptions} currentView - The current view that this component is displaying (e.g. performance)
      */
     state = {
         isAlphaTabLoading: true,
@@ -60,7 +61,7 @@ class Music extends Component {
         partList: null,
         isMicrophoneAvailable: true,
         numberOfMeasures: "0",
-        pageType: null,
+        currentView: null,
     };
 
     /**
@@ -84,24 +85,24 @@ class Music extends Component {
     }
 
     /**
-     * Determines the pageType based on the current url
+     * Determines the current view based on the current url
      */
     static getDerivedStateFromProps(newProps) {
         // Gets the string after the last forward slash (/) in the url and sets it to be the page type
         return {
-            pageType: newProps.location.pathname.substring(
+            currentView: newProps.location.pathname.substring(
                 newProps.location.pathname.lastIndexOf("/") + 1
             ),
         };
     }
 
     /**
-     * Prepares the music again if the pageType changed.
+     * Prepares the music again if the current view changed.
      * @param {object} _ The previous component props
      * @param {object} prevState The previous component state
      */
     componentDidUpdate(_, prevState) {
-        if (prevState.pageType !== this.state.pageType) {
+        if (prevState.currentView !== this.state.currentView) {
             this.prepareMusic();
         }
     }
@@ -133,15 +134,15 @@ class Music extends Component {
         this.setState({ isAlphaTabLoading: true, isDataLoading: true });
         let loadSheetMusic;
 
-        // Chooses the correct sheet music and drawing based on the given pageType prop
-        switch (this.state.pageType) {
-            case musicOptions.PRACTICE:
+        // Chooses the correct sheet music and drawing based on the given currentView prop
+        switch (this.state.currentView) {
+            case musicViewOptions.PRACTICE:
                 loadSheetMusic = changeToSheetMusic;
                 break;
-            case musicOptions.PERFORMANCE:
+            case musicViewOptions.PERFORMANCE:
                 loadSheetMusic = changeToPerformance;
                 break;
-            case musicOptions.EXERCISE:
+            case musicViewOptions.EXERCISE:
                 loadSheetMusic = changeToExercise.bind(
                     this,
                     parseInt(this.props.exercise.startMeasure, 10),
@@ -150,7 +151,7 @@ class Music extends Component {
                 break;
             default:
                 console.log(
-                    `${this.state.pageType} is not valid. See musicOptions.js for options. No music was loaded.`
+                    `${this.state.currentView} is not valid. See musicViewOptions.js for options. No music was loaded.`
                 );
         }
 
@@ -158,7 +159,7 @@ class Music extends Component {
             // Loads the sheet music
             await loadSheetMusic();
 
-            if (this.state.pageType === musicOptions.EXERCISE) {
+            if (this.state.currentView === musicViewOptions.EXERCISE) {
                 // Tells Redux that an exercise has been generated
                 this.props.exerciseGenerated();
             }
@@ -227,16 +228,16 @@ class Music extends Component {
 
     /**
      * Switches to a new music page.
-     * See [options]{@link module:musicOptions}.
+     * See [options]{@link module:musicViewOptions}.
      * @function
-     * @param {module:musicOptions} pageType - The page type to switch to
+     * @param {module:musicViewOptions} newView - The view to switch to
      */
-    switchToNewMusicPage = (pageType) => {
+    switchToNewMusicPage = (newView) => {
         // Prepares for a sheet music update
         this.prepareForSheetMusicUpdate();
 
         // Updates the URL
-        const routeUrl = this.getNewUrl(pageType);
+        const routeUrl = this.getNewUrl(newView);
         this.props.history.replace(routeUrl);
     };
 
@@ -257,16 +258,16 @@ class Music extends Component {
     };
 
     /**
-     * Gets a new URL based on the new pageType
+     * Gets a new URL based on the new view
      * @function
-     * @param {module:musicOptions} pageType - The page type that is being switched to
+     * @param {module:musicViewOptions} newView - The view that is being switched to
      */
-    getNewUrl = (pageType) => {
+    getNewUrl = (newView) => {
         // Replaces the string after the last forward slash (/) in the url with the new page type
         return `${this.props.location.pathname.substring(
             0,
             this.props.location.pathname.lastIndexOf("/")
-        )}/${pageType}`;
+        )}/${newView}`;
     };
 
     /**
@@ -309,14 +310,14 @@ class Music extends Component {
     getLoadingComponent = () => {
         // Gets the loading message
         let message;
-        switch (this.state.pageType) {
-            case musicOptions.PRACTICE:
+        switch (this.state.currentView) {
+            case musicViewOptions.PRACTICE:
                 message = "Loading music...";
                 break;
-            case musicOptions.PERFORMANCE:
+            case musicViewOptions.PERFORMANCE:
                 message = "Loading performance...";
                 break;
-            case musicOptions.EXERCISE:
+            case musicViewOptions.EXERCISE:
                 message = "Loading exercise...";
                 break;
             default:
@@ -346,12 +347,14 @@ class Music extends Component {
             <Switch>
                 <Route path={`${matchUrl}/practice`}>
                     <PracticeMusicHeader
-                        pageType={this.state.pageType}
+                        currentView={this.state.currentView}
                         currentPart={this.state.currentPart}
                         partList={this.state.partList}
                         onPartChange={this.onPartChangeHandler}
                         switchToPerformance={() =>
-                            this.switchToNewMusicPage(musicOptions.PERFORMANCE)
+                            this.switchToNewMusicPage(
+                                musicViewOptions.PERFORMANCE
+                            )
                         }
                     />
                 </Route>
@@ -359,21 +362,23 @@ class Music extends Component {
                     <MusicPerformanceHeader
                         numberOfMeasures={this.state.numberOfMeasures}
                         switchToPractice={() =>
-                            this.switchToNewMusicPage(musicOptions.PRACTICE)
+                            this.switchToNewMusicPage(musicViewOptions.PRACTICE)
                         }
                         switchToExercise={() =>
-                            this.switchToNewMusicPage(musicOptions.EXERCISE)
+                            this.switchToNewMusicPage(musicViewOptions.EXERCISE)
                         }
                     />
                 </Route>
                 <Route path={`${matchUrl}/exercise`}>
                     <PracticeMusicHeader
-                        pageType={this.state.pageType}
+                        currentView={this.state.currentView}
                         switchToPractice={() =>
-                            this.switchToNewMusicPage(musicOptions.PRACTICE)
+                            this.switchToNewMusicPage(musicViewOptions.PRACTICE)
                         }
                         switchToPerformance={() =>
-                            this.switchToNewMusicPage(musicOptions.PERFORMANCE)
+                            this.switchToNewMusicPage(
+                                musicViewOptions.PERFORMANCE
+                            )
                         }
                     />
                 </Route>
@@ -387,14 +392,14 @@ class Music extends Component {
      * @returns {string} A page heading
      */
     getPageHeading = () => {
-        switch (this.state.pageType) {
-            case musicOptions.PRACTICE:
+        switch (this.state.currentView) {
+            case musicViewOptions.PRACTICE:
                 return this.state.isMicrophoneAvailable
                     ? "Practice"
                     : "Playback - No Microphone Available";
-            case musicOptions.PERFORMANCE:
+            case musicViewOptions.PERFORMANCE:
                 return "Performance";
-            case musicOptions.EXERCISE:
+            case musicViewOptions.EXERCISE:
                 return this.state.isMicrophoneAvailable
                     ? `Exercise (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure})`
                     : `Exercise Playback (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure}) - No Microphone Available`;

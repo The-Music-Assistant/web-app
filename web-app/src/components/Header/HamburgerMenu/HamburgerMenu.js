@@ -17,6 +17,7 @@ import styles from "./HamburgerMenu.module.scss";
  * Renders the HamburgerMenu component.
  * NOTE: This component contains just the hamburger menu icon, and not the mobile navigation.
  * @component
+ * @category Header
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const HamburgerMenu = (props) => {

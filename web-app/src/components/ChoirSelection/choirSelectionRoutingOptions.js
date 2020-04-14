@@ -3,6 +3,7 @@
  * This tells React Router which url path to use.
  * Treat this file as an enum.
  * @module choirSelectionRoutingOptions
+ * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

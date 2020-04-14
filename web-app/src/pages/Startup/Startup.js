@@ -17,8 +17,9 @@ import styles from "./Startup.module.scss";
  * Renders the Startup component.
  * This component displays when the app is starting up (i.e. getting auth data).
  * @extends {Component}
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category Startup
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 class Startup extends Component {
     /**

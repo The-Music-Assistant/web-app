@@ -2,6 +2,7 @@
  * TextButton component text color options.
  * Treat this file as an enum.
  * @module textButtonColorOptions
+ * @category Buttons
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

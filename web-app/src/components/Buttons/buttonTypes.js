@@ -2,6 +2,7 @@
  * Button types (based on the HTML type options)
  * Treat this file as an enum.
  * @module buttonTypes
+ * @category Buttons
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

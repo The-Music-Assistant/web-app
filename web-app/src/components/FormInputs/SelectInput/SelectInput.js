@@ -17,6 +17,7 @@ import styles from "./SelectInput.module.scss";
  * A custom select input.
  * NOTE: This component does not use the select and option HTML elements.
  * @component
+ * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
 class SelectInput extends Component {

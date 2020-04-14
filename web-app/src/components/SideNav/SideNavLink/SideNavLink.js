@@ -9,6 +9,7 @@ import styles from "./SideNavLink.module.scss";
 /**
  * Renders the SideNavLink component
  * @component
+ * @category SideNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
 // TODO: This component should be split into a two components: (1) side nav link and (2) side nav sign out link

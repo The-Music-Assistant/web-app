@@ -19,6 +19,7 @@ import styles from "./PageHeader.module.scss";
 /**
  * Renders the PageHeader component
  * @component
+ * @category PageHeader
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const PageHeader = (props) => {

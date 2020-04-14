@@ -10,6 +10,7 @@ import styles from "./UserWidget.module.scss";
  * Renders the UserWidget component
  * @extends {Component}
  * @component
+ * @category Header
  * @author Dan Levy <danlevy124@gmail.com>
  */
 class UserWidget extends Component {

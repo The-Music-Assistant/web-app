@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: MusicControls</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                     
+                        <h1 class="navbar-item">The Music Assistant Web App Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/dgriessler/The-Music-Assistant" target="_blank">
+                                GitHub
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://music-assistant.com/" target="_blank">
+                                Example App
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://dgriessler.github.io/The-Music-Assistant/" target="_blank">
+                                Info Website
+                            </a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-tmaApi.html">tmaApi</a></li></ul><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="Pitch.html">Pitch</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphaTabPlayerFinished">alphaTabPlayerFinished</a></li><li><a href="global.html#alphaTabPlayerStateChanged">alphaTabPlayerStateChanged</a></li><li><a href="global.html#alphaTabPostRenderFinished">alphaTabPostRenderFinished</a></li><li><a href="global.html#appReducer">appReducer</a></li><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#changePart">changePart</a></li><li><a href="global.html#changeToExercise">changeToExercise</a></li><li><a href="global.html#choirSelectedForChoirs">choirSelectedForChoirs</a></li><li><a href="global.html#choirSelectedForPractice">choirSelectedForPractice</a></li><li><a href="global.html#choirsReducer">choirsReducer</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#displayMidi">displayMidi</a></li><li><a href="global.html#exerciseGenerated">exerciseGenerated</a></li><li><a href="global.html#exerciseRequested">exerciseRequested</a></li><li><a href="global.html#getMyPart">getMyPart</a></li><li><a href="global.html#getNumberOfLedgerLines">getNumberOfLedgerLines</a></li><li><a href="global.html#getOctave">getOctave</a></li><li><a href="global.html#getPartList">getPartList</a></li><li><a href="global.html#getPlaybackRange">getPlaybackRange</a></li><li><a href="global.html#getSheetMusicLedgerHeights">getSheetMusicLedgerHeights</a></li><li><a href="global.html#initializeAPI">initializeAPI</a></li><li><a href="global.html#initializeFeedbackDrawer">initializeFeedbackDrawer</a></li><li><a href="global.html#isPitchDetectionAvailable">isPitchDetectionAvailable</a></li><li><a href="global.html#loadExercise">loadExercise</a></li><li><a href="global.html#loadJustMyPart">loadJustMyPart</a></li><li><a href="global.html#musicSelectedForPractice">musicSelectedForPractice</a></li><li><a href="global.html#onFirstRender">onFirstRender</a></li><li><a href="global.html#onSubsequentRender">onSubsequentRender</a></li><li><a href="global.html#p5FeedbackSketch">p5FeedbackSketch</a></li><li><a href="global.html#p5PerformanceSketch">p5PerformanceSketch</a></li><li><a href="global.html#practiceReducer">practiceReducer</a></li><li><a href="global.html#resetSheetMusic">resetSheetMusic</a></li><li><a href="global.html#setupPitchDetection">setupPitchDetection</a></li><li><a href="global.html#startPitchDetection">startPitchDetection</a></li><li><a href="global.html#startPlayingMusic">startPlayingMusic</a></li><li><a href="global.html#startupDone">startupDone</a></li><li><a href="global.html#startupReducer">startupReducer</a></li><li><a href="global.html#stopPitchDetection">stopPitchDetection</a></li><li><a href="global.html#stopPlayingMusic">stopPlayingMusic</a></li><li><a href="global.html#timeToMeasureNumber">timeToMeasureNumber</a></li><li><a href="global.html#updateObject">updateObject</a></li></ul></div><div class="category"><h2>AlertBar</h2><h3>Modules</h3><ul><li><a href="module-alertBarTransitionOptions.html">alertBarTransitionOptions</a></li><li><a href="module-alertBarTypes.html">alertBarTypes</a></li></ul><h3>Components</h3><ul><li><a href="AlertBar.html">AlertBar</a></li></ul></div><div class="category"><h2>App</h2><h3>Components</h3><ul><li><a href="App.html">App</a></li></ul></div><div class="category"><h2>Auth</h2><h3>Modules</h3><ul><li><a href="module-authFlows.html">authFlows</a></li><li><a href="module-authStages.html">authStages</a></li></ul><h3>Components</h3><ul><li><a href="Auth.html">Auth</a></li></ul></div><div class="category"><h2>AuthCards</h2><h3>Components</h3><ul><li><a href="AuthCard.html">AuthCard</a></li><li><a href="ProfileCard.html">ProfileCard</a></li></ul></div><div class="category"><h2>Buttons</h2><h3>Modules</h3><ul><li><a href="module-buttonTypes.html">buttonTypes</a></li><li><a href="module-rectangularButtonColorOptions.html">rectangularButtonColorOptions</a></li><li><a href="module-textButtonColorOptions.html">textButtonColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="BackButton.html">BackButton</a></li><li><a href="ButtonContainer.html">ButtonContainer</a></li><li><a href="RectangularButton.html">RectangularButton</a></li><li><a href="TextButton.html">TextButton</a></li></ul></div><div class="category"><h2>ChoirMembers</h2><h3>Modules</h3><ul><li><a href="module-memberCardColorOptions.html">memberCardColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="ChoirMembers.html">ChoirMembers</a></li><li><a href="MemberCard.html">MemberCard</a></li></ul></div><div class="category"><h2>ChoirSelection</h2><h3>Modules</h3><ul><li><a href="module-choirCardColorOptions.html">choirCardColorOptions</a></li><li><a href="module-choirSelectionRoutingOptions.html">choirSelectionRoutingOptions</a></li></ul><h3>Components</h3><ul><li><a href="ChoirCard.html">ChoirCard</a></li><li><a href="ChoirOptionCard.html">ChoirOptionCard</a></li><li><a href="ChoirSelection.html">ChoirSelection</a></li></ul></div><div class="category"><h2>Footer</h2><h3>Components</h3><ul><li><a href="Footer.html">Footer</a></li></ul></div><div class="category"><h2>FormInputs</h2><h3>Modules</h3><ul><li><a href="module-selectInputColorOptions.html">selectInputColorOptions</a></li><li><a href="module-textInputTypes.html">textInputTypes</a></li></ul><h3>Components</h3><ul><li><a href="ImageInput.html">ImageInput</a></li><li><a href="LargeTextInput.html">LargeTextInput</a></li><li><a href="SelectInput.html">SelectInput</a></li><li><a href="SmallTextInput.html">SmallTextInput</a></li></ul></div><div class="category"><h2>Header</h2><h3>Components</h3><ul><li><a href="HamburgerMenu.html">HamburgerMenu</a></li><li><a href="Header.html">Header</a></li><li><a href="UserWidget.html">UserWidget</a></li></ul></div><div class="category"><h2>Home</h2><h3>Components</h3><ul><li><a href="Home.html">Home</a></li></ul></div><div class="category"><h2>MobileNav</h2><h3>Components</h3><ul><li><a href="MobileNav.html">MobileNav</a></li><li><a href="MobileNavLink.html">MobileNavLink</a></li></ul></div><div class="category"><h2>Music</h2><h3>Modules</h3><ul><li><a href="module-musicViewOptions.html">musicViewOptions</a></li></ul><h3>Components</h3><ul><li><a href="ExerciseGenerator.html">ExerciseGenerator</a></li><li><a href="Music.html">Music</a></li><li><a href="MusicControls.html">MusicControls</a></li><li><a href="MusicPerformanceHeader.html">MusicPerformanceHeader</a></li><li><a href="PracticeMusicHeader.html">PracticeMusicHeader</a></li></ul></div><div class="category"><h2>MusicSelection</h2><h3>Modules</h3><ul><li><a href="module-musicCardColorOptions.html">musicCardColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="MusicCard.html">MusicCard</a></li><li><a href="MusicSelection.html">MusicSelection</a></li></ul></div><div class="category"><h2>PageHeader</h2><h3>Components</h3><ul><li><a href="PageHeader.html">PageHeader</a></li></ul></div><div class="category"><h2>Primary</h2><h3>Components</h3><ul><li><a href="Primary.html">Primary</a></li></ul></div><div class="category"><h2>Progress</h2><h3>Components</h3><ul><li><a href="Progress.html">Progress</a></li></ul></div><div class="category"><h2>Redux</h2><h3>Modules</h3><ul><li><a href="module-reduxActionTypes.html">reduxActionTypes</a></li><li><a href="module-reduxAppActions.html">reduxAppActions</a></li><li><a href="module-reduxAuthActions.html">reduxAuthActions</a></li></ul></div><div class="category"><h2>SideNav</h2><h3>Components</h3><ul><li><a href="SideNav.html">SideNav</a></li><li><a href="SideNavLink.html">SideNavLink</a></li></ul></div><div class="category"><h2>Spinners</h2><h3>Components</h3><ul><li><a href="LoadingContainer.html">LoadingContainer</a></li><li><a href="LoadingHUD.html">LoadingHUD</a></li></ul></div><div class="category"><h2>Startup</h2><h3>Components</h3><ul><li><a href="Startup.html">Startup</a></li></ul></div><div class="category"><h2>Welcome</h2><h3>Components</h3><ul><li><a href="Welcome.html">Welcome</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Components</p>
+                        <h1>MusicControls</h1>
+                    </header>
+                    
+                    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            &ltMusicControls  /&gt
+        </h2>
+        
+            <div class="class-description">Renders the MusicControls component.
+Handles the play, pause, and stop controls for the sheet music.</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <h3 class="title"><span>Constructor</span></h3>
+                <div class="members">
+                    <div class="member">
+
+
+    
+    <h4 class="name" id="MusicControls">
+        <a class="href-link" href="#MusicControls">#</a>
+        
+        <span class="code-name">
+            
+                &ltMusicControls  /&gt
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:danlevy124@gmail.com">Dan Levy</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line27">line 27</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+        
+    
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li>Component</li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Members</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+<h4 class="name" id="getPlayPauseIcon">
+    <a class="href-link" href="#getPlayPauseIcon">#</a>
+    
+    <span class="code-name">
+        getPlayPauseIcon
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Gets a play icon or a pause icon
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line111">line 111</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="state">
+    <a class="href-link" href="#state">#</a>
+    
+    <span class="code-name">
+        state
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    MusicControls component state
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>isPlaying</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">boolean</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last">Indicates if the music is currently playing</td>
+</tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line32">line 32</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Methods</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="componentDidMount">
+        <a class="href-link" href="#componentDidMount">#</a>
+        
+        <span class="code-name">
+            
+                componentDidMount<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Adds an AlphaTab player finished observer
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line39">line 39</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="componentWillUnmount">
+        <a class="href-link" href="#componentWillUnmount">#</a>
+        
+        <span class="code-name">
+            
+                componentWillUnmount<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Removes the AlphaTab player finished observer
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line46">line 46</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="donePlaying">
+        <a class="href-link" href="#donePlaying">#</a>
+        
+        <span class="code-name">
+            
+                donePlaying<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Sets isPlaying to false in state
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line101">line 101</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="playPauseButtonHandler">
+        <a class="href-link" href="#playPauseButtonHandler">#</a>
+        
+        <span class="code-name">
+            
+                playPauseButtonHandler<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Plays or pauses the music
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line54">line 54</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="render">
+        <a class="href-link" href="#render">#</a>
+        
+        <span class="code-name">
+            
+                render<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Renders the MusicControls component
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line138">line 138</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="stopButtonHandler">
+        <a class="href-link" href="#stopButtonHandler">#</a>
+        
+        <span class="code-name">
+            
+                stopButtonHandler<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Stops the music
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html">components/Music/PracticeMusicHeader/MusicControls/MusicControls.js</a>, <a href="components_Music_PracticeMusicHeader_MusicControls_MusicControls.js.html#line89">line 89</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Apr 14 2020 18:25:08 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

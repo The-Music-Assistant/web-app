@@ -1,15 +1,6 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/PracticeMain/PracticeMusicHeader/PracticeMusicHeader.js
-// Description: Renders the PracticeMusicHeader component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 10/28/2019
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 
 // Component imports
 import MusicControls from "./MusicControls/MusicControls";
@@ -20,14 +11,25 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import * as selectInputColorOptions from "../../FormInputs/SelectInput/selectInputColorOptions";
 import * as buttonTypes from "../../Buttons/buttonTypes";
 import * as rectButtonColorOptions from "../../Buttons/RectangularButton/rectangularButtonColorOptions";
-import * as musicOptions from "../../Music/musicOptions";
+import * as musicViewOptions from "../../Music/musicViewOptions";
 
 // Style imports
 import styles from "./PracticeMusicHeader.module.scss";
 
+/**
+ * Renders the PracticeMusicHeader component.
+ * This component is used when a user is practicing music or practicing an exercise.
+ * @component
+ * @category Music
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
 const PracticeMusicHeader = (props) => {
+    /**
+     * Gets the correct component for the left side of the header
+     */
     const getPartSelectionDropdownOrPracticeMusicButton = () => {
-        return props.pageType === musicOptions.PRACTICE ? (
+        return props.currentView === musicViewOptions.PRACTICE ? (
+            // Returns a part selection dropdown
             <SelectInput
                 value={props.currentPart}
                 name="part-selection"
@@ -36,6 +38,7 @@ const PracticeMusicHeader = (props) => {
                 onChange={props.onPartChange}
             />
         ) : (
+            // Returns a button that links to practice view
             <RectangularButton
                 type={buttonTypes.BUTTON}
                 value="practice"
@@ -46,11 +49,16 @@ const PracticeMusicHeader = (props) => {
         );
     };
 
-    // Returns the JSX to display
+    // Returns the JSX to render
     return (
         <div className={styles.PracticeMusicHeader}>
+            {/* Left side dropdown or button */}
             {getPartSelectionDropdownOrPracticeMusicButton()}
+
+            {/* Music controls */}
             <MusicControls />
+
+            {/* A button that links to the performance view */}
             <div className={styles.PracticeMusicHeaderViewPerformanceButton}>
                 <RectangularButton
                     type={buttonTypes.BUTTON}
@@ -66,16 +74,39 @@ const PracticeMusicHeader = (props) => {
 
 // Prop types for the PracticeMusicHeader component
 PracticeMusicHeader.propTypes = {
-    pageType: PropTypes.oneOf([
-        musicOptions.PRACTICE,
-        musicOptions.PERFORMANCE,
-        musicOptions.EXERCISE,
+    /**
+     * The current music view
+     * NOTE: The PERFORMANCE value is not allowed here because this component does not handle that case
+     */
+    currentView: PropTypes.oneOf([
+        musicViewOptions.PRACTICE,
+        musicViewOptions.EXERCISE,
     ]),
+
+    /**
+     * The currently selected part (track) of the sheet music (e.g. Alto)
+     */
     currentPart: PropTypes.string,
+
+    /**
+     * The list of all available parts (tracks) for the sheet music
+     */
     partList: PropTypes.arrayOf(PropTypes.string),
+
+    /**
+     * Part change handler
+     */
     onPartChange: PropTypes.func,
+
+    /**
+     * Switch to practice handler
+     */
     switchToPractice: PropTypes.func,
+
+    /**
+     * Switch to performance handler
+     */
     switchToPerformance: PropTypes.func.isRequired,
 };
 
-export default withRouter(PracticeMusicHeader);
+export default PracticeMusicHeader;

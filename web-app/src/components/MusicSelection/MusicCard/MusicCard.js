@@ -16,6 +16,7 @@ import styles from "./MusicCard.module.scss";
 /**
  * Renders the MusicCard component
  * @component
+ * @category MusicSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const MusicCard = (props) => {

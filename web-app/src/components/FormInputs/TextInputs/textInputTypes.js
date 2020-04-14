@@ -2,6 +2,7 @@
  * Text input types.
  * These types are based on the HTML input type attribute.
  * @module textInputTypes
+ * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

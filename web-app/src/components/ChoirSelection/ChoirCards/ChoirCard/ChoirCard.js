@@ -18,6 +18,7 @@ import cardColorStyles from "../ChoirCardColors.module.scss";
  * Shows information about the choir.
  * @extends {Component}
  * @component
+ * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
 class ChoirCard extends Component {

@@ -11,6 +11,7 @@ import styles from "./LoadingContainer.module.scss";
  * This component takes up the entire width and height of its parent component.
  * This component is typically used when loading a page of data (e.g. a list of users).
  * @component
+ * @category Spinners
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const LoadingContainer = (props) => {

@@ -16,6 +16,7 @@ import styles from "./Header.module.scss";
  * Renders the Header component.
  * @extends {Component}
  * @component
+ * @category Header
  * @author Dan Levy <danlevy124@gmail.com>
  */
 class Header extends Component {

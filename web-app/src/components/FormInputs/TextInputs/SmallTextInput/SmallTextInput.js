@@ -11,6 +11,7 @@ import styles from "./SmallTextInput.module.scss";
 /**
  * Renders the SmallTextInput component
  * @component
+ * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const SmallTextInput = (props) => {

@@ -14,8 +14,9 @@ import styles from "./TextButton.module.scss";
 
 /**
  * Renders the TextButton component
- * @author Dan Levy <danlevy124@gmail.com>
  * @component
+ * @category Buttons
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 const TextButton = (props) => {
     // Returns the JSX to render
