@@ -11,6 +11,7 @@ import styles from "./MobileNavLink.module.scss";
  * @component
  * @author Dan Levy <danlevy124@gmail.com>
  */
+// TODO: This component should be split into a two components: (1) mobile nav link and (2) mobile nav sign out link
 const MobileNavLink = (props) => {
     /**
      * Gets a tab line if this MobileNavLink instance is the current tab

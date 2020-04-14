@@ -177,7 +177,10 @@ class SelectInput extends Component {
      * @param {number} - The index of the option clicked
      */
     optionButtonClickedHandler = (index) => {
-        this.props.onChange(index, this.props.options[index]);
+        // Only call the onClick function if the selected value is different than the current value
+        if (this.state.value !== this.props.options[index]) {
+            this.props.onChange(index, this.props.options[index]);
+        }
 
         this.setState({ showDropdown: false });
     };

@@ -20,14 +20,14 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import * as selectInputColorOptions from "../../FormInputs/SelectInput/selectInputColorOptions";
 import * as buttonTypes from "../../Buttons/buttonTypes";
 import * as rectButtonColorOptions from "../../Buttons/RectangularButton/rectangularButtonColorOptions";
-import * as musicPageOptions from "../../Music/musicPageOptions";
+import * as musicOptions from "../../Music/musicOptions";
 
 // Style imports
 import styles from "./PracticeMusicHeader.module.scss";
 
 const PracticeMusicHeader = (props) => {
     const getPartSelectionDropdownOrPracticeMusicButton = () => {
-        return props.pageType === musicPageOptions.PRACTICE ? (
+        return props.pageType === musicOptions.PRACTICE ? (
             <SelectInput
                 value={props.currentPart}
                 name="part-selection"
@@ -67,9 +67,9 @@ const PracticeMusicHeader = (props) => {
 // Prop types for the PracticeMusicHeader component
 PracticeMusicHeader.propTypes = {
     pageType: PropTypes.oneOf([
-        musicPageOptions.PRACTICE,
-        musicPageOptions.PERFORMANCE,
-        musicPageOptions.EXERCISE,
+        musicOptions.PRACTICE,
+        musicOptions.PERFORMANCE,
+        musicOptions.EXERCISE,
     ]),
     currentPart: PropTypes.string,
     partList: PropTypes.arrayOf(PropTypes.string),

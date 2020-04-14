@@ -1,19 +1,17 @@
-// ----------------------------------------------------------------------------
-// File Path: src/components/SideNav/SideNavLink/SideNavLink.module.scss
-// Description: Renders the side navigation link component
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 10/23/2019
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Style imports
 import styles from "./SideNavLink.module.scss";
 
+/**
+ * Renders the SideNavLink component
+ * @component
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+// TODO: This component should be split into a two components: (1) side nav link and (2) side nav sign out link
 const SideNavLink = (props) => {
     // The component to render
     let component;
@@ -26,11 +24,14 @@ const SideNavLink = (props) => {
                 type="button"
                 onClick={props.onClick}
             >
+                {/* Tab icon */}
                 <img
                     className={styles.sideNavLinkIcon}
                     src={props.icon}
                     alt={props.name + " Icon"}
                 />
+
+                {/* Tab name */}
                 <h3
                     className={`${styles.sideNavLinkName} ${styles.sideNavLinkNameWhiteText}`}
                 >
@@ -42,6 +43,7 @@ const SideNavLink = (props) => {
         const currentTabStyle = props.isCurrentTab
             ? styles.sideNavLinkCurrentTab
             : "";
+
         const textColorStyle = props.isCurrentTab
             ? styles.sideNavLinkNameBlueText
             : styles.sideNavLinkNameWhiteText;
@@ -53,11 +55,14 @@ const SideNavLink = (props) => {
                 to={props.route}
                 onClick={props.onClick}
             >
+                {/* Tab icon */}
                 <img
                     className={styles.sideNavLinkIcon}
                     src={props.icon}
                     alt={props.name + " Icon"}
                 />
+
+                {/* Tab name */}
                 <h3 className={`${styles.sideNavLinkName} ${textColorStyle}`}>
                     {props.name}
                 </h3>
@@ -65,17 +70,41 @@ const SideNavLink = (props) => {
         );
     }
 
-    // Returns the component to display
+    // Returns the JSX to render
     return component;
 };
 
 // Prop types for the SideNavLink component
 SideNavLink.propTypes = {
+    /**
+     * Indicates if the tab is the currently selected tab
+     */
     isCurrentTab: PropTypes.bool,
+
+    /**
+     * The tab name
+     */
     name: PropTypes.string.isRequired,
+
+    /**
+     * The tab icon
+     */
     icon: PropTypes.string.isRequired,
+
+    /**
+     * Where to route if the tab is clicked on
+     */
     route: PropTypes.string,
+
+    /**
+     * Click handler
+     */
     onClick: PropTypes.func.isRequired,
+
+    /**
+     * Indicates if the link is a sign out link
+     */
+    isSignOutLink: PropTypes.bool.isRequired,
 };
 
-export default withRouter(SideNavLink);
+export default SideNavLink;

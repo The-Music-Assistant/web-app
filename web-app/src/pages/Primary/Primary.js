@@ -276,8 +276,8 @@ class Primary extends Component {
             return (
                 <SideNav
                     tabs={this.state.mainNavTabs}
-                    signOutClicked={this.signOutClickedHandler}
-                    navLinkClicked={this.navLinkClickedHandler}
+                    onNavLinkClick={this.navLinkClickedHandler}
+                    onSignOutClick={this.signOutClickedHandler}
                     copyrightYear={this._COPYRIGHT_YEAR}
                     versionNumber={this._VERSION_NUMBER}
                 />

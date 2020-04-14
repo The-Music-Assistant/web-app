@@ -174,7 +174,9 @@ class Auth extends Component {
                 className={styles.auth}
                 style={{ minHeight: `${this.state.windowInnerHeight}px` }}
             >
-                {this.state.isLoading ? <LoadingHUD text="Loading..." /> : null}
+                {this.state.isLoading ? (
+                    <LoadingHUD message="Loading..." />
+                ) : null}
                 {this.state.alertData ? (
                     <AlertBar
                         type={this.state.alertData.type}

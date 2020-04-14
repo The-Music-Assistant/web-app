@@ -69,7 +69,7 @@ MobileNav.propTypes = {
     show: PropTypes.bool.isRequired,
 
     /**
-     * Mobile nav links
+     * Mobile nav tabs
      */
     tabs: PropTypes.arrayOf(
         PropTypes.exact({
