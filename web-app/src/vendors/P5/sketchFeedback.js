@@ -135,6 +135,13 @@ const p5FeedbackSketch = (p) => {
                 alphaTabSurface.clientWidth - previousPos[0],
                 alphaTabSurface.clientHeight
             );
+    
+            if (previousPos[2] !== -1) {
+                // If there is any confusion in the player then this will help keep the drawing at the right height
+                if (previousPos[0] < previousPos[2]) {
+                    updateDrawerLines();
+                }
+            }
 
             if (previousPos[2] !== -1) {
                 // If there is any confusion in the player then this will help keep the drawing at the right height

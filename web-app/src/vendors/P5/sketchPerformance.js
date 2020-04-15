@@ -96,6 +96,22 @@ const p5PerformanceSketch = (p) => {
         }
     };
 
+    const setDrawColor = (measureNumber) => {
+        let measureIndex = measureNumber - 1;
+        if (atVars.texLoaded && measureIndex < atVars.texLoaded.performanceProgress.length && measureIndex >= 0) {
+            let score = atVars.texLoaded.performanceProgress[measureIndex];
+            if (score > 90) {
+                p.fill(0, 255, 0);
+            } else if (score > 80) {
+                p.fill(255, 255, 0);
+            } else {
+                p.fill(255, 0, 0);
+            }
+        } else {
+            p.fill(255, 0, 0);
+        }
+    }
+
     /**
      * Draws the canvas on the screen. Requires that the canvas is not undefined ie setup has run
      * TODO: Handle sheet music scale

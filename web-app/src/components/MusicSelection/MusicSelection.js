@@ -200,6 +200,7 @@ class MusicSelection extends Component {
                             musicPiece.sheet_music_id
                         )
                     }
+                    shouldShowViewPerformancesButton={this.props.doesUserGetFeedback}
                 />
             );
         });
