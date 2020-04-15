@@ -131,14 +131,7 @@ ChoirCard.propTypes = {
      * The card's background color.
      * See [options]{@link module:choirCardColorOptions}.
      */
-    cardColor: PropTypes.oneOf([
-        colorOptions.PRIMARY_BLUE,
-        colorOptions.SECONDARY_BLUE,
-        colorOptions.TERTIARY_BLUE,
-        colorOptions.GREEN,
-        colorOptions.ORANGE,
-        colorOptions.RED,
-    ]).isRequired,
+    cardColor: PropTypes.oneOf(Object.values(colorOptions)).isRequired,
 
     /**
      * Click handler for the card

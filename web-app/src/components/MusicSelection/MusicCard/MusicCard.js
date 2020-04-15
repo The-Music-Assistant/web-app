@@ -72,7 +72,7 @@ MusicCard.propTypes = {
      * The background color of the card.
      * See [options]{@link module:musicCardColorOptions}.
      */
-    cardColor: PropTypes.oneOf(Object.values(cardColorOptions)),
+    cardColor: PropTypes.oneOf(Object.values(cardColorOptions)).isRequired,
 
     /**
      * Click handler for viewing (i.e. practicing) the song

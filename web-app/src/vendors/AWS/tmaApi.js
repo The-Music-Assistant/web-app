@@ -10,7 +10,7 @@ import axios from "axios";
  */
 
 // Sets the base URL for the server
-axios.defaults.baseURL = process.env.SERVER_BASE_URL;
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_BASE_URL;
 
 /**
  * Sets the Axios auth token.

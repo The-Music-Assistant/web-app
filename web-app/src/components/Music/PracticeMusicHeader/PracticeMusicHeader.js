@@ -76,12 +76,8 @@ const PracticeMusicHeader = (props) => {
 PracticeMusicHeader.propTypes = {
     /**
      * The current music view
-     * NOTE: The PERFORMANCE value is not allowed here because this component does not handle that case
      */
-    currentView: PropTypes.oneOf([
-        musicViewOptions.PRACTICE,
-        musicViewOptions.EXERCISE,
-    ]),
+    currentView: PropTypes.oneOf(Object.values(musicViewOptions)),
 
     /**
      * The currently selected part (track) of the sheet music (e.g. Alto)

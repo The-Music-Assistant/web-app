@@ -144,7 +144,7 @@ class MusicControls extends Component {
                     type="button"
                     onClick={this.playPauseButtonHandler}
                 >
-                    {this.getPlayPauseButtonImgElement()}
+                    {this.getPlayPauseIcon()}
                 </button>
 
                 {/* Stop Button */}

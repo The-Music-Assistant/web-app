@@ -7,22 +7,10 @@
  */
 
 /**
- * Primary blue color
- * @type {string}
- */
-export const PRIMARY_BLUE = "primaryBlue";
-
-/**
  * Secondary blue color
  * @type {string}
  */
 export const SECONDARY_BLUE = "secondaryBlue";
-
-/**
- * Tertiary blue color
- * @type {string}
- */
-export const TERTIARY_BLUE = "tertiaryBlue";
 
 /**
  * Green color
@@ -31,10 +19,22 @@ export const TERTIARY_BLUE = "tertiaryBlue";
 export const GREEN = "green";
 
 /**
+ * Primary blue color
+ * @type {string}
+ */
+export const PRIMARY_BLUE = "primaryBlue";
+
+/**
  * Orange color
  * @type {string}
  */
 export const ORANGE = "orange";
+
+/**
+ * Tertiary blue color
+ * @type {string}
+ */
+export const TERTIARY_BLUE = "tertiaryBlue";
 
 /**
  * Red color
