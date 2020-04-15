@@ -1,6 +1,7 @@
 /**
  * @class
  * @classdesc Encapsulates information about the currently loaded AlphaTex
+ * @category AlphaTab
  * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class TexLoaded {
@@ -25,27 +26,86 @@ class TexLoaded {
         measureEnd,
         sheetMusicId
     ) {
+        /**
+         * TODO: Description
+         */
         this.typeOfTex = typeOfTex;
+
+        /**
+         * TODO: Description
+         */
         this.partNames = partNames;
+
+        /**
+         * TODO: Description
+         */
         this.myPart = myPart;
+
+        /**
+         * TODO: Description
+         */
         this.mutedTracks = [];
+
+        /**
+         * TODO: Description
+         */
         this.clefs = clefs;
         if (this.clefs) {
             this.clefs.forEach((track) => {
                 for (let i = 0; i < track.length; i++) {
                     track[i] = track[i].toLowerCase();
                 }
+
+                /**
+                 * TODO: Description
+                 */
                 this.mutedTracks.push(false);
             });
         }
+
+        /**
+         * TODO: Description
+         */
         this.currentTrackIndexes = [0];
+
+        /**
+         * TODO: Description
+         */
         this.firstBarMeasurePosition = null;
+
+        /**
+         * TODO: Description
+         */
         this.measureLengths = null;
+
+        /**
+         * TODO: Description
+         */
         this.lengthsPerSection = null;
+
+        /**
+         * TODO: Description
+         */
         this.id = id;
+
+        /**
+         * TODO: Description
+         */
         this.measureStart = measureStart;
+
+        /**
+         * TODO: Description
+         */
         this.measureEnd = measureEnd;
+
+        /**
+         * TODO: Description
+         */
         this.performanceId = null;
+
+        /**
+         * TODO: Description
+         */
         this.sheetMusicId = sheetMusicId;
     }
 

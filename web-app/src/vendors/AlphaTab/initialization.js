@@ -6,6 +6,7 @@ import * as listeners from "./listeners";
 /**
  * Initializes AlphaTab (triggers AlphaTab to display sheet music)
  * @module alphaTabInitialization
+ * @category AlphaTab
  * @author Daniel Griessler <dgriessler20@gmail.com>
  * @author Dan Levy <danlevy124@gmail.com>
  */

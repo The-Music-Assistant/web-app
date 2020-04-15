@@ -3,6 +3,7 @@
  * Ends pitch detection.
  * Removes the P5 drawing object.
  * @module alphaTabDestruction
+ * @category AlphaTab
  * @author Daniel Griessler <dgriessler20@gmail.com>
  * @author Dan Levy <danlevy124@gmail.com>
  */

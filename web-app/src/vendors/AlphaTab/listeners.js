@@ -13,6 +13,7 @@ import * as playerStates from "./playerStates";
 /**
  * Functions called when an AlphaTab listener is triggered
  * @module alphaTabListeners
+ * @category AlphaTab
  * @author Daniel Griessler <dgriessler20@gmail.com>
  * @author Dan Levy <danlevy124@gmail.com>
  */

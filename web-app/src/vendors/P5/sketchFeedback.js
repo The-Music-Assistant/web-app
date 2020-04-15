@@ -5,6 +5,7 @@ import * as sketchBehaviors from "./sketchBehaviors";
 /**
  * P5 sketch wrapper for real time feedback
  * @module sketchFeedback
+ * @category P5
  * @author Daniel Griessler <dgriessler20@gmail.com>
  * @author Dan Levy <danlevy124@gmail.com>
  */

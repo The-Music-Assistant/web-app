@@ -4,6 +4,7 @@ import Pitch from "../ML5/PitchDetection/Pitch";
 /**
  * @class
  * @classdesc Encapsulates performance data
+ * @category AlphaTab
  * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class PerformanceData {
@@ -11,6 +12,9 @@ class PerformanceData {
      * Creates a PerformanceData object
      */
     constructor() {
+        /**
+         * TODO: Description
+         */
         this.pitches = [];
     }
 

@@ -4,11 +4,12 @@ import PerformanceData from "./PerformanceData";
 /**
  * @class
  * @classdesc Keeps a list of midi values to serve as a sample of the MAX_SIZE last midi values heard
+ * @category AlphaTab
  * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class NoteList {
     /**
-     * Maximum size
+     * TODO: Description
      * @type {number}
      */
     MAX_SIZE = 5;
@@ -18,12 +19,39 @@ class NoteList {
      * @param {Number} element Initial midi value to be stored in the list of values
      */
     constructor(element) {
+        /**
+         * TODO: Description
+         */
         this.performanceData = new PerformanceData();
+
+        /**
+         * TODO: Description
+         */
         this.elements = [element];
+
+        /**
+         * TODO: Description
+         */
         this.pointer = 0;
+
+        /**
+         * TODO: Description
+         */
         this.total = element;
+
+        /**
+         * TODO: Description
+         */
         this.average = element;
+
+        /**
+         * TODO: Description
+         */
         this.lowerPitchBound = 21;
+
+        /**
+         * TODO: Description
+         */
         this.upperPitchBound = 127;
     }
 

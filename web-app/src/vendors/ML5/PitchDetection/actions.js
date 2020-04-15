@@ -14,6 +14,7 @@ import * as playerStates from "../../AlphaTab/playerStates";
  * Pitch detection actions.
  * For initialization and destruction of ML5 pitch detection, see [initialization]{@link module:pitchDetectionInitialization} and [destruction]{@link module:pitchDetectionTabDestruction}.
  * @module pitchDetectionActions
+ * @category PitchDetection
  * @author Daniel Griessler <dgriessler20@gmail.com>
  * @author Dan Levy <danlevy124@gmail.com>
  */
@@ -22,7 +23,7 @@ import * as playerStates from "../../AlphaTab/playerStates";
  * Checks if pitch detection is available.
  * As part of the check, also checks if the microphone is available.
  * @function
- * @returns {boolean} True if pitch detection is available; false otherwise
+ * @returns {boolean} Indicates if pitch detection (which includes the microphone) is available
  */
 export const isPitchDetectionAvailable = () => {
     if (

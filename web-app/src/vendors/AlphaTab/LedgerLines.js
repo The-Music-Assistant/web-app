@@ -1,6 +1,7 @@
 /**
  * Utility for getting the octave of a note and counting how many ledger lines are needed
  * @module ledgerLines
+ * @category AlphaTab
  * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 

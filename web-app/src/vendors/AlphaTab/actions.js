@@ -17,7 +17,8 @@ import atVars from "./variables";
 /**
  * AlphaTab actions.
  * For initialization and destruction of AlphaTab, see [initialization]{@link module:alphaTabInitialization} and [destruction]{@link module:alphaTabDestruction}.
- * @module actions
+ * @module alphaTabActions
+ * @category AlphaTab
  * @author Daniel Griessler <dgriessler20@gmail.com>
  * @author Dan Levy <danlevy124@gmail.com>
  */
@@ -65,14 +66,13 @@ export const startPlayingMusic = () => {
  * @function
  */
 export const stopPlayingMusic = () => {
-    if (atVars.api !== null) {
-        if (atVars.playerState === playerStates.PLAYING) {
-            // Stops the player
-            atVars.playerState = playerStates.PENDING_STOP;
-            atVars.api.stop();
-        }
+    if (atVars.api !== null && atVars.playerState === playerStates.PLAYING) {
+        // Stops the player
+        atVars.playerState = playerStates.PENDING_STOP;
+        atVars.api.stop();
     }
 
+    // Resets values
     atVars.noteStreamIndex = 0;
     atVars.cumulativeTime = 0;
 };

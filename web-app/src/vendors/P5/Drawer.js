@@ -4,6 +4,7 @@ import { getNumberOfLedgerLines, getOctave } from "../AlphaTab/ledgerLines";
 /**
  * @class
  * @classdesc Keeps track of current note and where to draw it on the screen along with special information such as number of extra ledger lines
+ * @category P5
  * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class Drawer {

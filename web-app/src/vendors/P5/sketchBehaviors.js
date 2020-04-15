@@ -1,6 +1,7 @@
 /**
  * Options for sketches
  * @module sketchBehaviors
+ * @category P5
  * @author Dan Levy <danlevy124@gmail.com>
  */
 

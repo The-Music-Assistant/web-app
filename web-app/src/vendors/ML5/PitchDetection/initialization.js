@@ -4,6 +4,7 @@ import ptVars from "./variables";
 /**
  * Pitch detection initialization
  * @module pitchDetectionInitialization
+ * @category PitchDetection
  * @author Daniel Griessler <dgriessler20@gmail.com>
  * @author Dan Levy <danlevy124@gmail.com>
  */

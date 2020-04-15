@@ -1,6 +1,7 @@
 /**
  * @class
  * @classdesc Encapsulates a recorded pitch
+ * @category PitchDetection
  * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class Pitch {

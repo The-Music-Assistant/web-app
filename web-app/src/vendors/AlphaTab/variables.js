@@ -4,6 +4,7 @@ import * as sketchBehaviors from "../P5/sketchBehaviors";
 /**
  * @class
  * @classdesc AlphaTab variables
+ * @category alphaTabVariables
  * @author Daniel Griessler <dgriessler20@gmail.com>
  * @author Dan Levy <danlevy124@gmail.com>
  */
