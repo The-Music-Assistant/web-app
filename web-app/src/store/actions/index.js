@@ -1,10 +1,9 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/store/actions/index.js
-// Description: Exports needed Redux actions
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 12/31/2019
----------------------------------------------------------------------------- */
+/**
+ * All public Redux actions available from one file
+ * @module reduxActionsIndex
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
 
 export { setBrowserType } from "./app";
 

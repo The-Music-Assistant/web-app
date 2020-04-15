@@ -1,14 +1,7 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/ML5/PitchDetection/Pitch.js
-// Description: Encapsulates a recorded pitch
-// Author: Daniel Griessler
-// Email: dgriessler20@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
 /**
  * @class
  * @classdesc Encapsulates a recorded pitch
+ * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class Pitch {
     /**

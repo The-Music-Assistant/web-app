@@ -1,17 +1,10 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/ML5/PitchDetection/variables.js
-// Description: Pitch Detection variables
-// Author: Daniel Griessler & Dan Levy
-// Email: dgriessler20@gmail.com & danlevy124@gmail.com
-// Created Date: 3/7/2020
-// ----------------------------------------------------------------------------
-
 // NPM module imports
 import ml5 from "ml5";
 
 /**
  * @class
  * @classdesc Pitch Detection variables
+ * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class PitchDetectionVariables {
     audioContext;

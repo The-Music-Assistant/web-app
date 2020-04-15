@@ -1,17 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/ML5/PitchDetection/actions.js
-// Description: Pitch detection actions
-// Author: Dan Levy & Daniel Griessler
-// Email: danlevy124@gmail.com & dgriessler20@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
-/**
- * Pitch detection actions
- * @module actions
- * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
- */
-
 // File imports
 import atVars from "../../AlphaTab/variables";
 import ptVars from "./variables";
@@ -25,8 +11,17 @@ import { sheetMusicError } from "../../Firebase/logs";
 import * as playerStates from "../../AlphaTab/playerStates";
 
 /**
- * Checks if pitch detection is available
- * As part of the check, also checks if the microphone is available
+ * Pitch detection actions.
+ * For initialization and destruction of ML5 pitch detection, see [initialization]{@link module:pitchDetectionInitialization} and [destruction]{@link module:pitchDetectionTabDestruction}.
+ * @module pitchDetectionActions
+ * @author Daniel Griessler <dgriessler20@gmail.com>
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Checks if pitch detection is available.
+ * As part of the check, also checks if the microphone is available.
+ * @function
  * @returns {boolean} True if pitch detection is available; false otherwise
  */
 export const isPitchDetectionAvailable = () => {
@@ -45,6 +40,7 @@ export const isPitchDetectionAvailable = () => {
 
 /**
  * Continuously detects pitch and displays it on the screen
+ * @function
  * @returns {string} The id of the current setInterval process (this can be used to stop the current setInterval process)
  */
 export const startPitchDetection = () => {
@@ -59,6 +55,7 @@ export const startPitchDetection = () => {
 
 /**
  * Sends performance information to the database for the current page
+ * @function
  */
 export const pageTurn = async () => {
     let sheetMusicId = atVars.texLoaded.sheetMusicId;
@@ -114,7 +111,8 @@ export const pageTurn = async () => {
 };
 
 /**
- * Watches the music and turns the page when the performer is close to the end of the current page.
+ * Watches the music and turns the page when the performer is close to the end of the current page
+ * @function
  * @param {number} currentSectionIndex The starting section index
  * @param {number} currentCount The starting time position
  */
@@ -155,6 +153,7 @@ const pageWatch = (currentSectionIndex, currentCount) => {
 
 /**
  * Listens to the singer updating the stored performance information and drawing real time feedback
+ * @function
  */
 export const listen = () => {
     if (atVars.playerState === 1) {
@@ -182,6 +181,7 @@ export const listen = () => {
 
 /**
  * Displays the frequency as a midi value on the piece of music
+ * @function
  * @param {number} frequency The frequency to convert and display
  */
 export const displayMidi = (frequency) => {
@@ -207,6 +207,7 @@ export const displayMidi = (frequency) => {
 
 /**
  * Stops the pitch detection
+ * @function
  * @param {string} sheetMusicId The id of the sheet music to submit the performance
  */
 export const stopPitchDetection = async (sheetMusicId) => {

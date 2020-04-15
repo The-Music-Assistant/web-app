@@ -1,16 +1,23 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/store/actions/startup.js
-// Description: Startup Redux actions
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/23/2020
----------------------------------------------------------------------------- */
-
 // File imports
 import * as actionTypes from "./actionTypes";
 
 /**
- * Returns STARTUP_DONE action type
+ * Redux startup actions
+ * @module reduxStartupActions
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Return object for the startupDone function
+ * @typedef StartupDoneReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Indicates that the app startup is done
+ * @function
+ * @returns {module:reduxStartupActions~StartupDoneReturnObject}
  */
 export const startupDone = () => {
     return {

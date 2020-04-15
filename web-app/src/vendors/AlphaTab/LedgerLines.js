@@ -1,19 +1,14 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/AlphaTab/LedgerLines.js
-// Description: Utility for getting the octave of a note and counting how many ledger lines are needed
-// Author: Daniel Griessler
-// Email: dgriessler20@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
 /**
  * Utility for getting the octave of a note and counting how many ledger lines are needed
- * @module LedgerLines
+ * @module ledgerLines
  * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 
-// Cycle always goes C C# D D# E F F# G G# A A# B repeated twice, once for when C is on line first and once when C on space first
-// Starting at C on line, walk up by half steps and this is how many ledger lines are needed
+/**
+ * Cycle always goes C C# D D# E F F# G G# A A# B repeated twice, once for when C is on line first and once when C on space first
+ * Starting at C on line, walk up by half steps and this is how many ledger lines are needed
+ * @type {array}
+ */
 const HALF_STEP_CYCLE_UP_START_C = [
     1,
     1,
@@ -40,7 +35,11 @@ const HALF_STEP_CYCLE_UP_START_C = [
     7,
     7,
 ];
-// Starting at A on line, walk up by half steps and this is how many ledger lines are needed
+
+/**
+ * Starting at A on line, walk up by half steps and this is how many ledger lines are needed
+ * @type {array}
+ */
 const HALF_STEP_CYCLE_UP_START_A = [
     2,
     2,
@@ -67,7 +66,11 @@ const HALF_STEP_CYCLE_UP_START_A = [
     1,
     1,
 ];
-// Starting at C on line, walk down by half steps and this is how many ledger lines are needed
+
+/**
+ * Starting at C on line, walk down by half steps and this is how many ledger lines are needed
+ * @type {array}
+ */
 const HALF_STEP_CYCLE_DOWN_START_C = [
     1,
     1,
@@ -94,7 +97,11 @@ const HALF_STEP_CYCLE_DOWN_START_C = [
     2,
     1,
 ];
-// Starting at E on line, walk down by half steps and this is how many ledger lines are needed
+
+/**
+ * Starting at E on line, walk down by half steps and this is how many ledger lines are needed
+ * @type {array}
+ */
 const HALF_STEP_CYCLE_DOWN_START_E = [
     2,
     2,
@@ -125,6 +132,7 @@ const HALF_STEP_CYCLE_DOWN_START_E = [
 /**
  * Calculates the number of ledger lines at the provided midi
  * Assumes that you are asking when you need at least 1
+ * @function
  * @param {number} midi - Midi value of current note
  * @param {String} direction - Expected to either be "up" or "down" case insensitive
  * @param {String} start - Expected to be either "c" for the bass clef or "a" for the treble clef case insensitive
@@ -165,6 +173,7 @@ export const getNumberOfLedgerLines = (midi, direction, start) => {
 
 /**
  * Gets the octave of the current note
+ * @function
  * @returns {number} The octave of the current note
  */
 export const getOctave = (midi) => {

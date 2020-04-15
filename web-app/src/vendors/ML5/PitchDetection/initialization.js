@@ -1,22 +1,16 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/ML5/PitchDetection/initialization.js
-// Description: Pitch detection initialization
-// Author: Dan Levy & Daniel Griessler
-// Email: danlevy124@gmail.com & dgriessler20@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
-/**
- * Pitch detection initialization
- * @module initialization
- * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
- */
-
 // File imports
 import ptVars from "./variables";
 
 /**
+ * Pitch detection initialization
+ * @module pitchDetectionInitialization
+ * @author Daniel Griessler <dgriessler20@gmail.com>
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
  * Sets up pitch detection
+ * @function
  */
 const setupPitchDetection = () => {
     return new Promise((resolve, reject) => {

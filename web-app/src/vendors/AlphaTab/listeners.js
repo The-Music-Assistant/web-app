@@ -1,17 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/AlphaTab/listeners.js
-// Description: Functions called when an AlphaTab listener is triggered
-// Author: Daniel Griessler & Dan Levy
-// Email: dgriessler20@gmail.com & danlevy124@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
-/**
- * Functions called when an AlphaTab listener is triggered
- * @module listeners
- * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
- */
-
 // File imports
 import atVars from "./variables";
 import { startPlayingMusic } from "./actions";
@@ -25,7 +11,15 @@ import { stopPitchDetection } from "../ML5/PitchDetection/actions";
 import * as playerStates from "./playerStates";
 
 /**
+ * Functions called when an AlphaTab listener is triggered
+ * @module alphaTabListeners
+ * @author Daniel Griessler <dgriessler20@gmail.com>
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
  * Run when AlphaTab is rendered on the screen
+ * @function
  */
 export const alphaTabPostRenderFinished = () => {
     // All users get feedback
@@ -45,6 +39,7 @@ export const alphaTabPostRenderFinished = () => {
 
 /**
  * Handles changes to AlphaTab's player state
+ * @function
  */
 export const alphaTabPlayerStateChanged = () => {
     // Due to our page turns, the AlphaTex is re rendered and the player state is automatically "stopped" as part of the re rendering
@@ -70,6 +65,7 @@ export const alphaTabPlayerStateChanged = () => {
 
 /**
  * Resets the time back to the beginning of the song and our tracker points at the beginning of the piece again
+ * @function
  */
 export const alphaTabPlayerFinished = () => {
     atVars.noteStreamIndex = 0;
@@ -78,6 +74,7 @@ export const alphaTabPlayerFinished = () => {
 
 /**
  * During page turns, we only need to update a subset of variables
+ * @function
  */
 const onSubsequentRender = (topLine, nextLine) => {
     // On a re-render, update the top line height and distance between lines which might have changed
@@ -121,6 +118,7 @@ const onSubsequentRender = (topLine, nextLine) => {
 
 /**
  * On the first render, isFirstRender will be false and this will signal an initial setup of the variables
+ * @function
  */
 const onFirstRender = async (topLine, nextLine) => {
     atVars.isFirstRender = false;
@@ -163,6 +161,7 @@ const onFirstRender = async (topLine, nextLine) => {
 
 /**
  * Creates an instance of the of the the drawer
+ * @function
  * @param {object} topLine - The top line DOM element
  * @param {object} nextLine - The next line DOM element
  */
@@ -184,6 +183,7 @@ const initializeFeedbackDrawer = (topLine, nextLine) => {
  * Stops playing the music.
  * Shuts off pitch detection (this does not turn the microphone off).
  * Resets the sheet music (this is due to pagination).
+ * @function
  */
 const stopPlayingMusic = () => {
     // Stops the pitch detection
@@ -204,9 +204,10 @@ const stopPlayingMusic = () => {
 
 /**
  * Gets the top line height and distance between ledger lines based on the sheet music
+ * @function
  * @param {object} topLine
  * @param {object} nextLine
- * @returns {LedgerHeightsPackage} An object containing the top line height and distance between lines
+ * @returns {module:alphaTabListeners~LedgerHeightsPackage} An object containing the top line height and distance between lines
  */
 const getSheetMusicLedgerHeights = (topLine, nextLine) => {
     // Retrieves the height of the staff lines based on a relative offset to their wrapping contanier
@@ -219,8 +220,9 @@ const getSheetMusicLedgerHeights = (topLine, nextLine) => {
 };
 
 /**
- * Clears the p5 drawing for real-time feedback
- * Resets the sheet music back to the beginning
+ * Clears the p5 drawing for real-time feedback.
+ * Resets the sheet music back to the beginning.
+ * @function
  */
 const resetSheetMusic = () => {
     // Clears the p5 drawing

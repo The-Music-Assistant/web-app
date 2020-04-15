@@ -1,14 +1,7 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/AlphaTab/TexLoaded.js
-// Description: Encapsulates information about the currently loaded AlphaTex
-// Author: Daniel Griessler
-// Email: dgriessler20@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
 /**
  * @class
  * @classdesc Encapsulates information about the currently loaded AlphaTex
+ * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class TexLoaded {
     /**

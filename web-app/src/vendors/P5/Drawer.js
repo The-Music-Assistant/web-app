@@ -1,17 +1,10 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/P5/Drawer.js
-// Description: Keeps track of current note and where to draw it on the screen along with special information such as number of extra ledger lines
-// Author: Daniel Griessler
-// Email: dgriessler20@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
 // File imports
-import { getNumberOfLedgerLines, getOctave } from "../AlphaTab/LedgerLines";
+import { getNumberOfLedgerLines, getOctave } from "../AlphaTab/ledgerLines";
 
 /**
  * @class
  * @classdesc Keeps track of current note and where to draw it on the screen along with special information such as number of extra ledger lines
+ * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class Drawer {
     /**

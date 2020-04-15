@@ -1,25 +1,19 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/AlphaTab/initialization.js
-// Description: Initializes AlphaTab (triggers AlphaTab to display sheet music)
-// Author: Daniel Griessler & Dan Levy
-// Email: dgriessler20@gmail.com & danlevy124@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
-/**
- * Initializes AlphaTab (triggers AlphaTab to display sheet music)
- * @module initialization
- * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
- */
-
 // File imports
 import atVars from "./variables";
 import player from "./default.sf2";
 import * as listeners from "./listeners";
 
 /**
- * Initializes the AlphaTab API
- * Displays the piece of music on the screen
+ * Initializes AlphaTab (triggers AlphaTab to display sheet music)
+ * @module alphaTabInitialization
+ * @author Daniel Griessler <dgriessler20@gmail.com>
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Initializes the AlphaTab API.
+ * Displays the piece of music on the screen.
+ * @function
  */
 const initializeAPI = () => {
     atVars.initialize();

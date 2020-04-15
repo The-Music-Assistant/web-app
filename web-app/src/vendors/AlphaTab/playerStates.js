@@ -8,8 +8,9 @@
 
 /**
  * Music player state options
- * @module playerStates
- * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ * @module alphaTabPlayerStates
+ * @author Daniel Griessler <dgriessler20@gmail.com>
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 
 export const STOPPED = 0;

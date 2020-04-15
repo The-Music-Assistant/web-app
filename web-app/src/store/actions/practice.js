@@ -1,18 +1,27 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/store/actions/practice.js
-// Description: Practice tab Redux actions
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/26/2020
----------------------------------------------------------------------------- */
-
 // File imports
 import * as actionTypes from "./actionTypes";
 
 /**
- * Returns the PRACTICE_CHOIR_SELECTED action type, choir id, and choir name
+ * Redux practice tab actions
+ * @module reduxPracticeTabActions
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Return object for the choirSelectedForPractice function
+ * @typedef ChoirSelectedForPracticeReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {string} id - The choir id
+ * @property {string} name - The choir name
+ */
+
+/**
+ * Sets the selected choir for the practice tab
+ * @function
  * @param {string} id - The choir id
  * @param {string} name - The choir name
+ * @returns {module:reduxPracticeTabActions~ChoirSelectedForPracticeReturnObject}
  */
 export const choirSelectedForPractice = (id, name) => {
     return {
@@ -23,8 +32,17 @@ export const choirSelectedForPractice = (id, name) => {
 };
 
 /**
- * Returns the PRACTICE_SONG_SELECTED action type and sheet_music id
+ * Return object for the musicSelectedForPractice function
+ * @typedef MusicSelectedForPracticeReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {string} id - The sheet music id
+ */
+
+/**
+ * Sets the selected choir
+ * @function
  * @param {string} id - The sheet music id
+ * @returns {module:reduxPracticeTabActions~MusicSelectedForPracticeReturnObject}
  */
 export const musicSelectedForPractice = (id) => {
     return {
@@ -34,9 +52,19 @@ export const musicSelectedForPractice = (id) => {
 };
 
 /**
- * Returns the EXERCISE_REQUESTED action type, start measure, and end measure
- * @param {string} startMeasure - The start measure selected
- * @param {string} endMeasure - The end measure selected
+ * Return object for the exerciseRequested function
+ * @typedef ExerciseRequestedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {string} startMeasure - The start measure
+ * @property {string} endMeasure - The end measure
+ */
+
+/**
+ * Requests an exercise
+ * @function
+ * @param {string} startMeasure - The selected start measure
+ * @param {string} endMeasure - The selected end measure
+ * @returns {module:reduxPracticeTabActions~ExerciseRequestedReturnObject}
  */
 export const exerciseRequested = (startMeasure, endMeasure) => {
     return {
@@ -47,7 +75,15 @@ export const exerciseRequested = (startMeasure, endMeasure) => {
 };
 
 /**
- * Returns the EXERCISE_GENERATED action type
+ * Return object for the exerciseGenerated function
+ * @typedef ExerciseGeneratedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Indicates that the exercise has been generated
+ * @function
+ * @returns {module:reduxPracticeTabActions~ExerciseGeneratedReturnObject}
  */
 export const exerciseGenerated = () => {
     return {

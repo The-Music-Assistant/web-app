@@ -149,17 +149,18 @@ export const getUserInfo = () => {
 };
 
 /**
+ * Return object for the startAuthFlow function
+ * @typedef StartAuthFlowReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {module:authFlows} flow - The current auth flow
+ */
+
+/**
  * Starts the auth flow
  * @function
- * @returns {StartAuthFlowReturnObject}
+ * @returns {module:reduxAuthActions~StartAuthFlowReturnObject}
  */
 export const startAuthFlow = (flow) => {
-    /**
-     * Return object for the startAuthFlow function
-     * @typedef StartAuthFlowReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     * @property {module:authFlows} flow - The current auth flow
-     */
     return {
         type: actionTypes.START_AUTH_FLOW,
         flow,
@@ -167,17 +168,18 @@ export const startAuthFlow = (flow) => {
 };
 
 /**
+ * Return object for the changeAuthFlow function
+ * @typedef ChangeAuthFlowReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {module:authFlows} flow - The current auth flow to change to
+ */
+
+/**
  * Changes the auth flow
  * @function
- * @returns {ChangeAuthFlowReturnObject}
+ * @returns {module:reduxAuthActions~ChangeAuthFlowReturnObject}
  */
 export const changeAuthFlow = (flow) => {
-    /**
-     * Return object for the changeAuthFlow function
-     * @typedef ChangeAuthFlowReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     * @property {module:authFlows} flow - The current auth flow to change to
-     */
     return {
         type: actionTypes.CHANGE_AUTH_FLOW,
         flow,
@@ -185,20 +187,21 @@ export const changeAuthFlow = (flow) => {
 };
 
 /**
+ * Return object for the showWelcomePage function
+ * @typedef ShowWelcomePageReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {boolean} isAuthFlowComplete - Indicates if the auth flow is complete
+ */
+
+/**
  * Shows the welcome page.
  * If the auth flow is complete, the welcome page will show immediately.
  * Otherwise, the welcome page will show once the auth flow is complete.
  * @function
  * @param {boolean} isAuthFlowComplete - Indicates if the auth flow is complete
- * @returns {ShowWelcomePageReturnObject}
+ * @returns {module:reduxAuthActions~ShowWelcomePageReturnObject}
  */
 export const showWelcomePage = (isAuthFlowComplete) => {
-    /**
-     * Return object for the showWelcomePage function
-     * @typedef ShowWelcomePageReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     * @property {boolean} isAuthFlowComplete - Indicates if the auth flow is complete
-     */
     return {
         type: actionTypes.SHOW_WELCOME_PAGE,
         isAuthFlowComplete,
@@ -206,82 +209,87 @@ export const showWelcomePage = (isAuthFlowComplete) => {
 };
 
 /**
+ * Return object for the doNotShowWelcomePage function
+ * @typedef DoNotShowWelcomePageReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
  * Does not show the welcome page
  * @function
- * @returns {DoNotShowWelcomePageReturnObject}
+ * @returns {module:reduxAuthActions~DoNotShowWelcomePageReturnObject}
  */
 export const doNotShowWelcomePage = () => {
-    /**
-     * Return object for the doNotShowWelcomePage function
-     * @typedef DoNotShowWelcomePageReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     */
     return {
         type: actionTypes.DO_NOT_SHOW_WELCOME_PAGE,
     };
 };
 
 /**
+ * Return object for the welcomePageComplete function
+ * @typedef WelcomePageCompleteReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
  * Hides (i.e. removes) the welcome page
  * @function
- * @returns {WelcomePageCompleteReturnObject}
+ * @returns {module:reduxAuthActions~WelcomePageCompleteReturnObject}
  */
 export const welcomePageComplete = () => {
-    /**
-     * Return object for the welcomePageComplete function
-     * @typedef WelcomePageCompleteReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     */
     return {
         type: actionTypes.WELCOME_PAGE_COMPLETE,
     };
 };
 
 /**
+ * Return object for the userAuthenticated function
+ * @typedef UserAuthenticatedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
  * Indicates that the user is authenticated
  * @function
- * @returns {UserAuthenticatedReturnObject}
+ * @returns {module:reduxAuthActions~UserAuthenticatedReturnObject}
  */
 const userAuthenticated = () => {
-    /**
-     * Return object for the userAuthenticated function
-     * @typedef UserAuthenticatedReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     */
     return {
         type: actionTypes.USER_AUTHENTICATED,
     };
 };
 
 /**
+ * Return object for the userNotAuthenticated function
+ * @typedef UserNotAuthenticatedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
  * Indicates that the user is not authenticated
  * @function
- * @returns {UserNotAuthenticatedReturnObject}
+ * @returns {module:reduxAuthActions~UserNotAuthenticatedReturnObject}
  */
 const userNotAuthenticated = () => {
-    /**
-     * Return object for the userNotAuthenticated function
-     * @typedef UserNotAuthenticatedReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     */
     return {
         type: actionTypes.USER_NOT_AUTHENTICATED,
     };
 };
 
 /**
+ * Return object for the authError function
+ * @typedef AuthErrorReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {object} error - The auth error
+ */
+
+/**
  * Sets the auth error to the given error
  * @function
  * @param {object} error - The auth error
- * @returns {AuthErrorReturnObject}
+ * @returns {module:reduxAuthActions~AuthErrorReturnObject}
  */
 const authError = (error) => {
-    /**
-     * Return object for the authError function
-     * @typedef AuthErrorReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     * @property {object} error - The auth error
-     */
     return {
         type: actionTypes.AUTH_ERROR,
         error,
@@ -289,34 +297,36 @@ const authError = (error) => {
 };
 
 /**
+ * Return object for the signOutSuccess function
+ * @typedef SignOutSuccessReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
  * Indicates that the sign out was successful
  * @function
- * @returns {SignOutSuccessReturnObject}
+ * @returns {module:reduxAuthActions~SignOutSuccessReturnObject}
  */
 const signOutSuccess = () => {
-    /**
-     * Return object for the signOutSuccess function
-     * @typedef SignOutSuccessReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     */
     return {
         type: actionTypes.SIGN_OUT,
     };
 };
 
 /**
+ * Return object for the retrievedUsersName function
+ * @typedef RetrievedUsersNameReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {string} name - The user's name
+ */
+
+/**
  * Sets the user's name
  * @function
- * @param {string} - The user's name
- * @returns {RetrievedUsersNameReturnObject}
+ * @param {string} name - The user's name
+ * @returns {module:reduxAuthActions~RetrievedUsersNameReturnObject}
  */
 const retrievedUsersName = (name) => {
-    /**
-     * Return object for the retrievedUsersName function
-     * @typedef RetrievedUsersNameReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     * @property {string} - The user's name
-     */
     return {
         type: actionTypes.RETRIEVED_USERS_NAME,
         name,
@@ -324,34 +334,36 @@ const retrievedUsersName = (name) => {
 };
 
 /**
+ * Return object for the usersNameRetrievalFailed function
+ * @typedef UsersNameRetrievalFailedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
  * Indicates that the retrieval of the user's name failed
  * @function
- * @returns {UsersNameRetrievalFailedReturnObject}
+ * @returns {module:reduxAuthActions~UsersNameRetrievalFailedReturnObject}
  */
 const usersNameRetrievalFailed = () => {
-    /**
-     * Return object for the usersNameRetrievalFailed function
-     * @typedef UsersNameRetrievalFailedReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     */
     return {
         type: actionTypes.USERS_NAME_RETRIEVAL_FAILED,
     };
 };
 
 /**
+ * Return object for the retrievedUsersPictureUrl function
+ * @typedef RetrievedUsersPictureUrlReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {string} url - The profile picture url
+ */
+
+/**
  * Sets the user's profile picture URL
  * @function
  * @param {string} url - The profile picture url
- * @returns {RetrievedUsersPictureUrlReturnObject}
+ * @returns {module:reduxAuthActions~RetrievedUsersPictureUrlReturnObject}
  */
 const retrievedUsersPictureUrl = (url) => {
-    /**
-     * Return object for the retrievedUsersPictureUrl function
-     * @typedef RetrievedUsersPictureUrlReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     * @property {string} url - The profile picture url
-     */
     return {
         type: actionTypes.RETRIEVED_USERS_PICTURE_URL,
         url,
@@ -359,16 +371,17 @@ const retrievedUsersPictureUrl = (url) => {
 };
 
 /**
+ * Return object for the usersPictureUrlRetrievalFailed function
+ * @typedef {object} UsersPictureUrlRetrievalFailedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
  * Indicates that the retrieval of the user's profile picture url failed
  * @function
- * @returns {UsersPictureUrlRetrievalFailedReturnObject}
+ * @returns {module:reduxAuthActions~UsersPictureUrlRetrievalFailedReturnObject}
  */
 const usersPictureUrlRetrievalFailed = () => {
-    /**
-     * Return object for the usersPictureUrlRetrievalFailed function
-     * @typedef UsersPictureUrlRetrievalFailedReturnObject
-     * @property {module:reduxActionTypes} type - An action type
-     */
     return {
         type: actionTypes.USERS_PICTURE_URL_RETRIEVAL_FAILED,
     };

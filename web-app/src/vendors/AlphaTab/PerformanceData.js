@@ -1,17 +1,10 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/AlphaTab/PerformanceData.js
-// Description: Encapsulates performance data
-// Author: Daniel Griessler
-// Email: dgriessler20@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
 // File imports
 import Pitch from "../ML5/PitchDetection/Pitch";
 
 /**
  * @class
  * @classdesc Encapsulates performance data
+ * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class PerformanceData {
     /**

@@ -1,20 +1,10 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/AlphaTab/destruction.js
-// Description:
-//      * Destroys the AlphaTab api
-//      * Ends pitch detection
-//      * Removes the P5 drawing object
-// Author: Daniel Griessler & Dan Levy
-// Email: dgriessler20@gmail.com & danlevy124@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
 /**
- * Destroys the AlphaTab api
- * Ends pitch detection
- * Removes the P5 drawing object
- * @module destruction
- * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
+ * Destroys the AlphaTab api.
+ * Ends pitch detection.
+ * Removes the P5 drawing object.
+ * @module alphaTabDestruction
+ * @author Daniel Griessler <dgriessler20@gmail.com>
+ * @author Dan Levy <danlevy124@gmail.com>
  */
 
 // File imports
@@ -23,9 +13,10 @@ import * as playerStates from "./playerStates";
 import destroyPitchDetection from "../ML5/PitchDetection/destruction";
 
 /**
- * Destroys the api if initialized
- * Destroys the p5Obj if initialized
- * Stops the microphone input it is being used
+ * Destroys the api if initialized.
+ * Destroys the p5Obj if initialized.
+ * Stops the microphone input it is being used.
+ * @function
  * @returns {Promise} Promise that resolves after api is destroyed and cleared
  */
 const destroy = () => {

@@ -1,17 +1,3 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/AlphaTab/actions.js
-// Description: AlphaTab actions
-// Author: Daniel Griessler & Dan Levy
-// Email: dgriessler20@gmail.com & danlevy124@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
-/**
- * AlphaTab variables
- * @module actions
- * @author Daniel Griessler <dgriessler20@gmail.com> & Dan Levy <danlevy124@gmail.com>
- */
-
 // File imports
 import { startPitchDetection } from "../ML5/PitchDetection/actions";
 import NoteList from "./NoteList";
@@ -29,7 +15,16 @@ import * as sketchBehaviors from "../P5/sketchBehaviors";
 import atVars from "./variables";
 
 /**
+ * AlphaTab actions.
+ * For initialization and destruction of AlphaTab, see [initialization]{@link module:alphaTabInitialization} and [destruction]{@link module:alphaTabDestruction}.
+ * @module actions
+ * @author Daniel Griessler <dgriessler20@gmail.com>
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
  * Starts playing the sheet music and getting pitches from the microphone
+ * @function
  */
 export const startPlayingMusic = () => {
     atVars.shouldResetDrawPositions = true; // Signals to p5Obj to draw from the beginning
@@ -65,8 +60,9 @@ export const startPlayingMusic = () => {
 };
 
 /**
- * Stops playing the music
- * Resets the noteStreamIndex and the cumulativeTime
+ * Stops playing the music.
+ * Resets the noteStreamIndex and the cumulativeTime.
+ * @function
  */
 export const stopPlayingMusic = () => {
     if (atVars.api !== null) {
@@ -77,17 +73,13 @@ export const stopPlayingMusic = () => {
         }
     }
 
-    // if (atVars.p5Obj !== null) {
-    //     // Removes the p5 canvas
-    //     atVars.p5Obj.remove();
-    // }
-
     atVars.noteStreamIndex = 0;
     atVars.cumulativeTime = 0;
 };
 
 /**
  * Change which track Alpha Tab is rendering based on the given part name
+ * @function
  * @param {string} partName - The part name to change to. Part names are expected to be "tx" where x is the track index
  */
 export const changePart = async (partName) => {
@@ -128,6 +120,7 @@ export const changePart = async (partName) => {
 
 /**
  * Renders sheet music through AlphaTab with Real Time Feedback from P5
+ * @function
  */
 export const changeToSheetMusic = async () => {
     atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
@@ -136,6 +129,7 @@ export const changeToSheetMusic = async () => {
 
 /**
  * Renders isolated user part from sheet music through AlphaTab with Real Time Feedback from P5
+ * @function
  */
 export const changeToMyPart = async () => {
     atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
@@ -146,6 +140,7 @@ export const changeToMyPart = async () => {
 
 /**
  * Renders performance overview using AlphaTab and Performance Highlighting from P5
+ * @function
  */
 export const changeToPerformance = async () => {
     atVars.sketchBehavior = sketchBehaviors.PERFORMANCE_HIGHLIGHTING;
@@ -154,6 +149,7 @@ export const changeToPerformance = async () => {
 
 /**
  * Cause AlphaTab to generate an exercise of the current part from measureStart to measureEnd
+ * @function
  * @param {number} measureStart - The start measure number. Note: It is assumed that this has already been error checked
  * @param {number} measureEnd - The end measure number. Note: It is assumed that this has already been error checked
  */
@@ -170,6 +166,7 @@ export const changeToExercise = async (measureStart, measureEnd) => {
 
 /**
  * Converts a time position in seconds to what measure that it occurs in
+ * @function
  * @param {number} currentPosition - The current time position that we are on
  * @param {number} currentMeasure - The current measure number that we are on
  * @param {number[]} measureToLength - Array holding the length of each measure in seconds
@@ -192,6 +189,7 @@ export const timeToMeasureNumber = (
 
 /**
  * Converts the playback range if defined in AlphaTab to the measure numbers that start and end that range
+ * @function
  * @returns {number[]} Either an array with the start and end measure numbers or null if there is no playback range
  */
 export const getPlaybackRange = () => {
@@ -239,6 +237,7 @@ export const getPlaybackRange = () => {
 
 // /**
 //  * Sets the target track to either be muted or not. If checked then the target track will not be muted
+//  * @function
 //  * @param {Boolean} isChecked - If true then we want to hear this track, otherwise mute this track
 //  * @param {String} name - Name of the track to be heard or muted
 //  */
@@ -265,6 +264,7 @@ export const getPlaybackRange = () => {
 
 /**
  * Loads just the user's part for this sheet music logging it as an exercise and isolates their part for playback
+ * @function
  */
 export const loadJustMyPart = async () => {
     try {
@@ -317,6 +317,7 @@ export const loadJustMyPart = async () => {
 
 /**
  * Loads an exercise based on user provided measure numbers
+ * @function
  * @param {number} measureStart - The start measure number. Note: It is assumed that this has already been error checked
  * @param {number} measureEnd - The end measure number. Note: It is assumed that this has already been error checked
  */
@@ -374,6 +375,7 @@ const loadExercise = async (measureStart, measureEnd) => {
 
 /**
  * Loads AlphaTex for the current piece of sheet music rendering the user's part if initialized otherwise the provided part
+ * @function
  * @param {string} partName Name of the part to render during load
  */
 export const loadTex = async (partName) => {
@@ -474,6 +476,7 @@ export const loadTex = async (partName) => {
 
 /**
  * Gets the member's part for the sheet music (e.g. Soprano)
+ * @function
  * @returns {string} The member's part
  */
 export const getMyPart = () => {
@@ -482,6 +485,7 @@ export const getMyPart = () => {
 
 /**
  * Gets all parts of the sheet music (e.g. alto, soprano, etc.)
+ * @function
  * @returns {string[]} An array of parts
  */
 export const getPartList = () => {

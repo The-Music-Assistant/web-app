@@ -1,20 +1,16 @@
-// ----------------------------------------------------------------------------
-// File Path: src/vendors/AlphaTab/NoteList.js
-// Description: Keeps a list of midi values to serve as a sample of the MAX_SIZE
-//                    last midi values heard
-// Author: Daniel Griessler
-// Email: dgriessler20@gmail.com
-// Created Date: 11/15/2019
-// ----------------------------------------------------------------------------
-
 // File imports
 import PerformanceData from "./PerformanceData";
 
 /**
  * @class
  * @classdesc Keeps a list of midi values to serve as a sample of the MAX_SIZE last midi values heard
+ * @author Daniel Griessler <dgriessler20@gmail.com>
  */
 class NoteList {
+    /**
+     * Maximum size
+     * @type {number}
+     */
     MAX_SIZE = 5;
 
     /**
