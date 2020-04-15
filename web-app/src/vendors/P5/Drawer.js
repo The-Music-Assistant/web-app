@@ -151,6 +151,7 @@ class Drawer {
 
 /**
  * @class
+ * @category P5
  * @classdesc Stores midi value as its character representation including its octave and if it is sharp
  */
 class Note {
