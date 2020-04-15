@@ -1,24 +1,28 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/store/reducers/startup.js
-// Description: Redux startup reducer
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/23/2020
----------------------------------------------------------------------------- */
-
 // File imports
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
-// Initial Redux auth state
+/**
+ * Redux startup reducer
+ * @module reduxStartupReducer
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Initial startup state
+ * @property {boolean} isDone - Indicates if the app startup is done
+ */
 const initialState = {
     isDone: false,
 };
 
 /**
  * Updates Redux startup state based on an action type and a payload
+ * @function
  * @param {object} state - The current state
  * @param {object} action - Any needed data (including the action type)
+ * @returns {object} The new state
  */
 const startupReducer = (state = initialState, action) => {
     switch (action.type) {

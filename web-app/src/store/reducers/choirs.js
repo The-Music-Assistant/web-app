@@ -1,16 +1,19 @@
-// ----------------------------------------------------------------------------
-// File Path: src/reducers/choirs.js
-// Description: Redux choirs reducer
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 3/9/2020
-// ----------------------------------------------------------------------------
-
 // File imports
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
-// Initial Redux choirs state
+/**
+ * Redux choirs tab reducer
+ * @module reduxChoirsTabReducer
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Initial choirs tab state
+ * @property {string} selectedChoirId - The selected choir id
+ * @property {string} selectedChoirName - The selected choir name
+ */
 const initialState = {
     selectedChoirId: null,
     selectedChoirName: null,
@@ -18,8 +21,10 @@ const initialState = {
 
 /**
  * Updates Redux choirs state based on an action type and a payload
+ * @function
  * @param {object} state - The current state
  * @param {object} action - Any needed data (including the action type)
+ * @returns {object} The new state
  */
 const choirsReducer = (state = initialState, action) => {
     switch (action.type) {

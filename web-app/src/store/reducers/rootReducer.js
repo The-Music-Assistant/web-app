@@ -1,12 +1,3 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/store/reducers/rootReducer.js
-// Description:
-    * Combines Redux reducers
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 1/1/2020
----------------------------------------------------------------------------- */
-
 // NPM module imports
 import { combineReducers } from "redux";
 
@@ -17,7 +8,17 @@ import startupReducer from "./startup";
 import practiceReducer from "./practice";
 import choirsReducer from "./choirs";
 
-// Creates the root reducer by combining all reducers
+/**
+ * Redux root reducer
+ * @module reduxRootReducer
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * The root Redux reducer.
+ * The root reducer combines all reducers.
+ */
 const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,

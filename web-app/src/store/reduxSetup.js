@@ -1,11 +1,3 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/index.js
-// Description: Sets up Redux
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 1/7/2020
----------------------------------------------------------------------------- */
-
 // NPM module imports
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
@@ -14,12 +6,27 @@ import thunk from "redux-thunk";
 import rootReducer from "./reducers/rootReducer";
 import { handleAuthStateChanges } from "./actions";
 
-// Redux setup
+/**
+ * Sets up Redux
+ * @module reduxSetup
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Gets the Redux developer tools extension if the app is running in dev mode.
+ * Otherwise, gets the Redux compose variable
+ */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+/**
+ * Creates the Redux store.
+ * Uses redux-thunk middleware.
+ */
 export const store = createStore(
     rootReducer,
     composeEnhancers(applyMiddleware(thunk))
 );
 
-// Starts Firebase auth state change listener
+// Starts the Firebase auth state change listener
 store.dispatch(handleAuthStateChanges());

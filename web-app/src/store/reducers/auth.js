@@ -1,21 +1,29 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/store/reducers/auth.js
-// Description: Redux auth reducer
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 12/31/2019
----------------------------------------------------------------------------- */
-
 // File imports
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 import * as authFlows from "../../pages/Auth/authFlows";
 
-// Initial Redux auth state
+/**
+ * Redux auth reducer
+ * @module reduxAuthReducer
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Initial auth state
+ * @property {boolean} isAuthenticated - Indicates if the user is authenticated. Null value means that auth handler has not yet run.
+ * @property {module:authFlows} authFlow - The current auth flow. Null value means that there is no auth flow currently happening.
+ * @property {boolean} isAuthFlowComplete - Indicates if the current auth flow is complete. Null value means that there is no auth flow currently happening.
+ * @property {object} error - Authentication error (if one exists)
+ * @property {boolean} shouldShowWelcomePage - Indicates if the welcome page should be displayed
+ * @property {string} usersName - The user's full name
+ * @property {string} usersPictureUrl - The user's profile picture URL
+ */
 const initialState = {
-    isAuthenticated: null, // null value means that auth handler has not yet run
-    authFlow: null, // null value means that auth flow was never started
-    isAuthFlowComplete: null, // null value means that auth flow was never started
+    isAuthenticated: null,
+    authFlow: null,
+    isAuthFlowComplete: null,
     error: null,
     shouldShowWelcomePage: false,
     usersName: null,
@@ -24,8 +32,10 @@ const initialState = {
 
 /**
  * Updates Redux auth state based on an action type and a payload
+ * @function
  * @param {object} state - The current state
  * @param {object} action - Any needed data (including the action type)
+ * @returns {object} The new state
  */
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -49,6 +59,7 @@ const authReducer = (state = initialState, action) => {
                 state.isAuthFlowComplete === null ||
                 state.authFlow === authFlows.SIGN_IN
             ) {
+                // An auth flow was never started or the auth flow is SIGN_IN, so the auth flow is complete
                 return updateObject(state, {
                     isAuthenticated: true,
                     error: null,
@@ -56,6 +67,7 @@ const authReducer = (state = initialState, action) => {
                     authFlow: null,
                 });
             } else {
+                // The auth flow is SIGN_UP, so the auth flow is not yet complete
                 return updateObject(state, {
                     isAuthenticated: true,
                     error: null,

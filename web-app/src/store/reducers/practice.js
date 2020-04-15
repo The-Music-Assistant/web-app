@@ -1,16 +1,23 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/store/reducers/practice.js
-// Description: Redux practice reducer
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 2/26/2020
----------------------------------------------------------------------------- */
-
 // File imports
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
-// Initial Redux practice state
+/**
+ * Redux practice tab reducer
+ * @module reduxPracticeTabReducer
+ * @category Redux
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Initial practice tab state
+ * @property {string} selectedChoirId - The selected choir id
+ * @property {string} selectedChoirName - The selected choir name
+ * @property {string} selectedSheetMusicId -
+ * @property {object} exercise - The requested exercise (if one exists)
+ * @property {string} exercise.startMeasure - The start measure
+ * @property {string} exercise.endMeasure - The end measure
+ */
 const initialState = {
     selectedChoirId: null,
     selectedChoirName: null,
@@ -20,8 +27,10 @@ const initialState = {
 
 /**
  * Updates Redux auth state based on an action type and a payload
+ * @function
  * @param {object} state - The current state
  * @param {object} action - Any needed data (including the action type)
+ * @returns {object} The new state
  */
 const practiceReducer = (state = initialState, action) => {
     switch (action.type) {
