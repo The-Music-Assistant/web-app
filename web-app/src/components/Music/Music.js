@@ -89,7 +89,7 @@ class Music extends Component {
 
         initializeAlphaTabApi();
         alphaTabVars.getsFeedback = this.props.doesUserGetFeedback;
-        alphaTabVars.api.addPostRenderFinished(this.alphaTabRendered);
+        alphaTabVars.api.addPostRenderFinished(this.alphaTabDidRender);
 
         if (this.props.doesUserGetFeedback) {
             this.initializePitchDetection();
