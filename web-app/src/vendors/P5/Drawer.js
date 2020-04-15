@@ -184,6 +184,7 @@ class Note {
 
     /**
      * @typedef {object} NotePackage
+     * @memberof Drawer
      * @property {string} charPart The character part of the note
      * @property {number} octave The octave of the note
      */
