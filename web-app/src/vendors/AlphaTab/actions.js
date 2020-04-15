@@ -6,6 +6,7 @@ import {
     getPartSheetMusic,
     getExercise,
     getSinglePartSheetMusic,
+    getPerformanceProgress,
 } from "../../vendors/AWS/tmaApi";
 import TexLoaded from "./TexLoaded";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
@@ -412,6 +413,18 @@ export const loadTex = async (partName) => {
                 null,
                 1,
                 1
+            );
+        }
+
+        if (
+            atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING
+        ) {
+            let data = {
+                sheetMusicId: store.getState().practice.selectedSheetMusicId,
+            };
+            let performanceProgress = await getPerformanceProgress(data);
+            atVars.texLoaded.setPerformanceProgress(
+                performanceProgress.data.averagePerformance
             );
         }
 

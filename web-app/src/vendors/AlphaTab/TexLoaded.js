@@ -107,6 +107,11 @@ class TexLoaded {
          * TODO: Description
          */
         this.sheetMusicId = sheetMusicId;
+
+        /**
+         * TODO: Description
+         */
+        this.performanceProgress = [];
     }
 
     /**
@@ -236,6 +241,15 @@ class TexLoaded {
         this.id = id;
         this.measureStart = measureStart;
         this.measureEnd = measureEnd;
+        this.performanceProgress.length = 0;
+    }
+
+    /**
+     * TODO: Add description
+     * @param {} progress
+     */
+    setPerformanceProgress(progress) {
+        this.performanceProgress.push(...progress);
     }
 
     /**

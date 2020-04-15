@@ -89,7 +89,7 @@
 <header>
     
         <h2>
-            &ltMusicSelection <i>choirId</i> <i>choirName</i> <i>isMobileBrowser</i> <i>history</i> <i>match</i> <i>showAlert</i> <i>musicSelected</i> /&gt
+            &ltMusicSelection <i>choirId</i> <i>choirName</i> <i>isMobileBrowser</i> <i>history</i> <i>doesUserGetFeedback</i> <i>match</i> <i>showAlert</i> <i>musicSelected</i> <i>setUserGetsFeedback</i> /&gt
         </h2>
         
             <div class="class-description">Renders the MusicSelection component</div>
@@ -113,7 +113,7 @@
         
         <span class="code-name">
             
-                &ltMusicSelection <i>choirId</i> <i>choirName</i> <i>isMobileBrowser</i> <i>history</i> <i>match</i> <i>showAlert</i> <i>musicSelected</i> /&gt
+                &ltMusicSelection <i>choirId</i> <i>choirName</i> <i>isMobileBrowser</i> <i>history</i> <i>doesUserGetFeedback</i> <i>match</i> <i>showAlert</i> <i>musicSelected</i> <i>setUserGetsFeedback</i> /&gt
             
         </span>
     </h4>
@@ -191,6 +191,17 @@ This is provided by the withRouter function.</td>
         
   
         <tr class="deep-level-0">
+          <td class="name"><code>doesUserGetFeedback</code></td>
+          <td>
+            bool
+          </td>
+          <td>No</td>
+          <td>Indicates if the user gets feedback</td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
           <td class="name"><code>match</code></td>
           <td>
             object
@@ -220,6 +231,17 @@ This is provided by the withRouter function.</td>
           </td>
           <td>Yes</td>
           <td>Updates Redux with music data</td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>setUserGetsFeedback</code></td>
+          <td>
+            func
+          </td>
+          <td>Yes</td>
+          <td>Sets if the user gets feedback</td>
           <td></td>
         </tr>
         
@@ -276,7 +298,7 @@ This is provided by the withRouter function.</td>
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line30">line 30</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line33">line 33</a>
             </span>
         </p>
     
@@ -412,7 +434,7 @@ Used for asynchronous tasks.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line47">line 47</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line50">line 50</a>
             </span>
         </p>
     
@@ -556,7 +578,7 @@ Used for asynchronous tasks.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line36">line 36</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line39">line 39</a>
             </span>
         </p>
     
@@ -701,7 +723,7 @@ This function is used only by the react-redux connect function.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line294">line 294</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line314">line 314</a>
             </span>
         </p>
     
@@ -878,7 +900,7 @@ This function is used only by the react-redux connect function.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line279">line 279</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line298">line 298</a>
             </span>
         </p>
     
@@ -1001,7 +1023,7 @@ Gets the list of music
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line53">line 53</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line56">line 56</a>
             </span>
         </p>
     
@@ -1098,7 +1120,7 @@ Gets the list of music
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line61">line 61</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line64">line 64</a>
             </span>
         </p>
     
@@ -1195,7 +1217,7 @@ Gets the list of music
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line161">line 161</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line170">line 170</a>
             </span>
         </p>
     
@@ -1318,7 +1340,7 @@ Updates state with the music list.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line70">line 70</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line73">line 73</a>
             </span>
         </p>
     
@@ -1415,7 +1437,7 @@ Updates state with the music list.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line202">line 202</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line211">line 211</a>
             </span>
         </p>
     
@@ -1512,7 +1534,7 @@ Updates state with the music list.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line148">line 148</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line157">line 157</a>
             </span>
         </p>
     
@@ -1661,7 +1683,7 @@ Updates state with the music list.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line131">line 131</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line140">line 140</a>
             </span>
         </p>
     
@@ -1810,7 +1832,7 @@ Updates state with the music list.
         <p class="tag-source">
             <a href="components_MusicSelection_MusicSelection.js.html" class="button">View Source</a>
             <span>
-                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line111">line 111</a>
+                <a href="components_MusicSelection_MusicSelection.js.html">components/MusicSelection/MusicSelection.js</a>, <a href="components_MusicSelection_MusicSelection.js.html#line120">line 120</a>
             </span>
         </p>
     
@@ -1860,7 +1882,7 @@ Updates state with the music list.
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 15 2020 17:28:19 GMT-0400 (Eastern Daylight Time)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 15 2020 18:36:34 GMT-0400 (Eastern Daylight Time)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

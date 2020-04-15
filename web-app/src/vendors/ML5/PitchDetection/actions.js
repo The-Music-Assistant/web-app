@@ -131,7 +131,7 @@ const pageWatch = (currentSectionIndex, currentCount) => {
                 currentSectionIndex <
                     atVars.texLoaded.lengthsPerSection.length - 1
             ) {
-                if (isPitchDetectionAvailable()) {
+                if (atVars.getsFeedback && isPitchDetectionAvailable()) {
                     pageTurn();
                 }
 
@@ -212,10 +212,8 @@ export const displayMidi = (frequency) => {
  * @param {string} sheetMusicId The id of the sheet music to submit the performance
  */
 export const stopPitchDetection = async (sheetMusicId) => {
-    if (isPitchDetectionAvailable()) {
-        if (atVars.getsFeedback) {
-            atVars.p5Obj.noLoop();
-        }
+    if (atVars.getsFeedback && isPitchDetectionAvailable()) {
+        atVars.p5Obj.noLoop();
 
         let performanceData = {
             performanceData: JSON.stringify(

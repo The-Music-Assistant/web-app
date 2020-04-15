@@ -214,7 +214,7 @@ export const getPendingMembers = (data) => {
  * @param {string} data.sheetMusicId - The id of the sheet music the user is singing
  * @returns {Promise<module:tmaApi~GetsFeedback|module:tmaApi~ServerError>} - A promise containing whether the user gets feedback or an error
  */
-export const userGetsFeedback = (data) => {
+export const doesUserGetFeedback = (data) => {
     return axios.request({
         method: "GET",
         url: `/member/gets-feedback`,
@@ -487,4 +487,18 @@ export const getSinglePartSheetMusic = (data) => {
  */
 export const pickPartInSheetMusic = (data) => {
     return axios.post("/sheet-music-part", data);
+};
+
+/**
+ * Gets performance progress of member for the given piece of sheet music
+ * @function
+ * @param {Object} data
+ * @param {string} data.sheetMusicId - The sheet music id to which the part for the member is being added
+ */
+export const getPerformanceProgress = (data) => {
+    return axios.request({
+        method: "GET",
+        url: `/performance-progress`,
+        params: data,
+    });
 };

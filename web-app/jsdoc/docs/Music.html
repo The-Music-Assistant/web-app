@@ -89,7 +89,7 @@
 <header>
     
         <h2>
-            &ltMusic <i>location</i> <i>history</i> <i>match</i> <i>exercise</i> <i>showAlert</i> <i>exerciseGenerated</i> /&gt
+            &ltMusic <i>location</i> <i>history</i> <i>match</i> <i>doesUserGetFeedback</i> <i>exercise</i> <i>showAlert</i> <i>exerciseGenerated</i> /&gt
         </h2>
         
             <div class="class-description">Renders the Music component.
@@ -114,7 +114,7 @@ This component handles practicing music, viewing performance, and practicing an 
         
         <span class="code-name">
             
-                &ltMusic <i>location</i> <i>history</i> <i>match</i> <i>exercise</i> <i>showAlert</i> <i>exerciseGenerated</i> /&gt
+                &ltMusic <i>location</i> <i>history</i> <i>match</i> <i>doesUserGetFeedback</i> <i>exercise</i> <i>showAlert</i> <i>exerciseGenerated</i> /&gt
             
         </span>
     </h4>
@@ -178,6 +178,17 @@ This is provided by the withRouter function.</td>
           <td>Yes</td>
           <td>The matched URL.
 This is provided by the withRouter function.</td>
+          <td></td>
+        </tr>
+        
+  
+        <tr class="deep-level-0">
+          <td class="name"><code>doesUserGetFeedback</code></td>
+          <td>
+            bool
+          </td>
+          <td>Yes</td>
+          <td>Indicates if the user gets feedback</td>
           <td></td>
         </tr>
         
@@ -377,7 +388,92 @@ Uses a React Ref.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line71">line 71</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line79">line 79</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">boolean</span>
+
+
+    </span>
+
+<h4 class="name" id="_isMounted">
+    <a class="href-link" href="#_isMounted">#</a>
+    
+    <span class="code-name">
+        _isMounted
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates if the component is mounted.
+Used for asynchronous tasks.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html">https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_Music_Music.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line73">line 73</a>
             </span>
         </p>
     
@@ -753,7 +849,7 @@ Uses a React Ref.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line90">line 90</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line110">line 110</a>
             </span>
         </p>
     
@@ -905,7 +1001,7 @@ This function is used only by the react-redux connect function.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line516">line 516</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line562">line 562</a>
             </span>
         </p>
     
@@ -1082,7 +1178,7 @@ This function is used only by the react-redux connect function.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line503">line 503</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line548">line 548</a>
             </span>
         </p>
     
@@ -1204,7 +1300,7 @@ This function is used only by the react-redux connect function.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line122">line 122</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line143">line 143</a>
             </span>
         </p>
     
@@ -1250,9 +1346,10 @@ This function is used only by the react-redux connect function.
     
     
     <div class="description">
-        Initializes the AlphaTab API
-Initializes pitch detection
-Prepares the music
+        Sets _isMounted to true.
+Initializes the AlphaTab API.
+Initializes pitch detection.
+Prepares the music.
     </div>
     
 
@@ -1303,7 +1400,7 @@ Prepares the music
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line78">line 78</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line87">line 87</a>
             </span>
         </p>
     
@@ -1475,7 +1572,7 @@ Prepares the music
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line104">line 104</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line124">line 124</a>
             </span>
         </p>
     
@@ -1572,7 +1669,7 @@ Prepares the music
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line113">line 113</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line133">line 133</a>
             </span>
         </p>
     
@@ -1669,7 +1766,7 @@ Prepares the music
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line310">line 310</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line343">line 343</a>
             </span>
         </p>
     
@@ -1833,7 +1930,7 @@ Prepares the music
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line265">line 265</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line296">line 296</a>
             </span>
         </p>
     
@@ -1930,7 +2027,7 @@ Prepares the music
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line340">line 340</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line373">line 373</a>
             </span>
         </p>
     
@@ -2044,7 +2141,7 @@ Prepares the music
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line394">line 394</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line429">line 429</a>
             </span>
         </p>
     
@@ -2170,7 +2267,7 @@ Prepares the music
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line193">line 193</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line220">line 220</a>
             </span>
         </p>
     
@@ -2368,7 +2465,7 @@ Updates state to reflect the new part value.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line280">line 280</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line311">line 311</a>
             </span>
         </p>
     
@@ -2466,7 +2563,7 @@ Updates AlphaTab and updates state.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line249">line 249</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line278">line 278</a>
             </span>
         </p>
     
@@ -2568,7 +2665,7 @@ Renders AlphaTab.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line133">line 133</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line156">line 156</a>
             </span>
         </p>
     
@@ -2692,7 +2789,7 @@ See the vendors folder for the P5 (sketch) code and the AlphaTab code
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line416">line 416</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line456">line 456</a>
             </span>
         </p>
     
@@ -2840,7 +2937,7 @@ See <a href="module-musicViewOptions.html">options</a>.
         <p class="tag-source">
             <a href="components_Music_Music.js.html" class="button">View Source</a>
             <span>
-                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line235">line 235</a>
+                <a href="components_Music_Music.js.html">components/Music/Music.js</a>, <a href="components_Music_Music.js.html#line264">line 264</a>
             </span>
         </p>
     
@@ -2890,7 +2987,7 @@ See <a href="module-musicViewOptions.html">options</a>.
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 15 2020 17:28:19 GMT-0400 (Eastern Daylight Time)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 15 2020 18:36:34 GMT-0400 (Eastern Daylight Time)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

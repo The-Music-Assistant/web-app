@@ -59,15 +59,19 @@ const PracticeMusicHeader = (props) => {
             <MusicControls />
 
             {/* A button that links to the performance view */}
-            <div className={styles.PracticeMusicHeaderViewPerformanceButton}>
-                <RectangularButton
-                    type={buttonTypes.BUTTON}
-                    value="performance"
-                    text="View Performance"
-                    backgroundColor={rectButtonColorOptions.GREEN}
-                    onClick={props.switchToPerformance}
-                />
-            </div>
+            {props.doesUserGetFeedback ? (
+                <div
+                    className={styles.PracticeMusicHeaderViewPerformanceButton}
+                >
+                    <RectangularButton
+                        type={buttonTypes.BUTTON}
+                        value="performance"
+                        text="View Performance"
+                        backgroundColor={rectButtonColorOptions.GREEN}
+                        onClick={props.switchToPerformance}
+                    />
+                </div>
+            ) : null}
         </div>
     );
 };
@@ -103,6 +107,11 @@ PracticeMusicHeader.propTypes = {
      * Switch to performance handler
      */
     switchToPerformance: PropTypes.func.isRequired,
+
+    /**
+     * Indicates if the user gets feedback
+     */
+    doesUserGetFeedback: PropTypes.bool.isRequired,
 };
 
 export default PracticeMusicHeader;

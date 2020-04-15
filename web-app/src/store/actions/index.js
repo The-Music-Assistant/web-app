@@ -25,6 +25,7 @@ export {
     musicSelectedForPractice,
     exerciseRequested,
     exerciseGenerated,
+    setUserGetsFeedback,
 } from "./practice";
 
 export { choirSelectedForChoirs } from "./choirs";

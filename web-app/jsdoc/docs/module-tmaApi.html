@@ -1996,6 +1996,208 @@ Must be an admin of the choir to update a member
 
 
     
+    <h4 class="name" id=".doesUserGetFeedback">
+        <a class="href-link" href="#.doesUserGetFeedback">#</a>
+        
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                doesUserGetFeedback<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise.&lt;(<a href="module-tmaApi.html#~GetsFeedback">module:tmaApi~GetsFeedback</a>|<a href="module-tmaApi.html#~ServerError">module:tmaApi~ServerError</a>)>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Gets if the user recieves feedback
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>data</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Sheet music data</td>
+</tr>
+
+  
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>sheetMusicId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The id of the sheet music the user is singing</td>
+</tr>
+
+  
+
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line217">line 217</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>- A promise containing whether the user gets feedback or an error</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Promise.&lt;(<a href="module-tmaApi.html#~GetsFeedback">module:tmaApi~GetsFeedback</a>|<a href="module-tmaApi.html#~ServerError">module:tmaApi~ServerError</a>)></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
     <h4 class="name" id=".getChoirMembers">
         <a class="href-link" href="#.getChoirMembers">#</a>
         
@@ -2932,6 +3134,183 @@ Must be an admin of the choir to update a member
                 
         </div>
     </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".getPerformanceProgress">
+        <a class="href-link" href="#.getPerformanceProgress">#</a>
+        
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                getPerformanceProgress<span class="signature">(data)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Gets performance progress of member for the given piece of sheet music
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>data</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+  
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>sheetMusicId</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The sheet music id to which the part for the member is being added</td>
+</tr>
+
+  
+
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
+            <span>
+                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line498">line 498</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5592,208 +5971,6 @@ The auth token only needs to be set when auth changes.
         <label>Type: </label>
         
 <span class="param-type">Promise.&lt;(null|<a href="module-tmaApi.html#~ServerError">module:tmaApi~ServerError</a>)></span>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id=".userGetsFeedback">
-        <a class="href-link" href="#.userGetsFeedback">#</a>
-        
-            
-                <span class='tag'>static</span>
-            
-        
-        <span class="code-name">
-            
-                userGetsFeedback<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise.&lt;(<a href="module-tmaApi.html#~GetsFeedback">module:tmaApi~GetsFeedback</a>|<a href="module-tmaApi.html#~ServerError">module:tmaApi~ServerError</a>)>}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Gets if the user recieves feedback
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        
-<tr class="deep-level-0">
-  
-      <td class="name"><code>data</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">Object</span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Sheet music data</td>
-</tr>
-
-  
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>sheetMusicId</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">string</span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The id of the sheet music the user is singing</td>
-</tr>
-
-  
-
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="vendors_AWS_tmaApi.js.html" class="button">View Source</a>
-            <span>
-                <a href="vendors_AWS_tmaApi.js.html">vendors/AWS/tmaApi.js</a>, <a href="vendors_AWS_tmaApi.js.html#line217">line 217</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>- A promise containing whether the user gets feedback or an error</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<span class="param-type">Promise.&lt;(<a href="module-tmaApi.html#~GetsFeedback">module:tmaApi~GetsFeedback</a>|<a href="module-tmaApi.html#~ServerError">module:tmaApi~ServerError</a>)></span>
 
 
     </div>
@@ -8918,7 +9095,7 @@ This array contains more member data than the <a href="module-tmaApi.html#~Membe
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 15 2020 17:28:19 GMT-0400 (Eastern Daylight Time)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Apr 15 2020 18:36:33 GMT-0400 (Eastern Daylight Time)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

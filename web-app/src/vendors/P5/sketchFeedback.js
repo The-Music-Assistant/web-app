@@ -76,6 +76,35 @@ const p5FeedbackSketch = (p) => {
     };
 
     /**
+     * Updates the drawer line heights from the page if the drawer is active
+     * @function
+     */
+    const updateDrawerLines = () => {
+        let topLine = document.getElementById("rect_0");
+        let nextLine = document.getElementById("rect_1");
+        if (
+            drawer &&
+            topLine &&
+            topLine.y &&
+            topLine.y.animVal &&
+            topLine.y.animVal.value &&
+            nextLine &&
+            nextLine.y &&
+            nextLine.y.animVal &&
+            nextLine.y.animVal.value
+        ) {
+            const topLineHeight = topLine.y.animVal.value;
+            const distanceBetweenLines =
+                nextLine.y.animVal.value - topLineHeight;
+            drawer.setTopLineAndDistanceBetween(
+                topLineHeight,
+                distanceBetweenLines,
+                drawer.baseOctave
+            );
+        }
+    };
+
+    /**
      * Draws the canvas on the screen. Requires that the canvas is not undefined ie setup has run
      * TODO: Handle sheet music scale
      */
@@ -107,6 +136,13 @@ const p5FeedbackSketch = (p) => {
                 alphaTabSurface.clientHeight
             );
 
+            if (previousPos[2] !== -1) {
+                // If there is any confusion in the player then this will help keep the drawing at the right height
+                if (previousPos[0] < previousPos[2]) {
+                    updateDrawerLines();
+                }
+            }
+
             // don't draw silence which has special value -1 or if we don't have a previous point
             if (
                 drawer &&
@@ -114,30 +150,6 @@ const p5FeedbackSketch = (p) => {
                 previousPos[2] !== -1 &&
                 previousPos[3] !== -1
             ) {
-                // If there is any confusion in the player then this will help keep the drawing at the right height
-                if (previousPos[0] < previousPos[2]) {
-                    let topLine = document.getElementById("rect_0");
-                    let nextLine = document.getElementById("rect_1");
-                    if (
-                        topLine &&
-                        topLine.y &&
-                        topLine.y.animVal &&
-                        topLine.y.animVal.value &&
-                        nextLine &&
-                        nextLine.y &&
-                        nextLine.y.animVal &&
-                        nextLine.y.animVal.value
-                    ) {
-                        const topLineHeight = topLine.y.animVal.value;
-                        const distanceBetweenLines =
-                            nextLine.y.animVal.value - topLineHeight;
-                        drawer.setTopLineAndDistanceBetween(
-                            topLineHeight,
-                            distanceBetweenLines,
-                            drawer.baseOctave
-                        );
-                    }
-                }
                 if (atVars.noteStream[atVars.noteStreamIndex] === -1) {
                     // singing should be silent
                     p.stroke(255, 0, 0);

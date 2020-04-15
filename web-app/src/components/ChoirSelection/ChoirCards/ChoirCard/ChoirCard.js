@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import * as colorOptions from "../choirCardColorOptions";
 
 // Image imports
-import cameraImg from "../../../../assets/icons/camera-white-fa.svg";
+import cameraImg from "../../../../assets/icons/camera-icon-white.svg";
 import { choirSelectionError } from "../../../../vendors/Firebase/logs";
 
 // Style imports

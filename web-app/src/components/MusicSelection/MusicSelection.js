@@ -11,10 +11,13 @@ import MusicCard from "./MusicCard/MusicCard";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
 // File imports
-import { getSheetMusic } from "../../vendors/AWS/tmaApi";
+import { getSheetMusic, doesUserGetFeedback } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { musicSelectionError } from "../../vendors/Firebase/logs";
-import { musicSelectedForPractice } from "../../store/actions";
+import {
+    musicSelectedForPractice,
+    setUserGetsFeedback,
+} from "../../store/actions/index";
 import * as cardColorOptions from "./MusicCard/musicCardColorOptions";
 
 // Style imports
@@ -77,9 +80,15 @@ class MusicSelection extends Component {
                 // Updates state with the music list
                 if (this._isMounted)
                     this.setState({
-                        isLoading: false,
                         musicList: snapshot.data.sheet_music,
                     });
+            })
+            .then(
+                doesUserGetFeedback.bind(this, { choirId: this.props.choirId })
+            )
+            .then((snapshot) => {
+                this.props.setUserGetsFeedback(snapshot.data.gets_feedback);
+                if (this._isMounted) this.setState({ isLoading: false });
             })
             .catch((error) => {
                 // Logs an error
@@ -253,6 +262,11 @@ MusicSelection.propTypes = {
     history: PropTypes.object.isRequired,
 
     /**
+     * Indicates if the user gets feedback
+     */
+    doesUserGetFeedback: PropTypes.bool,
+
+    /**
      * React Router match object.
      * This is provided by the withRouter function.
      */
@@ -267,6 +281,11 @@ MusicSelection.propTypes = {
      * Updates Redux with music data
      */
     musicSelected: PropTypes.func.isRequired,
+
+    /**
+     * Sets if the user gets feedback
+     */
+    setUserGetsFeedback: PropTypes.func.isRequired,
 };
 
 /**
@@ -281,6 +300,7 @@ const mapStateToProps = (state) => {
         choirId: state.practice.selectedChoirId,
         choirName: state.practice.selectedChoirName,
         isMobileBrowser: state.app.isMobileBrowser,
+        doesUserGetFeedback: state.practice.doesUserGetFeedback,
     };
 };
 
@@ -294,6 +314,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         musicSelected: (id) => dispatch(musicSelectedForPractice(id)),
+        setUserGetsFeedback: (doesUserGetFeedback) =>
+            dispatch(setUserGetsFeedback(doesUserGetFeedback)),
     };
 };
 
