@@ -1,26 +1,28 @@
-/* ----------------------------------------------------------------------------
-// File Path: src/vendors/Firebase/firebase.js
-// Description: Initializes Firebase
-// Author: Dan Levy
-// Email: danlevy124@gmail.com
-// Created Date: 1/1/2020
----------------------------------------------------------------------------- */
-
-/**
- * Initializes Firebase
- * @module firebase
- * @author Dan Levy <danlevy124@gmail.com>
- */
-
 // NPM module imports
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/analytics";
 import "firebase/performance";
 
-/*
- * Firebase app config object
- * Variables are in the .env file for security
+/**
+ * Initializes Firebase
+ * @module firebase
+ * @category Firebase
+ * @author Dan Levy <danlevy124@gmail.com>
+ */
+
+/**
+ * Firebase app config object.
+ * All property values come from Firebase.
+ * Property values must be put into the .env file for security.
+ * @property {string} apiKey
+ * @property {string} authDomain
+ * @property {string} databaseURL
+ * @property {string} projectId
+ * @property {string} storageBucket
+ * @property {string} messagingSenderId
+ * @property {string} appId
+ * @property {string} measurementId
  */
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
