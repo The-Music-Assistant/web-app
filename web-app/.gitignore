@@ -25,3 +25,9 @@ yarn-error.log*
 
 # VSCode
 .vscode
+
+# Parcel cache
+.cache
+
+# Documentation
+/jsdoc
