@@ -502,16 +502,3 @@ export const getPerformanceProgress = (data) => {
         params: data,
     });
 };
-
-/**
- * Gets performance progress of member for the given piece of sheet music
- * @param {Object} data
- * @param {string} data.sheetMusicId - The sheet music id to which the part for the member is being added
- */
-export const getPerformanceProgress = data => {
-    return axios.request({
-        method: "GET",
-        url: `/performance-progress`,
-        params: data
-    });
-}

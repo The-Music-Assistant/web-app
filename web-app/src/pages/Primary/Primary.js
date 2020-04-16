@@ -245,7 +245,7 @@ class Primary extends Component {
      * @param {string} - The alert heading
      * @param {string} - The alert message
      */
-    showAlert = (type, heading, message) => {
+    showAlertHandler = (type, heading, message) => {
         this.setState({
             alertData: { type, heading, message },
         });
@@ -347,7 +347,7 @@ class Primary extends Component {
                     <Route path="/choirs">
                         <ChoirSelection
                             routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
-                            showAlert={this.showAlert}
+                            showAlert={this.showAlertHandler}
                         />
                     </Route>
 
