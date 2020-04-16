@@ -2,7 +2,6 @@
     <img src="./assets/tma-logo-with-name.png" alt="The Music Assistant Logo" height="75px"/>
 </p>
 
-<h1 align="center">The Music Assistant</h1>
 <h2 align="center">Florida Tech Senior Design Project 2019/2020<h2>
 
 <h1>Team Members</h2>
