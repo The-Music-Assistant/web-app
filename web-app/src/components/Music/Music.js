@@ -427,7 +427,7 @@ class Music extends Component {
      * @returns {string} A page heading
      */
     getPageHeading = () => {
-        switch (this.state.pageType) {
+        switch (this.state.currentView) {
             case musicViewOptions.PRACTICE:
                 if (this.props.doesUserGetFeedback) {
                     return this.state.isMicrophoneAvailable

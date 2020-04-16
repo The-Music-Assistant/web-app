@@ -27,7 +27,7 @@ const ImageInput = (props) => {
                 required={props.isRequired}
             />
             <label className={styles.imageInputLabel} htmlFor={props.inputName}>
-                {props.buttonName}
+                {props.buttonTitle}
             </label>
         </div>
     );
