@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: routers/choir.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: routers/choir.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const express = require('express');
+const auth = require('../middleware/authenticator.js');
+const verify = require('../middleware/verifier.js');
+const mysql = require("../db/mysql.js");
+const router = express.Router();
+const accessCode = require("../util/accessCode.js");
+
+/**
+ * @typedef {object} ChoirGetPackage
+ * @property {ChoirGetReturnPackage[]} choirs Information on each choir retrieved
+ */
+
+/**
+ * @typedef {object} ChoirGetReturnPackage
+ * @property {string} choir_id The ID of the choir
+ * @property {string} choir_name The name of the choir
+ * @property {string} description A description of the choir
+ */
+
+/**
+ * Route for getting all choir information
+ * @name choir/get
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {*} res
+ * @returns {ChoirGetPackage|string} When successful, returns information about the choirs retrieved. Otherwise an error message
+ * @async
+ */
+router.get('/', auth.token, async(req,res) => {
+  let client = await mysql.getClient();
+  const errorMessage = "Unable to get choirs";
+  client.query("SELECT hex(choir.choir_id) AS choir_id, choir_name, description FROM tma.choir INNER JOIN tma.member ON choir.choir_id = member.choir_id WHERE person_id = ? AND member_status='verified'", [res.locals.uid], function(error, results, fields) {
+    if (error) {
+      res.status(503).send(errorMessage);
+    } else {
+      let retObj = {"choirs":results};
+      res.status(200).json(retObj);
+    }
+  });
+});
+
+/**
+ * @typedef {ChoirGetMembersReturnPackage[]} ChoirGetMembersPackage Information about the retrieved members from the choir
+ */
+
+/**
+ * @typedef {object} ChoirGetMembersReturnPackage
+ * @property {string} first_name The first name of the member
+ * @property {string} last_name The last name of the member
+ * @property {string} member_role The role of the member
+ * @property {string} person_id The ID of the person attached to the member
+ * @property {boolean} has_picture Whether the given member is attached to a person with a profile picture or not
+ */
+
+/**
+ * Route for getting all the members of a given choir if the user is verified to be in that choir
+ * @name choir/get/members
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.query.choirId The choir ID to be accessed
+ * @param {*} res
+ * @returns {ChoirGetMembersPackage|string} When successful, returns information about the members in the choir. Otherwise an error message
+ * @async
+ */
+router.get('/members', auth.token, async (req,res) => {
+  verify.userIsVerified(req,res).then((isVerified) => {
+    if (!isVerified) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let choirId = req.query.choirId;
+      const errorMessage = "Unable to get choir";
+      if (choirId) {
+        mysql.getClient().then((client) => {
+          client.query("SELECT first_name, last_name, member_type, member_role, tma.member.person_id AS person_id, has_picture FROM tma.member INNER JOIN tma.person ON member.person_id = person.person_id WHERE choir_id = unhex(?)", [choirId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else if (results.length === 0) {
+              res.status(204).send(errorMessage);
+            } else {
+              res.status(200).json(results);
+            }
+          });
+        })
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * @typedef {object} ChoirPostPackage
+ * @property {string} accessCode The access code of the generated choir
+ */
+
+/**
+ * Route for adding a choir and sets the current user as the admin of that choir
+ * @name choir/post
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.choirName The name of the choir to be created
+ * @param {string} req.body.description A description of the choir to be created. Can't be undefined but can be null
+ * @param {string} req.body.memberType The type of the member to be created as the initial member into the choir
+ * @param {string} req.body.memberRole The role of the member to be created as the initial member into the choir
+ * @param {*} res
+ * @returns {ChoirPostPackage|string} When successful, the access code of the generated choir. Otherwise, an error message
+ * @async
+ */
+router.post('/', auth.token, async (req,res) => {
+  let name = req.body.choirName;
+  let description = req.body.description;
+  let type = req.body.memberType;
+  let role = req.body.memberRole;
+  const errorMessage = "Unable to add choir";
+
+  if (name &amp;&amp; description !== undefined &amp;&amp; type &amp;&amp; role) {
+    let client = await mysql.getClient();
+    client.beginTransaction(function(error) {
+      if (error) {
+        res.status(503).send(errorMessage);
+      } else {
+        client.query("SELECT uuid()", function(error, results, fields) {
+          if (error) {
+            res.status(503).send(errorMessage);
+          } else {
+            res.locals.generated_uuid = results[0]["uuid()"];
+            accessCode.getAccessCode().then((generatedAccessCode) => {
+              client.query("insert into tma.choir (choir_id, choir_name, description, access_code) values(unhex(replace(?,'-','')), ?, ?, ?)",[res.locals.generated_uuid,name,description,generatedAccessCode], function (error, results, fields) {
+                if (error) {
+                  client.rollback(function() {
+                    res.status(503).send(errorMessage);
+                  });
+                } else {
+                  client.query(
+"insert into tma.member (member_id, member_type, member_role, choir_id, person_id, member_status, gets_feedback) values(unhex(replace(uuid(),'-','')), ?, ?, unhex(replace(?,'-','')), ?, 'verified', 1)",[type,role,res.locals.generated_uuid,res.locals.uid], function (error, results, fields) {
+                    if (error) {
+                       client.rollback(function() {
+                        res.status(503).send(errorMessage);
+                      });
+                    } else {
+                      client.commit(function(error) {
+                        if (error) {
+                          client.rollback(function() {
+                            res.status(503).send(errorMessage);
+                          });
+                        } else {
+                          res.status(200).json({"accessCode":generatedAccessCode});
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }).catch((error) => {
+              res.status(503).send(errorMessage);
+            });
+          }
+        });
+      }
+    });
+  } else {
+    res.status(400).send(errorMessage);
+  }
+});
+
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

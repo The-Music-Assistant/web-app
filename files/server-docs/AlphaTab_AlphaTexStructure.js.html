@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: AlphaTab/AlphaTexStructure.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: AlphaTab/AlphaTexStructure.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @class
+ * @classdesc Encapsulates the overall AlphaTex object composed of string, int, bool attributes and an array of tracks
+ */
+class AlphaTexStructure {
+    /**
+     * Creates a new AlphaTexStructure
+     */
+    constructor() {
+        this.attributesStr = new Map();
+        this.attributesInt = new Map();
+        this.attributesBool = new Set();
+        this.tracks = [];
+    }
+
+    /**
+     * Get string attribute
+     * @param {String} attribute attribute of string to retrieve
+     * @returns {String} The value for the asked attribute
+     */
+    getStr(attribute) {
+        return this.attributesStr.get(attribute);
+    }
+
+    /**
+     * Get int attribute
+     * @param {String} attribute attribute of int to retrieve
+     * @returns {number} The value for the asked attribute
+     */
+    getInt(attribute) { return this.attributesInt.get(attribute); }
+
+    /**
+     * Set string attribute
+     * @param {String} attribute attribute of string to set
+     * @param {String} value value of string to set
+     */
+    setStr(attribute, value) {
+        this.attributesStr.set(attribute, value);
+    }
+
+    /**
+     * Set int attribute
+     * @param {String} attribute attribute of int to set
+     * @param {number} value value of int to set
+     */
+    setInt(attribute, value) {
+        this.attributesInt.set(attribute, value);
+    }
+
+    /**
+     * Remove int attribute
+     * @param {String} attribute attribute of int to remove
+     */
+    removeInt(attribute) { this.attributesInt.delete(attribute); }
+
+    /**
+     * Add bool attribute
+     * @param {String} attribute attribute of bool to add
+     */
+    addBool(attribute) { this.attributesBool.add(attribute); }
+
+    /**
+     * Add track to list of tracks
+     * @param {Object} newTrack Track object to add
+     */
+    addTrack(newTrack) {
+        this.tracks.push(newTrack);
+    }
+
+    /**
+     * Copies all values from source.tracks into this.tracks
+     * @param {Object} source Source must have a list of tracks 
+     */
+    copyTracks(source) {
+        source.tracks.forEach((item, index) => {
+            this.addTrack(item);
+        });
+    }
+
+    /**
+     * Copies all string, int, and boolean attributes into this object
+     * @param {Object} source Source must have attributesStr, attributesInt, attributesBool
+     */
+    copyAttributes(source) {
+        source.attributesStr.forEach((value, key, map) => {
+            this.setStr(key, value);
+        });
+
+        source.attributesInt.forEach((value, key, map) => {
+            this.setInt(key, value);
+        });
+
+        source.attributesBool.forEach((value1, value2, set) => {
+            this.addBool(value1);
+        });
+    }
+
+    /**
+     * Converts AlphaTexStructure to a pretty string
+     * @returns {String} The pretty string representation of the AlphaTexStructure
+     */
+    toString() {
+        let output = "";
+
+        this.attributesStr.forEach((value, key, map) => {
+            output += key;
+            output += " : ";
+            output += value;
+            output += "\n";
+        });
+
+        this.attributesInt.forEach((value, key, map) => {
+            output += key;
+            output += " : ";
+            output += value;
+            output += "\n";
+        });
+
+        if (this.tracks.length > 0) {
+            this.tracks.forEach((track, index) => {
+                output += track.toString();
+                output += "\n";
+            });
+        }
+
+        return output;
+    }
+
+}
+
+module.exports = AlphaTexStructure
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

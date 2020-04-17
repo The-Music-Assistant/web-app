@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: vendors/AlphaTab/listeners.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                     
+                        <h1 class="navbar-item">The Music Assistant Web App Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/dgriessler/The-Music-Assistant" target="_blank">
+                                GitHub
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://music-assistant.com/" target="_blank">
+                                Example App
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://dgriessler.github.io/The-Music-Assistant/" target="_blank">
+                                Info Website
+                            </a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"></div><div class="category"><h2>AlertBar</h2><h3>Modules</h3><ul><li><a href="module-alertBarTransitionOptions.html">alertBarTransitionOptions</a></li><li><a href="module-alertBarTypes.html">alertBarTypes</a></li></ul><h3>Components</h3><ul><li><a href="AlertBar.html">AlertBar</a></li></ul></div><div class="category"><h2>AlphaTab</h2><h3>Modules</h3><ul><li><a href="module-alphaTabActions.html">alphaTabActions</a></li><li><a href="module-alphaTabDestruction.html">alphaTabDestruction</a></li><li><a href="module-alphaTabInitialization.html">alphaTabInitialization</a></li><li><a href="module-alphaTabListeners.html">alphaTabListeners</a></li><li><a href="module-alphaTabPlayerStates.html">alphaTabPlayerStates</a></li><li><a href="module-ledgerLines.html">ledgerLines</a></li></ul><h3>Classes</h3><ul><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="TexLoaded.html">TexLoaded</a></li></ul></div><div class="category"><h2>App</h2><h3>Components</h3><ul><li><a href="App.html">App</a></li></ul></div><div class="category"><h2>Auth</h2><h3>Modules</h3><ul><li><a href="module-authFlows.html">authFlows</a></li><li><a href="module-authStages.html">authStages</a></li></ul><h3>Components</h3><ul><li><a href="Auth.html">Auth</a></li></ul></div><div class="category"><h2>AuthCards</h2><h3>Components</h3><ul><li><a href="AuthCard.html">AuthCard</a></li><li><a href="ProfileCard.html">ProfileCard</a></li></ul></div><div class="category"><h2>Buttons</h2><h3>Modules</h3><ul><li><a href="module-buttonTypes.html">buttonTypes</a></li><li><a href="module-rectangularButtonColorOptions.html">rectangularButtonColorOptions</a></li><li><a href="module-textButtonColorOptions.html">textButtonColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="BackButton.html">BackButton</a></li><li><a href="ButtonContainer.html">ButtonContainer</a></li><li><a href="RectangularButton.html">RectangularButton</a></li><li><a href="TextButton.html">TextButton</a></li></ul></div><div class="category"><h2>ChoirMembers</h2><h3>Modules</h3><ul><li><a href="module-memberCardColorOptions.html">memberCardColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="ChoirMembers.html">ChoirMembers</a></li><li><a href="MemberCard.html">MemberCard</a></li></ul></div><div class="category"><h2>ChoirSelection</h2><h3>Modules</h3><ul><li><a href="module-choirCardColorOptions.html">choirCardColorOptions</a></li><li><a href="module-choirSelectionRoutingOptions.html">choirSelectionRoutingOptions</a></li></ul><h3>Components</h3><ul><li><a href="ChoirCard.html">ChoirCard</a></li><li><a href="ChoirOptionCard.html">ChoirOptionCard</a></li><li><a href="ChoirSelection.html">ChoirSelection</a></li></ul></div><div class="category"><h2>Firebase</h2><h3>Modules</h3><ul><li><a href="module-firebase.html">firebase</a></li><li><a href="module-firebaseLogs.html">firebaseLogs</a></li></ul></div><div class="category"><h2>Footer</h2><h3>Components</h3><ul><li><a href="Footer.html">Footer</a></li></ul></div><div class="category"><h2>FormInputs</h2><h3>Modules</h3><ul><li><a href="module-selectInputColorOptions.html">selectInputColorOptions</a></li><li><a href="module-textInputTypes.html">textInputTypes</a></li></ul><h3>Components</h3><ul><li><a href="ImageInput.html">ImageInput</a></li><li><a href="LargeTextInput.html">LargeTextInput</a></li><li><a href="SelectInput.html">SelectInput</a></li><li><a href="SmallTextInput.html">SmallTextInput</a></li></ul></div><div class="category"><h2>Header</h2><h3>Components</h3><ul><li><a href="HamburgerMenu.html">HamburgerMenu</a></li><li><a href="Header.html">Header</a></li><li><a href="UserWidget.html">UserWidget</a></li></ul></div><div class="category"><h2>Home</h2><h3>Components</h3><ul><li><a href="Home.html">Home</a></li></ul></div><div class="category"><h2>MobileNav</h2><h3>Components</h3><ul><li><a href="MobileNav.html">MobileNav</a></li><li><a href="MobileNavLink.html">MobileNavLink</a></li></ul></div><div class="category"><h2>Music</h2><h3>Modules</h3><ul><li><a href="module-musicViewOptions.html">musicViewOptions</a></li></ul><h3>Components</h3><ul><li><a href="ExerciseGenerator.html">ExerciseGenerator</a></li><li><a href="Music.html">Music</a></li><li><a href="MusicControls.html">MusicControls</a></li><li><a href="MusicPerformanceHeader.html">MusicPerformanceHeader</a></li><li><a href="PracticeMusicHeader.html">PracticeMusicHeader</a></li></ul></div><div class="category"><h2>MusicSelection</h2><h3>Modules</h3><ul><li><a href="module-musicCardColorOptions.html">musicCardColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="MusicCard.html">MusicCard</a></li><li><a href="MusicSelection.html">MusicSelection</a></li></ul></div><div class="category"><h2>P5</h2><h3>Modules</h3><ul><li><a href="module-sketchBehaviors.html">sketchBehaviors</a></li><li><a href="module-sketchFeedback.html">sketchFeedback</a></li><li><a href="module-sketchPerformance.html">sketchPerformance</a></li></ul><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li></ul></div><div class="category"><h2>PageHeader</h2><h3>Components</h3><ul><li><a href="PageHeader.html">PageHeader</a></li></ul></div><div class="category"><h2>PitchDetection</h2><h3>Modules</h3><ul><li><a href="module-pitchDetectionActions.html">pitchDetectionActions</a></li><li><a href="module-pitchDetectionDestruction.html">pitchDetectionDestruction</a></li><li><a href="module-pitchDetectionInitialization.html">pitchDetectionInitialization</a></li></ul><h3>Classes</h3><ul><li><a href="Pitch.html">Pitch</a></li><li><a href="PitchDetectionVariables.html">PitchDetectionVariables</a></li></ul></div><div class="category"><h2>Primary</h2><h3>Components</h3><ul><li><a href="Primary.html">Primary</a></li></ul></div><div class="category"><h2>Progress</h2><h3>Components</h3><ul><li><a href="Progress.html">Progress</a></li></ul></div><div class="category"><h2>Redux</h2><h3>Modules</h3><ul><li><a href="module-reduxActionsIndex.html">reduxActionsIndex</a></li><li><a href="module-reduxActionTypes.html">reduxActionTypes</a></li><li><a href="module-reduxAppActions.html">reduxAppActions</a></li><li><a href="module-reduxAppReducer.html">reduxAppReducer</a></li><li><a href="module-reduxAuthActions.html">reduxAuthActions</a></li><li><a href="module-reduxAuthReducer.html">reduxAuthReducer</a></li><li><a href="module-reduxChoirsTabActions.html">reduxChoirsTabActions</a></li><li><a href="module-reduxChoirsTabReducer.html">reduxChoirsTabReducer</a></li><li><a href="module-reduxPracticeTabActions.html">reduxPracticeTabActions</a></li><li><a href="module-reduxPracticeTabReducer.html">reduxPracticeTabReducer</a></li><li><a href="module-reduxRootReducer.html">reduxRootReducer</a></li><li><a href="module-reduxSetup.html">reduxSetup</a></li><li><a href="module-reduxStartupActions.html">reduxStartupActions</a></li><li><a href="module-reduxStartupReducer.html">reduxStartupReducer</a></li><li><a href="module-reduxUtilities.html">reduxUtilities</a></li></ul></div><div class="category"><h2>Server</h2><h3>Modules</h3><ul><li><a href="module-tmaApi.html">tmaApi</a></li></ul></div><div class="category"><h2>SideNav</h2><h3>Components</h3><ul><li><a href="SideNav.html">SideNav</a></li><li><a href="SideNavLink.html">SideNavLink</a></li></ul></div><div class="category"><h2>Spinners</h2><h3>Components</h3><ul><li><a href="LoadingContainer.html">LoadingContainer</a></li><li><a href="LoadingHUD.html">LoadingHUD</a></li></ul></div><div class="category"><h2>Startup</h2><h3>Components</h3><ul><li><a href="Startup.html">Startup</a></li></ul></div><div class="category"><h2>Welcome</h2><h3>Components</h3><ul><li><a href="Welcome.html">Welcome</a></li></ul></div><div class="category"><h2>alphaTabVariables</h2><h3>Classes</h3><ul><li><a href="AlphaTabVariables.html">AlphaTabVariables</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>vendors/AlphaTab/listeners.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// File imports
+import atVars from "./variables";
+import { startPlayingMusic } from "./actions";
+import { store } from "../../store/reduxSetup";
+import Drawer from "../P5/Drawer";
+import * as sketchBehaviors from "../P5/sketchBehaviors";
+import p5 from "p5";
+import feedbackSketch from "../P5/sketchFeedback";
+import performanceSketch from "../P5/sketchPerformance";
+import { stopPitchDetection } from "../ML5/PitchDetection/actions";
+import * as playerStates from "./playerStates";
+
+/**
+ * Functions called when an AlphaTab listener is triggered
+ * @module alphaTabListeners
+ * @category AlphaTab
+ * @author Daniel Griessler &lt;dgriessler20@gmail.com>
+ * @author Dan Levy &lt;danlevy124@gmail.com>
+ */
+
+/**
+ * Run when AlphaTab is rendered on the screen
+ * @function
+ */
+export const alphaTabPostRenderFinished = () => {
+    // Retrieves staff lines using IDs attacked to elements generated by AlphaTab
+    // Note: This required editing AlphaTab.js directly
+    let topLine = document.getElementById("rect_0");
+    let nextLine = document.getElementById("rect_1");
+
+    if (!atVars.isFirstRender) {
+        onSubsequentRender(topLine, nextLine);
+    } else {
+        onFirstRender(topLine, nextLine);
+    }
+};
+
+/**
+ * Handles changes to AlphaTab's player state
+ * @function
+ */
+export const alphaTabPlayerStateChanged = () => {
+    // Due to our page turns, the AlphaTex is re rendered and the player state is automatically "stopped" as part of the re rendering
+    // We want the sheet music to keep playing though so the checks are as follows
+    if (
+        atVars.api.playerState !== playerStates.PLAYING &amp;&amp;
+        atVars.playerState === playerStates.PLAYING
+    ) {
+        // Real stop -> stop playing the music
+        stopPlayingMusic();
+        resetSheetMusic();
+    } else if (
+        atVars.api.playerState === playerStates.PLAYING &amp;&amp;
+        atVars.playerState === playerStates.STOPPED
+    ) {
+        // Real play -> play the music
+        startPlayingMusic();
+    } else if (atVars.playerState === playerStates.PENDING_STOP) {
+        // Request was made to destroy the api -> so stop playing the music
+        stopPlayingMusic();
+    }
+};
+
+/**
+ * Resets the time back to the beginning of the song and our tracker points at the beginning of the piece again
+ * @function
+ */
+export const alphaTabPlayerFinished = () => {
+    atVars.noteStreamIndex = 0;
+    atVars.cumulativeTime = 0;
+};
+
+/**
+ * During page turns, we only need to update a subset of variables
+ * @function
+ */
+const onSubsequentRender = (topLine, nextLine) => {
+    // On a re-render, update the top line height and distance between lines which might have changed
+    const { topLineHeight, distanceBetweenLines } = getSheetMusicLedgerHeights(
+        topLine,
+        nextLine
+    );
+
+    atVars.drawer.setTopLineAndDistanceBetween(
+        topLineHeight,
+        distanceBetweenLines,
+        atVars.texLoaded.getStartOctave()
+    );
+
+    atVars.texLoaded.setFirstMeasurePosition();
+
+    if (atVars.sketchBehavior === atVars.p5Obj.type) {
+        // On a re render, the alpha tab surface might have changed size, so resize the p5 drawing canvas to overlay it
+        let aTS = document.getElementById("aTS");
+        atVars.p5Obj.resizeCanvas(aTS.clientWidth, aTS.clientHeight);
+        atVars.p5Obj.clear();
+    } else {
+        atVars.p5Obj.remove();
+        atVars.p5Obj = null;
+        if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
+            // Creates a new p5 instance which we will use for real time feedback during performance
+            atVars.p5Obj = new p5(feedbackSketch);
+        } else if (
+            atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING
+        ) {
+            // Sets up drawing for performance highlighting
+            // Creates a new p5 instance which we will use for highlighting during performance overview
+            atVars.p5Obj = new p5(performanceSketch);
+        }
+        // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
+        // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
+        // is now actually rendered to the dom
+        atVars.p5Obj.setup(atVars.drawer);
+    }
+};
+
+/**
+ * On the first render, isFirstRender will be false and this will signal an initial setup of the variables
+ * @function
+ */
+const onFirstRender = async (topLine, nextLine) => {
+    atVars.isFirstRender = false;
+
+    // We were getting an error where rect_0 or rect_1 were null even though AlphaTab said they were rendered
+    // This sets up an interval to keep waiting for them to not be null before moving on with the render process
+    const lineReadyID = setInterval(() => {
+        if (topLine !== null &amp;&amp; nextLine !== null) {
+            // stop interval from running
+            clearInterval(lineReadyID);
+
+            atVars.texLoaded.setFirstMeasurePosition();
+
+            // Sets up drawing
+            initializeFeedbackDrawer(topLine, nextLine);
+
+            if (atVars.sketchBehavior === sketchBehaviors.REAL_TIME_FEEDBACK) {
+                // Creates a new p5 instance which we will use for real time feedback during performance
+                atVars.p5Obj = new p5(feedbackSketch);
+                // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
+                // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
+                // is now actually rendered to the dom
+                atVars.p5Obj.setup(atVars.drawer);
+            } else {
+                // Sets up drawing for performance highlighting
+                // Creates a new p5 instance which we will use for highlighting during performance overview
+                atVars.p5Obj = new p5(performanceSketch);
+                // setup is called immediately upon creating a new p5 sketch but we need to call it explictly to give it a handle
+                // to the drawer that we created. This also signals to actually create an appropriately sized canvas since Alpha Tab
+                // is now actually rendered to the dom
+                atVars.p5Obj.setup(atVars.drawer);
+            }
+        } else {
+            // keeps trying to retrieve the top line and next line of the Alpha Tab music until they are loaded in the dom
+            topLine = document.getElementById("rect_0");
+            nextLine = document.getElementById("rect_1");
+        }
+    }, 500);
+};
+
+/**
+ * Creates an instance of the of the the drawer
+ * @function
+ * @param {object} topLine - The top line DOM element
+ * @param {object} nextLine - The next line DOM element
+ */
+const initializeFeedbackDrawer = (topLine, nextLine) => {
+    const { topLineHeight, distanceBetweenLines } = getSheetMusicLedgerHeights(
+        topLine,
+        nextLine
+    );
+    // Creates a new drawer using the top line height, distance between lines, and start octave of the music to decide
+    // how high to draw the notes for feedback
+    atVars.drawer = new Drawer(
+        topLineHeight + 1,
+        distanceBetweenLines,
+        atVars.texLoaded.getStartOctave()
+    );
+};
+
+/**
+ * Stops playing the music.
+ * Shuts off pitch detection (this does not turn the microphone off).
+ * Resets the sheet music (this is due to pagination).
+ * @function
+ */
+const stopPlayingMusic = () => {
+    // Stops the pitch detection
+    stopPitchDetection(store.getState().practice.selectedSheetMusicId);
+
+    // Changes player state to stopped
+    atVars.playerState = playerStates.STOPPED;
+
+    // Resets the sheet music back to the beginning
+    resetSheetMusic();
+};
+
+/**
+ * @typedef LedgerHeightsPackage
+ * @property {number} topLineHeight The y height of the top ledger line
+ * @property {number} distanceBetweenLines The y distance between ledger lines
+ */
+
+/**
+ * Gets the top line height and distance between ledger lines based on the sheet music
+ * @function
+ * @param {object} topLine
+ * @param {object} nextLine
+ * @returns {module:alphaTabListeners~LedgerHeightsPackage} An object containing the top line height and distance between lines
+ */
+const getSheetMusicLedgerHeights = (topLine, nextLine) => {
+    // Retrieves the height of the staff lines based on a relative offset to their wrapping contanier
+    // Used to setup the p5Obj canvas so the canvas needs to be directly on top of the alphaTab container where these are stored
+    const topLineHeight = topLine.y.animVal.value;
+    return {
+        topLineHeight: topLine.y.animVal.value,
+        distanceBetweenLines: nextLine.y.animVal.value - topLineHeight,
+    };
+};
+
+/**
+ * Clears the p5 drawing for real-time feedback.
+ * Resets the sheet music back to the beginning.
+ * @function
+ */
+const resetSheetMusic = () => {
+    // Clears the p5 drawing
+    atVars.p5Obj.clear();
+
+    // Resets the sheet music
+    atVars.api.settings.display.startBar = 1;
+    atVars.api.settings.display.barCount = atVars.barCount;
+    atVars.api.updateSettings();
+    atVars.api.render();
+
+    // Resets the progress through expected performance
+    atVars.noteStreamIndex = 0;
+    atVars.cumulativeTime = 0;
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Fri Apr 17 2020 13:29:04 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

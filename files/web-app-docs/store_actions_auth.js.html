@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: store/actions/auth.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                     
+                        <h1 class="navbar-item">The Music Assistant Web App Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/dgriessler/The-Music-Assistant" target="_blank">
+                                GitHub
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://music-assistant.com/" target="_blank">
+                                Example App
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://dgriessler.github.io/The-Music-Assistant/" target="_blank">
+                                Info Website
+                            </a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"></div><div class="category"><h2>AlertBar</h2><h3>Modules</h3><ul><li><a href="module-alertBarTransitionOptions.html">alertBarTransitionOptions</a></li><li><a href="module-alertBarTypes.html">alertBarTypes</a></li></ul><h3>Components</h3><ul><li><a href="AlertBar.html">AlertBar</a></li></ul></div><div class="category"><h2>AlphaTab</h2><h3>Modules</h3><ul><li><a href="module-alphaTabActions.html">alphaTabActions</a></li><li><a href="module-alphaTabDestruction.html">alphaTabDestruction</a></li><li><a href="module-alphaTabInitialization.html">alphaTabInitialization</a></li><li><a href="module-alphaTabListeners.html">alphaTabListeners</a></li><li><a href="module-alphaTabPlayerStates.html">alphaTabPlayerStates</a></li><li><a href="module-ledgerLines.html">ledgerLines</a></li></ul><h3>Classes</h3><ul><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="TexLoaded.html">TexLoaded</a></li></ul></div><div class="category"><h2>App</h2><h3>Components</h3><ul><li><a href="App.html">App</a></li></ul></div><div class="category"><h2>Auth</h2><h3>Modules</h3><ul><li><a href="module-authFlows.html">authFlows</a></li><li><a href="module-authStages.html">authStages</a></li></ul><h3>Components</h3><ul><li><a href="Auth.html">Auth</a></li></ul></div><div class="category"><h2>AuthCards</h2><h3>Components</h3><ul><li><a href="AuthCard.html">AuthCard</a></li><li><a href="ProfileCard.html">ProfileCard</a></li></ul></div><div class="category"><h2>Buttons</h2><h3>Modules</h3><ul><li><a href="module-buttonTypes.html">buttonTypes</a></li><li><a href="module-rectangularButtonColorOptions.html">rectangularButtonColorOptions</a></li><li><a href="module-textButtonColorOptions.html">textButtonColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="BackButton.html">BackButton</a></li><li><a href="ButtonContainer.html">ButtonContainer</a></li><li><a href="RectangularButton.html">RectangularButton</a></li><li><a href="TextButton.html">TextButton</a></li></ul></div><div class="category"><h2>ChoirMembers</h2><h3>Modules</h3><ul><li><a href="module-memberCardColorOptions.html">memberCardColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="ChoirMembers.html">ChoirMembers</a></li><li><a href="MemberCard.html">MemberCard</a></li></ul></div><div class="category"><h2>ChoirSelection</h2><h3>Modules</h3><ul><li><a href="module-choirCardColorOptions.html">choirCardColorOptions</a></li><li><a href="module-choirSelectionRoutingOptions.html">choirSelectionRoutingOptions</a></li></ul><h3>Components</h3><ul><li><a href="ChoirCard.html">ChoirCard</a></li><li><a href="ChoirOptionCard.html">ChoirOptionCard</a></li><li><a href="ChoirSelection.html">ChoirSelection</a></li></ul></div><div class="category"><h2>Firebase</h2><h3>Modules</h3><ul><li><a href="module-firebase.html">firebase</a></li><li><a href="module-firebaseLogs.html">firebaseLogs</a></li></ul></div><div class="category"><h2>Footer</h2><h3>Components</h3><ul><li><a href="Footer.html">Footer</a></li></ul></div><div class="category"><h2>FormInputs</h2><h3>Modules</h3><ul><li><a href="module-selectInputColorOptions.html">selectInputColorOptions</a></li><li><a href="module-textInputTypes.html">textInputTypes</a></li></ul><h3>Components</h3><ul><li><a href="ImageInput.html">ImageInput</a></li><li><a href="LargeTextInput.html">LargeTextInput</a></li><li><a href="SelectInput.html">SelectInput</a></li><li><a href="SmallTextInput.html">SmallTextInput</a></li></ul></div><div class="category"><h2>Header</h2><h3>Components</h3><ul><li><a href="HamburgerMenu.html">HamburgerMenu</a></li><li><a href="Header.html">Header</a></li><li><a href="UserWidget.html">UserWidget</a></li></ul></div><div class="category"><h2>Home</h2><h3>Components</h3><ul><li><a href="Home.html">Home</a></li></ul></div><div class="category"><h2>MobileNav</h2><h3>Components</h3><ul><li><a href="MobileNav.html">MobileNav</a></li><li><a href="MobileNavLink.html">MobileNavLink</a></li></ul></div><div class="category"><h2>Music</h2><h3>Modules</h3><ul><li><a href="module-musicViewOptions.html">musicViewOptions</a></li></ul><h3>Components</h3><ul><li><a href="ExerciseGenerator.html">ExerciseGenerator</a></li><li><a href="Music.html">Music</a></li><li><a href="MusicControls.html">MusicControls</a></li><li><a href="MusicPerformanceHeader.html">MusicPerformanceHeader</a></li><li><a href="PracticeMusicHeader.html">PracticeMusicHeader</a></li></ul></div><div class="category"><h2>MusicSelection</h2><h3>Modules</h3><ul><li><a href="module-musicCardColorOptions.html">musicCardColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="MusicCard.html">MusicCard</a></li><li><a href="MusicSelection.html">MusicSelection</a></li></ul></div><div class="category"><h2>P5</h2><h3>Modules</h3><ul><li><a href="module-sketchBehaviors.html">sketchBehaviors</a></li><li><a href="module-sketchFeedback.html">sketchFeedback</a></li><li><a href="module-sketchPerformance.html">sketchPerformance</a></li></ul><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li></ul></div><div class="category"><h2>PageHeader</h2><h3>Components</h3><ul><li><a href="PageHeader.html">PageHeader</a></li></ul></div><div class="category"><h2>PitchDetection</h2><h3>Modules</h3><ul><li><a href="module-pitchDetectionActions.html">pitchDetectionActions</a></li><li><a href="module-pitchDetectionDestruction.html">pitchDetectionDestruction</a></li><li><a href="module-pitchDetectionInitialization.html">pitchDetectionInitialization</a></li></ul><h3>Classes</h3><ul><li><a href="Pitch.html">Pitch</a></li><li><a href="PitchDetectionVariables.html">PitchDetectionVariables</a></li></ul></div><div class="category"><h2>Primary</h2><h3>Components</h3><ul><li><a href="Primary.html">Primary</a></li></ul></div><div class="category"><h2>Progress</h2><h3>Components</h3><ul><li><a href="Progress.html">Progress</a></li></ul></div><div class="category"><h2>Redux</h2><h3>Modules</h3><ul><li><a href="module-reduxActionsIndex.html">reduxActionsIndex</a></li><li><a href="module-reduxActionTypes.html">reduxActionTypes</a></li><li><a href="module-reduxAppActions.html">reduxAppActions</a></li><li><a href="module-reduxAppReducer.html">reduxAppReducer</a></li><li><a href="module-reduxAuthActions.html">reduxAuthActions</a></li><li><a href="module-reduxAuthReducer.html">reduxAuthReducer</a></li><li><a href="module-reduxChoirsTabActions.html">reduxChoirsTabActions</a></li><li><a href="module-reduxChoirsTabReducer.html">reduxChoirsTabReducer</a></li><li><a href="module-reduxPracticeTabActions.html">reduxPracticeTabActions</a></li><li><a href="module-reduxPracticeTabReducer.html">reduxPracticeTabReducer</a></li><li><a href="module-reduxRootReducer.html">reduxRootReducer</a></li><li><a href="module-reduxSetup.html">reduxSetup</a></li><li><a href="module-reduxStartupActions.html">reduxStartupActions</a></li><li><a href="module-reduxStartupReducer.html">reduxStartupReducer</a></li><li><a href="module-reduxUtilities.html">reduxUtilities</a></li></ul></div><div class="category"><h2>Server</h2><h3>Modules</h3><ul><li><a href="module-tmaApi.html">tmaApi</a></li></ul></div><div class="category"><h2>SideNav</h2><h3>Components</h3><ul><li><a href="SideNav.html">SideNav</a></li><li><a href="SideNavLink.html">SideNavLink</a></li></ul></div><div class="category"><h2>Spinners</h2><h3>Components</h3><ul><li><a href="LoadingContainer.html">LoadingContainer</a></li><li><a href="LoadingHUD.html">LoadingHUD</a></li></ul></div><div class="category"><h2>Startup</h2><h3>Components</h3><ul><li><a href="Startup.html">Startup</a></li></ul></div><div class="category"><h2>Welcome</h2><h3>Components</h3><ul><li><a href="Welcome.html">Welcome</a></li></ul></div><div class="category"><h2>alphaTabVariables</h2><h3>Classes</h3><ul><li><a href="AlphaTabVariables.html">AlphaTabVariables</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>store/actions/auth.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// NPM module imports
+import "firebase/storage";
+
+// File imports
+import * as actionTypes from "./actionTypes";
+import firebase from "../../vendors/Firebase/firebase";
+import { authError as logAuthError } from "../../vendors/Firebase/logs";
+import { setAxiosAuthToken, getUser } from "../../vendors/AWS/tmaApi";
+
+/**
+ * Redux authentication actions
+ * @module reduxAuthActions
+ * @category Redux
+ * @author Dan Levy &lt;danlevy124@gmail.com>
+ */
+
+/**
+ * Signs the current user out
+ * @function
+ * @returns {function} A React Redux dispatch function
+ */
+export const signOut = () => {
+    return (dispatch) => {
+        // Don't show the welcome page
+        dispatch(doNotShowWelcomePage());
+
+        // Signs the user out
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                // Successful sign out
+                dispatch(signOutSuccess());
+            })
+            .catch((error) => {
+                // Error when signing out
+                dispatch(authError(error));
+            });
+    };
+};
+
+/**
+ * Updates redux state whenever Firebase Auth state changes
+ * @function
+ * @returns {function} A React Redux dispatch function
+ */
+export const handleAuthStateChanges = () => {
+    return (dispatch) => {
+        // Creates an auth state changed observer
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // Sets the Axios auth header with the user's id token
+                firebase
+                    .auth()
+                    .currentUser.getIdToken()
+                    .then(setAxiosAuthToken)
+                    .catch((error) => {
+                        // Clears the old Axios auth header token if there is one
+                        setAxiosAuthToken("");
+                        dispatch(authError(error));
+                        logAuthError(
+                            error.code,
+                            error.message,
+                            "[store/actions/auth/handleAuthStateChanges]"
+                        );
+                    })
+                    .then(() => {
+                        dispatch(getUserInfo());
+                    })
+                    .then(() => {
+                        // A user must have a verified email before they can use the app
+                        // The welcome page blocks the user until they verify their email
+                        if (!user.emailVerified) {
+                            dispatch(showWelcomePage());
+                        }
+                    });
+            } else {
+                // Clears the old Axios auth header token if there is one
+                setAxiosAuthToken("");
+
+                dispatch(userNotAuthenticated());
+            }
+        });
+    };
+};
+
+/**
+ * Gets user info, including the users full name and a profile picture
+ * @function
+ * @returns {function} A React Redux dispatch function
+ */
+export const getUserInfo = () => {
+    return (dispatch) => {
+        // Gets the current user
+        let user = firebase.auth().currentUser;
+
+        if (user) {
+            // Gets the user from the database
+            getUser()
+                .then((snapshot) => {
+                    // Update state with the user's full name
+                    dispatch(
+                        retrievedUsersName(
+                            snapshot.data.first_name +
+                                " " +
+                                snapshot.data.last_name
+                        )
+                    );
+
+                    // The user has been authenticated
+                    dispatch(userAuthenticated());
+
+                    // Returns has_picture boolean
+                    return snapshot.data.has_picture;
+                })
+                .catch((error) => {
+                    // Error getting the user info
+                    dispatch(authError(error));
+                    dispatch(usersNameRetrievalFailed());
+
+                    // Log an error
+                    logAuthError(
+                        error.response.status,
+                        error.response.data,
+                        "[store/actions/auth/getUserInfo]"
+                    );
+                })
+                .then((userHasProfilePicture) => {
+                    if (userHasProfilePicture) {
+                        // Get the user's profile picture URL
+                        return firebase
+                            .storage()
+                            .ref()
+                            .child(`users/${user.uid}/profile_picture_200x200`)
+                            .getDownloadURL();
+                    }
+                })
+                .then((url) => {
+                    // Updates state with the picture URL
+                    dispatch(retrievedUsersPictureUrl(url));
+                })
+                .catch((error) => {
+                    // Error getting the picture url
+                    dispatch(authError(error));
+                    dispatch(usersPictureUrlRetrievalFailed());
+                });
+        }
+    };
+};
+
+/**
+ * Return object for the startAuthFlow function
+ * @typedef StartAuthFlowReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {module:authFlows} flow - The current auth flow
+ */
+
+/**
+ * Starts the auth flow
+ * @function
+ * @returns {module:reduxAuthActions~StartAuthFlowReturnObject}
+ */
+export const startAuthFlow = (flow) => {
+    return {
+        type: actionTypes.START_AUTH_FLOW,
+        flow,
+    };
+};
+
+/**
+ * Return object for the changeAuthFlow function
+ * @typedef ChangeAuthFlowReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {module:authFlows} flow - The current auth flow to change to
+ */
+
+/**
+ * Changes the auth flow
+ * @function
+ * @returns {module:reduxAuthActions~ChangeAuthFlowReturnObject}
+ */
+export const changeAuthFlow = (flow) => {
+    return {
+        type: actionTypes.CHANGE_AUTH_FLOW,
+        flow,
+    };
+};
+
+/**
+ * Return object for the showWelcomePage function
+ * @typedef ShowWelcomePageReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {boolean} isAuthFlowComplete - Indicates if the auth flow is complete
+ */
+
+/**
+ * Shows the welcome page.
+ * If the auth flow is complete, the welcome page will show immediately.
+ * Otherwise, the welcome page will show once the auth flow is complete.
+ * @function
+ * @param {boolean} isAuthFlowComplete - Indicates if the auth flow is complete
+ * @returns {module:reduxAuthActions~ShowWelcomePageReturnObject}
+ */
+export const showWelcomePage = (isAuthFlowComplete) => {
+    return {
+        type: actionTypes.SHOW_WELCOME_PAGE,
+        isAuthFlowComplete,
+    };
+};
+
+/**
+ * Return object for the doNotShowWelcomePage function
+ * @typedef DoNotShowWelcomePageReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Does not show the welcome page
+ * @function
+ * @returns {module:reduxAuthActions~DoNotShowWelcomePageReturnObject}
+ */
+export const doNotShowWelcomePage = () => {
+    return {
+        type: actionTypes.DO_NOT_SHOW_WELCOME_PAGE,
+    };
+};
+
+/**
+ * Return object for the welcomePageComplete function
+ * @typedef WelcomePageCompleteReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Hides (i.e. removes) the welcome page
+ * @function
+ * @returns {module:reduxAuthActions~WelcomePageCompleteReturnObject}
+ */
+export const welcomePageComplete = () => {
+    return {
+        type: actionTypes.WELCOME_PAGE_COMPLETE,
+    };
+};
+
+/**
+ * Return object for the userAuthenticated function
+ * @typedef UserAuthenticatedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Indicates that the user is authenticated
+ * @function
+ * @returns {module:reduxAuthActions~UserAuthenticatedReturnObject}
+ */
+const userAuthenticated = () => {
+    return {
+        type: actionTypes.USER_AUTHENTICATED,
+    };
+};
+
+/**
+ * Return object for the userNotAuthenticated function
+ * @typedef UserNotAuthenticatedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Indicates that the user is not authenticated
+ * @function
+ * @returns {module:reduxAuthActions~UserNotAuthenticatedReturnObject}
+ */
+const userNotAuthenticated = () => {
+    return {
+        type: actionTypes.USER_NOT_AUTHENTICATED,
+    };
+};
+
+/**
+ * Return object for the authError function
+ * @typedef AuthErrorReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {object} error - The auth error
+ */
+
+/**
+ * Sets the auth error to the given error
+ * @function
+ * @param {object} error - The auth error
+ * @returns {module:reduxAuthActions~AuthErrorReturnObject}
+ */
+const authError = (error) => {
+    return {
+        type: actionTypes.AUTH_ERROR,
+        error,
+    };
+};
+
+/**
+ * Return object for the signOutSuccess function
+ * @typedef SignOutSuccessReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Indicates that the sign out was successful
+ * @function
+ * @returns {module:reduxAuthActions~SignOutSuccessReturnObject}
+ */
+const signOutSuccess = () => {
+    return {
+        type: actionTypes.SIGN_OUT,
+    };
+};
+
+/**
+ * Return object for the retrievedUsersName function
+ * @typedef RetrievedUsersNameReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {string} name - The user's name
+ */
+
+/**
+ * Sets the user's name
+ * @function
+ * @param {string} name - The user's name
+ * @returns {module:reduxAuthActions~RetrievedUsersNameReturnObject}
+ */
+const retrievedUsersName = (name) => {
+    return {
+        type: actionTypes.RETRIEVED_USERS_NAME,
+        name,
+    };
+};
+
+/**
+ * Return object for the usersNameRetrievalFailed function
+ * @typedef UsersNameRetrievalFailedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Indicates that the retrieval of the user's name failed
+ * @function
+ * @returns {module:reduxAuthActions~UsersNameRetrievalFailedReturnObject}
+ */
+const usersNameRetrievalFailed = () => {
+    return {
+        type: actionTypes.USERS_NAME_RETRIEVAL_FAILED,
+    };
+};
+
+/**
+ * Return object for the retrievedUsersPictureUrl function
+ * @typedef RetrievedUsersPictureUrlReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ * @property {string} url - The profile picture url
+ */
+
+/**
+ * Sets the user's profile picture URL
+ * @function
+ * @param {string} url - The profile picture url
+ * @returns {module:reduxAuthActions~RetrievedUsersPictureUrlReturnObject}
+ */
+const retrievedUsersPictureUrl = (url) => {
+    return {
+        type: actionTypes.RETRIEVED_USERS_PICTURE_URL,
+        url,
+    };
+};
+
+/**
+ * Return object for the usersPictureUrlRetrievalFailed function
+ * @typedef {object} UsersPictureUrlRetrievalFailedReturnObject
+ * @property {module:reduxActionTypes} type - An action type
+ */
+
+/**
+ * Indicates that the retrieval of the user's profile picture url failed
+ * @function
+ * @returns {module:reduxAuthActions~UsersPictureUrlRetrievalFailedReturnObject}
+ */
+const usersPictureUrlRetrievalFailed = () => {
+    return {
+        type: actionTypes.USERS_PICTURE_URL_RETRIEVAL_FAILED,
+    };
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Fri Apr 17 2020 13:29:04 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

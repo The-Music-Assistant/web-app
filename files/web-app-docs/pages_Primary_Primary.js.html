@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: pages/Primary/Primary.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                     
+                        <h1 class="navbar-item">The Music Assistant Web App Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/dgriessler/The-Music-Assistant" target="_blank">
+                                GitHub
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://music-assistant.com/" target="_blank">
+                                Example App
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://dgriessler.github.io/The-Music-Assistant/" target="_blank">
+                                Info Website
+                            </a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"></div><div class="category"><h2>AlertBar</h2><h3>Modules</h3><ul><li><a href="module-alertBarTransitionOptions.html">alertBarTransitionOptions</a></li><li><a href="module-alertBarTypes.html">alertBarTypes</a></li></ul><h3>Components</h3><ul><li><a href="AlertBar.html">AlertBar</a></li></ul></div><div class="category"><h2>AlphaTab</h2><h3>Modules</h3><ul><li><a href="module-alphaTabActions.html">alphaTabActions</a></li><li><a href="module-alphaTabDestruction.html">alphaTabDestruction</a></li><li><a href="module-alphaTabInitialization.html">alphaTabInitialization</a></li><li><a href="module-alphaTabListeners.html">alphaTabListeners</a></li><li><a href="module-alphaTabPlayerStates.html">alphaTabPlayerStates</a></li><li><a href="module-ledgerLines.html">ledgerLines</a></li></ul><h3>Classes</h3><ul><li><a href="NoteList.html">NoteList</a></li><li><a href="PerformanceData.html">PerformanceData</a></li><li><a href="TexLoaded.html">TexLoaded</a></li></ul></div><div class="category"><h2>App</h2><h3>Components</h3><ul><li><a href="App.html">App</a></li></ul></div><div class="category"><h2>Auth</h2><h3>Modules</h3><ul><li><a href="module-authFlows.html">authFlows</a></li><li><a href="module-authStages.html">authStages</a></li></ul><h3>Components</h3><ul><li><a href="Auth.html">Auth</a></li></ul></div><div class="category"><h2>AuthCards</h2><h3>Components</h3><ul><li><a href="AuthCard.html">AuthCard</a></li><li><a href="ProfileCard.html">ProfileCard</a></li></ul></div><div class="category"><h2>Buttons</h2><h3>Modules</h3><ul><li><a href="module-buttonTypes.html">buttonTypes</a></li><li><a href="module-rectangularButtonColorOptions.html">rectangularButtonColorOptions</a></li><li><a href="module-textButtonColorOptions.html">textButtonColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="BackButton.html">BackButton</a></li><li><a href="ButtonContainer.html">ButtonContainer</a></li><li><a href="RectangularButton.html">RectangularButton</a></li><li><a href="TextButton.html">TextButton</a></li></ul></div><div class="category"><h2>ChoirMembers</h2><h3>Modules</h3><ul><li><a href="module-memberCardColorOptions.html">memberCardColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="ChoirMembers.html">ChoirMembers</a></li><li><a href="MemberCard.html">MemberCard</a></li></ul></div><div class="category"><h2>ChoirSelection</h2><h3>Modules</h3><ul><li><a href="module-choirCardColorOptions.html">choirCardColorOptions</a></li><li><a href="module-choirSelectionRoutingOptions.html">choirSelectionRoutingOptions</a></li></ul><h3>Components</h3><ul><li><a href="ChoirCard.html">ChoirCard</a></li><li><a href="ChoirOptionCard.html">ChoirOptionCard</a></li><li><a href="ChoirSelection.html">ChoirSelection</a></li></ul></div><div class="category"><h2>Firebase</h2><h3>Modules</h3><ul><li><a href="module-firebase.html">firebase</a></li><li><a href="module-firebaseLogs.html">firebaseLogs</a></li></ul></div><div class="category"><h2>Footer</h2><h3>Components</h3><ul><li><a href="Footer.html">Footer</a></li></ul></div><div class="category"><h2>FormInputs</h2><h3>Modules</h3><ul><li><a href="module-selectInputColorOptions.html">selectInputColorOptions</a></li><li><a href="module-textInputTypes.html">textInputTypes</a></li></ul><h3>Components</h3><ul><li><a href="ImageInput.html">ImageInput</a></li><li><a href="LargeTextInput.html">LargeTextInput</a></li><li><a href="SelectInput.html">SelectInput</a></li><li><a href="SmallTextInput.html">SmallTextInput</a></li></ul></div><div class="category"><h2>Header</h2><h3>Components</h3><ul><li><a href="HamburgerMenu.html">HamburgerMenu</a></li><li><a href="Header.html">Header</a></li><li><a href="UserWidget.html">UserWidget</a></li></ul></div><div class="category"><h2>Home</h2><h3>Components</h3><ul><li><a href="Home.html">Home</a></li></ul></div><div class="category"><h2>MobileNav</h2><h3>Components</h3><ul><li><a href="MobileNav.html">MobileNav</a></li><li><a href="MobileNavLink.html">MobileNavLink</a></li></ul></div><div class="category"><h2>Music</h2><h3>Modules</h3><ul><li><a href="module-musicViewOptions.html">musicViewOptions</a></li></ul><h3>Components</h3><ul><li><a href="ExerciseGenerator.html">ExerciseGenerator</a></li><li><a href="Music.html">Music</a></li><li><a href="MusicControls.html">MusicControls</a></li><li><a href="MusicPerformanceHeader.html">MusicPerformanceHeader</a></li><li><a href="PracticeMusicHeader.html">PracticeMusicHeader</a></li></ul></div><div class="category"><h2>MusicSelection</h2><h3>Modules</h3><ul><li><a href="module-musicCardColorOptions.html">musicCardColorOptions</a></li></ul><h3>Components</h3><ul><li><a href="MusicCard.html">MusicCard</a></li><li><a href="MusicSelection.html">MusicSelection</a></li></ul></div><div class="category"><h2>P5</h2><h3>Modules</h3><ul><li><a href="module-sketchBehaviors.html">sketchBehaviors</a></li><li><a href="module-sketchFeedback.html">sketchFeedback</a></li><li><a href="module-sketchPerformance.html">sketchPerformance</a></li></ul><h3>Classes</h3><ul><li><a href="Drawer.html">Drawer</a></li><li><a href="Note.html">Note</a></li></ul></div><div class="category"><h2>PageHeader</h2><h3>Components</h3><ul><li><a href="PageHeader.html">PageHeader</a></li></ul></div><div class="category"><h2>PitchDetection</h2><h3>Modules</h3><ul><li><a href="module-pitchDetectionActions.html">pitchDetectionActions</a></li><li><a href="module-pitchDetectionDestruction.html">pitchDetectionDestruction</a></li><li><a href="module-pitchDetectionInitialization.html">pitchDetectionInitialization</a></li></ul><h3>Classes</h3><ul><li><a href="Pitch.html">Pitch</a></li><li><a href="PitchDetectionVariables.html">PitchDetectionVariables</a></li></ul></div><div class="category"><h2>Primary</h2><h3>Components</h3><ul><li><a href="Primary.html">Primary</a></li></ul></div><div class="category"><h2>Progress</h2><h3>Components</h3><ul><li><a href="Progress.html">Progress</a></li></ul></div><div class="category"><h2>Redux</h2><h3>Modules</h3><ul><li><a href="module-reduxActionsIndex.html">reduxActionsIndex</a></li><li><a href="module-reduxActionTypes.html">reduxActionTypes</a></li><li><a href="module-reduxAppActions.html">reduxAppActions</a></li><li><a href="module-reduxAppReducer.html">reduxAppReducer</a></li><li><a href="module-reduxAuthActions.html">reduxAuthActions</a></li><li><a href="module-reduxAuthReducer.html">reduxAuthReducer</a></li><li><a href="module-reduxChoirsTabActions.html">reduxChoirsTabActions</a></li><li><a href="module-reduxChoirsTabReducer.html">reduxChoirsTabReducer</a></li><li><a href="module-reduxPracticeTabActions.html">reduxPracticeTabActions</a></li><li><a href="module-reduxPracticeTabReducer.html">reduxPracticeTabReducer</a></li><li><a href="module-reduxRootReducer.html">reduxRootReducer</a></li><li><a href="module-reduxSetup.html">reduxSetup</a></li><li><a href="module-reduxStartupActions.html">reduxStartupActions</a></li><li><a href="module-reduxStartupReducer.html">reduxStartupReducer</a></li><li><a href="module-reduxUtilities.html">reduxUtilities</a></li></ul></div><div class="category"><h2>Server</h2><h3>Modules</h3><ul><li><a href="module-tmaApi.html">tmaApi</a></li></ul></div><div class="category"><h2>SideNav</h2><h3>Components</h3><ul><li><a href="SideNav.html">SideNav</a></li><li><a href="SideNavLink.html">SideNavLink</a></li></ul></div><div class="category"><h2>Spinners</h2><h3>Components</h3><ul><li><a href="LoadingContainer.html">LoadingContainer</a></li><li><a href="LoadingHUD.html">LoadingHUD</a></li></ul></div><div class="category"><h2>Startup</h2><h3>Components</h3><ul><li><a href="Startup.html">Startup</a></li></ul></div><div class="category"><h2>Welcome</h2><h3>Components</h3><ul><li><a href="Welcome.html">Welcome</a></li></ul></div><div class="category"><h2>alphaTabVariables</h2><h3>Classes</h3><ul><li><a href="AlphaTabVariables.html">AlphaTabVariables</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>pages/Primary/Primary.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// NPM module imports
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import shortid from "shortid";
+import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+
+// Component imports
+import Header from "../../components/Header/Header";
+import MobileNav from "../../components/MobileNav/MobileNav";
+import SideNav from "../../components/SideNav/SideNav";
+import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
+import MusicSelection from "../../components/MusicSelection/MusicSelection";
+import AlertBar from "../../components/AlertBar/AlertBar";
+import Home from "../../components/Home/Home";
+import Music from "../../components/Music/Music";
+import Progress from "../../components/Progress/Progress";
+import ChoirMembers from "../../components/ChoirMembers/ChoirMembers";
+import Footer from "../../components/Footer/Footer";
+
+// File imports
+import { signOut } from "../../store/actions";
+import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/choirSelectionRoutingOptions";
+import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
+
+// Image imports
+import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
+import practiceIconBlue from "../../assets/icons/practice-icon-blue.svg";
+import progressIconBlue from "../../assets/icons/progress-icon-blue.svg";
+import choirIconBlue from "../../assets/icons/choir-icon-blue.svg";
+import homeIconWhite from "../../assets/icons/home-icon-white.svg";
+import practiceIconWhite from "../../assets/icons/practice-icon-white.svg";
+import progressIconWhite from "../../assets/icons/progress-icon-white.svg";
+import choirIconWhite from "../../assets/icons/choir-icon-white.svg";
+
+// Style imports
+import styles from "./Primary.module.scss";
+
+/**
+ * Renders the Primary component.
+ * This is the container component for all of the components that should include a header, sidebar, and footer.
+ * @extends {Component}
+ * @component
+ * @category Primary
+ * @author Dan Levy &lt;danlevy124@gmail.com>
+ */
+class Primary extends Component {
+    /**
+     * Sets up state
+     * @param {object} props - See PropTypes
+     */
+    constructor(props) {
+        super(props);
+
+        /**
+         * Primary component state
+         * @property {boolean} isMobileScreenWidth - Indicates if the screen width is mobile (i.e. &lt; 768px)
+         * @property {boolean} showMobileNav - Indicates if the mobile navigation should be shown
+         * @property {object|null} alertData - Data used to display an alert
+         * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
+         * @property {string} alertData.heading - The alert heading
+         * @property {string} alertData.message - The alert message
+         */
+        this.state = {
+            isMobileScreenWidth: window.innerWidth &lt; 768,
+            showMobileNav: false,
+            alertData: null,
+            mainNavTabs: this.getMainNavTabs(),
+        };
+    }
+
+    /**
+     * The copyright year for the app
+     * @type {string}
+     */
+    _COPYRIGHT_YEAR = "2020";
+
+    /**
+     * The current app version number
+     * @type {string}
+     */
+    _VERSION_NUMBER = "0.0.10";
+
+    /**
+     * Indicates if the component is mounted.
+     * Used for asynchronous tasks.
+     * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+     */
+    _isMounted = false;
+
+    /**
+     * Creates an event listener for window resize
+     */
+    componentDidMount() {
+        this._isMounted = true;
+        window.addEventListener("resize", this.handleWindowResize);
+        this.showAlertHandler(
+            alertBarTypes.INFO,
+            "A Reminder",
+            "Please use HEADPHONES when practicing! The piano interferes with your analysis."
+        );
+    }
+
+    /**
+     * Removes the window event resize event listener
+     */
+    componentWillUnmount() {
+        this._isMounted = false;
+        window.removeEventListener("resize", this.handleWindowResize);
+    }
+
+    /**
+     * Generates the main navigation tabs
+     * @function
+     * @returns {array} An array of navigation tabs (data only, not JSX)
+     */
+    getMainNavTabs = () => {
+        const tabs = [];
+
+        tabs.push(
+            this.getMainNavTab(
+                "Home",
+                "/home",
+                homeIconBlue,
+                homeIconWhite,
+                false
+            )
+        );
+        tabs.push(
+            this.getMainNavTab(
+                "Practice",
+                "/practice",
+                practiceIconBlue,
+                practiceIconWhite,
+                true
+            )
+        );
+        tabs.push(
+            this.getMainNavTab(
+                "Progress",
+                "/progress",
+                progressIconBlue,
+                progressIconWhite,
+                false
+            )
+        );
+        tabs.push(
+            this.getMainNavTab(
+                "Choirs",
+                "/choirs",
+                choirIconBlue,
+                choirIconWhite,
+                false
+            )
+        );
+
+        return tabs;
+    };
+
+    /**
+     * Creates a main navigation tab
+     * @function
+     * @param {string} name - The tab name
+     * @param {string} blueIcon - A blue version of the icon
+     * @param {string} whiteIcon - A white version of the icon
+     * @param {boolean} isCurrent - Indicates whether the tab is the current tab
+     * @returns {object} A tab (data only, not JSX)
+     */
+    getMainNavTab = (name, route, blueIcon, whiteIcon, isCurrentTab) => {
+        return {
+            key: shortid.generate(),
+            name,
+            route,
+            blueIcon,
+            whiteIcon,
+            isCurrentTab,
+        };
+    };
+
+    /**
+     * Updates state when the window resizes
+     * @function
+     */
+    handleWindowResize = () => {
+        this.setState({ isMobileScreenWidth: window.innerWidth &lt; 768 });
+    };
+
+    /**
+     * Shows or hides the hamburger menu
+     * @function
+     */
+    showHideHamburgerMenu = () => {
+        this.setState((prevState) => ({
+            showMobileNav: !prevState.showMobileNav,
+        }));
+    };
+
+    /**
+     * Gets confirmation from user and then signs the user out
+     * @function
+     */
+    signOutClickedHandler = () => {
+        if (window.confirm("Do you want to sign out?")) {
+            this.props.signOut();
+        }
+    };
+
+    /**
+     * Updates the isCurrentTab boolean for all main navigation tabs based on the tab that was clicked on.
+     * Updates state with the new tabs (data only, not JSX)
+     * @function
+     * @param {string} key - The key of the tab that was clicked on (uses the same key prop that React uses)
+     */
+    navLinkClickedHandler = (key) => {
+        if (this._isMounted) {
+            this.setState((prevState) => {
+                // Makes a deep copy of the old main nav tabs
+                const oldTabs = [...prevState.mainNavTabs];
+
+                // Generates the new main nav tabs
+                const newTabs = oldTabs.map((tab) => {
+                    // Makes a deep copy of the tab
+                    const newTab = { ...tab };
+
+                    // Updates isCurrentTab boolean
+                    if (tab.key === key) {
+                        newTab.isCurrentTab = true;
+                    } else {
+                        newTab.isCurrentTab = false;
+                    }
+
+                    return newTab;
+                });
+
+                // Updates state with the new tabs
+                return { mainNavTabs: newTabs };
+            });
+        }
+    };
+
+    /**
+     * Sets alertData in state when a new alert is triggered
+     * @function
+     * @param {alertBarTypes} - The type of alert bar to show
+     * @param {string} - The alert heading
+     * @param {string} - The alert message
+     */
+    showAlertHandler = (type, heading, message) => {
+        this.setState({
+            alertData: { type, heading, message },
+        });
+    };
+
+    /**
+     * Sets alertData in state to null in state when the alert disappears
+     * @function
+     */
+    alertIsDoneHandler = () => {
+        this.setState({ alertData: null });
+    };
+
+    /**
+     * Gets the main navigation based on the screen size
+     * @function
+     * @returns {object} - A JSX element representing the main navigation
+     */
+    getMainNav = () => {
+        if (this.state.isMobileScreenWidth) {
+            // Returns the mobile navigation component
+            return (
+                &lt;MobileNav
+                    tabs={this.state.mainNavTabs}
+                    show={this.state.showMobileNav}
+                    onNavLinkClick={(key) => {
+                        this.showHideHamburgerMenu();
+                        this.navLinkClickedHandler(key);
+                    }}
+                    onSignOutClick={this.signOutClickedHandler}
+                />
+            );
+        } else {
+            // Returns the side navigation component
+            return (
+                &lt;SideNav
+                    tabs={this.state.mainNavTabs}
+                    onNavLinkClick={this.navLinkClickedHandler}
+                    onSignOutClick={this.signOutClickedHandler}
+                    copyrightYear={this._COPYRIGHT_YEAR}
+                    versionNumber={this._VERSION_NUMBER}
+                />
+            );
+        }
+    };
+
+    /**
+     * Renders the Primary component
+     * @returns {object} The JSX to render
+     */
+    render() {
+        return (
+            &lt;div className={styles.primary}>
+                {/* Shows an alert if one exists */}
+                {this.state.alertData ? (
+                    &lt;AlertBar
+                        type={this.state.alertData.type}
+                        heading={this.state.alertData.heading}
+                        message={this.state.alertData.message}
+                        done={this.alertIsDoneHandler}
+                    />
+                ) : null}
+
+                &lt;Header
+                    hamburgerMenuClicked={this.showHideHamburgerMenu}
+                    isMobileScreenWidth={this.state.isMobileScreenWidth}
+                />
+
+                {/* The main navigation */}
+                {this.getMainNav()}
+
+                {/* Determines which component to display */}
+                &lt;Switch>
+                    &lt;Route path="/practice/choirs/:choirId/music/:musicId">
+                        &lt;Music showAlert={this.showAlertHandler} />
+                    &lt;/Route>
+
+                    &lt;Route path="/practice/choirs/:choirId">
+                        &lt;MusicSelection showAlert={this.showAlertHandler} />
+                    &lt;/Route>
+
+                    &lt;Route path="/choirs/:choirId">
+                        &lt;ChoirMembers showAlert={this.showAlertHandler} />
+                    &lt;/Route>
+
+                    &lt;Route path="/practice">
+                        &lt;ChoirSelection
+                            routing={
+                                choirSelectionRoutingOptions.MUSIC_SELECTION
+                            }
+                            showAlert={this.showAlertHandler}
+                        />
+                    &lt;/Route>
+
+                    &lt;Route path="/progress">
+                        &lt;Progress />
+                    &lt;/Route>
+
+                    &lt;Route path="/choirs">
+                        &lt;ChoirSelection
+                            routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
+                            showAlert={this.showAlertHandler}
+                        />
+                    &lt;/Route>
+
+                    &lt;Route path="/home">
+                        &lt;Home />
+                    &lt;/Route>
+                &lt;/Switch>
+
+                {/* Displays a footer on mobile screen sizes */}
+                {this.state.isMobileScreenWidth ? (
+                    &lt;Footer
+                        copyrightYear={this._COPYRIGHT_YEAR}
+                        versionNumber={this._VERSION_NUMBER}
+                    />
+                ) : null}
+            &lt;/div>
+        );
+    }
+}
+
+// Prop types for the Primary component
+Primary.propTypes = {
+    /**
+     * Tells Redux to sign the user out
+     */
+    signOut: PropTypes.func.isRequired,
+};
+
+/**
+ * Passes certain Redux actions to the Primary component as props.
+ * This function is used only by the react-redux connect function.
+ * @memberof Primary
+ * @param {function} dispatch - The react-redux dispatch function
+ * @returns {object} Redux actions used in the Primary component
+ */
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signOut: () => dispatch(signOut()),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Primary);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Fri Apr 17 2020 13:29:04 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

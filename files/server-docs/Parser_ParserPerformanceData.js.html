@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Parser/ParserPerformanceData.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Parser/ParserPerformanceData.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Gets the part names of the given data
+ * @param {ParsedOutputPackage} pData The parsed data
+ * @returns {string[]} The names of the parts (i.e. tracks)
+ */
+const getPartNames = (pData) => {
+  let partNames = [];
+  if (Array.isArray(pData['tracks'])) {
+    pData['tracks'].every( (track) => partNames.push(track['name']));
+  } else {
+    let track = pData['tracks'];
+    partNames.push(track['name']);
+  }
+  return partNames;
+}
+
+/**
+ * Gets the expected note stream of the part with the provided part name
+ * @param {ParsedOutputPackage} pData The parsed data
+ * @param {string} partName The part (i.e. track) name to be accessed
+ * @returns {number[]} A 1D array of even size with the ith index as the midi value and the i+1 index as the duration of that note for i%2==0
+ */
+const getNoteStream = (pData, partName) => {
+  let noteStream = [];
+  if (Array.isArray(pData['tracks'])) {
+    pData['tracks'].forEach((track) => {
+      getNoteStreamTrack(noteStream, track, partName);
+    });
+  } else {
+    getNoteStreamTrack(noteStream, pData['tracks'], partName);
+  }
+
+  return noteStream;
+}
+
+/**
+ * Gets the expected note stream of the given track if its name matches the given part name
+ * @param {number[]} noteStream The expected expected note stream to be filled
+ * @param {ParsedOutputTrackPackage} track The Track object to be accessed
+ * @param {string} partName The part (i.e. track) name to be accessed
+ * @private
+ */
+const getNoteStreamTrack = (noteStream, track, partName) => {
+  if (track['name'] === partName) {
+    getNoteStreamRecursive(noteStream, track, ['staffs','measures','chords', 'pitches'], 0);
+  }
+}
+
+/**
+ * Utility function for recursing on the structure of the ParsedOutputTrackPackage creating the expected note stream
+ * @param {number[]} noteStream The expected expected note stream
+ * @param {ParsedOutputStaffPackage|ParsedOutputMeasurePackage|ParsedOutputChordPackage|ParsedOutputPitchPackage} currentLevel The current level accessed
+ * @param {string[]} levelNames The set of nested levels within the ParsedOutputTrackPackage
+ * @param {number} levelIndex The current index into the levelNames
+ * @private
+ */
+const getNoteStreamRecursive = (noteStream, currentLevel, levelNames, levelIndex) => {
+  if (levelIndex >= levelNames.length) {
+    if (Array.isArray(currentLevel)) {
+      currentLevel.forEach((note) => {
+        noteStream.push(note['midiValue']);
+        noteStream.push(note['duration']);
+      });
+    } else {
+      noteStream.push(currentLevel['midiValue']);
+      noteStream.push(currentLevel['duration']);
+    }
+  } else {
+    let nextLevelName = levelNames[levelIndex];
+    if (Array.isArray(currentLevel[nextLevelName])) {
+      currentLevel[nextLevelName].forEach((nextLevel) => getNoteStreamRecursive(noteStream, nextLevel, levelNames, levelIndex + 1));
+    } else {
+      getNoteStreamRecursive(noteStream, currentLevel[nextLevelName], levelNames, levelIndex + 1);
+    }
+  }
+}
+
+/**
+ * @typedef {object} ExpectedNotePackage
+ * @property {number} duration The duration in seconds of the note
+ * @property {number} measureNumber The measure number that this note belongs to 
+ * @property {number} midiValue The midi value of the note
+ */
+
+/**
+ * Utility function for addNotesToExpectedPerformance to add the notes in the given Chord to the expected performance
+ * @param {ParsedOutputChordPackage} chord The Chord object to be accessed
+ * @param {ExpectedNotePackage[]} expectedPerformance A pointer to the expected performance array to be filled
+ * @param {number} measureNumber The current measure number
+ * @param {boolean} isDurationExercise If true then this is a duration exercise otherwise if false then it's not
+ * @private
+ */
+const addNotesToExpectedPerformanceChords = (chord, expectedPerformance, measureNumber, isDurationExercise) => {
+  if (Array.isArray(chord["pitches"])) {
+    chord["pitches"].forEach((note) => {
+      const newNote = {
+        duration: note["duration"],
+        measureNumber: measureNumber
+      }
+      if (isDurationExercise) {
+        newNote.midiValue = 60;
+      } else {
+        newNote.midiValue = note["midiValue"];
+      }
+      expectedPerformance.push(JSON.parse(JSON.stringify(newNote)));
+    });
+  } else {
+    let note = chord["pitches"];
+    const newNote = {
+      duration: note["duration"],
+      measureNumber: measureNumber
+    }
+    if (isDurationExercise) {
+      newNote.midiValue = 60;
+    } else {
+      newNote.midiValue = note["midiValue"];
+    }
+    expectedPerformance.push(JSON.parse(JSON.stringify(newNote)));
+  }
+}
+
+/**
+ * Utility function for getExpectedPerformance to add the notes in the given Measure to the expected performance
+ * @param {ParsedOutputMeasurePackage} measure The Measure object to be accessed
+ * @param {ExpectedNotePackage[]} expectedPerformance A pointer to the expected performance array to be filled
+ * @param {number} measureNumber The current measure number
+ * @param {boolean} isDurationExercise If true then this is a duration exercise otherwise if false then it's not
+ * @private
+ */
+const addNotesToExpectedPerformance = (measure, expectedPerformance, measureNumber, isDurationExercise) => {
+  if (Array.isArray(measure["chords"])) {
+    measure["chords"].forEach((chord) => {
+      addNotesToExpectedPerformanceChords(chord, expectedPerformance, measureNumber, isDurationExercise);
+    });
+  } else {
+    addNotesToExpectedPerformanceChords(measure["chords"], expectedPerformance, measureNumber, isDurationExercise);
+  }
+}
+
+/**
+ * @typedef ExpectedPerformanceAndSizePackage
+ * @property {ExpectedNotePackage[]} expectedPerformance The expected performance of the Track and Staff within the given bounds of the given type
+ * @property {number} measureSize The number of measures included in expected performance
+ */
+
+/**
+ * Gets the expected performance of within the given bounds of the Staff at the specified index of the Track at the specified index
+ * @param {ParsedOutputPackage} pData The parsed data
+ * @param {number} trackIndex The index of the Track to be accessed
+ * @param {number} staffIndex The index of the Staff to be accessed
+ * @param {number[]} measureBounds The lower and upper bounds of the measures to be accessed. If null, then will retrieve all measures
+ * @param {boolean} isDurationExercise If true then this is a duration exercise otherwise if false then it's not
+ * @returns {ExpectedPerformanceAndSizePackage} The expected performance and the number of measures returned
+ */
+const getExpectedPerformance = (pData, trackIndex, staffIndex, measureBounds, isDurationExercise) => {
+  let expectedPerformance = null;
+  let measureSize = 0;
+  let track = null;
+  if (Array.isArray(pData["tracks"])) {
+    for (let i = 0; i &lt; pData["tracks"].length; i++) {
+      if (i === trackIndex) {
+        track = pData["tracks"][i];
+        break;
+      }
+    }
+  } else if (trackIndex === 0) {
+    track = pData["tracks"];
+  }
+  if (track !== null) {
+    let staff = null;
+    if (Array.isArray(track["staffs"])) {
+      for (let i = 0; i &lt; track["staffs"].length; i++) {
+        if (i === staffIndex) {
+          staff = track["staffs"][i];
+          break;
+        }
+      }
+    } else if (staffIndex === 0) {
+      staff = track["staffs"];
+    }
+
+    if (staff !== null) {
+      expectedPerformance = [];
+      if (measureBounds !== null) {
+
+      }
+
+      if (Array.isArray(staff["measures"])) {
+        for (let i = 0; i &lt; staff["measures"].length; i++) {
+          if (measureBounds === null || (measureBounds !== null &amp;&amp; i+1 >= measureBounds[0])) {
+            if (measureBounds!== null &amp;&amp; i+1 > measureBounds[1]) {
+              break;
+            } else {
+              addNotesToExpectedPerformance(staff["measures"][i], expectedPerformance, i+1, isDurationExercise);
+            }
+          }
+        }
+
+        if (measureBounds !== null) {
+          measureSize = Math.abs(measureBounds[1] - measureBounds[0] + 1);
+        } else {
+          measureSize = staff["measures"].length;
+        }
+      } else {
+        if (measureBounds === null || (measureBounds !== null &amp;&amp; measureBounds[0] == 1)) {
+          addNotesToExpectedPerformance(staff["measures"], expectedPerformance, 1, isDurationExercise);
+        }
+
+        if (measureBounds !== null) {
+          measureSize = Math.abs(measureBounds[1] - measureBounds[0] + 1);
+        } else {
+          measureSize = 1;
+        }
+      }
+    }
+  }
+  return {expectedPerformance, measureSize };
+}
+
+const LOWEST_MIDI = 21;
+const HIGHEST_MIDI = 108;
+const WIGGLE = 5;
+
+/**
+ * Gets the lower and upper bounds of the given note stream
+ * @param {number[]} noteStream A stream of midi/duration numbers where the ith number is a midi value and the i+1th number is its duration for all i%2==0
+ * @returns {number[]} A 1D two valued array with the lower and upper midi values
+ */
+const getLowerAndUpper = (noteStream) => {
+  let lowerAndUpper = [HIGHEST_MIDI, LOWEST_MIDI];
+  for (let i = 0; i &lt; noteStream.length; i += 2) {
+    if (noteStream[i] &lt; 0) {
+      continue;
+    }
+
+    if (noteStream[i] > lowerAndUpper[0]) {
+      if (noteStream[i] > lowerAndUpper[1]) {
+        lowerAndUpper[1] = noteStream[i];
+      }
+    } else if (noteStream[i] &lt; lowerAndUpper[0]) {
+      lowerAndUpper[0] = noteStream[i];
+      if (lowerAndUpper[0] > lowerAndUpper[1]) {
+        lowerAndUpper[1] = lowerAndUpper[0];
+      }
+    }
+  }
+  if (lowerAndUpper[0] === HIGHEST_MIDI &amp;&amp; lowerAndUpper[1] === LOWEST_MIDI) {
+    lowerAndUpper[0] = LOWEST_MIDI;
+    lowerAndUpper[1] = HIGHEST_MIDI;
+  } else {
+    lowerAndUpper[0] -= WIGGLE;
+    lowerAndUpper[1] += WIGGLE;
+    if (lowerAndUpper[0] &lt; LOWEST_MIDI) {
+      lowerAndUpper[0] = LOWEST_MIDI;
+    }
+    if (lowerAndUpper[1] > HIGHEST_MIDI) {
+      lowerAndUpper[1] = HIGHEST_MIDI;
+    }
+  }
+  return lowerAndUpper;
+}
+
+/**
+ * Utility function for getClefs which gets the clefs of the given track and adds them to the list of clefs
+ * @param {ParsedOutputTrackPackage} track The Track object to be accessed
+ * @param {string[]} clefs A pointer to the list of clefs to which to add the clefs of the staffs of the given track
+ * @private
+ */
+const getClefsStaff = (track, clefs) => {
+  let staffClef = [];
+  if (Array.isArray(track["staffs"])) {
+    track["staffs"].forEach((staff) => {
+      if (staff["clef"]) {
+        staffClef.push(staff["clef"]);
+      } else {
+        staffClef.push("treble");
+      }
+    });
+  } else {
+    let staff = track["staffs"];
+    if (staff["clef"]) {
+      staffClef.push(staff["clef"]);
+    } else {
+      staffClef.push("treble");
+    }
+  }
+  clefs.push(staffClef);
+}
+
+/**
+ * Gets the clefs of each Staff
+ * @param {ParsedOutputPackage} pData The parsed data
+ * @returns {string[][]|string[]} Clefs per Staff
+ */
+const getClefs = (pData) => {
+  let clefs = [];
+  if (Array.isArray(pData["tracks"])) {
+    pData["tracks"].forEach((track) => {
+      getClefsStaff(track, clefs);
+    });
+  } else {
+    let track = pData["tracks"];
+    getClefsStaff(track, clefs);
+  }
+  return clefs;
+}
+
+/**
+ * @typedef {object} ProgressDataPackage
+ * @property {number[]} progressData A score per measure representing how well they are doing with that measure (scale 0-100)
+ * @property {number} trackIndex The index of the track for which the progress data applies
+ */
+
+/**
+ * Creates an empty progress data array (a collection of scores per measure) and gets the index of the track matching the track name
+ * @param {ParsedOutputPackage} pData The parsed data
+ * @param {string} trackName The name of the track to be accessed
+ * @returns {ProgressDataPackage} A new progress data and the track index for the track matching the requested track name
+ */
+const createEmptyProgressData = (pData, trackName) => {
+  let progressData = null;
+  let trackIndex = -1;
+  let track = null;
+  if (Array.isArray(pData["tracks"])) {
+    for (let i = 0; i &lt; pData["tracks"].length; i++) {
+      const nextTrack = pData["tracks"][i];
+      if (nextTrack.name === trackName) {
+        track = nextTrack;
+        trackIndex = i;
+        break;
+      }
+    }
+  } else {
+    const nextTrack = pData["tracks"];
+    if (nextTrack.name === trackName) {
+      track = nextTrack;
+    }
+  }
+  if (track !== null) {
+    progressData = [];
+    let staff = null;
+    if (Array.isArray(track["staffs"])) {
+      staff = track["staffs"][0];
+    } else {
+      staff = track["staffs"];
+    }
+
+    if (Array.isArray(staff["measures"])) {
+      staff["measures"].forEach((measure) => {
+        progressData.push(50);
+      });
+    } else {
+      progressData.push(50);
+    }
+  }
+
+  return {progressData, trackIndex};
+}
+
+
+module.exports = {getPartNames : getPartNames, getNoteStream: getNoteStream, getLowerAndUpper: getLowerAndUpper, getClefs: getClefs, createEmptyProgressData: createEmptyProgressData, getExpectedPerformance: getExpectedPerformance};
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

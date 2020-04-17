@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: routers/sheetMusic.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: routers/sheetMusic.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const express = require('express');
+const auth = require('../middleware/authenticator.js');
+const verify = require("../middleware/verifier.js");
+const mysql = require("../db/mysql.js");
+const router = express.Router();
+const alphaProcesser = require('../AlphaTab/ProcessAlphaTab.js');
+const ParserPData = require("../Parser/ParserPerformanceData.js");
+const Manipulator = require("../Parser/ParsedOutputManipulator.js");
+
+/**
+ * @typedef {object} SheetMusicGetPackage
+ * @property {SheetMusicGetReturnPackage[]} sheet_music Information about each piece of sheet music
+ */
+
+/**
+ * @typedef {object} SheetMusicGetReturnPackage
+ * @property {string} sheet_music_id The ID of the sheet music
+ * @property {string} title The title of the sheet music
+ * @property {string} composer_names Metadata about the creators of the sheet music
+ */
+
+/**
+ * Route for getting all sheet music for the choir matching the given choir ID
+ * @name sheet-music/get
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.query.choirId The choir ID to be accessed.
+ * @param {*} res
+ * @returns {SheetMusicGetPackage|string} Information about the sheet music retrieved. Otherwise, an error message if an error occured
+ * @async
+ */
+router.get('/', auth.token, async (req, res) => {
+  verify.userIsVerified(req,res).then((isVerified) => {
+    if (!isVerified) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let choirId = req.query.choirId;
+      const errorMessage = "Unable to get sheet music";
+      if (choirId) {
+        mysql.getClient().then((client) => {
+          client.query("SELECT hex(sheet_music_id) AS sheet_music_id, title, composer_names FROM tma.sheet_music INNER JOIN tma.choir ON choir.choir_id = sheet_music.choir_id WHERE choir.choir_id = unhex(?)", [choirId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              let retObj = {"sheet_music":results};
+              res.status(200).json(retObj);
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * @typedef {object} SheetMusicGetSpecificPackage
+ * @property {string} sheet_music The AlphaTex of the sheet music
+ * @property {string[]} part_list A list of the part (i.e. track) names
+ * @property {string[]} clefs The clefs per staff
+ * @property {string} part If not null, then the part of the current user in the sheet music
+ */
+
+/**
+ * Route for getting performance data and the AlphaTex for a specific piece of sheet music
+ * @name sheet-music/get/specific
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.query.sheetMusicId The sheet music ID to be accessed
+ * @param {*} res
+ * @returns {SheetMusicGetSpecificPackage|string} In-depth information about the requested sheet music. Otherwise, an error message if an error occured
+ * @async
+ */
+router.get('/specific', auth.token, async (req, res) => {
+  verify.memberOfSheetMusic(req, res).then((choirId) => {
+    if (choirId === null) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let sheetMusicId = req.query.sheetMusicId;
+      const errorMessage = "Unable to get specific sheet music";
+      if (sheetMusicId) {
+        mysql.getClient().then((client) => {
+          client.query("SELECT encoding,performance_data FROM tma.sheet_music WHERE sheet_music_id = unhex(?)", [sheetMusicId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              let performanceData = JSON.parse(results[0]['performance_data']);
+              let partNames = ParserPData.getPartNames(performanceData);
+              let clefs = ParserPData.getClefs(performanceData);
+              let retObj = {"sheet_music":results[0]['encoding'], "part_list":partNames, "clefs":clefs};
+  
+              client.query("SELECT hex(member_id) AS member_id from tma.member WHERE choir_id=unhex(?) AND person_id=?", [choirId, res.locals.uid], function(error, results, fields) {
+                if (error) {
+                  res.status(503).send(errorMessage);
+                } else {
+                  let memberId = results[0]["member_id"];
+                  client.query("SELECT part FROM tma.member_sheet_music_part WHERE sheet_music_id=unhex(?) AND member_id=unhex(?)", [sheetMusicId, memberId], function(error, results, fields) {
+                    if (error) {
+                      res.status(503).send(errorMessage);
+                    } else {
+                      if (results.length === 0) {
+                        retObj.part = null;
+                      } else {
+                        retObj.part = results[0]["part"];
+                      }
+                      res.status(200).json(retObj);
+                    }
+                  });
+                }
+              });
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * @typedef {object} SheetMusicGetPartPackage
+ * @property {number[]} performance_expectation A 1D array of even size with the ith index as the midi value and the i+1 index as the duration of that note for i%2==0
+ * @property {number[]} lower_upper A 1D two valued array with the lower and upper midi values
+ * @property {number[]} measure_lengths A collection of the lengths of each Measure. The ith index contains the length in seconds of the i+1 Measure
+ */
+
+/**
+ * Route for getting performance information about a specific part in a specific piece of sheet music
+ * @name sheet-music/get/part
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.query.sheetMusicId The sheet music ID to be accessed.
+ * @param {string} req.query.partName The name of the part to be retrieved
+ * @param {*} res
+ * @returns {SheetMusicGetPartPackage|string} In-depth information about the part in the requested sheet music. Otherwise, an error message if an error occured
+ * @async
+ */
+router.get('/part', auth.token, async (req,res) => {
+  verify.memberOfSheetMusic(req, res).then((choirId) => {
+    if (choirId === null) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let sheetMusicId = req.query.sheetMusicId;
+      let partName = req.query.partName;
+      const errorMessage = "Unable to get part";
+      if (sheetMusicId &amp;&amp; partName) {
+        mysql.getClient().then((client) => {
+          client.query("SELECT performance_data FROM tma.sheet_music WHERE sheet_music_id = unhex(?)", [sheetMusicId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              let performanceData = JSON.parse(results[0]['performance_data']);
+              let noteStream = ParserPData.getNoteStream(performanceData, partName);
+              let lowerAndUpper = ParserPData.getLowerAndUpper(noteStream);
+              let manipulator = new Manipulator(performanceData);
+              let measureLengths = manipulator.getMeasureTimeLength(partName);
+              res.status(200).json({"performance_expectation":noteStream, "lower_upper":lowerAndUpper, "measure_lengths":measureLengths});
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * Route for adding a piece of sheet music
+ * @name sheet-music/post
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.choirId The choir ID to be accessed
+ * @param {string} req.body.encoding The AlphaTex of the sheet music to be added
+ * @param {string} req.body.composerNames Metadata about the creators of the sheet music
+ * @param {string} req.body.choirId The ID of the choir to which to attach the sheet music
+ * @param {object} req.body.lyrics Lyrics per staff as a space separated string for each lyric
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.post('/', auth.token, async (req,res) => {
+  verify.admin(req,res).then((isVerified) => {
+    if (!isVerified) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let texInput = req.body.encoding;
+      let title = req.body.title;
+      let composers = req.body.composerNames;
+      let choirId = req.body.choirId;
+      let lyricsMap = req.body.lyrics;
+      const errorMessage = "Unable to add sheet music";
+      if (texInput &amp;&amp; title &amp;&amp; composers &amp;&amp; choirId &amp;&amp; lyricsMap) {
+        let parsedOutput = alphaProcesser.process(texInput, lyricsMap);
+        mysql.getClient().then((client) => {
+          client.query("insert into tma.sheet_music (sheet_music_id, encoding, title, composer_names, performance_data, person_id, choir_id) values(unhex(replace(uuid(),\"-\",\"\")), ?, ?, ?, ?, ?, unhex(?))", [texInput, title, composers, parsedOutput.toString(), res.locals.uid, choirId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              res.status(200).send();
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

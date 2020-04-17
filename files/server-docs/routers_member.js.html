@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: routers/member.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: routers/member.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const express = require('express');
+const auth = require('../middleware/authenticator.js');
+const mysql = require("../db/mysql.js");
+const router = express.Router();
+const verify = require('../middleware/verifier.js');
+
+/**
+ * @typedef {object} MemberGetGetsFeedbackPackage
+ * @property {boolean} gets_feedback Whether the user gets feedback or not
+ */
+
+/**
+ * Route for checking if this user gets feedback on sheet music if they are verified to be in the choir attached to the sheet music
+ * @name member/get/gets-feedback
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.choirId The choir ID to be accessed. NOTE: Only need to pass choirId in body or query not both
+ * @param {string} req.query.choirId The choir ID to be accessed. NOTE: Only need to pass choirId in body or query not both
+ * @param {*} res
+ * @returns {MemberGetGetsFeedbackPackage|string} On success, returns whether or not the user should get feedback. Otherwise, an error message.
+ * @async
+ */
+router.get('/gets-feedback', auth.token, async(req,res) => {
+  verify.userIsVerified(req, res).then((isVerified) => {
+    if (!isVerified) {
+      res.status(403).send('Unauthorized');
+    } else {
+      const choirId = req.query.choirId;
+      if (!choirId) {
+        choirId = req.body.choirId;
+      }
+      const errorMessage = "Unable to get if gets feedback";
+      if (choirId) {
+        mysql.getClient().then((client) => {
+          client.query("SELECT gets_feedback FROM tma.member WHERE person_id=? AND choir_id=unhex(?)", [res.locals.uid, choirId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else if (results.length === 0) {
+              res.status(204).send(errorMessage);
+            } else {
+              let sum = 0;
+              for (let i = 0; i &lt; results.length; i++) {
+                sum += results[i]["gets_feedback"];
+              }
+              let gets_feedback = sum > 0 ? true : false;
+              res.status(200).json({ gets_feedback });
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * @typedef {MemberGetPendingReturnPackage[]} MemberGetPendingPackage List of information about the pending members
+ */
+
+/**
+ * @typedef {object} MemberGetPendingReturnPackage
+ * @property {string} member_id The ID of the member
+ * @property {string} first_name The first name of the member
+ * @property {string} email The email of the member
+ * @property {string} member_type The type of the member
+ * @property {string} member_role The role of the member
+ * @property {boolean} has_picture Whether the person attached to the member has a profile picture 
+ */
+
+/**
+ * Route for getting all members which are still pending to be added to the choir which this user is an admin to
+ * @name member/get/pending
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.query.choirId The choir ID to be accessed.
+ * @param {*} res
+ * @returns {MemberGetPendingPackage|string} On success then information about the members who are pending. Otherwise, an error message.
+ * @async
+ */
+router.get('/pending', auth.token, async(req,res) => {
+  verify.admin(req,res).then((isVerified) => {
+    if (!isVerified) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let choirId = req.query.choirId;
+      const errorMessage = "Unable to get pending users";
+      if (choirId) {
+        mysql.getClient().then((client) => {
+          client.query("SELECT member_id, first_name, last_name, email, member_type, member_role, has_picture FROM tma.member INNER JOIN tma.person ON person.person_id = member.person_id WHERE member_status = 'pending' AND choir_id=unhex(?)", [choirId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              res.status(200).json(results);
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * Route for a non-admin attempting to join a choir. They are added as a pending member until an admin approves them
+ * @name member/post
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.memberType The type of the member to be created
+ * @param {string} req.body.memberRole The role of the member to be created
+ * @param {string} req.body.accessCode The access code of the choir to which to add the member
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.post('/', auth.token, async(req,res) => {
+  let memberType = req.body.memberType;
+  let memberRole = req.body.memberRole;
+  let accessCode = req.body.accessCode;
+  const errorMessage = "Unable to add member";
+  if (memberType &amp;&amp; memberRole &amp;&amp; accessCode) {
+    let client = await mysql.getClient();
+    client.query("SELECT hex(choir_id) FROM tma.choir WHERE access_code=?", [accessCode], function(error, results, fields) {
+      if (error) {
+        res.status(503).send(errorMessage);
+      } else if (results.length === 0) {
+        res.status(400).send(errorMessage);
+      } else {
+        let choirId = results[0]["hex(choir_id)"];
+        client.query("SELECT COUNT(*) FROM tma.member WHERE choir_id= unhex(?) AND person_id=? AND member_type=? AND member_role=?", [choirId, res.locals.uid, memberType, memberRole], function(error, results, fields) {
+          if (error) {
+            res.status(503).send(errorMessage);
+          } else if (results.length === 0) {
+            res.status(204).send(errorMessage);
+          } else if (parseInt(results[0]["COUNT(*)"],10) > 0) {
+            res.status(208).send(errorMessage);
+          } else {
+            client.query("INSERT INTO tma.member (member_id, member_type, member_role, choir_id, person_id, member_status) values(unhex(replace(uuid(),'-','')), ?, ?, unhex(?), ?, 'pending')", [memberType, memberRole, choirId, res.locals.uid], function(error, results, fields) {
+              if (error) {
+                res.status(503).send(errorMessage);
+              } else {
+                res.status(200).send();
+              }
+            });
+          }
+        });
+      }
+    });
+  } else {
+    res.status(400).send(errorMessage);
+  }
+});
+
+/**
+ * Route for an admin approving a pending member to joining a choir
+ * @name member/put/accept
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.choirId The choir ID to be accessed.
+ * @param {string} req.body.memberId The member ID to be accepted.
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.put('/accept', auth.token, async(req, res) => {
+  verify.admin(req,res).then((isVerified) => {
+    if (!isVerified) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let choirId = req.body.choirId;
+      let memberId = req.body.memberId;
+      const errorMessage = "Unable to accept user";
+      if (choirId &amp;&amp; memberId) {
+        mysql.getClient().then((client) => {
+          client.query("UPDATE tma.member SET member_status='verified' WHERE member_id=unhex(?) AND choir_id=unhex(?) AND member_status='pending'", [memberId, choirId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              res.status(200).send();
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * Route for an admin rejecting a pending member to joining a choir. This doesn't remove them from the list of members
+ * @name member/put/reject
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.choirId The choir ID to be accessed.
+ * @param {string} req.body.memberId The member ID to be rejected.
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.put('/reject', auth.token, async(req, res) => {
+  verify.admin(req,res).then((isVerified) => {
+    if (!isVerified) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let choirId = req.body.choirId;
+      let memberId = req.body.memberId;
+      const errorMessage = "Unable to reject user";
+      if (choirId &amp;&amp; memberId) {
+        mysql.getClient().then((client) => {
+          client.query("UPDATE tma.member SET member_status='rejected' WHERE member_id=unhex(?) AND choir_id=unhex(?) AND member_status='pending'", [memberId, choirId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              res.status(200).send();
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * Route for updating a member's information by an admin
+ * @name member/put/update
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.memberId The member ID to be accessed.
+ * @param {string} req.body.memberType The new member type for the member
+ * @param {string} req.body.memberRole The new member role for the member
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.put('/update', auth.token, async(req, res) => {
+  verify.adminOfMember(req,res).then((choirId) => {
+    if (choirId === null) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let memberId = req.body.memberId;
+      let memberType = req.body.memberType;
+      let memberRole = req.body.memberRole;
+      const errorMessage = "Unable to update user";
+      if (memberId &amp;&amp; memberType, memberRole) {
+        mysql.getClient().then((client) => {
+          client.query("UPDATE tma.member SET member_type=?, member_role=? WHERE member_id=unhex(?)", [memberType, memberRole, memberId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              res.status(200).send();
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+/**
+ * Route for deleting a member from a choir by an admin
+ * @name member/delete
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.memberId The member ID to be deleted.
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.delete('/', auth.token, async(req, res) => {
+  verify.adminOfMember(req,res).then((choirId) => {
+    if (choirId === null) {
+      res.status(403).send('Unauthorized');
+    } else {
+      let memberId = req.body.memberId;
+      const errorMessage = "Unable to delete user";
+      if (memberId) {
+        mysql.getClient().then((client) => {
+          client.query("UPDATE tma.member SET member_status='admin_removed' WHERE member_id=unhex(?)", [memberId], function(error, results, fields) {
+            if (error) {
+              res.status(503).send(errorMessage);
+            } else {
+              res.status(200).send();
+            }
+          });
+        });
+      } else {
+        res.status(400).send(errorMessage);
+      }
+    }
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+});
+
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

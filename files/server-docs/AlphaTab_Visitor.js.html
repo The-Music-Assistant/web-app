@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: AlphaTab/Visitor.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: AlphaTab/Visitor.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const AlphaTexParser = require('../target/AlphaTexParser.js').AlphaTexParser;
+const AlphaTexStructure = require("./AlphaTexStructure.js");
+const Track = require("./Track.js");
+const Staff = require("./Staff.js");
+const Measure = require("./Measure.js");
+const Chord = require("./Chord.js");
+const Note = require("./Note.js");
+
+/**
+ * @class
+ * @classdesc Creates AlphaTexStructure out of given AlphaTex using the AlphaTex.g4 grammar and generated files
+ */
+class Visitor {
+    /**
+     * Visits the outermost layer of AlphaTex
+     * Copies resulting structures from visiting children
+     * @param {object} ctx Overall sheet music context
+     * @returns {AlphaTexStructure} Overall AlphaTexStructure
+     */
+    visitAlphaTexContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        if (ctx.children) {
+            ctx.children.forEach((child) => {
+                if (child instanceof AlphaTexParser.MetadataContext) {
+                    alphaTexStructure.copyAttributes(child.accept(this));
+                } else if (child instanceof AlphaTexParser.TrackContext) {
+                    alphaTexStructure.copyTracks(child.accept(this));
+                }
+            });
+        }
+        return alphaTexStructure;
+    }
+
+    /**
+     * Visits all of the children and copies their attributes into temporary structure before returning
+     * @param {object} ctx MetaDataContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with metadata
+     */
+    visitMetadataContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+
+        ctx.title().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.subtitle().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.tempo().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.artist().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.album().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.words().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.music().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.copyright().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.instrument().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.tuning().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.capo().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        return alphaTexStructure;
+    }
+
+    /**
+     * Parses the track names and copies the trackMetaData after visit
+     * @param {object} ctx TrackContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with one track which is the parsed track of this context
+     */
+    visitTrackContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        let trackName = this.getString(ctx.string());
+        let track = new Track();
+
+        track.addTrackName(trackName);
+        track.trackData.copy(ctx.trackMetadata().accept(this).tracks[0].trackData);
+
+        alphaTexStructure.addTrack(track);
+        return alphaTexStructure;
+    }
+
+    /**
+     * Visits and stores the staffs and tunings for this context
+     * @param {object} ctx TrackMetaDataContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with one track whose TrackMetaData has been filled
+     */
+    visitTrackMetadataContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+
+        let track = new Track();
+        ctx.tuning().forEach((tuningItem, index) => {
+            track.trackData.addTuning(tuningItem.accept(this).getStr("tuning"));
+        })
+
+        ctx.staff().forEach((staffItem, index) => {
+            track.trackData.copy(staffItem.accept(this).tracks[0].trackData);
+        })
+
+        alphaTexStructure.addTrack(track);
+
+        return alphaTexStructure;
+    }
+
+    /**
+     * Copies the metadata for the staff and gets all of the chords for the measure, copies the fixed duration if present into
+     * all notes without duration.
+     * @param {object} ctx StaffContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with one track whose one staff was filled
+     */
+    visitStaffContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        let track = new Track();
+        let staff = new Staff();
+
+        let staffOption = ctx.getText();
+        staffOption = staffOption.split("{")[1].split("}")[0];
+        staff.setStaffOption(staffOption);
+
+        let fixedDuration = -1;
+
+        if (ctx.children) {
+            ctx.children.forEach((child) => {
+                if (child instanceof AlphaTexParser.StaffMetadataContext) {
+                    staff.copyAttributes(ctx.staffMetadata().accept(this));
+                } else if (child instanceof AlphaTexParser.MeasureContext) {
+                    let ret = child.accept(this);
+                    if (ret.getInt("fixedDuration") !== -1) {
+                        fixedDuration = ret.getInt("fixedDuration");
+                    }
+                    ret.removeInt("fixedDuration");
+
+                    if (fixedDuration !== -1) {
+                        ret.tracks[0].trackData.staffs[0].measures.forEach((measure) => {
+                            measure.chords.forEach((chord) => {
+                                chord.notes.forEach((note) => {
+                                    if (note.duration === -1) {
+                                        note.setDuration(fixedDuration);
+                                    }
+                                });
+                            });
+                        });
+                    }
+
+                    staff.copyMeasures(ret.tracks[0].trackData.staffs[0]);
+                }
+            });
+        }
+
+        track.trackData.addStaff(staff);
+        alphaTexStructure.addTrack(track);
+        return alphaTexStructure;
+    }
+
+    /**
+     * Visits and copies all staff metadata
+     * @param {object} ctx StaffMetadataContext
+     * @returns {AlphaTexStructure} AlphaTexStructure whose attributes are the staffs attributes
+     */
+    visitStaffMetadataContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+
+        ctx.tuning().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.instrument().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.clef().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.keySignature().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        ctx.lyrics().forEach((item, index) => {
+            alphaTexStructure.copyAttributes(item.accept(this));
+        });
+
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects all data for this measure's context and stores it in the first track, first staff of the resulting object
+     * Copies fixed duration in measure over all notes without duration in measure
+     * @param {object} ctx MeasureContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with one track, one staff, and one measure which was filled.
+     */
+    visitMeasureContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        let track = new Track();
+        let staff = new Staff();
+        let overallMeasure = new Measure();
+
+        let fixedDuration = -1;
+
+        ctx.measureData().forEach((measureDatum, index) => {
+            let ret = measureDatum.accept(this);
+            let retMeasure = ret.tracks[0].trackData.staffs[0].measures[0];
+
+            if (retMeasure.getInt("fixedDuration") !== undefined) {
+                fixedDuration = retMeasure.getInt("fixedDuration");
+                retMeasure.removeInt("fixedDuration");
+                if (retMeasure.getInt("tuplet") !== undefined) {
+                    alphaTexStructure.setInt("tuplet", retMeasure.getInt("tuplet"));
+                    alphaTexStructure.setInt("tupletCounter", 0);
+                    retMeasure.removeInt("tuplet");
+                }
+            }
+
+            retMeasure.chords.forEach((nextChord) => {
+                nextChord.notes.forEach((note) => {
+                    if (note.duration &lt; 0 &amp;&amp; fixedDuration != -1) {
+                        note.setDuration(fixedDuration);
+                    }
+                    if (alphaTexStructure.getInt("tupletCounter") !== undefined) {
+                        if (alphaTexStructure.getInt("tupletCounter") &lt; alphaTexStructure.getInt("tuplet")) {
+                            note.addBeatEffect("tuplet " + alphaTexStructure.getInt("tuplet").toString());
+                            alphaTexStructure.setInt("tupletCounter",
+                                alphaTexStructure.getInt("tupletCounter") + 1);
+                        } else {
+                            alphaTexStructure.removeInt("tupletCounter");
+                            alphaTexStructure.removeInt("tuplet");
+                        }
+                    }
+                });
+            });
+
+            overallMeasure.copy(retMeasure);
+        });
+
+        alphaTexStructure.removeInt("tupletCounter");
+        alphaTexStructure.removeInt("tuplet");
+
+        alphaTexStructure.setInt("fixedDuration", fixedDuration);
+
+        staff.addMeasure(overallMeasure);
+        track.trackData.addStaff(staff);
+        alphaTexStructure.addTrack(track);
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects all data for each individual measuredata filling fixedDuration attribute if present
+     * @param {object} ctx MeasureDataContext 
+     * @returns {AlphaTexStructure} AlphaTexStructure with one track, one staff, one measure which has been filled.
+     */
+    visitMeasureDataContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        let track = new Track();
+        let staff = new Staff();
+        let measure = new Measure();
+        let chord = new Chord();
+
+        let hasBeatEffects = false;
+
+        if (ctx.children) {
+            ctx.children.forEach((child) => {
+                if (child instanceof AlphaTexParser.TimeSignatureContext || child instanceof AlphaTexParser.ClefContext
+                    || child instanceof AlphaTexParser.TempoContext || child instanceof AlphaTexParser.KeySignatureContext) {
+                    measure.copyAttributes(child.accept(this));
+                } else if (child instanceof AlphaTexParser.FixedDurationContext) {
+                    measure.setInt("fixedDuration", parseInt(child.INT().getText(), 10));
+                    if (child.childen) {
+                        child.children.forEach((grandChild) => {
+                            if (grandChild instanceof AlphaTexParser.BeatEffectsContext) {
+                                measure.copyEffects(grandChild.accept(this));
+                                hasBeatEffects = true;
+                            }
+                        });
+                    }
+                } else if (child instanceof AlphaTexParser.ChordContext) {
+                    let staffRet = child.accept(this).tracks[0].trackData.staffs[0];
+                    let notesRet = staffRet.measures[0].chords[0].notes;
+                    notesRet.forEach((note) => {
+                        chord.addNote(note);
+                    });
+                } else if (child instanceof AlphaTexParser.NoteContext) {
+                    let staffRet = child.accept(this).tracks[0].trackData.staffs[0];
+                    chord.addNote(staffRet.measures[0].chords[0].notes[0]);
+                }
+            });
+
+            measure.addChord(chord);
+            staff.addMeasure(measure);
+            track.trackData.addStaff(staff);
+            alphaTexStructure.addTrack(track);
+
+            return alphaTexStructure;
+        }
+
+        chord.notes.forEach((note) => {
+            if (note.duration === -1 &amp;&amp; measure.getInt("fixedDuration") !== undefined) {
+                note.setDuration(measure.getInt("fixedDuration"));
+            }
+            if (hasBeatEffects) {
+                note.copyBeatEffects(measure);
+            }
+        });
+    }
+
+    /**
+     * Collects all the notes information for this chord
+     * @param {object} ctx ChordContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with one track, one staff, one measure, one chord which has been filled.
+     */
+    visitChordContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        let track = new Track();
+        let staff = new Staff();
+        let measure = new Measure();
+        let chord = new Chord();
+
+        if (ctx.children) {
+            let duration = -1;
+            ctx.children.forEach((child) => {
+                if (child instanceof AlphaTexParser.NoteContext) {
+                    let staffRet = child.accept(this).tracks[0].trackData.staffs[0];
+                    chord.addNote(staffRet.measures[0].chords[0].notes[0]);
+                } else if (!(child instanceof AlphaTexParser.BeatEffectsContext) &amp;&amp; child.symbol.type === AlphaTexParser.INT) {
+                    duration = parseInt(ctx.INT().getText(), 10);
+                }
+            });
+            if (duration > 0) {
+                chord.notes.forEach((note) => {
+                    note.setDuration(duration);
+                });
+            }
+
+            ctx.children.forEach((child) => {
+                if (child instanceof AlphaTexParser.BeatEffectsContext) {
+                    let beatEffects = child.accept(this);
+                    chord.notes.forEach((note) => {
+                        note.copyBeatEffects(beatEffects);
+                    });
+                }
+            });
+        }
+
+        track.trackData.addStaff(staff);
+        staff.addMeasure(measure);
+        measure.addChord(chord);
+        alphaTexStructure.addTrack(track);
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects all note information
+     * @param {object} ctx NoteContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with one track, one staff, one measure, one chord, one note which has been filled
+     */
+    visitNoteContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        let track = new Track();
+        let staff = new Staff();
+        let measure = new Measure();
+        let chord = new Chord();
+        let note = new Note();
+
+        if (ctx.children) {
+            ctx.children.forEach((child) => {
+                if (child instanceof AlphaTexParser.NoteTypeContext) {
+                    let ret = child.accept(this);
+                    note.copyBeatEffects(ret);
+                    note.setNote(ret.getStr("pitch"));
+                    note.setOctave(ret.getInt("octave"));
+                } else if (child instanceof AlphaTexParser.BeatEffectsContext) {
+                    note.copyBeatEffects(child.accept(this));
+                } else if (child.symbol.type === AlphaTexParser.INT) {
+                    note.setDuration(parseInt(ctx.INT().getText(), 10));
+                }
+            });
+        }
+
+        chord.addNote(note);
+        measure.addChord(chord);
+        staff.addMeasure(measure);
+        track.trackData.addStaff(staff);
+        alphaTexStructure.addTrack(track);
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects effects including tuplet, dotted, crescendo, and decrescendo
+     * @param {object} ctx BeatEffectsContext
+     * @returns {AlphaTexStructure} AlphaTexStructure whose attributes are the beat effects
+     */
+    visitBeatEffectsContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        ctx.children.forEach((child) => {
+            if (child.getText() !== "{" &amp;&amp; child.getText() !== "}") {
+                if (child instanceof AlphaTexParser.TupletContext) {
+                    alphaTexStructure.setInt("tuplet", parseInt(child.INT().getText(), 10));
+                } else if (child instanceof AlphaTexParser.DynamicContext) {
+                    alphaTexStructure.setStr("dynamic", child.children[1].getText());
+                }
+            }
+        });
+        if (ctx.DOTTED().length > 0) {
+            alphaTexStructure.addBool("dotted");
+        }
+        if (ctx.CRESCENDO().length > 0) {
+            alphaTexStructure.addBool("crescendo");
+        }
+        if (ctx.DECRESCENDO().length > 0) {
+            alphaTexStructure.addBool("decrescendo");
+        }
+
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects notetype attributes
+     * @param {object} ctx NoteTypeContext
+     * @returns {AlphaTexStructure} AlphaTexStructure whose attributes are the notetype's attributes
+     */
+    visitNoteTypeContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+
+        if (ctx.children) {
+            ctx.children.forEach((child) => {
+                if (child instanceof AlphaTexParser.PitchContext) {
+                    alphaTexStructure.copyAttributes(child.accept(this));
+                } else if (child instanceof AlphaTexParser.NoteOptionsContext) {
+                    alphaTexStructure.copyAttributes(child.accept(this));
+                }
+            });
+        }
+
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects noteoptions including tied, dotted, crescendo, and decrescendo
+     * @param {object} ctx NoteOptionsContext
+     * @returns {AlphaTexStructure} AlphaTexStructure whose attributes are the noteoptions
+     */
+    visitNoteOptionsContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        ctx.children.forEach((child) => {
+            if (child.getText() !== "{" &amp;&amp; child.getText() !== "}") {
+                if (child instanceof AlphaTexParser.TupletContext) {
+                    alphaTexStructure.setInt("tuplet", parseInt(child.INT().getText(), 10));
+                } else if (child instanceof AlphaTexParser.DynamicContext) {
+                    alphaTexStructure.setStr("dynamic", child.children[1].getText());
+                }
+            }
+        });
+
+        if (ctx.TIED().length > 0) {
+            alphaTexStructure.addBool("tied");
+        }
+        if (ctx.DOTTED().length > 0) {
+            alphaTexStructure.addBool("dotted");
+        }
+        if (ctx.CRESCENDO().length > 0) {
+            alphaTexStructure.addBool("crescendo");
+        }
+        if (ctx.DECRESCENDO().length > 0) {
+            alphaTexStructure.addBool("decrescendo");
+        }
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects pitch information
+     * @param {object} ctx - PitchContext
+     * @returns {AlphaTexStructure} AlphaTexStructure whose attributes are the pitch components
+     */
+    visitPitchContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+
+        // TODO: fix to include sharp and flats
+        ctx.children.forEach((child) => {
+            if (child instanceof AlphaTexParser.FullNoteContext) {
+                alphaTexStructure.copyAttributes(child.accept(this));
+                let sharpAndFlat = "" + "#".repeat(ctx.SHARP().length) + "b".repeat(ctx.FLAT().length);
+                alphaTexStructure.setStr("pitch", alphaTexStructure.getStr("pitch") + sharpAndFlat);
+            } else if (child.symbol.type === AlphaTexParser.REST) {
+                alphaTexStructure.setStr("pitch", "r");
+                alphaTexStructure.setInt("octave", -1);
+            }
+        });
+
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects pitch and octave of note
+     * @param {object} ctx FullNoteContext
+     * @returns {AlphaTexStructure} AlphaTexStructure whose attributes are the pitch and octave
+     */
+    visitFullNoteContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        let noteName = ctx.getText();
+        let octave = ctx.INT().getText();
+        for (let i = noteName.length - 1; i > -1; i--) {
+            if (noteName.substring(i, noteName.length) === octave) {
+                noteName = noteName.substring(0, i);
+                break;
+            }
+        }
+        alphaTexStructure.setStr("pitch", noteName);
+        alphaTexStructure.setInt("octave", parseInt(octave, 10));
+
+        return alphaTexStructure;
+    }
+
+    /**
+     * Creates a new AlphaTexStructure, sets the given attribute to the given value, and returns the new structure
+     * @param {string} attribute Attribute to be set 
+     * @param {string} value Value to set the attribute to
+     * @returns {AlphaTexStructure} AlphaTexStructure with the given attribute and value in its attributesStr
+     */
+    createAndSetStr(attribute, value) {
+        let alphaTexStructure = new AlphaTexStructure();
+        alphaTexStructure.setStr(attribute, value);
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects title
+     * @param {object} ctx TitleContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute title set to the title
+     */
+    visitTitleContext(ctx) {
+        let title = this.getString(ctx.string());
+        return this.createAndSetStr("title", title);
+    }
+
+    /**
+     * Collects subtitle
+     * @param {object} ctx SubtitleContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute subtitle set to the subtitle
+     */
+    visitSubtitleContext(ctx) {
+        let subtitle = this.getString(ctx.string());
+        return this.createAndSetStr("subtitle", subtitle);
+    }
+
+    /**
+     * Collects tempo
+     * @param {object} ctx TempoContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute tempo set to the tempo
+     */
+    visitTempoContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        alphaTexStructure.setInt("tempo", parseInt(ctx.INT().getText(), 10));
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects artist
+     * @param {object} ctx ArtistContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute artist set to the artist
+     */
+    visitArtistContext(ctx) {
+        let artist = this.getString(ctx.string());
+        return this.createAndSetStr("artist", artist);
+    }
+
+    /**
+     * Collects album
+     * @param {object} ctx AlbumContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute album set to the album
+     */
+    visitAlbumContext(ctx) {
+        let album = this.getString(ctx.string());
+        return this.createAndSetStr("album", album);
+    }
+
+    /**
+     * Collects words
+     * @param {object} ctx WordsContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute words set to the words
+     */
+    visitWordsContext(ctx) {
+        let words = this.getString(ctx.string());
+        return this.createAndSetStr("words", words);
+    }
+
+    /**
+     * Collects music
+     * @param {object} ctx MusicContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute music set to the music
+     */
+    visitMusicContext(ctx) {
+        let music = this.getString(ctx.string());
+        return this.createAndSetStr("music", music);
+    }
+
+    /**
+     * Collects copyright
+     * @param {object} ctx CopyrightContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute copyright set to the copyright
+     */
+    visitCopyrightContext(ctx) {
+        let copyright = this.getString(ctx.string());
+        return this.createAndSetStr("copyright", copyright);
+    }
+
+    /**
+     * Collects instrument
+     * @param {object} ctx InstrumentContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute instrument set to the instrument
+     */
+    visitInstrumentContext(ctx) {
+        let instrument = this.getString(ctx.string());
+        return this.createAndSetStr("instrument", instrument);
+    }
+
+    /**
+     * Collects tuning
+     * @param {object} ctx TuningContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute tuning set to the tuning
+     */
+    visitTuningContext(ctx) {
+        let tuning = this.getString(ctx.string());
+        return this.createAndSetStr("tuning", tuning);
+    }
+
+    /**
+     * Collects capo
+     * @param {object} ctx CapoContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute capo set to the capo
+     */
+    visitCapoContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        alphaTexStructure.setInt("capo", parseInt(ctx.INT().getText(), 10));
+        return alphaTexStructure;
+    }
+
+    /**
+     * Collects clef
+     * @param {object} ctx ClefContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute clef set to the clef
+     */
+    visitClefContext(ctx) {
+        let clef = "";
+        ctx.children.forEach((child) => {
+            let childText = child.getText();
+            if (childText !== '\\clef') {
+                clef = childText;
+            }
+        });
+        return this.createAndSetStr("clef", clef);
+    }
+
+    /**
+     * Collects key signature
+     * @param {object} ctx KeySignatureContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute keySignature set to the key signature
+     */
+    visitKeySignatureContext(ctx) {
+        let keySignature = "";
+        ctx.children.forEach((child) => {
+            if (child instanceof AlphaTexParser.NoteNameContext) {
+                keySignature = child.getText();
+            }
+        });
+        return this.createAndSetStr("keySignature", keySignature);
+    }
+
+    /**
+     * Collects lyrics
+     * @param {objrct} ctx LyricsContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute lyrics set to the lyrics
+     */
+    visitLyricsContext(ctx) {
+        let lyrics = this.getString(ctx.string());
+        return this.createAndSetStr("lyrics", lyrics);
+    }
+
+    /**
+     * Collects time signature
+     * @param {object} ctx TimeSignatureContext
+     * @returns {AlphaTexStructure} AlphaTexStructure with attribute tsTop set to the top of the time signature and tsBottom set to the bottom
+     */
+    visitTimeSignatureContext(ctx) {
+        let alphaTexStructure = new AlphaTexStructure();
+        alphaTexStructure.setInt("tsTop", parseInt(ctx.INT()[0].getText(), 10));
+        alphaTexStructure.setInt("tsBottom", parseInt(ctx.INT()[1].getText(), 10));
+        return alphaTexStructure;
+    }
+
+    /**
+     * Appends the array of strings together
+     * @param {string[]} words Array of strings to be appended together
+     * @returns {string} The completed string appended together
+     */
+    getString(words) {
+        let attribute = "";
+        let addSpace = false;
+        words.forEach((item, index) => {
+            addSpace = item.getText() !== ".";
+            if (addSpace &amp;&amp; attribute.length > 0) {
+                attribute += " ";
+            }
+            attribute += item.getText();
+        })
+        return attribute;
+    }
+
+    /**
+     * Disbatches the given context to the correct function
+     * @param {object} ctx Given context
+     * @returns {AlphaTexStructure} The created AlphaTexStructure from the visit.
+     */
+    visitChildren(ctx) {
+        let alphaTexStructure;
+        if (ctx instanceof AlphaTexParser.AlphaTexContext) {
+            alphaTexStructure = this.visitAlphaTexContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.MetadataContext) {
+            alphaTexStructure = this.visitMetadataContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.TrackContext) {
+            alphaTexStructure = this.visitTrackContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.TrackMetadataContext) {
+            alphaTexStructure = this.visitTrackMetadataContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.StaffContext) {
+            alphaTexStructure = this.visitStaffContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.StaffMetadataContext) {
+            alphaTexStructure = this.visitStaffMetadataContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.MeasureContext) {
+            alphaTexStructure = this.visitMeasureContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.MeasureDataContext) {
+            alphaTexStructure = this.visitMeasureDataContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.ChordContext) {
+            alphaTexStructure = this.visitChordContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.NoteContext) {
+            alphaTexStructure = this.visitNoteContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.BeatEffectsContext) {
+            alphaTexStructure = this.visitBeatEffectsContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.NoteTypeContext) {
+            alphaTexStructure = this.visitNoteTypeContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.NoteOptionsContext) {
+            alphaTexStructure = this.visitNoteOptionsContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.PitchContext) {
+            alphaTexStructure = this.visitPitchContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.FullNoteContext) {
+            alphaTexStructure = this.visitFullNoteContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.TitleContext) {
+            alphaTexStructure = this.visitTitleContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.SubtitleContext) {
+            alphaTexStructure = this.visitSubtitleContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.TempoContext) {
+            alphaTexStructure = this.visitTempoContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.ArtistContext) {
+            alphaTexStructure = this.visitArtistContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.AlbumContext) {
+            alphaTexStructure = this.visitAlbumContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.WordsContext) {
+            alphaTexStructure = this.visitWordsContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.MusicContext) {
+            alphaTexStructure = this.visitMusicContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.CopyrightContext) {
+            alphaTexStructure = this.visitCopyrightContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.InstrumentContext) {
+            alphaTexStructure = this.visitInstrumentContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.TuningContext) {
+            alphaTexStructure = this.visitTuningContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.CapoContext) {
+            alphaTexStructure = this.visitCapoContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.ClefContext) {
+            alphaTexStructure = this.visitClefContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.KeySignatureContext) {
+            alphaTexStructure = this.visitKeySignatureContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.LyricsContext) {
+            alphaTexStructure = this.visitLyricsContext(ctx);
+        } else if (ctx instanceof AlphaTexParser.TimeSignatureContext) {
+            alphaTexStructure = this.visitTimeSignatureContext(ctx);
+        }
+
+        return alphaTexStructure;
+    }
+}
+
+module.exports = Visitor;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

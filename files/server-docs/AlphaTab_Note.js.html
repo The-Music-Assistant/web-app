@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: AlphaTab/Note.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: AlphaTab/Note.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const BASE_MIDI_OCTAVE_ZERO = 21; // octave zero is special because it doesn't follow the octave pattern
+const BASE_MIDI_OCTAVE_ONE = 24; // octave one starts the normal octave pattern
+const NUM_HALF_BETWEEN_OCTAVE = 12; // number of half steps in an octave
+/**
+ * @class
+ * @classdesc Encapsulates each note in the music composed of the string part of the note, octave, duration in alphaTex, set of beateffects, set of noteeffects
+ */
+class Note {
+    /**
+     * Creates a new Note
+     */
+    constructor() {
+        this.note = "";
+        this.octave = -1;
+        this.duration = -1;
+        this.beatEffects = undefined;
+        this.noteEffects = undefined;
+    }
+
+    /**
+     * Sets the string part of the note
+     * @param {string} note string part of a note including sharps (#) and flats (b)
+     */
+    setNote(note) {
+        this.note = note;
+    }
+
+    /**
+     * Sets the octave of the note
+     * @param {number} octave octave of the note to be set
+     */
+    setOctave(octave) {
+        this.octave = octave;
+    }
+
+    /**
+     * Sets duration of the note based on alphaTex
+     * @param {number} duration duration of the note in alphatex (1,2,4,8,16, etc.)
+     */
+    setDuration(duration) {
+        this.duration = duration;
+    }
+
+    /**
+     * Adds beat effect to set
+     * @param {string} effect effect to be added
+     */
+    addBeatEffect(effect) {
+        if (this.beatEffects === undefined) {
+            this.beatEffects = new Set();
+        }
+
+        this.beatEffects.add(effect);
+    }
+
+    /**
+     * Copies beat effects from source
+     * @param {object} source Source must have getInt, getStr, attributesBool
+     * @property {function} source.getInt Provides a number matched with the provided String else undefined
+     * @property {function} source.getStr Provides a String matched with the provided String else undefined
+     * @property {Set} source.attributesBool Set with String attributes
+     */
+    copyBeatEffects(source) {
+        if (source.getInt("tuplet")) {
+            this.addBeatEffect("tuplet " + source.getInt("tuplet").toString());
+        }
+        if (source.getStr("dynamic")) {
+            this.addBeatEffect("dynamic " + source.getStr("dynamic").toString());
+        }
+        source.attributesBool.forEach((value1, value2, set) => {
+            this.addBeatEffect(value1);
+        });
+    }
+
+    /**
+     * Checks if beateffects contains the effect
+     * @param {string} effect String of effect to check for
+     * @returns {boolean} boolean if the effect is in the set of beat effects
+     */
+    containsBeatEffect(effect) {
+        return this.beatEffects !== undefined &amp;&amp; this.beatEffects.has(effect);
+    }
+
+    /**
+     * Gets offset of note from base value based on string part stored in this.note
+     * @returns {number} The offset of the note
+     */
+    getNoteOffset() {
+        let base;
+        switch(this.note[0]) {
+            case 'c': base = 0;
+            break;
+            case 'd': base = 2;
+            break;
+            case 'e': base = 4;
+            break;
+            case 'f': base = 5;
+            break;
+            case 'g': base = 7;
+            break;
+            case 'a': base = 9;
+            break;
+            case 'b': base = 11;
+            break;
+            default:
+                base = -1;
+        }
+
+        for (let i =  1; i &lt; this.note.length; i++) {
+            if (this.note[i] === '#') {
+                base++;
+            } else if (this.note[i] === 'b') {
+                base--;
+            }
+        }
+
+        return base;
+    }
+
+    /**
+     * Calculates and returns the midi value of the stored string representation of the note with the stored octave
+     * @returns {number} The midi value of the stored note or -1 if no octave
+     */
+    getMidiValue() {
+        if (this.octave &lt; 0) {
+            return -1;
+        }
+
+        let midi = this.octave == 0 ? BASE_MIDI_OCTAVE_ZERO : BASE_MIDI_OCTAVE_ONE;
+        let adjustedOctave = this.octave == 0 ? 0 : this.octave - 1;
+
+        return midi + NUM_HALF_BETWEEN_OCTAVE * adjustedOctave + this.getNoteOffset();
+    }
+
+    /**
+     * Gets the duration in seconds of the stored note
+     * @param {number} currentTempoFactor the current tempo factor affecting the length of the note
+     * @returns {number} The duration in seconds
+     */
+    getDurationInSeconds(currentTempoFactor) {
+        let durationReal = 4 / this.duration;
+        let durationInSeconds = currentTempoFactor * durationReal;
+        if (this.beatEffects !== undefined &amp;&amp; this.beatEffects.has("dotted")) {
+            durationInSeconds *= 1.5;
+        }
+        return durationInSeconds;
+    }
+
+    /**
+     * Converts Note to a pretty string
+     * @returns {string} The pretty string representation of the note
+     */
+    toString() {
+        let output = "";
+
+        output += this.note;
+
+        if (this.octave > 0) {
+            output += this.octave.toString(10);
+        }
+
+        if (this.beatEffects !== undefined &amp;&amp; this.beatEffects.size > 0) {
+            output += "{";
+            this.beatEffects.forEach((value1, value2, set) => {
+                output += " ";
+                output += value1;
+            });
+            output += " }";
+        }
+        output += ".";
+        output += this.duration.toString(10);
+        if (this.noteEffects != undefined &amp;&amp; this.noteEffects.size > 0) {
+            output += "{";
+            this.noteEffects.forEach((value1, value2, set) => {
+                output += " ";
+                output += value1;
+            });
+            output += " }";
+        }
+
+        return output;
+    }
+}
+
+module.exports = Note
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

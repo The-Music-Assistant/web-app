@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>pause-icon-blue</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-221.000000, -36.000000)">
+            <g id="pause-icon-blue" transform="translate(221.000000, 36.000000)">
+                <g id="Group-6" stroke="#5F9CD1" stroke-width="6">
+                    <circle id="Oval" cx="25" cy="25" r="22"></circle>
+                </g>
+                <g id="Group-7" transform="translate(17.000000, 15.000000)" fill="#5F9CD1">
+                    <rect id="Rectangle" x="0" y="0" width="5" height="20" rx="1"></rect>
+                    <rect id="Rectangle" x="11" y="0" width="5" height="20" rx="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

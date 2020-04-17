@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Parser/PerformanceAnalyser.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Parser/PerformanceAnalyser.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const ParserPData = require("./ParserPerformanceData.js");
+const ParsedOutputManipulator = require("./ParsedOutputManipulator.js");
+
+/**
+ * @class
+ * @classdesc Encapsulates a function for analyzing a performance
+ */
+class PerformanceAnalyser {
+
+    /**
+     * @typedef {object} AnalyzedPerformancePackage
+     * @property {number} durationDifference The calculated error in duration for that measure (big is bad)
+     * @property {number} pitchDifference The calculated score in pitch for the that measure (big is good)
+     * @property {number} followBadMeasures The number of measures following this one that are worse than it
+     * @property {number} overallScore Scaled overall score for that measure (100 is perfect)
+     * @property {number} measureNumber The measure number for this information
+     */
+
+    /**
+     * @typedef {object} PerformacePackage
+     * @property {CleanedPitchesPackage[]} pitches The clean pitches from the performance
+     */
+
+    /**
+     * Analyzes a performance against the expected performance
+     * @param {PerformacePackage} performance The recorded performance
+     * @param {ParsedOutputPackage} pData The performance data for all parts
+     * @param {number} trackName The name of the track to analyze
+     * @param {number} staffIndex The index of the staff to analyze
+     * @param {int[]} measureBounds If specified then the start and end of the measure bounds on the staff, if null then no bounds
+     * @param {boolean} isDurationExercise if the performance was a duration exercise
+     * @return {AnalyzedPerformancePackage[]} An array of analyzed performance objects with information about each measure analyzed
+     */
+    static analyzePerformance(performance, pData, trackName, staffIndex, measureBounds, isDurationExercise) {
+        let trackIndex = null;
+        for (let i = 0; i &lt; performance.pitches.length; i++) {
+            let note = performance.pitches[i];
+            if (i === performance.pitches.length - 1) {
+                note['duration'] = 1;
+            } else {
+                note['duration'] = Math.abs(performance.pitches[i + 1].timepos - note.timepos);
+            }
+        }
+        if (Array.isArray(pData["tracks"])) {
+            for (let i = 0; i &lt; pData["tracks"].length; i++) {
+                if (pData["tracks"][i].name === trackName) {
+                    trackIndex = i;
+                    break;
+                }
+            }
+        } else {
+            trackIndex = 0;
+        }
+        let {expectedPerformance, measureSize } = ParserPData.getExpectedPerformance(pData, trackIndex, staffIndex, measureBounds, isDurationExercise);
+        const manipulator = new ParsedOutputManipulator(pData);
+        let measureLengths = manipulator.getMeasureTimeLength(trackName);
+
+        let measureNumber = 1;
+        if (measureBounds !== null) {
+            measureNumber = measureBounds[0];
+        }
+        let measureErrors = [];
+        for (let i = 0; i &lt; measureSize; i++) {
+            const newMeasureError = {
+                durationDifference: 0,
+                pitchDifference: 0,
+                followBadMeasures: 0,
+                overallScore: 0,
+                measureNumber: measureNumber
+            }
+            measureErrors.push(JSON.parse(JSON.stringify(newMeasureError))); //Duration, Pitch, Subsequent Bad, Overall score
+            measureNumber++;
+        }
+
+        let startIndex = measureBounds !== null ? measureBounds[0] : 0;
+        let performedNoteIndex = 0;
+        for (let noteIndex = 0; noteIndex &lt; expectedPerformance.length; noteIndex++) {
+            if (measureBounds !== null &amp;&amp; expectedPerformance[noteIndex]["measureNumber"] > measureBounds[1]) {
+                break;
+            }
+            let expectedMIDI = expectedPerformance[noteIndex]["midiValue"];
+            let expectedDuration = expectedPerformance[noteIndex]["duration"];
+            let currentMeasureNumber = expectedPerformance[noteIndex]["measureNumber"];
+            let performedDuration = 0;
+
+            let comparisonNotes = [];
+            let performedMIDI = 0;
+            let longestComparisonNote = [-1, 0];
+
+            let shortestExpectedNote = 0.16;
+            let wiggleRoom = shortestExpectedNote / 2.0;
+            while ((expectedDuration - performedDuration) > wiggleRoom &amp;&amp; (performedNoteIndex &lt; performance.pitches.length)) {
+                let performedNote = performance.pitches[performedNoteIndex];
+                if ((performedDuration + performedNote["duration"]) > (expectedDuration + wiggleRoom)) {
+                    comparisonNotes.push([(performedDuration + performedNote["duration"]) - (expectedDuration), performedNote["midival"]]);
+                    performedNote["duration"] = (performedDuration + performedNote["duration"]) - (expectedDuration); 
+                    performedDuration = expectedDuration;
+                } else {
+                    performedNoteIndex++;
+                    performedDuration += performedNote["duration"];
+                    comparisonNotes.push([performedNote["duration"], performedNote["midival"]]);
+                }
+                if (performedNote["duration"] > longestComparisonNote[1]) {
+                    longestComparisonNote = [performedNote["duration"], performedNote["midival"]];
+                    performedMIDI = performedNote.midival;
+                }
+            }
+            
+            if (performedMIDI === 0) {
+                performedMIDI = -1;
+            }
+            if (performedDuration === 0) {
+                performedDuration = -1; //The performance was shorter than expected
+            }
+            let heldDuration = 0;
+            for (let i = 0; i &lt; comparisonNotes.length; i++) {
+                let difference = (comparisonNotes[i][1] - expectedMIDI);
+                if (((comparisonNotes[i][1] === -1 || expectedMIDI === -1) &amp;&amp; (comparisonNotes[i][1] !== expectedMIDI)) || difference > 60) {
+                    difference = 60;
+                }
+                //performedMIDI += Math.abs(difference) * comparisonNotes[i][0];
+                if (comparisonNotes[i][1] === longestComparisonNote[1]) {
+                    heldDuration += comparisonNotes[i][0];
+                }
+            }
+            let durationDifference = Math.abs((heldDuration - expectedDuration)/(expectedDuration));
+            let ignoreDurationDifferencesBelowThisValue = 0;
+            if (durationDifference &lt;  ignoreDurationDifferencesBelowThisValue) {
+                durationDifference = 0;
+            }
+            let max = expectedDuration * expectedMIDI;
+            let pitchScore = 0;
+
+            let totalMeasureDuration = measureLengths[currentMeasureNumber - 1];
+
+            
+            if (max &lt; 0) {
+                pitchScore = performedMIDI === -1 ? Math.abs(expectedDuration)/ totalMeasureDuration : 0;
+            } else {
+                if (performedMIDI === -1 &amp;&amp; (performedMIDI !== expectedMIDI)) {
+                    pitchScore = 0;
+                } else {
+                    pitchScore = Math.abs((max - performedMIDI)/max) * Math.abs(expectedDuration)/ totalMeasureDuration;
+                }
+            }
+            //Update the measure errors
+            let thisNotesMeasure = expectedPerformance[noteIndex]['measureNumber'] - startIndex;
+            measureErrors[thisNotesMeasure]["durationDifference"] += durationDifference;
+            measureErrors[thisNotesMeasure]["pitchDifference"] += pitchScore * 100;
+            measureErrors[thisNotesMeasure]["overallScore"] += (durationDifference + 1) * pitchScore;
+        }
+
+        for (let i = 0; i &lt; measureErrors.length; i++) {
+            let currentMeasureError = measureErrors[i];
+
+            if (currentMeasureError["pitchDifference"] &lt; 90) {
+                currentMeasureError["overallScore"] = (currentMeasureError["pitchDifference"] / 90) * 50
+            } else {
+                currentMeasureError["overallScore"] = (currentMeasureError["pitchDifference"] - 90) * 5 + 50;
+            }
+            for (let j = i; j &lt; measureErrors.length; j++) {
+                currentMeasureError["followBadMeasures"] = j - i;
+                if (measureErrors[j]["pitchDifference"] &lt;= currentMeasureError["pitchDifference"]) {
+                    break;
+                }
+            }
+        }
+        return measureErrors;
+    }
+}
+module.exports = PerformanceAnalyser;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

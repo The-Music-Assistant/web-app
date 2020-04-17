@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Parser/ParserOutput.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Parser/ParserOutput.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const SECONDS_IN_MINUTE = 60;
+/**
+ * @class
+ * @classdesc Encapsulates functions to convert am A;phaTexStructure into a ParsedOutputPackage for more efficient storage in the database
+ */
+class ParserOutput {
+
+    /**
+     * Creates a new ParserOutput
+     * @param {AlphaTexStructure} alphaTexStructure The main AlphaTexStructure to be converted
+     */
+    constructor(alphaTexStructure) {
+        this.alphaTexStructure = alphaTexStructure;
+        this.mainObj = null;
+    }
+
+    /**
+     * Pushes the provided value onto the attribute of the provided object
+     * @param {object} obj The object to add the value to with the given attribute
+     * @param {string} attribute The attribute of the object to be assigned
+     * @param {object} newValue The value to be assigned
+     * @private
+     */
+    push(obj, attribute, newValue) {
+        if (obj[attribute] === undefined) {
+            obj[attribute] = newValue;
+        } else if (!Array.isArray(obj[attribute])) {
+            let arr = [obj[attribute], newValue];
+            obj[attribute] = arr;
+        } else {
+            obj[attribute].push(newValue);
+        }
+    }
+
+    /**
+     * @typedef {object} ParsedOutputPackage
+     * @property {ParsedOutputTrackPackage[]|ParsedOutputTrackPackage} tracks The collection of tracks
+     */
+    
+    /**
+     * @typedef {object} ParsedOutputTrackPackage
+     * @property {string} name The name of the Track
+     * @property {ParsedOutputStaffPackage[]} staffs The collection of staffs
+     */
+
+    /**
+     * Creates and adds a new ParsedOutputTrackPackage object to the main ParsedOutputPackage
+     * @param {ParsedOutputPackage} obj Object that will get the new Track added to its list of Tracks
+     * @param {string} trackName The name of the new Track to be created
+     * @returns {ParsedOutputTrackPackage} The created Track object
+     * @private
+     */
+    addTrack(obj, trackName) {
+        let track = {"name" : trackName, "staffs":[]};
+        this.push(obj, "tracks", track);
+        return track;
+    }
+
+    /**
+     * @typedef {object} ParsedOutputStaffPackage
+     * @property {string} name The name of the Staff prepended by "staff_"
+     * @property {string} keySignature The key signature of the Staff
+     * @property {string[]} lyrics Optional. If present, contains the lyrics of the Staff
+     * @property {string} clef Optional. If present, contains the clef of the Staff
+     * @property {ParsedOutputMeasurePackage[]|ParsedOutputMeasurePackage} measures The collection of the Measures
+     */
+
+    /**
+     * Creates and adds a new ParsedOutputStaffPackage object to a ParsedOutputTrackPackage
+     * @param {ParsedOutputTrackPackage} obj The Track that will get the new Staff added to its collection of Staffs
+     * @param {string} keySignature The key signature of the Staff to be created
+     * @param {string} lyrics If defined, the lyrics of the Staff to be created
+     * @param {string} clef If defined, the clef of the Staff to be created 
+     * @returns {ParsedOutputStaffPackage} The newly created Staff object. Doesn't start with a measures array.
+     * @private
+     */
+    addStaff(obj, keySignature, lyrics, clef) {
+        let staff = {"name": "staff_" + obj.staffs.length.toString(), "keySignature":keySignature}
+        if (lyrics) {
+            staff.lyrics = lyrics;
+        }
+        if (clef) {
+            staff.clef = clef;
+        }
+        this.push(obj, "staffs", staff);
+        return staff;
+    }
+
+    /**
+     * @typedef {object} ParsedOutputMeasurePackage
+     * @property {Map} attributesStr Mapping from String attributes to String values
+     * @property {Map} attributesInt Mapping from String attributes to number values
+     * @property {ParsedOutputChordPackage[]|ParsedOutputChordPackage} chords The collection of the Chords
+     */
+
+    /**
+     * Creates and adds a new ParsedOutputMeasurePackage object to a ParsedOutputStaffPackage
+     * @param {ParsedOutputStaffPackage} obj The Staff that will get the new Measure added to its collection of Measures
+     * @param {Map} measureAttributesString A mapping from String attributes to String values
+     * @param {Map} measureAttributesInt A mapping from String attributes to number values
+     * @returns {ParsedOutputMeasurePackage} The newly created Measure object. Doesn't start with a chords array.
+     * @private
+     */
+    addMeasure(obj, measureAttributesString, measureAttributesInt) {
+        let measure = {};
+        let attributesStr = {};
+        measureAttributesString.forEach((value, key, map) => {
+            attributesStr[key] = value;
+        });
+        measure["attributesStr"] = attributesStr;
+        let attributesInt = {};
+        measureAttributesInt.forEach((value, key, map) => {
+            attributesInt[key] = value;
+        });
+        measure["attributesInt"] = attributesInt;
+        this.push(obj, "measures", measure);
+        return measure;
+    }
+
+    /**
+     * @typedef {object} ParsedOutputChordPackage
+     * @property {ParsedOutputPitchPackage[]|ParsedOutputPitchPackage} pitches The collection of the Pitches
+     */
+
+    /**
+     * Creates and adds a new ParsedOutputChordPackage object to a ParsedOutputMeasurePackage
+     * @param {ParsedOutputMeasurePackage} obj The Measure that will get the new Chord added to its collection of Chords
+     * @returns {ParsedOutputChordPackage} The newly created Chord object. Doesn't start with a pitches array.
+     * @private
+     */
+    addChord(obj) {
+        let chord = {};
+        this.push(obj, "chords", chord);
+        return chord;
+    }
+
+    /**
+     * @typedef {object} ParsedOutputPitchPackage
+     * @property {number} midiValue The midi value of the Pitch
+     * @property {number} duration The duration in seconds of the Pitch
+     * @property {Set} beatEffects A collection of String beat effects that affect the Pitch
+     * @property {Set} noteEffects A collection of String note effects that affect the Pitch
+     */
+
+    /**
+     * Creates and adds a new ParsedOutputPitchPackage object to a ParsedOutputChordPackage
+     * @param {ParsedOutputChordPackage} obj The Chord that will get the new Pitch added to its collection of Pitches
+     * @param {number} midi The midi value for the newly created Pitch
+     * @param {number} time The duration of the newly created Pitch in seconds
+     * @param {Set} noteBeatEffects A Set of beat effects for the Pitch
+     * @param {Set} noteNoteEffects A Set of note effects for the Pitch
+     * @returns {ParsedOutputPitchPackage} The newly created Pitch object.
+     * @private
+     */
+    addPitch(obj, midi, time, noteBeatEffects, noteNoteEffects) {
+        let pitch = {"midiValue" : midi, "duration" : time};
+        let beatEffects = [];
+        if (noteBeatEffects !== undefined) {
+            noteBeatEffects.forEach((value1, value2, set) => {
+                beatEffects.push(value1);
+            });
+        }
+        pitch["beatEffects"] = beatEffects;
+        let noteEffects = [];
+        if (noteNoteEffects !== undefined) {
+            noteNoteEffects.forEach((value1, value2, set) => {
+                noteEffects.push(value1);
+            });
+        }
+        pitch["noteEffects"] = noteEffects;
+        this.push(obj, "pitches", pitch);
+        return pitch;
+    }
+
+    /**
+     * Parses the AlphaTexStructure into a ParsedOutputPackage
+     * @param {object} lyricsPerStaff Relates Staff indexes to lyric strings. 
+     */
+    parse(lyricsPerStaff) {
+        let mainObj = {};
+        let currentTempoFactor;
+
+        let startingCurrentTempoFactor = SECONDS_IN_MINUTE;
+        if (this.alphaTexStructure.getInt("tempo") !== null) {
+            mainObj["tempo"] = this.alphaTexStructure.getInt("tempo");
+            startingCurrentTempoFactor /= this.alphaTexStructure.getInt("tempo");
+        } else {
+            mainObj["tempo"] = 80;
+            startingCurrentTempoFactor /= 80;
+        }
+
+        let staffIndex = 0;
+        this.alphaTexStructure.tracks.forEach((track) => {
+            let trackObject = this.addTrack(mainObj, track.getTrackName());
+            track.trackData.staffs.forEach((staff) => {
+                currentTempoFactor = startingCurrentTempoFactor;
+                let staffObject = this.addStaff(trackObject, staff.attributesStr.get("keySignature"), (lyricsPerStaff[staffIndex] ? lyricsPerStaff[staffIndex].split(" ") : undefined), staff.attributesStr.get("clef") );
+                staffIndex++;
+                staff.measures.forEach((measure) => {
+                    let measureObject = this.addMeasure(staffObject, measure.attributesStr, measure.attributesInt);
+                    if (measure.getInt("tempo") !== undefined) {
+                        currentTempoFactor = SECONDS_IN_MINUTE / measure.getInt("tempo");
+                    }
+                    measure.chords.forEach((chord) => {
+                        let chordObject = this.addChord(measureObject);
+                        chord.notes.forEach((note) => {
+                            this.addPitch(chordObject, note.getMidiValue(), note.getDurationInSeconds(currentTempoFactor),
+                            note.beatEffects, note.noteEffects);
+                        });
+                    });
+                });
+            });
+        });
+
+
+        this.mainObj = mainObj;
+    }
+
+    /**
+     * Creates the pretty string for the given ParsedOutputPitchPackage 
+     * @param {ParsedOutputPitchPackage} pitch The Pitch object to be converted
+     * @returns {string} A pretty String representation of the Pitch
+     * @private
+     */
+    pitchToString(pitch) {
+        let output = "";
+        if (pitch["beatEffects"].length > 0) {
+            output += "\t\t\t\tBeatEffects: {\n";
+            for (let key in pitch["beatEffects"]) {
+                output += "\t\t\t\t\t" + pitch["beatEffects"][key] + "\n";
+            }
+            output += "\t\t\t\t}\n";
+        }
+        if (pitch["noteEffects"].length > 0) {
+            output += "\t\t\t\t\NoteEffects: {\n";
+            for (let key in pitch["noteEffects"]) {
+                output += "\t\t\t\t\t" + pitch["noteEffects"][key] + "\n";
+            }
+            output += "\t\t\t\t}\n";
+        }
+
+        output += "\t\t\t\t";
+        output += pitch.midiValue.toString();
+        output += " ";
+        output += pitch.duration.toString();
+        output += "\n";
+
+        return output;
+    }
+
+    /**
+     * Creates the pretty string for the notes in the given ParsedOutputChordPackage 
+     * @param {ParsedOutputChordPackage} chord The Chord object to be converted
+     * @returns {string} A pretty String representation of the Chord
+     * @private
+     */
+    notesToString(chord) {
+        let ret = {"count" : 0};
+        let output = "";
+
+        if (Array.isArray(chord.pitches)) {
+            chord.pitches.forEach((pitch) => {
+                output += this.pitchToString(pitch);
+                ret.count = ret.count + 1;
+            });
+        } else {
+            output += this.pitchToString(chord.pitches);
+            ret.count = ret.count + 1;
+        }
+
+        ret.output = output;
+        return ret;
+    }
+
+    /**
+     * Creates the pretty string for the given ParsedOutputMeasurePackage
+     * @param {ParsedOutputMeasurePackage} measure The Measure object to be converted
+     * @returns {string} A pretty String representation of the Measure
+     * @private
+     */
+    chordsToString(measure) {
+        let output = "";
+        if (Array.isArray(measure.chords)) {
+            measure.chords.forEach((chord) => {
+                let notesOutput = this.notesToString(chord);
+                if (notesOutput.count > 1) {
+                    output += "\t\t\t{\n";
+                    output += notesOutput.output;
+                    output += "\t\t\t}\n";
+                } else {
+                    output += notesOutput.output;
+                }
+            });
+        } else {
+            let notesOutput = this.notesToString(measure.chords);
+            if (notesOutput.count > 1) {
+                output += "\t\t\t{\n";
+                output += notesOutput.output;
+                output += "\t\t\t}\n";
+            } else {
+                output += notesOutput.output;
+            }
+        }
+        return output;
+    }
+
+    /**
+     * Creates the pretty string for the given ParsedOutputStaffPackage
+     * @param {ParsedOutputStaffPackage} staff The Staff object to be converted
+     * @returns {string} A pretty String representation of the given Staff object
+     * @private
+     */
+    measuresToString(staff) {
+        let output = "";
+        if (Array.isArray(staff.measures)) {
+            staff.measures.forEach((measure) => {
+                output += "\t\tMeasure:\n";
+                output += "\t\t\tAttributesString: {\n";
+                for (let key in measure["attributesStr"]) {
+                    output += "\t\t\t\t" + key + " : " + measure["attributesStr"][key] + "\n";
+                }
+                output += "\t\t\t}\n";
+                output += "\t\t\tAttributesInt: {\n";
+                for (let key in measure["attributesInt"]) {
+                    output += "\t\t\t\t" + key + " : " + measure["attributesInt"][key] + "\n";
+                }
+                output += "\t\t\t}\n";
+                output += this.chordsToString(measure);
+            });
+        } else {
+            output += "\t\tMeasure:\n";
+            output += this.chordsToString(staff.measures);
+        }
+        return output;
+    }
+
+    /**
+     * Creates the pretty string for the given ParsedOutputTrackPackage
+     * @param {ParsedOutputTrackPackage} track The Track object to be converted
+     * @returns {string} A pretty String representation of the given Track object
+     * @private
+     */
+    staffToString(track) {
+        let output = "";
+
+        if (Array.isArray(track.staffs)) {
+            track.staffs.forEach((staff) => {
+                output += "\tStaff: ";
+                output += staff.name;
+                output += "\n";
+                output += this.measuresToString(staff);
+            })
+        } else {
+            output += "\tStaff: ";
+            output += tracks.staffs.name;
+            output += "\n";
+            output += this.measuresToString(tracks.staffs);
+        }
+
+        return output;
+    }
+
+    /**
+     * Creates a pretty String representation of the ParsedOutputPackage
+     * @returns {string} The pretty String representation of the ParsedOutputPackage
+     */
+    toPrettyString() {
+        let output = "";
+        if (this.mainObj === null) {
+            return output;
+        }
+        if (this.mainObj["tempo"]) {
+            output += "tempo: " + this.mainObj["tempo"] + "\n";
+        }
+        if (Array.isArray(this.mainObj.tracks)) {
+            this.mainObj.tracks.forEach((track) => {
+                output += "Track: ";
+                output += track.name;
+                output += "\n";
+                output += this.staffToString(track);
+            })
+        } else {
+            output += "Track: ";
+            output += this.mainObj.tracks.name;
+            output += "\n";
+            output += this.staffToString(this.mainObj.tracks);
+        }
+        return output;
+    }
+
+    /**
+     * Returns the result of stringifing the ParsedOutputPackage
+     * @returns {string} The result of stringifing the ParsedOutputPackage
+     */
+    toString() {
+        return JSON.stringify(this.mainObj);
+    }
+}
+
+module.exports = ParserOutput
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

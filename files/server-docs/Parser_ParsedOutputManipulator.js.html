@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Parser/ParsedOutputManipulator.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Parser/ParsedOutputManipulator.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @class
+ * @classdesc Encapsulation of several functions for manipulating the parsed AlphaTexStructure from AlphaTex
+ */
+class ParsedOutputManipulator {
+    /**
+     * Creates a new ParsedOutputManipulator
+     * @param {ParsedOutputPackage} mainObj The main ParsedOutputPackage object
+     */
+    constructor(mainObj) {
+        this.mainObj = mainObj;
+    }
+
+    /**
+     * Finds the provided index of the provided attribute in the provided object if present
+     * @param {object} obj The object to be searched. It's expected that obj.attribute is a string[] where attribute is the provided parameter
+     * @param {string} attribute The attribute to be searched in the provided object
+     * @param {number} index The index of the attribute to be retrieved
+     * @returns {object} Either the found value of obj[attribute][index] or null
+     */
+    indexObj(obj, attribute, index) {
+        if (Array.isArray(obj[attribute])) {
+            if (index &lt; obj[attribute].length) {
+                return obj[attribute][index];
+            } else {
+                return null;
+            }
+        } else if (index === 0) {
+            return obj[attribute];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the Track object at the provided index from the main AlphaTexStructure object
+     * @param {number} trackIndex The index to be retrieved
+     * @returns {Track} The found Track object or null if not found
+     */
+    getTrack(trackIndex) {
+        return this.indexObj(this.mainObj, "tracks", trackIndex);
+    }
+
+    /**
+     * Gets the Track object with the given name
+     * @param {string} trackName Track name to be found
+     * @returns {Track} The found Track object or null if not found
+     */
+    getTrackByName(trackName) {
+        let track = null;
+        if (Array.isArray(this.mainObj["tracks"])) {
+            for (let i = 0; i &lt; this.mainObj["tracks"].length; i++) {
+                let nextTrack = this.mainObj["tracks"][i];
+                if (nextTrack["name"] === trackName) {
+                    track = nextTrack;
+                    break;
+                }
+            }
+        } else {
+            let nextTrack = this.mainObj["tracks"];
+            if (nextTrack["name"] === trackName) {
+                track = nextTrack;
+            }
+        }
+        return track;
+    }
+
+    /**
+     * Gets the index of the Track with the provided track name
+     * @param {string} trackName The name of the track to be found
+     * @returns {number} The index of the track or null if not found
+     */
+    getTrackIndexByName(trackName) {
+        let trackIndex = null;
+        if (Array.isArray(this.mainObj["tracks"])) {
+            for (let i = 0; i &lt; this.mainObj["tracks"].length; i++) {
+                let nextTrack = this.mainObj["tracks"][i];
+                if (nextTrack["name"] === trackName) {
+                    trackIndex = i;
+                    break;
+                }
+            }
+        } else {
+            let nextTrack = this.mainObj["tracks"];
+            if (nextTrack["name"] === trackName) {
+                trackIndex = i;
+            }
+        }
+        return trackIndex;
+    }
+
+    /**
+     * Gets the Staff object of the provided Track object at the given index
+     * @param {Track} track The track to be searched
+     * @param {number} staffIndex The index of the staff to be accessed
+     * @returns {Staff} The found Staff object or null if not found
+     */
+    getStaff(track, staffIndex) {
+        return this.indexObj(track, "staffs", staffIndex);
+    }
+
+    /**
+     * Gets the Measure object of the provided Staff object at the given index
+     * @param {Staff} staff The Staff to be serached
+     * @param {number} measureIndex The index of the measure to be accessed
+     * @returns {Measure} The found Measure or null if not found
+     */
+    getMeasure(staff, measureIndex) {
+        return this.indexObj(staff, "measures", measureIndex);
+    }
+
+    /**
+     * Gets the end measure number of the given staff number of the Track with the given name
+     * @param {string} trackName The name of the Track to be accessed
+     * @param {number} staffNumber The number of the Staff to be accessed. NOTE: This is a number (i.e. index + 1)
+     * @returns {number} The ending measure number
+     */
+    getMeasureEnd(trackName, staffNumber) {
+        let measureEnd = null;
+        let track = this.getTrackByName(trackName);
+        if (track !== null) {
+            const staffIndex = staffNumber - 1;
+            let staff;
+            if (Array.isArray(track["staffs"]) &amp;&amp; staffIndex &lt; track["staffs"].length) {
+                staff = track["staffs"][staffIndex];
+            } else if (staffIndex === 0) {
+                staff = track["staffs"];
+            }
+
+            if (staff !== null) {
+                if (Array.isArray(staff["measures"])) {
+                    measureEnd = staff["measures"].length;
+                } else {
+                    measureEnd = 1;
+                }
+            }
+        }
+        return measureEnd;
+    }
+
+    /**
+     * Adds either the given value or the retrieved value of the attribute from attributesInt off of measure if present to the given array
+     * @param {number[]} targetArray Collection to which to add the value
+     * @param {Measure} measure Measure to access
+     * @param {number} currentValue The current value to be added unless the given attribute is an attributeInt of the given Measure
+     * @param {string} attribute The attribute to be accessed from the given Measure if present
+     * @returns {number} The updated current value if the measure has the attribute as an attributeInt otherwise the given currentValue
+     * @private
+     */
+    addToParsedArray(targetArray, measure, currentValue, attribute) {
+        if (measure["attributesInt"][attribute]) {
+            currentValue = measure["attributesInt"][attribute];
+        }
+        targetArray.push(currentValue);
+        return currentValue;
+    }
+
+    /**
+     * @typedef {object} MeasureTempoAndTSPackage
+     * @property {number[]} measureToTempo Array where the element at the ith index is the tempo for the i+1 measure number
+     * @property {number[]} ts A 1D 2 element array representing the last time signature read
+     */
+
+    /**
+     * Iterates over a Staff collecting an array showing what the tempo of each measure is and the final time signature recorded
+     * @param {Staff} staff The Staff object to be visited
+     * @returns {MeasureTempoAndTSPackage} Tempo data per measure at the latest read time signature.
+     */
+    visitMeasure(staff) {
+        let measureToTempo = [];
+        let currentTempo = -1;
+        let ts = [4, 4];
+        if (Array.isArray(staff["measures"])) {
+            staff["measures"].forEach((measure) => {
+                currentTempo = this.addToParsedArray(measureToTempo, measure, currentTempo, "tempo");
+                if (measure["attributesInt"]["tsTop"]) {
+                    ts[0] = measure["attributesInt"]["tsTop"];
+                    ts[1] = measure["attributesInt"]["tsBottom"];
+                }
+            });
+        } else {
+            let measure = staff["measures"];
+            currentTempo = this.addToParsedArray(measureToTempo, measure, currentTempo, "tempo");
+            if (measure["attributesInt"]["tsTop"]) {
+                ts[0] = measure["attributesInt"]["tsTop"];
+                ts[1] = measure["attributesInt"]["tsBottom"];
+            }
+        }
+        return {measureToTempo, ts};
+    }
+
+    /**
+     * Utility function for getLyricArray visiting the Chord object
+     * Adds lyrics to the lyricArray from the lyrics collection for each note that isn't silence
+     * @param {Chord} chord The Chord object that is being accessed
+     * @param {string[]} lyrics Collection of lyrics for the current staff
+     * @param {string[]} lyricArray The lyric collection that is being built
+     * @param {number} lyricIndex The current index into the lyrics array
+     * @returns {number} The latest lyricIndex
+     * @private
+     */
+    getLyricArrayChord(chord, lyrics, lyricArray, lyricIndex) {
+        if (Array.isArray(chord["pitches"])) {
+            chord["pitches"].forEach((pitch) => {
+                if (pitch["midiValue"] !== -1) {
+                    lyricArray.push(lyrics[lyricIndex]);
+                    lyricIndex++;
+                }
+            });
+        } else {
+            if (chord["pitches"]["midiValue"] !== -1) {
+                lyricArray.push(lyrics[lyricIndex]);
+                lyricIndex++;
+            }
+        }
+        return lyricIndex;
+    }
+
+    /**
+     * Utility function for getLyricArray visiting the Measure object
+     * @param {Measure} measure The Measure object being accessed
+     * @param {string[]} lyrics Collection of lyrics for the current staff
+     * @param {string[]} lyricArray The lyric collection that is being built
+     * @param {number} lyricIndex The current index into the lyrics array
+     * @returns {number} The latest lyricIndex
+     * @private
+     */
+    getLyricArrayMeasure(measure, lyrics, lyricArray, lyricIndex) {
+        if (Array.isArray(measure["chords"])) {
+            measure["chords"].forEach((chord) => {
+                lyricIndex = this.getLyricArrayChord(chord, lyrics, lyricArray, lyricIndex);
+            });
+        } else {
+            lyricIndex = this.getLyricArrayChord(measure["chords"], lyrics, lyricArray, lyricIndex);
+        }
+        return lyricIndex;
+    }
+    
+    /**
+     * @typedef {object} LyricArrayPackage
+     * @property {string[]} lyricArray Collection of lyrics for a Staff
+     * @property {number} lyricArrayIndex The latest index into lyricArray to add lyrics to lyricArray
+     */
+
+    /**
+     * Creates a new lyrics array for the given Staff starting the first lyric at the provided measure number
+     * @param {Staff} staff The Staff object to be accessed
+     * @param {number} firstMeasureNumber The first measure number to access. Note: The index into staff.measures = firstMeasureNumber - 1
+     * @returns {string[]} 
+     */
+    getLyricArray(staff, firstMeasureNumber) {
+        if (!staff["lyrics"]) {
+            return null;
+        }
+        let staffLyrics = staff["lyrics"];
+        let lyricArray = [];
+        let lyricIndex = 0;
+        let measureIndex = 0;
+        let lyricArrayIndex = -1;
+        if (Array.isArray(staff["measures"])) {
+            staff["measures"].forEach((measure) => {
+                if (measureIndex === firstMeasureNumber - 1) {
+                    lyricArrayIndex = lyricIndex;
+                }
+                lyricIndex = this.getLyricArrayMeasure(measure, staffLyrics, lyricArray, lyricIndex);
+                measureIndex++;
+            });
+        } else {
+            if (measureIndex === firstMeasureNumber - 1) {
+                lyricArrayIndex = lyricIndex;
+            }
+            lyricIndex = this.getLyricArrayMeasure(staff["measures"], staffLyrics, lyricArray, lyricIndex);
+            measureIndex++;
+        }
+        return {lyricArray, lyricArrayIndex};
+    }
+
+    /**
+     * @typedef {object} TempoTimePackage
+     * @property {number} tempTempo The last noted tempo
+     * @property {number} tempTimeFactor The last noted Measure length
+     */
+
+    /**
+     * Utility function for getMeasureTimeLength that gets the time length of the given measure
+     * @param {number[]} measureTimeLength The ith index contains the length in seconds of the i+1 Measure
+     * @param {Measure} measure The Measure to be evaluated
+     * @param {number} tempo The last noted tempo
+     * @param {number} timeFactor The last noted Measure length
+     * @param {number[]} ts A 1D 3 element array. The first and second elements represent the time signature. The third element is the number of quarter notes per Measure
+     * @returns {TempoTimePackage} The latest noted tempo and Measure length
+     * @private
+     */
+    getNextMeasureTimeLength(measureTimeLength, measure, tempo, timeFactor, ts) {
+        let tempTempo = tempo;
+        let tempTimeFactor = timeFactor;
+        if (measure["attributesInt"]["tempo"]) {
+            tempTempo = measure["attributesInt"]["tempo"];
+            tempTimeFactor = (60/tempTempo)*ts[2];
+        }
+        if (measure["attributesInt"]["tsTop"]) {
+            ts[0] = measure["attributesInt"]["tsTop"];
+            ts[1] = measure["attributesInt"]["tsBottom"];
+            ts[2] = ts[0] / (ts[1]/4);
+            tempTimeFactor = (60/tempTempo)*ts[2];
+        }
+        measureTimeLength.push(tempTimeFactor);
+        return {tempTempo, tempTimeFactor};
+    }
+
+    /**
+     * Gets an array where the ith index contains the length in seconds of the i+1 Measure of the first Staff of the given Track
+     * @param {string} trackName The name of the Track to be accessed
+     * @returns {number[]} A collection of the lengths of each Measure. The ith index contains the length in seconds of the i+1 Measure
+     */
+    getMeasureTimeLength(trackName) {
+        let track = this.getTrackByName(trackName);
+        // assumes you want the first staff
+        let staff = this.getStaff(track, 0);
+        let measureTimeLength = [];
+        let tempo = this.mainObj["tempo"];
+        let ts = [4,4,4];
+        let timeFactor = (60/tempo)*ts[2];
+        if (Array.isArray(staff["measures"])) {
+            staff["measures"].forEach((measure) => {
+                let {tempTempo, tempTimeFactor} = this.getNextMeasureTimeLength(measureTimeLength, measure, tempo, timeFactor, ts);
+                tempo = tempTempo;
+                timeFactor = tempTimeFactor;
+            });
+        } else {
+            let measure = staff["measures"];
+            let {tempTempo, tempTimeFactor} = this.getNextMeasureTimeLength(measureTimeLength, measure, tempo, timeFactor, ts);
+            tempo = tempTempo;
+            timeFactor = tempTimeFactor;
+        }
+        return measureTimeLength;
+    }
+}
+
+module.exports = ParsedOutputManipulator;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

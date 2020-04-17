@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: routers/performance.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: routers/performance.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const express = require('express');
+const auth = require('../middleware/authenticator.js');
+const verify = require("../middleware/verifier.js");
+const mysql = require("../db/mysql.js");
+const PerformanceAnalyser = require("../Parser/PerformanceAnalyser.js");
+const query = require("../util/query.js");
+const clean = require('../Parser/cleaner.js');
+const router = express.Router();
+
+/**
+ * Route for getting all performance information about the given member
+ * @name member/get/all
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.sheetMusicId The sheet music ID to be accessed.
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.get('/all', auth.token, async (req,res) => {
+    verify.memberOfSheetMusic(req, res).then((choirId) => {
+        if (choirId === null) {
+            res.status(403).send('Unauthorized');
+        } else {
+            let sheetMusicId = req.query.sheetMusicId;
+            const errorMessage = "Unable to get exercises";
+            if (sheetMusicId) {
+                mysql.getClient().then((client) => {
+                    client.query("SELECT hex(member_id) FROM tma.member WHERE person_id=? AND choir_id=unhex(?)", [res.locals.uid, choirId], function(error, results, fields) {
+                        if (error) {
+                            res.status(503).send(errorMessage);
+                        } else {
+                            let memberId = results[0]["hex(member_id)"];
+                            client.query("SELECT performance_data FROM tma.performance WHERE member_id=? AND sheet_music_id=?", [memberId, sheetMusicId], function(error, results, fields) {
+                                if (error) {
+                                    res.status(503).send(errorMessage);
+                                } else {
+                                    res.status(200).send();
+                                }
+                            });
+                        }
+                    });
+                });
+            } else {
+                res.status(400).send(errorMessage);
+            }
+        }
+    }).catch((error) => {
+        res.status(403).send('Unauthorized');
+    })
+});
+
+/**
+ * Route for updating performance information without analyzing the results
+ * @name member/put/no-analysis
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.sheetMusicId The sheet music ID to be accessed.
+ * @param {string} req.body.performanceData The stringified performance data to be added
+ * @param {string} req.body.performanceId The ID of the performance to which to append the latest performance data
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.put('/no-analysis', auth.token, async(req,res) => {
+    verify.memberOfSheetMusic(req, res).then((choirId) => {
+        if (choirId === null) {
+          res.status(403).send('Unauthorized');
+        } else {
+            let performanceData = req.body.performanceData;
+            if (performanceData &amp;&amp; typeof(performanceData) === 'string') {
+                performanceData = JSON.parse(performanceData);
+            }
+            let performanceId = req.body.performanceId
+            const errorMessage = "Unable to update performance";
+            if (performanceData &amp;&amp; performanceId &amp;&amp; performanceData.pitches.length > 0) {
+                mysql.getClient().then((client) => {
+                    client.query("SELECT hex(member_id) FROM tma.member WHERE person_id=? AND choir_id=unhex(?)", [res.locals.uid, choirId], function(error, results, fields) {
+                        if (error) {
+                            res.status(503).send(errorMessage);
+                        } else {
+                            let memberId = results[0]["hex(member_id)"];
+                            client.query("SELECT performance_data FROM tma.performance WHERE performance_id=unhex(?) AND member_id=unhex(?)", [performanceId, memberId], function(error, results, fields) {
+                                if (error) {
+                                    res.status(503).send(errorMessage);
+                                } else if (results.length === 0) {
+                                    res.status(204).send(errorMessage);
+                                } else {
+                                    let currentPerformance = JSON.parse(results[0]["performance_data"]);
+                                    currentPerformance["pitches"] = currentPerformance["pitches"].concat(performanceData["pitches"]);
+                                    client.query("UPDATE tma.performance SET performance_data=? WHERE performance_id=unhex(?) AND member_id=unhex(?)", [JSON.stringify(currentPerformance), performanceId, memberId], function(error, results, fields) {
+                                        if (error) {
+                                            res.status(503).send(errorMessage);
+                                        } else {
+                                            res.status(200).send();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            } else {
+                res.status(400).send(errorMessage);
+            }
+        }
+    }).catch((error) => {
+        res.status(403).send('Unauthorized');
+    });
+});
+
+/**
+ * Route for updating performance information and analyzing the results
+ * @name member/put/analysis
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.sheetMusicId The sheet music ID to be accessed
+ * @param {string} req.body.performanceData The stringified performance data to be added
+ * @param {string} req.body.performanceId The ID of the performance to which to append the latest performance data
+ * @param {string} req.body.sheetMusicId The sheet music that the performance is attached to
+ * @param {string} req.body.exerciseId If not null, gives the ID of the exercise that this performance was based on. Otherwise null
+ * @param {boolean} req.body.isDurationExercise Whether the performance was for a duration exercise
+ * @param {number} req.body.measureStart The start measure number of the performance
+ * @param {number} req.body.measureEnd The end measure number of the performance
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.put("/analysis", auth.token, async(req,res) => {
+    verify.memberOfSheetMusic(req, res).then((choirId) => {
+        if (choirId === null) {
+          res.status(403).send('Unauthorized');
+        } else {
+            let performanceData = req.body.performanceData;
+            if (performanceData &amp;&amp; typeof(performanceData) === 'string') {
+                performanceData = JSON.parse(performanceData);
+            }
+            let performanceId = req.body.performanceId;
+            let sheetMusicId = req.body.sheetMusicId;
+            let exerciseId = req.body.exerciseId;
+            let isDurationExercise = req.body.isDurationExercise;
+            let measureStart = req.body.measureStart;
+            let measureEnd = req.body.measureEnd;
+            const errorMessage = "Unable to update performance";
+            if (performanceId &amp;&amp; performanceData &amp;&amp; sheetMusicId &amp;&amp; (exerciseId !== null || exerciseId === null) &amp;&amp; performanceData.pitches.length > 0 &amp;&amp; measureStart &amp;&amp; measureEnd &amp;&amp; (isDurationExercise || !isDurationExercise)) {
+                mysql.getClient().then((client) => {
+                    client.query("SELECT hex(member_id) FROM tma.member WHERE person_id=? AND choir_id=unhex(?)", [res.locals.uid, choirId], function(error, results, fields) {
+                        if (error) {
+                            res.status(503).send(errorMessage);
+                        } else {
+                            let memberId = results[0]["hex(member_id)"];
+                            client.query("SELECT performance_data FROM tma.performance WHERE performance_id=unhex(?) AND member_id=unhex(?)", [performanceId, memberId], function(error, results, fields) {
+                                if (error) {
+                                    res.status(503).send(errorMessage);
+                                } else if (results.length === 0) {
+                                    res.status(204).send(errorMessage);
+                                } else {
+                                    let currentPerformance = JSON.parse(results[0]["performance_data"]);
+                                    currentPerformance["pitches"] = currentPerformance["pitches"].concat(performanceData["pitches"]);
+    
+                                    client.query("UPDATE tma.performance SET performance_data=? WHERE performance_id=unhex(?) AND member_id=unhex(?)", [JSON.stringify(currentPerformance), performanceId, memberId], function(error, results, fields) {
+                                        if (error) {
+                                            res.status(503).send(errorMessage);
+                                        } else {
+                                            client.query("SELECT part FROM tma.member_sheet_music_part WHERE sheet_music_id = unhex(?) AND member_id=unhex(?)", [sheetMusicId, memberId], function(error, results, fields) {
+                                                if (error) {
+                                                    res.status(503).send(errorMessage);
+                                                } else if (results.length === 0) {
+                                                    res.status(204).send(errorMessage);
+                                                } else {
+                                                    let partName = results[0]["part"];
+    
+                                                    client.query("SELECT performance_data FROM tma.sheet_music WHERE sheet_music_id = unhex(?)", [sheetMusicId], function(error, results, fields) {
+                                                        if (error) {
+                                                            res.status(503).send(errorMessage);
+                                                        } else if (results.length === 0) {
+                                                            res.status(204).send(errorMessage);
+                                                        } else {
+                                                            let pData = JSON.parse(results[0]['performance_data']);
+                
+                                                            let measureBounds = null;
+                                                            if (measureStart &amp;&amp; measureEnd &amp;&amp; measureStart !== null &amp;&amp; measureEnd !== null) {
+                                                                measureBounds= [measureStart, measureEnd];
+                                                            }
+                
+                                                            let measureErrorExercise = exerciseId !== null ? isDurationExercise : false;
+                                                            let measureErrors = cleanAndAnalyzePerformance(performanceData, pData, partName, 0, measureBounds, measureErrorExercise);
+                                                            saveMeasureErrors(measureErrors, memberId, sheetMusicId).then((didSave) => {
+                                                                if (!didSave) {
+                                                                    res.status(503).send(errorMessage);
+                                                                } else {  
+                                                                    res.status(200).send();
+                                                                }
+                                                            }).catch((error) => {
+                                                                client.rollback(function() {
+                                                                    res.status(503).send(errorMessage);
+                                                                });
+                                                            });
+                                                        }
+                                                    });
+                                                } 
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            } else {
+                res.status(400).send(errorMessage);
+            }
+        }
+    }).catch((error) => {
+        res.status(403).send('Unauthorized');
+    });
+});
+
+/**
+ * @typedef {object} MemberPostNewNoAnalysisPackage
+ * @property {string} performance_id The ID of the newly generated performance data
+ */
+
+/**
+ * Route for creating a new record of performance information without analyzing the results
+ * @name member/post/new/no-analysis
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.sheetMusicId The sheet music ID to be accessed
+ * @param {string} req.body.performanceData The stringified performance data to be added
+ * @param {string} req.body.sheetMusicId The sheet music that the performance is attached to
+ * @param {string} req.body.exerciseId If not null, gives the ID of the exercise that this performance was based on. Otherwise null
+ * @param {boolean} req.body.isDurationExercise Whether the performance was for a duration exercise
+ * @param {number} req.body.measureStart The start measure number of the performance
+ * @param {number} req.body.measureEnd The end measure number of the performance
+ * @param {*} res
+ * @returns {MemberPostNewNoAnalysisPackage|string} On success the ID of the newly generated performance generated. Otherwise, an error message.
+ * @async
+ */
+router.post('/new/no-analysis', auth.token, async(req,res) => {
+    verify.memberOfSheetMusic(req, res).then((choirId) => {
+        if (choirId === null) {
+          res.status(403).send('Unauthorized');
+        } else {
+            let performanceData = req.body.performanceData;
+            if (performanceData &amp;&amp; typeof(performanceData) === 'string') {
+                performanceData = JSON.parse(performanceData);
+            }
+            let sheetMusicId = req.body.sheetMusicId;
+            let exerciseId = req.body.exerciseId;
+            let isDurationExercise = req.body.isDurationExercise;
+            let measureStart = req.body.measureStart;
+            let measureEnd = req.body.measureEnd;
+            const errorMessage = "Unable to add performance";
+            if (performanceData &amp;&amp; sheetMusicId &amp;&amp; (exerciseId !== null || exerciseId === null) &amp;&amp; performanceData.pitches.length > 0 &amp;&amp; measureStart &amp;&amp; measureEnd &amp;&amp; (isDurationExercise || !isDurationExercise)) {
+                mysql.getClient().then((client) => {
+                    client.query("SELECT hex(member_id) FROM tma.member WHERE person_id=? AND choir_id=unhex(?)", [res.locals.uid, choirId], function(error, results, fields) {
+                        if (error) {
+                            res.status(503).send(errorMessage);
+                        } else {
+                            let memberId = results[0]["hex(member_id)"];
+    
+                            let lastValue;
+                            let args = [JSON.stringify(performanceData), memberId];
+                            if (exerciseId === null) {
+                                lastValue = "sheet_music_id";
+                                args.push(sheetMusicId);
+                            } else {
+                                lastValue = "exercise_id";
+                                args.push(exerciseId);
+                            }
+    
+                            client.query("SELECT replace(uuid(),\"-\",\"\") AS uuid", function(error, results, fields) {
+                                if (error) {
+                                    res.status(503).send(errorMessage);
+                                    } else {
+                                    let generated_uuid = results[0]["uuid"];
+                                    args.unshift(generated_uuid);
+                                    let sql = "insert into tma.performance (performance_id, performance_data, member_id, " + lastValue + ") values(unhex(?), ?, unhex(?), unhex(?))"; 
+    
+                                    client.query(sql, args, function(error, results, fields) {
+                                        if (error) {
+                                            res.status(503).send(errorMessage);
+                                        } else {
+                                            res.status(200).json({ performance_id: generated_uuid });
+                                        }
+                                    });
+                                    }
+                            });
+                        }
+                    });
+                });
+            } else {
+                res.status(400).send(errorMessage);
+            }
+        }
+    }).catch((error) => {
+        res.status(403).send('Unauthorized');
+    });
+});
+
+/**
+ * Route for creating a new record of performance information and analyzing the results
+ * @name member/post/new/analysis
+ * @function
+ * @inner
+ * @param {*} req
+ * @param {string} req.body.sheetMusicId The sheet music ID to be accessed
+ * @param {string} req.body.performanceData The stringified performance data to be added
+ * @param {string} req.body.sheetMusicId The sheet music that the performance is attached to
+ * @param {string} req.body.exerciseId If not null, gives the ID of the exercise that this performance was based on. Otherwise null
+ * @param {boolean} req.body.isDurationExercise Whether the performance was for a duration exercise
+ * @param {number} req.body.measureStart The start measure number of the performance
+ * @param {number} req.body.measureEnd The end measure number of the performance
+ * @param {*} res
+ * @returns {string} An error message if an error occured
+ * @async
+ */
+router.post('/new/analysis', auth.token, async (req,res) => {
+    verify.memberOfSheetMusic(req, res).then((choirId) => {
+        if (choirId === null) {
+          res.status(403).send('Unauthorized');
+        } else {
+            let performanceData = req.body.performanceData;
+            if (performanceData &amp;&amp; typeof(performanceData) === 'string') {
+                performanceData = JSON.parse(performanceData);
+            }
+            let sheetMusicId = req.body.sheetMusicId;
+            let exerciseId = req.body.exerciseId;
+            let isDurationExercise = req.body.isDurationExercise;
+            let measureStart = req.body.measureStart;
+            let measureEnd = req.body.measureEnd;
+            const errorMessage = "Unable to add performance";
+            if (performanceData &amp;&amp; sheetMusicId &amp;&amp; (exerciseId !== null || exerciseId === null) &amp;&amp; performanceData.pitches.length > 0 &amp;&amp; measureStart &amp;&amp; measureEnd &amp;&amp; (isDurationExercise || !isDurationExercise)) {
+                mysql.getClient().then((client) => {
+                    client.beginTransaction(function(error) {
+                        client.query("SELECT hex(member_id) FROM tma.member WHERE person_id=? AND choir_id=unhex(?)", [res.locals.uid, choirId], function(error, results, fields) {
+                            if (error) {
+                                client.rollback(function() {
+                                    res.status(503).send(errorMessage);
+                                });
+                            } else {
+                                let memberId = results[0]["hex(member_id)"];
+    
+                                client.query("SELECT part FROM tma.member_sheet_music_part WHERE sheet_music_id = unhex(?) AND member_id=unhex(?)", [sheetMusicId, memberId], function(error, results, fields) {
+                                    if (error) {
+                                        client.rollback(function() {
+                                            res.status(503).send(errorMessage);
+                                        });
+                                    } else if (results.length === 0) {
+                                        client.rollback(function() {
+                                            res.status(204).send(errorMessage);
+                                        });
+                                    } else {
+                                        let partName = results[0]["part"];
+    
+                                        client.query("SELECT performance_data FROM tma.sheet_music WHERE sheet_music_id = unhex(?)", [sheetMusicId], function(error, results, fields) {
+                                            if (error) {
+                                                client.rollback(function() {
+                                                    res.status(503).send(errorMessage);
+                                                });
+                                            } else if (results.length === 0) {
+                                                client.rollback(function() {
+                                                    res.status(204).send(errorMessage);
+                                                });
+                                            } else {
+                                                let pData = JSON.parse(results[0]['performance_data']);
+    
+                                                let measureBounds = null;
+                                                if (measureStart &amp;&amp; measureEnd &amp;&amp; measureStart !== null &amp;&amp; measureEnd !== null) {
+                                                    measureBounds= [measureStart, measureEnd];
+                                                }
+    
+                                                let measureErrorExercise = exerciseId !== null ? isDurationExercise : false;
+                                                let measureErrors = cleanAndAnalyzePerformance(performanceData, pData, partName, 0, measureBounds, measureErrorExercise);
+                                                saveMeasureErrors(measureErrors, memberId, sheetMusicId).then((didSave) => {
+                                                    if (!didSave) {
+                                                        client.rollback(function() {
+                                                            res.status(503).send(errorMessage);
+                                                        });
+                                                    } else {
+                                                        let lastValue;
+                                                        let args = [JSON.stringify(performanceData), memberId];
+                                                        if (exerciseId === null) {
+                                                            lastValue = "sheet_music_id";
+                                                            args.push(sheetMusicId);
+                                                        } else {
+                                                            lastValue = "exercise_id";
+                                                            args.push(exerciseId);
+                                                        }
+    
+                                                        let sql = "insert into tma.performance (performance_id, performance_data, member_id, " + lastValue + ") values(unhex(replace(uuid(),\"-\",\"\")), ?, unhex(?), unhex(?))"; 
+    
+                                                        client.query(sql, args, function(error, results, fields) {
+                                                            if (error) {
+                                                                client.rollback(function() {
+                                                                    res.status(503).send(errorMessage);
+                                                                });
+                                                            } else {
+                                                                client.commit(function(err) {
+                                                                    if (err) {
+                                                                        client.rollback(function() {
+                                                                            res.status(503).send(errorMessage);
+                                                                        });
+                                                                    } else {
+                                                                        res.status(200).send();
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                }).catch((error) => {
+                                                    client.rollback(function() {
+                                                        res.status(503).send(errorMessage);
+                                                    });
+                                                });
+                                            }
+                                        });
+                                    } 
+                                });
+                            }
+                        });
+                    });
+                });
+            } else {
+                res.status(400).send(errorMessage);
+            }
+        }
+    }).catch((error) => {
+        res.status(403).send('Unauthorized');
+    });
+});
+
+/**
+ * Saves the new result of measure errors into the list for the given member of the given sheet music
+ * @param {AnalyzedPerformancePackage[]} measureErrors An array of analyzed performance objects with information about each measure analyzed
+ * @param {string} memberId The ID of the member to be updated
+ * @param {string} sheetMusicId The ID of the sheet music that the performance was for
+ * @returns {boolean} If the saving was successful
+ * @private
+ */
+const saveMeasureErrors = async(measureErrors, memberId, sheetMusicId) => {
+    try {
+        let obj_1 = await query("SELECT progress_data FROM tma.performance_progress WHERE member_id=unhex(?) AND sheet_music_id=unhex(?)", [memberId, sheetMusicId]);
+        if (obj_1.results.length === 0) {
+            return false;
+        } else {
+            let progress = JSON.parse(obj_1.results[0]["progress_data"]);
+            let currentIndex = progress.index;
+            let newIndex = (progress.index + 1) % 5;
+
+            if (progress.data.length === 5) {
+                for (let i = 0; i &lt; measureErrors.length; i++) {
+                    progress.data[newIndex][measureErrors[i]["measureNumber"] - 1] = measureErrors[i]["overallScore"];
+                }
+            } else {
+                let newProgressData = JSON.parse(JSON.stringify(progress.data[currentIndex]));
+                for (let i = 0; i &lt; measureErrors.length; i++) {
+                    newProgressData[measureErrors[i]["measureNumber"] - 1] = measureErrors[i]["overallScore"];
+                }
+                progress.data.push(newProgressData);
+            }
+
+            progress.index = newIndex;
+
+            await query("UPDATE tma.performance_progress SET progress_data=? WHERE member_id=unhex(?) AND sheet_music_id=unhex(?)", [JSON.stringify(progress), memberId, sheetMusicId]);
+            return true;
+        }
+    } catch(error) {
+        return false;
+    }
+}
+
+/**
+ * Cleans provided performance data and analyzes it comparing to the provided sheet music data of the specified track and staff number within the measure bounds provided
+ * @param {PerformancePackage} performanceData - The performance object derivied from user performance
+ * @param {ParsedOutputPackage} sheetMusicData - Internalized object based on alphaTex for sheet music
+ * @param {string} partName - The name of the part to be analyzed in the sheet music
+ * @param {number} staffIndex - The number of the staff to be analyzed
+ * @param {int[]} measureBounds - The bounds of the measures or null for all
+ * @param {Boolean} isDurationExercise - Whether this was a duration exercise performance
+ * @return {AnalyzedPerformancePackage[]} An array of analyzed performance objects with information about each measure analyzed
+ * TODO: Make overall score based on duration as well
+ */
+const cleanAndAnalyzePerformance = (performanceData, sheetMusicData, partName, staffIndex, measureBounds, isDurationExercise) => {
+    let pitches = clean(performanceData);
+    let results = PerformanceAnalyser.analyzePerformance({pitches}, sheetMusicData, partName, staffIndex, measureBounds, isDurationExercise);
+    return results;
+}
+
+
+module.exports = router;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

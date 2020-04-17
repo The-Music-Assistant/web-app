@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Parser/ParserMeasures.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Parser/ParserMeasures.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const ParsedOutputManipulator = require("./ParsedOutputManipulator.js");
+
+const NOTE_STRING = ["c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b"];
+/**
+ * @class
+ * @classdesc Encapsulates functions used to generate an exercise from a collection of measures
+ */
+class ParserMeasures {
+    /**
+     * Creates a new ParserMeasures
+     * @param {ParsedOutputPackage} parsedOutputObj The main ParsedOutputPackage
+     */
+    constructor(parsedOutputObj) {
+        this.manipulator = new ParsedOutputManipulator(parsedOutputObj);
+    }
+
+    /**
+     * Converts the duration in seconds of a Note back to the duration in AlphaTex
+     * @param {number} durationInSeconds The duration in seconds of the given Note
+     * @param {number} currentTempoFactor The current factor based on the tempo
+     * @param {Set} beatEffects A set of effects that are modifying the Note
+     * @returns {number} The duration as would be noted in AlphaTex
+     */
+    getDurationFromDurationInSeconds(durationInSeconds, currentTempoFactor, beatEffects) {
+        let duration = durationInSeconds;
+        if (beatEffects.includes("dotted")) {
+            duration /= 1.5;
+        }
+        duration /= currentTempoFactor;
+        duration = 4 / duration;
+        return duration;
+    }
+
+    /**
+     * Creates AlphaTex from a given midi value
+     * @param {number} midi The midi value of the Note with -1 as a special value for silence
+     * @returns {string} The AlphaTex for that note either "r" for a rest (midi === -1) or the appended string representation of the note and its octave
+     * @private
+     */
+    getTextFromMidi(midi) {
+        let text = "";
+        if (midi === -1) {
+            text = "r";
+        } else {
+            let octave = Math.floor((midi / 12) - 1);
+            let noteIndex = midi % 12;
+            let note = NOTE_STRING[noteIndex];
+            text = note + octave;
+        }
+        return text;
+    }
+
+    /**
+     * @typedef {object} LyricPackage
+     * @property {string} tempLyricText The lyric text for this note or empty string
+     * @property {number} lyricArrayIndex The latest lyric index into lyricArray
+     */
+
+    /**
+     * Gets the lyric text for the given Pitch object
+     * @param {ParsedOutputPitchPackage} pitch The Pitch object to be analyzed
+     * @param {boolean} isDurationExercise If true then this is a duration exercise otherwise if false then it's not
+     * @param {string[]} lyricArray The collection of lyrics to pull from
+     * @param {number} lyricArrayIndex The latest index into lyricArray
+     * @returns {LyricPackage} The lyric text for the pitch if it's not silence and the latest lyric index
+     * @private 
+     */
+    getLyricText(pitch, isDurationExercise, lyricArray, lyricArrayIndex) {
+        let tempLyricText;
+        let tempLyricIndex = lyricArrayIndex;
+        if (isDurationExercise) {
+            if (pitch["midiValue"] !== -1) {
+                tempLyricText = "oo";
+            } else {
+                tempLyricText = "";
+            }
+        } else if (pitch["midiValue"] !== -1 &amp;&amp; lyricArray !== null) {
+            tempLyricText = lyricArray[tempLyricIndex];
+            tempLyricIndex++;
+        } else {
+            tempLyricText = "";
+        }
+        return {tempLyricText, "lyricArrayIndex":tempLyricIndex};
+    }
+
+    /**
+     * Creates AlphaTex for the given Pitch
+     * @param {ParsedOutputPitchPackage} pitch The Pitch object to be analyzed
+     * @param {number} tempoFactor The latest factor based on the tempo
+     * @param {boolean} isDurationExercise If true then this is a duration exercise otherwise if false then it's not
+     * @returns {string} The generated AlphaTex for the given Pitch
+     * @private
+     */
+    getPitchText(pitch, tempoFactor, isDurationExercise) {
+        let pitchText;
+        let effectText = "";
+        let beatEffectText = "";
+        if (pitch["beatEffects"].length > 0) {
+            pitch["beatEffects"].forEach((effect) => {
+                if (effect === "tied") {
+                    if (effectText.length > 0) {
+                        effectText += " ";
+                    }
+                    effectText += "-";
+                } else if (effect === "dotted") {
+                    if (effectText.length > 0) {
+                        effectText += " ";
+                    }
+                    effectText += "d";
+                } else if (effect === "crescendo") {
+                    if (beatEffectText.length > 0) {
+                        beatEffectText += " ";
+                    }
+                    beatEffectText += "cre";
+                } else if (effect === "decrescendo") {
+                    if (beatEffectText.length > 0) {
+                        beatEffectText += " ";
+                    }
+                    beatEffectText += "dec";
+                }
+            });
+        }
+
+        let duration = this.getDurationFromDurationInSeconds(pitch["duration"], tempoFactor, pitch["beatEffects"]);
+
+        if (isDurationExercise) {
+            if (pitch["midiValue"] === -1) {
+                pitchText = "r";
+            } else {
+                pitchText = "c4";
+            }
+        } else {
+            pitchText = this.getTextFromMidi(pitch["midiValue"]);
+        }
+
+        if (pitchText === "r") {
+            pitchText += "." + duration;
+            if (effectText.length > 0 || beatEffectText.length > 0) {
+                pitchText += "{";
+                pitchText += effectText + beatEffectText;
+                pitchText += "}";
+            }
+        } else {
+            if (effectText.length > 0) {
+                pitchText += "{" + effectText + "}";
+            }
+            pitchText += "." + duration;
+            if (beatEffectText.length > 0) {
+                pitchText += "{" + beatEffectText + "}";
+            }
+        }
+        return pitchText;
+    }
+
+    /**
+     * @typedef {object} ChordTextPackage
+     * @property {string} chordText The AlphaTex of the Chord
+     * @property {string} lyricText The lyrics that go along with the Chord
+     * @property {number} lyricArrayIndex The latest index in the lyricArray
+     */
+
+    /**
+     * Creates AlphaTex for the given Chord
+     * @param {ParsedOutputChordPackage} chord The Chord object to be analyzed
+     * @param {number} tempoFactor The latest factor based on the tempo
+     * @param {boolean} isDurationExercise If true then this is a duration exercise otherwise if false then it's not
+     * @param {string[]} lyricArray The collection of lyrics to pull from
+     * @param {number} lyricArrayIndex The latest index into lyricArray
+     * @returns {ChordTextPackage} The generated AlphaTex for the Chord and some auxilary information
+     * @private
+     */
+    getChordText(chord, tempoFactor, isDurationExercise, lyricArray, lyricArrayIndex) {
+        let chordText = "";
+        let lyricText = "";
+        let tempLyricIndex = lyricArrayIndex;
+        if (Array.isArray(chord["pitches"])) {
+            chordText += "( ";
+            let duration = null;
+            chord["pitches"].forEach((pitch) => {
+                let pitchText = this.getPitchText(pitch, tempoFactor, isDurationExercise);
+                let dotIndex = pitchText.indexOf(".");
+                chordText += pitchText.substring(0, dotIndex) + " ";
+                if (duration === null) {
+                    duration = parseInt(pitchText.substring(dotIndex+1, pitchText.length));
+                }
+                let {tempLyricText, lyricArrayIndex} = this.getLyricText(pitch, isDurationExercise, lyricArray, tempLyricIndex);
+                tempLyricIndex = lyricArrayIndex;
+                if (tempLyricText.length > 0) {
+                    if (lyricText.length > 0) {
+                        lyricText += " ";
+                    }
+                    lyricText += tempLyricText;
+                }
+            });
+            chordText += ")";
+            chordText += "." + duration;
+        } else {
+            chordText += this.getPitchText(chord["pitches"], tempoFactor, isDurationExercise) + " ";
+            let {tempLyricText, lyricArrayIndex} = this.getLyricText(chord["pitches"], isDurationExercise, lyricArray, tempLyricIndex);
+            tempLyricIndex = lyricArrayIndex;
+            if (tempLyricText.length > 0) {
+                if (lyricText.length > 0) {
+                    lyricText += " ";
+                }
+                lyricText += tempLyricText;
+            }
+        }
+        return {chordText, lyricText, "lyricArrayIndex":tempLyricIndex};
+    }
+
+    /**
+     * @typedef {object} MeasureTextPackage
+     * @property {string} measureText The AlphaTex for the Measure
+     * @property {string} lyricsText The lyrics that go along with the Measure
+     * @property {number} tempLyricIndex The latest index in the lyricArray
+     */
+
+    /**
+     * Creates AlphaTex for the given Measure
+     * @param {number} measureIndex The index of the Measure to be accessed
+     * @param {ParsedOutputStaffPackage} staff The Staff object to be accessed
+     * @param {number} currentTempoFactor The latest factor based on the tempo
+     * @param {number} measureTempo The tempo of the Measure to be accessed
+     * @param {boolean} isDurationExercise If true then this is a duration exercise otherwise if false then it's not
+     * @param {string[]} lyricArray The collection of lyrics to pull from
+     * @param {number} lyricArrayIndex The latest index into lyricArray
+     * @param {number[]} startingTs A 1D two element array representing the current tempo
+     * @param {boolean} isLastMeasure If true then this is the last measure otherwise false
+     * @returns {MeasureTextPackage} The generated AlphaTex for the Measure and some auxillary data
+     * @private
+     */
+    getMeasureText(measureIndex, staff, currentTempoFactor, measureTempo, isDurationExercise, lyricArray, lyricArrayIndex, startingTs, isLastMeasure) {
+        let measureObj = this.manipulator.getMeasure(staff, measureIndex);
+        let tempLyricIndex = lyricArrayIndex;
+        let measureText = "";
+        let lyricsText = "";
+        let attributesInt = measureObj["attributesInt"];
+        if (attributesInt["tempo"]) {
+            measureText += "\\tempo " + attributesInt["tempo"] + "\n";
+        }
+        if (startingTs !== null) {
+            measureText += "\\ts " + startingTs[0] + " " + startingTs[1] + "\n";
+        } else if (attributesInt["tsTop"]) {
+            measureText += "\\ts " + attributesInt["tsTop"] + " " + attributesInt["tsBottom"] + "\n";
+        }
+        let tempoFactor = measureTempo === -1 ? currentTempoFactor : 60 / measureTempo;
+
+        if (Array.isArray(measureObj["chords"])) {
+            measureObj["chords"].forEach((chord) => {
+                let {chordText, lyricText, lyricArrayIndex} = this.getChordText(chord, tempoFactor, isDurationExercise, lyricArray, tempLyricIndex);
+                tempLyricIndex = lyricArrayIndex;
+                measureText += chordText + " ";
+                if (lyricText.length > 0) {
+                    if (lyricsText.length > 0) {
+                        lyricsText += " ";
+                    }
+                }
+                lyricsText += lyricText;
+            });
+        } else {
+            let {chordText, lyricText, lyricArrayIndex} = this.getChordText(measureObj["chords"], tempoFactor, isDurationExercise, lyricArray, tempLyricIndex);
+            tempLyricIndex = lyricArrayIndex;
+            measureText += chordText;
+            if (lyricText.length > 0) {
+                if (lyricsText.length > 0) {
+                    lyricsText += " ";
+                }
+            }
+            lyricsText += lyricText;
+        }
+        if (!isLastMeasure) {
+            measureText += "|";
+        }
+        measureText += "\n";
+
+        return {measureText, lyricsText, tempLyricIndex};
+    }
+
+    /**
+     * @typedef {object} MeasureAlphaTexPackage
+     * @property {string} lyricText The lyrics of the provided AlphaTex
+     * @property {string} alphaTex The generated AlphaTex
+     */
+
+    /**
+     * Creates an exercise within the provided measure bounds of the track and staff number specified either a duration exercise or a normal one
+     * @param {number[]} measures The start and end of the measure bounds. If null, then get all measures
+     * @param {number} trackNumber The number of the Track to be retrieved.
+     * @param {number} staffNumber The number of the Staff to be retrieved
+     * @param {boolean} isDurationExercise If true then this will generate a duration exercise otherwise if false then it will just copy the Measures
+     * @returns {MeasureAlphaTexPackage} If successful, provides the lyrics and generated alphaTex. Otherwise, returns null
+     */
+    measuresToAlphaTex(measures, trackNumber, staffNumber, isDurationExercise) {
+        let trackIndex = trackNumber - 1;
+        let staffIndex = staffNumber - 1;
+        let track = this.manipulator.getTrack(trackIndex);
+        let staff;
+        if (track !== null) {
+            staff = this.manipulator.getStaff(track, staffIndex);
+        }
+        if (staff &amp;&amp; Array.isArray(measures) &amp;&amp; measures.length > 0) {
+            // assumes provided array measures is sorted
+            let {lyricArray, lyricArrayIndex} = this.manipulator.getLyricArray(staff, measures[0]);
+            let lyricText = "";
+            let measuresText = "";
+            let {measureToTempo, ts} = this.manipulator.visitMeasure(staff);
+
+            // assumes provided array measures is sorted
+            let firstMeasureTempo = measureToTempo[measures[0]];
+            let startingTempo = firstMeasureTempo === -1 ? this.manipulator.mainObj["tempo"] : firstMeasureTempo;
+            let currentTempoFactor = 60 / startingTempo;
+
+            let alphaTex = "\\title \"Exercise t: " + trackNumber + " s: " + staffNumber + " startM: " + measures[0] + " endM: " + measures[1] + "\"\n" +
+            "\\tempo " + startingTempo + "\n" +
+            ".\n" +
+            "\n";
+
+            if (measures.length > 2 &amp;&amp; measures[2] === "all") {
+                alphaTex += "\\track \"" + this.manipulator.getTrack(trackIndex).name + "\"\n";
+            } else {
+                alphaTex += "\\track \"Exercise\"\n";
+            }
+            alphaTex += "\\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks " + staff.keySignature + (staff.clef ? " \\clef " + staff.clef : "") + "\n";
+
+
+
+            for (let i = measures[0]; i &lt;= measures[1]; i++) {
+                let measureIndex = i - 1;
+                let startingTs = i !== measures[0] ? null : ts;
+                let isLastMeasure = i === measures[1];
+                let {measureText, lyricsText, tempLyricIndex } = this.getMeasureText(measureIndex, staff, currentTempoFactor, measureToTempo[measureIndex], isDurationExercise, lyricArray, lyricArrayIndex, startingTs, isLastMeasure);
+                lyricArrayIndex = tempLyricIndex;
+                measuresText += measureText;
+                if (lyricsText.length > 0) {
+                    if (lyricText.length > 0) {
+                        lyricText += " ";
+                    }
+                    lyricText += lyricsText;
+                }
+            }
+
+            if (lyricText.length > 0) {
+                alphaTex += "\\lyrics \"" + lyricText + "\"\n";
+            }
+            alphaTex += measuresText;
+
+            return {lyricText, alphaTex};
+        } else {
+            return null;
+        }
+    }
+
+}
+
+module.exports = ParserMeasures;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AlphaTexStructure.html">AlphaTexStructure</a></li><li><a href="Chord.html">Chord</a></li><li><a href="ConvertToTex.html">ConvertToTex</a></li><li><a href="Measure.html">Measure</a></li><li><a href="Note.html">Note</a></li><li><a href="ParsedOutputManipulator.html">ParsedOutputManipulator</a></li><li><a href="ParserMeasures.html">ParserMeasures</a></li><li><a href="ParserOutput.html">ParserOutput</a></li><li><a href="PerformanceAnalyser.html">PerformanceAnalyser</a></li><li><a href="Staff.html">Staff</a></li><li><a href="Track.html">Track</a></li><li><a href="TrackMetaData.html">TrackMetaData</a></li><li><a href="Visitor.html">Visitor</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html">choir/get</a></li><li><a href="global.html">choir/get/members</a></li><li><a href="global.html">choir/post</a></li><li><a href="global.html#clean">clean</a></li><li><a href="global.html#cleanAndAnalyzePerformance">cleanAndAnalyzePerformance</a></li><li><a href="global.html#createEmptyProgressData">createEmptyProgressData</a></li><li><a href="global.html#devGetUser">devGetUser</a></li><li><a href="global.html#differenceChecker">differenceChecker</a></li><li><a href="global.html">exercise/get</a></li><li><a href="global.html#getAccessCode">getAccessCode</a></li><li><a href="global.html#getClefs">getClefs</a></li><li><a href="global.html#getClient">getClient</a></li><li><a href="global.html#getExpectedPerformance">getExpectedPerformance</a></li><li><a href="global.html#getLowerAndUpper">getLowerAndUpper</a></li><li><a href="global.html#getNoteStream">getNoteStream</a></li><li><a href="global.html#getPartNames">getPartNames</a></li><li><a href="global.html#join">join</a></li><li><a href="global.html">member/delete</a></li><li><a href="global.html">member/get/all</a></li><li><a href="global.html">member/get/gets-feedback</a></li><li><a href="global.html">member/get/pending</a></li><li><a href="global.html">member/post</a></li><li><a href="global.html">member/post/new/analysis</a></li><li><a href="global.html">member/post/new/no-analysis</a></li><li><a href="global.html">member/put/accept</a></li><li><a href="global.html">member/put/analysis</a></li><li><a href="global.html">member/put/no-analysis</a></li><li><a href="global.html">member/put/reject</a></li><li><a href="global.html">member/put/update</a></li><li><a href="global.html">performance-progress/get</a></li><li><a href="global.html">person/get</a></li><li><a href="global.html">person/post</a></li><li><a href="global.html">person/put</a></li><li><a href="global.html#processAlphaTab">processAlphaTab</a></li><li><a href="global.html#query">query</a></li><li><a href="global.html#replaceClientOnDisconnect">replaceClientOnDisconnect</a></li><li><a href="global.html">sheet-music-part/get</a></li><li><a href="global.html">sheet-music-part/post</a></li><li><a href="global.html">sheet-music/get</a></li><li><a href="global.html">sheet-music/get/part</a></li><li><a href="global.html">sheet-music/get/specific</a></li><li><a href="global.html">sheet-music/post</a></li><li><a href="global.html#updateExerciseTable">updateExerciseTable</a></li><li><a href="global.html#verifyAdmin">verifyAdmin</a></li><li><a href="global.html#verifyAdminOfMember">verifyAdminOfMember</a></li><li><a href="global.html#verifyMemberOfSheetMusic">verifyMemberOfSheetMusic</a></li><li><a href="global.html#verifyUserIsMember">verifyUserIsMember</a></li><li><a href="global.html#verifyUserIsVerified">verifyUserIsVerified</a></li><li><a href="global.html">visualize/get</a></li><li><a href="global.html">visualize/get/join</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Apr 16 2020 17:30:03 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
