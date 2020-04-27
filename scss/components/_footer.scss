@@ -17,15 +17,11 @@ footer {
 
 #footer-copyright-text {
     margin: 0 auto;
-    @include text(
-        $font-size: .75rem,
-        $font-weight: 300,
-        $color: $white,
-        $line-height: .95rem
-    );
+    @include text($font-size: 0.75rem, $font-weight: 300, $color: $white, $line-height: 0.95rem);
     margin: auto;
 }
 
 #florida-tech-logo {
     width: 150px;
+    margin-bottom: 15px;
 }

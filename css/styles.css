@@ -88,14 +88,14 @@ footer {
 h1 {
   font-size: 2.19rem;
   font-weight: 400;
-  color: #F9FEFF;
+  color: #f8f8f8;
   line-height: 2.39rem;
 }
 
 h2 {
   font-size: 1.25rem;
   font-weight: 300;
-  color: #F9FEFF;
+  color: #f8f8f8;
   line-height: 1.5rem;
   font-style: oblique;
   text-align: center;
@@ -104,14 +104,14 @@ h2 {
 h3 {
   font-size: 1.25rem;
   font-weight: 400;
-  color: #CA6061;
+  color: #df5656;
   line-height: 1.45rem;
 }
 
 h4 {
   font-size: 1.13rem;
   font-weight: 400;
-  color: #5E5E5E;
+  color: #212121;
   line-height: 1.33rem;
   padding-left: 40px;
   margin-top: 40px;
@@ -122,19 +122,28 @@ section h4:first-of-type {
   margin-top: 0;
 }
 
+h5 {
+  font-size: 1.13rem;
+  font-weight: 400;
+  color: #212121;
+  line-height: 1.33rem;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
 p,
 td,
 li {
   font-size: 1rem;
   font-weight: 300;
-  color: #5E5E5E;
+  color: #212121;
   line-height: 1.4rem;
 }
 
 th {
   font-size: 1.13rem;
   font-weight: 400;
-  color: #75A0DC;
+  color: #5f9cd1;
   line-height: 1.33rem;
 }
 
@@ -145,7 +154,7 @@ header {
   align-items: center;
   padding: 0 40px;
   height: 75px;
-  background-color: #75A0DC;
+  background-color: #5f9cd1;
 }
 
 #main-nav {
@@ -169,7 +178,7 @@ header {
 #main-nav-logo-link-name {
   font-size: 1rem;
   font-weight: 400;
-  color: #F9FEFF;
+  color: #f8f8f8;
   line-height: 1.2rem;
   font-style: oblique;
 }
@@ -182,12 +191,12 @@ header {
   padding: 0;
   font-size: 0.75rem;
   font-weight: 300;
-  color: #F9FEFF;
+  color: #f8f8f8;
   line-height: 0.95rem;
   width: 112px;
   height: 45px;
   border: none;
-  background-color: #CA6061;
+  background-color: #df5656;
   border-radius: 8px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.4s;
@@ -211,7 +220,7 @@ header {
 .main-nav-link {
   font-size: 1rem;
   font-weight: 400;
-  color: #F9FEFF;
+  color: #f8f8f8;
   position: relative;
   margin: 0 20px;
   /* Main nav link underline */
@@ -224,7 +233,7 @@ header {
   height: 2px;
   left: 0;
   bottom: -3px;
-  background-color: #F9FEFF;
+  background-color: #f8f8f8;
   transition: width 0.2s ease;
 }
 .main-nav-link:hover::after {
@@ -244,7 +253,7 @@ header {
 #page-heading {
   width: 400px;
   height: 200px;
-  background-color: #81CF8E;
+  background-color: #47a65c;
   margin: auto;
   margin-top: 60px;
   border-radius: 100px 8px;
@@ -252,7 +261,7 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  box-shadow: 8px 8px 15px rgba(129, 207, 142, 0.4);
+  box-shadow: 8px 8px 15px rgba(71, 166, 92, 0.4);
 }
 #page-heading-title {
   padding-bottom: 20px;
@@ -267,9 +276,15 @@ header {
   margin: 80px 0 20px;
 }
 
+.section-sub-heading {
+  position: relative;
+  display: inline-block;
+  margin: 20px 0;
+}
+
 footer {
   height: 100px;
-  background-color: #7E9FA6;
+  background-color: #507ca1;
   margin-top: 80px;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -280,13 +295,14 @@ footer {
   margin: 0 auto;
   font-size: 0.75rem;
   font-weight: 300;
-  color: #F9FEFF;
+  color: #f8f8f8;
   line-height: 0.95rem;
   margin: auto;
 }
 
 #florida-tech-logo {
   width: 150px;
+  margin-bottom: 15px;
 }
 
 .no-border-table td {
@@ -310,7 +326,7 @@ footer {
 }
 .primary-table td {
   padding: 20px;
-  border: 2px solid #75A0DC;
+  border: 2px solid #5f9cd1;
   text-align: center;
 }
 .primary-table th,
@@ -354,11 +370,29 @@ ol li {
 .hover-underline {
   font-size: 1rem;
   font-weight: 400;
-  color: #75A0DC;
+  color: #5f9cd1;
   line-height: 1.2rem;
 }
 .hover-underline:hover, .hover-underline:active {
   text-decoration: underline;
+}
+
+.large-link {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #5f9cd1;
+  line-height: 1.2rem;
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+.large-link:hover {
+  color: #f8f8f8;
+  background-color: #5f9cd1;
+}
+.large-link-container {
+  margin: 50px auto 20px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=styles.css.map */

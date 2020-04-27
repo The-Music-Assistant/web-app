@@ -25,41 +25,21 @@ footer {
 }
 
 h1 {
-    @include text(
-        $font-size: 2.19rem,
-        $font-weight: 400,
-        $color: $white,
-        $line-height: 2.39rem
-    );
+    @include text($font-size: 2.19rem, $font-weight: 400, $color: $white, $line-height: 2.39rem);
 }
 
 h2 {
-    @include text(
-        $font-size: 1.25rem,
-        $font-weight: 300,
-        $color: $white,
-        $line-height: 1.5rem
-    );
+    @include text($font-size: 1.25rem, $font-weight: 300, $color: $white, $line-height: 1.5rem);
     font-style: oblique;
     text-align: center;
 }
 
 h3 {
-    @include text(
-        $font-size: 1.25rem,
-        $font-weight: 400,
-        $color: $red,
-        $line-height: 1.45rem
-    );
+    @include text($font-size: 1.25rem, $font-weight: 400, $color: $red, $line-height: 1.45rem);
 }
 
 h4 {
-    @include text(
-        $font-size: 1.13rem,
-        $font-weight: 400,
-        $color: $black,
-        $line-height: 1.33rem
-    );
+    @include text($font-size: 1.13rem, $font-weight: 400, $color: $black, $line-height: 1.33rem);
     padding-left: 40px;
     margin-top: 40px;
     margin-bottom: 10px;
@@ -69,22 +49,18 @@ section h4:first-of-type {
     margin-top: 0;
 }
 
+h5 {
+    @include text($font-size: 1.13rem, $font-weight: 400, $color: $black, $line-height: 1.33rem);
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
 p,
 td,
 li {
-    @include text(
-        $font-size: 1rem,
-        $font-weight: 300,
-        $color: $black,
-        $line-height: 1.4rem
-    );
+    @include text($font-size: 1rem, $font-weight: 300, $color: $black, $line-height: 1.4rem);
 }
 
 th {
-    @include text(
-        $font-size: 1.13rem,
-        $font-weight: 400,
-        $color: $blue,
-        $line-height: 1.33rem
-    );
+    @include text($font-size: 1.13rem, $font-weight: 400, $color: $blue, $line-height: 1.33rem);
 }
