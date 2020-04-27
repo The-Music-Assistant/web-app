@@ -164,7 +164,6 @@ header {
   /* Creates flexbox for main nav links */
   display: flex;
   justify-content: center;
-  height: 21px;
 }
 #main-nav-logo-link {
   justify-self: left;
@@ -213,7 +212,6 @@ header {
 }
 #main-nav-right-link-text {
   width: 45px;
-  padding: 0 10px;
   text-align: center;
 }
 
@@ -384,7 +382,7 @@ ol li {
   line-height: 1.2rem;
   padding: 5px 10px;
   border-radius: 10px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 .large-link:hover {
   color: #f8f8f8;
