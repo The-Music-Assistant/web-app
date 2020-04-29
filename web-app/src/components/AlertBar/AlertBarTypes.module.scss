@@ -1,0 +1,25 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/AlertBar/AlertBar.module.scss
+// Description: SCSS styles for the AlertBar types
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 4/28/2020
+// ----------------------------------------------------------------------------
+
+@import "../../root-styles/utilities.scss";
+
+.success {
+    background-color: rgba($green-color, 0.95);
+}
+
+.warning {
+    background-color: rgba($yellow-color, 0.95);
+}
+
+.error {
+    background-color: rgba($red-color, 0.95);
+}
+
+.info {
+    background-color: rgba($secondary-color, 0.95);
+}

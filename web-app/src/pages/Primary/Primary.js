@@ -21,7 +21,6 @@ import Footer from "../../components/Footer/Footer";
 // File imports
 import { signOut } from "../../store/actions";
 import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/choirSelectionRoutingOptions";
-import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -94,11 +93,6 @@ class Primary extends Component {
     componentDidMount() {
         this._isMounted = true;
         window.addEventListener("resize", this.handleWindowResize);
-        this.showAlertHandler(
-            alertBarTypes.INFO,
-            "A Reminder",
-            "Please use HEADPHONES when practicing! The piano interferes with your analysis."
-        );
     }
 
     /**

@@ -11,7 +11,7 @@ import { choirSelectionError } from "../../../../vendors/Firebase/logs";
 
 // Style imports
 import cardStyles from "./ChoirCard.module.scss";
-import cardColorStyles from "../ChoirCardColors.module.scss";
+import colorStyles from "../ChoirCardColors.module.scss";
 
 /**
  * Renders the ChoirCard component.
@@ -56,8 +56,8 @@ class ChoirCard extends Component {
             // Returns the choir image
             return (
                 <img
-                    className={cardStyles.choirCardHeaderImg}
-                    src={this.props.headerImgSrc}
+                    className={cardStyles.choirCardHeaderImage}
+                    src={this.props.headerImageSrc}
                     loading="lazy"
                     alt="Choir"
                 />
@@ -66,12 +66,14 @@ class ChoirCard extends Component {
             // Returns a placeholder image
             return (
                 <div
-                    className={`${cardStyles.choirCardHeaderImgPlaceholder} ${
-                        cardColorStyles[this.props.cardColor + "Darken"]
+                    className={`${cardStyles.choirCardHeaderImagePlaceholder} ${
+                        colorStyles[this.props.cardColor + "Darken"]
                     }`}
                 >
                     <img
-                        className={cardStyles.choirCardHeaderImgPlaceholderImg}
+                        className={
+                            cardStyles.choirCardHeaderImagePlaceholderImage
+                        }
                         src={cameraImg}
                         alt="Choir"
                         onError={this.choirImgLoadingErrorHandler}
@@ -87,25 +89,29 @@ class ChoirCard extends Component {
      */
     render() {
         return (
-            <div
+            <button
                 className={`${cardStyles.choirCard} ${
-                    cardColorStyles[this.props.cardColor]
+                    colorStyles[this.props.cardColor]
                 }`}
                 onClick={this.props.onClick}
             >
-                {/* Header image */}
-                {this.getHeaderImage()}
+                <div className={cardStyles.choirCardContent}>
+                    {/* Header image */}
+                    {this.getHeaderImage()}
 
-                {/* Choir name */}
-                <h1 className={cardStyles.choirCardName}>{this.props.name}</h1>
+                    {/* Choir name */}
+                    <h1 className={cardStyles.choirCardName}>
+                        {this.props.name}
+                    </h1>
 
-                {/* Choir description (if one exists) */}
-                {this.props.description ? (
-                    <h2 className={cardStyles.choirCardDescription}>
-                        {this.props.description}
-                    </h2>
-                ) : null}
-            </div>
+                    {/* Choir description (if one exists) */}
+                    {this.props.description ? (
+                        <h2 className={cardStyles.choirCardDescription}>
+                            {this.props.description}
+                        </h2>
+                    ) : null}
+                </div>
+            </button>
         );
     }
 }

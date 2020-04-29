@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/Buttons/RectangularButton/RectangularButton.module.scss
-// Description: SCSS styles for the rectangular button component
+// Description: SCSS styles for the RectangularButton component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/5/2020
@@ -9,12 +9,17 @@
 @import "../../../root-styles/utilities.scss";
 
 .rectButton {
-    @include text($size: 1rem, $weight: 400, $color: null, $line-height: null);
-    padding: 10px 20px;
-    border-radius: 10px;
-    box-shadow: $primary-box-shadow;
-    transition: transform 0.2s ease-in-out;
     width: fit-content;
+
+    @include text($size: 1rem, $weight: 400, $color: null, $line-height: null);
+
+    padding: 10px 20px;
+
+    border-radius: 10px;
+
+    box-shadow: $primary-box-shadow;
+
+    transition: transform 0.2s ease-in-out;
 
     @include media-query($breakpoint: $tablet-breakpoint) {
         font-size: 1.25rem;
@@ -23,29 +28,4 @@
     &:hover {
         transform: translateY(-2px);
     }
-}
-
-.whiteRectButton {
-    background-color: $white-color;
-    color: $primary-color;
-}
-
-.blueRectButton {
-    background-color: $primary-color;
-    color: $white-color;
-}
-
-.greenRectButton {
-    background-color: $green-color;
-    color: $white-color;
-}
-
-.orangeRectButton {
-    background-color: $orange-color;
-    color: $white-color;
-}
-
-.redRectButton {
-    background-color: $red-color;
-    color: $white-color;
 }

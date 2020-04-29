@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/Buttons/BackButton/BackButton.module.scss
-// Description: SCSS styles for the back button component
+// Description: SCSS styles for the BackButton component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 2/27/2020
@@ -15,7 +15,9 @@
         $align-items: center,
         $wrap: nowrap
     );
+
     justify-self: left;
+
     transition: transform 0.2s ease-in-out;
 
     &:hover {
@@ -24,21 +26,23 @@
 
     &Arrow {
         height: 20px;
-        padding-right: 10px;
-        margin-bottom: 2px;
+
+        margin-right: 10px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             height: 16px;
         }
     }
 
-    &Text {
+    &Title {
         @include text(
             $size: 1rem,
             $weight: 300,
             $color: $gray-color,
             $line-height: null
         );
+
+        // Hides the text on mobile screen size
         display: none;
 
         @include media-query($breakpoint: $tablet-breakpoint) {

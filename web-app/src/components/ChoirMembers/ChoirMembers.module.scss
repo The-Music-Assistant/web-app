@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/ChoirMembers/ChoirMembers.js
-// Description: SCSS styles for the choir members component
+// Description: SCSS styles for the ChoirMembers component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 2/29/2020
@@ -23,6 +23,7 @@
             $line-height: null
         );
         text-align: center;
+
         margin-top: 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
@@ -31,13 +32,14 @@
     }
 
     &Spinner {
+        height: 100%;
+
         @include flex-container(
             $direction: column,
             $justify-content: center,
             $align-items: center,
             $wrap: nowrap
         );
-        height: 100%;
 
         &Message {
             @include text(
@@ -46,6 +48,7 @@
                 $color: $primary-color,
                 $line-height: null
             );
+
             margin-top: 30px;
         }
     }
@@ -58,6 +61,7 @@
             $line-height: null
         );
         text-align: center;
+
         margin-top: 60px;
 
         &:first-child {
@@ -77,15 +81,19 @@
         );
         row-gap: 30px;
         column-gap: 50px;
+
         justify-content: center;
+
         margin-top: 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             grid-template-columns: repeat(auto-fill, 250px);
             row-gap: 50px;
             column-gap: 70px;
-            margin: 40px;
+
             justify-content: start;
+
+            margin: 40px;
         }
     }
 }

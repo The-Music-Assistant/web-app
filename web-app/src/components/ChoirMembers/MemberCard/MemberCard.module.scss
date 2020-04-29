@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/Choir/MemberCard/MemberCard.module.scss
-// Description: SCSS styles for the member card component
+// Description: SCSS styles for the MemberCard component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 3/8/2020
@@ -9,39 +9,52 @@
 @import "../../../root-styles/utilities.scss";
 
 .memberCard {
-    width: 280px;
+    // Note: The width is set by the grid container
     height: 200px;
+
     border-radius: 10px;
+
     box-shadow: $primary-box-shadow;
-    transition: box-shadow 0.2s ease-in-out;
-    cursor: pointer;
+
     padding: 20px;
 
+    cursor: pointer;
+
+    transition: box-shadow 0.2s ease-in-out;
+
     @include media-query($breakpoint: $tablet-breakpoint) {
-        width: 250px;
+        // Note: The width is set by the grid container
         height: 250px;
     }
 
-    &Img {
+    &Image {
+        display: block;
+
         object-fit: cover;
+
         width: 70px;
         height: 70px;
-        display: block;
+
         margin: auto;
+
         border-radius: 50%;
 
         &Placeholder {
+            width: 70px;
+            height: 70px;
+
             @include flex-container(
                 $direction: row,
                 $justify-content: center,
                 $align-items: center,
                 $wrap: nowrap
             );
-            width: 70px;
-            height: 70px;
+
             margin: auto;
-            border-radius: 50%;
+
             background-color: $white-color;
+
+            border-radius: 50%;
 
             &Letter {
                 @include text(
@@ -62,6 +75,7 @@
             $line-height: null
         );
         text-align: center;
+
         margin-top: 20px;
     }
 
@@ -73,102 +87,7 @@
             $line-height: null
         );
         text-align: center;
+
         margin-top: 20px;
-    }
-}
-
-.primaryBlue {
-    background-color: $primary-color;
-
-    &:hover {
-        box-shadow: $primary-color-box-shadow;
-    }
-
-    &Darken {
-        background-color: darken($color: $primary-color, $amount: 10%);
-    }
-
-    &ImgPlaceholderLetter {
-        color: $primary-color;
-    }
-}
-
-.secondaryBlue {
-    background-color: $secondary-color;
-
-    &:hover {
-        box-shadow: $secondary-color-box-shadow;
-    }
-
-    &Darken {
-        background-color: darken($color: $secondary-color, $amount: 10%);
-    }
-
-    &ImgPlaceholderLetter {
-        color: $secondary-color;
-    }
-}
-
-.tertiaryBlue {
-    background-color: $tertiary-color;
-
-    &:hover {
-        box-shadow: $tertiary-color-box-shadow;
-    }
-
-    &Darken {
-        background-color: darken($color: $tertiary-color, $amount: 10%);
-    }
-
-    &ImgPlaceholderLetter {
-        color: $tertiary-color;
-    }
-}
-
-.green {
-    background-color: $green-color;
-
-    &:hover {
-        box-shadow: $green-color-box-shadow;
-    }
-
-    &Darken {
-        background-color: darken($color: $green-color, $amount: 10%);
-    }
-
-    &ImgPlaceholderLetter {
-        color: $green-color;
-    }
-}
-
-.orange {
-    background-color: $orange-color;
-
-    &:hover {
-        box-shadow: $orange-color-box-shadow;
-    }
-
-    &Darken {
-        background-color: darken($color: $orange-color, $amount: 10%);
-    }
-
-    &ImgPlaceholderLetter {
-        color: $orange-color;
-    }
-}
-
-.red {
-    background-color: $red-color;
-
-    &:hover {
-        box-shadow: $red-color-box-shadow;
-    }
-
-    &Darken {
-        background-color: darken($color: $red-color, $amount: 10%);
-    }
-
-    .MemberCardImgPlaceholderLetter {
-        color: $red-color;
     }
 }

@@ -7,6 +7,7 @@ import * as colorOptions from "./memberCardColorOptions";
 
 // Style imports
 import styles from "./MemberCard.module.scss";
+import colorStyles from "./MemberCardColors.module.scss";
 
 /**
  * Renders the MemberCard component.
@@ -39,16 +40,16 @@ class MemberCard extends Component {
      */
     getImageComponent = () => {
         if (!this.props.profilePictureSrc || this.state.profilePicLoadError) {
-            // Returns a placeholder image
+            // Returns a placeholder image with the first letter of the user's name
             return (
-                <div className={styles.memberCardImgPlaceholder}>
+                <div className={styles.memberCardImagePlaceholder}>
                     {this.props.name.length > 0 ? (
                         <h1
                             className={`${
-                                styles.memberCardImgPlaceholderLetter
+                                styles.memberCardImagePlaceholderLetter
                             } ${
-                                styles[
-                                    this.props.color + "ImgPlaceholderLetter"
+                                colorStyles[
+                                    this.props.color + "ImagePlaceholderLetter"
                                 ]
                             }`}
                         >
@@ -58,10 +59,10 @@ class MemberCard extends Component {
                 </div>
             );
         } else {
-            // Returns the user profile picture
+            // Returns the user's profile picture
             return (
                 <img
-                    className={styles.memberCardImg}
+                    className={styles.memberCardImage}
                     src={this.props.profilePictureSrc}
                     alt="User Avatar"
                 />
@@ -74,9 +75,18 @@ class MemberCard extends Component {
      */
     render() {
         return (
-            <div className={`${styles.memberCard} ${styles[this.props.color]}`}>
+            <div
+                className={`${styles.memberCard} ${
+                    colorStyles[this.props.color]
+                }`}
+            >
+                {/* User's profile picture */}
                 {this.getImageComponent()}
+
+                {/* User's name */}
                 <h1 className={styles.memberCardName}>{this.props.name}</h1>
+
+                {/* User's choir role(s) */}
                 <h2 className={styles.memberCardRoles}>{this.props.roles}</h2>
             </div>
         );
@@ -104,14 +114,7 @@ MemberCard.propTypes = {
      * The background color of the component.
      * See [options]{@link module:memberCardColorOptions}.
      */
-    color: PropTypes.oneOf([
-        colorOptions.PRIMARY_BLUE,
-        colorOptions.SECONDARY_BLUE,
-        colorOptions.TERTIARY_BLUE,
-        colorOptions.GREEN,
-        colorOptions.ORANGE,
-        colorOptions.RED,
-    ]).isRequired,
+    color: PropTypes.oneOf(Object.values(colorOptions)).isRequired,
 };
 
 export default MemberCard;

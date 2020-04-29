@@ -42,7 +42,7 @@ const PracticeMusicHeader = (props) => {
             <RectangularButton
                 type={buttonTypes.BUTTON}
                 value="practice"
-                text="Practice Music"
+                title="Practice Music"
                 backgroundColor={rectButtonColorOptions.ORANGE}
                 onClick={props.switchToPractice}
             />
@@ -66,7 +66,7 @@ const PracticeMusicHeader = (props) => {
                     <RectangularButton
                         type={buttonTypes.BUTTON}
                         value="performance"
-                        text="View Performance"
+                        title="View Performance"
                         backgroundColor={rectButtonColorOptions.GREEN}
                         onClick={props.switchToPerformance}
                     />

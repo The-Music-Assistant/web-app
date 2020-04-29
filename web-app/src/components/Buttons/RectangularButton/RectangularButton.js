@@ -11,6 +11,7 @@ import * as buttonTypes from "../buttonTypes";
 
 // Style imports
 import styles from "./RectangularButton.module.scss";
+import colorStyles from "./RectangularButtonColors.module.scss";
 
 /**
  * Renders the RectangularButton component
@@ -23,13 +24,13 @@ const RectangularButton = (props) => {
     return (
         <ButtonContainer
             className={`${styles.rectButton} ${
-                styles[`${props.backgroundColor}RectButton`]
+                colorStyles[props.backgroundColor]
             }`}
             type={props.type}
             value={props.value}
             onClick={props.onClick}
         >
-            {props.text}
+            {props.title}
         </ButtonContainer>
     );
 };
@@ -40,11 +41,7 @@ RectangularButton.propTypes = {
      * The button's type (HTML type).
      * See [types]{@link module:buttonTypes}.
      */
-    type: PropTypes.oneOf([
-        buttonTypes.BUTTON,
-        buttonTypes.RESET,
-        buttonTypes.SUBMIT,
-    ]).isRequired,
+    type: PropTypes.oneOf(Object.values(buttonTypes)).isRequired,
 
     /**
      * The button's value (HTML value)
@@ -52,21 +49,15 @@ RectangularButton.propTypes = {
     value: PropTypes.string.isRequired,
 
     /**
-     * The text to display in the button
+     * The button's title
      */
-    text: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
 
     /**
      * The button's background color.
      * See [options]{@link module:rectangularButtonColorOptions}.
      */
-    backgroundColor: PropTypes.oneOf([
-        rectButtonColors.WHITE,
-        rectButtonColors.BLUE,
-        rectButtonColors.GREEN,
-        rectButtonColors.ORANGE,
-        rectButtonColors.RED,
-    ]).isRequired,
+    backgroundColor: PropTypes.oneOf(Object.values(rectButtonColors)),
 
     /**
      * Button click handler

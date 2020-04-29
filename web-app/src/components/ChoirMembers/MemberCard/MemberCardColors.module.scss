@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/ChoirSelection/ChoirCards/ChoirCardColors.module.scss
-// Description: SCSS styles for choir card colors
+// File Path: src/components/Choir/MemberCard/MemberCardColors.module.scss
+// Description: SCSS styles for the MemberCard colors
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
-// Created Date: 4/10/2020
+// Created Date: 3/8/2020
 // ----------------------------------------------------------------------------
 
 @import "../../../root-styles/utilities.scss";
@@ -15,8 +15,8 @@
         box-shadow: $primary-color-box-shadow;
     }
 
-    &Darken {
-        background-color: darken($color: $primary-color, $amount: 10%);
+    &ImagePlaceholderLetter {
+        color: $primary-color;
     }
 }
 
@@ -27,8 +27,8 @@
         box-shadow: $secondary-color-box-shadow;
     }
 
-    &Darken {
-        background-color: darken($color: $secondary-color, $amount: 10%);
+    &ImagePlaceholderLetter {
+        color: $secondary-color;
     }
 }
 
@@ -39,8 +39,8 @@
         box-shadow: $tertiary-color-box-shadow;
     }
 
-    &Darken {
-        background-color: darken($color: $tertiary-color, $amount: 10%);
+    &ImagePlaceholderLetter {
+        color: $tertiary-color;
     }
 }
 
@@ -51,8 +51,8 @@
         box-shadow: $green-color-box-shadow;
     }
 
-    &Darken {
-        background-color: darken($color: $green-color, $amount: 10%);
+    &ImagePlaceholderLetter {
+        color: $green-color;
     }
 }
 
@@ -63,8 +63,8 @@
         box-shadow: $orange-color-box-shadow;
     }
 
-    &Darken {
-        background-color: darken($color: $orange-color, $amount: 10%);
+    &ImagePlaceholderLetter {
+        color: $orange-color;
     }
 }
 
@@ -75,7 +75,7 @@
         box-shadow: $red-color-box-shadow;
     }
 
-    &Darken {
-        background-color: darken($color: $red-color, $amount: 10%);
+    .MemberCardImagePlaceholderLetter {
+        color: $red-color;
     }
 }

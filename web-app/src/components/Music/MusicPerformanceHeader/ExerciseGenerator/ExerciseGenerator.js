@@ -153,7 +153,7 @@ class ExerciseGenerator extends Component {
                     <RectangularButton
                         type={buttonTypes.SUBMIT}
                         value="generate-exercise"
-                        text="Go!"
+                        title="Go!"
                         backgroundColor={rectButtonColorOptions.ORANGE}
                     />
                 </form>

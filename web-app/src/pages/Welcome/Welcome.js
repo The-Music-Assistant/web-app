@@ -237,7 +237,7 @@ class Welcome extends Component {
                         backgroundColor="orange"
                         type="button"
                         value=""
-                        text="Let's Go!"
+                        title="Let's Go!"
                         onClick={this.doneButtonClickedHandler}
                     />
                 </div>
@@ -274,7 +274,7 @@ class Welcome extends Component {
                             backgroundColor="orange"
                             type="button"
                             value=""
-                            text="I Verified My Email"
+                            title="I Verified My Email"
                             onClick={() => this.checkIfUserEmailIsVerified()}
                         />
                     </div>
@@ -284,7 +284,7 @@ class Welcome extends Component {
                             backgroundColor="blue"
                             type="button"
                             value=""
-                            text="Resend Email"
+                            title="Resend Email"
                             onClick={
                                 this.resendEmailVerificationButtonClickedHandler
                             }
@@ -296,7 +296,7 @@ class Welcome extends Component {
                             backgroundColor="red"
                             type="button"
                             value=""
-                            text="Sign Out"
+                            title="Sign Out"
                             onClick={this.props.signOut}
                         />
                     </div>

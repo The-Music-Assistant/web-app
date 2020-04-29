@@ -38,12 +38,15 @@ const BackButton = (props) => {
             value={props.value}
             onClick={buttonClickedHandler}
         >
+            {/* Back button arrow */}
             <img
                 className={styles.backButtonArrow}
                 src={leftArrowBlue}
                 alt="Back Button"
             />
-            <span className={styles.backButtonText}>{props.text}</span>
+
+            {/* Back button title */}
+            <span className={styles.backButtonTitle}>{props.title}</span>
         </ButtonContainer>
     );
 };
@@ -56,9 +59,9 @@ BackButton.propTypes = {
     value: PropTypes.string.isRequired,
 
     /**
-     * The text to display in the button
+     * The title of the button
      */
-    text: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
 
     /**
      * React Router history object.

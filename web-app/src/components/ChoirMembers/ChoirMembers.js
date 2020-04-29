@@ -195,16 +195,27 @@ class ChoirMembers extends Component {
         } else {
             // Display the choir cards
             component = (
-                <div>
+                <section>
+                    {/* Admin heading */}
                     <h1 className={styles.choirMembersMemberGroupHeading}>
                         Administrators
                     </h1>
-                    <div className={styles.choirMembersCards}>{admins}</div>
+
+                    {/* Admin list */}
+                    <section className={styles.choirMembersCards}>
+                        {admins}
+                    </section>
+
+                    {/* Student heading */}
                     <h1 className={styles.choirMembersMemberGroupHeading}>
                         Students
                     </h1>
-                    <div className={styles.choirMembersCards}>{students}</div>
-                </div>
+
+                    {/* Student list */}
+                    <section className={styles.choirMembersCards}>
+                        {students}
+                    </section>
+                </section>
             );
         }
 
@@ -216,6 +227,7 @@ class ChoirMembers extends Component {
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Choir Selection"}
                 />
+
                 {component}
             </div>
         );

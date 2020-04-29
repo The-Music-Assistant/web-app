@@ -11,6 +11,7 @@ import downArrowWhite from "../../../assets/icons/down-arrow-white.svg";
 
 // Style imports
 import styles from "./SelectInput.module.scss";
+import colorStyles from "./SelectInputColors.module.scss";
 
 /**
  * Renders the SelectInput component
@@ -195,18 +196,18 @@ class SelectInput extends Component {
     getOptions = () => {
         return this.props.options.map((optionName, index) => {
             return (
-                <button
+                <option
                     key={index}
                     index={index}
                     className={`${styles.selectInputOption} ${
-                        styles[this.props.color]
+                        colorStyles[this.props.color]
                     }`}
                     type="button"
                     value={optionName}
                     onClick={() => this.optionButtonClickedHandler(index)}
                 >
                     {optionName}
-                </button>
+                </option>
             );
         });
     };
@@ -218,7 +219,7 @@ class SelectInput extends Component {
      */
     getOptionsClassList = () => {
         let classList = `${styles.selectInputOptions} ${
-            styles[this.props.color]
+            colorStyles[this.props.color]
         }`;
 
         classList += this.state.showDropdown
@@ -248,7 +249,7 @@ class SelectInput extends Component {
      */
     render() {
         return (
-            <div
+            <section
                 className={styles.selectInput}
                 style={{
                     width: this.state.componentWidth,
@@ -266,7 +267,7 @@ class SelectInput extends Component {
                 {/* A custom version of the select HTML element */}
                 <button
                     className={`${styles.selectInputSelector} ${
-                        styles[this.props.color]
+                        colorStyles[this.props.color]
                     }`}
                     ref={this._selectorRef}
                     type="button"
@@ -300,7 +301,7 @@ class SelectInput extends Component {
                 >
                     {this.getOptions()}
                 </div>
-            </div>
+            </section>
         );
     }
 }
@@ -321,13 +322,7 @@ SelectInput.propTypes = {
      * The component's background color.
      * See [options]{@link module:selectInputColorOptions}.
      */
-    color: PropTypes.oneOf([
-        colorOptions.WHITE,
-        colorOptions.PRIMARY_BLUE,
-        colorOptions.GREEN,
-        colorOptions.ORANGE,
-        colorOptions.RED,
-    ]).isRequired,
+    color: PropTypes.oneOf(Object.values(colorOptions)).isRequired,
 
     /**
      * Options for select component

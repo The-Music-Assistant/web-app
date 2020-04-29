@@ -9,25 +9,37 @@
 @import "../../../../root-styles/utilities.scss";
 
 .choirOptionCard {
-    width: 280px;
+    // Note: The width is set by the grid container
     height: 280px;
+
     border-radius: 10px;
+
     box-shadow: $primary-box-shadow;
+
     transition: box-shadow 0.2s ease-in-out;
-    cursor: pointer;
-    @include grid-container(
-        $grid-template-rows: 80px auto,
-        $grid-template-columns: 1fr,
-        $align-items: center
-    );
+
+    &Content {
+        // Fills up the entire height of the button container
+        height: 100%;
+
+        @include grid-container(
+            $grid-template-rows: 90px auto,
+            $grid-template-columns: 1fr,
+            $align-items: center
+        );
+    }
 
     &Icon {
         display: block;
+
+        // Note: The 60px height + 30px top margin = 90px for the first grid template row
+        height: 60px;
         margin: 30px auto 0;
-        width: 60px;
     }
 
     &Name {
+        max-height: 50px;
+
         @include text(
             $size: 1.6rem,
             $weight: 400,
@@ -35,7 +47,7 @@
             $line-height: 2rem
         );
         text-align: center;
-        max-height: 50px;
+
         margin: 0 20px;
     }
 }

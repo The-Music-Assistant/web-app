@@ -6,11 +6,12 @@ import PropTypes from "prop-types";
 import ButtonContainer from "../ButtonContainer/ButtonContainer";
 
 // File imports
-import * as colors from "./textButtonColorOptions";
+import * as textButtonColors from "./textButtonColorOptions";
 import * as buttonTypes from "../buttonTypes";
 
 // Style imports
 import styles from "./TextButton.module.scss";
+import colorStyles from "./TextButtonColors.module.scss";
 
 /**
  * Renders the TextButton component
@@ -22,9 +23,7 @@ const TextButton = (props) => {
     // Returns the JSX to render
     return (
         <ButtonContainer
-            className={`${styles.textButton} ${
-                styles[`${props.textColor}TextButton`]
-            }`}
+            className={`${styles.textButton} ${colorStyles[props.textColor]}`}
             type={props.type}
             value={props.value}
             onClick={props.onClick}
@@ -40,11 +39,7 @@ TextButton.propTypes = {
      * The button's type (HTML type).
      * See [types]{@link module:buttonTypes}.
      */
-    type: PropTypes.oneOf([
-        buttonTypes.BUTTON,
-        buttonTypes.RESET,
-        buttonTypes.SUBMIT,
-    ]).isRequired,
+    type: PropTypes.oneOf(Object.values(buttonTypes)).isRequired,
 
     /**
      * The button's value (HTML value)
@@ -60,7 +55,7 @@ TextButton.propTypes = {
      * The button's text color.
      * See [options]{@link module:textButtonColorOptions}.
      */
-    textColor: PropTypes.oneOf([colors.BLUE, colors.RED]).isRequired,
+    textColor: PropTypes.oneOf(Object.values(textButtonColors)).isRequired,
 
     /**
      * Button click handler

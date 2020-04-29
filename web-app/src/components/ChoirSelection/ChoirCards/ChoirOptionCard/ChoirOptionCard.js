@@ -19,24 +19,26 @@ import cardColorStyles from "../ChoirCardColors.module.scss";
 const ChoirOptionCard = (props) => {
     // Returns the JSX to render
     return (
-        <div
+        <button
             className={`${optionCardStyles.choirOptionCard} ${
                 cardColorStyles[props.cardColor]
             }`}
             onClick={props.onClick}
         >
-            {/* An icon */}
-            <img
-                className={optionCardStyles.choirOptionCardIcon}
-                src={props.iconSrc}
-                alt={props.name}
-            />
+            <div className={optionCardStyles.choirOptionCardContent}>
+                {/* Icon */}
+                <img
+                    className={optionCardStyles.choirOptionCardIcon}
+                    src={props.iconSrc}
+                    alt={props.name}
+                />
 
-            {/* The option name */}
-            <h1 className={optionCardStyles.choirOptionCardName}>
-                {props.name}
-            </h1>
-        </div>
+                {/* Option name */}
+                <h1 className={optionCardStyles.choirOptionCardName}>
+                    {props.name}
+                </h1>
+            </div>
+        </button>
     );
 };
 
@@ -56,14 +58,7 @@ ChoirOptionCard.propTypes = {
      * The card's background color.
      * See [options]{@link module:choirCardColorOptions}.
      */
-    cardColor: PropTypes.oneOf([
-        colorOptions.PRIMARY_BLUE,
-        colorOptions.SECONDARY_BLUE,
-        colorOptions.TERTIARY_BLUE,
-        colorOptions.GREEN,
-        colorOptions.ORANGE,
-        colorOptions.RED,
-    ]).isRequired,
+    cardColor: PropTypes.oneOf(Object.values(colorOptions)).isRequired,
 
     /**
      * Click handler for the card

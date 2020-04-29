@@ -8,7 +8,7 @@ import * as authStages from "./authStages";
 import logo from "../../assets/logos/tma-logo-white.png";
 
 // Component imports
-import AuthCard from "../../components/AuthCards/AuthCard/AuthCard";
+import EmailPasswordCard from "../../components/AuthCards/EmailPasswordCard/EmailPasswordCard";
 import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
 import LoadingHUD from "../../components/Spinners/LoadingHUD/LoadingHUD";
 import AlertBar from "../../components/AlertBar/AlertBar";
@@ -144,7 +144,7 @@ class Auth extends Component {
             case authStages.SIGN_UP:
                 // Both sign in and sign up stages use the same card
                 return (
-                    <AuthCard
+                    <EmailPasswordCard
                         setLoading={this.setLoadingHandler}
                         showAlert={this.showAlertHandler}
                         done={this.authFlowStageDoneHandler}

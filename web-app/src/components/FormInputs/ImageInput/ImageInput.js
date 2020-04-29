@@ -1,5 +1,5 @@
 // NPM module imports
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 // Style imports
@@ -14,10 +14,11 @@ import styles from "./ImageInput.module.scss";
  */
 const ImageInput = (props) => {
     return (
-        <div>
+        <Fragment>
+            {/* File input */}
+            {/* NOTE: The input element is hidden (only the label is displayed) */}
             <input
                 id={props.inputName}
-                className={styles.imageInput}
                 type="file"
                 name={props.inputName}
                 accept="image/*"
@@ -26,10 +27,12 @@ const ImageInput = (props) => {
                 files={props.file}
                 required={props.isRequired}
             />
+
+            {/* File input label */}
             <label className={styles.imageInputLabel} htmlFor={props.inputName}>
                 {props.buttonTitle}
             </label>
-        </div>
+        </Fragment>
     );
 };
 

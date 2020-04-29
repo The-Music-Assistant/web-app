@@ -12,7 +12,6 @@ import * as buttonTypes from "../buttonTypes";
  * @category Buttons
  * @author Dan Levy <danlevy124@gmail.com>
  */
-
 const ButtonContainer = (props) => {
     // Returns the JSX to render
     return (

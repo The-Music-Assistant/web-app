@@ -11,6 +11,7 @@ import closeIconWhite from "../../assets/icons/close-icon-white.svg";
 
 // Style imports
 import styles from "./AlertBar.module.scss";
+import typeStyles from "./AlertBarTypes.module.scss";
 
 /**
  * Renders the AlertBar component.
@@ -136,13 +137,15 @@ class AlertBar extends Component {
     getBackgroundColorStyle = () => {
         switch (this.props.type) {
             case alertBarTypes.SUCCESS:
-                return styles.alertBarSuccess;
+                return typeStyles.success;
             case alertBarTypes.WARNING:
-                return styles.alertBarWarning;
+                return typeStyles.warning;
             case alertBarTypes.ERROR:
-                return styles.alertBarError;
+                return typeStyles.error;
+            case alertBarTypes.INFO:
+                return typeStyles.info;
             default:
-                return styles.alertBarInfo;
+                console.error("Invalid alert bar type");
         }
     };
 
@@ -167,34 +170,32 @@ class AlertBar extends Component {
      */
     render() {
         return (
-            <div
+            <section
                 className={`${
                     styles.alertBar
                 } ${this.getBackgroundColorStyle()} ${this.getTransitionStyle()}`}
             >
-                <div className={styles.alertBarTopGrid}>
-                    {/* Empty container div for the left-hand side of the top grid */}
-                    <div></div>
-
-                    <h1 className={styles.alertBarHeading}>
+                {/* Alert bar header */}
+                <header className={styles.alertBarHeader}>
+                    <h1 className={styles.alertBarHeaderHeading}>
                         {this.props.heading}
                     </h1>
 
                     <button
-                        className={styles.alertBarCloseButton}
+                        className={styles.alertBarHeaderCloseButton}
                         onClick={this.closeButttonClickedHandler}
                         type="button"
                     >
                         <img
-                            className={styles.alertBarCloseButtonImg}
+                            className={styles.alertBarHeaderCloseButtonImg}
                             src={closeIconWhite}
                             alt="Close Alert"
                         />
                     </button>
-                </div>
+                </header>
 
                 <h2 className={styles.alertBarMessage}>{this.props.message}</h2>
-            </div>
+            </section>
         );
     }
 }

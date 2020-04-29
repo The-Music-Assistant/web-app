@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/AuthCards/ProfileCard/ProfileCard.module.scss
-// Description: SCSS styles for the profile card component
+// Description: SCSS styles for the ProfileCard component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/6/2020
@@ -9,68 +9,77 @@
 @import "../../../root-styles/utilities.scss";
 
 .profileCard {
-    &ImageInput {
-        @include flex-container(
-            $direction: column,
-            $justify-content: null,
-            $align-items: center,
-            $wrap: nowrap
-        );
+    &Form {
+        &ImageInput {
+            @include flex-container(
+                $direction: column,
+                $justify-content: null,
+                $align-items: center,
+                $wrap: nowrap
+            );
 
-        &Img,
-        &ImgPlaceholder {
-            width: 70px;
-            height: 70px;
-            border: 2px solid $primary-color;
-            border-radius: 50%;
+            &Preview {
+                // Used to place the remove button
+                position: relative;
+
+                &Image {
+                    // Removes extra margin below the image
+                    display: block;
+
+                    object-fit: cover;
+                }
+
+                &RemoveButton {
+                    // Places the image in the top-right corner
+                    position: absolute;
+                    top: 0;
+                    right: -20px;
+
+                    // Removes extra margin from image
+                    font-size: 0;
+
+                    &Image {
+                        width: 15px;
+                        height: 15px;
+                    }
+                }
+            }
+
+            &PreviewImage,
+            &ImagePlaceholder {
+                width: 70px;
+                height: 70px;
+
+                margin-bottom: 10px;
+
+                border: 2px solid $primary-color;
+                border-radius: 50%;
+
+                @include media-query($breakpoint: $tablet-breakpoint) {
+                    width: 90px;
+                    height: 90px;
+                }
+            }
+
+            &ImagePlaceholder {
+                background-color: $orange-color;
+            }
+        }
+
+        &TextInputs {
+            gap: 40px;
 
             @include media-query($breakpoint: $tablet-breakpoint) {
-                width: 90px;
-                height: 90px;
+                @include grid-container(
+                    $grid-template-rows: 1fr,
+                    $grid-template-columns: 1fr 1fr,
+                    $align-items: space-between
+                );
             }
         }
 
-        &Img {
-            object-fit: cover;
-            margin-bottom: 6px;
-
-            &Container {
-                position: relative;
-            }
-        }
-
-        &ImgPlaceholder {
-            margin-bottom: 10px;
-            background-color: $orange-color;
-        }
-
-        &RemoveButton {
-            position: absolute;
-            top: 0;
-            right: -20px;
-            width: 15px;
-            height: 15px;
-
-            &Img {
-                width: 15px;
-                height: 15px;
-            }
-        }
-    }
-
-    &TextInput {
-        margin-top: 20px;
-    }
-
-    &TextInputs {
-        gap: 40px;
-
-        @include media-query($breakpoint: $tablet-breakpoint) {
-            @include grid-container(
-                $grid-template-rows: 1fr,
-                $grid-template-columns: 1fr 1fr,
-                $align-items: space-between
-            );
+        &TextInput {
+            margin-top: 20px;
         }
     }
 }

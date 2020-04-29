@@ -58,7 +58,7 @@ class MusicPerformanceHeader extends Component {
                 <RectangularButton
                     type={buttonTypes.BUTTON}
                     value="create-exercise-generation"
-                    text="Create an Exercise"
+                    title="Create an Exercise"
                     backgroundColor={rectButtonColorOptions.ORANGE}
                     onClick={this.showOrHideExerciseGenerator}
                 />
@@ -79,7 +79,7 @@ class MusicPerformanceHeader extends Component {
                 <RectangularButton
                     type={buttonTypes.BUTTON}
                     value="practice"
-                    text="Practice Music"
+                    title="Practice Music"
                     backgroundColor={rectButtonColorOptions.GREEN}
                     onClick={this.props.switchToPractice}
                 />

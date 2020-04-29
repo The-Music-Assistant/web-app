@@ -7,19 +7,9 @@
  */
 
 /**
- * Primary blue color
- */
-export const PRIMARY_BLUE = "primaryBlue";
-
-/**
  * Secondary blue color
  */
 export const SECONDARY_BLUE = "secondaryBlue";
-
-/**
- * Tertiary blue color
- */
-export const TERTIARY_BLUE = "tertiaryBlue";
 
 /**
  * Green color
@@ -27,9 +17,19 @@ export const TERTIARY_BLUE = "tertiaryBlue";
 export const GREEN = "green";
 
 /**
+ * Primary blue color
+ */
+export const PRIMARY_BLUE = "primaryBlue";
+
+/**
  * Orange color
  */
 export const ORANGE = "orange";
+
+/**
+ * Tertiary blue color
+ */
+export const TERTIARY_BLUE = "tertiaryBlue";
 
 /**
  * Red color

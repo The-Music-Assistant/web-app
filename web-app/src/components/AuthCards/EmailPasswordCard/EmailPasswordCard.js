@@ -18,11 +18,11 @@ import * as textInputTypes from "../../FormInputs/TextInputs/textInputTypes";
 import { startAuthFlow, changeAuthFlow } from "../../../store/actions/index";
 
 // Style imports
-import authCardStyles from "./AuthCard.module.scss";
-import authStyles from "../AuthCard.module.scss";
+import emailPasswordCardStyles from "./EmailPasswordCard.module.scss";
+import authCardStyles from "../AuthCard.module.scss";
 
 /**
- * Renders the AuthCard component.
+ * Renders the EmailPasswordCard component.
  * Handles both sign in and sign up authentication (username and password).
  * @extends {Component}
  * @component
@@ -361,19 +361,23 @@ class AuthCard extends Component {
      */
     render() {
         return (
-            <div className={authStyles.authCard}>
+            <section className={authCardStyles.authCard}>
                 {/* Heading */}
-                <h3 className={authStyles.authCardHeading}>
+                <h3 className={authCardStyles.authCardHeading}>
                     {this.getHeading()}
                 </h3>
 
                 {/* Auth form */}
                 <form
-                    className={authStyles.authCardForm}
+                    className={authCardStyles.authCardForm}
                     onSubmit={this.submitHandler}
                 >
                     {/* Email input */}
-                    <div className={authCardStyles.authCardTextInput}>
+                    <div
+                        className={
+                            emailPasswordCardStyles.emailPasswordCardFormTextInput
+                        }
+                    >
                         <LargeTextInput
                             inputType={textInputTypes.EMAIL}
                             inputName="email"
@@ -385,7 +389,11 @@ class AuthCard extends Component {
                     </div>
 
                     {/* Password input */}
-                    <div className={authCardStyles.authCardTextInput}>
+                    <div
+                        className={
+                            emailPasswordCardStyles.emailPasswordCardFormTextInput
+                        }
+                    >
                         <LargeTextInput
                             inputType={textInputTypes.PASSWORD}
                             inputName="password"
@@ -397,18 +405,22 @@ class AuthCard extends Component {
                     </div>
 
                     {/* Submit button */}
-                    <div className={authStyles.authCardSubmitButtonContainer}>
+                    <div className={authCardStyles.authCardFormSubmitButton}>
                         <RectangularButton
                             type="submit"
                             value="submit"
-                            text={this.getSubmitButtonTitle()}
+                            title={this.getSubmitButtonTitle()}
                             backgroundColor="green"
                         />
                     </div>
                 </form>
 
                 {/* A button for switching between auth flows (sign in and sign up) */}
-                <div className={authCardStyles.authCardChangeAuth}>
+                <div
+                    className={
+                        emailPasswordCardStyles.emailPasswordCardChangeAuthFlowButton
+                    }
+                >
                     <TextButton
                         type="button"
                         value="change-auth"
@@ -418,7 +430,7 @@ class AuthCard extends Component {
                         onClick={this.props.switchAuthFlow}
                     />
                 </div>
-            </div>
+            </section>
         );
     }
 }

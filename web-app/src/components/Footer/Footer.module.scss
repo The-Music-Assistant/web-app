@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/Footer/Footer.module.scss
-// Description: SCSS styles for the footer component
+// Description: SCSS styles for the Footer component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -10,18 +10,23 @@
 
 .footer {
     grid-area: foot;
+
+    height: 60px;
+
     @include flex-container(
         $direction: column,
         $justify-content: center,
         $align-items: center,
         $wrap: nowrap
     );
-    height: 60px;
-    background-color: $tertiary-color;
+
     padding: 0 10px;
+
+    background-color: $tertiary-color;
 
     &Text {
         display: block;
+
         @include text(
             $size: 0.75rem,
             $weight: 300,

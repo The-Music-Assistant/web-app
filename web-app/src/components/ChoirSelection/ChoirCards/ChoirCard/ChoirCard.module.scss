@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/ChoirSelection/ChoirCards/ChoirCard/ChoirCard.module.scss
-// Description: SCSS styles for the choir card component
+// Description: SCSS styles for the ChoirCard component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 2/19/2020
@@ -9,37 +9,50 @@
 @import "../../../../root-styles/utilities.scss";
 
 .choirCard {
-    width: 280px;
+    // Note: The width is set by the grid container
     height: 280px;
-    border-radius: 10px;
-    box-shadow: $primary-box-shadow;
-    transition: box-shadow 0.2s ease-in-out;
-    cursor: pointer;
 
-    &HeaderImg {
+    border-radius: 10px;
+
+    box-shadow: $primary-box-shadow;
+
+    transition: box-shadow 0.2s ease-in-out;
+
+    &Content {
+        // Fills up the entire height of the button container
+        height: 100%;
+    }
+
+    &HeaderImage {
         object-fit: cover;
+
         width: 100%;
         height: 70px;
 
         &Placeholder {
+            width: 100%;
+            height: 70px;
+
             @include flex-container(
                 $direction: row,
                 $justify-content: center,
                 $align-items: center,
                 $wrap: nowrap
             );
-            width: 100%;
-            height: 70px;
+
             background-color: darken($color: $primary-color, $amount: 10%);
+
             border-radius: 10px 10px 0 0;
 
-            &Img {
+            &Image {
                 height: 30px;
             }
         }
     }
 
     &Name {
+        max-height: 55px;
+
         @include text(
             $size: 1.3rem,
             $weight: 400,
@@ -47,8 +60,10 @@
             $line-height: 1.8rem
         );
         text-align: center;
-        max-height: 55px;
+
         margin: 20px 20px 0;
+
+        // Displays up to 2 lines of text before cutting off
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -56,6 +71,8 @@
     }
 
     &Description {
+        max-height: 75px;
+
         @include text(
             $size: 1rem,
             $weight: 300,
@@ -63,8 +80,10 @@
             $line-height: 1.25rem
         );
         text-align: center;
-        max-height: 75px;
+
         margin: 20px 20px 0;
+
+        // Displays up to 3 lines of text before cutting it off
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;

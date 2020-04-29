@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/AuthBar/AuthBar.module.scss
-// Description: SCSS styles for the auth bar component
+// File Path: src/components/AlertBar/AlertBar.module.scss
+// Description: SCSS styles for the AlertBar component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/20/2020
@@ -12,39 +12,67 @@
     position: fixed;
     top: 10px;
     left: 50%;
-    transform: translate(-50%, -140%);
+
     width: calc(100vw - 20px);
     max-width: 400px;
+
     padding: 10px 20px;
+
     box-shadow: $primary-box-shadow;
+
     z-index: 10000;
+
     border-radius: 10px;
+
+    // Moves the alert bar up (off of the screen)
+    transform: translate(-50%, -140%);
     transition: transform 1s ease-out;
 
+    // Slides the alert bar down (onto the screen)
     &SlideDown {
         transform: translate(-50%, 0);
     }
 
+    // Slides the alert bar up (off of the screen)
     &SlideUp {
         transform: translate(-50%, -140%);
     }
 
-    &TopGrid {
+    &Header {
         @include grid-container(
             $grid-template-rows: 1fr,
-            $grid-template-columns: 15px 1fr 15px,
+            $grid-template-columns: 20px 1fr 20px,
             $align-items: center
         );
-    }
 
-    &Heading {
-        @include text(
-            $size: 1.25rem,
-            $weight: 400,
-            $color: $white-color,
-            $line-height: null
-        );
-        text-align: center;
+        // Grid areas for the heading and close button
+        grid-template-areas: ". alertBarHeading alertBarCloseButton";
+
+        &Heading {
+            grid-area: alertBarHeading;
+
+            @include text(
+                $size: 1.25rem,
+                $weight: 400,
+                $color: $white-color,
+                $line-height: null
+            );
+            text-align: center;
+        }
+
+        &CloseButton {
+            grid-area: alertBarCloseButton;
+
+            // Removes extra margin from image
+            font-size: 0;
+
+            // Pushes the button to the right
+            margin-left: auto;
+
+            &Img {
+                width: 15px;
+            }
+        }
     }
 
     &Message {
@@ -55,26 +83,7 @@
             $line-height: null
         );
         text-align: center;
+
         margin-top: 5px;
-    }
-
-    &CloseButtonImg {
-        width: 15px;
-    }
-
-    &Success {
-        background-color: rgba($green-color, 0.95);
-    }
-
-    &Warning {
-        background-color: rgba($yellow-color, 0.95);
-    }
-
-    &Error {
-        background-color: rgba($red-color, 0.95);
-    }
-
-    &Info {
-        background-color: rgba($secondary-color, 0.95);
     }
 }

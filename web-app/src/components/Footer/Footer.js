@@ -14,9 +14,12 @@ import styles from "./Footer.module.scss";
 const Footer = (props) => {
     return (
         <footer className={styles.footer}>
+            {/* Copyright */}
             <small className={styles.footerText}>
                 &copy; {props.copyrightYear} The Music Assistant
             </small>
+
+            {/* Version number */}
             <small className={styles.footerText}>
                 Version {props.versionNumber}
             </small>

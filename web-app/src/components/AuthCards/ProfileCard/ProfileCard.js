@@ -21,7 +21,7 @@ import * as textInputTypes from "../../FormInputs/TextInputs/textInputTypes";
 
 // Style imports
 import profileCardStyles from "./ProfileCard.module.scss";
-import authStyles from "../AuthCard.module.scss";
+import authCardStyles from "../AuthCard.module.scss";
 
 /**
  * Renders the ProfileCard component.
@@ -228,9 +228,9 @@ class ProfileCard extends Component {
         return this.state.formData.profilePicture ? (
             <Fragment>
                 {/* Image container */}
-                <div
+                <section
                     className={
-                        profileCardStyles.profileCardImageInputImgContainer
+                        profileCardStyles.profileCardFormImageInputPreview
                     }
                 >
                     {/* Image preview */}
@@ -238,7 +238,9 @@ class ProfileCard extends Component {
                         src={URL.createObjectURL(
                             this.state.formData.profilePicture
                         )}
-                        className={profileCardStyles.profileCardImageInputImg}
+                        className={
+                            profileCardStyles.profileCardFormImageInputPreviewImage
+                        }
                         alt="User Avatar"
                         onError={this.imageInputErrorHandler}
                     />
@@ -246,22 +248,22 @@ class ProfileCard extends Component {
                     {/* Remove image button */}
                     <button
                         className={
-                            profileCardStyles.profileCardImageInputRemoveButton
+                            profileCardStyles.profileCardFormImageInputPreviewRemoveButton
                         }
                         type="button"
                         onClick={this.removeImageHandler}
                     >
                         <img
                             className={
-                                profileCardStyles.profileCardImageInputRemoveButtonImg
+                                profileCardStyles.profileCardFormImageInputPreviewRemoveButtonImage
                             }
                             src={closeIconRed}
                             alt={"Remove User Avatar"}
                         />
                     </button>
-                </div>
+                </section>
 
-                {/* Image file input */}
+                {/* Image file input button */}
                 <ImageInput
                     inputName="profilePictureInput"
                     buttonTitle={"Select a profile picture"}
@@ -275,11 +277,11 @@ class ProfileCard extends Component {
                 {/* Image placeholder */}
                 <div
                     className={
-                        profileCardStyles.profileCardImageInputImgPlaceholder
+                        profileCardStyles.profileCardFormImageInputImagePlaceholder
                     }
                 ></div>
 
-                {/* Image file input */}
+                {/* Image file input button */}
                 <ImageInput
                     inputName="profilePictureInput"
                     buttonTitle={"Select a profile picture"}
@@ -299,24 +301,32 @@ class ProfileCard extends Component {
 
         // Returns the JSX to display
         return (
-            <div className={authStyles.authCard}>
+            <section className={authCardStyles.authCard}>
                 {/* Heading */}
-                <h3 className={authStyles.authCardHeading}>Your Profile</h3>
+                <h3 className={authCardStyles.authCardHeading}>Your Profile</h3>
 
                 {/* Profile form */}
                 <form
-                    className={authStyles.authCardForm}
+                    className={authCardStyles.authCardForm}
                     onSubmit={this.submitHandler}
                 >
                     {/* Profile image input */}
-                    <div className={profileCardStyles.profileCardImageInput}>
+                    <div
+                        className={profileCardStyles.profileCardFormImageInput}
+                    >
                         {this.getImageInputElement()}
                     </div>
 
                     {/* Text inputs */}
-                    <div className={profileCardStyles.profileCardTextInputs}>
+                    <section
+                        className={profileCardStyles.profileCardFormTextInputs}
+                    >
                         {/* First name input */}
-                        <div className={profileCardStyles.profileCardTextInput}>
+                        <div
+                            className={
+                                profileCardStyles.profileCardFormTextInput
+                            }
+                        >
                             <LargeTextInput
                                 inputType={textInputTypes.TEXT}
                                 inputName="firstName"
@@ -328,7 +338,11 @@ class ProfileCard extends Component {
                         </div>
 
                         {/* Last name input */}
-                        <div className={profileCardStyles.profileCardTextInput}>
+                        <div
+                            className={
+                                profileCardStyles.profileCardFormTextInput
+                            }
+                        >
                             <LargeTextInput
                                 inputType={textInputTypes.TEXT}
                                 inputName="lastName"
@@ -338,19 +352,19 @@ class ProfileCard extends Component {
                                 onChange={this.textInputValueChangedHandler}
                             />
                         </div>
-                    </div>
+                    </section>
 
                     {/* Submit button */}
-                    <div className={authStyles.authCardSubmitButtonContainer}>
+                    <div className={authCardStyles.authCardFormSubmitButton}>
                         <RectangularButton
                             type="submit"
                             value="submit"
-                            text="Next"
+                            title="Next"
                             backgroundColor="green"
                         />
                     </div>
                 </form>
-            </div>
+            </section>
         );
     }
 }
