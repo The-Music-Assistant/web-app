@@ -46,22 +46,30 @@ class Startup extends Component {
      */
     render() {
         return (
-            <div
+            <main
                 className={styles.startup}
                 style={{ minHeight: `${this.state.windowInnerHeight}px` }}
             >
-                <div>
+                {/* Main content */}
+                <section>
+                    {/* TMA Logo */}
                     <img
                         className={styles.startupLogo}
                         src={logo}
                         alt="The Music Assistant Logo"
                     />
+
+                    {/* Heading */}
                     <h1 className={styles.startupHeading}>
                         The Music Assistant
                     </h1>
+
+                    {/* Subheading */}
                     <h2 className={styles.startupSubheading}>
                         Just a moment...
                     </h2>
+
+                    {/* Spinner */}
                     <div className={styles.startupSpinner}>
                         <MetroSpinner
                             size={75}
@@ -69,8 +77,8 @@ class Startup extends Component {
                             loading={true}
                         />
                     </div>
-                </div>
-            </div>
+                </section>
+            </main>
         );
     }
 }

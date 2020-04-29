@@ -18,6 +18,7 @@
 
     &Label {
         display: inline-block;
+
         @include text(
             $size: 1rem,
             $weight: 300,
@@ -28,16 +29,21 @@
 
     &Input {
         display: inline-block;
+
         @include text(
             $size: 1rem,
             $weight: 400,
             $color: $white-color,
             $line-height: null
         );
+
+        background-color: $secondary-color;
+
         border: 1px solid $white-color;
         border-radius: 2px;
+
         outline: none;
-        background-color: $secondary-color;
+
         padding: 3px;
     }
 }

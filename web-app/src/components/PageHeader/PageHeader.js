@@ -25,7 +25,7 @@ import styles from "./PageHeader.module.scss";
 const PageHeader = (props) => {
     // Returns the JSX to display
     return (
-        <div className={styles.pageHeader}>
+        <header className={styles.pageHeader}>
             {/* Back button */}
             {props.shouldDisplayBackButton ? (
                 <BackButton value="back" title={props.backButtonTitle} />
@@ -35,7 +35,7 @@ const PageHeader = (props) => {
 
             {/* Heading */}
             <h1 className={styles.pageHeaderHeading}>{props.heading}</h1>
-        </div>
+        </header>
     );
 };
 

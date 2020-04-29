@@ -283,14 +283,14 @@ class ChoirSelection extends Component {
 
         // Returns the JSX to render
         return (
-            <section className={styles.choirSelection}>
+            <main className={styles.choirSelection}>
                 <PageHeader
                     heading="Choir Selection"
                     shouldDisplayBackButton={false}
                 />
 
                 {component}
-            </section>
+            </main>
         );
     }
 }

@@ -18,7 +18,7 @@ const Progress = () => {
 
     // Returns the JSX to render
     return (
-        <div className={styles.progress}>
+        <main className={styles.progress}>
             <img
                 className={styles.progressHeroImg}
                 src={underConstruction}
@@ -29,7 +29,7 @@ const Progress = () => {
                 <br />
                 Please check back soon!
             </h1>
-        </div>
+        </main>
     );
 };
 

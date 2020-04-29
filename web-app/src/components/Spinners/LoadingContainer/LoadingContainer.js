@@ -17,13 +17,13 @@ import styles from "./LoadingContainer.module.scss";
 const LoadingContainer = (props) => {
     // Returns the JSX to render
     return (
-        <div className={styles.loadingContainer}>
+        <section className={styles.loadingContainer}>
             {/* Spinner */}
             <MetroSpinner size={75} color="#5F9CD1" loading={true} />
 
             {/* Message */}
             <h1 className={styles.loadingContainerMessage}>{props.message}</h1>
-        </div>
+        </section>
     );
 };
 

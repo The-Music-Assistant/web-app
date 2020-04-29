@@ -1,14 +1,14 @@
 // ----------------------------------------------------------------------------
-// File Path: src/components/SideNav/SideNavLink/SideNavLink.module.scss
-// Description: SCSS styles for the SideNavLink component
+// File Path: src/components/SideNav/SideNavSignOutButton/SideNavSignOutButton.module.scss
+// Description: SCSS styles for the SideNavSignOutButton component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
-// Created Date: 10/23/2019
+// Created Date: 4/29/2020
 // ----------------------------------------------------------------------------
 
 @import "../../../root-styles/utilities.scss";
 
-.sideNavLink {
+.sideNavSignOutButton {
     @include flex-container(
         $direction: row,
         $justify-content: null,
@@ -16,16 +16,12 @@
         $wrap: null
     );
 
-    margin-top: 40px;
     padding: 10px;
 
     transition: transform 0.2s ease-out;
 
-    text-decoration: none;
-
-    &:first-child {
-        margin-top: 0;
-    }
+    // Removes bottom padding
+    font-size: 0;
 
     &:hover {
         transform: translateY(-5px);
@@ -42,22 +38,8 @@
             $color: null,
             $line-height: null
         );
-
         margin-left: 20px;
 
-        &WhiteText {
-            color: $white-color;
-        }
-
-        &BlueText {
-            color: $primary-color;
-        }
-    }
-
-    &CurrentTab {
-        background-color: $white-color;
-
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
+        color: $white-color;
     }
 }

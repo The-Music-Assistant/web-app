@@ -9,14 +9,15 @@
 @import "../../root-styles/utilities.scss";
 
 .primary {
-    background-color: $background-color;
     min-height: 100vh;
+
+    background-color: $background-color;
+
     @include grid-container(
         $grid-template-rows: auto 1fr auto,
         $grid-template-columns: null,
         $align-items: null
     );
-
     grid-template-areas:
         "head"
         "practice-main"

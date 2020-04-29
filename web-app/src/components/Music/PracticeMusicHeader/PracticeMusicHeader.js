@@ -51,7 +51,7 @@ const PracticeMusicHeader = (props) => {
 
     // Returns the JSX to render
     return (
-        <div className={styles.PracticeMusicHeader}>
+        <header className={styles.PracticeMusicHeader}>
             {/* Left side dropdown or button */}
             {getPartSelectionDropdownOrPracticeMusicButton()}
 
@@ -72,7 +72,7 @@ const PracticeMusicHeader = (props) => {
                     />
                 </div>
             ) : null}
-        </div>
+        </header>
     );
 };
 

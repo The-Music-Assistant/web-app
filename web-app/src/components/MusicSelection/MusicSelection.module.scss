@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/MusicSelection/MusicSelection.module.scss
-// Description: SCSS styles for the music selection component
+// Description: SCSS styles for the MusicSelection component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 2/26/2020
@@ -22,6 +22,7 @@
             $align-items: center,
             $wrap: nowrap
         );
+
         height: 100%;
 
         &Message {
@@ -31,6 +32,7 @@
                 $color: $primary-color,
                 $line-height: null
             );
+
             margin-top: 30px;
         }
     }
@@ -44,14 +46,16 @@
         row-gap: 30px;
         column-gap: 50px;
         justify-content: center;
+
         margin-top: 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             grid-template-columns: repeat(auto-fill, 410px);
             row-gap: 50px;
             column-gap: 70px;
-            margin-top: 30px;
             justify-content: start;
+
+            margin-top: 30px;
         }
     }
 }

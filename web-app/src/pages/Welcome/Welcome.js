@@ -268,7 +268,7 @@ class Welcome extends Component {
                 />
 
                 {/* Options */}
-                <div className={styles.welcomeMainButtons}>
+                <section className={styles.welcomeMainButtons}>
                     <div className={styles.welcomeMainButton}>
                         <RectangularButton
                             backgroundColor="orange"
@@ -300,7 +300,7 @@ class Welcome extends Component {
                             onClick={this.props.signOut}
                         />
                     </div>
-                </div>
+                </section>
             </Fragment>
         );
     };
@@ -316,7 +316,7 @@ class Welcome extends Component {
                 {this.getAlertBar()}
 
                 {/* Page header */}
-                <div className={styles.welcomeHeader}>
+                <header className={styles.welcomeHeader}>
                     <img
                         className={styles.welcomeHeaderLogo}
                         src={logo}
@@ -325,11 +325,11 @@ class Welcome extends Component {
                     <h1 className={styles.welcomeHeaderMessage}>
                         Welcome to <br /> The Music Assistant
                     </h1>
-                </div>
+                </header>
 
-                <div className={styles.welcomeMain}>
+                <main className={styles.welcomeMain}>
                     {this.getMainComponent()}
-                </div>
+                </main>
             </div>
         );
     }

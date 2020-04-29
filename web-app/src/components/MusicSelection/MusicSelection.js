@@ -200,7 +200,9 @@ class MusicSelection extends Component {
                             musicPiece.sheet_music_id
                         )
                     }
-                    shouldShowViewPerformancesButton={this.props.doesUserGetFeedback}
+                    shouldShowViewPerformancesButton={
+                        this.props.doesUserGetFeedback
+                    }
                 />
             );
         });
@@ -210,15 +212,17 @@ class MusicSelection extends Component {
      * Renders the MusicSelection component
      */
     render() {
-        // The component to display (loading or cards)
-        let component;
+        // The component to display (loading component or cards component)
+        let loadingOrCardsComponent;
 
         if (this.state.isLoading) {
             // Display a loading spinner
-            component = <LoadingContainer message="Loading music..." />;
+            loadingOrCardsComponent = (
+                <LoadingContainer message="Loading music..." />
+            );
         } else {
             // Display the music cards
-            component = (
+            loadingOrCardsComponent = (
                 <div className={styles.musicSelectionCards}>
                     {this.getMusicCards()}
                 </div>
@@ -227,14 +231,17 @@ class MusicSelection extends Component {
 
         // Returns the JSX to render
         return (
-            <div className={styles.musicSelection}>
+            <main className={styles.musicSelection}>
+                {/* Page header */}
                 <PageHeader
                     heading={`${this.props.choirName} - Music`}
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Choir Selection"}
                 />
-                {component}
-            </div>
+
+                {/* Main component */}
+                {loadingOrCardsComponent}
+            </main>
         );
     }
 }

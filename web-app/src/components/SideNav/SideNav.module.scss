@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/SideNav/SideNav.module.scss
-// Description: SCSS styles for the side navigation component
+// Description: SCSS styles for the SideNav component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -12,7 +12,16 @@
     position: fixed;
     top: 0;
     left: 0;
+
+    @include grid-container(
+        $grid-template-rows: 50px auto auto,
+        $grid-template-columns: 1fr,
+        $align-items: null
+    );
+
+    width: 175px;
     height: 100vh;
+
     overflow-y: scroll;
 
     // Removes scrollbar
@@ -21,51 +30,64 @@
         display: none;
     }
 
-    @include grid-container(
-        $grid-template-rows: 50px 3fr 1fr,
-        $grid-template-columns: 1fr,
-        $align-items: null
-    );
-    width: 175px;
     background-color: $primary-color;
+
     padding: 20px 0;
-    z-index: 1000;
+
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+
     box-shadow: 5px 0 30px rgba($color: #898989, $alpha: 0.5);
 
-    &Logo {
-        width: 25px;
+    z-index: 1000;
 
-        &Container {
-            @include flex-container(
-                $direction: row,
-                $justify-content: center,
-                $align-items: center,
-                $wrap: nowrap
-            );
-            width: 50px;
-            height: 50px;
-            background-color: $white-color;
-            border-radius: 50%;
-            box-shadow: $primary-box-shadow;
-            margin: 0 auto;
+    &Logo {
+        @include flex-container(
+            $direction: row,
+            $justify-content: center,
+            $align-items: center,
+            $wrap: nowrap
+        );
+
+        width: 50px;
+        height: 50px;
+
+        background-color: $white-color;
+
+        border-radius: 50%;
+
+        box-shadow: $primary-box-shadow;
+
+        margin: 0 auto;
+
+        &Image {
+            width: 25px;
+
+            transition: transform 0.3s ease-in-out;
+
+            &:hover {
+                transform: rotate(-50deg);
+            }
         }
     }
 
     &Links {
         width: 148px;
+
         margin: 60px 0 0 auto;
     }
 
     &Footer {
         align-self: flex-end;
+
         @include flex-container(
             $direction: column,
             $justify-content: center,
             $align-items: center,
             $wrap: nowrap
         );
+
+        margin-top: 40px;
 
         &Text {
             @include text(
@@ -75,6 +97,7 @@
                 $line-height: 1rem
             );
             text-align: center;
+
             margin-top: 20px;
         }
     }

@@ -75,14 +75,7 @@ SmallTextInput.propTypes = {
      * Based on the HTML input type attribute.
      * See [types]{@link textInputTypes}
      */
-    inputType: PropTypes.oneOf([
-        textInputTypes.TEXT,
-        textInputTypes.EMAIL,
-        textInputTypes.PASSWORD,
-        textInputTypes.NUMBER,
-        textInputTypes.TEL,
-        textInputTypes.URL,
-    ]),
+    inputType: PropTypes.oneOf(Object.values(textInputTypes)),
 
     /**
      * The width of the component

@@ -82,11 +82,8 @@ class ExerciseGenerator extends Component {
     render() {
         // Returns the JSX to render
         return (
-            <div className={styles.exerciseGenerator}>
-                <div className={styles.exerciseGeneratorHeader}>
-                    {/* Empty div on the left side (used for centering content) */}
-                    <div></div>
-
+            <section className={styles.exerciseGenerator}>
+                <header className={styles.exerciseGeneratorHeader}>
                     {/* Heading */}
                     <h1 className={styles.exerciseGeneratorHeaderHeading}>
                         Generate an Exercise
@@ -106,7 +103,7 @@ class ExerciseGenerator extends Component {
                             alt="Close Button"
                         />
                     </button>
-                </div>
+                </header>
 
                 {/* Exercise generation form */}
                 <form
@@ -157,7 +154,7 @@ class ExerciseGenerator extends Component {
                         backgroundColor={rectButtonColorOptions.ORANGE}
                     />
                 </form>
-            </div>
+            </section>
         );
     }
 }

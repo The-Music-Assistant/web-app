@@ -303,28 +303,31 @@ class Primary extends Component {
                     />
                 ) : null}
 
+                {/* Header */}
                 <Header
                     hamburgerMenuClicked={this.showHideHamburgerMenu}
                     isMobileScreenWidth={this.state.isMobileScreenWidth}
                 />
 
-                {/* The main navigation */}
+                {/* Main navigation */}
                 {this.getMainNav()}
 
-                {/* Determines which component to display */}
                 <Switch>
+                    {/* Shows the music component */}
                     <Route path="/practice/choirs/:choirId/music/:musicId">
                         <Music showAlert={this.showAlertHandler} />
                     </Route>
-
+                    {/* Shows the music selection component */}
                     <Route path="/practice/choirs/:choirId">
                         <MusicSelection showAlert={this.showAlertHandler} />
                     </Route>
 
+                    {/* Shows the choir members component */}
                     <Route path="/choirs/:choirId">
                         <ChoirMembers showAlert={this.showAlertHandler} />
                     </Route>
 
+                    {/* Shows the choir selection component */}
                     <Route path="/practice">
                         <ChoirSelection
                             routing={
@@ -334,10 +337,12 @@ class Primary extends Component {
                         />
                     </Route>
 
+                    {/* Shows the progress component */}
                     <Route path="/progress">
                         <Progress />
                     </Route>
 
+                    {/* Shows the choir selection component */}
                     <Route path="/choirs">
                         <ChoirSelection
                             routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
@@ -345,6 +350,7 @@ class Primary extends Component {
                         />
                     </Route>
 
+                    {/* Shows the home component */}
                     <Route path="/home">
                         <Home />
                     </Route>

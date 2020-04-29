@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/PracticeMain/PracticeHeader/MusicControls/MusicControls.module.scss
-// Description: SCSS styles for the music controls component
+// Description: SCSS styles for the MusicControls component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/24/2019
@@ -20,13 +20,15 @@
     margin-left: 5px;
 
     &Button {
-        margin-top: 3px; // Top margin helps to horizontally center button (extra bottom padding is automatically added)
         width: 45px;
         height: 45px;
+
+        // Removes extra padding from the bottom
+        font-size: 0;
+
         transition: transform 0.2s ease-in-out;
 
         &:hover {
-            cursor: pointer;
             transform: scale(1.2);
         }
 

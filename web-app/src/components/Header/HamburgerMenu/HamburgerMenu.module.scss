@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/Header/HamburgerMenu/HamburgerMenu.module.scss
-// Description: SCSS styles for the hamburger menu component
+// Description: SCSS styles for the HamburgerMenu component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 10/23/2019
@@ -15,7 +15,9 @@
     &Bar {
         width: 20px;
         height: 2px;
+
         background-color: $white-color;
+
         border-radius: 10px;
 
         &:nth-child(2),

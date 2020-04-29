@@ -175,9 +175,12 @@ class Auth extends Component {
                 className={styles.auth}
                 style={{ minHeight: `${this.state.windowInnerHeight}px` }}
             >
+                {/* Loading HUD (if needed) */}
                 {this.state.isLoading ? (
                     <LoadingHUD message="Loading..." />
                 ) : null}
+
+                {/* Alert bar (if needed) */}
                 {this.state.alertData ? (
                     <AlertBar
                         type={this.state.alertData.type}
@@ -186,22 +189,32 @@ class Auth extends Component {
                         done={this.alertIsDoneHandler}
                     />
                 ) : null}
-                <div className={styles.authContainer}>
-                    <div className={styles.authInfo}>
+
+                {/* Inner container */}
+                <section className={styles.authInnerContainer}>
+                    {/* Info */}
+                    <section className={styles.authInnerContainerInfo}>
+                        {/* Logo */}
                         <img
-                            className={styles.authInfoLogo}
+                            className={styles.authInnerContainerInfoLogo}
                             src={logo}
                             alt="Music Assistant Logo"
                         />
-                        <h1 className={styles.authInfoHeading}>
+
+                        {/* Heading */}
+                        <h1 className={styles.authInnerContainerInfoHeading}>
                             The Music Assistant
                         </h1>
-                        <h2 className={styles.authInfoSubheading}>
+
+                        {/* Subheading */}
+                        <h2 className={styles.authInnerContainerInfoSubheading}>
                             A smarter way to sing
                         </h2>
-                    </div>
+                    </section>
+
+                    {/* Auth card */}
                     {this.getAuthCard()}
-                </div>
+                </section>
             </div>
         );
     }

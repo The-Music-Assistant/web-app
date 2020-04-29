@@ -15,6 +15,7 @@
         $align-items: center,
         $wrap: nowrap
     );
+
     height: 100%;
 
     &Message {
@@ -24,6 +25,7 @@
             $color: $primary-color,
             $line-height: null
         );
+
         margin-top: 30px;
     }
 }

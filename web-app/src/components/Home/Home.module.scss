@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/components/Home/Home.js
-// Description: SCSS styles for the home component
+// Description: SCSS styles for the Home component
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 2/29/2020
@@ -13,11 +13,15 @@
 
     &HeroImg {
         display: block;
+
         width: 100%;
         max-width: 800px;
+
         border-radius: 10px;
-        box-shadow: $primary-box-shadow;
+
         margin: 60px auto 0;
+
+        box-shadow: $primary-box-shadow;
     }
 
     &Text {
@@ -28,6 +32,7 @@
             $line-height: 1.7rem
         );
         text-align: center;
+
         margin-top: 40px;
     }
 }

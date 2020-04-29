@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 
 // Component imports
 import MobileNavLink from "./MobileNavLink/MobileNavLink";
+import MobileNavSignOutButton from "./MobileNavSignOutButton/MobileNavSignOutButton";
 
 // Image imports
 import signOutIconBlue from "../../assets/icons/sign-out-icon-blue.svg";
@@ -40,8 +41,7 @@ const MobileNav = (props) => {
                     route={tab.route}
                     icon={tab.blueIcon}
                     isCurrentTab={tab.isCurrentTab}
-                    onClick={() => props.navLinkClicked(tab.key)}
-                    isSignOutLink={false}
+                    onClick={() => props.onNavLinkClick(tab.key)}
                 />
             );
         });
@@ -49,16 +49,17 @@ const MobileNav = (props) => {
 
     // Returns the JSX to render
     return (
-        <div className={`${styles.mobileNav} ${getShowOrHideClassName()}`}>
+        <section className={`${styles.mobileNav} ${getShowOrHideClassName()}`}>
             {/* Mobile nav links */}
-            {getMobileNavLinks()}
-            <MobileNavLink
+            <nav>{getMobileNavLinks()}</nav>
+
+            {/* Sign out link */}
+            <MobileNavSignOutButton
                 name="Sign Out"
                 icon={signOutIconBlue}
                 onClick={props.onSignOutClick}
-                isSignOutLink={true}
             />
-        </div>
+        </section>
     );
 };
 

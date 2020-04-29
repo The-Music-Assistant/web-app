@@ -20,8 +20,11 @@
             $grid-template-columns: 15px 1fr 15px,
             $align-items: center
         );
+        grid-template-areas: ". heading closeButton";
 
         &Heading {
+            grid-area: heading;
+
             @include text(
                 $size: 1.25rem,
                 $weight: 400,
@@ -32,8 +35,11 @@
         }
 
         &CloseButton {
+            grid-area: closeButton;
+
             width: 15px;
             height: 15px;
+
             transition: transform 0.2s ease-in-out;
 
             &:hover {
@@ -53,6 +59,7 @@
             $align-items: center
         );
         gap: 50px;
+
         margin-top: 20px;
 
         &MeasureInput:first-child {

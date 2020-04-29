@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 
 // Component imports
 import SideNavLink from "./SideNavLink/SideNavLink";
+import SideNavSignOutButton from "./SideNavSignOutButton/SideNavSignOutButton";
 
 // Image imports
 import tmaLogo from "../../assets/logos/tma-logo-blue.png";
@@ -24,16 +25,16 @@ const SideNav = (props) => {
     return (
         <section id="side-nav" className={styles.sideNav}>
             {/* TMA Logo */}
-            <div className={styles.sideNavLogoContainer}>
+            <header className={styles.sideNavLogo}>
                 <img
-                    className={styles.sideNavLogo}
+                    className={styles.sideNavLogoImage}
                     src={tmaLogo}
                     alt="The Music Assistant Logo"
                 />
-            </div>
+            </header>
 
             {/* Nav links */}
-            <div className={styles.sideNavLinks}>
+            <nav className={styles.sideNavLinks}>
                 {props.tabs.map((tab) => {
                     let icon;
                     if (tab.isCurrentTab) {
@@ -49,21 +50,19 @@ const SideNav = (props) => {
                             icon={icon}
                             isCurrentTab={tab.isCurrentTab}
                             route={tab.route}
-                            isSignOutLink={false}
                             onClick={() => props.onNavLinkClick(tab.key)}
                         />
                     );
                 })}
-            </div>
+            </nav>
 
             {/* Footer */}
-            <div className={styles.sideNavFooter}>
+            <footer className={styles.sideNavFooter}>
                 {/* Sign out link */}
-                <SideNavLink
+                <SideNavSignOutButton
                     name="Sign Out"
                     icon={signOutIconWhite}
                     onClick={props.onSignOutClick}
-                    isSignOutLink={true}
                 />
 
                 {/* Copyright and version number */}
@@ -74,7 +73,7 @@ const SideNav = (props) => {
                     <br />
                     Version {props.versionNumber}
                 </small>
-            </div>
+            </footer>
         </section>
     );
 };

@@ -71,7 +71,7 @@ class MusicPerformanceHeader extends Component {
      */
     render() {
         return (
-            <div className={styles.MusicPerformanceHeader}>
+            <header className={styles.MusicPerformanceHeader}>
                 {/* An exercise generator or a button */}
                 {this.getExerciseGeneratorOrButton()}
 
@@ -83,7 +83,7 @@ class MusicPerformanceHeader extends Component {
                     backgroundColor={rectButtonColorOptions.GREEN}
                     onClick={this.props.switchToPractice}
                 />
-            </div>
+            </header>
         );
     }
 }

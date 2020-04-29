@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // File Path: src/pages/Startup/Startup.module.scss
-// Description: SCSS styles for the startup page
+// Description: SCSS styles for the Startup page
 // Author: Dan Levy
 // Email: danlevy124@gmail.com
 // Created Date: 1/4/2020
@@ -9,7 +9,6 @@
 @import "../../root-styles/utilities.scss";
 
 .startup {
-    background-color: $primary-color;
     @include flex-container(
         $direction: column,
         $justify-content: center,
@@ -17,11 +16,14 @@
         $wrap: nowrap
     );
 
+    background-color: $primary-color;
+
     &Logo {
         display: block;
+
         width: 40px;
-        margin: auto;
-        margin-bottom: 20px;
+
+        margin: 0 auto 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             width: 60px;
@@ -36,6 +38,7 @@
             $line-height: null
         );
         text-align: center;
+
         margin-bottom: 20px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
@@ -51,10 +54,12 @@
             $line-height: null
         );
         text-align: center;
+
         margin-bottom: 30px;
 
         @include media-query($breakpoint: $tablet-breakpoint) {
             font-size: 1.56rem;
+
             margin-bottom: 50px;
         }
     }

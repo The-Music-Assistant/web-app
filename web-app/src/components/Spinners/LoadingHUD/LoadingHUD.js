@@ -18,14 +18,14 @@ import styles from "./LoadingHUD.module.scss";
 const LoadingHUD = (props) => {
     // Returns JSX to render
     return (
-        <div className={styles.background}>
-            <div className={styles.modal}>
+        <div className={styles.loadingHUDBackground}>
+            <section className={styles.loadingHUDModal}>
                 {/* Spinner */}
                 <MetroSpinner size={50} color="#5f9cd1" loading={true} />
 
                 {/* Message */}
-                <h3 className={styles.modalText}>{props.message}</h3>
-            </div>
+                <h3 className={styles.loadingHUDModalText}>{props.message}</h3>
+            </section>
         </div>
     );
 };

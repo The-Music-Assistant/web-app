@@ -1,0 +1,35 @@
+// ----------------------------------------------------------------------------
+// File Path: src/components/MobileNav/MobileNavSignOutButton/MobileNavSignOutButton.module.scss
+// Description: SCSS styles for the MobileNavSignOutButton component
+// Author: Dan Levy
+// Email: danlevy124@gmail.com
+// Created Date: 4/29/2020
+// ----------------------------------------------------------------------------
+
+@import "../../../root-styles/utilities.scss";
+
+.mobileNavSignOutButtonInnerContainer {
+    @include grid-container(
+        $grid-template-rows: null,
+        $grid-template-columns: 1fr 3fr 1fr,
+        $align-items: center
+    );
+
+    width: 100vw;
+
+    text-decoration: none;
+
+    margin-top: 20px;
+    padding: 5px 20px;
+
+    &Icon {
+        height: 25px;
+    }
+
+    &Name {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 400;
+        color: $primary-color;
+    }
+}

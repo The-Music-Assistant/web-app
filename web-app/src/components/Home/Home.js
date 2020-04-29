@@ -18,7 +18,7 @@ const Home = () => {
 
     // Returns the JSX to render
     return (
-        <div className={styles.home}>
+        <main className={styles.home}>
             <img
                 className={styles.homeHeroImg}
                 src={underConstruction}
@@ -29,7 +29,7 @@ const Home = () => {
                 <br />
                 Please check back soon!
             </h1>
-        </div>
+        </main>
     );
 };
 

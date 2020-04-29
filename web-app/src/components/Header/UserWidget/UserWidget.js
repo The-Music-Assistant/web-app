@@ -35,7 +35,7 @@ class UserWidget extends Component {
      */
     render() {
         return (
-            <div className={styles.userWidget}>
+            <section className={styles.userWidget}>
                 {/* User's profile picture */}
                 {this.props.profilePictureUrl &&
                 !this.state.isProfilePictureError ? (
@@ -49,7 +49,7 @@ class UserWidget extends Component {
 
                 {/* User's name */}
                 <h2 className={styles.userWidgetName}>{this.props.name}</h2>
-            </div>
+            </section>
         );
     }
 }

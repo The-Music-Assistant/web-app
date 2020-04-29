@@ -359,18 +359,18 @@ class Music extends Component {
 
         // Returns the loading component
         return (
-            <div className={styles.musicLoadingContainer}>
+            <section className={styles.musicLoadingContainer}>
                 <LoadingContainer message={message} />
-            </div>
+            </section>
         );
     };
 
     /**
-     * Gets a page header component
+     * Gets a music header component
      * @function
-     * @returns A page header component (JSX)
+     * @returns A music header component (JSX)
      */
-    getPageHeaderComponent = () => {
+    getMusicHeaderComponent = () => {
         // Gets the match url from React Router
         // The match url is the url that has been matched so far (this is a nested route)
         const matchUrl = this.props.match.url;
@@ -378,6 +378,7 @@ class Music extends Component {
         // Returns the correct page header based on the url
         return (
             <Switch>
+                {/* Shows the practice music header component */}
                 <Route path={`${matchUrl}/practice`}>
                     <PracticeMusicHeader
                         currentView={this.state.currentView}
@@ -392,6 +393,8 @@ class Music extends Component {
                         doesUserGetFeedback={this.props.doesUserGetFeedback}
                     />
                 </Route>
+
+                {/* Shows the music performance header component */}
                 <Route path={`${matchUrl}/performance`}>
                     <MusicPerformanceHeader
                         numberOfMeasures={this.state.numberOfMeasures}
@@ -403,6 +406,8 @@ class Music extends Component {
                         }
                     />
                 </Route>
+
+                {/* Shows the practice music header component */}
                 <Route path={`${matchUrl}/exercise`}>
                     <PracticeMusicHeader
                         currentView={this.state.currentView}
@@ -460,22 +465,25 @@ class Music extends Component {
             this.state.isPitchDetectionLoading ||
             this.state.isDataLoading;
 
-        // Gets the correct component
-        let component = isLoading
+        // Gets the correct component (either loading component or music header component)
+        let loadingOrMusicHeaderComponent = isLoading
             ? this.getLoadingComponent()
-            : this.getPageHeaderComponent();
+            : this.getMusicHeaderComponent();
 
         // Returns the JSX to display
         return (
             <main className={styles.music}>
+                {/* Page header */}
                 <PageHeader
                     heading={this.getPageHeading()}
                     shouldDisplayBackButton={true}
                     backButtonTitle={"Music Selection"}
                 />
-                <div className={styles.musicMain}>
-                    {/* A loading component or a page header component */}
-                    {component}
+
+                {/* Music inner container */}
+                <section className={styles.musicInnerContainer}>
+                    {/* A loading component or a music header component */}
+                    {loadingOrMusicHeaderComponent}
 
                     {/* These elements are not handled directly by React (see vendors folder for code) */}
                     <section
@@ -488,7 +496,7 @@ class Music extends Component {
                         {/* Sheet music */}
                         <div id="alpha-tab-container"></div>
                     </section>
-                </div>
+                </section>
             </main>
         );
     }

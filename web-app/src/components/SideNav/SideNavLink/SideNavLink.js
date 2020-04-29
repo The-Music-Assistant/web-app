@@ -12,67 +12,34 @@ import styles from "./SideNavLink.module.scss";
  * @category SideNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
-// TODO: This component should be split into a two components: (1) side nav link and (2) side nav sign out link
 const SideNavLink = (props) => {
-    // The component to render
-    let component;
+    const currentTabStyle = props.isCurrentTab
+        ? styles.sideNavLinkCurrentTab
+        : "";
 
-    if (props.isSignOutLink) {
-        // Sets component to the sign out version of SideNavLink
-        component = (
-            <button
-                className={`${styles.sideNavLink} ${styles.sideNavLinkSignOut}`}
-                type="button"
-                onClick={props.onClick}
-            >
-                {/* Tab icon */}
-                <img
-                    className={styles.sideNavLinkIcon}
-                    src={props.icon}
-                    alt={props.name + " Icon"}
-                />
+    const textColorStyle = props.isCurrentTab
+        ? styles.sideNavLinkNameBlueText
+        : styles.sideNavLinkNameWhiteText;
 
-                {/* Tab name */}
-                <h3
-                    className={`${styles.sideNavLinkName} ${styles.sideNavLinkNameWhiteText}`}
-                >
-                    {props.name}
-                </h3>
-            </button>
-        );
-    } else {
-        const currentTabStyle = props.isCurrentTab
-            ? styles.sideNavLinkCurrentTab
-            : "";
+    return (
+        <Link
+            className={`${styles.sideNavLink} ${currentTabStyle}`}
+            to={props.route}
+            onClick={props.onClick}
+        >
+            {/* Tab icon */}
+            <img
+                className={styles.sideNavLinkIcon}
+                src={props.icon}
+                alt={props.name + " Icon"}
+            />
 
-        const textColorStyle = props.isCurrentTab
-            ? styles.sideNavLinkNameBlueText
-            : styles.sideNavLinkNameWhiteText;
-
-        // Sets component to the regular version of SideNavLink
-        component = (
-            <Link
-                className={`${styles.sideNavLink} ${currentTabStyle}`}
-                to={props.route}
-                onClick={props.onClick}
-            >
-                {/* Tab icon */}
-                <img
-                    className={styles.sideNavLinkIcon}
-                    src={props.icon}
-                    alt={props.name + " Icon"}
-                />
-
-                {/* Tab name */}
-                <h3 className={`${styles.sideNavLinkName} ${textColorStyle}`}>
-                    {props.name}
-                </h3>
-            </Link>
-        );
-    }
-
-    // Returns the JSX to render
-    return component;
+            {/* Tab name */}
+            <h3 className={`${styles.sideNavLinkName} ${textColorStyle}`}>
+                {props.name}
+            </h3>
+        </Link>
+    );
 };
 
 // Prop types for the SideNavLink component
@@ -101,11 +68,6 @@ SideNavLink.propTypes = {
      * Click handler
      */
     onClick: PropTypes.func.isRequired,
-
-    /**
-     * Indicates if the link is a sign out link
-     */
-    isSignOutLink: PropTypes.bool.isRequired,
 };
 
 export default SideNavLink;

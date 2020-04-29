@@ -12,7 +12,6 @@ import styles from "./MobileNavLink.module.scss";
  * @category MobileNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
-// TODO: This component should be split into a two components: (1) mobile nav link and (2) mobile nav sign out link
 const MobileNavLink = (props) => {
     /**
      * Gets a tab line if this MobileNavLink instance is the current tab
@@ -24,37 +23,32 @@ const MobileNavLink = (props) => {
         ) : null;
     };
 
-    // The component to render
-    let component = (
-        <div className={styles.mobileNavLink} onClick={props.onClick}>
-            <div className={styles.mobileNavLinkContainer}>
-                {/* Tab line */}
-                {getTabLine()}
+    // Returns the JSX to render
+    return (
+        <Link
+            className={styles.mobileNavLink}
+            to={props.route}
+            onClick={props.onClick}
+        >
+            {/* Tab line */}
+            {getTabLine()}
 
+            {/* Tab */}
+            <div className={styles.mobileNavLinkInnerContainer}>
                 {/* Tab icon */}
                 <img
-                    className={styles.mobileNavLinkIcon}
+                    className={styles.mobileNavLinkInnerContainerIcon}
                     src={props.icon}
                     alt={props.name + " Icon"}
                 />
 
                 {/* Tab name */}
-                <h3 className={styles.mobileNavLinkName}>{props.name}</h3>
+                <h3 className={styles.mobileNavLinkInnerContainerName}>
+                    {props.name}
+                </h3>
             </div>
-        </div>
+        </Link>
     );
-
-    if (!props.isSignOutLink) {
-        // Wrap the main component in a Link component
-        component = (
-            <Link className={styles.mobileNavLinkAnchorTag} to={props.route}>
-                {component}
-            </Link>
-        );
-    }
-
-    // Returns the JSX to render
-    return component;
 };
 
 // Prop types for the MobileNavLink component
@@ -83,11 +77,6 @@ MobileNavLink.propTypes = {
      * Click handler
      */
     onClick: PropTypes.func.isRequired,
-
-    /**
-     * Indicates if the link is a sign out link
-     */
-    isSignOutLink: PropTypes.bool.isRequired,
 };
 
 export default MobileNavLink;
