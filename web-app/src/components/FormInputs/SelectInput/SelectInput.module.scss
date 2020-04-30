@@ -29,13 +29,13 @@
 
         height: 100%;
 
-        box-shadow: $primary-box-shadow;
-
         padding: 10px 20px;
 
         border-radius: 10px;
 
         transition: transform 0.2s ease-in-out;
+
+        box-shadow: $primary-box-shadow;
 
         &:hover {
             transform: translateY(-2px);

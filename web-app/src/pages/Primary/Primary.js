@@ -78,7 +78,7 @@ class Primary extends Component {
      * The current app version number
      * @type {string}
      */
-    _VERSION_NUMBER = "0.0.11";
+    _VERSION_NUMBER = "0.0.12";
 
     /**
      * Indicates if the component is mounted.

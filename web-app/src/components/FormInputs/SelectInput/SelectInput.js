@@ -196,7 +196,7 @@ class SelectInput extends Component {
     getOptions = () => {
         return this.props.options.map((optionName, index) => {
             return (
-                <option
+                <button
                     key={index}
                     index={index}
                     className={`${styles.selectInputOption} ${
@@ -207,7 +207,7 @@ class SelectInput extends Component {
                     onClick={() => this.optionButtonClickedHandler(index)}
                 >
                     {optionName}
-                </option>
+                </button>
             );
         });
     };

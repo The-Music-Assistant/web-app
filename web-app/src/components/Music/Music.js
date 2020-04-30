@@ -250,7 +250,10 @@ class Music extends Component {
 
             // Updates state
             if (this._isMounted) {
-                this.setState({ isMicrophoneAvailable: false });
+                this.setState({
+                    isPitchDetectionLoading: false,
+                    isMicrophoneAvailable: false,
+                });
             }
         }
     };
@@ -459,6 +462,11 @@ class Music extends Component {
      * See the vendors folder for the P5 (sketch) code and the AlphaTab code
      */
     render() {
+        console.log(
+            this.state.isAlphaTabLoading,
+            this.state.isPitchDetectionLoading,
+            this.state.isDataLoading
+        );
         // Combines loading states into one isLoading boolean
         const isLoading =
             this.state.isAlphaTabLoading ||
