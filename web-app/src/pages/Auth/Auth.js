@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // File imports
 import * as authStages from "./authStages";
@@ -24,63 +24,71 @@ import styles from "./Auth.module.scss";
  * @category Auth
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class Auth extends Component {
+const Auth = () => {
     /**
-     * Auth component state
-     * @property {module:authStages} authStage - The current auth stage (see authStages enum)
-     * @property {number} windowInnerHeight - The inner height of the window (used to resize the component)
-     * @property {boolean} isLoading - Indicates whether the component is in a loading state
-     * @property {object} alertData - Data used to display an alert
+     * The current auth stage (see authStages enum)
+     * @type {module:authStages}
+     */
+    const [authStage, setAuthStage] = useState(authStages.SIGN_IN);
+
+    /**
+     * The inner height of the window (used to resize the component)
+     * @type {number}
+     */
+    const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight);
+
+    /**
+     * Indicates whether the component is in a loading state
+     * @type {boolean}
+     */
+    const [isLoading, setIsLoading] = useState(false);
+
+    /**
+     * Data used to display an alert
+     * @type {object}
      * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
      * @property {string} alertData.heading - The alert heading
      * @property {string} alertData.message - The alert message
      */
-    state = {
-        authStage: authStages.SIGN_IN,
-        windowInnerHeight: window.innerHeight,
-        isLoading: false,
-        alertData: null,
-    };
+    const [alertData, setAlertData] = useState(null);
 
     /**
      * Indicates if the component is mounted.
      * Used for asynchronous tasks.
      * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
      */
-    _isMounted = false;
+    let isMounted = useRef(false);
 
     /**
-     * Starts the auth flow.
-     * Starts a window resize listener.
+     * Sets isMounted to true
+     * Adds a window resize listener
+     * @returns {object} A cleanup function that sets isMounted to false and removes the window resize listener
      */
-    componentDidMount() {
-        this._isMounted = true;
-        window.addEventListener("resize", this.resizeWindow);
-    }
+    useEffect(() => {
+        isMounted.current = true;
+        window.addEventListener("resize", resizeWindow);
 
-    /**
-     * Removes the window resize listener
-     */
-    componentWillUnmount() {
-        this._isMounted = false;
-        window.removeEventListener("resize", this.resizeWindow);
-    }
+        return () => {
+            isMounted.current = false;
+            window.removeEventListener("resize", resizeWindow);
+        }
+    }, []);
 
     /**
      * Updates state when the inner height of the window changes
      * @function
      */
-    resizeWindow = () => {
-        if (this._isMounted)
-            this.setState({ windowInnerHeight: window.innerHeight });
+    const resizeWindow = () => {
+        if (isMounted.current)
+            setWindowInnerHeight(window.innerHeight);
     };
 
     /**
      * Updates loading state
      * @function
      */
-    setLoadingHandler = (isLoading) => {
-        if (this._isMounted) this.setState({ isLoading });
+    const setLoadingHandler = (isLoading) => {
+        if (isMounted.current) setIsLoading(isLoading);
     };
 
     /**
@@ -90,19 +98,17 @@ class Auth extends Component {
      * @param {string} - The alert heading
      * @param {string} - The alert message
      */
-    showAlertHandler = (type, heading, message) => {
-        if (this._isMounted)
-            this.setState({
-                alertData: { type, heading, message },
-            });
+    const showAlertHandler = (type, heading, message) => {
+        if (isMounted.current)
+            setAlertData({ type, heading, message });
     };
 
     /**
      * Sets alertData in state to null in state when the alert disappears
      * @function
      */
-    alertIsDoneHandler = () => {
-        if (this._isMounted) this.setState({ alertData: null });
+    const alertIsDoneHandler = () => {
+        if (isMounted.current) setAlertData(null);
     };
 
     /**
@@ -111,9 +117,9 @@ class Auth extends Component {
      * @function
      * @param {module:authStages} - The auth stage that is complete
      */
-    authFlowStageDoneHandler = (stage) => {
-        if (this._isMounted && stage === authStages.SIGN_UP) {
-            this.setState({ authStage: authStages.PROFILE });
+    const authFlowStageDoneHandler = (stage) => {
+        if (isMounted.current && stage === authStages.SIGN_UP) {
+            setAuthStage(authStages.PROFILE);
         }
     };
 
@@ -122,12 +128,12 @@ class Auth extends Component {
      * If the current auth flow is sign in, switch to sign up, and vice versa.
      * @function
      */
-    switchAuthFlowHandler = () => {
-        if (this._isMounted) {
-            if (this.state.authStage === authStages.SIGN_IN) {
-                this.setState({ authStage: authStages.SIGN_UP });
+    const switchAuthFlowHandler = () => {
+        if (isMounted.current) {
+            if (authStage === authStages.SIGN_IN) {
+                setAuthStage(authStages.SIGN_UP);
             } else {
-                this.setState({ authStage: authStages.SIGN_IN });
+                setAuthStage(authStages.SIGN_IN);
             }
         }
     };
@@ -137,27 +143,27 @@ class Auth extends Component {
      * @function
      * @returns {object} An auth card (JSX)
      */
-    getAuthCard = () => {
+    const getAuthCard = () => {
         // Selects the Auth Card and auth info to display based on the auth stage
-        switch (this.state.authStage) {
+        switch (authStage) {
             case authStages.SIGN_IN:
             case authStages.SIGN_UP:
                 // Both sign in and sign up stages use the same card
                 return (
                     <EmailPasswordCard
-                        setLoading={this.setLoadingHandler}
-                        showAlert={this.showAlertHandler}
-                        done={this.authFlowStageDoneHandler}
-                        authStage={this.state.authStage}
-                        switchAuthFlow={this.switchAuthFlowHandler}
+                        setLoading={setLoadingHandler}
+                        showAlert={showAlertHandler}
+                        done={authFlowStageDoneHandler}
+                        authStage={authStage}
+                        switchAuthFlow={switchAuthFlowHandler}
                     />
                 );
             case authStages.PROFILE:
                 return (
                     <ProfileCard
-                        setLoading={this.setLoadingHandler}
-                        showAlert={this.showAlertHandler}
-                        done={this.authFlowStageDoneHandler}
+                        setLoading={setLoadingHandler}
+                        showAlert={showAlertHandler}
+                        done={authFlowStageDoneHandler}
                     />
                 );
             default:
@@ -165,59 +171,56 @@ class Auth extends Component {
         }
     };
 
-    /**
+    /*
      * Renders the Auth component
-     * @returns {object} The JSX to render
      */
-    render() {
-        return (
-            <div
-                className={styles.auth}
-                style={{ minHeight: `${this.state.windowInnerHeight}px` }}
-            >
-                {/* Loading HUD (if needed) */}
-                {this.state.isLoading ? (
-                    <LoadingHUD message="Loading..." />
-                ) : null}
+    return (
+        <div
+            className={styles.auth}
+            style={{ minHeight: `${windowInnerHeight}px` }}
+        >
+            {/* Loading HUD (if needed) */}
+            {isLoading ? (
+                <LoadingHUD message="Loading..." />
+            ) : null}
 
-                {/* Alert bar (if needed) */}
-                {this.state.alertData ? (
-                    <AlertBar
-                        type={this.state.alertData.type}
-                        heading={this.state.alertData.heading}
-                        message={this.state.alertData.message}
-                        done={this.alertIsDoneHandler}
+            {/* Alert bar (if needed) */}
+            {alertData ? (
+                <AlertBar
+                    type={alertData.type}
+                    heading={alertData.heading}
+                    message={alertData.message}
+                    done={alertIsDoneHandler}
+                />
+            ) : null}
+
+            {/* Inner container */}
+            <section className={styles.authInnerContainer}>
+                {/* Info */}
+                <section className={styles.authInnerContainerInfo}>
+                    {/* Logo */}
+                    <img
+                        className={styles.authInnerContainerInfoLogo}
+                        src={logo}
+                        alt="Music Assistant Logo"
                     />
-                ) : null}
 
-                {/* Inner container */}
-                <section className={styles.authInnerContainer}>
-                    {/* Info */}
-                    <section className={styles.authInnerContainerInfo}>
-                        {/* Logo */}
-                        <img
-                            className={styles.authInnerContainerInfoLogo}
-                            src={logo}
-                            alt="Music Assistant Logo"
-                        />
+                    {/* Heading */}
+                    <h1 className={styles.authInnerContainerInfoHeading}>
+                        The Music Assistant
+                    </h1>
 
-                        {/* Heading */}
-                        <h1 className={styles.authInnerContainerInfoHeading}>
-                            The Music Assistant
-                        </h1>
-
-                        {/* Subheading */}
-                        <h2 className={styles.authInnerContainerInfoSubheading}>
-                            A smarter way to sing
-                        </h2>
-                    </section>
-
-                    {/* Auth card */}
-                    {this.getAuthCard()}
+                    {/* Subheading */}
+                    <h2 className={styles.authInnerContainerInfoSubheading}>
+                        A smarter way to sing
+                    </h2>
                 </section>
-            </div>
-        );
-    }
+
+                {/* Auth card */}
+                {getAuthCard()}
+            </section>
+        </div>
+    );
 }
 
 export default Auth;
