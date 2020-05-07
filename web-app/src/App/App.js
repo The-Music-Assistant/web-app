@@ -1,8 +1,7 @@
 // NPM module imports
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, {useEffect} from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 // Component imports
 import Startup from "../pages/Startup/Startup";
@@ -25,13 +24,38 @@ import "./App.scss";
  * @category App
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class App extends Component {
+const App = () => {
+    /**
+     * react-redux dispatch function
+     */
+    const dispatch = useDispatch();
+
+    /**
+     * Indicates whether app startup is done
+     */
+    const isStartupDone = useSelector(state => state.startup.isDone);
+
+    /**
+     * Indicates whether there exists an authenticated user
+     */
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
+    /**
+     * Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)
+     */
+    const isAuthFlowComplete = useSelector(state => state.auth.isAuthFlowComplete);
+
+    /**
+     * Indicates whether this component should display the Welcome component
+     */
+    const shouldShowWelcomePage = useSelector(state => state.auth.shouldShowWelcomePage);
+
     /**
      * Sets the browser type (mobile or not mobile)
      */
-    componentDidMount() {
-        this.props.setBrowserType(this.isMobileBrowser());
-    }
+    useEffect(() => {
+        dispatch(setBrowserType(isMobileBrowser()));
+    }, [dispatch]);
 
     /**
      * Determines if the browser is mobile or not.
@@ -43,10 +67,9 @@ class App extends Component {
      * WebOS (Palm phone),
      * BlackBerry, and
      * Windows Phone.
-     * @function
      * @returns {boolean} - True is the browser is a mobile browser; false otherwise
      */
-    isMobileBrowser = () => {
+    const isMobileBrowser = () => {
         const userAgent = navigator.userAgent;
         return userAgent.match(/iPhone/i) ||
             userAgent.match(/iPod/i) ||
@@ -62,18 +85,17 @@ class App extends Component {
     /**
      * Determines which url to redirect to.
      * Uses React Router's Redirect component.
-     * @function
      * @returns {Redirect} A Redirect component
      */
-    getRedirect = () => {
-        if (!this.props.isStartupDone) {
+    const getRedirect = () => {
+        if (!isStartupDone) {
             return <Redirect to="/startup" />;
         } else if (
-            !this.props.isAuthenticated ||
-            !this.props.isAuthFlowComplete
+            !isAuthenticated ||
+            !isAuthFlowComplete
         ) {
             return <Redirect to="/auth" />;
-        } else if (this.props.shouldShowWelcomePage) {
+        } else if (shouldShowWelcomePage) {
             return <Redirect to="/welcome" />;
         } else {
             return <Redirect to="/practice" />;
@@ -83,26 +105,25 @@ class App extends Component {
     /**
      * Determines which component to route to.
      * Uses React Router's Route component.
-     * @function
      * @returns {Route} A Route component
      */
-    getRoute = () => {
-        if (!this.props.isStartupDone) {
+    const getRoute = () => {
+        if (!isStartupDone) {
             return (
                 <Route>
                     <Startup />
                 </Route>
             );
         } else if (
-            !this.props.isAuthenticated ||
-            !this.props.isAuthFlowComplete
+            !isAuthenticated ||
+            !isAuthFlowComplete
         ) {
             return (
                 <Route>
                     <Auth />
                 </Route>
             );
-        } else if (this.props.shouldShowWelcomePage) {
+        } else if (shouldShowWelcomePage) {
             return (
                 <Route>
                     <Welcome />
@@ -119,79 +140,18 @@ class App extends Component {
 
     /**
      * Renders the App component
-     * @returns The JSX to render
      */
-    render() {
-        return (
-            <BrowserRouter>
-                <div className="app">
-                    {/* Redirects to the correct url */}
-                    {this.getRedirect()}
+    return (
+        <BrowserRouter>
+            <div className="app">
+                {/* Redirects to the correct url */}
+                {getRedirect()}
 
-                    {/* Determines which component to route to */}
-                    {this.getRoute()}
-                </div>
-            </BrowserRouter>
-        );
-    }
+                {/* Determines which component to route to */}
+                {getRoute()}
+            </div>
+        </BrowserRouter>
+    );
 }
 
-// Prop types for the App component
-App.propTypes = {
-    /**
-     * Indicates whether app startup is done
-     */
-    isStartupDone: PropTypes.bool.isRequired,
-
-    /**
-     * Indicates whether there exists an authenticated user
-     */
-    isAuthenticated: PropTypes.bool,
-
-    /**
-     * Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)
-     */
-    isAuthFlowComplete: PropTypes.bool,
-
-    /**
-     * Indicates whether this component should display the Welcome component
-     */
-    shouldShowWelcomePage: PropTypes.bool.isRequired,
-
-    /**
-     * Sets the browser type (mobile or desktop) in Redux
-     */
-    setBrowserType: PropTypes.func.isRequired,
-};
-
-/**
- * Gets the current state from Redux and passes parts of it to the App component as props.
- * This function is used only by the react-redux connect function.
- * @memberof App
- * @param {object} state - The Redux state
- * @returns {object} Redux state properties used in the App component
- */
-const mapStateToProps = (state) => {
-    return {
-        isStartupDone: state.startup.isDone,
-        isAuthenticated: state.auth.isAuthenticated,
-        isAuthFlowComplete: state.auth.isAuthFlowComplete,
-        shouldShowWelcomePage: state.auth.shouldShowWelcomePage,
-    };
-};
-
-/**
- * Passes certain Redux actions to the App component as props.
- * This function is used only by the react-redux connect function.
- * @memberof App
- * @param {function} dispatch - The react-redux dispatch function
- * @returns {object} Redux actions used in the App component
- */
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setBrowserType: (isMobileBrowser) =>
-            dispatch(setBrowserType(isMobileBrowser)),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
