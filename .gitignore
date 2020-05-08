@@ -31,4 +31,4 @@ web-app/.vscode
 web-app/.cache
 
 # Documentation
-web-app/jsdoc
+web-app/jsdoc/docs

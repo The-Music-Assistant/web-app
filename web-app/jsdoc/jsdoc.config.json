@@ -1,0 +1,27 @@
+{
+    "source": {
+        "include": ["src"]
+    },
+    "opts": {
+        "destination": "./jsdoc/docs/",
+        "recurse": true,
+        "template": "node_modules/better-docs"
+    },
+    "plugins": ["node_modules/better-docs/component", "node_modules/better-docs/category"],
+    "templates": {
+        "better-docs": {
+            "name": "The Music Assistant Web App Documentation",
+            "title": "Web App Docs",
+            "navigation": [
+                {
+                    "label": "Github",
+                    "href": "https://github.com/The-Music-Assistant/web-app"
+                },
+                {
+                    "label": "Info Website",
+                    "href": "https://the-music-assistant.github.io/web-app/index.html"
+                }
+            ]
+        }
+    }
+}
