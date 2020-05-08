@@ -19,7 +19,6 @@ import "./App.scss";
 /**
  * Renders the top level of the React app.
  * Sets up React Router.
- * @extends {Component}
  * @component
  * @category App
  * @author Dan Levy <danlevy124@gmail.com>
@@ -27,26 +26,31 @@ import "./App.scss";
 const App = () => {
     /**
      * react-redux dispatch function
+     * @type {function}
      */
     const dispatch = useDispatch();
 
     /**
      * Indicates whether app startup is done
+     * @type {boolean}
      */
     const isStartupDone = useSelector(state => state.startup.isDone);
 
     /**
      * Indicates whether there exists an authenticated user
+     * @type {boolean}
      */
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
     /**
      * Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)
+     * @type {boolean}
      */
     const isAuthFlowComplete = useSelector(state => state.auth.isAuthFlowComplete);
 
     /**
      * Indicates whether this component should display the Welcome component
+     * @type {boolean}
      */
     const shouldShowWelcomePage = useSelector(state => state.auth.shouldShowWelcomePage);
 
@@ -67,7 +71,7 @@ const App = () => {
      * WebOS (Palm phone),
      * BlackBerry, and
      * Windows Phone.
-     * @returns {boolean} - True is the browser is a mobile browser; false otherwise
+     * @returns {boolean} True is the browser is a mobile browser; false otherwise
      */
     const isMobileBrowser = () => {
         const userAgent = navigator.userAgent;

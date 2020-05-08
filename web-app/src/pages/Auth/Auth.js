@@ -27,25 +27,25 @@ import styles from "./Auth.module.scss";
 const Auth = () => {
     /**
      * The current auth stage (see authStages enum)
-     * @type {module:authStages}
+     * @type {[authStage, setAuthStage]: [module:authStages, function]}
      */
     const [authStage, setAuthStage] = useState(authStages.SIGN_IN);
 
     /**
      * The inner height of the window (used to resize the component)
-     * @type {number}
+     * @type {[windowInnerHeight, setWindowInnerHeight] : [number, function]}
      */
     const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight);
 
     /**
      * Indicates whether the component is in a loading state
-     * @type {boolean}
+     * @type {[isLoading, setIsLoading]: [boolean, function]}
      */
     const [isLoading, setIsLoading] = useState(false);
 
     /**
      * Data used to display an alert
-     * @type {object}
+     * @type {[alertData, setAlertData]: [object, function]}
      * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
      * @property {string} alertData.heading - The alert heading
      * @property {string} alertData.message - The alert message
@@ -56,6 +56,7 @@ const Auth = () => {
      * Indicates if the component is mounted.
      * Used for asynchronous tasks.
      * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+     * @type {boolean}
      */
     let isMounted = useRef(false);
 
@@ -76,7 +77,6 @@ const Auth = () => {
 
     /**
      * Updates state when the inner height of the window changes
-     * @function
      */
     const resizeWindow = () => {
         if (isMounted.current)
@@ -85,7 +85,6 @@ const Auth = () => {
 
     /**
      * Updates loading state
-     * @function
      */
     const setLoadingHandler = (isLoading) => {
         if (isMounted.current) setIsLoading(isLoading);
@@ -93,7 +92,6 @@ const Auth = () => {
 
     /**
      * Sets alertData in state when a new alert is triggered
-     * @function
      * @param {alertBarTypes} - The type of alert bar to show
      * @param {string} - The alert heading
      * @param {string} - The alert message
@@ -105,7 +103,6 @@ const Auth = () => {
 
     /**
      * Sets alertData in state to null in state when the alert disappears
-     * @function
      */
     const alertIsDoneHandler = () => {
         if (isMounted.current) setAlertData(null);
@@ -114,7 +111,6 @@ const Auth = () => {
     /**
      * Moves to the next auth stage when the current stage is complete.
      * If the flow is done, signals to Redux that the flow is done (sign in or sign up).
-     * @function
      * @param {module:authStages} - The auth stage that is complete
      */
     const authFlowStageDoneHandler = (stage) => {
@@ -126,7 +122,6 @@ const Auth = () => {
     /**
      * Switches to the opposite auth flow.
      * If the current auth flow is sign in, switch to sign up, and vice versa.
-     * @function
      */
     const switchAuthFlowHandler = () => {
         if (isMounted.current) {
@@ -140,7 +135,6 @@ const Auth = () => {
 
     /**
      * Gets the correct auth card based on the current auth stage
-     * @function
      * @returns {object} An auth card (JSX)
      */
     const getAuthCard = () => {
