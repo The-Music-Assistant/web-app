@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 // File imports
 import * as authStages from "./authStages";
@@ -103,9 +103,10 @@ const Auth = () => {
     /**
      * Sets alertData in state to null in state when the alert disappears
      */
-    const alertIsDoneHandler = () => {
+    const alertIsDoneHandler = useCallback(() => {
+        // useCallback is used to ensure that the AlertBar is not re-rendered each time this component updates
         if (isMounted.current) setAlertData(null);
-    };
+    }, []);
 
     /**
      * Moves to the next auth stage when the current stage is complete.

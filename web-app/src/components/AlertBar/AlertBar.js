@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 
 // File imports
@@ -16,26 +16,23 @@ import typeStyles from "./AlertBarTypes.module.scss";
 /**
  * Renders the AlertBar component.
  * This component is an alert that dismisses itself.
- * @extends {Component}
  * @component
  * @category AlertBar
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class AlertBar extends Component {
+const AlertBar = ({ done, type, heading, message }) => {
     /**
-     * AlertBar component state
-     * @property {module:alertBarTransitionOptions} transition - The current CSS transition
+     * The current CSS transition
+     * {[currentTransition, setCurrentTransition]: [module:alertBarTransitionOptions, function]}
      */
-    state = {
-        transition: null,
-    };
+    const [currentTransition, setCurrentTransition] = useState(null);
 
     /**
      * The amount of time that the AlertBar component is displayed (no including transition time).
      * Time is in ms.
      * @type {number}
      */
-    _DISPLAY_TIME_MS = 5000;
+    const DISPLAY_TIME_MS = 5000;
 
     /**
      * The amount of time that the AlertBar component takes to transition.
@@ -43,99 +40,93 @@ class AlertBar extends Component {
      * If this constant is changed, be sure to change the equivalent time in the SCSS file for this component.
      * @type {number}
      */
-    _TRANSITION_TIME_MS = 1000;
+    const TRANSITION_TIME_MS = 1000;
 
     /**
      * Timeout ids for all of the AlertBar positions/transitions
      * @type {object}
      */
-    _transitionTimeoutIds = {};
-
-    /**
-     * Starts AlertBar component timeouts
-     */
-    componentDidMount() {
-        this.createComponentTimeouts();
-    }
-
-    /**
-     * Stops asynchronous tasks
-     */
-    componentWillUnmount() {
-        this.clearComponentTimeouts();
-    }
+    let transitionTimeoutIds = useRef({});
 
     /**
      * Creates timeouts for AlertBar positions/transitions
-     * @function
      */
-    createComponentTimeouts = () => {
+    const createComponentTimeouts = useCallback(() => {
         // Timeout that waits to slide the AlertBar down
         // Fixes bug (assuming React bug) where transition down is instant rather than animated
         const waitToSlideDownTimerId = setTimeout(() => {
-            delete this._transitionTimeoutIds[waitToSlideDownTimerId];
-            this.setState({ transition: transitionOptions.DOWN });
+            delete transitionTimeoutIds.current[waitToSlideDownTimerId];
+            setCurrentTransition(transitionOptions.DOWN);
         }, 10);
-        this._transitionTimeoutIds.waitToSlideDownTimerId = waitToSlideDownTimerId;
+        transitionTimeoutIds.current.waitToSlideDownTimerId = waitToSlideDownTimerId;
 
         // Timeout that waits to slide the AlertBar back up
         const waitToSlideUpTimerId = setTimeout(() => {
-            delete this._transitionTimeoutIds[waitToSlideUpTimerId];
-            this.setState({ transition: transitionOptions.UP });
-        }, this._TRANSITION_TIME_MS + this._DISPLAY_TIME_MS);
-        this._transitionTimeoutIds.waitToSlideUpTimerId = waitToSlideUpTimerId;
+            delete transitionTimeoutIds.current[waitToSlideUpTimerId];
+            setCurrentTransition(transitionOptions.UP);
+        }, TRANSITION_TIME_MS + DISPLAY_TIME_MS);
+        transitionTimeoutIds.current.waitToSlideUpTimerId = waitToSlideUpTimerId;
 
         // Timeout that waits to call done (remove the component from the DOM)
         const waitToFinishTimerId = setTimeout(() => {
-            delete this._transitionTimeoutIds[waitToFinishTimerId];
-            this.props.done();
-        }, this._TRANSITION_TIME_MS * 2 + this._DISPLAY_TIME_MS);
-        this._transitionTimeoutIds.waitToFinishTimerId = waitToFinishTimerId;
-    };
+            delete transitionTimeoutIds.current[waitToFinishTimerId];
+            done();
+        }, TRANSITION_TIME_MS * 2 + DISPLAY_TIME_MS);
+        transitionTimeoutIds.current.waitToFinishTimerId = waitToFinishTimerId;
+    }, [done]);
 
     /**
      * Clears all timeouts for AlertBar positions/transitions
-     * @function
      */
-    clearComponentTimeouts = () => {
-        for (const timout in this._transitionTimeoutIds) {
-            clearTimeout(this._transitionTimeoutIds[timout]);
+    const clearComponentTimeouts = useCallback(() => {
+        for (const timout in transitionTimeoutIds.current) {
+            clearTimeout(transitionTimeoutIds.current[timout]);
         }
 
         // Clears the transitionTimeoutIds object
-        this._transitionTimeoutIds = {};
-    };
+        transitionTimeoutIds.current = {};
+    }, []);
+
+    /**
+     * Starts AlertBar component timeouts
+     * @returns {function} Stops asynchronous tasks
+     */
+    useEffect(() => {
+        createComponentTimeouts();
+
+        return () => {
+            clearComponentTimeouts();
+        };
+    }, [createComponentTimeouts, clearComponentTimeouts]);
 
     /**
      * Slides the AlertBar up before the display time has passed
-     * @function
      */
-    closeButttonClickedHandler = () => {
+    const closeButttonClickedHandler = () => {
         // Clears the necessary timouts in order to override the slide up
-        if (this._transitionTimeoutIds.waitToSlideUpTimerId) {
-            clearTimeout(this._transitionTimeoutIds.slideUpTimerId);
+        if (transitionTimeoutIds.current.waitToSlideUpTimerId) {
+            clearTimeout(transitionTimeoutIds.current.slideUpTimerId);
         }
-        if (this._transitionTimeoutIds.waitToFinishTimerId) {
-            clearTimeout(this._transitionTimeoutIds.isDoneTimerId);
+        if (transitionTimeoutIds.current.waitToFinishTimerId) {
+            clearTimeout(transitionTimeoutIds.current.isDoneTimerId);
         }
 
         // Tells state to to have the AlertBar slide up
-        this.setState({ transition: transitionOptions.UP });
+        setCurrentTransition(transitionOptions.UP);
 
         // Timeout that waits to call done (remove the component from the DOM)
         const waitToFinishOverrideTimerId = setTimeout(() => {
-            this.props.done();
-        }, this._TRANSITION_TIME_MS);
-        this._transitionTimeoutIds.waitToFinishOverrideTimerId = waitToFinishOverrideTimerId;
+            done();
+        }, TRANSITION_TIME_MS);
+        transitionTimeoutIds.current.waitToFinishOverrideTimerId = waitToFinishOverrideTimerId;
     };
 
     /**
      * Gets the CSS background color class name
-     * @function
      * @returns {string} The background color class name
      */
-    getBackgroundColorStyle = () => {
-        switch (this.props.type) {
+    const getBackgroundColorStyle = () => {
+        switch (type) {
             case alertBarTypes.SUCCESS:
                 return typeStyles.success;
             case alertBarTypes.WARNING:
@@ -151,11 +142,10 @@ class AlertBar extends Component {
 
     /**
      * Gets the CSS current transition class name
-     * @function
      * @returns {string} The transition class name
      */
-    getTransitionStyle = () => {
-        switch (this.state.transition) {
+    const getTransitionStyle = () => {
+        switch (currentTransition) {
             case transitionOptions.DOWN:
                 return styles.alertBarSlideDown;
             case transitionOptions.UP:
@@ -168,37 +158,33 @@ class AlertBar extends Component {
     /**
      * Renders the AlertBar component
      */
-    render() {
-        return (
-            <section
-                className={`${
-                    styles.alertBar
-                } ${this.getBackgroundColorStyle()} ${this.getTransitionStyle()}`}
-            >
-                {/* Alert bar header */}
-                <header className={styles.alertBarHeader}>
-                    <h1 className={styles.alertBarHeaderHeading}>
-                        {this.props.heading}
-                    </h1>
+    return (
+        <section
+            className={`${
+                styles.alertBar
+            } ${getBackgroundColorStyle()} ${getTransitionStyle()}`}
+        >
+            {/* Alert bar header */}
+            <header className={styles.alertBarHeader}>
+                <h1 className={styles.alertBarHeaderHeading}>{heading}</h1>
 
-                    <button
-                        className={styles.alertBarHeaderCloseButton}
-                        onClick={this.closeButttonClickedHandler}
-                        type="button"
-                    >
-                        <img
-                            className={styles.alertBarHeaderCloseButtonImg}
-                            src={closeIconWhite}
-                            alt="Close Alert"
-                        />
-                    </button>
-                </header>
+                <button
+                    className={styles.alertBarHeaderCloseButton}
+                    onClick={closeButttonClickedHandler}
+                    type="button"
+                >
+                    <img
+                        className={styles.alertBarHeaderCloseButtonImg}
+                        src={closeIconWhite}
+                        alt="Close Alert"
+                    />
+                </button>
+            </header>
 
-                <h2 className={styles.alertBarMessage}>{this.props.message}</h2>
-            </section>
-        );
-    }
-}
+            <h2 className={styles.alertBarMessage}>{message}</h2>
+        </section>
+    );
+};
 
 // Prop types for the AlertBar component
 AlertBar.propTypes = {
@@ -224,7 +210,7 @@ AlertBar.propTypes = {
     message: PropTypes.string.isRequired,
 
     /**
-     * Tells Redux that this component is no longer needed (i.e. done)
+     * Tells the parent component that this component is no longer needed (i.e. done)
      */
     done: PropTypes.func.isRequired,
 };

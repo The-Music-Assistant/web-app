@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import shortid from "shortid";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -259,9 +259,10 @@ const Primary = () => {
     /**
      * Sets alertData in state to null in state when the alert disappears
      */
-    const alertIsDoneHandler = () => {
+    const alertIsDoneHandler = useCallback(() => {
+        // useCallback is used to ensure that the AlertBar is not re-rendered each time this component updates
         setAlertData(null);
-    };
+    }, []);
 
     /**
      * Renders the Primary component

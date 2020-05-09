@@ -176,6 +176,14 @@ const Welcome = () => {
     };
 
     /**
+     * Sets alertData in state to null in state when the alert disappears
+     */
+    const alertIsDoneHandler = useCallback(() => {
+        // useCallback is used to ensure that the AlertBar is not re-rendered each time this component updates
+        setAlertData(null);
+    }, []);
+
+    /**
      * Creates an alert bar if one was requested
      * @returns {object} An alert bar (JSX)
      */
@@ -185,7 +193,7 @@ const Welcome = () => {
                 type={alertData.type}
                 heading={alertData.heading}
                 message={alertData.message}
-                done={() => setAlertData(null)}
+                done={alertIsDoneHandler}
             />
         ) : null;
     };
