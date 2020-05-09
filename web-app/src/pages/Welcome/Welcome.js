@@ -1,7 +1,12 @@
 // NPM module imports
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, {
+    useState,
+    useEffect,
+    useCallback,
+    useRef,
+    Fragment,
+} from "react";
+import { useDispatch } from "react-redux";
 import { MetroSpinner } from "react-spinners-kit";
 
 // File imports
@@ -24,42 +29,51 @@ import styles from "./Welcome.module.scss";
 /**
  * Renders the Welcome component.
  * This component displays when a user needs to confirm their email.
- * @extends {Component}
  * @component
  * @category Welcome
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class Welcome extends Component {
+const Welcome = () => {
     /**
-     * Welcome component state
-     * @property {boolean} isLoading - Indicates if the component is in a loading state
-     * @property {boolean} isUserEmailVerified - Indicates if the user's email is verified
+     * Indicates if the component is in a loading state
+     * {[isLoading, setIsLoading]: [boolean, function]}
      */
-    state = {
-        isLoading: false,
-        isUserEmailVerified: false,
-    };
+    const [isLoading, setIsLoading] = useState(false);
+
+    /**
+     * Indicates if the user's email is verified
+     * {[isUserEmailVerified, setIsUserEmailVerified]: [boolean, function]}
+     */
+    const [isUserEmailVerified, setIsUserEmailVerified] = useState(false);
+
+    /**
+     * Data used to display an alert
+     * {[alertData, setAlertData]: [object, function]}
+     * {module:alertBarTypes} alertData.type - The type of alert bar to show
+     * {string} alertData.heading - The alert heading
+     * {string} alertData.message - The alert message
+     */
+    const [alertData, setAlertData] = useState(null);
+
+    /**
+     * react-redux dispatch function
+     * @type {function}
+     */
+    const dispatch = useDispatch();
 
     /**
      * Indicates if the user's email was checked for verification at least once
+     * @type {boolean}
      */
-    _wasEmailVerificationCheckedAlready = false;
-
-    /**
-     * Checks if the user's email is verified
-     */
-    componentDidMount() {
-        this.checkIfUserEmailIsVerified();
-    }
+    const wasEmailVerificationCheckedAlready = useRef(false);
 
     /**
      * Checks if the user's email is verified.
      * Updates state depending on result.
-     * @function
      */
-    checkIfUserEmailIsVerified = () => {
+    const checkIfUserEmailIsVerified = useCallback(() => {
         // Sets loading to true in state
-        this.setState({ isLoading: true });
+        setIsLoading(true);
 
         // Reloads the user and checks if the user's email is verified
         const currentUser = firebase.auth().currentUser;
@@ -67,43 +81,45 @@ class Welcome extends Component {
             .reload()
             .then(() => {
                 if (currentUser.emailVerified) {
-                    this.userEmailIsVerified();
+                    userEmailIsVerified();
                 } else {
-                    this.userEmailNotVerified();
+                    userEmailNotVerified();
                 }
-                this._wasEmailVerificationCheckedAlready = true;
+                wasEmailVerificationCheckedAlready.current = true;
             })
-            .catch(this.userEmailFetchError);
-    };
+            .catch(userEmailFetchError);
+    }, []);
+
+    /**
+     * Checks if the user's email is verified
+     */
+    useEffect(() => {
+        checkIfUserEmailIsVerified();
+    }, [checkIfUserEmailIsVerified]);
 
     /**
      * Updates state to indicate that the email is verified
-     * @function
      */
-    userEmailIsVerified = () => {
-        this.setState({ isLoading: false, isUserEmailVerified: true });
+    const userEmailIsVerified = () => {
+        setIsLoading(false);
+        setIsUserEmailVerified(true);
     };
 
     /**
      * Updates state to indicate that the email is not verified
      * Alerts the user that the email is not verified
-     * @function
      */
-    userEmailNotVerified = () => {
+    const userEmailNotVerified = () => {
         // Updates state
-        this.setState({
-            isLoading: false,
-            isUserEmailVerified: false,
-        });
+        setIsLoading(false);
+        setIsUserEmailVerified(false);
 
         // Alerts the user only if this is not the first check
-        if (this._wasEmailVerificationCheckedAlready) {
-            this.setState({
-                alert: {
-                    type: alertBarTypes.WARNING,
-                    heading: "Not Verified",
-                    message: `Your email is not verified. If you can't find the verification email, please click "Resend Email."`,
-                },
+        if (wasEmailVerificationCheckedAlready.current) {
+            setAlertData({
+                type: alertBarTypes.WARNING,
+                heading: "Not Verified",
+                message: `Your email is not verified. If you can't find the verification email, please click "Resend Email."`,
             });
         }
     };
@@ -111,98 +127,88 @@ class Welcome extends Component {
     /**
      * Updates the state to indicate that the email is not verified.
      * Alerts the user that there was an error.
-     * @function
      * @param {object} error - The error received
      */
-    userEmailFetchError = (error) => {
+    const userEmailFetchError = (error) => {
         authError(error.code, error.message, "[Welcome/userEmailFetchError]");
-        this.setState({
-            isLoading: false,
-            alert: {
-                type: alertBarTypes.ERROR,
-                heading: "Error",
-                message: error.message,
-            },
+
+        setIsLoading(false);
+        setAlertData({
+            type: alertBarTypes.ERROR,
+            heading: "Error",
+            message: error.message,
         });
     };
 
     /**
      * Tells Redux that this component is no longer needed (i.e. done)
-     * @function
      */
-    doneButtonClickedHandler = () => {
-        this.props.done();
+    const doneButtonClickedHandler = () => {
+        dispatch(welcomePageComplete());
     };
 
     /**
      * Resends an email verification
-     * @function
      */
-    resendEmailVerificationButtonClickedHandler = () => {
+    const resendEmailVerificationButtonClickedHandler = () => {
         // Sets loading to true in state
-        this.setState({ isLoading: true });
+        setIsLoading(true);
 
         // Sends an email verification
         firebase
             .auth()
             .currentUser.sendEmailVerification()
-            .then(this.emailWasSentHandler)
-            .catch(this.userEmailFetchError);
+            .then(emailWasSentHandler)
+            .catch(userEmailFetchError);
     };
 
     /**
      * Updates state to indicate that a verification email was sent.
      * Alerts the user that a verification email was sent.
-     * @function
      */
-    emailWasSentHandler = () => {
-        this.setState({
-            isLoading: false,
-            alert: {
-                type: alertBarTypes.INFO,
-                heading: "Email Sent",
-                message: "We have sent a new verification email",
-            },
+    const emailWasSentHandler = () => {
+        setIsLoading(false);
+        setAlertData({
+            type: alertBarTypes.INFO,
+            heading: "Email Sent",
+            message: "We have sent a new verification email",
         });
     };
 
     /**
      * Creates an alert bar if one was requested
-     * @function
      * @returns {object} An alert bar (JSX)
      */
-    getAlertBar = () => {
-        return this.state.alert ? (
+    const getAlertBar = () => {
+        return alertData ? (
             <AlertBar
-                type={this.state.alert.type}
-                heading={this.state.alert.heading}
-                message={this.state.alert.message}
-                done={() => this.setState({ alert: null })}
+                type={alertData.type}
+                heading={alertData.heading}
+                message={alertData.message}
+                done={() => setAlertData(null)}
             />
         ) : null;
     };
 
     /**
      * Gets the main component (loading spinner, success, or check email)
-     * @function
      * @returns {object} The main component (JSX)
      */
-    getMainComponent = () => {
-        if (this.state.isLoading) {
-            return this.getSpinner();
-        } else if (this.state.isUserEmailVerified) {
-            return this.getSuccessComponent();
+    const getMainComponent = () => {
+        if (isLoading) {
+            return getSpinner();
+        } else if (isUserEmailVerified) {
+            return getSuccessComponent();
         } else {
-            return this.getCheckEmailComponent();
+            return getCheckEmailComponent();
         }
     };
 
     /**
      * Creates a spinner
-     * @function
      * @returns {object} A spinner (JSX)
      */
-    getSpinner = () => {
+    const getSpinner = () => {
         return (
             <div className={styles.welcomeMainSpinner}>
                 <MetroSpinner size={75} color="#F8F8F8" loading={true} />
@@ -212,10 +218,9 @@ class Welcome extends Component {
 
     /**
      * Creates the success component
-     * @function
      * @returns {object} A success component (JSX)
      */
-    getSuccessComponent = () => {
+    const getSuccessComponent = () => {
         return (
             <Fragment>
                 {/* Heading */}
@@ -238,7 +243,7 @@ class Welcome extends Component {
                         type="button"
                         value=""
                         title="Let's Go!"
-                        onClick={this.doneButtonClickedHandler}
+                        onClick={doneButtonClickedHandler}
                     />
                 </div>
             </Fragment>
@@ -247,10 +252,9 @@ class Welcome extends Component {
 
     /**
      * Creates a check email component
-     * @function
      * @returns {object} A check email component (JSX)
      */
-    getCheckEmailComponent = () => {
+    const getCheckEmailComponent = () => {
         return (
             <Fragment>
                 {/* Heading */}
@@ -275,7 +279,7 @@ class Welcome extends Component {
                             type="button"
                             value=""
                             title="I Verified My Email"
-                            onClick={() => this.checkIfUserEmailIsVerified()}
+                            onClick={() => checkIfUserEmailIsVerified()}
                         />
                     </div>
 
@@ -286,7 +290,7 @@ class Welcome extends Component {
                             value=""
                             title="Resend Email"
                             onClick={
-                                this.resendEmailVerificationButtonClickedHandler
+                                resendEmailVerificationButtonClickedHandler
                             }
                         />
                     </div>
@@ -297,7 +301,9 @@ class Welcome extends Component {
                             type="button"
                             value=""
                             title="Sign Out"
-                            onClick={this.props.signOut}
+                            onClick={() => {
+                                dispatch(signOut());
+                            }}
                         />
                     </div>
                 </section>
@@ -307,59 +313,26 @@ class Welcome extends Component {
 
     /**
      * Renders the Welcome component
-     * @returns {object} The JSX to render
      */
-    render() {
-        // Returns the JSX to render
-        return (
-            <div className={styles.welcome}>
-                {this.getAlertBar()}
+    return (
+        <div className={styles.welcome}>
+            {getAlertBar()}
 
-                {/* Page header */}
-                <header className={styles.welcomeHeader}>
-                    <img
-                        className={styles.welcomeHeaderLogo}
-                        src={logo}
-                        alt="Music Assistant Logo"
-                    />
-                    <h1 className={styles.welcomeHeaderMessage}>
-                        Welcome to <br /> The Music Assistant
-                    </h1>
-                </header>
+            {/* Page header */}
+            <header className={styles.welcomeHeader}>
+                <img
+                    className={styles.welcomeHeaderLogo}
+                    src={logo}
+                    alt="Music Assistant Logo"
+                />
+                <h1 className={styles.welcomeHeaderMessage}>
+                    Welcome to <br /> The Music Assistant
+                </h1>
+            </header>
 
-                <main className={styles.welcomeMain}>
-                    {this.getMainComponent()}
-                </main>
-            </div>
-        );
-    }
-}
-
-// Prop types for the Welcome component
-Welcome.propTypes = {
-    /**
-     * Tells Redux that this component is no longer needed (i.e. done)
-     */
-    done: PropTypes.func.isRequired,
-
-    /**
-     * Tells Redux to sign the user out
-     */
-    signOut: PropTypes.func.isRequired,
+            <main className={styles.welcomeMain}>{getMainComponent()}</main>
+        </div>
+    );
 };
 
-/**
- * Passes certain Redux actions to the Welcome component as props.
- * This function is used only by the react-redux connect function.
- * @memberof Welcome
- * @param {function} dispatch - The react-redux dispatch function
- * @returns {object} Redux actions used in the Welcome component
- */
-const mapDispatchToProps = (dispatch) => {
-    return {
-        done: () => dispatch(welcomePageComplete()),
-        signOut: () => dispatch(signOut()),
-    };
-};
-
-export default connect(null, mapDispatchToProps)(Welcome);
+export default Welcome;

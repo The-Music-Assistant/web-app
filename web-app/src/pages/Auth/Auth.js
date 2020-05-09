@@ -19,7 +19,6 @@ import styles from "./Auth.module.scss";
 /**
  * Renders the Auth component.
  * This component handles both the sign up and sign in auth flows.
- * @extends {Component}
  * @component
  * @category Auth
  * @author Dan Levy <danlevy124@gmail.com>
@@ -39,18 +38,18 @@ const Auth = () => {
         window.innerHeight
     );
 
-    /*
+    /**
      * Indicates whether the component is in a loading state
-     * @type {[isLoading, setIsLoading]: [boolean, function]}
+     * {[isLoading, setIsLoading]: [boolean, function]}
      */
     const [isLoading, setIsLoading] = useState(false);
 
-    /*
+    /**
      * Data used to display an alert
-     * @type {[alertData, setAlertData]: [object, function]}
-     * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
-     * @property {string} alertData.heading - The alert heading
-     * @property {string} alertData.message - The alert message
+     * {[alertData, setAlertData]: [object, function]}
+     * {module:alertBarTypes} alertData.type - The type of alert bar to show
+     * {string} alertData.heading - The alert heading
+     * {string} alertData.message - The alert message
      */
     const [alertData, setAlertData] = useState(null);
 
