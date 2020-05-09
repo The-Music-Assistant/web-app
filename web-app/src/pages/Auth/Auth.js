@@ -25,25 +25,27 @@ import styles from "./Auth.module.scss";
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const Auth = () => {
-    /**
+    /*
      * The current auth stage (see authStages enum)
      * @type {[authStage, setAuthStage]: [module:authStages, function]}
      */
     const [authStage, setAuthStage] = useState(authStages.SIGN_IN);
 
-    /**
+    /*
      * The inner height of the window (used to resize the component)
      * @type {[windowInnerHeight, setWindowInnerHeight] : [number, function]}
      */
-    const [windowInnerHeight, setWindowInnerHeight] = useState(window.innerHeight);
+    const [windowInnerHeight, setWindowInnerHeight] = useState(
+        window.innerHeight
+    );
 
-    /**
+    /*
      * Indicates whether the component is in a loading state
      * @type {[isLoading, setIsLoading]: [boolean, function]}
      */
     const [isLoading, setIsLoading] = useState(false);
 
-    /**
+    /*
      * Data used to display an alert
      * @type {[alertData, setAlertData]: [object, function]}
      * @property {module:alertBarTypes} alertData.type - The type of alert bar to show
@@ -72,15 +74,14 @@ const Auth = () => {
         return () => {
             isMounted.current = false;
             window.removeEventListener("resize", resizeWindow);
-        }
+        };
     }, []);
 
     /**
      * Updates state when the inner height of the window changes
      */
     const resizeWindow = () => {
-        if (isMounted.current)
-            setWindowInnerHeight(window.innerHeight);
+        if (isMounted.current) setWindowInnerHeight(window.innerHeight);
     };
 
     /**
@@ -97,8 +98,7 @@ const Auth = () => {
      * @param {string} - The alert message
      */
     const showAlertHandler = (type, heading, message) => {
-        if (isMounted.current)
-            setAlertData({ type, heading, message });
+        if (isMounted.current) setAlertData({ type, heading, message });
     };
 
     /**
@@ -174,9 +174,7 @@ const Auth = () => {
             style={{ minHeight: `${windowInnerHeight}px` }}
         >
             {/* Loading HUD (if needed) */}
-            {isLoading ? (
-                <LoadingHUD message="Loading..." />
-            ) : null}
+            {isLoading ? <LoadingHUD message="Loading..." /> : null}
 
             {/* Alert bar (if needed) */}
             {alertData ? (
@@ -215,6 +213,6 @@ const Auth = () => {
             </section>
         </div>
     );
-}
+};
 
 export default Auth;
