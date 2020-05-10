@@ -14,7 +14,6 @@ export {
     doNotShowWelcomePage,
     welcomePageComplete,
     startAuthFlow,
-    changeAuthFlow,
     signOut,
 } from "./auth";
 

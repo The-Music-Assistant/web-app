@@ -86,9 +86,9 @@ const Auth = () => {
     /**
      * Updates loading state
      */
-    const setLoadingHandler = (isLoading) => {
+    const setLoadingHandler = useCallback((isLoading) => {
         if (isMounted.current) setIsLoading(isLoading);
-    };
+    }, []);
 
     /**
      * Sets alertData in state when a new alert is triggered
@@ -96,9 +96,9 @@ const Auth = () => {
      * @param {string} - The alert heading
      * @param {string} - The alert message
      */
-    const showAlertHandler = (type, heading, message) => {
+    const showAlertHandler = useCallback((type, heading, message) => {
         if (isMounted.current) setAlertData({ type, heading, message });
-    };
+    }, []);
 
     /**
      * Sets alertData in state to null in state when the alert disappears
@@ -113,11 +113,11 @@ const Auth = () => {
      * If the flow is done, signals to Redux that the flow is done (sign in or sign up).
      * @param {module:authStages} - The auth stage that is complete
      */
-    const authFlowStageDoneHandler = (stage) => {
+    const authFlowStageDoneHandler = useCallback((stage) => {
         if (isMounted.current && stage === authStages.SIGN_UP) {
             setAuthStage(authStages.PROFILE);
         }
-    };
+    }, []);
 
     /**
      * Switches to the opposite auth flow.

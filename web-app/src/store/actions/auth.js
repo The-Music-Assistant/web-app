@@ -168,25 +168,6 @@ export const startAuthFlow = (flow) => {
 };
 
 /**
- * Return object for the changeAuthFlow function
- * @typedef ChangeAuthFlowReturnObject
- * @property {module:reduxActionTypes} type - An action type
- * @property {module:authFlows} flow - The current auth flow to change to
- */
-
-/**
- * Changes the auth flow
- * @function
- * @returns {module:reduxAuthActions~ChangeAuthFlowReturnObject}
- */
-export const changeAuthFlow = (flow) => {
-    return {
-        type: actionTypes.CHANGE_AUTH_FLOW,
-        flow,
-    };
-};
-
-/**
  * Return object for the showWelcomePage function
  * @typedef ShowWelcomePageReturnObject
  * @property {module:reduxActionTypes} type - An action type

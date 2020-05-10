@@ -151,7 +151,7 @@ const Primary = () => {
 
     /**
      * Adds a window resize listener
-     * @returns {object} A cleanup function that removes the window resize listener
+     * @returns {function} A cleanup function that removes the window resize listener
      */
     useEffect(() => {
         window.addEventListener("resize", handleWindowResize);
