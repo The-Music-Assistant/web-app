@@ -19,18 +19,22 @@ import colorStyles from "./RectangularButtonColors.module.scss";
  * @category Buttons
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const RectangularButton = (props) => {
+const RectangularButton = ({
+    type,
+    value,
+    title,
+    backgroundColor,
+    onClick,
+}) => {
     // Returns the JSX to render
     return (
         <ButtonContainer
-            className={`${styles.rectButton} ${
-                colorStyles[props.backgroundColor]
-            }`}
-            type={props.type}
-            value={props.value}
-            onClick={props.onClick}
+            className={`${styles.rectButton} ${colorStyles[backgroundColor]}`}
+            type={type}
+            value={value}
+            onClick={onClick}
         >
-            {props.title}
+            {title}
         </ButtonContainer>
     );
 };
