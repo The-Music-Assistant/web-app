@@ -1,7 +1,7 @@
 // NPM module imports
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "firebase/storage";
 
 // Component imports
@@ -26,115 +26,96 @@ import authCardStyles from "../AuthCard.module.scss";
 /**
  * Renders the ProfileCard component.
  * Handles the user profile setup.
- * @extends {Component}
  * @component
  * @category AuthCards
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class ProfileCard extends Component {
+const ProfileCard = ({ setLoading, showAlert, done }) => {
     /**
-     * ProfileCard component state
-     * @property {object} formData - Form input values
-     * @property {object} formData.profilePicture - A profile picture image file
-     * @property {string} formData.firstName - The first name input value
-     * @property {string} formData.lastName - The last name input value
+     * A profile picture image file
+     * {[profilePicture, setProfilePicture]: [object, function]}
      */
-    state = {
-        formData: {
-            profilePicture: null,
-            firstName: "",
-            lastName: "",
-        },
-    };
+    const [profilePicture, setProfilePicture] = useState(null);
+
+    /**
+     * The first name input value
+     * {[firstName, setFirstName]: [string, function]}
+     */
+    const [firstName, setFirstName] = useState("");
+
+    /**
+     * The last name input value
+     * {[lastName, setLastName]: [string, function]}
+     */
+    const [lastName, setLastName] = useState("");
+
+    /**
+     * Indicates if a user is authenticated
+     * @type {boolean}
+     */
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+    /**
+     * react-redux dispatch function
+     * @type {function}
+     */
+    const dispatch = useDispatch();
 
     /**
      * Updates state with new file input image
-     * @function
      * @param event - The event that called this function
      */
-    imageInputValueChangedHandler = (event) => {
+    const imageInputValueChangedHandler = (event) => {
         // Gets the profile picture if it exists
-        const profilePicture =
+        const picture =
             event.target.files.length === 1 ? event.target.files[0] : null;
 
+        console.log(picture);
+
         // Sets state with new image
-        this.setState((prevState) => {
-            const updatedFormData = { ...prevState.formData };
-            updatedFormData.profilePicture = profilePicture;
-            return {
-                formData: updatedFormData,
-            };
-        });
+        setProfilePicture(picture);
     };
 
     /**
      * Shows an alert and removes the image from state
-     * @function
      */
-    imageInputErrorHandler = () => {
+    const imageInputErrorHandler = () => {
         authError(
             null,
             "We couldn't load your profile picture. Please select a new one.",
             "[ProfileCard/imageInputErrorHandler]"
         );
-        this.props.showAlert(
+        showAlert(
             alertBarTypes.ERROR,
             "Image Loading Error",
             "We couldn't load your profile picture. Please select a new one."
         );
-        this.removeImageHandler();
+        removeImageHandler();
     };
 
     /**
      * Removes the current image from state
-     * @function
      */
-    removeImageHandler = () => {
-        this.setState((prevState) => {
-            const updatedFormData = { ...prevState.formData };
-            updatedFormData.profilePicture = null;
-            return {
-                formData: updatedFormData,
-            };
-        });
-    };
-
-    /**
-     * Updates state with new text input value
-     * @function
-     * @param event - The event that called this function
-     */
-    textInputValueChangedHandler = (event) => {
-        const inputName = event.target.name;
-        const text = event.target.value;
-
-        // Sets state with new input value
-        this.setState((prevState) => {
-            const updatedFormData = { ...prevState.formData };
-            updatedFormData[inputName] = text;
-            return {
-                formData: updatedFormData,
-            };
-        });
+    const removeImageHandler = () => {
+        setProfilePicture(null);
     };
 
     /**
      * Submits the profile form
-     * @function
      * @param {object} event - The event that called this function
      */
-    submitHandler = (event) => {
+    const submitHandler = (event) => {
         // Prevents a page reload
         event.preventDefault();
 
-        if (this.props.isAuthenticated) {
+        if (isAuthenticated) {
             // Uploads the form data
-            this.uploadData()
+            uploadData()
                 .then(() => {
                     // Profile stage is done
-                    this.props.showWelcomePage(true);
-                    this.props.setLoading(false);
-                    this.props.done(authStages.PROFILE);
+                    dispatch(showWelcomePage(true));
+                    setLoading(false);
+                    done(authStages.PROFILE);
                 })
                 .catch((error) => {
                     authError(
@@ -142,12 +123,8 @@ class ProfileCard extends Component {
                         error.message,
                         "[ProfileCard/submitHandler]"
                     );
-                    this.props.setLoading(false);
-                    this.props.showAlert(
-                        alertBarTypes.ERROR,
-                        "Error",
-                        error.message
-                    );
+                    setLoading(false);
+                    showAlert(alertBarTypes.ERROR, "Error", error.message);
                 });
         } else {
             authError(
@@ -161,33 +138,29 @@ class ProfileCard extends Component {
     /**
      * Uploads the profile picture to Firebase storage
      * Sends the user's first name and last name to the AWS server
-     * @function
      * @returns {promise} A promise that is waiting for the user data to upload
      */
-    uploadData = async () => {
-        this.props.setLoading(true);
+    const uploadData = async () => {
+        setLoading(true);
 
         try {
             // Uploads the profile picture if it exists (profile picture is not required)
-            const profilePicture = this.state.formData.profilePicture;
             if (profilePicture) {
-                await this.uploadProfilePicture();
+                await uploadProfilePicture();
             }
 
             // Creates a user data object that will be sent to the server
-            const userData = { ...this.state.formData };
-            if (userData.profilePicture) {
-                userData.hasPicture = true;
-            } else {
-                userData.hasPicture = false;
-            }
-            delete userData.profilePicture;
+            const userData = {
+                firstName,
+                lastName,
+                hasPicture: profilePicture ? true : false,
+            };
 
             // Sends the user data to the AWS server
             await addUser(userData);
 
             // Gets the user data back from the server
-            this.props.updateUserInfo();
+            dispatch(getUserInfo());
         } catch (error) {
             // Throws a new error if the picture upload fails or the AWS upload fails
             const newError = new Error();
@@ -206,26 +179,20 @@ class ProfileCard extends Component {
 
     /**
      * Uploads the profile picture in the form to Firebase storage
-     * @function
      * @returns {promise} A promise that is waiting for the user's profile picture to upload
      */
-    uploadProfilePicture = () => {
+    const uploadProfilePicture = () => {
         const userUid = firebase.auth().currentUser.uid;
         const path = `users/${userUid}/profile_picture`;
-        return firebase
-            .storage()
-            .ref()
-            .child(path)
-            .put(this.state.formData.profilePicture);
+        return firebase.storage().ref().child(path).put(profilePicture);
     };
 
     /**
      * Gets the image input element
-     * @function
      * @returns The image input element (JSX)
      */
-    getImageInputElement = () => {
-        return this.state.formData.profilePicture ? (
+    const getImageInputElement = () => {
+        return profilePicture ? (
             <Fragment>
                 {/* Image container */}
                 <section
@@ -235,14 +202,12 @@ class ProfileCard extends Component {
                 >
                     {/* Image preview */}
                     <img
-                        src={URL.createObjectURL(
-                            this.state.formData.profilePicture
-                        )}
+                        src={URL.createObjectURL(profilePicture)}
                         className={
                             profileCardStyles.profileCardFormImageInputPreviewImage
                         }
                         alt="User Avatar"
-                        onError={this.imageInputErrorHandler}
+                        onError={imageInputErrorHandler}
                     />
 
                     {/* Remove image button */}
@@ -251,7 +216,7 @@ class ProfileCard extends Component {
                             profileCardStyles.profileCardFormImageInputPreviewRemoveButton
                         }
                         type="button"
-                        onClick={this.removeImageHandler}
+                        onClick={removeImageHandler}
                     >
                         <img
                             className={
@@ -267,8 +232,8 @@ class ProfileCard extends Component {
                 <ImageInput
                     inputName="profilePictureInput"
                     buttonTitle={"Select a profile picture"}
-                    onChange={this.imageInputValueChangedHandler}
-                    file={this.state.formData.profilePicture}
+                    onChange={imageInputValueChangedHandler}
+                    file={profilePicture}
                     isRequired={false}
                 />
             </Fragment>
@@ -285,7 +250,7 @@ class ProfileCard extends Component {
                 <ImageInput
                     inputName="profilePictureInput"
                     buttonTitle={"Select a profile picture"}
-                    onChange={this.imageInputValueChangedHandler}
+                    onChange={imageInputValueChangedHandler}
                     isRequired={false}
                 />
             </Fragment>
@@ -295,87 +260,74 @@ class ProfileCard extends Component {
     /**
      * Renders the ProfileCard component
      */
-    render() {
-        // If there is an image to show, display it in an image tag, along with a remove button
-        // Otherwise, show a placeholder div
+    // If there is an image to show, display it in an image tag, along with a remove button
+    // Otherwise, show a placeholder div
 
-        // Returns the JSX to display
-        return (
-            <section className={authCardStyles.authCard}>
-                {/* Heading */}
-                <h3 className={authCardStyles.authCardHeading}>Your Profile</h3>
+    // Returns the JSX to display
+    return (
+        <section className={authCardStyles.authCard}>
+            {/* Heading */}
+            <h3 className={authCardStyles.authCardHeading}>Your Profile</h3>
 
-                {/* Profile form */}
-                <form
-                    className={authCardStyles.authCardForm}
-                    onSubmit={this.submitHandler}
+            {/* Profile form */}
+            <form
+                className={authCardStyles.authCardForm}
+                onSubmit={submitHandler}
+            >
+                {/* Profile image input */}
+                <div className={profileCardStyles.profileCardFormImageInput}>
+                    {getImageInputElement()}
+                </div>
+
+                {/* Text inputs */}
+                <section
+                    className={profileCardStyles.profileCardFormTextInputs}
                 >
-                    {/* Profile image input */}
-                    <div
-                        className={profileCardStyles.profileCardFormImageInput}
-                    >
-                        {this.getImageInputElement()}
-                    </div>
-
-                    {/* Text inputs */}
-                    <section
-                        className={profileCardStyles.profileCardFormTextInputs}
-                    >
-                        {/* First name input */}
-                        <div
-                            className={
-                                profileCardStyles.profileCardFormTextInput
+                    {/* First name input */}
+                    <div className={profileCardStyles.profileCardFormTextInput}>
+                        <LargeTextInput
+                            inputType={textInputTypes.TEXT}
+                            inputName="firstName"
+                            labelText="First Name"
+                            value={firstName}
+                            isRequired={true}
+                            onChange={(event) =>
+                                setFirstName(event.target.value)
                             }
-                        >
-                            <LargeTextInput
-                                inputType={textInputTypes.TEXT}
-                                inputName="firstName"
-                                labelText="First Name"
-                                value={this.state.formData.firstName}
-                                isRequired={true}
-                                onChange={this.textInputValueChangedHandler}
-                            />
-                        </div>
-
-                        {/* Last name input */}
-                        <div
-                            className={
-                                profileCardStyles.profileCardFormTextInput
-                            }
-                        >
-                            <LargeTextInput
-                                inputType={textInputTypes.TEXT}
-                                inputName="lastName"
-                                labelText="Last Name"
-                                value={this.state.formData.lastName}
-                                isRequired={true}
-                                onChange={this.textInputValueChangedHandler}
-                            />
-                        </div>
-                    </section>
-
-                    {/* Submit button */}
-                    <div className={authCardStyles.authCardFormSubmitButton}>
-                        <RectangularButton
-                            type="submit"
-                            value="submit"
-                            title="Next"
-                            backgroundColor="green"
                         />
                     </div>
-                </form>
-            </section>
-        );
-    }
-}
+
+                    {/* Last name input */}
+                    <div className={profileCardStyles.profileCardFormTextInput}>
+                        <LargeTextInput
+                            inputType={textInputTypes.TEXT}
+                            inputName="lastName"
+                            labelText="Last Name"
+                            value={lastName}
+                            isRequired={true}
+                            onChange={(event) =>
+                                setLastName(event.target.value)
+                            }
+                        />
+                    </div>
+                </section>
+
+                {/* Submit button */}
+                <div className={authCardStyles.authCardFormSubmitButton}>
+                    <RectangularButton
+                        type="submit"
+                        value="submit"
+                        title="Next"
+                        backgroundColor="green"
+                    />
+                </div>
+            </form>
+        </section>
+    );
+};
 
 // Prop types for the ProfileCard component
 ProfileCard.propTypes = {
-    /**
-     * Indicates if a user is authenticated
-     */
-    isAuthenticated: PropTypes.bool.isRequired,
-
     /**
      * Tells Redux to show/hide the loading HUD (true for show and false for hide (i.e. remove))
      */
@@ -387,47 +339,9 @@ ProfileCard.propTypes = {
     showAlert: PropTypes.func.isRequired,
 
     /**
-     * Tells Redux to get updated user data from the server
-     */
-    updateUserInfo: PropTypes.func.isRequired,
-
-    /**
-     * Tells Redux to show the welcome page
-     */
-    showWelcomePage: PropTypes.func.isRequired,
-
-    /**
      * Tells Redux that this component is no longer needed (i.e. done)
      */
     done: PropTypes.func.isRequired,
 };
 
-/**
- * Gets the current state from Redux and passes parts of it to the ProfileCard component as props.
- * This function is used only by the react-redux connect function.
- * @memberof ProfileCard
- * @param {object} state - The Redux state
- * @returns {object} Redux state properties used in the ProfileCard component
- */
-const mapStateToProps = (state) => {
-    return {
-        isAuthenticated: state.auth.isAuthenticated,
-    };
-};
-
-/**
- * Passes certain Redux actions to the ProfileCard component as props.
- * This function is used only by the react-redux connect function.
- * @memberof ProfileCard
- * @param {function} dispatch - The react-redux dispatch function
- * @returns {object} Redux actions used in the ProfileCard component
- */
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateUserInfo: () => dispatch(getUserInfo()),
-        showWelcomePage: (isAuthFlowComplete) =>
-            dispatch(showWelcomePage(isAuthFlowComplete)),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileCard);
+export default ProfileCard;
