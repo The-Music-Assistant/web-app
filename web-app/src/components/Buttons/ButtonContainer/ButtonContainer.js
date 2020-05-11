@@ -12,7 +12,7 @@ import * as buttonTypes from "../buttonTypes";
  * @category Buttons
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ButtonContainer = ({className, type, value, onClick, children}) => {
+const ButtonContainer = ({ className, type, value, onClick, children }) => {
     // Returns the JSX to render
     return (
         // Class name(s) come from props
@@ -57,7 +57,7 @@ ButtonContainer.propTypes = {
      * This component is used to compose HTML buttons.
      * @see https://reactjs.org/docs/react-api.html#reactchildren
      */
-    children: PropTypes.array.isRequired,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.any]).isRequired,
 };
 
 export default ButtonContainer;
