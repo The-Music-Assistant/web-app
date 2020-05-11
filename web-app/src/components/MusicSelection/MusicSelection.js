@@ -1,8 +1,8 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import shortid from "shortid";
 
 // Component imports
@@ -11,13 +11,10 @@ import MusicCard from "./MusicCard/MusicCard";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
 // File imports
-import { getSheetMusic, doesUserGetFeedback } from "../../vendors/AWS/tmaApi";
+import { getSheetMusic } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { musicSelectionError } from "../../vendors/Firebase/logs";
-import {
-    musicSelectedForPractice,
-    setUserGetsFeedback,
-} from "../../store/actions/index";
+import { musicSelectedForPractice } from "../../store/actions/index";
 import * as cardColorOptions from "./MusicCard/musicCardColorOptions";
 
 // Style imports
@@ -25,21 +22,22 @@ import styles from "./MusicSelection.module.scss";
 
 /**
  * Renders the MusicSelection component
- * @extends {Component}
  * @component
  * @category MusicSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class MusicSelection extends Component {
+const MusicSelection = ({ showAlert }) => {
     /**
-     * MusicSelection component state
-     * @property {boolean} isLoading - Indicates if the component is in a loading state
-     * @property {array} musicList - An array of sheet music associated with the selected choir
+     * Indicates if the component is in a loading state
+     * {[isLoading, setIsLoading]: [boolean, function]}
      */
-    state = {
-        isLoading: true,
-        musicList: null,
-    };
+    const [isLoading, setIsLoading] = useState(true);
+
+    /**
+     * An array of sheet music associated with the selected choir
+     * {[musicList, setMusicList]: [array, function]}
+     */
+    const [musicList, setMusicList] = useState([]);
 
     /**
      * Indicates if the component is mounted.
@@ -47,48 +45,64 @@ class MusicSelection extends Component {
      * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
      * @type {boolean}
      */
-    _isMounted = false;
+    let isMounted = useRef(false);
 
     /**
-     * Sets _isMounted to true
-     * Gets the list of music
+     * react-redux dispatch function
+     * @type {function}
      */
-    componentDidMount() {
-        this._isMounted = true;
-        this.getMusicList();
-    }
+    const dispatch = useDispatch();
 
     /**
-     * Sets _isMounted to false
+     * The id of the selected choir
      */
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
+    const choirId = useSelector((state) => state.practice.selectedChoirId);
+
+    /**
+     * The name of the selected choir
+     */
+    const choirName = useSelector((state) => state.practice.selectedChoirName);
+
+    /**
+     * Indicates if the browser is a mobile browser
+     */
+    const isMobileBrowser = useSelector((state) => state.app.isMobileBrowser);
+
+    /**
+     * Indicates if the user gets feedback
+     */
+    const doesUserGetFeedback = useSelector(
+        (state) => state.practice.doesUserGetFeedback
+    );
+
+    /**
+     * react-router-dom history
+     * @type {object}
+     */
+    const history = useHistory();
+
+    /**
+     * react-router-dom route match
+     * @type {object}
+     */
+    const match = useRouteMatch();
 
     /**
      * Gets the list of music associated with the selected choir.
      * Updates state with the music list.
-     * @function
      */
-    getMusicList = () => {
+    const getMusicList = useCallback(() => {
         // Starts loading
-        if (this._isMounted) this.setState({ isLoading: true });
+        if (isMounted.current) setIsLoading(true);
 
         // Gets the list of music
-        getSheetMusic({ choirId: this.props.choirId })
+        getSheetMusic({ choirId: choirId })
             .then((snapshot) => {
                 // Updates state with the music list
-                if (this._isMounted)
-                    this.setState({
-                        musicList: snapshot.data.sheet_music,
-                    });
+                if (isMounted.current) setMusicList(snapshot.data.sheet_music);
             })
-            .then(
-                doesUserGetFeedback.bind(this, { choirId: this.props.choirId })
-            )
-            .then((snapshot) => {
-                this.props.setUserGetsFeedback(snapshot.data.gets_feedback);
-                if (this._isMounted) this.setState({ isLoading: false });
+            .then(() => {
+                if (isMounted.current) setIsLoading(false);
             })
             .catch((error) => {
                 // Logs an error
@@ -99,34 +113,41 @@ class MusicSelection extends Component {
                 );
 
                 // Shows an error alert
-                this.props.showAlert(
-                    alertBarTypes.ERROR,
-                    "Error",
-                    error.response.data
-                );
+                showAlert(alertBarTypes.ERROR, "Error", error.response.data);
 
                 // Updates state
-                if (this._isMounted) this.setState({ isLoading: false });
+                if (isMounted.current) setIsLoading(false);
             });
-    };
+    }, [choirId, showAlert]);
+
+    /**
+     * Sets isMounted to true
+     * Gets the list of music
+     * @returns {function} A cleanup function that sets isMounted to false
+     */
+    useEffect(() => {
+        isMounted.current = true;
+        getMusicList();
+
+        return () => {
+            isMounted.current = false;
+        };
+    }, [getMusicList]);
 
     /**
      * If the browser is not a mobile browser,
      * (1) Updates Redux with the selected piece of music, and
      * (2) Routes to the practice music page
      * @param {string} id - The id of the selected piece of music
-     * @function
      */
-    viewSongClickedHandler = (id) => {
-        if (this.props.isMobileBrowser) {
+    const viewSongClickedHandler = (id) => {
+        if (isMobileBrowser) {
             // Shows an alert
-            this.showMobileBrowserAlert();
+            showMobileBrowserAlert();
         } else {
             // Updates Redux and routes to the correct page
-            this.props.musicSelected(id);
-            this.props.history.push(
-                `${this.props.match.url}/music/${id}/practice`
-            );
+            dispatch(musicSelectedForPractice(id));
+            history.push(`${match.url}/music/${id}/practice`);
         }
     };
 
@@ -135,27 +156,23 @@ class MusicSelection extends Component {
      * (1) Updates Redux with the selected piece of music, and
      * (2) Routes to the music performance page
      * @param {string} id - The id of the selected piece of music
-     * @function
      */
-    viewPerformanceClickedHandler = (id) => {
-        if (this.props.isMobileBrowser) {
+    const viewPerformanceClickedHandler = (id) => {
+        if (isMobileBrowser) {
             // Shows an alert
-            this.showMobileBrowserAlert();
+            showMobileBrowserAlert();
         } else {
             // Updates Redux and routes to the correct page
-            this.props.musicSelected(id);
-            this.props.history.push(
-                `${this.props.match.url}/music/${id}/performance`
-            );
+            dispatch(musicSelectedForPractice(id));
+            history.push(`${match.url}/music/${id}/performance`);
         }
     };
 
     /**
      * Shows an alert indicating that the user cannot access the selected page on a mobile browser
-     * @function
      */
-    showMobileBrowserAlert = () => {
-        this.props.showAlert(
+    const showMobileBrowserAlert = () => {
+        showAlert(
             alertBarTypes.WARNING,
             "We're Sorry",
             "You can't view or play music on this mobile device due to processing limitations"
@@ -164,10 +181,9 @@ class MusicSelection extends Component {
 
     /**
      * Gets an array of MusicCard components
-     * @function
      * @returns {array} An array of MusicCard components
      */
-    getMusicCards = () => {
+    const getMusicCards = () => {
         // An array of color options
         const colorOptions = Object.values(cardColorOptions);
 
@@ -175,7 +191,7 @@ class MusicSelection extends Component {
         let colorIndex = -1;
 
         // Returns an array of MusicCard components
-        return this.state.musicList.map((musicPiece) => {
+        return musicList.map((musicPiece) => {
             // Gets the next color
             colorIndex++;
 
@@ -193,16 +209,12 @@ class MusicSelection extends Component {
                     composers={musicPiece.composer_names}
                     cardColor={colorOptions[colorIndex]}
                     onViewSongClick={() =>
-                        this.viewSongClickedHandler(musicPiece.sheet_music_id)
+                        viewSongClickedHandler(musicPiece.sheet_music_id)
                     }
                     onViewPerformanceClick={() =>
-                        this.viewPerformanceClickedHandler(
-                            musicPiece.sheet_music_id
-                        )
+                        viewPerformanceClickedHandler(musicPiece.sheet_music_id)
                     }
-                    shouldShowViewPerformancesButton={
-                        this.props.doesUserGetFeedback
-                    }
+                    shouldShowViewPerformancesButton={doesUserGetFeedback}
                 />
             );
         });
@@ -211,122 +223,43 @@ class MusicSelection extends Component {
     /**
      * Renders the MusicSelection component
      */
-    render() {
-        // The component to display (loading component or cards component)
-        let loadingOrCardsComponent;
+    // The component to display (loading component or cards component)
+    let loadingOrCardsComponent;
 
-        if (this.state.isLoading) {
-            // Display a loading spinner
-            loadingOrCardsComponent = (
-                <LoadingContainer message="Loading music..." />
-            );
-        } else {
-            // Display the music cards
-            loadingOrCardsComponent = (
-                <div className={styles.musicSelectionCards}>
-                    {this.getMusicCards()}
-                </div>
-            );
-        }
-
-        // Returns the JSX to render
-        return (
-            <main className={styles.musicSelection}>
-                {/* Page header */}
-                <PageHeader
-                    heading={`${this.props.choirName} - Music`}
-                    shouldDisplayBackButton={true}
-                    backButtonTitle={"Choir Selection"}
-                />
-
-                {/* Main component */}
-                {loadingOrCardsComponent}
-            </main>
+    if (isLoading) {
+        // Display a loading spinner
+        loadingOrCardsComponent = (
+            <LoadingContainer message="Loading music..." />
+        );
+    } else {
+        // Display the music cards
+        loadingOrCardsComponent = (
+            <div className={styles.musicSelectionCards}>{getMusicCards()}</div>
         );
     }
-}
+
+    // Returns the JSX to render
+    return (
+        <main className={styles.musicSelection}>
+            {/* Page header */}
+            <PageHeader
+                heading={`${choirName} - Music`}
+                shouldDisplayBackButton={true}
+                backButtonTitle={"Choir Selection"}
+            />
+
+            {/* Main component */}
+            {loadingOrCardsComponent}
+        </main>
+    );
+};
 
 // Prop types for the MusicSelection component
 MusicSelection.propTypes = {
     /**
-     * The id of the selected choir
-     */
-    choirId: PropTypes.string.isRequired,
-
-    /**
-     * The name of the selected choir
-     */
-    choirName: PropTypes.string.isRequired,
-
-    /**
-     * Indicates if the browser is a mobile browser
-     */
-    isMobileBrowser: PropTypes.bool.isRequired,
-
-    /**
-     * React Router history object.
-     * This is provided by the withRouter function.
-     */
-    history: PropTypes.object.isRequired,
-
-    /**
-     * Indicates if the user gets feedback
-     */
-    doesUserGetFeedback: PropTypes.bool,
-
-    /**
-     * React Router match object.
-     * This is provided by the withRouter function.
-     */
-    match: PropTypes.object.isRequired,
-
-    /**
      * Shows an alert
      */
     showAlert: PropTypes.func.isRequired,
-
-    /**
-     * Updates Redux with music data
-     */
-    musicSelected: PropTypes.func.isRequired,
-
-    /**
-     * Sets if the user gets feedback
-     */
-    setUserGetsFeedback: PropTypes.func.isRequired,
 };
 
-/**
- * Gets the current state from Redux and passes parts of it to the MusicSelection component as props.
- * This function is used only by the react-redux connect function.
- * @memberof MusicSelection
- * @param {object} state - The Redux state
- * @returns {object} Redux state properties used in the MusicSelection component
- */
-const mapStateToProps = (state) => {
-    return {
-        choirId: state.practice.selectedChoirId,
-        choirName: state.practice.selectedChoirName,
-        isMobileBrowser: state.app.isMobileBrowser,
-        doesUserGetFeedback: state.practice.doesUserGetFeedback,
-    };
-};
-
-/**
- * Passes certain Redux actions to the MusicSelection component as props.
- * This function is used only by the react-redux connect function.
- * @memberof MusicSelection
- * @param {function} dispatch - The react-redux dispatch function
- * @returns {object} Redux actions used in the MusicSelection component
- */
-const mapDispatchToProps = (dispatch) => {
-    return {
-        musicSelected: (id) => dispatch(musicSelectedForPractice(id)),
-        setUserGetsFeedback: (doesUserGetFeedback) =>
-            dispatch(setUserGetsFeedback(doesUserGetFeedback)),
-    };
-};
-
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(MusicSelection)
-);
+export default MusicSelection;

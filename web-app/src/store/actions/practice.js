@@ -102,10 +102,10 @@ export const exerciseGenerated = () => {
  * @function
  * @returns {module:reduxPracticeTabActions~SetUserGetsFeedbackReturnObject}
  */
-export const setUserGetsFeedback = (doesUserGetFeedback) => {
-    return {
-        type: doesUserGetFeedback
-            ? actionTypes.USER_GETS_FEEDBACK
-            : actionTypes.USER_DOES_NOT_GET_FEEDBACK,
-    };
-};
+// export const setUserGetsFeedback = (doesUserGetFeedback) => {
+//     return {
+//         type: doesUserGetFeedback
+//             ? actionTypes.USER_GETS_FEEDBACK
+//             : actionTypes.USER_DOES_NOT_GET_FEEDBACK,
+//     };
+// };

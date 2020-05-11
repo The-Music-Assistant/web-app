@@ -252,9 +252,9 @@ const Primary = () => {
      * @param {string} - The alert heading
      * @param {string} - The alert message
      */
-    const showAlertHandler = (type, heading, message) => {
+    const showAlertHandler = useCallback((type, heading, message) => {
         setAlertData({ type, heading, message });
-    };
+    }, []);
 
     /**
      * Sets alertData in state to null in state when the alert disappears

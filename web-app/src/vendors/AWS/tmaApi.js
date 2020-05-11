@@ -214,13 +214,13 @@ export const getPendingMembers = (data) => {
  * @param {string} data.sheetMusicId - The id of the sheet music the user is singing
  * @returns {Promise<module:tmaApi~GetsFeedback|module:tmaApi~ServerError>} - A promise containing whether the user gets feedback or an error
  */
-export const doesUserGetFeedback = (data) => {
-    return axios.request({
-        method: "GET",
-        url: `/member/gets-feedback`,
-        params: data,
-    });
-};
+// export const doesUserGetFeedback = (data) => {
+//     return axios.request({
+//         method: "GET",
+//         url: `/member/gets-feedback`,
+//         params: data,
+//     });
+// };
 
 /**
  * Adds the user as a pending member of the given choir
