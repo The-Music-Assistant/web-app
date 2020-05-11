@@ -19,16 +19,16 @@ import colorStyles from "./TextButtonColors.module.scss";
  * @category Buttons
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const TextButton = (props) => {
+const TextButton = ({ type, value, text, textColor, onClick }) => {
     // Returns the JSX to render
     return (
         <ButtonContainer
-            className={`${styles.textButton} ${colorStyles[props.textColor]}`}
-            type={props.type}
-            value={props.value}
-            onClick={props.onClick}
+            className={`${styles.textButton} ${colorStyles[textColor]}`}
+            type={type}
+            value={value}
+            onClick={onClick}
         >
-            {props.text}
+            {text}
         </ButtonContainer>
     );
 };
