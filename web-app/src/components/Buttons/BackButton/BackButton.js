@@ -1,7 +1,7 @@
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // Component imports
 import ButtonContainer from "../ButtonContainer/ButtonContainer";
@@ -22,12 +22,18 @@ import styles from "./BackButton.module.scss";
  * @category Buttons
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const BackButton = (props) => {
+const BackButton = ({ value, title }) => {
+    /**
+     * react-router-dom history
+     * @type {object}
+     */
+    const history = useHistory();
+
     /**
      * Tells React Router to go back one page
      */
     const buttonClickedHandler = () => {
-        props.history.goBack();
+        history.goBack();
     };
 
     // Returns the JSX to render
@@ -35,7 +41,7 @@ const BackButton = (props) => {
         <ButtonContainer
             className={styles.backButton}
             type={buttonTypes.BUTTON}
-            value={props.value}
+            value={value}
             onClick={buttonClickedHandler}
         >
             {/* Back button arrow */}
@@ -46,7 +52,7 @@ const BackButton = (props) => {
             />
 
             {/* Back button title */}
-            <span className={styles.backButtonTitle}>{props.title}</span>
+            <span className={styles.backButtonTitle}>{title}</span>
         </ButtonContainer>
     );
 };
@@ -62,12 +68,6 @@ BackButton.propTypes = {
      * The title of the button
      */
     title: PropTypes.string.isRequired,
-
-    /**
-     * React Router history object.
-     * This is provided by the withRouter function.
-     */
-    history: PropTypes.object.isRequired,
 };
 
-export default withRouter(BackButton);
+export default BackButton;
