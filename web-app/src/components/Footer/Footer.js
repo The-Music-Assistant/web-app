@@ -11,17 +11,17 @@ import styles from "./Footer.module.scss";
  * @category Footer
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const Footer = (props) => {
+const Footer = ({copyrightYear, versionNumber}) => {
     return (
         <footer className={styles.footer}>
             {/* Copyright */}
             <small className={styles.footerText}>
-                &copy; {props.copyrightYear} The Music Assistant
+                &copy; {copyrightYear} The Music Assistant
             </small>
 
             {/* Version number */}
             <small className={styles.footerText}>
-                Version {props.versionNumber}
+                Version {versionNumber}
             </small>
         </footer>
     );
