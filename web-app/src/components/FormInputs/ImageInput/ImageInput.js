@@ -12,25 +12,25 @@ import styles from "./ImageInput.module.scss";
  * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ImageInput = (props) => {
+const ImageInput = ({ inputName, buttonTitle, file, isRequired, onChange }) => {
     return (
         <Fragment>
             {/* File input */}
             {/* NOTE: The input element is hidden (only the label is displayed) */}
             <input
-                id={props.inputName}
+                id={inputName}
                 type="file"
-                name={props.inputName}
+                name={inputName}
                 accept="image/*"
                 hidden
-                onChange={props.onChange}
-                files={props.file}
-                required={props.isRequired}
+                onChange={onChange}
+                files={file}
+                required={isRequired}
             />
 
             {/* File input label */}
-            <label className={styles.imageInputLabel} htmlFor={props.inputName}>
-                {props.buttonTitle}
+            <label className={styles.imageInputLabel} htmlFor={inputName}>
+                {buttonTitle}
             </label>
         </Fragment>
     );
