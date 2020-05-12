@@ -17,14 +17,12 @@ import { updateObject } from "../utility";
  * @property {object} exercise - The requested exercise (if one exists)
  * @property {string} exercise.startMeasure - The start measure
  * @property {string} exercise.endMeasure - The end measure
- * @property {string} doesUserGetFeedback - Indicates if the user gets feedback
  */
 const initialState = {
     selectedChoirId: null,
     selectedChoirName: null,
     selectedSheetMusicId: null,
     exercise: null,
-    doesUserGetFeedback: null,
 };
 
 /**
@@ -52,10 +50,6 @@ const practiceReducer = (state = initialState, action) => {
             });
         case actionTypes.EXERCISE_GENERATED:
             return state;
-        case actionTypes.USER_GETS_FEEDBACK:
-            return updateObject(state, { doesUserGetFeedback: true });
-        case actionTypes.USER_DOES_NOT_GET_FEEDBACK:
-            return updateObject(state, { doesUserGetFeedback: false });
         default:
             return state;
     }

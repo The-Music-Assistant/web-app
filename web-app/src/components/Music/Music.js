@@ -88,19 +88,10 @@ class Music extends Component {
         this._isMounted = true;
 
         initializeAlphaTabApi();
-        alphaTabVars.getsFeedback = this.props.doesUserGetFeedback;
         alphaTabVars.api.addPostRenderFinished(this.alphaTabDidRender);
 
-        if (this.props.doesUserGetFeedback) {
-            this.initializePitchDetection();
-        } else {
-            if (this._isMounted) {
-                this.setState({
-                    isPitchDetectionLoading: false,
-                    isMicrophoneAvailable: false,
-                });
-            }
-        }
+        this.initializePitchDetection();
+
         this.prepareMusic();
     }
 
@@ -393,7 +384,6 @@ class Music extends Component {
                                 musicViewOptions.PERFORMANCE
                             )
                         }
-                        doesUserGetFeedback={this.props.doesUserGetFeedback}
                     />
                 </Route>
 
@@ -422,7 +412,6 @@ class Music extends Component {
                                 musicViewOptions.PERFORMANCE
                             )
                         }
-                        doesUserGetFeedback={true}
                     />
                 </Route>
             </Switch>
@@ -437,14 +426,9 @@ class Music extends Component {
     getPageHeading = () => {
         switch (this.state.currentView) {
             case musicViewOptions.PRACTICE:
-                if (this.props.doesUserGetFeedback) {
-                    return this.state.isMicrophoneAvailable
-                        ? "Practice"
-                        : "Playback - No Microphone Available";
-                } else {
-                    return "Practice - No Feedback";
-                }
-
+                return this.state.isMicrophoneAvailable
+                    ? "Practice"
+                    : "Playback - No Microphone Available";
             case musicViewOptions.PERFORMANCE:
                 return "Performance";
             case musicViewOptions.EXERCISE:
@@ -462,11 +446,6 @@ class Music extends Component {
      * See the vendors folder for the P5 (sketch) code and the AlphaTab code
      */
     render() {
-        console.log(
-            this.state.isAlphaTabLoading,
-            this.state.isPitchDetectionLoading,
-            this.state.isDataLoading
-        );
         // Combines loading states into one isLoading boolean
         const isLoading =
             this.state.isAlphaTabLoading ||
@@ -531,11 +510,6 @@ Music.propTypes = {
     match: PropTypes.object.isRequired,
 
     /**
-     * Indicates if the user gets feedback
-     */
-    doesUserGetFeedback: PropTypes.bool.isRequired,
-
-    /**
      * The requested exercise measures (if an exercise was requested)
      */
     exercise: PropTypes.shape({
@@ -564,7 +538,6 @@ Music.propTypes = {
 const mapStateToProps = (state) => {
     return {
         exercise: state.practice.exercise,
-        doesUserGetFeedback: state.practice.doesUserGetFeedback,
     };
 };
 

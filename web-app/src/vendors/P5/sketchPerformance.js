@@ -101,7 +101,7 @@ const p5PerformanceSketch = (p) => {
      * TODO: Handle sheet music scale
      */
     p.draw = function () {
-        if (!atVars.getsFeedback || !drawer) {
+        if (!drawer) {
             return;
         }
 

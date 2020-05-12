@@ -90,14 +90,6 @@ export const EXERCISE_REQUESTED = "EXERCISE_REQUESTED";
  * @type {string}
  */
 export const EXERCISE_GENERATED = "EXERCISE_GENERATED";
-/**
- * @type {string}
- */
-export const USER_GETS_FEEDBACK = "USER_GETS_FEEDBACK";
-/**
- * @type {string}
- */
-export const USER_DOES_NOT_GET_FEEDBACK = "USER_DOES_NOT_GET_FEEDBACK";
 
 // --------------- Choirs action types ---------------
 /**

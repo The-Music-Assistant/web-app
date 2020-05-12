@@ -202,27 +202,6 @@ export const getPendingMembers = (data) => {
 };
 
 /**
- * @typedef {object} GetsFeedback
- * @property {object} data - Response data
- * @property {boolean} gets_feedback Indicates if the user gets feedback (i.e. real-time feedback and performance data)
- */
-
-/**
- * Gets if the user recieves feedback
- * @function
- * @param {Object} data - Sheet music data
- * @param {string} data.sheetMusicId - The id of the sheet music the user is singing
- * @returns {Promise<module:tmaApi~GetsFeedback|module:tmaApi~ServerError>} - A promise containing whether the user gets feedback or an error
- */
-// export const doesUserGetFeedback = (data) => {
-//     return axios.request({
-//         method: "GET",
-//         url: `/member/gets-feedback`,
-//         params: data,
-//     });
-// };
-
-/**
  * Adds the user as a pending member of the given choir
  * @function
  * @param {object} data - Member and choir data
@@ -388,7 +367,7 @@ export const closeRunningPerformance = (data) => {
  * @param {string} data.memberRole
  * @returns {Promise<null|module:tmaApi~ServerError>} - A promise containing nothing on success or an error
  */
-export const constUpdateMember = (data) => {
+export const updateMember = (data) => {
     return axios.put("/member/update", data);
 };
 

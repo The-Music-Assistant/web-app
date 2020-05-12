@@ -90,22 +90,3 @@ export const exerciseGenerated = () => {
         type: actionTypes.EXERCISE_GENERATED,
     };
 };
-
-/**
- * Return object for the setUserGetsFeedback function
- * @typedef SetUserGetsFeedbackReturnObject
- * @property {module:reduxActionTypes} type - An action type
- */
-
-/**
- * Indicates that the exercise has been generated
- * @function
- * @returns {module:reduxPracticeTabActions~SetUserGetsFeedbackReturnObject}
- */
-// export const setUserGetsFeedback = (doesUserGetFeedback) => {
-//     return {
-//         type: doesUserGetFeedback
-//             ? actionTypes.USER_GETS_FEEDBACK
-//             : actionTypes.USER_DOES_NOT_GET_FEEDBACK,
-//     };
-// };

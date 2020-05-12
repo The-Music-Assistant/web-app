@@ -70,11 +70,6 @@ class AlphaTabVariables {
     playerState;
 
     /**
-     * Boolean indicating whether or not the user gets feedback
-     */
-    getsFeedback;
-
-    /**
      * Number holding the length of the current sheet music (used for re-rendering in the performance overview page vs the exercise or sheet music view)
      */
     sheetMusicLength;
@@ -100,7 +95,6 @@ class AlphaTabVariables {
         this.drawer = null;
         this.noteList = null;
         this.playerState = 0;
-        this.getsFeedback = false;
         this.sheetMusicLength = null;
         this.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
     };

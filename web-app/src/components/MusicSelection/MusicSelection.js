@@ -69,13 +69,6 @@ const MusicSelection = ({ showAlert }) => {
     const isMobileBrowser = useSelector((state) => state.app.isMobileBrowser);
 
     /**
-     * Indicates if the user gets feedback
-     */
-    const doesUserGetFeedback = useSelector(
-        (state) => state.practice.doesUserGetFeedback
-    );
-
-    /**
      * react-router-dom history
      * @type {object}
      */
@@ -214,7 +207,6 @@ const MusicSelection = ({ showAlert }) => {
                     onViewPerformanceClick={() =>
                         viewPerformanceClickedHandler(musicPiece.sheet_music_id)
                     }
-                    shouldShowViewPerformancesButton={doesUserGetFeedback}
                 />
             );
         });

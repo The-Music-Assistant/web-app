@@ -1,5 +1,5 @@
 // NPM module imports
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -34,25 +34,46 @@ const App = () => {
      * Indicates whether app startup is done
      * @type {boolean}
      */
-    const isStartupDone = useSelector(state => state.startup.isDone);
+    const isStartupDone = useSelector((state) => state.startup.isDone);
 
     /**
      * Indicates whether there exists an authenticated user
      * @type {boolean}
      */
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     /**
      * Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)
      * @type {boolean}
      */
-    const isAuthFlowComplete = useSelector(state => state.auth.isAuthFlowComplete);
+    const isAuthFlowComplete = useSelector(
+        (state) => state.auth.isAuthFlowComplete
+    );
 
     /**
      * Indicates whether this component should display the Welcome component
      * @type {boolean}
      */
-    const shouldShowWelcomePage = useSelector(state => state.auth.shouldShowWelcomePage);
+    const shouldShowWelcomePage = useSelector(
+        (state) => state.auth.shouldShowWelcomePage
+    );
+
+    // useEffect(() => {
+    //     addSheetMusic({
+    //         choidId: "66bcd6b6-93c0-11ea-91c1-fceba36d3ada",
+    //         encoding: `\\title "Demo"
+    //         \\tempo 72
+    //         .
+    //         \\track "Demo Track"
+    //         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks C
+    //         \\ts 4 4 c4.4 d4.4 e4.4 f4.4 |
+    //         g4.4 a4.4 b4.4 c5.4 |
+    //         c5.4 b4.4 a4.4 g4.4 |
+    //         f4.4 e4.4 d4.4 c4.4 |`,
+    //         composerNames: "Daniel Griessler",
+    //         lyrics: ""
+    //     });
+    // }, []);
 
     /**
      * Sets the browser type (mobile or not mobile)
@@ -94,10 +115,7 @@ const App = () => {
     const getRedirect = () => {
         if (!isStartupDone) {
             return <Redirect to="/startup" />;
-        } else if (
-            !isAuthenticated ||
-            !isAuthFlowComplete
-        ) {
+        } else if (!isAuthenticated || !isAuthFlowComplete) {
             return <Redirect to="/auth" />;
         } else if (shouldShowWelcomePage) {
             return <Redirect to="/welcome" />;
@@ -118,10 +136,7 @@ const App = () => {
                     <Startup />
                 </Route>
             );
-        } else if (
-            !isAuthenticated ||
-            !isAuthFlowComplete
-        ) {
+        } else if (!isAuthenticated || !isAuthFlowComplete) {
             return (
                 <Route>
                     <Auth />
@@ -156,6 +171,6 @@ const App = () => {
             </div>
         </BrowserRouter>
     );
-}
+};
 
 export default App;

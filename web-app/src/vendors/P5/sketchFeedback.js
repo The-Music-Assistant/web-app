@@ -109,10 +109,6 @@ const p5FeedbackSketch = (p) => {
      * TODO: Handle sheet music scale
      */
     p.draw = function () {
-        if (!atVars.getsFeedback) {
-            return;
-        }
-
         if (atVars && atVars.shouldResetDrawPositions) {
             previousPos[0] = -1;
             previousPos[1] = -1;
@@ -135,7 +131,7 @@ const p5FeedbackSketch = (p) => {
                 alphaTabSurface.clientWidth - previousPos[0],
                 alphaTabSurface.clientHeight
             );
-    
+
             if (previousPos[2] !== -1) {
                 // If there is any confusion in the player then this will help keep the drawing at the right height
                 if (previousPos[0] < previousPos[2]) {
