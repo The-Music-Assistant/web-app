@@ -1,7 +1,6 @@
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 
 // Component imports
 import SideNavLink from "./SideNavLink/SideNavLink";
@@ -20,7 +19,13 @@ import styles from "./SideNav.module.scss";
  * @category SideNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const SideNav = (props) => {
+const SideNav = ({
+    tabs,
+    copyrightYear,
+    versionNumber,
+    onSignOutClick,
+    onNavLinkClick,
+}) => {
     // Returns the JSX to render
     return (
         <section id="side-nav" className={styles.sideNav}>
@@ -35,7 +40,7 @@ const SideNav = (props) => {
 
             {/* Nav links */}
             <nav className={styles.sideNavLinks}>
-                {props.tabs.map((tab) => {
+                {tabs.map((tab) => {
                     let icon;
                     if (tab.isCurrentTab) {
                         icon = tab.blueIcon;
@@ -50,7 +55,7 @@ const SideNav = (props) => {
                             icon={icon}
                             isCurrentTab={tab.isCurrentTab}
                             route={tab.route}
-                            onClick={() => props.onNavLinkClick(tab.key)}
+                            onClick={() => onNavLinkClick(tab.key)}
                         />
                     );
                 })}
@@ -62,16 +67,16 @@ const SideNav = (props) => {
                 <SideNavSignOutButton
                     name="Sign Out"
                     icon={signOutIconWhite}
-                    onClick={props.onSignOutClick}
+                    onClick={onSignOutClick}
                 />
 
                 {/* Copyright and version number */}
                 <small className={styles.sideNavFooterText}>
-                    &copy; {props.copyrightYear}
+                    &copy; {copyrightYear}
                     <br />
                     The Music Assistant
                     <br />
-                    Version {props.versionNumber}
+                    Version {versionNumber}
                 </small>
             </footer>
         </section>
@@ -115,4 +120,4 @@ SideNav.propTypes = {
     onNavLinkClick: PropTypes.func.isRequired,
 };
 
-export default withRouter(SideNav);
+export default SideNav;
