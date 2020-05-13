@@ -14,10 +14,17 @@ import styles from "./LargeTextInput.module.scss";
  * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const LargeTextInput = (props) => {
+const LargeTextInput = ({
+    inputType,
+    inputName,
+    value,
+    labelText,
+    isRequired,
+    onChange,
+}) => {
     // Gets the list of class names for the input element
     let inputClassNames = `${styles.input}`;
-    if (props.value.length > 0) {
+    if (value.length > 0) {
         inputClassNames += ` ${styles.inputValid}`;
     }
 
@@ -27,16 +34,16 @@ const LargeTextInput = (props) => {
             {/* Input element */}
             <input
                 className={inputClassNames}
-                type={props.inputType}
-                name={props.inputName}
-                value={props.value}
-                onChange={props.onChange}
-                required={props.isRequired}
+                type={inputType}
+                name={inputName}
+                value={value}
+                onChange={onChange}
+                required={isRequired}
             />
 
             {/* Input label element */}
-            <label className={styles.label} htmlFor={props.inputName}>
-                <span className={styles.content}>{props.labelText}</span>
+            <label className={styles.label} htmlFor={inputName}>
+                <span className={styles.content}>{labelText}</span>
             </label>
         </div>
     );
