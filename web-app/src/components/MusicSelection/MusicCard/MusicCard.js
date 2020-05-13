@@ -19,15 +19,21 @@ import styles from "./MusicCard.module.scss";
  * @category MusicSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const MusicCard = (props) => {
+const MusicCard = ({
+    title,
+    composers,
+    cardColor,
+    onViewSongClick,
+    onViewPerformanceClick,
+}) => {
     // Returns the JSX to render
     return (
-        <div className={`${styles.musicCard} ${styles[props.cardColor]}`}>
+        <div className={`${styles.musicCard} ${styles[cardColor]}`}>
             {/* Music title */}
-            <h1 className={styles.musicCardName}>{props.title}</h1>
+            <h1 className={styles.musicCardName}>{title}</h1>
 
             {/* Composers */}
-            <h2 className={styles.musicCardComposers}>{props.composers}</h2>
+            <h2 className={styles.musicCardComposers}>{composers}</h2>
 
             {/* Division line */}
             <span className={styles.musicCardDivisionLine}></span>
@@ -40,7 +46,7 @@ const MusicCard = (props) => {
                     type={buttonTypes.BUTTON}
                     value="view-song"
                     title="View Song"
-                    onClick={props.onViewSongClick}
+                    onClick={onViewSongClick}
                 />
 
                 {/* View performance button */}
@@ -49,7 +55,7 @@ const MusicCard = (props) => {
                     type={buttonTypes.BUTTON}
                     value="view-performance"
                     title="View Performance"
-                    onClick={props.onViewPerformanceClick}
+                    onClick={onViewPerformanceClick}
                 />
             </div>
         </div>
