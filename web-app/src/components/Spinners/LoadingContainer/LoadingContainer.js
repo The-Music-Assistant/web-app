@@ -14,7 +14,7 @@ import styles from "./LoadingContainer.module.scss";
  * @category Spinners
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const LoadingContainer = (props) => {
+const LoadingContainer = ({ message }) => {
     // Returns the JSX to render
     return (
         <section className={styles.loadingContainer}>
@@ -22,7 +22,7 @@ const LoadingContainer = (props) => {
             <MetroSpinner size={75} color="#5F9CD1" loading={true} />
 
             {/* Message */}
-            <h1 className={styles.loadingContainerMessage}>{props.message}</h1>
+            <h1 className={styles.loadingContainerMessage}>{message}</h1>
         </section>
     );
 };
