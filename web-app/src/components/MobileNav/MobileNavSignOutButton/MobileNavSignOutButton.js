@@ -11,25 +11,22 @@ import styles from "./MobileNavSignOutButton.module.scss";
  * @category MobileNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const MobileNavSignOutButton = (props) => {
+const MobileNavSignOutButton = ({ name, icon, onClick }) => {
     // Returns the JSX to render
     return (
-        <button
-            className={styles.mobileNavSignOutButton}
-            onClick={props.onClick}
-        >
+        <button className={styles.mobileNavSignOutButton} onClick={onClick}>
             {/* Inner div is used because buttons can't be a grid or flexbox container */}
             <div className={styles.mobileNavSignOutButtonInnerContainer}>
                 {/* Tab icon */}
                 <img
                     className={styles.mobileNavSignOutButtonInnerContainerIcon}
-                    src={props.icon}
-                    alt={props.name + " Icon"}
+                    src={icon}
+                    alt={name + " Icon"}
                 />
 
                 {/* Tab name */}
                 <h3 className={styles.mobileNavSignOutButtonInnerContainerName}>
-                    {props.name}
+                    {name}
                 </h3>
             </div>
         </button>
