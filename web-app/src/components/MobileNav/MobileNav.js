@@ -1,7 +1,6 @@
 // NPM module imports
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 
 // Component imports
 import MobileNavLink from "./MobileNavLink/MobileNavLink";
@@ -19,13 +18,13 @@ import styles from "./MobileNav.module.scss";
  * @category MobileNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const MobileNav = (props) => {
+const MobileNav = ({ show, tabs, onSignOutClick, onNavLinkClick }) => {
     /**
      * Gets the show/hide class name based on the props show property
      * @returns {string} The show/hide class name
      */
     const getShowOrHideClassName = () => {
-        return props.show ? styles.mobileNavShow : styles.mobileNavHide;
+        return show ? styles.mobileNavShow : styles.mobileNavHide;
     };
 
     /**
@@ -33,7 +32,7 @@ const MobileNav = (props) => {
      * @returns MobileNavLink components (JSX)
      */
     const getMobileNavLinks = () => {
-        return props.tabs.map((tab) => {
+        return tabs.map((tab) => {
             return (
                 <MobileNavLink
                     key={tab.key}
@@ -41,7 +40,7 @@ const MobileNav = (props) => {
                     route={tab.route}
                     icon={tab.blueIcon}
                     isCurrentTab={tab.isCurrentTab}
-                    onClick={() => props.onNavLinkClick(tab.key)}
+                    onClick={() => onNavLinkClick(tab.key)}
                 />
             );
         });
@@ -57,7 +56,7 @@ const MobileNav = (props) => {
             <MobileNavSignOutButton
                 name="Sign Out"
                 icon={signOutIconBlue}
-                onClick={props.onSignOutClick}
+                onClick={onSignOutClick}
             />
         </section>
     );
@@ -95,4 +94,4 @@ MobileNav.propTypes = {
     onNavLinkClick: PropTypes.func.isRequired,
 };
 
-export default withRouter(MobileNav);
+export default MobileNav;
