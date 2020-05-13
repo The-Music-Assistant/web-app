@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 
 // Component imports
@@ -14,58 +14,17 @@ import styles from "./Header.module.scss";
 
 /**
  * Renders the Header component.
- * @extends {Component}
  * @component
  * @category Header
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class Header extends Component {
-    constructor(props) {
-        super(props);
-
-        /**
-         * Header component state
-         * @property {string} timeOfDay - The time of day ("Morning," "Afternoon," or "Evening")
-         */
-        this.state = {
-            timeOfDay: this.getTimeOfDay(),
-        };
-    }
-
-    /**
-     * setInterval ID for updating the time of day
-     * @type {number}
-     */
-    _timeOfDayIntervalId = null;
-
-    /**
-     * Starts a time of day interval timer
-     */
-    componentDidMount() {
-        this._timeOfDayIntervalId = setInterval(this.updateTimeOfDay, 300000);
-    }
-
-    /**
-     * Clears the time of day interval timer
-     */
-    componentWillUnmount() {
-        clearInterval(this._timeOfDayIntervalId, this.updateTimeOfDay);
-    }
-
-    /**
-     * Updates state with the time of day
-     * @function
-     */
-    updateTimeOfDay = () => {
-        this.setState({ timeOfDay: this.getTimeOfDay() });
-    };
-
+const Header = ({ isMobileScreenWidth, onHamburgerMenuClick }) => {
     /**
      * Gets the time of day.
      * Values are "Morning," "Afternoon," or "Evening".
      * @returns {string} The time of day
      */
-    getTimeOfDay = () => {
+    const getTimeOfDay = () => {
         const currentHour = new Date().getHours();
 
         if (currentHour >= 3 && currentHour < 12) {
@@ -78,36 +37,62 @@ class Header extends Component {
     };
 
     /**
+     * The time of day ("Morning," "Afternoon," or "Evening")
+     * {[timeOfDay, setTimeOfDay]: [string, function]}
+     */
+    const [timeOfDay, setTimeOfDay] = useState(getTimeOfDay());
+
+    /**
+     * setInterval ID for updating the time of day
+     * @type {number}
+     */
+    const timeOfDayIntervalId = useRef(null);
+
+    /**
+     * Updates state with the time of day
+     */
+    const updateTimeOfDay = useCallback(() => {
+        setTimeOfDay(getTimeOfDay());
+    }, []);
+
+    /**
+     * Starts a time of day interval timer
+     * @returns {function} A cleanup function that clears the time of day interval timer
+     */
+    useEffect(() => {
+        timeOfDayIntervalId.current = setInterval(updateTimeOfDay, 300000);
+
+        return () => {
+            clearInterval(timeOfDayIntervalId.current, updateTimeOfDay);
+        };
+    }, [updateTimeOfDay]);
+
+    /**
      * Gets a hamburger menu if needed
-     * @function
      * @returns A hamburger menu (JSX) or null
      */
-    getHamburgerMenu = () => {
-        return this.props.isMobileScreenWidth ? (
-            <HamburgerMenu onClick={this.props.hamburgerMenuClicked} />
+    const getHamburgerMenu = () => {
+        return isMobileScreenWidth ? (
+            <HamburgerMenu onClick={onHamburgerMenuClick} />
         ) : null;
     };
 
     /**
      * Gets a heading element if needed
-     * @function
      * @returns A heading element (JSX) or null
      */
-    getHeading = () => {
-        return !this.props.isMobileScreenWidth ? (
-            <h1
-                className={styles.headerHeading}
-            >{`Good ${this.state.timeOfDay}`}</h1>
+    const getHeading = () => {
+        return !isMobileScreenWidth ? (
+            <h1 className={styles.headerHeading}>{`Good ${timeOfDay}`}</h1>
         ) : null;
     };
 
     /**
      * Gets the TMA logo if needed
-     * @function
      * @returns An image element (JSX) or null
      */
-    getLogo = () => {
-        return this.props.isMobileScreenWidth ? (
+    const getLogo = () => {
+        return isMobileScreenWidth ? (
             <img
                 className={styles.headerLogo}
                 src={tmaLogo}
@@ -119,17 +104,15 @@ class Header extends Component {
     /**
      * Renders the Header component
      */
-    render() {
-        return (
-            <header className={styles.header}>
-                {this.getHamburgerMenu()}
-                {this.getHeading()}
-                {this.getLogo()}
-                <UserWidget name={this.state.name} />
-            </header>
-        );
-    }
-}
+    return (
+        <header className={styles.header}>
+            {getHamburgerMenu()}
+            {getHeading()}
+            {getLogo()}
+            <UserWidget />
+        </header>
+    );
+};
 
 // Prop types for the Header component
 Header.propTypes = {
@@ -141,7 +124,7 @@ Header.propTypes = {
     /**
      * Hamburger menu icon click handler
      */
-    hamburgerMenuClicked: PropTypes.func,
+    onHamburgerMenuClick: PropTypes.func,
 };
 
 export default Header;

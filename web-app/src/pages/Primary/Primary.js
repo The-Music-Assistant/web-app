@@ -281,7 +281,7 @@ const Primary = () => {
 
             {/* Header */}
             <Header
-                hamburgerMenuClicked={showHideHamburgerMenu}
+                onHamburgerMenuClick={showHideHamburgerMenu}
                 isMobileScreenWidth={isMobileScreenWidth}
             />
 
