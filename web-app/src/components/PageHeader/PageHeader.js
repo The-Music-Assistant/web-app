@@ -22,19 +22,19 @@ import styles from "./PageHeader.module.scss";
  * @category PageHeader
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const PageHeader = (props) => {
+const PageHeader = ({ heading, shouldDisplayBackButton, backButtonTitle }) => {
     // Returns the JSX to display
     return (
         <header className={styles.pageHeader}>
             {/* Back button */}
-            {props.shouldDisplayBackButton ? (
-                <BackButton value="back" title={props.backButtonTitle} />
+            {shouldDisplayBackButton ? (
+                <BackButton value="back" title={backButtonTitle} />
             ) : (
                 <div></div>
             )}
 
             {/* Heading */}
-            <h1 className={styles.pageHeaderHeading}>{props.heading}</h1>
+            <h1 className={styles.pageHeaderHeading}>{heading}</h1>
         </header>
     );
 };
