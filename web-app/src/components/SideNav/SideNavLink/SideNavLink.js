@@ -12,31 +12,29 @@ import styles from "./SideNavLink.module.scss";
  * @category SideNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const SideNavLink = (props) => {
-    const currentTabStyle = props.isCurrentTab
-        ? styles.sideNavLinkCurrentTab
-        : "";
+const SideNavLink = ({ isCurrentTab, name, icon, route, onClick }) => {
+    const currentTabStyle = isCurrentTab ? styles.sideNavLinkCurrentTab : "";
 
-    const textColorStyle = props.isCurrentTab
+    const textColorStyle = isCurrentTab
         ? styles.sideNavLinkNameBlueText
         : styles.sideNavLinkNameWhiteText;
 
     return (
         <Link
             className={`${styles.sideNavLink} ${currentTabStyle}`}
-            to={props.route}
-            onClick={props.onClick}
+            to={route}
+            onClick={onClick}
         >
             {/* Tab icon */}
             <img
                 className={styles.sideNavLinkIcon}
-                src={props.icon}
-                alt={props.name + " Icon"}
+                src={icon}
+                alt={name + " Icon"}
             />
 
             {/* Tab name */}
             <h3 className={`${styles.sideNavLinkName} ${textColorStyle}`}>
-                {props.name}
+                {name}
             </h3>
         </Link>
     );
