@@ -24,7 +24,7 @@ const LoadingHUD = ({ message }) => {
                 <MetroSpinner size={50} color="#5f9cd1" loading={true} />
 
                 {/* Message */}
-                <h3 className={styles.loadingHUDModalText}>{props.message}</h3>
+                <h3 className={styles.loadingHUDModalText}>{message}</h3>
             </section>
         </div>
     );
