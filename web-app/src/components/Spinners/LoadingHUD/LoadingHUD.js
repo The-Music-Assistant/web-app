@@ -15,7 +15,7 @@ import styles from "./LoadingHUD.module.scss";
  * @category Spinners
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const LoadingHUD = (props) => {
+const LoadingHUD = ({ message }) => {
     // Returns JSX to render
     return (
         <div className={styles.loadingHUDBackground}>
