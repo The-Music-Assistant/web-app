@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 
 // File imports
@@ -21,129 +21,23 @@ import colorStyles from "./SelectInputColors.module.scss";
  * @category FormInputs
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class SelectInput extends Component {
+const SelectInput = ({ value, name, color, options, onChange }) => {
     /*
      * NOTE: Both state and props have a value property.
      * The state value property is what is actually displayed.
      * The props value property is either the current selected option or a custom one-time placeholder value.
-     * The state value property will either be the prop value property or the _maxLengthString value.
-     * The _maxLengthString is temporarily displayed in order to resize the component to the maximum needed width and height.
-     * The re-render between _maxLengthString and the props value property should be fast enough that you never see it happen.
+     * The state value property will either be the prop value property or the maxLengthString value.
+     * The maxLengthString is temporarily displayed in order to resize the component to the maximum needed width and height.
+     * The re-render between maxLengthString and the props value property should be fast enough that you never see it happen.
      */
-
-    /**
-     * Sets up the component state
-     */
-    constructor(props) {
-        super(props);
-
-        /**
-         * The maximum-length string of all selection options.
-         * Used to size the component properly.
-         * @type {string}
-         */
-        this._maxLengthString = this.getMaxLengthString();
-
-        /**
-         * SelectInput component state
-         * @property {string} value - The current value of the select (the current selected option).
-         * @property {boolean} showDropdown - Indicates if the options dropdown should be shown
-         * @property {number} componentWidth - The current width of the component
-         * @property {number} componentHeight - The current height of the component
-         * @property {boolean} didScreenSizeChange - Indicates if the screen size changed
-         */
-        this.state = {
-            value: this._maxLengthString,
-            showDropdown: false,
-            componentWidth: null,
-            componentHeight: null,
-            didScreenSizeChange: false,
-        };
-    }
-
-    /**
-     * A reference to the outermost div element for this component.
-     * Uses a React Ref.
-     */
-    _selectorRef = React.createRef();
-
-    /**
-     * Adds a window resize listener.
-     * Updates state with the component's width and height.
-     */
-    componentDidMount() {
-        // Adds a window resize listener
-        window.addEventListener("resize", this.windowSizeChangedHandler);
-
-        // Updates state with the component's current width and height
-        // The current width and height is the largest width and height needed by any of the options
-        this.setState({
-            componentWidth: parseFloat(
-                getComputedStyle(this._selectorRef.current).width
-            ),
-            componentHeight: parseFloat(
-                getComputedStyle(this._selectorRef.current).height
-            ),
-            value: this.props.value,
-        });
-    }
-
-    /**
-     * Updates the actual value of the select.
-     * Updates state with the component's width and height if needed.
-     */
-    componentDidUpdate(prevProps) {
-        if (this.state.didScreenSizeChange) {
-            // Updates state with the component's width and height
-            this.setState({
-                didScreenSizeChange: false,
-                componentWidth: parseFloat(
-                    getComputedStyle(this._selectorRef.current).width
-                ),
-                componentHeight: parseFloat(
-                    getComputedStyle(this._selectorRef.current).height
-                ),
-                value: this.props.value,
-            });
-        } else if (prevProps.value !== this.props.value) {
-            // This check ensures that the state value property is not updated unless the new prop value property has changed
-            // For a width and height update, the prop value property never changes (only the state value property changes)
-
-            // Updates state with the new value from props
-            this.setState({ value: this.props.value });
-        }
-    }
-
-    /**
-     * Removes the window resize listener
-     */
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.windowSizeChangedHandler);
-    }
-
-    /**
-     * Updates state to trigger a component resize if needed
-     * @function
-     */
-    windowSizeChangedHandler = () => {
-        // Sets the width and height to auto in order to allow the component to size itself
-        // The state value property is set to the max length string so that the component will size itself to fit the longest string
-        this.setState({
-            didScreenSizeChange: true,
-            componentWidth: "auto",
-            componentHeight: "auto",
-            value: this._maxLengthString,
-        });
-    };
 
     /**
      * Gets the maximum length string based on all given selection options, as well as the provided value from props
-     * @function
      * @returns {string} The maximum length string
      */
-    getMaxLengthString = () => {
+    const getMaxLengthString = () => {
         // Gets the maximum length string based on all given options
-        let maxLengthStr = this.props.options.reduce(
+        let maxLengthStr = options.reduce(
             (maxLengthStr, optionStr) =>
                 maxLengthStr.length > optionStr.length
                     ? maxLengthStr
@@ -153,58 +47,151 @@ class SelectInput extends Component {
 
         // Updates the maximum length string based on the provided value from props
         maxLengthStr =
-            maxLengthStr.length > this.props.value.length
-                ? maxLengthStr
-                : this.props.value;
+            maxLengthStr.length > value.length ? maxLengthStr : value;
 
         return maxLengthStr;
     };
 
     /**
-     * Opens or closes the options dropdown
-     * @function
+     * The maximum-length string of all selection options.
+     * Used to size the component properly.
+     * @type {string}
      */
-    selectorButtonClickedHandler = () => {
-        this.setState((prevState) => {
-            return {
-                showDropdown: !prevState.showDropdown,
-            };
+    const maxLengthString = useRef(getMaxLengthString());
+
+    /**
+     * Updates state to trigger a component resize if needed
+     */
+    const windowSizeChangedHandler = useCallback(() => {
+        // Sets the width and height to auto in order to allow the component to size itself
+        // setComponentWidth("auto");
+        // setComponentHeight("auto");
+        setComponentDimensions({ width: "auto", height: "auto" });
+
+        // The selected option is set to the max length string so that the component will size itself to fit the longest string
+        setSelectedOption(maxLengthString.current);
+
+        setScreenSizeDidChange(true);
+    }, []);
+
+    /**
+     * The current value of the select (the current selected option)
+     * {[selectedOption, setSelectedOption]: [string, function]}
+     */
+    const [selectedOption, setSelectedOption] = useState(
+        maxLengthString.current
+    );
+
+    /**
+     * Indicates if the options dropdown should be shown
+     * {[dropdownShouldShow, setDropdownShouldShow]: [boolean, function]}
+     */
+    const [dropdownShouldShow, setDropdownShouldShow] = useState(false);
+
+    /**
+     * The current width of the component
+     * {[componentWidth, setComponentWidth]: [string, function]}
+     */
+    // const [componentWidth, setComponentWidth] = useState(null);
+
+    /**
+     * The current height of the component
+     * {[componentHeight, setComponentHeight]: [string, function]}
+     */
+    // const [componentHeight, setComponentHeight] = useState(null);
+
+    const [componentDimensions, setComponentDimensions] = useState({
+        width: "auto",
+        height: "auto",
+    });
+
+    /**
+     * Indicates if the screen size changed
+     * {[screenSizeDidChange, setScreenSizeDidChange]: [boolean, function]}
+     */
+    const [screenSizeDidChange, setScreenSizeDidChange] = useState(false);
+
+    /**
+     * A reference to the outermost div element for this component.
+     * Uses a React Ref.
+     */
+    const selectorRef = useRef();
+
+    /**
+     * Adds a window resize listener.
+     * Updates state with the component's width and height.
+     * @returns {function} A cleanup function that removes the window resize listener
+     */
+    useEffect(() => {
+        // Adds a window resize listener
+        window.addEventListener("resize", windowSizeChangedHandler);
+
+        return () => {
+            window.removeEventListener("resize", windowSizeChangedHandler);
+        };
+    }, [windowSizeChangedHandler]);
+
+    /**
+     * Updates state with the component's width and height
+     */
+    useEffect(() => {
+        // Updates state with the component's current width and height
+        // The current width and height is the largest width and height needed by any of the options
+        // setComponentWidth(selectorRef.current.getBoundingClientRect().width);
+        // setComponentHeight(selectorRef.current.getBoundingClientRect().height);
+        setComponentDimensions({
+            width: selectorRef.current.getBoundingClientRect().width,
+            height: selectorRef.current.getBoundingClientRect().height,
         });
+
+        setSelectedOption(value);
+
+        setScreenSizeDidChange(false);
+    }, [screenSizeDidChange, value]);
+
+    /**
+     * Updates the actual value of the select
+     */
+    useEffect(() => {
+        setSelectedOption(value);
+    }, [value]);
+
+    /**
+     * Opens or closes the options dropdown
+     */
+    const selectorButtonClickedHandler = () => {
+        setDropdownShouldShow((prevState) => !prevState);
     };
 
     /**
      * Calls the onChange handler with the selected option.
      * Updates state to close the options dropdown.
-     * @function
      * @param {number} - The index of the option clicked
      */
-    optionButtonClickedHandler = (index) => {
+    const optionButtonClickedHandler = (index) => {
         // Only call the onClick function if the selected value is different than the current value
-        if (this.state.value !== this.props.options[index]) {
-            this.props.onChange(index, this.props.options[index]);
+        if (value !== options[index]) {
+            onChange(index, options[index]);
         }
 
-        this.setState({ showDropdown: false });
+        setDropdownShouldShow(false);
     };
 
     /**
      * Creates option elements based on provided options from props.
      * This is a custom version of the option HTML element.
-     * @function
      * @returns An array of option elements (JSX)
      */
-    getOptions = () => {
-        return this.props.options.map((optionName, index) => {
+    const getOptions = () => {
+        return options.map((optionName, index) => {
             return (
                 <button
                     key={index}
                     index={index}
-                    className={`${styles.selectInputOption} ${
-                        colorStyles[this.props.color]
-                    }`}
+                    className={`${styles.selectInputOption} ${colorStyles[color]}`}
                     type="button"
                     value={optionName}
-                    onClick={() => this.optionButtonClickedHandler(index)}
+                    onClick={() => optionButtonClickedHandler(index)}
                 >
                     {optionName}
                 </button>
@@ -214,15 +201,12 @@ class SelectInput extends Component {
 
     /**
      * Gets the CSS classes for the options container element
-     * @function
      * @returns {string} A string of class names
      */
-    getOptionsClassList = () => {
-        let classList = `${styles.selectInputOptions} ${
-            colorStyles[this.props.color]
-        }`;
+    const getOptionsClassList = () => {
+        let classList = `${styles.selectInputOptions} ${colorStyles[color]}`;
 
-        classList += this.state.showDropdown
+        classList += dropdownShouldShow
             ? ` ${styles.selectInputOptionsShow}`
             : ` ${styles.selectInputOptionsHide}`;
 
@@ -231,13 +215,12 @@ class SelectInput extends Component {
 
     /**
      * Gets the CSS classes for the selector arrow
-     * @function
      * @returns {string} A string of class names
      */
-    getArrowClassList = () => {
+    const getArrowClassList = () => {
         let classList = `${styles.selectInputSelectorArrowImg}`;
 
-        classList += this.state.showDropdown
+        classList += dropdownShouldShow
             ? ` ${styles.selectInputSelectorArrowImgUp}`
             : ` ${styles.selectInputSelectorArrowImgDown}`;
 
@@ -247,64 +230,60 @@ class SelectInput extends Component {
     /**
      * Renders the SelectInput component
      */
-    render() {
-        return (
-            <section
-                className={styles.selectInput}
+    return (
+        <section
+            className={styles.selectInput}
+            style={{
+                width: componentDimensions.width,
+                height: componentDimensions.height,
+            }}
+        >
+            {/* A text imput that holds the current select value */}
+            <input
+                className={styles.selectInputInputElement}
+                type="text"
+                name={name}
+                defaultValue={value}
+            />
+
+            {/* A custom version of the select HTML element */}
+            <button
+                className={`${styles.selectInputSelector} ${colorStyles[color]}`}
+                ref={selectorRef}
+                type="button"
                 style={{
-                    width: this.state.componentWidth,
-                    height: this.state.componentHeight,
+                    width: componentDimensions.width,
+                    height: componentDimensions.height,
                 }}
+                onClick={selectorButtonClickedHandler}
             >
-                {/* A text imput that holds the current select value */}
-                <input
-                    className={styles.selectInputInputElement}
-                    type="text"
-                    name={this.props.name}
-                    defaultValue={this.props.value}
+                {/* The select element's title */}
+                <h2 className={styles.selectInputSelectorTitle}>
+                    {selectedOption}
+                </h2>
+
+                {/* The select element's arrow */}
+                <img
+                    className={getArrowClassList()}
+                    src={
+                        color === colorOptions.WHITE
+                            ? downArrowBlue
+                            : downArrowWhite
+                    }
+                    alt={"Arrow"}
                 />
+            </button>
 
-                {/* A custom version of the select HTML element */}
-                <button
-                    className={`${styles.selectInputSelector} ${
-                        colorStyles[this.props.color]
-                    }`}
-                    ref={this._selectorRef}
-                    type="button"
-                    style={{
-                        width: this.state.componentWidth,
-                        height: this.state.componentHeight,
-                    }}
-                    onClick={this.selectorButtonClickedHandler}
-                >
-                    {/* The select element's title */}
-                    <h2 className={styles.selectInputSelectorTitle}>
-                        {this.state.value}
-                    </h2>
-
-                    {/* The select element's arrow */}
-                    <img
-                        className={this.getArrowClassList()}
-                        src={
-                            this.props.color === colorOptions.WHITE
-                                ? downArrowBlue
-                                : downArrowWhite
-                        }
-                        alt={"Arrow"}
-                    />
-                </button>
-
-                {/* A list of custom version's of the option HTML element */}
-                <div
-                    className={this.getOptionsClassList()}
-                    style={{ top: this.state.componentHeight + 10 }}
-                >
-                    {this.getOptions()}
-                </div>
-            </section>
-        );
-    }
-}
+            {/* A list of custom version's of the option HTML element */}
+            <div
+                className={getOptionsClassList()}
+                style={{ top: componentDimensions.height + 10 }}
+            >
+                {getOptions()}
+            </div>
+        </section>
+    );
+};
 
 // Prop types for the SelectInput component
 SelectInput.propTypes = {
