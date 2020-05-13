@@ -12,24 +12,20 @@ import styles from "./MobileNavLink.module.scss";
  * @category MobileNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const MobileNavLink = (props) => {
+const MobileNavLink = ({ isCurrentTab, name, icon, route, onClick }) => {
     /**
      * Gets a tab line if this MobileNavLink instance is the current tab
      * @returns A tab line (JSX)
      */
     const getTabLine = () => {
-        return props.isCurrentTab ? (
+        return isCurrentTab ? (
             <div className={styles.mobileNavLinkCurrentTabLine}></div>
         ) : null;
     };
 
     // Returns the JSX to render
     return (
-        <Link
-            className={styles.mobileNavLink}
-            to={props.route}
-            onClick={props.onClick}
-        >
+        <Link className={styles.mobileNavLink} to={route} onClick={onClick}>
             {/* Tab line */}
             {getTabLine()}
 
@@ -38,13 +34,13 @@ const MobileNavLink = (props) => {
                 {/* Tab icon */}
                 <img
                     className={styles.mobileNavLinkInnerContainerIcon}
-                    src={props.icon}
-                    alt={props.name + " Icon"}
+                    src={icon}
+                    alt={name + " Icon"}
                 />
 
                 {/* Tab name */}
                 <h3 className={styles.mobileNavLinkInnerContainerName}>
-                    {props.name}
+                    {name}
                 </h3>
             </div>
         </Link>
