@@ -11,22 +11,22 @@ import styles from "./SideNavSignOutButton.module.scss";
  * @category SideNav
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const SideNavSignOutButton = (props) => {
+const SideNavSignOutButton = ({ name, icon, onClick }) => {
     return (
         <button
             className={styles.sideNavSignOutButton}
             type="button"
-            onClick={props.onClick}
+            onClick={onClick}
         >
             {/* Tab icon */}
             <img
                 className={styles.sideNavSignOutButtonIcon}
-                src={props.icon}
-                alt={props.name + " Icon"}
+                src={icon}
+                alt={name + " Icon"}
             />
 
             {/* Tab name */}
-            <h3 className={styles.sideNavSignOutButtonName}>{props.name}</h3>
+            <h3 className={styles.sideNavSignOutButtonName}>{name}</h3>
         </button>
     );
 };
