@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 // File imports
 import alphaTabVars from "../../../../vendors/AlphaTab/variables";
@@ -19,47 +19,39 @@ import styles from "./MusicControls.module.scss";
 /**
  * Renders the MusicControls component.
  * Handles the play, pause, and stop controls for the sheet music.
- * @extends {Component}
  * @component
  * @category Music
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class MusicControls extends Component {
+const MusicControls = () => {
     /**
-     * MusicControls component state
-     * @property {boolean} isPlaying - Indicates if the music is currently playing
+     * Indicates if the music is currently playing
+     * {[isPlaying, setIsPlaying]: [boolean, function]}
      */
-    state = {
-        isPlaying: false,
-    };
+    const [isPlaying, setIsPlaying] = useState(false);
 
     /**
      * Adds an AlphaTab player finished observer
+     * @returns {function} A cleanup function that removes the AlphaTab player finished observer
      */
-    componentDidMount() {
-        alphaTabVars.api.addPlayerFinished(this.donePlaying);
-    }
+    useEffect(() => {
+        alphaTabVars.api.addPlayerFinished(donePlaying);
 
-    /**
-     * Removes the AlphaTab player finished observer
-     */
-    componentWillUnmount() {
-        alphaTabVars.api.removePlayerFinished(this.donePlaying);
-    }
+        return () => {
+            alphaTabVars.api.removePlayerFinished(donePlaying);
+        };
+    }, []);
 
     /**
      * Plays or pauses the music
-     * @function
      */
-    playPauseButtonHandler = () => {
+    const playPauseButtonHandler = () => {
         if (alphaTabVars.texLoaded === null) {
             return;
         }
 
         // Flips the isPlaying property in state
-        this.setState((prevState) => ({
-            isPlaying: !prevState.isPlaying,
-        }));
+        setIsPlaying((prevState) => !prevState);
 
         // AudioContext must be resumed before playing can begin (the first time)
         if (
@@ -84,11 +76,10 @@ class MusicControls extends Component {
 
     /**
      * Stops the music
-     * @function
      */
-    stopButtonHandler = () => {
+    const stopButtonHandler = () => {
         // Updates state
-        this.donePlaying();
+        donePlaying();
 
         // Tells AlphaTab to stop playing the music
         stopPlayingMusic();
@@ -96,23 +87,19 @@ class MusicControls extends Component {
 
     /**
      * Sets isPlaying to false in state
-     * @function
      */
-    donePlaying = () => {
-        this.setState({
-            isPlaying: false,
-        });
-    };
+    const donePlaying = () => setIsPlaying(false);
 
     /**
      * Gets a play icon or a pause icon
      * @returns An img element (JSX)
      */
-    getPlayPauseIcon = () => {
+    const getPlayPauseIcon = () => {
         // Gets play/pause button details based on state
         let imgSrc;
         let altText;
-        if (this.state.isPlaying) {
+
+        if (isPlaying) {
             // Get pause icon
             imgSrc = pauseButtonImg;
             altText = "Pause Button";
@@ -135,33 +122,31 @@ class MusicControls extends Component {
     /**
      * Renders the MusicControls component
      */
-    render() {
-        return (
-            <div className={styles.musicControls}>
-                {/* Play/Pause Button */}
-                <button
-                    className={styles.musicControlsButton}
-                    type="button"
-                    onClick={this.playPauseButtonHandler}
-                >
-                    {this.getPlayPauseIcon()}
-                </button>
+    return (
+        <div className={styles.musicControls}>
+            {/* Play/Pause Button */}
+            <button
+                className={styles.musicControlsButton}
+                type="button"
+                onClick={playPauseButtonHandler}
+            >
+                {getPlayPauseIcon()}
+            </button>
 
-                {/* Stop Button */}
-                <button
-                    className={styles.musicControlsButton}
-                    type="button"
-                    onClick={this.stopButtonHandler}
-                >
-                    <img
-                        className={styles.musicControlsButtonImg}
-                        src={stopButtonImg}
-                        alt="Stop Button"
-                    />
-                </button>
-            </div>
-        );
-    }
-}
+            {/* Stop Button */}
+            <button
+                className={styles.musicControlsButton}
+                type="button"
+                onClick={stopButtonHandler}
+            >
+                <img
+                    className={styles.musicControlsButtonImg}
+                    src={stopButtonImg}
+                    alt="Stop Button"
+                />
+            </button>
+        </div>
+    );
+};
 
 export default MusicControls;
