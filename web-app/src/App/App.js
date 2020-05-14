@@ -157,9 +157,7 @@ const App = () => {
         }
     };
 
-    /**
-     * Renders the App component
-     */
+    // Renders the App component
     return (
         <BrowserRouter>
             <div className="app">

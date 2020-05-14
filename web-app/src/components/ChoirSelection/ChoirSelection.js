@@ -262,9 +262,6 @@ const ChoirSelection = ({ routing, showAlert }) => {
         });
     };
 
-    /**
-     * Renders the ChoirSelection component
-     */
     // The component to display (loading or cards)
     let component;
 
@@ -280,7 +277,7 @@ const ChoirSelection = ({ routing, showAlert }) => {
         );
     }
 
-    // Returns the JSX to render
+    // Renders the ChoirSelection component
     return (
         <main className={styles.choirSelection}>
             <PageHeader

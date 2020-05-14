@@ -37,9 +37,7 @@ const UserWidget = () => {
      */
     const profilePictureErrorHandler = () => setIsProfilePictureError(true);
 
-    /**
-     * Renders the UserWidget component
-     */
+    // Renders the UserWidget component
     return (
         <section className={styles.userWidget}>
             {/* User's profile picture */}

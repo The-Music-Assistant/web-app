@@ -119,9 +119,7 @@ const MusicControls = () => {
         );
     };
 
-    /**
-     * Renders the MusicControls component
-     */
+    // Renders the MusicControls component
     return (
         <div className={styles.musicControls}>
             {/* Play/Pause Button */}

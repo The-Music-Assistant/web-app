@@ -227,9 +227,7 @@ const SelectInput = ({ value, name, color, options, onChange }) => {
         return classList;
     };
 
-    /**
-     * Renders the SelectInput component
-     */
+    // Renders the SelectInput component
     return (
         <section
             className={styles.selectInput}

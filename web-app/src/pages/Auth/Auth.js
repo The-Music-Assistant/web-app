@@ -165,9 +165,7 @@ const Auth = () => {
         }
     };
 
-    /*
-     * Renders the Auth component
-     */
+    // Renders the Auth component
     return (
         <div
             className={styles.auth}

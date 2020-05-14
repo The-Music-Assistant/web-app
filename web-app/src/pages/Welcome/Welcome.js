@@ -319,9 +319,7 @@ const Welcome = () => {
         );
     };
 
-    /**
-     * Renders the Welcome component
-     */
+    // Renders the Welcome component
     return (
         <div className={styles.welcome}>
             {getAlertBar()}

@@ -155,9 +155,7 @@ const AlertBar = ({ done, type, heading, message }) => {
         }
     };
 
-    /**
-     * Renders the AlertBar component
-     */
+    // Renders the AlertBar component
     return (
         <section
             className={`${

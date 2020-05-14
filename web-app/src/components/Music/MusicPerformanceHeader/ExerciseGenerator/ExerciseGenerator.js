@@ -77,10 +77,7 @@ const ExerciseGenerator = ({
         }
     };
 
-    /**
-     * Renders the ExerciseGenerator component
-     */
-    // Returns the JSX to render
+    // Renders the ExerciseGenerator component
     return (
         <section className={styles.exerciseGenerator}>
             <header className={styles.exerciseGeneratorHeader}>

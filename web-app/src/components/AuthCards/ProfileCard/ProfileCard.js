@@ -257,13 +257,7 @@ const ProfileCard = ({ setLoading, showAlert, done }) => {
         );
     };
 
-    /**
-     * Renders the ProfileCard component
-     */
-    // If there is an image to show, display it in an image tag, along with a remove button
-    // Otherwise, show a placeholder div
-
-    // Returns the JSX to display
+    // Renders the ProfileCard component
     return (
         <section className={authCardStyles.authCard}>
             {/* Heading */}

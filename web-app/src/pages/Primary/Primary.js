@@ -264,9 +264,7 @@ const Primary = () => {
         setAlertData(null);
     }, []);
 
-    /**
-     * Renders the Primary component
-     */
+    // Renders the Primary component
     return (
         <div className={styles.primary}>
             {/* Shows an alert if one exists */}

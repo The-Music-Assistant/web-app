@@ -42,9 +42,7 @@ const Startup = () => {
         }
     }, [dispatch, isAuthenticated]);
 
-    /**
-     * Renders the Startup component
-     */
+    // Renders the Startup component
     return (
         <main className={styles.startup}>
             {/* Main content */}

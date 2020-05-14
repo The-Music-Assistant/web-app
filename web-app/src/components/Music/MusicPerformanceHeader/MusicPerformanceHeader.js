@@ -68,9 +68,7 @@ const MusicPerformanceHeader = ({
         }
     };
 
-    /**
-     * Renders the MusicPerformanceHeader component
-     */
+    // Renders the MusicPerformanceHeader component
     return (
         <header className={styles.MusicPerformanceHeader}>
             {/* An exercise generator or a button */}

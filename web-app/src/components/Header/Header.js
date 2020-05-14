@@ -101,9 +101,7 @@ const Header = ({ isMobileScreenWidth, onHamburgerMenuClick }) => {
         ) : null;
     };
 
-    /**
-     * Renders the Header component
-     */
+    // Renders the Header componen
     return (
         <header className={styles.header}>
             {getHamburgerMenu()}

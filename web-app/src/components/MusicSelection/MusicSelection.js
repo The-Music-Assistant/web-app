@@ -212,9 +212,6 @@ const MusicSelection = ({ showAlert }) => {
         });
     };
 
-    /**
-     * Renders the MusicSelection component
-     */
     // The component to display (loading component or cards component)
     let loadingOrCardsComponent;
 
@@ -230,7 +227,7 @@ const MusicSelection = ({ showAlert }) => {
         );
     }
 
-    // Returns the JSX to render
+    // Renders the MusicSelection component
     return (
         <main className={styles.musicSelection}>
             {/* Page header */}

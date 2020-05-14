@@ -28,7 +28,7 @@ import authCardStyles from "../AuthCard.module.scss";
  * @category AuthCards
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const AuthCard = ({
+const EmailPasswordCard = ({
     authStage,
     showAlert,
     setLoading,
@@ -89,7 +89,7 @@ const AuthCard = ({
                 authError(
                     error.code,
                     error.message,
-                    "[AuthCard/sendEmailVerification]"
+                    "[EmailPasswordCard/sendEmailVerification]"
                 );
                 setLoading(false);
                 showAlert(
@@ -229,7 +229,7 @@ const AuthCard = ({
                 authError(
                     error.code,
                     error.message,
-                    "[AuthCard/signInWithEmailPassword]"
+                    "[EmailPasswordCard/signInWithEmailPassword]"
                 );
                 setLoading(false);
                 showAlert(
@@ -256,7 +256,7 @@ const AuthCard = ({
                 authError(
                     error.code,
                     error.message,
-                    "[AuthCard/signUpWithEmailPassword]"
+                    "[EmailPasswordCard/signUpWithEmailPassword]"
                 );
                 setLoading(false);
                 showAlert(alertBarTypes.ERROR, "Sign Up Error", error.message);
@@ -281,9 +281,7 @@ const AuthCard = ({
             : "Already have an account?";
     };
 
-    /**
-     * Renders the AuthCard component
-     */
+    // Renders the EmailPasswordCard component
     return (
         <section className={authCardStyles.authCard}>
             {/* Heading */}
@@ -358,8 +356,8 @@ const AuthCard = ({
     );
 };
 
-// Prop types for the AuthCard component
-AuthCard.propTypes = {
+// Prop types for the EmailPasswordCard component
+EmailPasswordCard.propTypes = {
     /**
      * The current auth stage.
      * See [stages]{@link module:authStages}.
@@ -383,4 +381,4 @@ AuthCard.propTypes = {
     done: PropTypes.func.isRequired,
 };
 
-export default AuthCard;
+export default EmailPasswordCard;
