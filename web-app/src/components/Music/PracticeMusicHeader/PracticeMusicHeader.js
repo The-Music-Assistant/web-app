@@ -23,19 +23,26 @@ import styles from "./PracticeMusicHeader.module.scss";
  * @category Music
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const PracticeMusicHeader = (props) => {
+const PracticeMusicHeader = ({
+    currentView,
+    currentPart,
+    partList,
+    onPartChange,
+    switchToPractice,
+    switchToPerformance,
+}) => {
     /**
      * Gets the correct component for the left side of the header
      */
     const getPartSelectionDropdownOrPracticeMusicButton = () => {
-        return props.currentView === musicViewOptions.PRACTICE ? (
+        return currentView === musicViewOptions.PRACTICE ? (
             // Returns a part selection dropdown
             <SelectInput
-                value={props.currentPart}
+                value={currentPart}
                 name="part-selection"
                 color={selectInputColorOptions.ORANGE}
-                options={props.partList}
-                onChange={props.onPartChange}
+                options={partList}
+                onChange={onPartChange}
             />
         ) : (
             // Returns a button that links to practice view
@@ -44,7 +51,7 @@ const PracticeMusicHeader = (props) => {
                 value="practice"
                 title="Practice Music"
                 backgroundColor={rectButtonColorOptions.ORANGE}
-                onClick={props.switchToPractice}
+                onClick={switchToPractice}
             />
         );
     };
@@ -65,7 +72,7 @@ const PracticeMusicHeader = (props) => {
                     value="performance"
                     title="View Performance"
                     backgroundColor={rectButtonColorOptions.GREEN}
-                    onClick={props.switchToPerformance}
+                    onClick={switchToPerformance}
                 />
             </div>
         </header>
