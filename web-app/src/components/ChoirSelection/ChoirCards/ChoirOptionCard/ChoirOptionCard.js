@@ -16,27 +16,23 @@ import cardColorStyles from "../ChoirCardColors.module.scss";
  * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ChoirOptionCard = (props) => {
-    // Returns the JSX to render
+const ChoirOptionCard = ({ iconSrc, name, cardColor, onClick }) => {
+    // Renders the ChoirOptionCard component
     return (
         <button
-            className={`${optionCardStyles.choirOptionCard} ${
-                cardColorStyles[props.cardColor]
-            }`}
-            onClick={props.onClick}
+            className={`${optionCardStyles.choirOptionCard} ${cardColorStyles[cardColor]}`}
+            onClick={onClick}
         >
             <div className={optionCardStyles.choirOptionCardContent}>
                 {/* Icon */}
                 <img
                     className={optionCardStyles.choirOptionCardIcon}
-                    src={props.iconSrc}
-                    alt={props.name}
+                    src={iconSrc}
+                    alt={name}
                 />
 
                 {/* Option name */}
-                <h1 className={optionCardStyles.choirOptionCardName}>
-                    {props.name}
-                </h1>
+                <h1 className={optionCardStyles.choirOptionCardName}>{name}</h1>
             </div>
         </button>
     );
