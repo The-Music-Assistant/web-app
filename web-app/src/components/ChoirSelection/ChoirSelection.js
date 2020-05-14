@@ -250,7 +250,7 @@ const ChoirSelection = ({ routing, showAlert }) => {
             return (
                 <ChoirCard
                     key={shortid.generate()}
-                    headerImgSrc={choir.picture_url}
+                    headerImageSrc={choir.picture_url}
                     name={choir.choir_name}
                     description={choir.description}
                     cardColor={colorOptions[colorIndex]}

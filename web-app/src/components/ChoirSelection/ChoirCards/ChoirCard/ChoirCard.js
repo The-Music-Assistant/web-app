@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 // File imports
@@ -16,25 +16,27 @@ import colorStyles from "../ChoirCardColors.module.scss";
 /**
  * Renders the ChoirCard component.
  * Shows information about the choir.
- * @extends {Component}
  * @component
  * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class ChoirCard extends Component {
+const ChoirCard = ({
+    headerImageSrc,
+    name,
+    description,
+    cardColor,
+    onClick,
+}) => {
     /**
-     * ChoirCard component state
-     * @property {boolean} choirImgLoadingError - Indicates if there was an error loading the choir's image
+     * Indicates if there was an error loading the choir's image
+     * {[choirImgLoadingError, setChoirImgLoadingError]: [boolean, function]}
      */
-    state = {
-        choirImgLoadingError: false,
-    };
+    const [isChoirImgLoadingError, setIsChoirImgLoadingError] = useState(false);
 
     /**
      * Updates state if there was an error loading the choir image
-     * @function
      */
-    choirImgLoadingErrorHandler = () => {
+    const choirImgLoadingErrorHandler = () => {
         // Logs the error
         choirSelectionError(
             null,
@@ -43,21 +45,20 @@ class ChoirCard extends Component {
         );
 
         // Updates state
-        this.setState({ choirImgLoadingError: true });
+        setIsChoirImgLoadingError(true);
     };
 
     /**
      * Gets the correct header image
-     * @function
      * @returns An image (JSX)
      */
-    getHeaderImage = () => {
-        if (!this.state.choirImgLoadingError && this.props.headerImgSrc) {
+    const getHeaderImage = () => {
+        if (!isChoirImgLoadingError && headerImageSrc) {
             // Returns the choir image
             return (
                 <img
                     className={cardStyles.choirCardHeaderImage}
-                    src={this.props.headerImageSrc}
+                    src={headerImageSrc}
                     loading="lazy"
                     alt="Choir"
                 />
@@ -67,7 +68,7 @@ class ChoirCard extends Component {
             return (
                 <div
                     className={`${cardStyles.choirCardHeaderImagePlaceholder} ${
-                        colorStyles[this.props.cardColor + "Darken"]
+                        colorStyles[cardColor + "Darken"]
                     }`}
                 >
                     <img
@@ -76,7 +77,7 @@ class ChoirCard extends Component {
                         }
                         src={cameraImg}
                         alt="Choir"
-                        onError={this.choirImgLoadingErrorHandler}
+                        onError={choirImgLoadingErrorHandler}
                     />
                 </div>
             );
@@ -85,43 +86,36 @@ class ChoirCard extends Component {
 
     /**
      * Renders the ChoirCard component
-     * @returns JSX
      */
-    render() {
-        return (
-            <button
-                className={`${cardStyles.choirCard} ${
-                    colorStyles[this.props.cardColor]
-                }`}
-                onClick={this.props.onClick}
-            >
-                <div className={cardStyles.choirCardContent}>
-                    {/* Header image */}
-                    {this.getHeaderImage()}
+    return (
+        <button
+            className={`${cardStyles.choirCard} ${colorStyles[cardColor]}`}
+            onClick={onClick}
+        >
+            <div className={cardStyles.choirCardContent}>
+                {/* Header image */}
+                {getHeaderImage()}
 
-                    {/* Choir name */}
-                    <h1 className={cardStyles.choirCardName}>
-                        {this.props.name}
-                    </h1>
+                {/* Choir name */}
+                <h1 className={cardStyles.choirCardName}>{name}</h1>
 
-                    {/* Choir description (if one exists) */}
-                    {this.props.description ? (
-                        <h2 className={cardStyles.choirCardDescription}>
-                            {this.props.description}
-                        </h2>
-                    ) : null}
-                </div>
-            </button>
-        );
-    }
-}
+                {/* Choir description (if one exists) */}
+                {description ? (
+                    <h2 className={cardStyles.choirCardDescription}>
+                        {description}
+                    </h2>
+                ) : null}
+            </div>
+        </button>
+    );
+};
 
 // Prop types for the choir card component
 ChoirCard.propTypes = {
     /**
      * The path to the header image
      */
-    headerImgSrc: PropTypes.string,
+    headerImageSrc: PropTypes.string,
 
     /**
      * The choir's name
