@@ -1,8 +1,8 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import shortid from "shortid";
 
 // Component imports
@@ -32,62 +32,60 @@ import styles from "./ChoirSelection.module.scss";
 /**
  * Renders the choir selection component
  * Shows a card for each choir, as well as card(s) for choir option(s).
- * @extends {Component}
  * @component
  * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class ChoirSelection extends Component {
+const ChoirSelection = ({ routing, showAlert }) => {
     /**
-     * ChoirSelection component state
-     * @property {boolean} isLoading - Indicates if the component is in a loading state
-     * @property {array} choirs - An array of choirs that the user is a member of
+     * Indicates if the component is in a loading state
+     * {[isLoading, setIsLoading]: [boolean, function]}
      */
-    state = {
-        isLoading: true,
-        choirs: null,
-    };
+    const [isLoading, setIsLoading] = useState(true);
+
+    /**
+     * An array of choirs that the user is a member of
+     * {[choirs, setChoirs]: [array, function]}
+     */
+    const [choirs, setChoirs] = useState([]);
+
+    /**
+     * react-redux dispatch function
+     * @type {function}
+     */
+    const dispatch = useDispatch();
+
+    /**
+     * react-router-dom history
+     * @type {object}
+     */
+    const history = useHistory();
+
+    /**
+     * react-router-dom route match
+     * @type {object}
+     */
+    const match = useRouteMatch();
 
     /**
      * Indicates if the component is mounted.
      * Used for asynchronous tasks.
      * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
      */
-    _isMounted = false;
-
-    /**
-     * Sets _isMounted to true.
-     * Gets the list of choirs.
-     */
-    componentDidMount() {
-        this._isMounted = true;
-        this.getChoirList();
-    }
-
-    /**
-     * Sets _isMounted to false
-     */
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
+    const isMounted = useRef(false);
 
     /**
      * Gets the list of choirs that the user is a member of
-     * @function
      */
-    getChoirList() {
-        // Updates state
-        if (this._isMounted) this.setState({ isLoading: true });
-
+    const getChoirList = useCallback(() => {
         // Gets the choir list
         getUsersChoirs()
             .then((snapshot) => {
                 // Updates state
-                if (this._isMounted)
-                    this.setState({
-                        choirs: snapshot.data.choirs,
-                        isLoading: false,
-                    });
+                if (isMounted.current) {
+                    setChoirs(snapshot.data.choirs);
+                    setIsLoading(false);
+                }
             })
             .catch((error) => {
                 // Logs an error
@@ -98,16 +96,29 @@ class ChoirSelection extends Component {
                 );
 
                 // Shows an alert
-                this.props.showAlert(
-                    alertBarTypes.ERROR,
-                    "Error",
-                    error.response.data
-                );
+                showAlert(alertBarTypes.ERROR, "Error", error.response.data);
 
                 // Updates state
-                if (this._isMounted) this.setState({ isLoading: false });
+                if (isMounted.current) {
+                    setIsLoading(false);
+                }
             });
-    }
+    }, [showAlert]);
+
+    /**
+     * Sets isMounted to true.
+     * Gets the list of choirs.
+     * @returns A cleanup function that sets isMounted to false
+     */
+    useEffect(() => {
+        isMounted.current = true;
+
+        getChoirList();
+
+        return () => {
+            isMounted.current = false;
+        };
+    }, [getChoirList]);
 
     /**
      * Updates Redux with the selected choir id and choir name
@@ -115,18 +126,19 @@ class ChoirSelection extends Component {
      * @param {string} id - The selected choir id
      * @param {string} name - The selected choir name
      */
-    choirClickedHandler = (id, name) => {
-        let routeUrl; // The url to route to
+    const choirClickedHandler = (id, name) => {
+        // The url to route to
+        let routeUrl;
 
         // Calls the correct dispatch function and sets the routeUrl depending on the routing prop value
-        switch (this.props.routing) {
+        switch (routing) {
             case routingOptions.MUSIC_SELECTION:
-                this.props.choirSelectedForPractice(id, name);
-                routeUrl = `${this.props.match.url}/choirs/${id}`;
+                dispatch(choirSelectedForPractice(id, name));
+                routeUrl = `${match.url}/choirs/${id}`;
                 break;
             case routingOptions.CHOIR_MEMBERS:
-                this.props.choirSelectedForChoirs(id, name);
-                routeUrl = `${this.props.match.url}/${id}`;
+                dispatch(choirSelectedForChoirs(id, name));
+                routeUrl = `${match.url}/${id}`;
                 break;
             default:
                 console.log(
@@ -135,14 +147,13 @@ class ChoirSelection extends Component {
         }
 
         // Routes to the new url
-        this.props.history.push(routeUrl);
+        history.push(routeUrl);
     };
 
     /**
      * Attempts to join a new choir
-     * @function
      */
-    newChoirClickHandler = () => {
+    const newChoirClickHandler = () => {
         // Asks the user to enter an access code
         const accessCode = prompt("Please enter the access code given to you");
 
@@ -152,7 +163,7 @@ class ChoirSelection extends Component {
             joinChoir({ memberType: "student", memberRole: "x", accessCode })
                 .then(() => {
                     // Show a success alert
-                    this.props.showAlert(
+                    showAlert(
                         alertBarTypes.SUCCESS,
                         "Hang Tight",
                         "Your request to join the choir has been sent. Please wait for a choir administrator to confirm your request."
@@ -167,7 +178,7 @@ class ChoirSelection extends Component {
                     );
 
                     // Shows an alert
-                    this.props.showAlert(
+                    showAlert(
                         alertBarTypes.ERROR,
                         "Error",
                         error.response.data
@@ -177,15 +188,15 @@ class ChoirSelection extends Component {
     };
 
     // TODO: Add this functionality
-    viewPendingRequestsClickHandler = () => {};
+    const viewPendingRequestsClickHandler = () => {};
 
     /**
      * Creates a ChoirCard component for each choir.
      * Also creates a ChoirOptionCard for each choir option.
      * @returns - An array of choir card components
      */
-    getChoirComponents = () => {
-        const cards = this.getChoirCards();
+    const getChoirComponents = () => {
+        const cards = getChoirCards();
 
         // Adds a card for adding a new choir
         cards.push(
@@ -194,7 +205,7 @@ class ChoirSelection extends Component {
                 iconSrc={plusIcon}
                 name="New Choir"
                 cardColor={cardColorOptions.ORANGE}
-                onClick={this.newChoirClickHandler}
+                onClick={newChoirClickHandler}
             />
         );
 
@@ -205,7 +216,7 @@ class ChoirSelection extends Component {
                 iconSrc={questionIcon}
                 name="View Pending Choir Requests"
                 cardColor={cardColorOptions.TERTIARY_BLUE}
-                onClick={this.viewPendingRequestsClickHandler}
+                onClick={viewPendingRequestsClickHandler}
             />
         );
 
@@ -215,85 +226,72 @@ class ChoirSelection extends Component {
 
     /**
      * Gets an array of ChoirCard components
-     * @function
      * @returns {array} An array of ChoirCard components
      */
-    getChoirCards = () => {
+    const getChoirCards = () => {
         // An array of color options
         const colorOptions = Object.values(cardColorOptions);
 
         // Index starts at -1 because it is incremented before its first use
         let colorIndex = -1;
 
-        // The cards to return
-        let cards = [];
-
         // Maps the choirs to cards
-        if (this.state.choirs) {
-            cards = this.state.choirs.map((choir) => {
-                // Gets the next color
-                colorIndex++;
+        return choirs.map((choir) => {
+            // Gets the next color
+            colorIndex++;
 
-                // >= is tested instead of > because colorIndex is incremented before this check
-                if (colorIndex >= colorOptions.length) {
-                    // Start back at the beginning of the colorOptions array
-                    colorIndex = 0;
-                }
+            // >= is tested instead of > because colorIndex is incremented before this check
+            if (colorIndex >= colorOptions.length) {
+                // Start back at the beginning of the colorOptions array
+                colorIndex = 0;
+            }
 
-                // Returns a ChoirCard to the map function
-                return (
-                    <ChoirCard
-                        key={shortid.generate()}
-                        headerImgSrc={choir.picture_url}
-                        name={choir.choir_name}
-                        description={choir.description}
-                        cardColor={colorOptions[colorIndex]}
-                        onClick={() =>
-                            this.choirClickedHandler(
-                                choir.choir_id,
-                                choir.choir_name
-                            )
-                        }
-                    />
-                );
-            });
-        }
-
-        return cards;
+            // Returns a ChoirCard to the map function
+            return (
+                <ChoirCard
+                    key={shortid.generate()}
+                    headerImgSrc={choir.picture_url}
+                    name={choir.choir_name}
+                    description={choir.description}
+                    cardColor={colorOptions[colorIndex]}
+                    onClick={() =>
+                        choirClickedHandler(choir.choir_id, choir.choir_name)
+                    }
+                />
+            );
+        });
     };
 
     /**
      * Renders the ChoirSelection component
      */
-    render() {
-        // The component to display (loading or cards)
-        let component;
+    // The component to display (loading or cards)
+    let component;
 
-        if (this.state.isLoading) {
-            // Display a loading spinner
-            component = <LoadingContainer message="Loading choirs..." />;
-        } else {
-            // Display the choir cards
-            component = (
-                <div className={styles.choirSelectionCards}>
-                    {this.getChoirComponents()}
-                </div>
-            );
-        }
-
-        // Returns the JSX to render
-        return (
-            <main className={styles.choirSelection}>
-                <PageHeader
-                    heading="Choir Selection"
-                    shouldDisplayBackButton={false}
-                />
-
-                {component}
-            </main>
+    if (isLoading) {
+        // Display a loading spinner
+        component = <LoadingContainer message="Loading choirs..." />;
+    } else {
+        // Display the choir cards
+        component = (
+            <div className={styles.choirSelectionCards}>
+                {getChoirComponents()}
+            </div>
         );
     }
-}
+
+    // Returns the JSX to render
+    return (
+        <main className={styles.choirSelection}>
+            <PageHeader
+                heading="Choir Selection"
+                shouldDisplayBackButton={false}
+            />
+
+            {component}
+        </main>
+    );
+};
 
 // Prop types for the ChoirSelection component
 ChoirSelection.propTypes = {
@@ -307,43 +305,9 @@ ChoirSelection.propTypes = {
     ]).isRequired,
 
     /**
-     * React Router history object.
-     * This is provided by the withRouter function.
-     */
-    history: PropTypes.object.isRequired,
-
-    /**
      * Shows an alert
      */
     showAlert: PropTypes.func.isRequired,
-
-    /**
-     * Updates Redux with choir data.
-     * Used when selecting a choir to practice for.
-     */
-    choirSelectedForPractice: PropTypes.func.isRequired,
-
-    /**
-     * Updates Redux with choir data.
-     * Used when selecting a choir to view members of.
-     */
-    choirSelectedForChoirs: PropTypes.func.isRequired,
 };
 
-/**
- * Passes certain Redux actions to the ChoirSelection component as props.
- * This function is used only by the react-redux connect function.
- * @memberof ChoirSelection
- * @param {function} dispatch - The react-redux dispatch function
- * @returns {object} Redux actions used in the ChoirSelection component
- */
-const mapDispatchToProps = (dispatch) => {
-    return {
-        choirSelectedForPractice: (id, name) =>
-            dispatch(choirSelectedForPractice(id, name)),
-        choirSelectedForChoirs: (id, name) =>
-            dispatch(choirSelectedForChoirs(id, name)),
-    };
-};
-
-export default withRouter(connect(null, mapDispatchToProps)(ChoirSelection));
+export default ChoirSelection;
