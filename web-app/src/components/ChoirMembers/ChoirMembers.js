@@ -1,7 +1,7 @@
 // NPM module imports
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import shortid from "shortid";
 
 // Component imports
@@ -22,60 +22,87 @@ import styles from "./ChoirMembers.module.scss";
 /**
  * Renders the ChoirMembers component.
  * Shows all choir member profiles.
- * @extends {Component}
  * @component
  * @category ChoirMembers
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class ChoirMembers extends Component {
+const ChoirMembers = ({ showAlert }) => {
     /**
-     * ChoirMembers component state
-     * @property {boolean} isLoading - Indicates if the component is in a loading state
-     * @property {array} members - A list of choir members
+     * Indicates if the component is in a loading state
+     * {[isLoading, setIsLoading]: [boolean, function]}
      */
-    state = {
-        isLoading: true,
-        members: null,
-    };
+    const [isLoading, setIsLoading] = useState(true);
+
+    /**
+     * An array of choir members
+     * {[members, setMembers]: [array, function]}
+     */
+    const [members, setMembers] = useState([]);
+
+    /**
+     * The id of the selected choir
+     * @type {string}
+     */
+    const choirId = useSelector((state) => state.choirs.selectedChoirId);
+
+    /**
+     * The name of the selected choir
+     * @type {string}
+     */
+    const choirName = useSelector((state) => state.choirs.selectedChoirName);
 
     /**
      * Indicates if the component is mounted.
      * Used for asynchronous tasks.
      * @see https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+     * @type {boolean}
      */
-    _isMounted = false;
+    const isMounted = useRef(false);
 
     /**
-     * Sets _isMounted to true
-     * Gets the choir members
+     * Gets each member's profile picture url.
+     * Updates state with the url.
      */
-    componentDidMount() {
-        this._isMounted = true;
+    const getMembersProfilePictures = useCallback((currentMembers) => {
+        for (let i = 0; i < currentMembers.length; i++) {
+            // Get the member (deep copy)
+            const member = { ...currentMembers[i] };
 
-        // Gets the choir members
-        this.getMembers();
-    }
-
-    /**
-     * Sets _isMounted to false
-     */
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
+            if (member.has_picture) {
+                // Gets the member's picture url from Firebase storage
+                firebase
+                    .storage()
+                    .ref()
+                    .child(`users/${member.person_id}/profile_picture_200x200`)
+                    .getDownloadURL()
+                    .then((url) => {
+                        // Updates state with the url
+                        member.picture_url = url;
+                        const membersCopy = [...currentMembers];
+                        membersCopy[i] = member;
+                        if (isMounted.current) {
+                            setMembers(membersCopy);
+                        }
+                    });
+            }
+        }
+    }, []);
 
     /**
      * Gets the choir members from the server.
      * Updates state with the members.
-     * @function
      */
-    getMembers = () => {
-        getChoirMembers({ choirId: this.props.choirId })
+    const getMembers = useCallback(() => {
+        getChoirMembers({ choirId: choirId })
             .then((response) => {
                 // Updates state
-                if (this._isMounted)
-                    this.setState({ isLoading: false, members: response.data });
+                if (isMounted.current) {
+                    setIsLoading(false);
+                    setMembers(response.data);
+                }
+
                 // Gets each member's profile picture (this is async and will update the correct card when the picture comes in)
-                this.getMembersProfilePictures();
+                getMembersProfilePictures(response.data);
             })
             .catch((error) => {
                 // Logs an error
@@ -86,75 +113,52 @@ class ChoirMembers extends Component {
                 );
 
                 // Shows an error alert
-                this.props.showAlert(
-                    alertBarTypes.ERROR,
-                    "Error",
-                    error.response.data
-                );
+                showAlert(alertBarTypes.ERROR, "Error", error.response.data);
 
                 // Updates state
-                if (this._isMounted) this.setState({ isLoading: false });
+                if (isMounted.current) {
+                    setIsLoading(false);
+                }
             });
-    };
+    }, [choirId, getMembersProfilePictures, showAlert]);
 
     /**
-     * Gets each member's profile picture url.
-     * Updates state with the url.
-     * @function
+     * Sets _isMounted to true
+     * Gets the choir members
+     * @returns A cleanup function that sets _isMounted to false
      */
-    getMembersProfilePictures = () => {
-        if (this.state.members) {
-            for (let i = 0; i < this.state.members.length; i++) {
-                // Get the member (deep copy)
-                const member = { ...this.state.members[i] };
+    useEffect(() => {
+        isMounted.current = true;
 
-                if (member.has_picture) {
-                    // Gets the member's picture url from Firebase storage
-                    firebase
-                        .storage()
-                        .ref()
-                        .child(
-                            `users/${member.person_id}/profile_picture_200x200`
-                        )
-                        .getDownloadURL()
-                        .then((url) => {
-                            // Updates state with the url
-                            member.picture_url = url;
-                            const members = [...this.state.members];
-                            members[i] = member;
-                            this.setState({ members });
-                        });
-                }
-            }
-        }
-    };
+        // Gets the choir members
+        getMembers();
+
+        return () => {
+            isMounted.current = false;
+        };
+    }, [getMembers]);
 
     /**
      * Gets an array of admin member cards and an array of student member cards
-     * @function
      * @returns {object} An object containing an array of admin MemberCard components and an array of student MemberCard components
      */
-    getMemberCards = () => {
+    const getMemberCards = () => {
         const admins = [];
         const students = [];
 
-        if (this.state.members) {
-            // Creates a member card for each member of the choir
-            for (let i = 0; i < this.state.members.length; i++) {
-                // Gets the current member
-                const member = this.state.members[i];
+        // Creates a member card for each member of the choir
+        for (let i = 0; i < members.length; i++) {
+            // Gets the current member
+            const member = members[i];
 
-                if (member.member_type === "admin") {
-                    // Creates an admin member card
-                    admins.push(
-                        this.createMemberCard(member, memberColorOptions.GREEN)
-                    );
-                } else {
-                    // Creates a student member card
-                    students.push(
-                        this.createMemberCard(member, memberColorOptions.ORANGE)
-                    );
-                }
+            if (member.member_type === "admin") {
+                // Creates an admin member card
+                admins.push(createMemberCard(member, memberColorOptions.GREEN));
+            } else {
+                // Creates a student member card
+                students.push(
+                    createMemberCard(member, memberColorOptions.ORANGE)
+                );
             }
         }
 
@@ -163,12 +167,11 @@ class ChoirMembers extends Component {
 
     /**
      * Creates a member card component
-     * @function
      * @param {object} member - The member data used to create the member card
      * @param {string} color - The color to use for the card
      * @returns {object} A MemberCard component
      */
-    createMemberCard(member, color) {
+    const createMemberCard = (member, color) => {
         return (
             <MemberCard
                 key={shortid.generate()}
@@ -178,23 +181,21 @@ class ChoirMembers extends Component {
                 color={color}
             />
         );
-    }
+    };
 
     /**
-     * Renders the ChoirMembers component
+     * Gets the main component to display
+     * @returns JSX
      */
-    render() {
-        const { admins, students } = this.getMemberCards();
+    const getComponent = () => {
+        const { admins, students } = getMemberCards();
 
-        // The component to display (loading or cards)
-        let component;
-
-        if (this.state.isLoading) {
+        if (isLoading) {
             // Display a loading spinner
-            component = <LoadingContainer message="Loading members..." />;
+            return <LoadingContainer message="Loading members..." />;
         } else {
             // Display the choir cards
-            component = (
+            return (
                 <section>
                     {/* Admin heading */}
                     <h1 className={styles.choirMembersMemberGroupHeading}>
@@ -218,52 +219,28 @@ class ChoirMembers extends Component {
                 </section>
             );
         }
+    };
 
-        // Returns the JSX to render
-        return (
-            <div className={styles.choirMembers}>
-                <PageHeader
-                    heading={`${this.props.choirName} Members`}
-                    shouldDisplayBackButton={true}
-                    backButtonTitle={"Choir Selection"}
-                />
+    // Renders the ChoirMembers component
+    return (
+        <div className={styles.choirMembers}>
+            <PageHeader
+                heading={`${choirName} Members`}
+                shouldDisplayBackButton={true}
+                backButtonTitle={"Choir Selection"}
+            />
 
-                {component}
-            </div>
-        );
-    }
-}
+            {getComponent()}
+        </div>
+    );
+};
 
 // Prop types for the ChoirMembers component
 ChoirMembers.propTypes = {
-    /**
-     * The id of the selected choir
-     */
-    choirId: PropTypes.string.isRequired,
-
-    /**
-     * The name of the selected choir
-     */
-    choirName: PropTypes.string.isRequired,
-
     /**
      * Shows an alert
      */
     showAlert: PropTypes.func.isRequired,
 };
 
-/**
- * Gets the current state from Redux and passes parts of it to the ChoirMembers component as props.
- * This function is used only by the react-redux connect function.
- * @memberof ChoirMembers
- * @param {object} state - The Redux state
- * @returns {object} Redux state properties used in the ChoirMembers component
- */
-const mapStateToProps = (state) => {
-    return {
-        choirId: state.choirs.selectedChoirId,
-        choirName: state.choirs.selectedChoirName,
-    };
-};
-
-export default connect(mapStateToProps)(ChoirMembers);
+export default ChoirMembers;
