@@ -241,7 +241,7 @@ const MusicSelection = ({ showAlert }) => {
             />
 
             {/* Main component */}
-            {getComponent}
+            {getComponent()}
         </main>
     );
 };
