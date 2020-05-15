@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { Component } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 // File imports
@@ -16,44 +16,36 @@ import colorStyles from "./MemberCardColors.module.scss";
  * @category ChoirMembers
  * @author Dan Levy <danlevy124@gmail.com>
  */
-class MemberCard extends Component {
+const MemberCard = ({ name, roles, profilePictureSrc, color }) => {
     /**
-     * MemberCard component state
-     * @property {boolean} profilePicLoadError - Indicates if there was an error loading the member's profile picture
+     * Indicates if there was an error loading the member's profile picture
+     * {[isProfilePicLoadError, setIsProfilePicLoadError]: [boolean, function]}
      */
-    state = {
-        profilePicLoadError: false,
-    };
+    const [isProfilePicLoadError, setIsProfilePicLoadError] = useState(false);
 
     /**
      * Updates state to indicate that there was an error loading the member's profile picture
-     * @function
      */
-    profilePicLoadErrorHandler = () => {
-        this.setState({ profilePicLoadError: true });
+    const profilePicLoadErrorHandler = () => {
+        setIsProfilePicLoadError(true);
     };
 
     /**
      * Gets the correct image component
-     * @function
      * @returns {object} An image component (JSX)
      */
-    getImageComponent = () => {
-        if (!this.props.profilePictureSrc || this.state.profilePicLoadError) {
+    const getImageComponent = () => {
+        if (!profilePictureSrc || isProfilePicLoadError) {
             // Returns a placeholder image with the first letter of the user's name
             return (
                 <div className={styles.memberCardImagePlaceholder}>
-                    {this.props.name.length > 0 ? (
+                    {name.length > 0 ? (
                         <h1
                             className={`${
                                 styles.memberCardImagePlaceholderLetter
-                            } ${
-                                colorStyles[
-                                    this.props.color + "ImagePlaceholderLetter"
-                                ]
-                            }`}
+                            } ${colorStyles[color + "ImagePlaceholderLetter"]}`}
                         >
-                            {this.props.name.substring(0, 1)}
+                            {name.substring(0, 1)}
                         </h1>
                     ) : null}
                 </div>
@@ -63,8 +55,9 @@ class MemberCard extends Component {
             return (
                 <img
                     className={styles.memberCardImage}
-                    src={this.props.profilePictureSrc}
+                    src={profilePictureSrc}
                     alt="User Avatar"
+                    onError={profilePicLoadErrorHandler}
                 />
             );
         }
@@ -73,25 +66,19 @@ class MemberCard extends Component {
     /**
      * Renders the MemberCard component
      */
-    render() {
-        return (
-            <div
-                className={`${styles.memberCard} ${
-                    colorStyles[this.props.color]
-                }`}
-            >
-                {/* User's profile picture */}
-                {this.getImageComponent()}
+    return (
+        <div className={`${styles.memberCard} ${colorStyles[color]}`}>
+            {/* User's profile picture */}
+            {getImageComponent()}
 
-                {/* User's name */}
-                <h1 className={styles.memberCardName}>{this.props.name}</h1>
+            {/* User's name */}
+            <h1 className={styles.memberCardName}>{name}</h1>
 
-                {/* User's choir role(s) */}
-                <h2 className={styles.memberCardRoles}>{this.props.roles}</h2>
-            </div>
-        );
-    }
-}
+            {/* User's choir role(s) */}
+            <h2 className={styles.memberCardRoles}>{roles}</h2>
+        </div>
+    );
+};
 
 // Prop types for MemberCard component
 MemberCard.propTypes = {
