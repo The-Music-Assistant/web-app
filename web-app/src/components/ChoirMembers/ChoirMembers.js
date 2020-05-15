@@ -11,7 +11,6 @@ import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
 // File imports
 import { getChoirMembers } from "../../vendors/AWS/tmaApi";
-import firebase from "../../vendors/Firebase/firebase";
 import * as memberColorOptions from "./MemberCard/memberCardColorOptions";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import { choirMembersError } from "../../vendors/Firebase/logs";
@@ -60,35 +59,6 @@ const ChoirMembers = ({ showAlert }) => {
     const isMounted = useRef(false);
 
     /**
-     * Gets each member's profile picture url.
-     * Updates state with the url.
-     */
-    const getMembersProfilePictures = useCallback((currentMembers) => {
-        for (let i = 0; i < currentMembers.length; i++) {
-            // Get the member (deep copy)
-            const member = { ...currentMembers[i] };
-
-            if (member.has_picture) {
-                // Gets the member's picture url from Firebase storage
-                firebase
-                    .storage()
-                    .ref()
-                    .child(`users/${member.person_id}/profile_picture_200x200`)
-                    .getDownloadURL()
-                    .then((url) => {
-                        // Updates state with the url
-                        member.picture_url = url;
-                        const membersCopy = [...currentMembers];
-                        membersCopy[i] = member;
-                        if (isMounted.current) {
-                            setMembers(membersCopy);
-                        }
-                    });
-            }
-        }
-    }, []);
-
-    /**
      * Gets the choir members from the server.
      * Updates state with the members.
      */
@@ -100,9 +70,6 @@ const ChoirMembers = ({ showAlert }) => {
                     setIsLoading(false);
                     setMembers(response.data);
                 }
-
-                // Gets each member's profile picture (this is async and will update the correct card when the picture comes in)
-                getMembersProfilePictures(response.data);
             })
             .catch((error) => {
                 // Logs an error
@@ -120,7 +87,7 @@ const ChoirMembers = ({ showAlert }) => {
                     setIsLoading(false);
                 }
             });
-    }, [choirId, getMembersProfilePictures, showAlert]);
+    }, [choirId, showAlert]);
 
     /**
      * Sets _isMounted to true
@@ -175,9 +142,10 @@ const ChoirMembers = ({ showAlert }) => {
         return (
             <MemberCard
                 key={shortid.generate()}
+                personId={member.person_id}
                 name={`${member.first_name} ${member.last_name}`}
+                hasPicture={Boolean(member.has_picture)}
                 roles={member.member_role}
-                profilePictureSrc={member.picture_url}
                 color={color}
             />
         );
