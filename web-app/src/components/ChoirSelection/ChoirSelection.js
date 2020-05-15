@@ -262,20 +262,23 @@ const ChoirSelection = ({ routing, showAlert }) => {
         });
     };
 
-    // The component to display (loading or cards)
-    let component;
-
-    if (isLoading) {
-        // Display a loading spinner
-        component = <LoadingContainer message="Loading choirs..." />;
-    } else {
-        // Display the choir cards
-        component = (
-            <div className={styles.choirSelectionCards}>
-                {getChoirComponents()}
-            </div>
-        );
-    }
+    /**
+     * Gets the main component to display (loading or choir cards)
+     * @returns JSX
+     */
+    const getComponent = () => {
+        if (isLoading) {
+            // Display a loading spinner
+            return <LoadingContainer message="Loading choirs..." />;
+        } else {
+            // Display the choir cards
+            return (
+                <div className={styles.choirSelectionCards}>
+                    {getChoirComponents()}
+                </div>
+            );
+        }
+    };
 
     // Renders the ChoirSelection component
     return (
@@ -285,7 +288,7 @@ const ChoirSelection = ({ routing, showAlert }) => {
                 shouldDisplayBackButton={false}
             />
 
-            {component}
+            {getComponent()}
         </main>
     );
 };

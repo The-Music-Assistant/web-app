@@ -35,7 +35,9 @@ const UserWidget = () => {
     /**
      * Updates state indicating that there was a profile picture error
      */
-    const profilePictureErrorHandler = () => setIsProfilePictureError(true);
+    const profilePictureErrorHandler = () => {
+        setIsProfilePictureError(true);
+    };
 
     // Renders the UserWidget component
     return (

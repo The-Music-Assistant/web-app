@@ -212,20 +212,23 @@ const MusicSelection = ({ showAlert }) => {
         });
     };
 
-    // The component to display (loading component or cards component)
-    let loadingOrCardsComponent;
-
-    if (isLoading) {
-        // Display a loading spinner
-        loadingOrCardsComponent = (
-            <LoadingContainer message="Loading music..." />
-        );
-    } else {
-        // Display the music cards
-        loadingOrCardsComponent = (
-            <div className={styles.musicSelectionCards}>{getMusicCards()}</div>
-        );
-    }
+    /**
+     * Gets the main component (loading or music cards)
+     * @returns JSX
+     */
+    const getComponent = () => {
+        if (isLoading) {
+            // Display a loading spinner
+            return <LoadingContainer message="Loading music..." />;
+        } else {
+            // Display the music cards
+            return (
+                <div className={styles.musicSelectionCards}>
+                    {getMusicCards()}
+                </div>
+            );
+        }
+    };
 
     // Renders the MusicSelection component
     return (
@@ -238,7 +241,7 @@ const MusicSelection = ({ showAlert }) => {
             />
 
             {/* Main component */}
-            {loadingOrCardsComponent}
+            {getComponent}
         </main>
     );
 };
