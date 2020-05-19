@@ -3,6 +3,8 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 import * as authFlows from "../../pages/Auth/authFlows";
 
+// TODO: Move isAuthenticted, userFullName, and userPictureUrl to global context
+
 /**
  * Redux auth reducer
  * @module reduxAuthReducer

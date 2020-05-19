@@ -1,8 +1,6 @@
 // NPM module imports
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useHistory, useRouteMatch } from "react-router-dom";
 import shortid from "shortid";
 
 // Component imports
@@ -19,11 +17,6 @@ import questionIcon from "../../assets/icons/question-icon.svg";
 import { choirSelectionError } from "../../vendors/Firebase/logs";
 import { getUsersChoirs, joinChoir } from "../../vendors/AWS/tmaApi";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
-import {
-    choirSelectedForPractice,
-    choirSelectedForChoirs,
-} from "../../store/actions/index";
-import * as routingOptions from "./choirSelectionRoutingOptions";
 import * as cardColorOptions from "./ChoirCards/choirCardColorOptions";
 
 // Style imports
@@ -36,7 +29,7 @@ import styles from "./ChoirSelection.module.scss";
  * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ChoirSelection = ({ routing, showAlert }) => {
+const ChoirSelection = ({ showAlert, onChoirClick }) => {
     /**
      * Indicates if the component is in a loading state
      * {[isLoading, setIsLoading]: [boolean, function]}
@@ -48,24 +41,6 @@ const ChoirSelection = ({ routing, showAlert }) => {
      * {[choirs, setChoirs]: [array, function]}
      */
     const [choirs, setChoirs] = useState([]);
-
-    /**
-     * react-redux dispatch function
-     * @type {function}
-     */
-    const dispatch = useDispatch();
-
-    /**
-     * react-router-dom history
-     * @type {object}
-     */
-    const history = useHistory();
-
-    /**
-     * react-router-dom route match
-     * @type {object}
-     */
-    const match = useRouteMatch();
 
     /**
      * Indicates if the component is mounted.
@@ -119,37 +94,6 @@ const ChoirSelection = ({ routing, showAlert }) => {
             isMounted.current = false;
         };
     }, [getChoirList]);
-
-    /**
-     * Updates Redux with the selected choir id and choir name
-     * Routes to the new url
-     * @param {string} id - The selected choir id
-     * @param {string} name - The selected choir name
-     */
-    const choirClickedHandler = (id, name) => {
-        // The url to route to
-        let routeUrl;
-
-        // Calls the correct dispatch function and sets the routeUrl depending on the routing prop value
-        switch (routing) {
-            case routingOptions.MUSIC_SELECTION:
-                dispatch(choirSelectedForPractice(id, name));
-                routeUrl = `${match.url}/choirs/${id}`;
-                break;
-            case routingOptions.CHOIR_MEMBERS:
-                dispatch(choirSelectedForChoirs(id, name));
-                routeUrl = `${match.url}/${id}`;
-                break;
-            default:
-                console.log(
-                    "Invalid routing option was given. See choirSelectionRoutingOptions.js"
-                );
-        }
-
-        // Routes to the new url
-        history.push(routeUrl);
-    };
-
     /**
      * Attempts to join a new choir
      */
@@ -255,7 +199,7 @@ const ChoirSelection = ({ routing, showAlert }) => {
                     description={choir.description}
                     cardColor={colorOptions[colorIndex]}
                     onClick={() =>
-                        choirClickedHandler(choir.choir_id, choir.choir_name)
+                        onChoirClick(choir.choir_id, choir.choir_name)
                     }
                 />
             );
@@ -296,18 +240,14 @@ const ChoirSelection = ({ routing, showAlert }) => {
 // Prop types for the ChoirSelection component
 ChoirSelection.propTypes = {
     /**
-     * Where to route when a choir card is clicked on.
-     * see [options]{@link module:choirSelectionRoutingOptions}.
-     */
-    routing: PropTypes.oneOf([
-        routingOptions.MUSIC_SELECTION,
-        routingOptions.CHOIR_MEMBERS,
-    ]).isRequired,
-
-    /**
      * Shows an alert
      */
     showAlert: PropTypes.func.isRequired,
+
+    /**
+     * Click handler for a choir
+     */
+    onChoirClick: PropTypes.func.isRequired,
 };
 
 export default ChoirSelection;

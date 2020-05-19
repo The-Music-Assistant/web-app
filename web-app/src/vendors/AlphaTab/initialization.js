@@ -16,8 +16,8 @@ import * as listeners from "./listeners";
  * Displays the piece of music on the screen.
  * @function
  */
-const initializeAPI = () => {
-    atVars.initialize();
+const initializeAPI = (sheetMusicId) => {
+    atVars.initialize(sheetMusicId);
 
     // AlphaTab API settings
     let settings = {

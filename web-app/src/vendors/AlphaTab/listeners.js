@@ -1,7 +1,6 @@
 // File imports
 import atVars from "./variables";
 import { startPlayingMusic } from "./actions";
-import { store } from "../../store/reduxSetup";
 import Drawer from "../P5/Drawer";
 import * as sketchBehaviors from "../P5/sketchBehaviors";
 import p5 from "p5";
@@ -47,7 +46,7 @@ export const alphaTabPlayerStateChanged = () => {
         atVars.playerState === playerStates.PLAYING
     ) {
         // Real stop -> stop playing the music
-        stopPlayingMusic();
+        stopPlayingMusic(atVars.sheetMusicId);
         resetSheetMusic();
     } else if (
         atVars.api.playerState === playerStates.PLAYING &&
@@ -57,7 +56,7 @@ export const alphaTabPlayerStateChanged = () => {
         startPlayingMusic();
     } else if (atVars.playerState === playerStates.PENDING_STOP) {
         // Request was made to destroy the api -> so stop playing the music
-        stopPlayingMusic();
+        stopPlayingMusic(atVars.sheetMusicId);
     }
 };
 
@@ -185,7 +184,7 @@ const initializeFeedbackDrawer = (topLine, nextLine) => {
  */
 const stopPlayingMusic = () => {
     // Stops the pitch detection
-    stopPitchDetection(store.getState().practice.selectedSheetMusicId);
+    stopPitchDetection(atVars.sheetMusicId);
 
     // Changes player state to stopped
     atVars.playerState = playerStates.STOPPED;

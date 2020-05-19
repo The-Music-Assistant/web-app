@@ -1,7 +1,6 @@
 // NPM module imports
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 
 // Component Imports
 import RectangularButton from "../../../Buttons/RectangularButton/RectangularButton";
@@ -11,7 +10,6 @@ import SmallTextInput from "../../../FormInputs/TextInputs/SmallTextInput/SmallT
 import * as rectButtonColorOptions from "../../../Buttons/RectangularButton/rectangularButtonColorOptions";
 import * as buttonTypes from "../../../Buttons/buttonTypes";
 import * as textInputTypes from "../../../FormInputs/TextInputs/textInputTypes";
-import { exerciseRequested } from "../../../../store/actions";
 
 // Image imports
 import closeIconWhite from "../../../../assets/icons/close-icon-white.svg";
@@ -43,23 +41,17 @@ const ExerciseGenerator = ({
     const [endMeasureValue, setEndMeasureValue] = useState("1");
 
     /**
-     * react-redux dispatch function
-     * @type {function}
-     */
-    const dispatch = useDispatch();
-
-    /**
      * Submits the exercise generation request.
      * Shows the exercise.
      */
     const generateExerciseSubmitHandler = (event) => {
         event.preventDefault();
 
-        // Tells Redux to request the exercise
-        dispatch(exerciseRequested(startMeasureValue, endMeasureValue));
-
         // Switches to the exercise view
-        showExercise();
+        showExercise({
+            startMeasure: startMeasureValue,
+            endMeasure: endMeasureValue,
+        });
     };
 
     /**

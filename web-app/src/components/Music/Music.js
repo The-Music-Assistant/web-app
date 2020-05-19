@@ -2,7 +2,6 @@
 import React, { Component, createRef } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 // Component imports
 import PracticeMusicHeader from "./PracticeMusicHeader/PracticeMusicHeader";
@@ -28,7 +27,6 @@ import setupPitchDetection from "../../vendors/ML5/PitchDetection/initialization
 import { sheetMusicError } from "../../vendors/Firebase/logs";
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
 import * as musicViewOptions from "./musicViewOptions";
-import { exerciseGenerated } from "../../store/actions";
 
 // Style imports
 import "./SheetMusic.scss";
@@ -79,6 +77,14 @@ class Music extends Component {
     _alphaTabWrapperRef = createRef();
 
     /**
+     * The exercise to display
+     * @type {object}
+     * @property {string} startMeasure - The start measure
+     * @property {string} endMeasure - The end measure
+     */
+    exerciseToDisplay = { startMeasure: "", endMeasure: "" };
+
+    /**
      * Sets _isMounted to true.
      * Initializes the AlphaTab API.
      * Initializes pitch detection.
@@ -87,7 +93,7 @@ class Music extends Component {
     componentDidMount() {
         this._isMounted = true;
 
-        initializeAlphaTabApi();
+        initializeAlphaTabApi(this.props.sheetMusicId);
         alphaTabVars.api.addPostRenderFinished(this.alphaTabDidRender);
 
         this.initializePitchDetection();
@@ -161,8 +167,8 @@ class Music extends Component {
             case musicViewOptions.EXERCISE:
                 loadSheetMusic = changeToExercise.bind(
                     this,
-                    parseInt(this.props.exercise.startMeasure, 10),
-                    parseInt(this.props.exercise.endMeasure, 10)
+                    parseInt(this.exerciseToDisplay.startMeasure, 10),
+                    parseInt(this.exerciseToDisplay.endMeasure, 10)
                 );
                 break;
             default:
@@ -174,11 +180,6 @@ class Music extends Component {
         try {
             // Loads the sheet music
             await loadSheetMusic();
-
-            if (this.state.currentView === musicViewOptions.EXERCISE) {
-                // Tells Redux that an exercise has been generated
-                this.props.exerciseGenerated();
-            }
 
             // Updates state with the sheet music data
             if (this._isMounted) {
@@ -255,9 +256,13 @@ class Music extends Component {
      * @function
      * @param {module:musicViewOptions} newView - The view to switch to
      */
-    switchToNewMusicPage = (newView) => {
+    switchToNewMusicPage = (newView, exercise = null) => {
         // Prepares for a sheet music update
         this.prepareForSheetMusicUpdate();
+
+        if (exercise) {
+            this.exerciseToDisplay = exercise;
+        }
 
         // Updates the URL
         const routeUrl = this.getNewUrl(newView);
@@ -394,8 +399,11 @@ class Music extends Component {
                         switchToPractice={() =>
                             this.switchToNewMusicPage(musicViewOptions.PRACTICE)
                         }
-                        switchToExercise={() =>
-                            this.switchToNewMusicPage(musicViewOptions.EXERCISE)
+                        switchToExercise={(exerciseData) =>
+                            this.switchToNewMusicPage(
+                                musicViewOptions.EXERCISE,
+                                exerciseData
+                            )
                         }
                     />
                 </Route>
@@ -433,8 +441,8 @@ class Music extends Component {
                 return "Performance";
             case musicViewOptions.EXERCISE:
                 return this.state.isMicrophoneAvailable
-                    ? `Exercise (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure})`
-                    : `Exercise Playback (Measures ${this.props.exercise.startMeasure} - ${this.props.exercise.endMeasure}) - No Microphone Available`;
+                    ? `Exercise (Measures ${this.exerciseToDisplay.startMeasure} - ${this.exerciseToDisplay.endMeasure})`
+                    : `Exercise Playback (Measures ${this.exerciseToDisplay.startMeasure} - ${this.exerciseToDisplay.endMeasure}) - No Microphone Available`;
             default:
                 return "Practice";
         }
@@ -510,48 +518,14 @@ Music.propTypes = {
     match: PropTypes.object.isRequired,
 
     /**
-     * The requested exercise measures (if an exercise was requested)
+     * The selected sheet music ID
      */
-    exercise: PropTypes.shape({
-        startMeasure: PropTypes.string,
-        endMeasure: PropTypes.string,
-    }),
+    sheetMusicId: PropTypes.string.isRequired,
 
     /**
      * Shows an alert
      */
     showAlert: PropTypes.func.isRequired,
-
-    /**
-     * Tells Redux that the requested exercise has been generated
-     */
-    exerciseGenerated: PropTypes.func.isRequired,
 };
 
-/**
- * Gets the current state from Redux and passes parts of it to the Music component as props.
- * This function is used only by the react-redux connect function.
- * @memberof Music
- * @param {object} state - The Redux state
- * @returns {object} Redux state properties used in the Music component
- */
-const mapStateToProps = (state) => {
-    return {
-        exercise: state.practice.exercise,
-    };
-};
-
-/**
- * Passes certain Redux actions to the Music component as props.
- * This function is used only by the react-redux connect function.
- * @memberof Music
- * @param {function} dispatch - The react-redux dispatch function
- * @returns {object} Redux actions used in the Music component
- */
-const mapDispatchToProps = (dispatch) => {
-    return {
-        exerciseGenerated: () => dispatch(exerciseGenerated()),
-    };
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Music));
+export default withRouter(Music);

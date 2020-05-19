@@ -17,13 +17,5 @@ export {
     retrievedUsersName,
     retrievedUsersPictureUrl,
     userAuthenticated,
+    userNotAuthenticated,
 } from "./auth";
-
-export {
-    choirSelectedForPractice,
-    musicSelectedForPractice,
-    exerciseRequested,
-    exerciseGenerated,
-} from "./practice";
-
-export { choirSelectedForChoirs } from "./choirs";

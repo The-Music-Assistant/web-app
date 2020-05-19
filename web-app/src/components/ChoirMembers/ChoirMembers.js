@@ -1,7 +1,6 @@
 // NPM module imports
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import shortid from "shortid";
 
 // Component imports
@@ -25,7 +24,7 @@ import styles from "./ChoirMembers.module.scss";
  * @category ChoirMembers
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ChoirMembers = ({ showAlert }) => {
+const ChoirMembers = ({ choirId, choirName, showAlert }) => {
     /**
      * Indicates if the component is in a loading state
      * {[isLoading, setIsLoading]: [boolean, function]}
@@ -37,18 +36,6 @@ const ChoirMembers = ({ showAlert }) => {
      * {[members, setMembers]: [array, function]}
      */
     const [members, setMembers] = useState([]);
-
-    /**
-     * The id of the selected choir
-     * @type {string}
-     */
-    const choirId = useSelector((state) => state.choirs.selectedChoirId);
-
-    /**
-     * The name of the selected choir
-     * @type {string}
-     */
-    const choirName = useSelector((state) => state.choirs.selectedChoirName);
 
     /**
      * Indicates if the component is mounted.

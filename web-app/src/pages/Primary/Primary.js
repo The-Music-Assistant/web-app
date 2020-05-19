@@ -5,21 +5,18 @@ import { Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 // Component imports
+import AlertBar from "../../components/AlertBar/AlertBar";
 import Header from "../../components/Header/Header";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import SideNav from "../../components/SideNav/SideNav";
-import ChoirSelection from "../../components/ChoirSelection/ChoirSelection";
-import MusicSelection from "../../components/MusicSelection/MusicSelection";
-import AlertBar from "../../components/AlertBar/AlertBar";
 import Home from "../../components/Home/Home";
-import Music from "../../components/Music/Music";
+import Practice from "../../components/Practice/Practice";
 import Progress from "../../components/Progress/Progress";
-import ChoirMembers from "../../components/ChoirMembers/ChoirMembers";
+import Choirs from "../../components/Choirs/Choirs";
 import Footer from "../../components/Footer/Footer";
 
 // File imports
-import { signOut } from "../../store/actions";
-import * as choirSelectionRoutingOptions from "../../components/ChoirSelection/choirSelectionRoutingOptions";
+import { signOut } from "../../store/actions/index";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -287,44 +284,24 @@ const Primary = () => {
             {getMainNav()}
 
             <Switch>
-                {/* Shows the music component */}
-                <Route path="/practice/choirs/:choirId/music/:musicId">
-                    <Music showAlert={showAlertHandler} />
-                </Route>
-                {/* Shows the music selection component */}
-                <Route path="/practice/choirs/:choirId">
-                    <MusicSelection showAlert={showAlertHandler} />
+                {/* Shows the Home component */}
+                <Route path="/home">
+                    <Home />
                 </Route>
 
-                {/* Shows the choir members component */}
-                <Route path="/choirs/:choirId">
-                    <ChoirMembers showAlert={showAlertHandler} />
-                </Route>
-
-                {/* Shows the choir selection component */}
+                {/* Shows the Practice component */}
                 <Route path="/practice">
-                    <ChoirSelection
-                        routing={choirSelectionRoutingOptions.MUSIC_SELECTION}
-                        showAlert={showAlertHandler}
-                    />
+                    <Practice showAlert={showAlertHandler} />
                 </Route>
 
-                {/* Shows the progress component */}
+                {/* Shows the Progress component */}
                 <Route path="/progress">
                     <Progress />
                 </Route>
 
-                {/* Shows the choir selection component */}
+                {/* Shows the Choirs component */}
                 <Route path="/choirs">
-                    <ChoirSelection
-                        routing={choirSelectionRoutingOptions.CHOIR_MEMBERS}
-                        showAlert={showAlertHandler}
-                    />
-                </Route>
-
-                {/* Shows the home component */}
-                <Route path="/home">
-                    <Home />
+                    <Choirs showAlert={showAlertHandler} />
                 </Route>
             </Switch>
 

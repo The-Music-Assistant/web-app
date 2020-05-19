@@ -82,7 +82,7 @@ class AlphaTabVariables {
     /**
      * Sets AlphaTab variables to their initial values
      */
-    initialize = () => {
+    initialize = (sheetMusicId) => {
         this.api = null;
         this.p5Obj = null;
         this.noteStream = [-1, 0];
@@ -97,6 +97,7 @@ class AlphaTabVariables {
         this.playerState = 0;
         this.sheetMusicLength = null;
         this.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
+        this.sheetMusicId = sheetMusicId;
     };
 }
 

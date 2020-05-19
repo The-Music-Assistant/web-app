@@ -10,7 +10,6 @@ import {
 } from "../../vendors/AWS/tmaApi";
 import TexLoaded from "./TexLoaded";
 import { sheetMusicError } from "../../vendors/Firebase/logs";
-import { store } from "../../store/reduxSetup";
 import * as playerStates from "./playerStates";
 import * as sketchBehaviors from "../P5/sketchBehaviors";
 import atVars from "./variables";
@@ -97,7 +96,7 @@ export const changePart = async (partName) => {
         // assumes user wants to sing the selected part and will draw the green/yellow/red line appropriately
         // TODO: Discuss with client and users, is this correct behavior? Do they want to always see red/yellow/green for their part only
         let data = {
-            sheetMusicId: store.getState().practice.selectedSheetMusicId,
+            sheetMusicId: atVars.sheetMusicId,
             partName: atVars.texLoaded.partNames[trackIndex],
         };
 
@@ -132,12 +131,12 @@ export const changeToSheetMusic = async () => {
  * Renders isolated user part from sheet music through AlphaTab with Real Time Feedback from P5
  * @function
  */
-export const changeToMyPart = async () => {
-    atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
-    atVars.api.settings.display.barCount = atVars.barCount;
-    atVars.api.updateSettings();
-    await loadJustMyPart();
-};
+// export const changeToMyPart = async (sheetMusicId) => {
+//     atVars.sketchBehavior = sketchBehaviors.REAL_TIME_FEEDBACK;
+//     atVars.api.settings.display.barCount = atVars.barCount;
+//     atVars.api.updateSettings();
+//     await loadJustMyPart(sheetMusicId);
+// };
 
 /**
  * Renders performance overview using AlphaTab and Performance Highlighting from P5
@@ -269,9 +268,7 @@ export const getPlaybackRange = () => {
  */
 export const loadJustMyPart = async () => {
     try {
-        const singlePartResponse = await getSinglePartSheetMusic({
-            sheetMusicId: store.getState().practice.selectedSheetMusicId,
-        });
+        const singlePartResponse = await getSinglePartSheetMusic();
         // update the wrapper for the loaded tex since it has changed
         atVars.texLoaded.update(
             "Sheet Music",
@@ -327,7 +324,7 @@ const loadExercise = async (measureStart, measureEnd) => {
     // Defaults to non duration exercise
     // TODO: Get duration exercise if measure needs a lot of work, otherwise get normal exercise
     let data = {
-        sheetMusicId: store.getState().practice.selectedSheetMusicId,
+        sheetMusicId: atVars.sheetMusicId,
         trackNumber: atVars.texLoaded.currentTrackIndexes[0] + 1,
         staffNumber: 1,
         measureStart,
@@ -381,7 +378,7 @@ const loadExercise = async (measureStart, measureEnd) => {
  */
 export const loadTex = async (partName) => {
     let data = {
-        sheetMusicId: store.getState().practice.selectedSheetMusicId,
+        sheetMusicId: atVars.sheetMusicId,
     };
 
     // TODO: Save this response so that we can switch back to the sheet music without having to re-request the sheet music from the database
@@ -401,8 +398,7 @@ export const loadTex = async (partName) => {
                 actualPartName,
                 null,
                 1,
-                1,
-                store.getState().practice.selectedSheetMusicId
+                1
             );
         } else {
             atVars.texLoaded.update(
@@ -420,7 +416,7 @@ export const loadTex = async (partName) => {
             atVars.sketchBehavior === sketchBehaviors.PERFORMANCE_HIGHLIGHTING
         ) {
             let data = {
-                sheetMusicId: store.getState().practice.selectedSheetMusicId,
+                sheetMusicId: atVars.sheetMusicId,
             };
             let performanceProgress = await getPerformanceProgress(data);
             atVars.texLoaded.setPerformanceProgress(

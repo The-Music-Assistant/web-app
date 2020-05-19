@@ -4,8 +4,6 @@ import { combineReducers } from "redux";
 // File imports
 import appReducer from "./app";
 import authReducer from "./auth";
-import practiceReducer from "./practice";
-import choirsReducer from "./choirs";
 
 /**
  * Redux root reducer
@@ -21,8 +19,6 @@ import choirsReducer from "./choirs";
 const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
-    practice: practiceReducer,
-    choirs: choirsReducer,
 });
 
 export default rootReducer;

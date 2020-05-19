@@ -70,8 +70,6 @@ const ProfileCard = ({ setLoading, showAlert, done }) => {
         const picture =
             event.target.files.length === 1 ? event.target.files[0] : null;
 
-        console.log(picture);
-
         // Sets state with new image
         setProfilePicture(picture);
     };

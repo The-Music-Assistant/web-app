@@ -17,6 +17,7 @@ import {
     retrievedUsersName,
     userAuthenticated,
     retrievedUsersPictureUrl,
+    userNotAuthenticated,
 } from "../store/actions/index";
 
 // Style imports
@@ -42,6 +43,12 @@ const App = () => {
      * @type {boolean}
      */
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+    /**
+     * Indicates if the initial authentication check is done
+     * {[isInitialAuthCheckDone, setIsInitialAuthCheckDone]: [boolean, function]}
+     */
+    const [isInitialAuthCheckDone, setIsInitialAuthCheckDone] = useState(false);
 
     /**
      * Indicates whether the user's email is verified
@@ -109,10 +116,16 @@ const App = () => {
                             : setIsUserEmailVerified(false);
 
                         dispatch(userAuthenticated());
+
+                        setIsInitialAuthCheckDone(true);
                     });
             } else {
                 // Clears the old Axios auth header token if there is one
                 setAxiosAuthToken("");
+
+                dispatch(userNotAuthenticated());
+
+                setIsInitialAuthCheckDone(true);
             }
         });
     }, [dispatch]);
@@ -148,7 +161,7 @@ const App = () => {
      * @returns {Redirect} A Redirect component
      */
     const getRedirect = () => {
-        if (!isAuthenticated) {
+        if (!isInitialAuthCheckDone) {
             return <Redirect to="/startup" />;
         } else if (!isAuthenticated || !isAuthFlowComplete) {
             return <Redirect to="/auth" />;
@@ -165,7 +178,7 @@ const App = () => {
      * @returns {Route} A Route component
      */
     const getRoute = () => {
-        if (!isAuthenticated) {
+        if (!isInitialAuthCheckDone) {
             return (
                 <Route>
                     <Startup />
