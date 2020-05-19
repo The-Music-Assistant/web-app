@@ -17,8 +17,6 @@ export {
     signOut,
 } from "./auth";
 
-export { startupDone } from "./startup";
-
 export {
     choirSelectedForPractice,
     musicSelectedForPractice,

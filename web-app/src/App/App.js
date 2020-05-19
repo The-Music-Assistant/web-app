@@ -31,12 +31,6 @@ const App = () => {
     const dispatch = useDispatch();
 
     /**
-     * Indicates whether app startup is done
-     * @type {boolean}
-     */
-    const isStartupDone = useSelector((state) => state.startup.isDone);
-
-    /**
      * Indicates whether there exists an authenticated user
      * @type {boolean}
      */
@@ -57,23 +51,6 @@ const App = () => {
     const shouldShowWelcomePage = useSelector(
         (state) => state.auth.shouldShowWelcomePage
     );
-
-    // useEffect(() => {
-    //     addSheetMusic({
-    //         choidId: "66bcd6b6-93c0-11ea-91c1-fceba36d3ada",
-    //         encoding: `\\title "Demo"
-    //         \\tempo 72
-    //         .
-    //         \\track "Demo Track"
-    //         \\staff {score} \\tuning piano \\instrument acousticgrandpiano \\ks C
-    //         \\ts 4 4 c4.4 d4.4 e4.4 f4.4 |
-    //         g4.4 a4.4 b4.4 c5.4 |
-    //         c5.4 b4.4 a4.4 g4.4 |
-    //         f4.4 e4.4 d4.4 c4.4 |`,
-    //         composerNames: "Daniel Griessler",
-    //         lyrics: ""
-    //     });
-    // }, []);
 
     /**
      * Sets the browser type (mobile or not mobile)
@@ -113,7 +90,7 @@ const App = () => {
      * @returns {Redirect} A Redirect component
      */
     const getRedirect = () => {
-        if (!isStartupDone) {
+        if (!isAuthenticated) {
             return <Redirect to="/startup" />;
         } else if (!isAuthenticated || !isAuthFlowComplete) {
             return <Redirect to="/auth" />;
@@ -130,7 +107,7 @@ const App = () => {
      * @returns {Route} A Route component
      */
     const getRoute = () => {
-        if (!isStartupDone) {
+        if (!isAuthenticated) {
             return (
                 <Route>
                     <Startup />

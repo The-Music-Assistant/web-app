@@ -67,12 +67,6 @@ export const WELCOME_PAGE_COMPLETE = "WELCOME_PAGE_COMPLETE";
  */
 export const AUTH_ERROR = "AUTH_ERROR";
 
-// --------------- Startup action types ---------------
-/**
- * @type {string}
- */
-export const STARTUP_DONE = "STARTUP_DONE";
-
 // --------------- Practice action types ---------------
 /**
  * @type {string}

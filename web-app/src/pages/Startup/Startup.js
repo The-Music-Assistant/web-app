@@ -1,10 +1,6 @@
 // NPM module imports
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import { MetroSpinner } from "react-spinners-kit";
-
-// File imports
-import { startupDone } from "../../store/actions";
 
 // Image imports
 import logo from "../../assets/logos/tma-logo-white.png";
@@ -20,28 +16,6 @@ import styles from "./Startup.module.scss";
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const Startup = () => {
-    /**
-     * Indicates if there is an authenticated user
-     * @type {boolean}
-     */
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-    /**
-     * react-redux dispatch function
-     * @type {function}
-     */
-    const dispatch = useDispatch();
-
-    /**
-     * Tells Redux when app startup is done
-     */
-    useEffect(() => {
-        if (isAuthenticated !== null) {
-            // Startup is considered to be done when isAuthenticated is true or false
-            dispatch(startupDone());
-        }
-    }, [dispatch, isAuthenticated]);
-
     // Renders the Startup component
     return (
         <main className={styles.startup}>
