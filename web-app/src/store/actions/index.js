@@ -8,13 +8,15 @@
 export { setBrowserType } from "./app";
 
 export {
-    handleAuthStateChanges,
     getUserInfo,
     showWelcomePage,
     doNotShowWelcomePage,
     welcomePageComplete,
     startAuthFlow,
     signOut,
+    retrievedUsersName,
+    retrievedUsersPictureUrl,
+    userAuthenticated,
 } from "./auth";
 
 export {

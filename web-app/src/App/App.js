@@ -1,5 +1,5 @@
 // NPM module imports
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -10,7 +10,14 @@ import Welcome from "../pages/Welcome/Welcome";
 import Primary from "../pages/Primary/Primary";
 
 // File imports
-import { setBrowserType } from "../store/actions/index";
+import firebase, { getUserId } from "../vendors/Firebase/firebase";
+import { setAxiosAuthToken, getUser } from "../vendors/AWS/tmaApi";
+import {
+    setBrowserType,
+    retrievedUsersName,
+    userAuthenticated,
+    retrievedUsersPictureUrl,
+} from "../store/actions/index";
 
 // Style imports
 import "normalize.css";
@@ -37,6 +44,12 @@ const App = () => {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     /**
+     * Indicates whether the user's email is verified
+     * {[isUserEmailVerified, setIsUserEmailVerified]: [boolean, function]}
+     */
+    const [isUserEmailVerified, setIsUserEmailVerified] = useState(false);
+
+    /**
      * Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)
      * @type {boolean}
      */
@@ -45,18 +58,63 @@ const App = () => {
     );
 
     /**
-     * Indicates whether this component should display the Welcome component
-     * @type {boolean}
-     */
-    const shouldShowWelcomePage = useSelector(
-        (state) => state.auth.shouldShowWelcomePage
-    );
-
-    /**
      * Sets the browser type (mobile or not mobile)
      */
     useEffect(() => {
         dispatch(setBrowserType(isMobileBrowser()));
+    }, [dispatch]);
+
+    /**
+     * Listens for auth changes.
+     * If a user exists:
+     * Gets the user's full name and profile picture.
+     */
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // Sets the Axios auth header with the user's id token
+                getUserId()
+                    .then(setAxiosAuthToken)
+                    .catch(() => setAxiosAuthToken(""))
+                    .then(getUser)
+                    .then((snapshot) => {
+                        // Sets the user's name
+                        dispatch(
+                            retrievedUsersName(
+                                `${snapshot.data.first_name} ${snapshot.data.last_name}`
+                            )
+                        );
+
+                        return snapshot.data.has_picture;
+                    })
+                    .then((hasProfilePicture) => {
+                        if (hasProfilePicture) {
+                            // Gets the user's profile picture URL
+                            return firebase
+                                .storage()
+                                .ref()
+                                .child(
+                                    `users/${user.uid}/profile_picture_200x200`
+                                )
+                                .getDownloadURL();
+                        }
+                    })
+                    .then((url) => {
+                        // Updates state with the picture URL
+                        dispatch(retrievedUsersPictureUrl(url));
+                    })
+                    .then(() => {
+                        user.emailVerified
+                            ? setIsUserEmailVerified(true)
+                            : setIsUserEmailVerified(false);
+
+                        dispatch(userAuthenticated());
+                    });
+            } else {
+                // Clears the old Axios auth header token if there is one
+                setAxiosAuthToken("");
+            }
+        });
     }, [dispatch]);
 
     /**
@@ -94,7 +152,7 @@ const App = () => {
             return <Redirect to="/startup" />;
         } else if (!isAuthenticated || !isAuthFlowComplete) {
             return <Redirect to="/auth" />;
-        } else if (shouldShowWelcomePage) {
+        } else if (!isUserEmailVerified) {
             return <Redirect to="/welcome" />;
         } else {
             return <Redirect to="/practice" />;
@@ -119,7 +177,7 @@ const App = () => {
                     <Auth />
                 </Route>
             );
-        } else if (shouldShowWelcomePage) {
+        } else if (!isUserEmailVerified) {
             return (
                 <Route>
                     <Welcome />

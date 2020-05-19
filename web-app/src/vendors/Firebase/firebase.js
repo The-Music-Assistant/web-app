@@ -44,4 +44,8 @@ firebase.analytics();
 // Initializes Firebase Performance Monitoring
 firebase.performance();
 
+export const getUserId = async () => {
+    return firebase.auth().currentUser.getIdToken();
+};
+
 export default firebase;

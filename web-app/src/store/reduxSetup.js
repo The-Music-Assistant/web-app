@@ -4,7 +4,6 @@ import thunk from "redux-thunk";
 
 // File imports
 import rootReducer from "./reducers/rootReducer";
-import { handleAuthStateChanges } from "./actions";
 
 /**
  * Sets up Redux
@@ -27,6 +26,3 @@ export const store = createStore(
     rootReducer,
     composeEnhancers(applyMiddleware(thunk))
 );
-
-// Starts the Firebase auth state change listener
-store.dispatch(handleAuthStateChanges());

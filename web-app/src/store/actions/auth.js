@@ -5,7 +5,7 @@ import "firebase/storage";
 import * as actionTypes from "./actionTypes";
 import firebase from "../../vendors/Firebase/firebase";
 import { authError as logAuthError } from "../../vendors/Firebase/logs";
-import { setAxiosAuthToken, getUser } from "../../vendors/AWS/tmaApi";
+import { getUser } from "../../vendors/AWS/tmaApi";
 
 /**
  * Redux authentication actions
@@ -36,51 +36,6 @@ export const signOut = () => {
                 // Error when signing out
                 dispatch(authError(error));
             });
-    };
-};
-
-/**
- * Updates redux state whenever Firebase Auth state changes
- * @function
- * @returns {function} A React Redux dispatch function
- */
-export const handleAuthStateChanges = () => {
-    return (dispatch) => {
-        // Creates an auth state changed observer
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                // Sets the Axios auth header with the user's id token
-                firebase
-                    .auth()
-                    .currentUser.getIdToken()
-                    .then(setAxiosAuthToken)
-                    .catch((error) => {
-                        // Clears the old Axios auth header token if there is one
-                        setAxiosAuthToken("");
-                        dispatch(authError(error));
-                        logAuthError(
-                            error.code,
-                            error.message,
-                            "[store/actions/auth/handleAuthStateChanges]"
-                        );
-                    })
-                    .then(() => {
-                        dispatch(getUserInfo());
-                    })
-                    .then(() => {
-                        // A user must have a verified email before they can use the app
-                        // The welcome page blocks the user until they verify their email
-                        if (!user.emailVerified) {
-                            dispatch(showWelcomePage());
-                        }
-                    });
-            } else {
-                // Clears the old Axios auth header token if there is one
-                setAxiosAuthToken("");
-
-                dispatch(userNotAuthenticated());
-            }
-        });
     };
 };
 
@@ -234,7 +189,7 @@ export const welcomePageComplete = () => {
  * @function
  * @returns {module:reduxAuthActions~UserAuthenticatedReturnObject}
  */
-const userAuthenticated = () => {
+export const userAuthenticated = () => {
     return {
         type: actionTypes.USER_AUTHENTICATED,
     };
@@ -251,7 +206,7 @@ const userAuthenticated = () => {
  * @function
  * @returns {module:reduxAuthActions~UserNotAuthenticatedReturnObject}
  */
-const userNotAuthenticated = () => {
+export const userNotAuthenticated = () => {
     return {
         type: actionTypes.USER_NOT_AUTHENTICATED,
     };
@@ -307,7 +262,7 @@ const signOutSuccess = () => {
  * @param {string} name - The user's name
  * @returns {module:reduxAuthActions~RetrievedUsersNameReturnObject}
  */
-const retrievedUsersName = (name) => {
+export const retrievedUsersName = (name) => {
     return {
         type: actionTypes.RETRIEVED_USERS_NAME,
         name,
@@ -344,7 +299,7 @@ const usersNameRetrievalFailed = () => {
  * @param {string} url - The profile picture url
  * @returns {module:reduxAuthActions~RetrievedUsersPictureUrlReturnObject}
  */
-const retrievedUsersPictureUrl = (url) => {
+export const retrievedUsersPictureUrl = (url) => {
     return {
         type: actionTypes.RETRIEVED_USERS_PICTURE_URL,
         url,
