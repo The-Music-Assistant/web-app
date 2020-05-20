@@ -2,7 +2,6 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 // Component imports
 import ChoirSelection from "../ChoirSelection/ChoirSelection";
@@ -34,9 +33,29 @@ const Practice = ({ showAlert }) => {
     const match = useRouteMatch();
 
     /**
-     * Indicates if the browser is a mobile browser
+     * Determines if the browser is mobile or not.
+     * Mobile device check includes:
+     * iPhone,
+     * iPod,
+     * iPad (pre-iPad OS),
+     * Android,
+     * WebOS (Palm phone),
+     * BlackBerry, and
+     * Windows Phone.
+     * @returns {boolean} True is the browser is a mobile browser; false otherwise
      */
-    const isMobileBrowser = useSelector((state) => state.app.isMobileBrowser);
+    const isMobileBrowser = () => {
+        const userAgent = navigator.userAgent;
+        return userAgent.match(/iPhone/i) ||
+            userAgent.match(/iPod/i) ||
+            userAgent.match(/iPad/i) ||
+            userAgent.match(/Android/i) ||
+            userAgent.match(/webOS/i) ||
+            userAgent.match(/BlackBerry/i) ||
+            userAgent.match(/Windows Phone/i)
+            ? true
+            : false;
+    };
 
     /**
      * The selected choir.
@@ -81,7 +100,7 @@ const Practice = ({ showAlert }) => {
     const viewSongClickedHandler = (id) => {
         selectedMusic.current = { id };
 
-        if (isMobileBrowser) {
+        if (isMobileBrowser()) {
             showMobileBrowserAlert();
         } else {
             history.push(
@@ -99,7 +118,7 @@ const Practice = ({ showAlert }) => {
     const viewPerformanceClickedHandler = (id) => {
         selectedMusic.current = { id };
 
-        if (isMobileBrowser) {
+        if (isMobileBrowser()) {
             showMobileBrowserAlert();
         } else {
             history.push(

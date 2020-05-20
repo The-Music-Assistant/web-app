@@ -5,8 +5,6 @@
  * @author Dan Levy <danlevy124@gmail.com>
  */
 
-export { setBrowserType } from "./app";
-
 export {
     getUserInfo,
     showWelcomePage,

@@ -6,12 +6,6 @@
  * @author Dan Levy <danlevy124@gmail.com>
  */
 
-// --------------- App action types ---------------
-/**
- * @type {string}
- */
-export const IS_MOBILE_BROWSER = "IS_MOBILE_BROWSER";
-
 // --------------- Auth action types ---------------
 /**
  * @type {string}
@@ -66,27 +60,3 @@ export const WELCOME_PAGE_COMPLETE = "WELCOME_PAGE_COMPLETE";
  * @type {string}
  */
 export const AUTH_ERROR = "AUTH_ERROR";
-
-// --------------- Practice action types ---------------
-/**
- * @type {string}
- */
-export const PRACTICE_CHOIR_SELECTED = "PRACTICE_CHOIR_SELECTED";
-/**
- * @type {string}
- */
-export const PRACTICE_SONG_SELECTED = "PRACTICE_SONG_SELECTED";
-/**
- * @type {string}
- */
-export const EXERCISE_REQUESTED = "EXERCISE_REQUESTED";
-/**
- * @type {string}
- */
-export const EXERCISE_GENERATED = "EXERCISE_GENERATED";
-
-// --------------- Choirs action types ---------------
-/**
- * @type {string}
- */
-export const CHOIRS_CHOIR_SELECTED = "CHOIRS_CHOIR_SELECTED";

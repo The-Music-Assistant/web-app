@@ -13,7 +13,6 @@ import Primary from "../pages/Primary/Primary";
 import firebase, { getUserId } from "../vendors/Firebase/firebase";
 import { setAxiosAuthToken, getUser } from "../vendors/AWS/tmaApi";
 import {
-    setBrowserType,
     retrievedUsersName,
     userAuthenticated,
     retrievedUsersPictureUrl,
@@ -63,13 +62,6 @@ const App = () => {
     const isAuthFlowComplete = useSelector(
         (state) => state.auth.isAuthFlowComplete
     );
-
-    /**
-     * Sets the browser type (mobile or not mobile)
-     */
-    useEffect(() => {
-        dispatch(setBrowserType(isMobileBrowser()));
-    }, [dispatch]);
 
     /**
      * Listens for auth changes.
@@ -129,31 +121,6 @@ const App = () => {
             }
         });
     }, [dispatch]);
-
-    /**
-     * Determines if the browser is mobile or not.
-     * Mobile device check includes:
-     * iPhone,
-     * iPod,
-     * iPad (pre-iPad OS),
-     * Android,
-     * WebOS (Palm phone),
-     * BlackBerry, and
-     * Windows Phone.
-     * @returns {boolean} True is the browser is a mobile browser; false otherwise
-     */
-    const isMobileBrowser = () => {
-        const userAgent = navigator.userAgent;
-        return userAgent.match(/iPhone/i) ||
-            userAgent.match(/iPod/i) ||
-            userAgent.match(/iPad/i) ||
-            userAgent.match(/Android/i) ||
-            userAgent.match(/webOS/i) ||
-            userAgent.match(/BlackBerry/i) ||
-            userAgent.match(/Windows Phone/i)
-            ? true
-            : false;
-    };
 
     /**
      * Determines which url to redirect to.

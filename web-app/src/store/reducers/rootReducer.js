@@ -2,7 +2,6 @@
 import { combineReducers } from "redux";
 
 // File imports
-import appReducer from "./app";
 import authReducer from "./auth";
 
 /**
@@ -17,7 +16,6 @@ import authReducer from "./auth";
  * The root reducer combines all reducers.
  */
 const rootReducer = combineReducers({
-    app: appReducer,
     auth: authReducer,
 });
 
