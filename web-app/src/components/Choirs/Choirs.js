@@ -1,6 +1,5 @@
 // NPM Module imports
 import React, { useRef } from "react";
-import PropTypes from "prop-types";
 import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 
 // Component imports
@@ -15,7 +14,7 @@ import ChoirMembers from "../ChoirMembers/ChoirMembers";
  * @author Dan Levy <danlevy124@gmail.com>
  */
 
-const Choirs = ({ showAlert }) => {
+const Choirs = () => {
     /**
      * react-router-dom history
      * @type {object}
@@ -53,26 +52,15 @@ const Choirs = ({ showAlert }) => {
                 <ChoirMembers
                     choirId={selectedChoir.current.id}
                     choirName={selectedChoir.current.name}
-                    showAlert={showAlert}
                 />
             </Route>
 
             {/* Shows the choir selection component */}
             <Route path={`${match.url}`}>
-                <ChoirSelection
-                    showAlert={showAlert}
-                    onChoirClick={choirClickedHandler}
-                />
+                <ChoirSelection onChoirClick={choirClickedHandler} />
             </Route>
         </Switch>
     );
-};
-
-Choirs.propTypes = {
-    /**
-     * Shows an alert
-     */
-    showAlert: PropTypes.func.isRequired,
 };
 
 export default Choirs;

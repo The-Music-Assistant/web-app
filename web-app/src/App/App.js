@@ -3,13 +3,14 @@ import React, { useEffect, useState, useCallback } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
 // Component imports
+import AlertBar from "../components/AlertBar/AlertBar";
 import Startup from "../pages/Startup/Startup";
 import Auth from "../pages/Auth/Auth";
 import Welcome from "../pages/Welcome/Welcome";
 import Primary from "../pages/Primary/Primary";
 
 // Context Imports
-import GlobalStateContext from "./GlobalStateContext";
+import GlobalContext from "./GlobalContext";
 
 // File imports
 import firebase, { getUserId } from "../vendors/Firebase/firebase";
@@ -62,6 +63,15 @@ const App = () => {
      * {[isAuthFlowComplete, setIsAuthFlowComplete]: [boolean, function]}
      */
     const [isAuthFlowComplete, setIsAuthFlowComplete] = useState(true);
+
+    /**
+     * Data used to display an alert
+     * {[alertData, setAlertData]: [object, function]}
+     * {module:alertBarTypes} alertData.type - The type of alert bar to show
+     * {string} alertData.heading - The alert heading
+     * {string} alertData.message - The alert message
+     */
+    const [alertData, setAlertData] = useState(null);
 
     /**
      * Listens for auth changes.
@@ -143,6 +153,23 @@ const App = () => {
     }, []);
 
     /**
+     * Sets alertData in state when a new alert is triggered
+     * @param {alertBarTypes} - The type of alert bar to show
+     * @param {string} - The alert heading
+     * @param {string} - The alert message
+     */
+    const showAlertHandler = useCallback((type, heading, message) => {
+        setAlertData({ type, heading, message });
+    }, []);
+
+    /**
+     * Sets alertData in state to null in state when the alert disappears
+     */
+    const alertIsDoneHandler = useCallback(() => {
+        setAlertData(null);
+    }, []);
+
+    /**
      * Determines which url to redirect to.
      * Uses React Router's Redirect component.
      * @returns {Redirect} A Redirect component
@@ -194,11 +221,26 @@ const App = () => {
 
     // Renders the App component
     return (
-        <GlobalStateContext.Provider
-            value={{ isAuthenticated, userFullName, userPictureUrl }}
+        <GlobalContext.Provider
+            value={{
+                isAuthenticated,
+                userFullName,
+                userPictureUrl,
+                showAlert: showAlertHandler,
+            }}
         >
             <BrowserRouter>
                 <div className="app">
+                    {/* Alert bar (if needed) */}
+                    {alertData ? (
+                        <AlertBar
+                            type={alertData.type}
+                            heading={alertData.heading}
+                            message={alertData.message}
+                            done={alertIsDoneHandler}
+                        />
+                    ) : null}
+
                     {/* Redirects to the correct url */}
                     {getRedirect()}
 
@@ -206,7 +248,7 @@ const App = () => {
                     {getRoute()}
                 </div>
             </BrowserRouter>
-        </GlobalStateContext.Provider>
+        </GlobalContext.Provider>
     );
 };
 

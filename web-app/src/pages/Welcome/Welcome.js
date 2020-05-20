@@ -134,7 +134,7 @@ const Welcome = ({ done }) => {
     };
 
     /**
-     * Tells Redux that this component is no longer needed (i.e. done)
+     * Alerts the parent component that this component is done
      */
     const doneButtonClickedHandler = () => {
         done();

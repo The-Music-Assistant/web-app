@@ -1,12 +1,14 @@
 // NPM Module imports
-import React, { useRef } from "react";
-import PropTypes from "prop-types";
+import React, { useRef, useContext } from "react";
 import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 
 // Component imports
 import ChoirSelection from "../ChoirSelection/ChoirSelection";
 import MusicSelection from "../MusicSelection/MusicSelection";
 import Music from "../Music/Music";
+
+// Context imports
+import GlobalContext from "../../App/GlobalContext";
 
 // File imports
 import * as alertBarTypes from "../AlertBar/alertBarTypes";
@@ -19,7 +21,7 @@ import * as alertBarTypes from "../AlertBar/alertBarTypes";
  * @author Dan Levy <danlevy124@gmail.com>
  */
 
-const Practice = ({ showAlert }) => {
+const Practice = () => {
     /**
      * react-router-dom history
      * @type {object}
@@ -31,6 +33,13 @@ const Practice = ({ showAlert }) => {
      * @type {object}
      */
     const match = useRouteMatch();
+
+    /**
+     * Global context
+     * @type {object}
+     * @property {function} showAlert - Shows an alert
+     */
+    const { showAlert } = useContext(GlobalContext);
 
     /**
      * Determines if the browser is mobile or not.
@@ -143,10 +152,7 @@ const Practice = ({ showAlert }) => {
         <Switch>
             {/* Shows the music component */}
             <Route path={`${match.url}/choirs/:choirId/music/:musicId`}>
-                <Music
-                    sheetMusicId={selectedMusic.current.id}
-                    showAlert={showAlert}
-                />
+                <Music sheetMusicId={selectedMusic.current.id} />
             </Route>
 
             {/* Shows the music selection component */}
@@ -154,7 +160,6 @@ const Practice = ({ showAlert }) => {
                 <MusicSelection
                     choirId={selectedChoir.current.id}
                     choirName={selectedChoir.current.name}
-                    showAlert={showAlert}
                     onViewSongClick={viewSongClickedHandler}
                     onViewPerformanceClick={viewPerformanceClickedHandler}
                 />
@@ -162,20 +167,10 @@ const Practice = ({ showAlert }) => {
 
             {/* Shows the choir selection component */}
             <Route path={`${match.url}`}>
-                <ChoirSelection
-                    showAlert={showAlert}
-                    onChoirClick={choirClickedHandler}
-                />
+                <ChoirSelection onChoirClick={choirClickedHandler} />
             </Route>
         </Switch>
     );
-};
-
-Practice.propTypes = {
-    /**
-     * Shows an alert
-     */
-    showAlert: PropTypes.func.isRequired,
 };
 
 export default Practice;

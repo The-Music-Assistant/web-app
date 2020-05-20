@@ -1,5 +1,11 @@
 // NPM module imports
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+    useContext,
+} from "react";
 import PropTypes from "prop-types";
 import shortid from "shortid";
 
@@ -7,6 +13,9 @@ import shortid from "shortid";
 import PageHeader from "../PageHeader/PageHeader";
 import MusicCard from "./MusicCard/MusicCard";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
+
+// Context imports
+import GlobalContext from "../../App/GlobalContext";
 
 // File imports
 import { getSheetMusic } from "../../vendors/AWS/tmaApi";
@@ -26,7 +35,6 @@ import styles from "./MusicSelection.module.scss";
 const MusicSelection = ({
     choirId,
     choirName,
-    showAlert,
     onViewSongClick,
     onViewPerformanceClick,
 }) => {
@@ -41,6 +49,13 @@ const MusicSelection = ({
      * {[musicList, setMusicList]: [array, function]}
      */
     const [musicList, setMusicList] = useState([]);
+
+    /**
+     * Global context
+     * @type {object}
+     * @property {function} showAlert - Shows an alert
+     */
+    const { showAlert } = useContext(GlobalContext);
 
     /**
      * Indicates if the component is mounted.
@@ -182,11 +197,6 @@ MusicSelection.propTypes = {
      * The current choir name
      */
     choirName: PropTypes.string.isRequired,
-
-    /**
-     * Shows an alert
-     */
-    showAlert: PropTypes.func.isRequired,
 
     /**
      * Click handler for viewing a song

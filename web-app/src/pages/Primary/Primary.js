@@ -1,10 +1,9 @@
 // NPM module imports
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import shortid from "shortid";
 import { Switch, Route } from "react-router-dom";
 
 // Component imports
-import AlertBar from "../../components/AlertBar/AlertBar";
 import Header from "../../components/Header/Header";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import SideNav from "../../components/SideNav/SideNav";
@@ -113,15 +112,6 @@ const Primary = () => {
     const [shouldShowMobileNav, setShouldShowMobileNav] = useState(false);
 
     /**
-     * Data used to display an alert
-     * {[alertData, setAlertData]: [object, function]}
-     * {module:alertBarTypes} alertData.type - The type of alert bar to show
-     * {string} alertData.heading - The alert heading
-     * {string} alertData.message - The alert message
-     */
-    const [alertData, setAlertData] = useState(null);
-
-    /**
      * Main navigation tabs
      * {[mainNavTabs, setMainNavTabs]: [array, function]}
      */
@@ -137,7 +127,7 @@ const Primary = () => {
      * The current app version number
      * @type {string}
      */
-    const VERSION_NUMBER = "0.0.12";
+    const VERSION_NUMBER = "0.0.14";
 
     /**
      * Adds a window resize listener
@@ -237,37 +227,9 @@ const Primary = () => {
         });
     };
 
-    /**
-     * Sets alertData in state when a new alert is triggered
-     * @param {alertBarTypes} - The type of alert bar to show
-     * @param {string} - The alert heading
-     * @param {string} - The alert message
-     */
-    const showAlertHandler = useCallback((type, heading, message) => {
-        setAlertData({ type, heading, message });
-    }, []);
-
-    /**
-     * Sets alertData in state to null in state when the alert disappears
-     */
-    const alertIsDoneHandler = useCallback(() => {
-        // useCallback is used to ensure that the AlertBar is not re-rendered each time this component updates
-        setAlertData(null);
-    }, []);
-
     // Renders the Primary component
     return (
         <div className={styles.primary}>
-            {/* Shows an alert if one exists */}
-            {alertData ? (
-                <AlertBar
-                    type={alertData.type}
-                    heading={alertData.heading}
-                    message={alertData.message}
-                    done={alertIsDoneHandler}
-                />
-            ) : null}
-
             {/* Header */}
             <Header
                 onHamburgerMenuClick={showHideHamburgerMenu}
@@ -285,7 +247,7 @@ const Primary = () => {
 
                 {/* Shows the Practice component */}
                 <Route path="/practice">
-                    <Practice showAlert={showAlertHandler} />
+                    <Practice />
                 </Route>
 
                 {/* Shows the Progress component */}
@@ -295,7 +257,7 @@ const Primary = () => {
 
                 {/* Shows the Choirs component */}
                 <Route path="/choirs">
-                    <Choirs showAlert={showAlertHandler} />
+                    <Choirs />
                 </Route>
             </Switch>
 

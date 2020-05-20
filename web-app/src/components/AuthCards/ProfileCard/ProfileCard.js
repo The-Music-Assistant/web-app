@@ -9,7 +9,7 @@ import ImageInput from "../../FormInputs/ImageInput/ImageInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 
 // Context imports
-import GlobalStateContext from "../../../App/GlobalStateContext";
+import GlobalContext from "../../../App/GlobalContext";
 
 // File imports
 import { addUser } from "../../../vendors/AWS/tmaApi";
@@ -31,7 +31,7 @@ import authCardStyles from "../AuthCard.module.scss";
  * @category AuthCards
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ProfileCard = ({ setIsLoading, showAlert, done }) => {
+const ProfileCard = ({ setIsLoading, done }) => {
     /**
      * A profile picture image file
      * {[profilePicture, setProfilePicture]: [object, function]}
@@ -51,11 +51,12 @@ const ProfileCard = ({ setIsLoading, showAlert, done }) => {
     const [lastName, setLastName] = useState("");
 
     /**
-     * Indicates if a user is authenticated
+     * Global context
      * @type {object}
      * @property {boolean} isAuthenticated - Indicates if a user is authenticated
+     * @property {function} showAlert - Shows an alert
      */
-    const { isAuthenticated } = useContext(GlobalStateContext);
+    const { isAuthenticated, showAlert } = useContext(GlobalContext);
 
     /**
      * Updates state with new file input image
@@ -313,17 +314,12 @@ const ProfileCard = ({ setIsLoading, showAlert, done }) => {
 // Prop types for the ProfileCard component
 ProfileCard.propTypes = {
     /**
-     * Tells Redux to show/hide the loading HUD (true for show and false for hide (i.e. remove))
+     * Shows/hides the loading HUD
      */
     setIsLoading: PropTypes.func.isRequired,
 
     /**
-     * Tells Redux to show an alert
-     */
-    showAlert: PropTypes.func.isRequired,
-
-    /**
-     * Tells Redux that this component is no longer needed (i.e. done)
+     * Lets the parent component that this component is done
      */
     done: PropTypes.func.isRequired,
 };

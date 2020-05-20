@@ -9,6 +9,9 @@ import MusicPerformanceHeader from "./MusicPerformanceHeader/MusicPerformanceHea
 import PageHeader from "../PageHeader/PageHeader";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
 
+// Context imports
+import GlobalContext from "../../App/GlobalContext";
+
 // File imports
 import initializeAlphaTabApi from "../../vendors/AlphaTab/initialization";
 import destroyAlphaTabApi from "../../vendors/AlphaTab/destruction";
@@ -61,6 +64,13 @@ class Music extends Component {
         numberOfMeasures: "0",
         currentView: null,
     };
+
+    /**
+     * Global context.
+     * NOTE: Use this.context.<propertyName> to access the context.
+     * @see https://reactjs.org/docs/context.html#when-to-use-context
+     */
+    static contextType = GlobalContext;
 
     /**
      * Indicates if the component is mounted.
@@ -195,7 +205,7 @@ class Music extends Component {
             sheetMusicError(null, error, "[Music/prepareMusic]");
 
             // Shows an alert
-            this.props.showAlert(
+            this.context.showAlert(
                 alertBarTypes.ERROR,
                 "Error",
                 "We can't load the sheet music right now. Please try again later."
@@ -234,7 +244,7 @@ class Music extends Component {
             );
 
             // Shows an alert
-            this.props.showAlert(
+            this.context.showAlert(
                 alertBarTypes.WARNING,
                 "No Microphone",
                 "Please connect a microphone and/or give us permission to access your microphone. Music playback is still allowed, but a microphone is required for feedback."
@@ -521,11 +531,6 @@ Music.propTypes = {
      * The selected sheet music ID
      */
     sheetMusicId: PropTypes.string.isRequired,
-
-    /**
-     * Shows an alert
-     */
-    showAlert: PropTypes.func.isRequired,
 };
 
 export default withRouter(Music);

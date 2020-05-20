@@ -2,7 +2,7 @@
 import React, { useState, useContext } from "react";
 
 // Context Imports
-import GlobalStateContext from "../../../App/GlobalStateContext";
+import GlobalContext from "../../../App/GlobalContext";
 
 // Style imports
 import styles from "./UserWidget.module.scss";
@@ -26,7 +26,7 @@ const UserWidget = () => {
      * @property {string} userFullName - The user's full name
      * @property {string} userPictureUrl - The user's profile picture URL
      */
-    const { userFullName, userPictureUrl } = useContext(GlobalStateContext);
+    const { userFullName, userPictureUrl } = useContext(GlobalContext);
 
     /**
      * Updates state indicating that there was a profile picture error

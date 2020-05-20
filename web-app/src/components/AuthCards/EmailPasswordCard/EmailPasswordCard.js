@@ -8,7 +8,7 @@ import RectangularButton from "../../Buttons/RectangularButton/RectangularButton
 import TextButton from "../../Buttons/TextButton/TextButton";
 
 // Context imports
-import GlobalStateContext from "../../../App/GlobalStateContext";
+import GlobalContext from "../../../App/GlobalContext";
 
 // File imports
 import firebase from "../../../vendors/Firebase/firebase";
@@ -30,7 +30,6 @@ import authCardStyles from "../AuthCard.module.scss";
  */
 const EmailPasswordCard = ({
     authFlow,
-    showAlert,
     setIsLoading,
     done,
     switchAuthFlow,
@@ -48,11 +47,12 @@ const EmailPasswordCard = ({
     const [password, setPassword] = useState("");
 
     /**
-     * Indicates if a user is authenticated
+     * Global context
      * @type {object}
      * @property {boolean} isAuthenticated - Indicates if a user is authenticated
+     * @property {function} showAlert - Shows an alert
      */
-    const { isAuthenticated } = useContext(GlobalStateContext);
+    const { isAuthenticated, showAlert } = useContext(GlobalContext);
 
     /**
      * Sends an email verification to the current user
@@ -343,11 +343,6 @@ EmailPasswordCard.propTypes = {
      * Shows/hides the loading HUD
      */
     setIsLoading: PropTypes.func.isRequired,
-
-    /**
-     * Displays an alert
-     */
-    showAlert: PropTypes.func.isRequired,
 
     /**
      * Lets the parent component know that this component is done

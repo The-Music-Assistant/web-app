@@ -1,5 +1,11 @@
 // NPM module imports
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+    useContext,
+} from "react";
 import PropTypes from "prop-types";
 import shortid from "shortid";
 
@@ -8,6 +14,9 @@ import ChoirCard from "./ChoirCards/ChoirCard/ChoirCard";
 import ChoirOptionCard from "./ChoirCards/ChoirOptionCard/ChoirOptionCard";
 import PageHeader from "../PageHeader/PageHeader";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
+
+// Context imports
+import GlobalContext from "../../App/GlobalContext";
 
 // Image imports
 import plusIcon from "../../assets/icons/plus-icon.svg";
@@ -29,7 +38,7 @@ import styles from "./ChoirSelection.module.scss";
  * @category ChoirSelection
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ChoirSelection = ({ showAlert, onChoirClick }) => {
+const ChoirSelection = ({ onChoirClick }) => {
     /**
      * Indicates if the component is in a loading state
      * {[isLoading, setIsLoading]: [boolean, function]}
@@ -41,6 +50,13 @@ const ChoirSelection = ({ showAlert, onChoirClick }) => {
      * {[choirs, setChoirs]: [array, function]}
      */
     const [choirs, setChoirs] = useState([]);
+
+    /**
+     * Global context
+     * @type {object}
+     * @property {function} showAlert - Shows an alert
+     */
+    const { showAlert } = useContext(GlobalContext);
 
     /**
      * Indicates if the component is mounted.
@@ -239,11 +255,6 @@ const ChoirSelection = ({ showAlert, onChoirClick }) => {
 
 // Prop types for the ChoirSelection component
 ChoirSelection.propTypes = {
-    /**
-     * Shows an alert
-     */
-    showAlert: PropTypes.func.isRequired,
-
     /**
      * Click handler for a choir
      */

@@ -12,7 +12,6 @@ import logo from "../../assets/logos/tma-logo-white.png";
 import EmailPasswordCard from "../../components/AuthCards/EmailPasswordCard/EmailPasswordCard";
 import ProfileCard from "../../components/AuthCards/ProfileCard/ProfileCard";
 import LoadingHUD from "../../components/Spinners/LoadingHUD/LoadingHUD";
-import AlertBar from "../../components/AlertBar/AlertBar";
 
 // Style imports
 import styles from "./Auth.module.scss";
@@ -36,15 +35,6 @@ const Auth = ({ done }) => {
      * {[isLoading, setIsLoading]: [boolean, function]}
      */
     const [isLoading, setIsLoading] = useState(false);
-
-    /**
-     * Data used to display an alert
-     * {[alertData, setAlertData]: [object, function]}
-     * {module:alertBarTypes} alertData.type - The type of alert bar to show
-     * {string} alertData.heading - The alert heading
-     * {string} alertData.message - The alert message
-     */
-    const [alertData, setAlertData] = useState(null);
 
     /**
      * Indicates if the component is mounted.
@@ -74,27 +64,8 @@ const Auth = ({ done }) => {
     }, []);
 
     /**
-     * Sets alertData in state when a new alert is triggered
-     * @param {alertBarTypes} - The type of alert bar to show
-     * @param {string} - The alert heading
-     * @param {string} - The alert message
-     */
-    const showAlertHandler = useCallback((type, heading, message) => {
-        if (isMounted.current) setAlertData({ type, heading, message });
-    }, []);
-
-    /**
-     * Sets alertData in state to null in state when the alert disappears
-     */
-    const alertIsDoneHandler = useCallback(() => {
-        // useCallback is used to ensure that the AlertBar is not re-rendered each time this component updates
-        if (isMounted.current) setAlertData(null);
-    }, []);
-
-    /**
      * Moves to the next auth stage when the current stage is complete.
-     * If the flow is done, signals to Redux that the flow is done (sign in or sign up).
-     * @param {module:authStages} - The auth stage that is complete
+     * If the flow is done, it alerts the parent component
      */
     const authFlowStageDoneHandler = useCallback(() => {
         if (authStage === authStages.SIGN_UP) {
@@ -134,7 +105,6 @@ const Auth = ({ done }) => {
                 return (
                     <EmailPasswordCard
                         setIsLoading={setIsLoadingHandler}
-                        showAlert={showAlertHandler}
                         authFlow={authStage}
                         switchAuthFlow={switchAuthFlowHandler}
                         done={authFlowStageDoneHandler}
@@ -144,7 +114,6 @@ const Auth = ({ done }) => {
                 return (
                     <ProfileCard
                         setIsLoading={setIsLoadingHandler}
-                        showAlert={showAlertHandler}
                         done={authFlowStageDoneHandler}
                     />
                 );
@@ -158,16 +127,6 @@ const Auth = ({ done }) => {
         <div className={styles.auth}>
             {/* Loading HUD (if needed) */}
             {isLoading ? <LoadingHUD message="Loading..." /> : null}
-
-            {/* Alert bar (if needed) */}
-            {alertData ? (
-                <AlertBar
-                    type={alertData.type}
-                    heading={alertData.heading}
-                    message={alertData.message}
-                    done={alertIsDoneHandler}
-                />
-            ) : null}
 
             {/* Inner container */}
             <section className={styles.authInnerContainer}>

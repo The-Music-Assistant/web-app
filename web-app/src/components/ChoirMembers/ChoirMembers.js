@@ -1,5 +1,11 @@
 // NPM module imports
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+    useContext,
+} from "react";
 import PropTypes from "prop-types";
 import shortid from "shortid";
 
@@ -7,6 +13,9 @@ import shortid from "shortid";
 import MemberCard from "./MemberCard/MemberCard";
 import PageHeader from "../PageHeader/PageHeader";
 import LoadingContainer from "../Spinners/LoadingContainer/LoadingContainer";
+
+// Context imports
+import GlobalContext from "../../App/GlobalContext";
 
 // File imports
 import { getChoirMembers } from "../../vendors/AWS/tmaApi";
@@ -24,7 +33,7 @@ import styles from "./ChoirMembers.module.scss";
  * @category ChoirMembers
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ChoirMembers = ({ choirId, choirName, showAlert }) => {
+const ChoirMembers = ({ choirId, choirName }) => {
     /**
      * Indicates if the component is in a loading state
      * {[isLoading, setIsLoading]: [boolean, function]}
@@ -36,6 +45,13 @@ const ChoirMembers = ({ choirId, choirName, showAlert }) => {
      * {[members, setMembers]: [array, function]}
      */
     const [members, setMembers] = useState([]);
+
+    /**
+     * Global context
+     * @type {object}
+     * @property {function} showAlert - Shows an alert
+     */
+    const { showAlert } = useContext(GlobalContext);
 
     /**
      * Indicates if the component is mounted.
@@ -193,9 +209,14 @@ const ChoirMembers = ({ choirId, choirName, showAlert }) => {
 // Prop types for the ChoirMembers component
 ChoirMembers.propTypes = {
     /**
-     * Shows an alert
+     * The choid ID
      */
-    showAlert: PropTypes.func.isRequired,
+    choirId: PropTypes.string.isRequired,
+
+    /**
+     * The choir name
+     */
+    choirName: PropTypes.string.isRequired,
 };
 
 export default ChoirMembers;
