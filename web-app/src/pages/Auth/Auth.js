@@ -1,5 +1,6 @@
 // NPM module imports
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import PropTypes from "prop-types";
 
 // File imports
 import * as authStages from "./authStages";
@@ -23,20 +24,12 @@ import styles from "./Auth.module.scss";
  * @category Auth
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const Auth = () => {
+const Auth = ({ done }) => {
     /*
      * The current auth stage (see authStages enum)
      * @type {[authStage, setAuthStage]: [module:authStages, function]}
      */
     const [authStage, setAuthStage] = useState(authStages.SIGN_IN);
-
-    /*
-     * The inner height of the window (used to resize the component)
-     * @type {[windowInnerHeight, setWindowInnerHeight] : [number, function]}
-     */
-    const [windowInnerHeight, setWindowInnerHeight] = useState(
-        window.innerHeight
-    );
 
     /**
      * Indicates whether the component is in a loading state
@@ -63,30 +56,20 @@ const Auth = () => {
 
     /**
      * Sets isMounted to true
-     * Adds a window resize listener
-     * @returns {object} A cleanup function that sets isMounted to false and removes the window resize listener
+     * @returns {object} A cleanup function that sets isMounted to false
      */
     useEffect(() => {
         isMounted.current = true;
-        window.addEventListener("resize", resizeWindow);
 
         return () => {
             isMounted.current = false;
-            window.removeEventListener("resize", resizeWindow);
         };
     }, []);
 
     /**
-     * Updates state when the inner height of the window changes
-     */
-    const resizeWindow = () => {
-        if (isMounted.current) setWindowInnerHeight(window.innerHeight);
-    };
-
-    /**
      * Updates loading state
      */
-    const setLoadingHandler = useCallback((isLoading) => {
+    const setIsLoadingHandler = useCallback((isLoading) => {
         if (isMounted.current) setIsLoading(isLoading);
     }, []);
 
@@ -113,11 +96,15 @@ const Auth = () => {
      * If the flow is done, signals to Redux that the flow is done (sign in or sign up).
      * @param {module:authStages} - The auth stage that is complete
      */
-    const authFlowStageDoneHandler = useCallback((stage) => {
-        if (isMounted.current && stage === authStages.SIGN_UP) {
+    const authFlowStageDoneHandler = useCallback(() => {
+        if (authStage === authStages.SIGN_UP) {
             setAuthStage(authStages.PROFILE);
+        } else {
+            const isSignUpFlow =
+                authStage === authStages.SIGN_IN ? false : true;
+            done(isSignUpFlow);
         }
-    }, []);
+    }, [authStage, done]);
 
     /**
      * Switches to the opposite auth flow.
@@ -143,19 +130,20 @@ const Auth = () => {
             case authStages.SIGN_IN:
             case authStages.SIGN_UP:
                 // Both sign in and sign up stages use the same card
+                // The auth stage passed to the EmailPasswordCard component is the same as the equivalent auth flow (Sign in or sign up)
                 return (
                     <EmailPasswordCard
-                        setLoading={setLoadingHandler}
+                        setIsLoading={setIsLoadingHandler}
                         showAlert={showAlertHandler}
-                        done={authFlowStageDoneHandler}
-                        authStage={authStage}
+                        authFlow={authStage}
                         switchAuthFlow={switchAuthFlowHandler}
+                        done={authFlowStageDoneHandler}
                     />
                 );
             case authStages.PROFILE:
                 return (
                     <ProfileCard
-                        setLoading={setLoadingHandler}
+                        setIsLoading={setIsLoadingHandler}
                         showAlert={showAlertHandler}
                         done={authFlowStageDoneHandler}
                     />
@@ -167,10 +155,7 @@ const Auth = () => {
 
     // Renders the Auth component
     return (
-        <div
-            className={styles.auth}
-            style={{ minHeight: `${windowInnerHeight}px` }}
-        >
+        <div className={styles.auth}>
             {/* Loading HUD (if needed) */}
             {isLoading ? <LoadingHUD message="Loading..." /> : null}
 
@@ -211,6 +196,14 @@ const Auth = () => {
             </section>
         </div>
     );
+};
+
+// Prop types for the Auth component
+Auth.propTypes = {
+    /**
+     * Lets the parent component know that Authentication is complete
+     */
+    done: PropTypes.func.isRequired,
 };
 
 export default Auth;

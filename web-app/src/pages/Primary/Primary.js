@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import shortid from "shortid";
 import { Switch, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 // Component imports
 import AlertBar from "../../components/AlertBar/AlertBar";
@@ -16,7 +15,7 @@ import Choirs from "../../components/Choirs/Choirs";
 import Footer from "../../components/Footer/Footer";
 
 // File imports
-import { signOut } from "../../store/actions/index";
+import firebase from "../../vendors/Firebase/firebase";
 
 // Image imports
 import homeIconBlue from "../../assets/icons/home-icon-blue.svg";
@@ -141,12 +140,6 @@ const Primary = () => {
     const VERSION_NUMBER = "0.0.12";
 
     /**
-     * react-redux dispatch function
-     * @type {function}
-     */
-    const dispatch = useDispatch();
-
-    /**
      * Adds a window resize listener
      * @returns {function} A cleanup function that removes the window resize listener
      */
@@ -205,11 +198,12 @@ const Primary = () => {
     };
 
     /**
-     * Gets confirmation from user and then signs the user out
+     * Gets confirmation from user and then signs the user out.
+     * The Firebase auth change observer will handle any other actions.
      */
     const signOutClickedHandler = () => {
         if (window.confirm("Do you want to sign out?")) {
-            dispatch(signOut());
+            firebase.auth().signOut();
         }
     };
 

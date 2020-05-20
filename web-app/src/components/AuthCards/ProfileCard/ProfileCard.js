@@ -1,7 +1,6 @@
 // NPM module imports
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
 import "firebase/storage";
 
 // Component imports
@@ -9,9 +8,11 @@ import LargeTextInput from "../../FormInputs/TextInputs/LargeTextInput/LargeText
 import ImageInput from "../../FormInputs/ImageInput/ImageInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 
+// Context imports
+import GlobalStateContext from "../../../App/GlobalStateContext";
+
 // File imports
 import { addUser } from "../../../vendors/AWS/tmaApi";
-import { getUserInfo, showWelcomePage } from "../../../store/actions/index";
 import firebase from "../../../vendors/Firebase/firebase";
 import { authError } from "../../../vendors/Firebase/logs";
 import closeIconRed from "../../../assets/icons/close-icon-red.svg";
@@ -30,7 +31,7 @@ import authCardStyles from "../AuthCard.module.scss";
  * @category AuthCards
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const ProfileCard = ({ setLoading, showAlert, done }) => {
+const ProfileCard = ({ setIsLoading, showAlert, done }) => {
     /**
      * A profile picture image file
      * {[profilePicture, setProfilePicture]: [object, function]}
@@ -51,15 +52,10 @@ const ProfileCard = ({ setLoading, showAlert, done }) => {
 
     /**
      * Indicates if a user is authenticated
-     * @type {boolean}
+     * @type {object}
+     * @property {boolean} isAuthenticated - Indicates if a user is authenticated
      */
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-    /**
-     * react-redux dispatch function
-     * @type {function}
-     */
-    const dispatch = useDispatch();
+    const { isAuthenticated } = useContext(GlobalStateContext);
 
     /**
      * Updates state with new file input image
@@ -111,8 +107,7 @@ const ProfileCard = ({ setLoading, showAlert, done }) => {
             uploadData()
                 .then(() => {
                     // Profile stage is done
-                    dispatch(showWelcomePage(true));
-                    setLoading(false);
+                    setIsLoading(false);
                     done(authStages.PROFILE);
                 })
                 .catch((error) => {
@@ -121,7 +116,7 @@ const ProfileCard = ({ setLoading, showAlert, done }) => {
                         error.message,
                         "[ProfileCard/submitHandler]"
                     );
-                    setLoading(false);
+                    setIsLoading(false);
                     showAlert(alertBarTypes.ERROR, "Error", error.message);
                 });
         } else {
@@ -139,7 +134,7 @@ const ProfileCard = ({ setLoading, showAlert, done }) => {
      * @returns {promise} A promise that is waiting for the user data to upload
      */
     const uploadData = async () => {
-        setLoading(true);
+        setIsLoading(true);
 
         try {
             // Uploads the profile picture if it exists (profile picture is not required)
@@ -156,9 +151,6 @@ const ProfileCard = ({ setLoading, showAlert, done }) => {
 
             // Sends the user data to the AWS server
             await addUser(userData);
-
-            // Gets the user data back from the server
-            dispatch(getUserInfo());
         } catch (error) {
             // Throws a new error if the picture upload fails or the AWS upload fails
             const newError = new Error();
@@ -323,7 +315,7 @@ ProfileCard.propTypes = {
     /**
      * Tells Redux to show/hide the loading HUD (true for show and false for hide (i.e. remove))
      */
-    setLoading: PropTypes.func.isRequired,
+    setIsLoading: PropTypes.func.isRequired,
 
     /**
      * Tells Redux to show an alert

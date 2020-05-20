@@ -1,6 +1,8 @@
 // NPM module imports
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useContext } from "react";
+
+// Context Imports
+import GlobalStateContext from "../../../App/GlobalStateContext";
 
 // Style imports
 import styles from "./UserWidget.module.scss";
@@ -19,18 +21,12 @@ const UserWidget = () => {
     const [isProfilePictureError, setIsProfilePictureError] = useState(false);
 
     /**
-     * The user's name
-     * @type {string}
+     * The user's full name and profile picture URL
+     * @type {object}
+     * @property {string} userFullName - The user's full name
+     * @property {string} userPictureUrl - The user's profile picture URL
      */
-    const name = useSelector((state) => state.auth.usersName);
-
-    /**
-     * The user's profile picture url
-     * @type {string}
-     */
-    const profilePictureUrl = useSelector(
-        (state) => state.auth.usersPictureUrl
-    );
+    const { userFullName, userPictureUrl } = useContext(GlobalStateContext);
 
     /**
      * Updates state indicating that there was a profile picture error
@@ -43,17 +39,17 @@ const UserWidget = () => {
     return (
         <section className={styles.userWidget}>
             {/* User's profile picture */}
-            {profilePictureUrl && !isProfilePictureError ? (
+            {userPictureUrl && !isProfilePictureError ? (
                 <img
                     className={styles.userWidgetImg}
-                    src={profilePictureUrl}
+                    src={userPictureUrl}
                     alt="Profile Pic"
                     onError={profilePictureErrorHandler}
                 />
             ) : null}
 
             {/* User's name */}
-            <h2 className={styles.userWidgetName}>{name}</h2>
+            <h2 className={styles.userWidgetName}>{userFullName}</h2>
         </section>
     );
 };

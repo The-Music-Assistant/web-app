@@ -1,7 +1,6 @@
 // NPM module imports
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 
 // Component imports
 import Startup from "../pages/Startup/Startup";
@@ -9,15 +8,12 @@ import Auth from "../pages/Auth/Auth";
 import Welcome from "../pages/Welcome/Welcome";
 import Primary from "../pages/Primary/Primary";
 
+// Context Imports
+import GlobalStateContext from "./GlobalStateContext";
+
 // File imports
 import firebase, { getUserId } from "../vendors/Firebase/firebase";
 import { setAxiosAuthToken, getUser } from "../vendors/AWS/tmaApi";
-import {
-    retrievedUsersName,
-    userAuthenticated,
-    retrievedUsersPictureUrl,
-    userNotAuthenticated,
-} from "../store/actions/index";
 
 // Style imports
 import "normalize.css";
@@ -32,22 +28,28 @@ import "./App.scss";
  */
 const App = () => {
     /**
-     * react-redux dispatch function
-     * @type {function}
-     */
-    const dispatch = useDispatch();
-
-    /**
-     * Indicates whether there exists an authenticated user
-     * @type {boolean}
-     */
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-    /**
      * Indicates if the initial authentication check is done
      * {[isInitialAuthCheckDone, setIsInitialAuthCheckDone]: [boolean, function]}
      */
     const [isInitialAuthCheckDone, setIsInitialAuthCheckDone] = useState(false);
+
+    /**
+     * Indicates if a user is authenticated
+     * {[isAuthenticated, setIsAuthenticated]: [boolean, function]}
+     */
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    /**
+     * The user's full name
+     * {[userFullName, setUserFullName]: [string, function]}
+     */
+    const [userFullName, setUserFullName] = useState("");
+
+    /**
+     * The user's profile picture URL
+     * {[userPictureUrl, setUserPictureUrl]: [string, function]}
+     */
+    const [userPictureUrl, setUserPictureUrl] = useState("");
 
     /**
      * Indicates whether the user's email is verified
@@ -56,12 +58,10 @@ const App = () => {
     const [isUserEmailVerified, setIsUserEmailVerified] = useState(false);
 
     /**
-     * Indicates whether the authentication flow is complete (Sign in, sign up, or auth check)
-     * @type {boolean}
+     * Indicates whether the authentication flow is complete (Sign in or sign up)
+     * {[isAuthFlowComplete, setIsAuthFlowComplete]: [boolean, function]}
      */
-    const isAuthFlowComplete = useSelector(
-        (state) => state.auth.isAuthFlowComplete
-    );
+    const [isAuthFlowComplete, setIsAuthFlowComplete] = useState(true);
 
     /**
      * Listens for auth changes.
@@ -75,39 +75,13 @@ const App = () => {
                 getUserId()
                     .then(setAxiosAuthToken)
                     .catch(() => setAxiosAuthToken(""))
-                    .then(getUser)
-                    .then((snapshot) => {
-                        // Sets the user's name
-                        dispatch(
-                            retrievedUsersName(
-                                `${snapshot.data.first_name} ${snapshot.data.last_name}`
-                            )
-                        );
-
-                        return snapshot.data.has_picture;
-                    })
-                    .then((hasProfilePicture) => {
-                        if (hasProfilePicture) {
-                            // Gets the user's profile picture URL
-                            return firebase
-                                .storage()
-                                .ref()
-                                .child(
-                                    `users/${user.uid}/profile_picture_200x200`
-                                )
-                                .getDownloadURL();
-                        }
-                    })
-                    .then((url) => {
-                        // Updates state with the picture URL
-                        dispatch(retrievedUsersPictureUrl(url));
-                    })
+                    .then(() => getUserData(user.uid))
                     .then(() => {
                         user.emailVerified
                             ? setIsUserEmailVerified(true)
                             : setIsUserEmailVerified(false);
 
-                        dispatch(userAuthenticated());
+                        setIsAuthenticated(true);
 
                         setIsInitialAuthCheckDone(true);
                     });
@@ -115,12 +89,58 @@ const App = () => {
                 // Clears the old Axios auth header token if there is one
                 setAxiosAuthToken("");
 
-                dispatch(userNotAuthenticated());
+                setIsAuthenticated(false);
 
+                setIsAuthFlowComplete(false);
                 setIsInitialAuthCheckDone(true);
             }
         });
-    }, [dispatch]);
+    }, []);
+
+    /**
+     * Gets the user's full name and profile picture URL.
+     * Updates state with this data.
+     * @param {string} userUid - The UID of the current user
+     */
+    const getUserData = async (userUid) => {
+        getUser()
+            .then((snapshot) => {
+                // Updates state with the user's name
+                setUserFullName(
+                    `${snapshot.data.first_name} ${snapshot.data.last_name}`
+                );
+
+                return snapshot.data.has_picture;
+            })
+            .then((hasProfilePicture) => {
+                if (hasProfilePicture) {
+                    // Gets the user's profile picture URL
+                    return firebase
+                        .storage()
+                        .ref()
+                        .child(`users/${userUid}/profile_picture_200x200`)
+                        .getDownloadURL();
+                }
+            })
+            .then((url) => {
+                // Updates state with the picture URL
+                setUserPictureUrl(url);
+            });
+    };
+
+    /**
+     * Updates state indicating that the auth flow is complete.
+     * Updates state with user data if needed.
+     * @param {boolean} isSignUpFlow - Indicates if the auth flow is the sign up flow
+     */
+    const authDoneHandler = useCallback((isSignUpFlow) => {
+        setIsAuthFlowComplete(true);
+
+        if (isSignUpFlow) {
+            // Gets updated user data that was entered in the Profile component
+            getUserData(firebase.auth().currentUser.uid);
+        }
+    }, []);
 
     /**
      * Determines which url to redirect to.
@@ -154,13 +174,13 @@ const App = () => {
         } else if (!isAuthenticated || !isAuthFlowComplete) {
             return (
                 <Route>
-                    <Auth />
+                    <Auth done={authDoneHandler} />
                 </Route>
             );
         } else if (!isUserEmailVerified) {
             return (
                 <Route>
-                    <Welcome />
+                    <Welcome done={() => setIsUserEmailVerified(true)} />
                 </Route>
             );
         } else {
@@ -174,15 +194,19 @@ const App = () => {
 
     // Renders the App component
     return (
-        <BrowserRouter>
-            <div className="app">
-                {/* Redirects to the correct url */}
-                {getRedirect()}
+        <GlobalStateContext.Provider
+            value={{ isAuthenticated, userFullName, userPictureUrl }}
+        >
+            <BrowserRouter>
+                <div className="app">
+                    {/* Redirects to the correct url */}
+                    {getRedirect()}
 
-                {/* Determines which component to route to */}
-                {getRoute()}
-            </div>
-        </BrowserRouter>
+                    {/* Determines which component to route to */}
+                    {getRoute()}
+                </div>
+            </BrowserRouter>
+        </GlobalStateContext.Provider>
     );
 };
 

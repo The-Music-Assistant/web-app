@@ -1,21 +1,21 @@
 // NPM module imports
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
 
 // Component imports
 import LargeTextInput from "../../FormInputs/TextInputs/LargeTextInput/LargeTextInput";
 import RectangularButton from "../../Buttons/RectangularButton/RectangularButton";
 import TextButton from "../../Buttons/TextButton/TextButton";
 
+// Context imports
+import GlobalStateContext from "../../../App/GlobalStateContext";
+
 // File imports
 import firebase from "../../../vendors/Firebase/firebase";
 import { authError } from "../../../vendors/Firebase/logs";
-import * as authStages from "../../../pages/Auth/authStages";
 import * as authFlows from "../../../pages/Auth/authFlows";
 import * as alertBarTypes from "../../AlertBar/alertBarTypes";
 import * as textInputTypes from "../../FormInputs/TextInputs/textInputTypes";
-import { startAuthFlow } from "../../../store/actions/index";
 
 // Style imports
 import emailPasswordCardStyles from "./EmailPasswordCard.module.scss";
@@ -29,9 +29,9 @@ import authCardStyles from "../AuthCard.module.scss";
  * @author Dan Levy <danlevy124@gmail.com>
  */
 const EmailPasswordCard = ({
-    authStage,
+    authFlow,
     showAlert,
-    setLoading,
+    setIsLoading,
     done,
     switchAuthFlow,
 }) => {
@@ -49,29 +49,10 @@ const EmailPasswordCard = ({
 
     /**
      * Indicates if a user is authenticated
-     * @type {boolean}
+     * @type {object}
+     * @property {boolean} isAuthenticated - Indicates if a user is authenticated
      */
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-    /**
-     * react-redux dispatch function
-     * @type {function}
-     */
-    const dispatch = useDispatch();
-
-    /**
-     * Sets isMounted to true.
-     * Starts the auth flow.
-     */
-    useEffect(() => {
-        dispatch(
-            startAuthFlow(
-                authStage === authStages.SIGN_IN
-                    ? authFlows.SIGN_IN
-                    : authFlows.SIGN_UP
-            )
-        );
-    }, [dispatch, authStage]);
+    const { isAuthenticated } = useContext(GlobalStateContext);
 
     /**
      * Sends an email verification to the current user
@@ -82,8 +63,8 @@ const EmailPasswordCard = ({
             .currentUser.sendEmailVerification()
             .then(() => {
                 // Sign up stage is done
-                setLoading(false);
-                done(authStages.SIGN_UP);
+                setIsLoading(false);
+                done();
             })
             .catch((error) => {
                 authError(
@@ -91,40 +72,34 @@ const EmailPasswordCard = ({
                     error.message,
                     "[EmailPasswordCard/sendEmailVerification]"
                 );
-                setLoading(false);
+
+                setIsLoading(false);
+
                 showAlert(
                     alertBarTypes.ERROR,
                     "Authentication Error",
                     error.message
                 );
             });
-    }, [setLoading, done, showAlert]);
-
-    /**
-     * Checks if a user is authenticated
-     * If a user is authenticated, the proper action is taken.
-     */
-    const checkIfUserIsAuthenticated = useCallback(() => {
-        if (isAuthenticated) {
-            // A user is authenticated
-            if (authStage === authStages.SIGN_IN) {
-                // Sign in is complete, so this component is done being used
-                setLoading(false);
-                done(authStages.SIGN_IN);
-            } else {
-                // Sign up is complete, so send an email verification
-                sendEmailVerification();
-            }
-        }
-    }, [isAuthenticated, authStage, setLoading, done, sendEmailVerification]);
+    }, [setIsLoading, done, showAlert]);
 
     /**
      * Checks if a user is authenticated.
      * Changes the auth flow if needed.
      */
     useEffect(() => {
-        checkIfUserIsAuthenticated();
-    }, [checkIfUserIsAuthenticated]);
+        if (isAuthenticated) {
+            // A user is authenticated
+            if (authFlow === authFlows.SIGN_IN) {
+                // Sign in is complete, so this component is done being used
+                setIsLoading(false);
+                done();
+            } else {
+                // Sign up is complete, so send an email verification
+                sendEmailVerification();
+            }
+        }
+    }, [isAuthenticated, authFlow, setIsLoading, done, sendEmailVerification]);
 
     /**
      * Submits the authentication form (sign in or sign up)
@@ -135,7 +110,7 @@ const EmailPasswordCard = ({
         event.preventDefault();
 
         if (isEmailValid() && isPasswordValid()) {
-            if (authStage === authStages.SIGN_IN) {
+            if (authFlow === authFlows.SIGN_IN) {
                 // Sign in
                 signInWithEmailPassword();
             } else {
@@ -218,10 +193,9 @@ const EmailPasswordCard = ({
      * Signs the user in with an email and password
      */
     const signInWithEmailPassword = () => {
-        setLoading(true);
+        setIsLoading(true);
 
-        // If the sign in succeeds, a Firebase observer will create a local copy of the user and alert Redux
-        // The Redux state property "isAuthenticated" will cause this component to update
+        // If the sign in succeeds, a Firebase auth observer will cause this component to update
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
@@ -231,7 +205,9 @@ const EmailPasswordCard = ({
                     error.message,
                     "[EmailPasswordCard/signInWithEmailPassword]"
                 );
-                setLoading(false);
+
+                setIsLoading(false);
+
                 showAlert(
                     alertBarTypes.ERROR,
                     "Authentication Error",
@@ -245,10 +221,9 @@ const EmailPasswordCard = ({
      * @function
      */
     const signUpWithEmailPassword = () => {
-        setLoading(true);
+        setIsLoading(true);
 
-        // If the sign up succeeds, a Firebase observer will create a local copy of the user and alert Redux
-        // The Redux state property "isAuthenticated" will cause this component to update
+        // If the sign in succeeds, a Firebase auth observer will cause this component to update
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
@@ -258,7 +233,7 @@ const EmailPasswordCard = ({
                     error.message,
                     "[EmailPasswordCard/signUpWithEmailPassword]"
                 );
-                setLoading(false);
+                setIsLoading(false);
                 showAlert(alertBarTypes.ERROR, "Sign Up Error", error.message);
             });
     };
@@ -268,7 +243,7 @@ const EmailPasswordCard = ({
      * @returns {string} A heading
      */
     const getAuthTypeString = () => {
-        return authStage === authStages.SIGN_IN ? "Sign In" : "Sign Up";
+        return authFlow === authFlows.SIGN_IN ? "Sign In" : "Sign Up";
     };
 
     /**
@@ -276,7 +251,7 @@ const EmailPasswordCard = ({
      * @returns {string} A title
      */
     const getChangeAuthButtonTitle = () => {
-        return authStage === authStages.SIGN_IN
+        return authFlow === authFlows.SIGN_IN
             ? "Don't have an account?"
             : "Already have an account?";
     };
@@ -359,24 +334,23 @@ const EmailPasswordCard = ({
 // Prop types for the EmailPasswordCard component
 EmailPasswordCard.propTypes = {
     /**
-     * The current auth stage.
-     * See [stages]{@link module:authStages}.
+     * The current auth flow.
+     * See [flows]{@link module:authFlows}.
      */
-    authStage: PropTypes.oneOf([authStages.SIGN_IN, authStages.SIGN_UP])
-        .isRequired,
+    authFlow: PropTypes.oneOf(Object.values(authFlows)).isRequired,
 
     /**
-     * Tells Redux to show/hide the loading HUD (true for show and false for hide (i.e. remove))
+     * Shows/hides the loading HUD
      */
-    setLoading: PropTypes.func.isRequired,
+    setIsLoading: PropTypes.func.isRequired,
 
     /**
-     * Tells Redux to show an alert
+     * Displays an alert
      */
     showAlert: PropTypes.func.isRequired,
 
     /**
-     * Tells Redux that this component is no longer needed (i.e. done)
+     * Lets the parent component know that this component is done
      */
     done: PropTypes.func.isRequired,
 };

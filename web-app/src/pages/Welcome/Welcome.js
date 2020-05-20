@@ -6,11 +6,10 @@ import React, {
     useRef,
     Fragment,
 } from "react";
-import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 import { MetroSpinner } from "react-spinners-kit";
 
 // File imports
-import { signOut, welcomePageComplete } from "../../store/actions/index";
 import * as alertBarTypes from "../../components/AlertBar/alertBarTypes";
 import firebase from "../../vendors/Firebase/firebase";
 import { authError } from "../../vendors/Firebase/logs";
@@ -33,7 +32,7 @@ import styles from "./Welcome.module.scss";
  * @category Welcome
  * @author Dan Levy <danlevy124@gmail.com>
  */
-const Welcome = () => {
+const Welcome = ({ done }) => {
     /**
      * Indicates if the component is in a loading state
      * {[isLoading, setIsLoading]: [boolean, function]}
@@ -54,12 +53,6 @@ const Welcome = () => {
      * {string} alertData.message - The alert message
      */
     const [alertData, setAlertData] = useState(null);
-
-    /**
-     * react-redux dispatch function
-     * @type {function}
-     */
-    const dispatch = useDispatch();
 
     /**
      * Indicates if the user's email was checked for verification at least once
@@ -144,7 +137,7 @@ const Welcome = () => {
      * Tells Redux that this component is no longer needed (i.e. done)
      */
     const doneButtonClickedHandler = () => {
-        dispatch(welcomePageComplete());
+        done();
     };
 
     /**
@@ -309,9 +302,7 @@ const Welcome = () => {
                             type="button"
                             value=""
                             title="Sign Out"
-                            onClick={() => {
-                                dispatch(signOut());
-                            }}
+                            onClick={() => firebase.auth().signOut()}
                         />
                     </div>
                 </section>
@@ -339,6 +330,13 @@ const Welcome = () => {
             <main className={styles.welcomeMain}>{getMainComponent()}</main>
         </div>
     );
+};
+
+Welcome.propTypes = {
+    /**
+     * Tells the parent component that the Welcome component is done
+     */
+    done: PropTypes.func.isRequired,
 };
 
 export default Welcome;
